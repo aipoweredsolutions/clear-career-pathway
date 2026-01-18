@@ -1,0 +1,65 @@
+export const PRICING_TIERS = [
+    {
+        name: 'Basic',
+        price: 3.99,
+        period: 'one-time',
+        description: 'Perfect for a single professional resume',
+        features: [
+            'Browse all templates',
+            'Create 1 professional resume',
+            'Basic AI improvements (5/month)',
+            'Clean PDF export (no watermark)',
+            'Template preview',
+        ],
+        limitations: [
+            'Limited to 1 document',
+            'Basic AI usage',
+        ],
+        cta: 'Get Basic Plan',
+        ctaLink: '/auth/signup?tier=basic',
+        highlighted: false,
+        paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_BASIC_PRICE_ID
+    },
+    {
+        name: 'Starter Pass',
+        price: 9.99,
+        period: 'one-time',
+        description: 'Everything you need to land your next role',
+        features: [
+            'Create up to 5 documents',
+            'Full PDF & DOCX export (no watermark)',
+            'Template switching',
+            'Cover letter builder',
+            'Short career blog',
+            'AI improvements (25/month)',
+            'All free templates',
+        ],
+        limitations: [],
+        cta: 'Get Starter Pass',
+        ctaLink: '/auth/signup?tier=starter',
+        highlighted: true,
+        paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_STARTER_PRICE_ID
+    },
+    {
+        name: 'Premium',
+        price: 19.99,
+        period: 'month',
+        yearlyPrice: 199.99,
+        description: 'For serious professionals building their career brand',
+        features: [
+            'Unlimited documents',
+            'Unlimited exports (PDF, DOCX, MD, HTML)',
+            'All templates (including premium)',
+            'Unlimited AI improvements',
+            'Long-form career blog generation',
+            'Advanced content analysis',
+            'Priority support',
+            'Early access to new features',
+        ],
+        limitations: [],
+        cta: 'Go Premium',
+        ctaLink: '/auth/signup?tier=premium',
+        highlighted: false,
+        paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_PREMIUM_PRICE_ID
+    },
+]
