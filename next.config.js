@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     images: {
-        domains: [],
+        remotePatterns: [],
     },
     experimental: {
         serverActions: {
@@ -12,3 +12,4 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+

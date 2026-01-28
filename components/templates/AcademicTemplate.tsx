@@ -8,7 +8,7 @@ interface TemplateProps {
 }
 
 export function AcademicTemplate({ data, className }: TemplateProps) {
-    const { personalInfo, professionalSummary, workExperience, education, skills, publications, awards } = data
+    const { personalInfo, professionalSummary, workExperience, education, skills, publications, achievements } = data
 
     return (
         <div className={cn("w-full bg-white text-neutral-900 min-h-[11in] font-serif p-10 leading-tight", className)} style={{ fontFamily: 'Times New Roman, Times, serif' }}>

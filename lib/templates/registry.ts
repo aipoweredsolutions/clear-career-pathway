@@ -305,5 +305,130 @@ export const templateRegistry: TemplateMetadata[] = [
             { id: 'slate', name: 'Cool Slate', hex: '#f8fafc' },
             { id: 'warm', name: 'Soft Warmth', hex: '#fafaf9' }
         ]
+    },
+    // --- 16. GRADUATE (Entry level, single column, education first) ---
+    {
+        id: 'graduate',
+        name: 'Graduate Professional',
+        description: 'Single-column layout with clear hierarchy, prioritizing Education. Ideal for recent graduates and early career professionals.',
+        suitableFor: {
+            careerLevels: ['student', 'entry'],
+            jobTypes: ['corporate', 'academic', 'technical'],
+            industries: ['General']
+        },
+        previewImage: '/templates/classic-preview.png', // Temporary
+        isPremium: false,
+        colors: [
+            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
+            { id: 'teal', name: 'Teal', hex: '#0f766e' },
+            { id: 'maroon', name: 'Maroon', hex: '#9f1239' }
+        ]
+    },
+
+    // --- 17. NEW ATS SERIES (7 NEW TEMPLATES) ---
+    {
+        id: 'ats-classic',
+        name: 'ATS Classic Serif',
+        description: 'A timeless, serif-based layout for traditional industries like Law and Finance. Maximum scannability.',
+        suitableFor: {
+            careerLevels: ['mid', 'senior', 'executive'],
+            jobTypes: ['corporate'],
+            industries: ['Legal', 'Finance', 'Education']
+        },
+        isPremium: false,
+        colors: [
+            { id: 'black', name: 'Standard', hex: '#000000' },
+            { id: 'navy', name: 'Navy', hex: '#1e3a8a' }
+        ]
+    },
+    {
+        id: 'ats-minimal',
+        name: 'ATS Ultra-Minimal',
+        description: 'Zero-distraction layout with high whitespace. Perfectly optimized for parsing by old and new ATS systems.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior'],
+            jobTypes: ['corporate', 'creative'],
+            industries: ['General']
+        },
+        isPremium: false,
+        colors: [
+            { id: 'black', name: 'Standard', hex: '#000000' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' }
+        ]
+    },
+    {
+        id: 'ats-executive',
+        name: 'ATS Executive Bold',
+        description: 'Structured for impact. Highlights leadership achievements and strategic skills with bold sectioning.',
+        suitableFor: {
+            careerLevels: ['senior', 'executive'],
+            jobTypes: ['corporate'],
+            industries: ['Management', 'C-Suite']
+        },
+        isPremium: false,
+        colors: [
+            { id: 'black', name: 'Standard', hex: '#000000' },
+            { id: 'gold', name: 'Premium Gold', hex: '#b45309' }
+        ]
+    },
+    {
+        id: 'ats-technical',
+        name: 'ATS Dev-Console',
+        description: 'Optimized for technical roles. Prioritizes skill stacks and project repositories in a monospaced format.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior'],
+            jobTypes: ['technical'],
+            industries: ['Software', 'Engineering', 'AI']
+        },
+        isPremium: false,
+        colors: [
+            { id: 'black', name: 'Standard', hex: '#000000' },
+            { id: 'green', name: 'Matrix Green', hex: '#064e3b' }
+        ]
+    },
+    {
+        id: 'ats-modern',
+        name: 'ATS Modern Clean',
+        description: 'A modern take on the single-column layout. Uses clean sans-serif typography and subtle hierarchy.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior'],
+            jobTypes: ['corporate', 'technical'],
+            industries: ['Tech', 'SaaS', 'Marketing']
+        },
+        isPremium: false,
+        colors: [
+            { id: 'black', name: 'Standard', hex: '#000000' },
+            { id: 'blue', name: 'Modern Blue', hex: '#2563eb' }
+        ]
+    },
+    {
+        id: 'ats-graduate',
+        name: 'ATS New Grad',
+        description: 'Education-first layout with dedicated sections for academic coursework and university projects.',
+        suitableFor: {
+            careerLevels: ['student', 'entry'],
+            jobTypes: ['corporate', 'academic'],
+            industries: ['General', 'Education']
+        },
+        isPremium: false,
+        colors: [
+            { id: 'black', name: 'Standard', hex: '#000000' },
+            { id: 'maroon', name: 'Academic Maroon', hex: '#9f1239' }
+        ]
+    },
+    {
+        id: 'ats-standard',
+        name: 'ATS Pro-Standard',
+        description: 'The industry standard for recruiters. Left-aligned, high readability, and perfectly structured headers.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate'],
+            industries: ['General', 'Business']
+        },
+        isPremium: false,
+        colors: [
+            { id: 'black', name: 'Standard', hex: '#000000' },
+            { id: 'slate', name: 'Slate Grey', hex: '#475569' }
+        ]
     }
 ]

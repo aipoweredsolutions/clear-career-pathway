@@ -13,7 +13,14 @@ export function mapDocumentRow(doc: any, relations: any = {}): ResumeDocument {
         skills,
         projects,
         certifications,
-        languages
+        languages,
+        achievements,
+        volunteer_experience: volunteer,
+        publications,
+        professional_affiliations: affiliations,
+        references,
+        additional_info: ai,
+        custom_sections: custom
     } = relations
 
     return {
@@ -29,6 +36,14 @@ export function mapDocumentRow(doc: any, relations: any = {}): ResumeDocument {
         createdAt: doc.created_at,
         updatedAt: doc.updated_at,
 
+        // Formatting Options
+        formatting: doc.formatting || {
+            fontSize: 'medium',
+            lineHeight: 'normal',
+            margin: 'normal',
+            paperSize: 'a4'
+        },
+
         personalInfo: pi ? {
             id: pi.id,
             fullName: pi.full_name,
@@ -37,6 +52,7 @@ export function mapDocumentRow(doc: any, relations: any = {}): ResumeDocument {
             phone: pi.phone,
             city: pi.city,
             country: pi.country,
+            location: pi.location,
             linkedinUrl: pi.linkedin_url,
             websiteUrl: pi.website_url,
             portfolioUrl: pi.portfolio_url
@@ -112,6 +128,67 @@ export function mapDocumentRow(doc: any, relations: any = {}): ResumeDocument {
             id: lang.id,
             languageName: lang.language_name,
             proficiencyLevel: lang.proficiency_level
+        })) || [],
+
+        achievements: achievements?.map((ach: any) => ({
+            id: ach.id,
+            achievementTitle: ach.achievement_title,
+            issuingBody: ach.issuing_body,
+            year: ach.year,
+            description: ach.description
+        })) || [],
+
+        volunteerExperience: volunteer?.map((vol: any) => ({
+            id: vol.id,
+            roleTitle: vol.role_title,
+            organizationName: vol.organization_name,
+            startDate: vol.start_date,
+            endDate: vol.end_date,
+            contributions: vol.contributions
+        })) || [],
+
+        publications: publications?.map((pub: any) => ({
+            id: pub.id,
+            title: pub.title,
+            platformOrPublisher: pub.platform_or_publisher,
+            publicationYear: pub.publication_year,
+            url: pub.url
+        })) || [],
+
+        professionalAffiliations: affiliations?.map((aff: any) => ({
+            id: aff.id,
+            organizationName: aff.organization_name,
+            roleOrMembership: aff.role_or_membership,
+            yearsActive: aff.years_active
+        })) || [],
+
+        references: references?.map((ref: any) => ({
+            id: ref.id,
+            referenceName: ref.reference_name,
+            role: ref.role,
+            organization: ref.organization,
+            contactDetails: ref.contact_details,
+            availability_statement: ref.availability_statement
+        })) || [],
+
+        additionalInfo: ai ? {
+            securityClearance: ai.security_clearance,
+            workAuthorization: ai.work_authorization,
+            willingToRelocate: ai.willing_to_relocate,
+            availability: ai.availability,
+            otherInfo: ai.other_info
+        } : undefined,
+
+        customSections: custom?.map((sec: any) => ({
+            id: sec.id,
+            title: sec.title,
+            icon: sec.icon,
+            content: sec.content,
+            items: sec.custom_section_items?.map((item: any) => ({
+                id: item.id,
+                text: item.text,
+                displayOrder: item.display_order
+            })) || []
         })) || []
     }
 }
@@ -154,7 +231,14 @@ export async function fetchFullDocument(supabase: SupabaseClient, documentId: st
         { data: skills },
         { data: projects },
         { data: certifications },
-        { data: languages }
+        { data: languages },
+        { data: achievements },
+        { data: volunteer },
+        { data: publications },
+        { data: affiliations },
+        { data: references },
+        { data: additionalInfo },
+        { data: customSections }
     ] = await Promise.all([
         supabase.from('personal_info').select('*').eq('document_id', documentId).maybeSingle(),
         supabase.from('professional_summary').select('*').eq('document_id', documentId).maybeSingle(),
@@ -163,7 +247,14 @@ export async function fetchFullDocument(supabase: SupabaseClient, documentId: st
         supabase.from('skills').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
         supabase.from('projects').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
         supabase.from('certifications').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
-        supabase.from('languages').select('*').eq('document_id', documentId).order('display_order', { ascending: true })
+        supabase.from('languages').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
+        supabase.from('achievements').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
+        supabase.from('volunteer_experience').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
+        supabase.from('publications').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
+        supabase.from('professional_affiliations').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
+        supabase.from('references').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
+        supabase.from('additional_info').select('*').eq('document_id', documentId).maybeSingle(),
+        supabase.from('custom_sections').select('*, custom_section_items(*)').eq('document_id', documentId).order('display_order', { ascending: true })
     ])
 
     return mapDocumentRow(doc, {
@@ -174,6 +265,13 @@ export async function fetchFullDocument(supabase: SupabaseClient, documentId: st
         skills,
         projects,
         certifications,
-        languages
+        languages,
+        achievements,
+        volunteer_experience: volunteer,
+        publications,
+        professional_affiliations: affiliations,
+        references,
+        additional_info: additionalInfo,
+        custom_sections: customSections
     })
 }

@@ -17,6 +17,7 @@ export interface PersonalInfo {
     phone?: string
     city?: string
     country?: string
+    location?: string // Combined city, country
     linkedinUrl?: string
     websiteUrl?: string
     portfolioUrl?: string
@@ -98,7 +99,9 @@ export interface Certification {
     documentId?: string
     certificationName: string
     issuingOrganization: string
+    issuer?: string // Alias for issuingOrganization
     issueYear?: number
+    issueDate?: string // Alias or string representation
     credentialId?: string
     credentialUrl?: string
     displayOrder?: number
@@ -173,6 +176,23 @@ export interface AdditionalInfo {
     otherInfo?: string
 }
 
+export interface CustomSectionItem {
+    id?: string
+    customSectionId?: string
+    text: string
+    displayOrder?: number
+}
+
+export interface CustomSection {
+    id?: string
+    documentId?: string
+    title: string
+    icon?: string
+    items?: CustomSectionItem[]
+    content?: string
+    displayOrder?: number
+}
+
 export interface ResumeDocument {
     id?: string
     userId?: string
@@ -185,6 +205,14 @@ export interface ResumeDocument {
     isPublished?: boolean
     createdAt?: string
     updatedAt?: string
+
+    // Formatting Options
+    formatting?: {
+        fontSize?: 'small' | 'medium' | 'large'
+        lineHeight?: 'tight' | 'normal' | 'relaxed'
+        margin?: 'narrow' | 'normal' | 'wide'
+        paperSize?: 'letter' | 'a4'
+    }
 
     // Related data
     personalInfo?: PersonalInfo
@@ -201,6 +229,7 @@ export interface ResumeDocument {
     professionalAffiliations?: ProfessionalAffiliation[]
     references?: Reference[]
     additionalInfo?: AdditionalInfo
+    customSections?: CustomSection[]
 }
 
 // Template metadata

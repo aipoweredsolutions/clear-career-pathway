@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
+import { PRICING_TIERS } from '@/lib/config/pricing'
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-// Paddle Webhook Secret (Public Key for Classic, or Secret for Billing)
-// Assuming Paddle Billing (Modern) which uses a secret for HMAC verification
 const PADDLE_WEBHOOK_SECRET = process.env.PADDLE_WEBHOOK_SECRET!
 
 function verifyPaddleSignature(signature: string, body: string, secret: string) {
@@ -25,6 +24,11 @@ function verifyPaddleSignature(signature: string, body: string, secret: string) 
     return hmac === expectedHmac
 }
 
+function getTierFromPriceId(priceId: string) {
+    const tier = PRICING_TIERS.find(t => t.paddlePriceId === priceId)
+    return tier ? tier.name.toLowerCase().replace(/\s+/g, '_') : 'free'
+}
+
 export async function POST(req: NextRequest) {
     const body = await req.text()
     const signature = req.headers.get('paddle-signature') || ''
@@ -38,13 +42,31 @@ export async function POST(req: NextRequest) {
     const eventType = event.event_type
     const data = event.data
 
+    console.log(`Received Paddle Event: ${eventType}`, data)
+
     try {
         switch (eventType) {
             case 'subscription.created':
             case 'subscription.updated': {
                 const userId = data.custom_data?.userId
+                const priceId = data.items?.[0]?.price?.id
+
                 if (!userId) {
                     console.error('No userId found in Paddle custom_data')
+                    break
+                }
+
+                const tierName = getTierFromPriceId(priceId)
+
+                // Resolve tier name to UUID
+                const { data: tierData } = await supabase
+                    .from('subscription_tiers')
+                    .select('id')
+                    .eq('name', tierName)
+                    .single()
+
+                if (!tierData) {
+                    console.error(`Could not find tier for name ${tierName}`)
                     break
                 }
 
@@ -56,11 +78,47 @@ export async function POST(req: NextRequest) {
                         status: data.status,
                         current_period_start: data.current_billing_period?.starts_at,
                         current_period_end: data.current_billing_period?.ends_at,
-                        tier_id: 'pro', // Map this based on price_id/product_id
+                        tier_id: tierData.id,
                         updated_at: new Date().toISOString()
                     }, { onConflict: 'user_id' })
                 break
             }
+
+            case 'transaction.completed': {
+                // Handle one-time purchases (Basic, Starter Pass)
+                const userId = data.custom_data?.userId
+                const priceId = data.items?.[0]?.price?.id
+
+                if (!userId) break
+
+                const tierName = getTierFromPriceId(priceId)
+
+                // Resolve tier name to UUID
+                const { data: tierData } = await supabase
+                    .from('subscription_tiers')
+                    .select('id')
+                    .eq('name', tierName)
+                    .single()
+
+                if (!tierName || !tierData) break
+
+                const isSubscription = data.subscription_id !== null
+
+                // Only handle if it's NOT a subscription (those are handled by subscription.* events)
+                if (!isSubscription) {
+                    await supabase
+                        .from('user_subscriptions')
+                        .upsert({
+                            user_id: userId,
+                            status: 'active',
+                            tier_id: tierData.id,
+                            updated_at: new Date().toISOString()
+                            // One-time purchases don't have periods or subscription IDs
+                        }, { onConflict: 'user_id' })
+                }
+                break
+            }
+
             case 'subscription.canceled': {
                 await supabase
                     .from('user_subscriptions')
@@ -79,3 +137,4 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Internal Error' }, { status: 500 })
     }
 }
+

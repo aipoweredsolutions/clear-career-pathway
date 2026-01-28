@@ -9,7 +9,22 @@ interface TemplateProps {
 }
 
 export function ArtisanTemplate({ data, className, theme = 'sage' }: TemplateProps) {
-    const { personalInfo, professionalSummary, workExperience, education, skills, certifications } = data
+    const {
+        personalInfo,
+        professionalSummary,
+        workExperience,
+        education,
+        skills,
+        certifications,
+        projects,
+        languages,
+        volunteerExperience,
+        publications,
+        professionalAffiliations,
+        references,
+        additionalInfo,
+        achievements
+    } = data
 
     const themeConfig = {
         sage: {
@@ -40,17 +55,17 @@ export function ArtisanTemplate({ data, className, theme = 'sage' }: TemplatePro
             <header className="mb-20 flex justify-between items-end border-b pb-12 border-slate-100">
                 <div className="flex flex-col gap-2">
                     <h1 className={cn("text-6xl font-medium tracking-tight", activeTheme.accent)}>
-                        {personalInfo.fullName}
+                        {personalInfo?.fullName}
                     </h1>
                     <p className="font-sans text-sm font-bold uppercase tracking-[0.3em] text-slate-400">
-                        {personalInfo.professionalTitle}
+                        {personalInfo?.professionalTitle}
                     </p>
                 </div>
 
                 <div className="text-right font-sans text-xs font-bold text-slate-500 flex flex-col gap-1.5 uppercase tracking-widest">
-                    {personalInfo.email && <div>{personalInfo.email}</div>}
-                    {personalInfo.phone && <div>{personalInfo.phone}</div>}
-                    {personalInfo.location && <div>{personalInfo.location}</div>}
+                    {personalInfo?.email && <div>{personalInfo.email}</div>}
+                    {personalInfo?.phone && <div>{personalInfo.phone}</div>}
+                    {(personalInfo?.location || personalInfo?.city) && <div>{personalInfo?.location || [personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</div>}
                 </div>
             </header>
 
@@ -135,6 +150,143 @@ export function ArtisanTemplate({ data, className, theme = 'sage' }: TemplatePro
                             </div>
                         </section>
                     )}
+                </div>
+
+                {/* Additional Sections */}
+                <div className="flex flex-col gap-20">
+                    {/* Projects - Offset Layout */}
+                    {projects && projects.length > 0 && (
+                        <section className="flex flex-col gap-10">
+                            <div className="font-sans text-[10px] font-black uppercase tracking-[0.5em] text-slate-300 mb-2">Projects</div>
+                            <div className="flex flex-col gap-16">
+                                {projects.map((project, i) => (
+                                    <div key={i} className="grid grid-cols-12 gap-8">
+                                        <div className="col-span-4">
+                                            <div className="text-sm font-sans font-black text-slate-400 tabular-nums uppercase tracking-widest">
+                                                {project.startDate} {project.endDate && `— ${project.endDate}`}
+                                            </div>
+                                            <div className={cn("text-lg font-bold font-sans mt-1", activeTheme.accent)}>{project.role}</div>
+                                        </div>
+                                        <div className="col-span-8">
+                                            <h3 className="text-2xl font-medium text-slate-900 mb-2">{project.projectName}</h3>
+                                            {project.description && <p className="text-slate-600 leading-relaxed opacity-90">{project.description}</p>}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    <div className="grid grid-cols-2 gap-20">
+                        {/* Languages */}
+                        {languages && languages.length > 0 && (
+                            <section className="flex flex-col gap-8">
+                                <div className="font-sans text-[10px] font-black uppercase tracking-[0.5em] text-slate-300">Languages</div>
+                                <div className="flex flex-col gap-4">
+                                    {languages.map((lang, i) => (
+                                        <div key={i} className="flex justify-between border-b border-slate-50 pb-2">
+                                            <span className="font-bold text-slate-800 italic">{lang.languageName}</span>
+                                            <span className="text-xs font-sans font-bold text-slate-300 uppercase tracking-widest">{lang.proficiencyLevel}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Certifications, Affiliations & Achievements */}
+                        {(certifications && certifications.length > 0) || (professionalAffiliations && professionalAffiliations.length > 0) || (achievements && achievements.length > 0) ? (
+                            <section className="flex flex-col gap-8">
+                                <div className="font-sans text-[10px] font-black uppercase tracking-[0.5em] text-slate-300">Awards & Recognition</div>
+                                <div className="flex flex-col gap-6">
+                                    {achievements?.map((ach, i) => (
+                                        <div key={i} className="flex flex-col">
+                                            <div className="font-bold text-slate-900 text-sm leading-tight">{ach.achievementTitle}</div>
+                                            <div className="text-[10px] font-sans font-bold text-slate-400 uppercase tracking-widest mt-0.5">{ach.issuingBody} {ach.year && `• ${ach.year}`}</div>
+                                        </div>
+                                    ))}
+                                    {certifications?.map((cert, i) => (
+                                        <div key={i} className="flex flex-col pt-2 border-t border-slate-50 first:pt-0 first:border-0">
+                                            <div className="font-bold text-slate-900 text-sm leading-tight">{cert.certificationName}</div>
+                                            <div className="text-[10px] font-sans font-bold text-slate-400 uppercase tracking-widest mt-0.5">{(cert.issuer || cert.issuingOrganization)}</div>
+                                        </div>
+                                    ))}
+                                    {professionalAffiliations?.map((aff, i) => (
+                                        <div key={i} className="flex flex-col pt-2 border-t border-slate-50">
+                                            <div className="font-bold text-slate-900 text-sm">{aff.organizationName}</div>
+                                            <div className="text-[10px] font-sans font-bold text-slate-400 uppercase tracking-widest mt-0.5">{aff.roleOrMembership}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        ) : null}
+                    </div>
+
+                    {/* Volunteer & Publications */}
+                    {(volunteerExperience && volunteerExperience.length > 0) || (publications && publications.length > 0) ? (
+                        <div className="grid grid-cols-2 gap-20">
+                            {volunteerExperience && volunteerExperience.length > 0 && (
+                                <section className="flex flex-col gap-8">
+                                    <div className="font-sans text-[10px] font-black uppercase tracking-[0.5em] text-slate-300">Philanthropy</div>
+                                    <div className="flex flex-col gap-6">
+                                        {volunteerExperience.map((vol, i) => (
+                                            <div key={i}>
+                                                <div className="font-bold text-slate-900 text-sm leading-tight">{vol.roleTitle}</div>
+                                                <div className="text-[10px] font-sans font-black text-slate-300 uppercase tracking-widest mt-1">{vol.organizationName}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+
+                            {publications && publications.length > 0 && (
+                                <section className="flex flex-col gap-8">
+                                    <div className="font-sans text-[10px] font-black uppercase tracking-[0.5em] text-slate-300">Publications</div>
+                                    <div className="flex flex-col gap-6">
+                                        {publications.map((pub, i) => (
+                                            <div key={i}>
+                                                <div className="font-bold text-slate-900 text-sm leading-tight italic">&quot;{pub.title}&quot;</div>
+                                                <div className="text-[10px] font-sans font-black text-slate-300 uppercase tracking-widest mt-1">{pub.platformOrPublisher}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+                        </div>
+                    ) : null}
+
+                    {/* References & Info */}
+                    <div className="grid grid-cols-1 gap-20">
+                        {references && references.length > 0 && (
+                            <section className="flex flex-col gap-8">
+                                <div className="font-sans text-[10px] font-black uppercase tracking-[0.5em] text-slate-300">References</div>
+                                <div className="grid grid-cols-2 gap-12">
+                                    {references.map((ref, i) => (
+                                        <div key={i} className="flex flex-col gap-1">
+                                            <div className="font-bold text-slate-900 uppercase tracking-tighter">{ref.referenceName}</div>
+                                            <div className="text-sm text-slate-500 italic leading-tight">{ref.role} | {ref.organization}</div>
+                                            <div className="text-[10px] font-sans font-bold text-slate-300 uppercase tracking-widest mt-1">{ref.contactDetails || ref.availabilityStatement}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {additionalInfo && (
+                            <section className="bg-slate-50 p-8 rounded border border-slate-100 flex flex-col gap-4">
+                                <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-[10px] font-sans font-bold text-slate-400 uppercase tracking-widest">
+                                    {additionalInfo.securityClearance && <span>Clearance: {additionalInfo.securityClearance}</span>}
+                                    {additionalInfo.workAuthorization && <span>Auth: {additionalInfo.workAuthorization}</span>}
+                                    {additionalInfo.availability && <span>Available: {additionalInfo.availability}</span>}
+                                    {additionalInfo.willingToRelocate && <span>Willing to Relocate</span>}
+                                </div>
+                                {additionalInfo.otherInfo && (
+                                    <p className="text-sm text-slate-500 italic leading-relaxed text-center max-w-2xl mx-auto border-t border-slate-100 pt-4">
+                                        &quot;{additionalInfo.otherInfo}&quot;
+                                    </p>
+                                )}
+                            </section>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

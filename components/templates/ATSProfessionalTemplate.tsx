@@ -16,6 +16,10 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
         education,
         certifications,
         projects,
+        achievements,
+        publications,
+        volunteerExperience,
+        references,
         additionalInfo,
         languages,
         professionalAffiliations
@@ -192,6 +196,27 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
                 </section>
             )}
 
+            {/* Achievements */}
+            {achievements && achievements.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                        Achievements & Awards
+                    </h2>
+                    <div className="space-y-3">
+                        {achievements.map((ach, index) => (
+                            <div key={ach.id || index}>
+                                <div className="flex justify-between items-baseline mb-1">
+                                    <h3 className="text-base font-bold">{ach.achievementTitle}</h3>
+                                    {ach.year && <span className="text-sm text-neutral-600">{ach.year}</span>}
+                                </div>
+                                <div className="text-sm text-neutral-700 mb-1">{ach.issuingBody}</div>
+                                {ach.description && <p className="text-sm text-neutral-800 leading-relaxed">{ach.description}</p>}
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
             {/* Projects */}
             {projects && projects.length > 0 && (
                 <section className="mb-6">
@@ -220,6 +245,64 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
                                         <span className="font-semibold">Technologies:</span> {project.toolsUsed.join(', ')}
                                     </div>
                                 )}
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Volunteer Experience */}
+            {volunteerExperience && volunteerExperience.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                        Volunteer Experience
+                    </h2>
+                    <div className="space-y-4">
+                        {volunteerExperience.map((vol, index) => (
+                            <div key={vol.id || index}>
+                                <div className="flex justify-between items-baseline mb-1">
+                                    <h3 className="text-base font-bold">{vol.roleTitle}</h3>
+                                    <span className="text-sm text-neutral-600">{vol.startDate} – {vol.endDate}</span>
+                                </div>
+                                <div className="text-sm text-neutral-700 mb-1 italic">{vol.organizationName}</div>
+                                {vol.contributions && <p className="text-sm text-neutral-800 leading-relaxed">{vol.contributions}</p>}
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Publications */}
+            {publications && publications.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                        Publications
+                    </h2>
+                    <div className="space-y-2">
+                        {publications.map((pub, index) => (
+                            <div key={pub.id || index} className="text-sm">
+                                <span className="font-bold">&quot;{pub.title}&quot;</span>
+                                {pub.platformOrPublisher && <span className="text-neutral-700"> – {pub.platformOrPublisher}</span>}
+                                {pub.publicationYear && <span className="text-neutral-600"> ({pub.publicationYear})</span>}
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* References */}
+            {references && references.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                        References
+                    </h2>
+                    <div className="grid grid-cols-2 gap-4">
+                        {references.map((ref, index) => (
+                            <div key={ref.id || index} className="text-sm text-neutral-800">
+                                {ref.referenceName && <div className="font-bold">{ref.referenceName}</div>}
+                                {ref.role && <div>{ref.role}</div>}
+                                {ref.organization && <div className="italic">{ref.organization}</div>}
+                                {ref.contactDetails && <div className="text-neutral-600">{ref.contactDetails}</div>}
                             </div>
                         ))}
                     </div>

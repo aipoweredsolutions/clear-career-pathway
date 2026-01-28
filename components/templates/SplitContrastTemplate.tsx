@@ -115,7 +115,7 @@ export function SplitContrastTemplate({ data, className, theme = 'gray' }: Templ
                                             {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
                                         </span>
                                     </div>
-                                    <div className="text-md font-bold text-slate-500 italic">{job.companyName}</div>
+                                    <div className="text-base font-bold text-slate-500 italic">{job.companyName}</div>
                                     {job.achievements && job.achievements.length > 0 && (
                                         <ul className="flex flex-col gap-3 mt-2">
                                             {job.achievements.map((ach, j) => (

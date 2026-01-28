@@ -18,7 +18,7 @@ export function EducationForm({ data, onChange }: EducationFormProps) {
             institutionName: '',
             degree: '',
             major: '',
-            endYear: new Date().getFullYear().toString()
+            endYear: new Date().getFullYear()
         }
         onChange([...data, newEducation])
     }

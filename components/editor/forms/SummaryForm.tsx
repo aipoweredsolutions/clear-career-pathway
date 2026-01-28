@@ -24,6 +24,8 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
         })
     }
 
+    const [tone, setTone] = useState<'professional' | 'creative' | 'minimalist'>('professional')
+
     const handleGenerate = async () => {
         if (!fullResumeData) return
 
@@ -31,7 +33,6 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
         setSuggestions([])
 
         try {
-            // Construct a light profile from available data
             const skills = fullResumeData.skills?.map(s => s.skillName) || []
             const experience = fullResumeData.workExperience?.map(e => ({
                 role: e.jobTitle,
@@ -42,7 +43,8 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
             const userProfile = {
                 jobTitle: fullResumeData.personalInfo?.professionalTitle || 'Professional',
                 skills,
-                experience
+                experience,
+                tone
             }
 
             const response = await fetch('/api/generate', {
@@ -55,7 +57,6 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
             })
 
             const result = await response.json()
-
             if (result.data && result.data.suggestions) {
                 setSuggestions(result.data.suggestions)
             }
@@ -70,42 +71,64 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
 
     return (
         <div className="space-y-4">
-            <div className="bg-primary-50 border border-primary-100 rounded-lg p-4 mb-4">
-                <div className="flex items-start gap-3">
-                    <Sparkles className="w-5 h-5 text-primary-600 mt-0.5" />
+            <div className="bg-primary-50 border border-primary-100 rounded-xl p-6 mb-4">
+                <div className="flex items-start gap-4">
+                    <div className="bg-primary-100 p-2 rounded-lg">
+                        <Sparkles className="w-5 h-5 text-primary-600" />
+                    </div>
                     <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-primary-900 mb-1">
-                            AI Suggestion
+                        <h3 className="text-base font-bold text-primary-900 mb-1">
+                            AI Summary Writer
                         </h3>
-                        <p className="text-sm text-primary-700 mb-3">
-                            We can write a professional summary based on your experience and skills.
+                        <p className="text-sm text-primary-700 mb-4">
+                            Choose a tone and we&apos;ll craft the perfect introduction using your experience.
                         </p>
+
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {(['professional', 'creative', 'minimalist'] as const).map((t) => (
+                                <button
+                                    key={t}
+                                    onClick={() => setTone(t)}
+                                    className={`px-3 py-1.5 rounded-full text-xs font-bold capitalize transition-all border ${tone === t
+                                        ? 'bg-primary-600 text-white border-primary-600 shadow-sm'
+                                        : 'bg-white text-primary-700 border-primary-200 hover:border-primary-400'
+                                        }`}
+                                >
+                                    {t}
+                                </button>
+                            ))}
+                        </div>
+
                         <Button
                             size="sm"
                             variant="primary"
                             onClick={handleGenerate}
                             disabled={isGenerating}
+                            className="shadow-sm"
                         >
                             {isGenerating ? (
                                 <>
                                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                    Generating...
+                                    Crafting...
                                 </>
                             ) : (
-                                'Generate Summary'
+                                'Generate Suggestions'
                             )}
                         </Button>
 
                         {suggestions.length > 0 && (
-                            <div className="mt-4 space-y-3">
-                                <p className="text-sm font-medium text-primary-800">Select a suggestion:</p>
+                            <div className="mt-6 space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                                <p className="text-xs font-black uppercase tracking-widest text-primary-800/50 mb-2">Pick a version to use:</p>
                                 {suggestions.map((suggestion, idx) => (
                                     <div
                                         key={idx}
-                                        className="bg-white p-3 rounded border border-primary-200 hover:border-primary-400 cursor-pointer transition-colors text-sm text-neutral-700"
+                                        className="bg-white p-4 rounded-lg border border-primary-200 hover:border-primary-500 hover:shadow-md cursor-pointer transition-all text-sm text-neutral-800 leading-relaxed relative group"
                                         onClick={() => handleChange('summaryText', suggestion)}
                                     >
                                         {suggestion}
+                                        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <div className="bg-primary-100 text-primary-700 text-[10px] font-bold px-2 py-0.5 rounded">Use This</div>
+                                        </div>
                                     </div>
                                 ))}
                             </div>

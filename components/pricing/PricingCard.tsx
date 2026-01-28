@@ -28,9 +28,8 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
 
     useEffect(() => {
         initializePaddle({
-            environment: process.env.NEXT_PUBLIC_PADDLE_ENVIRONMENT as any || 'sandbox',
+            environment: (process.env.NEXT_PUBLIC_PADDLE_ENVIRONMENT as 'sandbox' | 'production') || 'sandbox',
             token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN!,
-            seller: parseInt(process.env.NEXT_PUBLIC_PADDLE_SELLER_ID!)
         }).then((paddleInstance) => {
             if (paddleInstance) {
                 setPaddle(paddleInstance)
@@ -45,7 +44,6 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
         }
 
         if (!tier.paddlePriceId) {
-            // This should not happen if all tiers are paid now
             window.location.href = '/dashboard'
             return
         }
@@ -57,6 +55,11 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
 
         setIsLoading(true)
         try {
+            // Fetch user ID ahead of time or from a session provider if available
+            const response = await fetch('/api/auth/me')
+            const userData = await response.json()
+            const userId = userData.user?.id
+
             paddle.Checkout.open({
                 items: [
                     {
@@ -65,7 +68,7 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
                     },
                 ],
                 customData: {
-                    userId: (await fetch('/api/auth/me').then(res => res.json())).user?.id
+                    userId: userId
                 }
             })
         } catch (error: any) {

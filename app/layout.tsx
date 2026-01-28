@@ -53,7 +53,9 @@ export const metadata: Metadata = {
 
 import { AuthProvider } from '@/components/auth/AuthProvider'
 import { Navbar } from '@/components/layout/Navbar'
+import { Footer } from '@/components/layout/Footer'
 import { cn } from '@/lib/utils'
+import { Toaster } from 'sonner'
 
 export default function RootLayout({
     children,
@@ -65,11 +67,14 @@ export default function RootLayout({
             <body className="min-h-screen bg-white">
                 <AuthProvider>
                     <Navbar />
-                    <main>
+                    <main className="min-h-[80vh]">
                         {children}
                     </main>
+                    <Footer />
+                    <Toaster position="top-center" richColors />
                 </AuthProvider>
             </body>
         </html>
     )
 }
+

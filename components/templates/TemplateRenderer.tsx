@@ -1,4 +1,11 @@
 import { ATSProfessionalTemplate } from './ATSProfessionalTemplate'
+import { ATSClassicTemplate } from './ATSClassicTemplate'
+import { ATSMinimalTemplate } from './ATSMinimalTemplate'
+import { ATSExecutiveTemplate } from './ATSExecutiveTemplate'
+import { ATSTechnicalTemplate } from './ATSTechnicalTemplate'
+import { ATSModernTemplate } from './ATSModernTemplate'
+import { ATSGraduateTemplate } from './ATSGraduateTemplate'
+import { ATSStandardTemplate } from './ATSStandardTemplate'
 import { ClassicTemplate } from './ClassicTemplate'
 import { ModernTemplate } from './ModernTemplate'
 import { CreativeTemplate } from './CreativeTemplate'
@@ -14,7 +21,9 @@ import { LuxeTemplate } from './LuxeTemplate'
 import { StartupTemplate } from './StartupTemplate'
 import { ArtisanTemplate } from './ArtisanTemplate'
 import { SplitContrastTemplate } from './SplitContrastTemplate'
+import { GraduateTemplate } from './GraduateTemplate'
 import { ResumeDocument } from '@/lib/types/resume'
+import { cn } from '@/lib/utils'
 
 interface TemplateRendererProps {
     templateId: string
@@ -24,11 +33,15 @@ interface TemplateRendererProps {
 
 // Map of ID prefixes to components and default props
 const getTemplateConfig = (id: string): { Component: any, props: any } => {
-    // --- ATS Professional Variants ---
-    if (id === 'ats-professional-standard') return { Component: ATSProfessionalTemplate, props: {} }
-    if (id === 'ats-professional-navy') return { Component: ATSProfessionalTemplate, props: {} }
-    if (id === 'ats-professional-charcoal') return { Component: ATSProfessionalTemplate, props: {} }
-    if (id === 'ats-professional') return { Component: ATSProfessionalTemplate, props: {} }
+    // --- ATS Series Mappings (Handles variants like ats-classic-navy) ---
+    if (id.startsWith('ats-professional')) return { Component: ATSProfessionalTemplate, props: {} }
+    if (id.startsWith('ats-classic')) return { Component: ATSClassicTemplate, props: {} }
+    if (id.startsWith('ats-minimal')) return { Component: ATSMinimalTemplate, props: {} }
+    if (id.startsWith('ats-executive')) return { Component: ATSExecutiveTemplate, props: {} }
+    if (id.startsWith('ats-technical')) return { Component: ATSTechnicalTemplate, props: {} }
+    if (id.startsWith('ats-modern')) return { Component: ATSModernTemplate, props: {} }
+    if (id.startsWith('ats-graduate')) return { Component: ATSGraduateTemplate, props: {} }
+    if (id.startsWith('ats-standard')) return { Component: ATSStandardTemplate, props: {} }
 
     // --- Cute Variants ---
     if (id.startsWith('cute-')) return { Component: CuteTemplate, props: { colorTheme: id.replace('cute-', '') } }
@@ -99,6 +112,20 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
     if (id === 'split-contrast-slate') return { Component: SplitContrastTemplate, props: { theme: 'slate' } }
     if (id === 'split-contrast-warm') return { Component: SplitContrastTemplate, props: { theme: 'warm' } }
 
+    // --- Minimal Variants ---
+    if (id === 'minimal-navy') return { Component: MinimalTemplate, props: { accentColor: 'text-blue-900' } }
+    if (id === 'minimal-charcoal') return { Component: MinimalTemplate, props: { accentColor: 'text-gray-700' } }
+    // minimal-standard handled by default fallback or switch case
+
+    // --- Compact Variants ---
+    if (id === 'compact-blue') return { Component: CompactTemplate, props: { accentColor: 'bg-blue-600' } }
+    if (id === 'compact-dark') return { Component: CompactTemplate, props: { accentColor: 'bg-neutral-900' } }
+
+    // --- Graduate Variants ---
+    if (id === 'graduate-navy') return { Component: GraduateTemplate, props: { accentColor: 'text-blue-900' } }
+    if (id === 'graduate-teal') return { Component: GraduateTemplate, props: { accentColor: 'text-teal-700' } }
+    if (id === 'graduate-maroon') return { Component: GraduateTemplate, props: { accentColor: 'text-rose-900' } }
+
     // --- Fallbacks / Exact Matches ---
     switch (id) {
         case 'classic': return { Component: ClassicTemplate, props: { accentColor: 'text-blue-800' } }
@@ -111,15 +138,59 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         case 'student': return { Component: CreativeTemplate, props: { mode: 'student' } }
         case 'professional': return { Component: ProfessionalTemplate, props: { accentColor: 'text-slate-900' } }
         case 'luxe': return { Component: LuxeTemplate, props: { theme: 'gold' } }
+        case 'startups': return { Component: StartupTemplate, props: { theme: 'vibrant-blue' } } // Fix typo if exists, or just ensure startup maps
         case 'startup': return { Component: StartupTemplate, props: { theme: 'vibrant-blue' } }
         case 'artisan': return { Component: ArtisanTemplate, props: { theme: 'sage' } }
         case 'split-contrast': return { Component: SplitContrastTemplate, props: { theme: 'gray' } }
+        case 'minimal': return { Component: MinimalTemplate, props: { accentColor: 'text-neutral-900' } }
+        case 'compact': return { Component: CompactTemplate, props: { accentColor: 'bg-neutral-900' } }
+        case 'graduate': return { Component: GraduateTemplate, props: { accentColor: 'text-blue-900' } }
+
+        // --- NEW ATS Series Fallbacks ---
+        case 'ats-classic': return { Component: ATSClassicTemplate, props: {} }
+        case 'ats-minimal': return { Component: ATSMinimalTemplate, props: {} }
+        case 'ats-executive': return { Component: ATSExecutiveTemplate, props: {} }
+        case 'ats-technical': return { Component: ATSTechnicalTemplate, props: {} }
+        case 'ats-modern': return { Component: ATSModernTemplate, props: {} }
+        case 'ats-graduate': return { Component: ATSGraduateTemplate, props: {} }
+        case 'ats-standard': return { Component: ATSStandardTemplate, props: {} }
         default: return { Component: ClassicTemplate, props: {} }
     }
 }
 
 export function TemplateRenderer({ templateId, data, className }: TemplateRendererProps) {
     const { Component, props } = getTemplateConfig(templateId)
-    // @ts-ignore - Dynamic props are hard to type strictly without discriminated unions
-    return <Component data={data} className={className} {...props} />
+
+    // Apply formatting styles
+    const formattingStyle: React.CSSProperties = {
+        fontSize: data.formatting?.fontSize === 'small' ? '0.875rem' :
+            data.formatting?.fontSize === 'large' ? '1.125rem' : '1rem',
+        lineHeight: data.formatting?.lineHeight === 'tight' ? '1.2' :
+            data.formatting?.lineHeight === 'relaxed' ? '1.75' : '1.5',
+        // Margins depend on the template usually, but we can wrap it
+    }
+
+    // Margin mapping to padding classes
+    const marginClass = data.formatting?.margin === 'narrow' ? 'p-8' :
+        data.formatting?.margin === 'wide' ? 'p-16' :
+            'p-12' // Standard default
+
+    const paperHeight = data.formatting?.paperSize === 'a4' ? '297mm' : '11in'
+
+    if (!Component) {
+        return (
+            <div className="flex items-center justify-center p-12 bg-neutral-50 text-neutral-400 border border-dashed border-neutral-300 rounded-xl">
+                Template component not found for: {templateId}
+            </div>
+        )
+    }
+
+    return (
+        <div style={formattingStyle} className={cn("relative shadow-2xl bg-white", className)}>
+            <div id="resume-preview" className="min-h-inherit relative">
+                {/* @ts-ignore */}
+                <Component data={data} {...props} className={cn(marginClass, "min-h-inherit")} />
+            </div>
+        </div>
+    )
 }

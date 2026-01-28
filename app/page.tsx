@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { templateRegistry } from '@/lib/templates/registry'
 import { TemplatePreviewDialog } from '@/components/home/TemplatePreviewDialog'
+import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
+import { MOCK_PREVIEW_DATA } from '@/lib/constants/mock-data'
 import { Check, Star, Filter } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { PRICING_TIERS } from '@/lib/config/pricing'
@@ -20,11 +22,12 @@ export default function Home() {
     const [templateColors, setTemplateColors] = useState<Record<string, string>>({})
 
     // Extract unique categories and levels
-    const categories = ['All', 'Creative', 'Corporate', 'Technical', 'Academic']
+    const categories = ['All', 'ATS', 'Creative', 'Corporate', 'Technical', 'Academic']
     const levels = ['All', 'Entry', 'Mid', 'Senior', 'Executive', 'Student']
 
     const filteredTemplates = templateRegistry.filter(template => {
         const categoryMatch = selectedCategory === 'All' ||
+            (selectedCategory === 'ATS' && (template.id.startsWith('ats-') || template.id === 'ats-professional')) ||
             (selectedCategory === 'Creative' && template.suitableFor.jobTypes.includes('creative')) ||
             (selectedCategory === 'Corporate' && template.suitableFor.jobTypes.includes('corporate')) ||
             (selectedCategory === 'Technical' && template.suitableFor.jobTypes.includes('technical')) ||
@@ -95,14 +98,75 @@ export default function Home() {
                             </div>
                             <div className="flex items-center gap-2">
                                 <Check className="w-5 h-5 text-green-500" />
-                                <span>15+ Professional Templates</span>
+                                <span>20+ Professional Templates</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Templates Section - REDESIGNED */}
+            {/* Client Trust Section */}
+
+            <section className="bg-neutral-50 py-12 border-b border-neutral-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <p className="text-center text-sm font-bold text-neutral-400 uppercase tracking-widest mb-8">
+                        Trusted by professionals at
+                    </p>
+                    <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
+                        <span className="text-2xl font-bold font-serif">GOOGLE</span>
+                        <span className="text-2xl font-bold font-sans">Microsoft</span>
+                        <span className="text-2xl font-bold font-serif">Airtel</span>
+                        <span className="text-2xl font-bold font-sans">Amazon</span>
+                        <span className="text-2xl font-bold font-serif">Deloitte</span>
+                    </div>
+                </div>
+            </section>
+
+
+            {/* How it Works Section */}
+            <section className="py-24 bg-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl font-bold text-neutral-900 mb-4 font-serif">The Path to Your Next Role</h2>
+                        <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+                            Three simple steps to transform your career documentation with AI precision.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-12">
+                        {[
+                            {
+                                step: '01',
+                                title: 'Upload or Enter Info',
+                                desc: 'Import your old resume or start fresh. Our parser extracts every detail instantly.',
+                                icon: '📁'
+                            },
+                            {
+                                step: '02',
+                                title: 'Optimize with AI',
+                                desc: 'Our AI analyzes your experience and suggests impact-driven bullets that recruiters love.',
+                                icon: '✨'
+                            },
+                            {
+                                step: '03',
+                                title: 'Export & Apply',
+                                desc: 'Choose a premium template and download as an ATS-compliant PDF or DOCX.',
+                                icon: '🚀'
+                            }
+                        ].map((item, idx) => (
+                            <div key={idx} className="relative p-8 rounded-2xl bg-neutral-50 border border-neutral-100 hover:shadow-lg transition-shadow group">
+                                <div className="text-5xl font-black text-primary-600/10 absolute top-4 right-8 group-hover:text-primary-600/20 transition-colors">
+                                    {item.step}
+                                </div>
+                                <div className="text-4xl mb-6">{item.icon}</div>
+                                <h4 className="text-xl font-bold text-neutral-900 mb-4">{item.title}</h4>
+                                <p className="text-neutral-600 leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             <section id="templates" className="py-24 bg-neutral-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
@@ -160,26 +224,34 @@ export default function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredTemplates.map((template) => (
                             <div key={template.id} className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-neutral-200 flex flex-col">
-                                {/* Preview Image Area */}
+                                {/* Preview Image Area - A4 Size */}
                                 <div
-                                    className="relative aspect-[3/4] bg-neutral-100 overflow-hidden cursor-pointer"
+                                    className="relative bg-neutral-100 overflow-hidden cursor-pointer"
+                                    style={{ aspectRatio: '210/297' }}
                                     onClick={() => setPreviewTemplateId(template.id)}
                                 >
-                                    {(template.previewImage) ? (
-                                        <img
-                                            src={template.previewImage}
-                                            alt={template.name}
-                                            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                                    <div className="w-full h-full transform scale-[0.35] origin-top-left flex justify-center bg-white" style={{ width: '286%', height: '286%' }}>
+                                        <TemplateRenderer
+                                            templateId={(() => {
+                                                const colorId = getActiveColor(template.id, template.colors || [])
+                                                return colorId && colorId !== 'standard' && colorId !== 'std' && colorId !== 'clean'
+                                                    ? `${template.id}-${colorId}`
+                                                    : template.id
+                                            })()}
+                                            data={MOCK_PREVIEW_DATA}
+                                            className="shadow-none pointer-events-none select-none w-[210mm] min-h-[297mm]"
                                         />
-                                    ) : (
-                                        <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                                            No Preview
-                                        </div>
-                                    )}
+                                    </div>
 
                                     {/* Hover Overlay */}
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                        <button className="bg-white/90 backdrop-blur-sm text-neutral-900 px-6 py-3 rounded-full font-semibold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                setPreviewTemplateId(template.id)
+                                            }}
+                                            className="bg-white/90 backdrop-blur-sm text-neutral-900 px-6 py-3 rounded-full font-semibold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all hover:scale-105 active:scale-95 z-20"
+                                        >
                                             Quick Preview
                                         </button>
                                     </div>
@@ -256,7 +328,84 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Pricing Section */}
+            {/* Testimonials Section */}
+            <section className="py-24 bg-white border-t border-neutral-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl font-bold text-neutral-900 mb-4 font-serif">Success Stories</h2>
+                        <p className="text-lg text-neutral-600">Join 5,000+ professionals who landed interviews at top companies.</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {[
+                            {
+                                name: "Sarah Jenkins",
+                                role: "Senior Frontend Developer",
+                                quote: "I was struggling with my resume for months. Clear Career Path's AI suggestions helped me quantify my achievements. I landed an interview at Airbnb within a week!",
+                                company: "Google"
+                            },
+                            {
+                                name: "Marcus Thorne",
+                                role: "Project Manager",
+                                quote: "The ATS scoring system is a game changer. I realized my old resume was almost unreadable to software. My new resume looks incredible and actually gets read.",
+                                company: "Deloitte"
+                            },
+                            {
+                                name: "Elena Rodriguez",
+                                role: "Product Designer",
+                                quote: "Finally, templates that aren't just pretty, but functional. The modern styles are perfect for creative industries without sacrificing structure.",
+                                company: "Adobe"
+                            }
+                        ].map((t, i) => (
+                            <div key={i} className="bg-neutral-50 p-8 rounded-2xl border border-neutral-100 italic relative">
+                                <span className="text-6xl text-primary-200 absolute top-4 left-4 font-serif">"</span>
+                                <p className="text-neutral-700 mb-6 relative z-10">{t.quote}</p>
+                                <div className="flex items-center gap-4 not-italic">
+                                    <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold">
+                                        {t.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-neutral-900 text-sm">{t.name}</p>
+                                        <p className="text-xs text-neutral-500">{t.role} at {t.company}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section id="faq" className="py-24 bg-neutral-50 border-t border-neutral-200">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl font-bold text-neutral-900 mb-4 font-serif">Common Questions</h2>
+                    </div>
+
+                    <div className="space-y-6">
+                        {[
+                            {
+                                q: "How does the AI help me?",
+                                a: "Our AI analyzes your experience and suggests metrics-driven achievements using action verbs. It transforms 'I managed a team' into 'Spearheaded a team of 10 to deliver projects 20% ahead of schedule.'"
+                            },
+                            {
+                                q: "Are these resumes really ATS-compliant?",
+                                a: "Yes. Our templates use single-column layouts, standard fonts, and machine-readable structures specifically designed to score 90+ on most Applicant Tracking Systems."
+                            },
+                            {
+                                q: "Can I download my resume for free?",
+                                a: "Yes, our free plan allows you to create one resume and download it as a watermarked PDF. Paid plans offer clean PDFs and DOCX formats."
+                            }
+                        ].map((faq, i) => (
+                            <div key={i} className="bg-white p-6 rounded-xl border border-neutral-200 shadow-sm">
+                                <h4 className="font-bold text-neutral-900 mb-2">{faq.q}</h4>
+                                <p className="text-neutral-600 text-sm leading-relaxed">{faq.a}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             <section id="pricing" className="py-24 bg-neutral-50 border-t border-neutral-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-3xl mx-auto mb-16">

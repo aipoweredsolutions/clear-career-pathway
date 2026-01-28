@@ -16,13 +16,13 @@ export function CompactTemplate({ data, className, accentColor = 'bg-neutral-900
             {/* Compact Header */}
             <header className="flex justify-between items-end border-b-2 border-neutral-900 pb-4 mb-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-neutral-900 uppercase tracking-tight leading-none">{personalInfo.fullName}</h1>
-                    <p className="text-neutral-500 font-medium mt-1">{personalInfo.professionalTitle}</p>
+                    <h1 className="text-3xl font-bold text-neutral-900 uppercase tracking-tight leading-none">{personalInfo?.fullName}</h1>
+                    <p className="text-neutral-500 font-medium mt-1">{personalInfo?.professionalTitle}</p>
                 </div>
                 <div className="text-right text-xs text-neutral-500 space-y-1">
-                    {personalInfo.email && <div>{personalInfo.email}</div>}
-                    {personalInfo.phone && <div>{personalInfo.phone}</div>}
-                    {personalInfo.location && <div>{personalInfo.location}</div>}
+                    {personalInfo?.email && <div>{personalInfo.email}</div>}
+                    {personalInfo?.phone && <div>{personalInfo.phone}</div>}
+                    {personalInfo?.location && <div>{personalInfo.location}</div>}
                 </div>
             </header>
 

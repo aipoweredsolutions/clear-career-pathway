@@ -15,12 +15,12 @@ export function MinimalTemplate({ data, className, accentColor = 'text-neutral-9
         <div className={cn("w-full bg-white aspect-[210/297] p-16 font-sans flex flex-col items-center text-center", className)}>
             {/* Centered Header with minimal styling */}
             <header className="mb-12 max-w-2xl w-full border-b border-neutral-100 pb-8">
-                <h1 className="text-4xl font-bold tracking-tight text-neutral-900 mb-4">{personalInfo.fullName}</h1>
+                <h1 className="text-4xl font-bold tracking-tight text-neutral-900 mb-4">{personalInfo?.fullName}</h1>
                 <div className="flex flex-wrap justify-center gap-4 text-sm text-neutral-500">
-                    {personalInfo.email && <span>{personalInfo.email}</span>}
-                    {personalInfo.phone && <span>{personalInfo.phone}</span>}
-                    {personalInfo.location && <span>{personalInfo.location}</span>}
-                    {personalInfo.linkedinUrl && <span>LinkedIn</span>}
+                    {personalInfo?.email && <span>{personalInfo.email}</span>}
+                    {personalInfo?.phone && <span>{personalInfo.phone}</span>}
+                    {personalInfo?.location && <span>{personalInfo.location}</span>}
+                    {personalInfo?.linkedinUrl && <span>LinkedIn</span>}
                 </div>
             </header>
 

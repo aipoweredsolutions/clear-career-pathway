@@ -18,16 +18,16 @@ export function ChicTemplate({ data, className, font = 'sans' }: TemplateProps) 
         <div className={cn("w-full bg-white aspect-[210/297] p-16 flex flex-col", fontClass, className)}>
             {/* Minimalist Header */}
             <header className="mb-20">
-                <h1 className={cn("text-6xl font-extralight tracking-tight text-neutral-900 mb-4", titleFont)}>{personalInfo.fullName}</h1>
+                <h1 className={cn("text-6xl font-extralight tracking-tight text-neutral-900 mb-4", titleFont)}>{personalInfo?.fullName}</h1>
                 <div className="flex items-center gap-6 text-sm text-neutral-400 font-medium uppercase tracking-widest">
-                    <span>{personalInfo.professionalTitle}</span>
-                    {personalInfo.location && (
+                    <span>{personalInfo?.professionalTitle}</span>
+                    {personalInfo?.location && (
                         <>
                             <span className="w-1 h-1 bg-neutral-300 rounded-full"></span>
                             <span>{personalInfo.location}</span>
                         </>
                     )}
-                    {personalInfo.email && (
+                    {personalInfo?.email && (
                         <>
                             <span className="w-1 h-1 bg-neutral-300 rounded-full"></span>
                             <span className="lowercase">{personalInfo.email}</span>
@@ -58,7 +58,7 @@ export function ChicTemplate({ data, className, font = 'sans' }: TemplateProps) 
                                             </span>
                                         </div>
                                         <div className="text-sm text-neutral-500 mb-4 uppercase tracking-wide font-medium">{job.jobTitle}</div>
-                                        <p className="text-neutral-600 leading-loose mx-w-prose">{job.roleDescription}</p>
+                                        <p className="text-neutral-600 leading-loose max-w-prose">{job.roleDescription}</p>
                                     </div>
                                 ))}
                             </div>

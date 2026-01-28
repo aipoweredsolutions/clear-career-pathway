@@ -58,6 +58,18 @@ CREATE TABLE payment_history (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- User usage tracking (AI, Exports)
+CREATE TABLE user_usage (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  month_year TEXT NOT NULL, -- e.g. '2026-01'
+  ai_count INTEGER DEFAULT 0,
+  export_count INTEGER DEFAULT 0,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(user_id, month_year)
+);
+
+
 -- ============================================
 -- DOCUMENTS & CONTENT
 -- ============================================
@@ -306,8 +318,10 @@ ALTER TABLE references ENABLE ROW LEVEL SECURITY;
 ALTER TABLE additional_info ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payment_history ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_usage ENABLE ROW LEVEL SECURITY;
 
 -- Profiles: Users can only see and update their own profile
+
 CREATE POLICY "Users can view own profile" ON profiles
   FOR SELECT USING (auth.uid() = id);
 
@@ -357,7 +371,12 @@ CREATE POLICY "Users can view own subscription" ON user_subscriptions
 CREATE POLICY "Users can view own payments" ON payment_history
   FOR SELECT USING (auth.uid() = user_id);
 
+-- User usage: Users can view their own usage
+CREATE POLICY "Users can view own usage" ON user_usage
+  FOR SELECT USING (auth.uid() = user_id);
+
 -- ============================================
+
 -- FUNCTIONS & TRIGGERS
 -- ============================================
 

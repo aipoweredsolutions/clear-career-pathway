@@ -2,8 +2,9 @@
 
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { ResumeDocument, PersonalInfo, ProfessionalSummary, WorkExperience, Education, Skill, Project } from '@/lib/types/resume'
+import { ResumeDocument, PersonalInfo, ProfessionalSummary, WorkExperience, Education, Skill, Project, UserSubscription } from '@/lib/types/resume'
 import { fetchFullDocument } from '@/lib/supabase/documents'
+import { fetchUserSubscription } from '@/lib/supabase/subscriptions'
 
 // Helper to get Supabase client
 async function getSupabase() {
@@ -24,6 +25,13 @@ async function getSupabase() {
 export async function fetchResume(documentId: string): Promise<ResumeDocument | null> {
     const supabase = await getSupabase()
     return fetchFullDocument(supabase, documentId)
+}
+
+export async function fetchSubscription(): Promise<UserSubscription | null> {
+    const supabase = await getSupabase()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return null
+    return fetchUserSubscription(supabase, user.id)
 }
 
 export async function saveResume(data: ResumeDocument): Promise<{ success: boolean, error?: string }> {
@@ -299,6 +307,45 @@ export async function saveResume(data: ResumeDocument): Promise<{ success: boole
                 }, { onConflict: 'document_id' })
         }
 
+        // 15. Handle Custom Sections
+        if (data.customSections) {
+            await syncList('custom_sections', data.customSections, (sec) => ({
+                id: sec.id,
+                title: sec.title,
+                content: sec.content,
+                icon: sec.icon
+            }))
+
+            // Handle Custom Section Items
+            for (const sec of data.customSections) {
+                if (sec.items) {
+                    const { data: currentItems } = await supabase
+                        .from('custom_section_items')
+                        .select('id')
+                        .eq('custom_section_id', sec.id)
+
+                    const currentIds = currentItems?.map(i => i.id) || []
+                    const newIds = sec.items.map(i => i.id).filter(Boolean)
+
+                    const idsToDelete = currentIds.filter(id => !newIds.includes(id))
+                    if (idsToDelete.length > 0) {
+                        await supabase.from('custom_section_items').delete().in('id', idsToDelete)
+                    }
+
+                    for (const item of sec.items) {
+                        await supabase
+                            .from('custom_section_items')
+                            .upsert({
+                                id: item.id,
+                                custom_section_id: sec.id,
+                                text: item.text,
+                                display_order: item.displayOrder
+                            })
+                    }
+                }
+            }
+        }
+
         return { success: true }
 
     } catch (error: any) {
@@ -306,3 +353,48 @@ export async function saveResume(data: ResumeDocument): Promise<{ success: boole
         return { success: false, error: error.message }
     }
 }
+
+export async function incrementExportCount(): Promise<{ success: boolean, limitReached?: boolean }> {
+    const supabase = await getSupabase()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false }
+
+    const monthYear = new Date().toISOString().substring(0, 7)
+
+    // 1. Get tier info
+    const { data: sub } = await supabase
+        .from('user_subscriptions')
+        .select('*, tier:subscription_tiers(*)')
+        .eq('user_id', user.id)
+        .maybeSingle()
+
+    const tier = sub?.tier as any
+    const exportLimit = tier?.max_exports_per_month ?? 1
+
+    // 2. Get current usage
+    const { data: usage } = await supabase
+        .from('user_usage')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('month_year', monthYear)
+        .maybeSingle()
+
+    const currentCount = usage?.export_count || 0
+
+    if (exportLimit !== null && currentCount >= exportLimit) {
+        return { success: false, limitReached: true }
+    }
+
+    // 3. Increment
+    await supabase
+        .from('user_usage')
+        .upsert({
+            user_id: user.id,
+            month_year: monthYear,
+            export_count: currentCount + 1,
+            updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id, month_year' })
+
+    return { success: true }
+}
+

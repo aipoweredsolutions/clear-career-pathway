@@ -165,24 +165,87 @@ export function ExperienceForm({ data, onChange }: ExperienceFormProps) {
                         />
                     </div>
 
-                    <div className="space-y-3">
-                        <label className="block text-sm font-medium text-neutral-700">Key Achievements</label>
+                    <div className="space-y-4">
+                        <div className="flex justify-between items-center">
+                            <label className="block text-sm font-medium text-neutral-700">Key Achievements</label>
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={async () => {
+                                    if (!exp.jobTitle) {
+                                        alert('Please enter a job title first')
+                                        return
+                                    }
+                                    const response = await fetch('/api/generate', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            type: 'suggest_achievements',
+                                            userProfile: { jobTitle: exp.jobTitle, companyName: exp.companyName }
+                                        })
+                                    })
+                                    const result = await response.json()
+                                    if (result.data?.suggestions) {
+                                        const newAchs = result.data.suggestions.map((text: string) => ({
+                                            id: crypto.randomUUID(),
+                                            achievementText: text
+                                        }))
+                                        const newData = [...data]
+                                        newData[index].achievements = [...(newData[index].achievements || []), ...newAchs]
+                                        onChange(newData)
+                                    }
+                                }}
+                                className="text-primary-600 h-7 text-xs"
+                                disabled={!exp.jobTitle}
+                            >
+                                <Sparkles className="w-3 h-3 mr-1.5" />
+                                Suggest Achievements
+                            </Button>
+                        </div>
+
                         {exp.achievements?.map((ach, achIndex) => (
-                            <div key={ach.id || achIndex} className="flex gap-2">
-                                <Input
-                                    value={ach.achievementText}
-                                    onChange={(e) => updateAchievement(index, achIndex, e.target.value)}
-                                    placeholder="e.g. Increased revenue by 20%..."
-                                    className="flex-1"
-                                />
-                                <button
-                                    onClick={() => removeAchievement(index, achIndex)}
-                                    className="text-neutral-400 hover:text-danger-500 px-2"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
+                            <div key={ach.id || achIndex} className="flex flex-col gap-2 p-3 bg-white rounded-lg border border-neutral-100 shadow-sm relative group/ach">
+                                <div className="flex gap-2">
+                                    <Input
+                                        value={ach.achievementText}
+                                        onChange={(e) => updateAchievement(index, achIndex, e.target.value)}
+                                        placeholder="e.g. Increased revenue by 20%..."
+                                        className="flex-1 border-none focus:ring-0 p-0 text-sm shadow-none"
+                                    />
+                                    <div className="flex gap-1 opacity-0 group-hover/ach:opacity-100 transition-opacity">
+                                        <button
+                                            onClick={async () => {
+                                                if (ach.achievementText.length < 5) return
+                                                const response = await fetch('/api/generate', {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify({
+                                                        type: 'improve_experience',
+                                                        currentContent: ach.achievementText
+                                                    })
+                                                })
+                                                const result = await response.json()
+                                                if (result.data?.suggestion) {
+                                                    updateAchievement(index, achIndex, result.data.suggestion)
+                                                }
+                                            }}
+                                            className="text-primary-500 hover:text-primary-700 p-1"
+                                            title="Improve with AI"
+                                        >
+                                            <Sparkles className="w-3.5 h-3.5" />
+                                        </button>
+                                        <button
+                                            onClick={() => removeAchievement(index, achIndex)}
+                                            className="text-neutral-400 hover:text-danger-500 p-1"
+                                        >
+                                            <Trash2 className="w-3.5 h-3.5" />
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         ))}
+
                         <Button
                             variant="ghost"
                             size="sm"

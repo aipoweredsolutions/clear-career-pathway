@@ -25,6 +25,31 @@ export async function createResume() {
         redirect('/auth/login')
     }
 
+    // --- CHECK DOCUMENT LIMITS ---
+    const { data: sub } = await supabase
+        .from('user_subscriptions')
+        .select('*, tier:subscription_tiers(*)')
+        .eq('user_id', session.user.id)
+        .maybeSingle()
+
+    const tier = sub?.tier as any
+    const docLimit = tier?.max_documents ?? 1 // Default to 1 for free
+
+    const { count } = await supabase
+        .from('documents')
+        .select('id', { count: 'exact', head: true })
+        .eq('user_id', session.user.id)
+
+    if (docLimit !== null && (count || 0) >= docLimit) {
+        // Instead of redirecting, we could throw or return an error, 
+        // but since this is directly called from a form action, 
+        // it's better to redirect with a param or handle in the UI.
+        // For simplicity and to match current flow, let's redirect to pricing.
+        redirect('/pricing?reason=limit_reached')
+    }
+    // ----------------------------
+
+
     const { data, error } = await supabase
         .from('documents')
         .insert({

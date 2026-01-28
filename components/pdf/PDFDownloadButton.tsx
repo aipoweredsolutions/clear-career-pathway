@@ -15,28 +15,33 @@ interface PDFDownloadButtonProps {
 export function PDFDownloadButton({ data, fileName = 'resume.pdf' }: PDFDownloadButtonProps) {
     const [instance, updateInstance] = usePDF({ document: <ResumePDF data={data} /> })
 
-    if (instance.loading) {
-        return (
-            <Button disabled variant="primary" size="sm">
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Preparing...
-            </Button>
-        )
-    }
-
-    if (instance.error) {
-        return (
-            <Button disabled variant="danger" size="sm">
-                Error
-            </Button>
-        )
-    }
+    // Force update when data changes (important for template switching)
+    // Using a small debounce to prevent "signal is aborted" errors during rapid changes
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            updateInstance(<ResumePDF data={data} />)
+        }, 500)
+        return () => clearTimeout(timer)
+    }, [data, updateInstance])
 
     return (
-        <a href={instance.url!} download={fileName}>
-            <Button variant="primary" size="sm">
-                <Download className="w-4 h-4 mr-2" />
-                Export PDF
+        <a href={instance.url || '#'} download={fileName} className="block w-full">
+            <Button
+                variant="outline"
+                className="w-full text-xs font-bold py-5 border-neutral-200 hover:border-primary-500 hover:bg-primary-50 hover:text-primary-700 transition-all duration-300"
+                disabled={instance.loading}
+            >
+                {instance.loading ? (
+                    <span className="flex items-center gap-2 italic">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        Generating...
+                    </span>
+                ) : (
+                    <>
+                        <Download className="w-4 h-4 mr-2" />
+                        Download PDF
+                    </>
+                )}
             </Button>
         </a>
     )

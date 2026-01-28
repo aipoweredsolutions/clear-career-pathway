@@ -10,6 +10,8 @@ export const metadata = {
 }
 
 import { PRICING_TIERS } from '@/lib/config/pricing'
+import { PricingClientContent } from '@/components/pricing/PricingClientContent'
+import { Suspense } from 'react'
 
 export default async function PricingPage() {
     const supabase = await createClient()
@@ -20,6 +22,11 @@ export default async function PricingPage() {
 
     return (
         <div className="min-h-screen bg-neutral-50 pt-20">
+            <Suspense fallback={null}>
+                <PricingClientContent />
+            </Suspense>
+
+
             {/* Header removed and replaced by global Navbar */}
 
             {/* Hero */}
@@ -59,7 +66,7 @@ export default async function PricingPage() {
                     <div className="space-y-6">
                         <div>
                             <h3 className="text-lg font-semibold text-neutral-900 mb-2">
-                                What does "ATS-compliant" mean?
+                                What does &quot;ATS-compliant&quot; mean?
                             </h3>
                             <p className="text-neutral-700">
                                 ATS (Applicant Tracking System) compliant means your resume can be accurately read and parsed by
@@ -100,7 +107,7 @@ export default async function PricingPage() {
                                 Can I cancel my subscription anytime?
                             </h3>
                             <p className="text-neutral-700">
-                                Yes, you can cancel your Premium subscription at any time. You'll retain access until the end
+                                Yes, you can cancel your Premium subscription at any time. You&apos;ll retain access until the end
                                 of your current billing period. Starter Pass is a one-time purchase with no recurring charges.
                             </p>
                         </div>
@@ -124,15 +131,7 @@ export default async function PricingPage() {
                     </Link>
                 </div>
             </section>
-
-            {/* Footer */}
-            <footer className="bg-neutral-900 text-neutral-400 py-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <p className="text-sm">&copy; 2026 Clear Career Path. All rights reserved.</p>
-                    </div>
-                </div>
-            </footer>
         </div>
     )
 }
+

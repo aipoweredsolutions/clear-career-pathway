@@ -10,7 +10,22 @@ interface TemplateProps {
 }
 
 export function StartupTemplate({ data, className, theme = 'vibrant-blue' }: TemplateProps) {
-    const { personalInfo, professionalSummary, workExperience, education, skills, certifications } = data
+    const {
+        personalInfo,
+        professionalSummary,
+        workExperience,
+        education,
+        skills,
+        certifications,
+        projects,
+        achievements,
+        volunteerExperience,
+        languages,
+        publications,
+        professionalAffiliations,
+        references,
+        additionalInfo
+    } = data
 
     const themeConfig = {
         'vibrant-blue': {
@@ -44,10 +59,10 @@ export function StartupTemplate({ data, className, theme = 'vibrant-blue' }: Tem
             <div className="col-span-8 p-12 flex flex-col gap-10">
                 <header>
                     <h1 className="text-5xl font-black tracking-tighter text-slate-900 mb-2">
-                        {personalInfo.fullName}
+                        {personalInfo?.fullName}
                     </h1>
                     <p className={cn("text-xl font-bold uppercase tracking-tight", activeTheme.accent)}>
-                        {personalInfo.professionalTitle}
+                        {personalInfo?.professionalTitle}
                     </p>
 
                     {professionalSummary?.summaryText && (
@@ -74,16 +89,65 @@ export function StartupTemplate({ data, className, theme = 'vibrant-blue' }: Tem
                                             {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
                                         </span>
                                     </div>
-                                    <div className={cn("text-md font-bold", activeTheme.text)}>{job.companyName}</div>
+                                    <div className={cn("text-base font-bold", activeTheme.text)}>{job.companyName}</div>
                                     {job.achievements && job.achievements.length > 0 && (
                                         <ul className="list-disc list-outside ml-4 text-slate-600 flex flex-col gap-2 mt-2">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="pl-1">
+                                                <li key={j} className="pl-1 text-sm">
                                                     {ach.achievementText}
                                                 </li>
                                             ))}
                                         </ul>
                                     )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Projects */}
+                {projects && projects.length > 0 && (
+                    <section className="flex flex-col gap-8">
+                        <div className="flex items-center gap-4">
+                            <h2 className="text-xl font-black uppercase tracking-tighter text-slate-900">Projects</h2>
+                            <div className={cn("flex-1 h-1", activeTheme.primary)}></div>
+                        </div>
+                        <div className="flex flex-col gap-8">
+                            {projects.map((project, i) => (
+                                <div key={i} className="flex flex-col gap-2 relative pl-6 border-l-2 border-slate-100">
+                                    <div className={cn("absolute -left-[5px] top-2 w-2 h-2 rounded-full", activeTheme.primary)}></div>
+                                    <div className="flex justify-between items-baseline">
+                                        <h4 className="text-lg font-bold text-slate-900">{project.projectName}</h4>
+                                        <span className="text-xs font-black text-slate-400 uppercase tabular-nums">{project.startDate} — {project.endDate}</span>
+                                    </div>
+                                    <div className={cn("text-sm font-bold opacity-80", activeTheme.text)}>{project.role}</div>
+                                    {project.description && <p className="text-sm text-slate-600 leading-relaxed mt-1">{project.description}</p>}
+                                    {project.toolsUsed && project.toolsUsed.length > 0 && (
+                                        <div className="flex flex-wrap gap-1 mt-2">
+                                            {project.toolsUsed.map((tool, t) => (
+                                                <span key={t} className="text-[10px] font-black uppercase tracking-widest text-slate-400">#{tool}</span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Volunteering */}
+                {volunteerExperience && volunteerExperience.length > 0 && (
+                    <section className="flex flex-col gap-8">
+                        <div className="flex items-center gap-4">
+                            <h2 className="text-xl font-black uppercase tracking-tighter text-slate-900">Philanthropy</h2>
+                            <div className={cn("flex-1 h-1", activeTheme.primary)}></div>
+                        </div>
+                        <div className="flex flex-col gap-6">
+                            {volunteerExperience.map((vol, i) => (
+                                <div key={i} className="flex flex-col gap-1 relative pl-6">
+                                    <div className={cn("absolute left-0 top-1.5 w-1.5 h-1.5 rounded-sm", activeTheme.primary)}></div>
+                                    <div className="font-bold text-slate-900">{vol.roleTitle}</div>
+                                    <div className="text-sm text-slate-500 font-bold uppercase tracking-tight">{vol.organizationName}</div>
                                 </div>
                             ))}
                         </div>
@@ -97,11 +161,11 @@ export function StartupTemplate({ data, className, theme = 'vibrant-blue' }: Tem
                 <section className="flex flex-col gap-4">
                     <h3 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Connect</h3>
                     <div className="flex flex-col gap-3 text-sm font-bold text-slate-700">
-                        {personalInfo.email && <div className="break-all">{personalInfo.email}</div>}
-                        {personalInfo.phone && <div>{personalInfo.phone}</div>}
-                        {personalInfo.location && <div>{personalInfo.location}</div>}
-                        {personalInfo.linkedinUrl && <div className="text-blue-600">LinkedIn</div>}
-                        {personalInfo.websiteUrl && <div className="text-blue-600">Portfolio</div>}
+                        {personalInfo?.email && <div className="break-all">{personalInfo?.email}</div>}
+                        {personalInfo?.phone && <div>{personalInfo?.phone}</div>}
+                        {(personalInfo?.location || personalInfo?.city) && <div>{personalInfo?.location || [personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</div>}
+                        {personalInfo?.linkedinUrl && <div className="text-blue-600">LinkedIn</div>}
+                        {personalInfo?.websiteUrl && <div className="text-blue-600">Portfolio</div>}
                     </div>
                 </section>
 
@@ -137,15 +201,74 @@ export function StartupTemplate({ data, className, theme = 'vibrant-blue' }: Tem
 
                 {/* Certifications */}
                 {certifications && certifications.length > 0 && (
-                    <section className="flex flex-col gap-6">
+                    <section className="flex flex-col gap-4">
                         <h3 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Certificates</h3>
                         <div className="flex flex-col gap-4">
                             {certifications.map((cert, i) => (
                                 <div key={i} className="flex flex-col">
                                     <div className="font-bold text-slate-900 text-xs">{cert.certificationName}</div>
-                                    <div className="text-[10px] text-slate-500 font-bold uppercase mt-1">{cert.issuer}</div>
+                                    <div className="text-[10px] text-slate-500 font-bold uppercase mt-1">{(cert.issuer || cert.issuingOrganization)}</div>
                                 </div>
                             ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Achievements */}
+                {achievements && achievements.length > 0 && (
+                    <section className="flex flex-col gap-4">
+                        <h3 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Wins</h3>
+                        <div className="flex flex-col gap-4">
+                            {achievements.map((ach, i) => (
+                                <div key={i} className="flex flex-col">
+                                    <div className="font-bold text-slate-900 text-xs">{ach.achievementTitle}</div>
+                                    {ach.issuingBody && <div className="text-[10px] text-slate-500 font-bold uppercase mt-1">{ach.issuingBody}</div>}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Languages */}
+                {languages && languages.length > 0 && (
+                    <section className="flex flex-col gap-4">
+                        <h3 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Languages</h3>
+                        <div className="flex flex-col gap-2">
+                            {languages.map((lang, i) => (
+                                <div key={i} className="flex justify-between items-center text-xs font-bold">
+                                    <span className="text-slate-900">{lang.languageName}</span>
+                                    <span className={cn("text-[9px] uppercase tracking-tighter opacity-70", activeTheme.text)}>{lang.proficiencyLevel}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* References */}
+                {references && references.length > 0 && (
+                    <section className="flex flex-col gap-4">
+                        <h3 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Vouch</h3>
+                        <div className="flex flex-col gap-4">
+                            {references.map((ref, i) => (
+                                <div key={i} className="flex flex-col">
+                                    <div className="font-bold text-slate-900 text-xs">{ref.referenceName}</div>
+                                    <div className="text-[10px] text-slate-500 font-bold uppercase mt-0.5">{ref.organization}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Metadata */}
+                {additionalInfo && (
+                    <section className="flex flex-col gap-4 pt-4 border-t border-slate-200/50">
+                        <h3 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Brief</h3>
+                        <div className="flex flex-col gap-2 text-[10px] font-bold text-slate-600">
+                            {additionalInfo.securityClearance && <div>CLEARANCE: {additionalInfo.securityClearance}</div>}
+                            {additionalInfo.workAuthorization && <div>AUTH: {additionalInfo.workAuthorization}</div>}
+                            {additionalInfo.willingToRelocate && <div>RELOCATE: YES</div>}
+                            {additionalInfo.availability && <div>START: {additionalInfo.availability}</div>}
+                            {additionalInfo.otherInfo && <div className="mt-2 italic opacity-80 leading-relaxed">{additionalInfo.otherInfo}</div>}
                         </div>
                     </section>
                 )}
