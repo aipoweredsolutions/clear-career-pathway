@@ -16,72 +16,105 @@ Font.register({
     ]
 })
 
+Font.register({
+    family: 'Lora',
+    fonts: [
+        { src: 'https://fonts.gstatic.com/s/lora/v23/0QI6MX1D_JOuAwHTJED0.woff2' },
+        { src: 'https://fonts.gstatic.com/s/lora/v23/0QI6MX1D_JOuAwHTJED0.woff2', fontWeight: 'bold' }
+    ]
+})
+
 // Helper to get template colors based on templateId
 const getTemplateColors = (templateId: string) => {
+    const id = templateId.toLowerCase()
+
     // New ATS Series
-    if (templateId.startsWith('ats-')) {
-        if (templateId.startsWith('ats-classic')) return { primary: '#1a1a1a', secondary: '#4b5563', text: '#1a1a1a', border: '#374151' }
-        if (templateId.startsWith('ats-minimal')) return { primary: '#000000', secondary: '#9ca3af', text: '#1a1a1a', border: '#e5e7eb' }
-        if (templateId.startsWith('ats-executive')) return { primary: '#111827', secondary: '#b45309', text: '#1a1a1a', border: '#111827' }
-        if (templateId.startsWith('ats-technical')) return { primary: '#000000', secondary: '#064e3b', text: '#1a1a1a', border: '#171717' }
-        if (templateId.startsWith('ats-modern')) return { primary: '#111827', secondary: '#2563eb', text: '#1a1a1a', border: '#e5e7eb' }
-        if (templateId.startsWith('ats-graduate')) return { primary: '#1e3a8a', secondary: '#9f1239', text: '#1a1a1a', border: '#1e3a8a' }
-        if (templateId.startsWith('ats-standard')) return { primary: '#111827', secondary: '#475569', text: '#1a1a1a', border: '#f1f5f9' }
+    if (id.startsWith('ats-')) {
+        if (id.startsWith('ats-classic')) return { primary: '#1a1a1a', secondary: '#4b5563', text: '#1a1a1a', border: '#374151' }
+        if (id.startsWith('ats-minimal')) return { primary: '#000000', secondary: '#9ca3af', text: '#1a1a1a', border: '#e5e7eb' }
+        if (id.startsWith('ats-executive')) return { primary: '#111827', secondary: '#b45309', text: '#1a1a1a', border: '#111827' }
+        if (id.startsWith('ats-technical')) return { primary: '#000000', secondary: '#064e3b', text: '#1a1a1a', border: '#171717' }
+        if (id.startsWith('ats-modern')) return { primary: '#111827', secondary: '#2563eb', text: '#1a1a1a', border: '#e5e7eb' }
+        if (id.startsWith('ats-graduate')) return { primary: '#1e3a8a', secondary: '#9f1239', text: '#1a1a1a', border: '#1e3a8a' }
+        if (id.startsWith('ats-standard')) return { primary: '#111827', secondary: '#475569', text: '#1a1a1a', border: '#f1f5f9' }
         return { primary: '#1a1a1a', secondary: '#3b82f6', text: '#1a1a1a', border: '#e5e7eb' }
     }
 
-    // Classic variants
-    if (templateId.startsWith('classic')) {
-        if (templateId.includes('blue')) return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#3b82f6' }
-        if (templateId.includes('green')) return { primary: '#065f46', secondary: '#10b981', text: '#1a1a1a', border: '#10b981' }
-        if (templateId.includes('red')) return { primary: '#881337', secondary: '#f43f5e', text: '#1a1a1a', border: '#f43f5e' }
-        if (templateId.includes('purple')) return { primary: '#5b21b6', secondary: '#8b5cf6', text: '#1a1a1a', border: '#8b5cf6' }
+    // Modern / Professional with Sidebar
+    if (id.startsWith('modern') || id.startsWith('professional')) {
+        if (id.includes('teal')) return { primary: '#134e4a', secondary: '#14b8a6', text: '#1f2937', border: '#134e4a', sidebarBg: '#134e4a', sidebarText: '#ffffff' }
+        if (id.includes('slate')) return { primary: '#0f172a', secondary: '#64748b', text: '#1f2937', border: '#0f172a', sidebarBg: '#0f172a', sidebarText: '#ffffff' }
+        if (id.includes('navy')) return { primary: '#0f172a', secondary: '#334155', text: '#1f2937', border: '#0f172a', sidebarBg: '#0f172a', sidebarText: '#ffffff' }
+        if (id.includes('charcoal')) return { primary: '#374151', secondary: '#6b7280', text: '#1f2937', border: '#374151', sidebarBg: '#374151', sidebarText: '#ffffff' }
+        return { primary: '#0f172a', secondary: '#64748b', text: '#1f2937', border: '#0f172a', sidebarBg: '#0f172a', sidebarText: '#ffffff' }
+    }
+
+    // Classic / Standard
+    if (id.startsWith('classic')) {
+        if (id.includes('blue')) return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#3b82f6' }
+        if (id.includes('green')) return { primary: '#065f46', secondary: '#10b981', text: '#1a1a1a', border: '#10b981' }
+        if (id.includes('rose') || id.includes('red')) return { primary: '#881337', secondary: '#f43f5e', text: '#1a1a1a', border: '#f43f5e' }
+        if (id.includes('purple') || id.includes('violet')) return { primary: '#5b21b6', secondary: '#8b5cf6', text: '#1a1a1a', border: '#8b5cf6' }
         return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#3b82f6' }
     }
-    // Modern variants
-    if (templateId.startsWith('modern')) {
-        if (templateId.includes('teal')) return { primary: '#134e4a', secondary: '#14b8a6', text: '#1a1a1a', border: '#134e4a', headerBg: '#134e4a' }
-        if (templateId.includes('slate')) return { primary: '#0f172a', secondary: '#64748b', text: '#1a1a1a', border: '#0f172a', headerBg: '#0f172a' }
-        if (templateId.includes('violet')) return { primary: '#4c1d95', secondary: '#8b5cf6', text: '#1a1a1a', border: '#4c1d95', headerBg: '#4c1d95' }
-        return { primary: '#1e40af', secondary: '#3b82f6', text: '#1a1a1a', border: '#1e40af', headerBg: '#1e40af' }
+
+    // Technical / Startup (Dark Sidebar/Header)
+    if (id.startsWith('technical') || id.startsWith('startup')) {
+        if (id.includes('dark')) return { primary: '#111827', secondary: '#6366f1', text: '#f9fafb', border: '#374151', sidebarBg: '#030712' }
+        if (id.includes('devops')) return { primary: '#064e3b', secondary: '#10b981', text: '#f0fdf4', border: '#065f46', sidebarBg: '#052c22' }
+        if (id.includes('vibrant')) return { primary: '#1e40af', secondary: '#3b82f6', text: '#1e3a8a', border: '#bfdbfe', sidebarBg: '#eff6ff' }
+        return { primary: '#111827', secondary: '#6366f1', text: '#111827', border: '#e5e7eb', sidebarBg: '#f8fafc' }
     }
+
     // Executive variants
-    if (templateId.startsWith('executive')) {
-        if (templateId.includes('gold')) return { primary: '#92400e', secondary: '#d97706', text: '#1a1a1a', border: '#f59e0b' }
+    if (id.startsWith('executive') || id.startsWith('luxe')) {
+        if (id.includes('gold')) return { primary: '#92400e', secondary: '#d97706', text: '#1a1a1a', border: '#f59e0b' }
+        if (id.includes('emerald')) return { primary: '#064e3b', secondary: '#10b981', text: '#1a1a1a', border: '#34d399' }
+        if (id.includes('charcoal')) return { primary: '#1e293b', secondary: '#64748b', text: '#1a1a1a', border: '#cbd5e1' }
         return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#cbd5e1' }
     }
-    // Creative variants
-    if (templateId.startsWith('creative')) {
-        if (templateId.includes('purple')) return { primary: '#7c3aed', secondary: '#a78bfa', text: '#1a1a1a', border: '#7c3aed' }
-        if (templateId.includes('orange')) return { primary: '#ea580c', secondary: '#fb923c', text: '#1a1a1a', border: '#ea580c' }
-        if (templateId.includes('pink')) return { primary: '#db2777', secondary: '#f472b6', text: '#1a1a1a', border: '#db2777' }
-        return { primary: '#7c3aed', secondary: '#a78bfa', text: '#1a1a1a', border: '#7c3aed' }
-    }
-    // Professional variants
-    if (templateId.startsWith('professional')) {
-        return { primary: '#0f172a', secondary: '#475569', text: '#1a1a1a', border: '#cbd5e1' }
-    }
+
     // Luxe variants
-    if (templateId.startsWith('luxe')) {
-        if (templateId.includes('gold')) return { primary: '#78350f', secondary: '#d97706', text: '#1a1a1a', border: '#fbbf24' }
-        if (templateId.includes('emerald')) return { primary: '#064e3b', secondary: '#10b981', text: '#1a1a1a', border: '#34d399' }
+    if (id.startsWith('luxe')) {
+        if (id.includes('gold')) return { primary: '#78350f', secondary: '#d97706', text: '#1a1a1a', border: '#fbbf24' }
+        if (id.includes('emerald')) return { primary: '#064e3b', secondary: '#10b981', text: '#1a1a1a', border: '#34d399' }
         return { primary: '#27272a', secondary: '#71717a', text: '#1a1a1a', border: '#a1a1aa' }
     }
-    // Graduate/Academic
-    if (templateId.startsWith('graduate') || templateId.startsWith('academic')) {
-        if (templateId.includes('navy')) return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#3b82f6' }
-        if (templateId.includes('teal')) return { primary: '#115e59', secondary: '#14b8a6', text: '#1a1a1a', border: '#14b8a6' }
-        return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#cbd5e1' }
-    }
-    // Cute / Cotton Candy variants
-    if (templateId.startsWith('cute')) {
-        if (templateId.includes('pink')) return { primary: '#db2777', secondary: '#fbcfe8', text: '#831843', border: '#f9a8d4', headerBg: '#fdf2f8' }
-        if (templateId.includes('mint')) return { primary: '#0d9488', secondary: '#ccfbf1', text: '#134e4a', border: '#99f6e4', headerBg: '#f0fdfa' }
-        if (templateId.includes('lavender')) return { primary: '#7c3aed', secondary: '#e9d5ff', text: '#4c1d95', border: '#ddd6fe', headerBg: '#f5f3ff' }
-        if (templateId.includes('sky')) return { primary: '#0284c7', secondary: '#e0f2fe', text: '#0c4a6e', border: '#bae6fd', headerBg: '#f0f9ff' }
-        if (templateId.includes('peach')) return { primary: '#ea580c', secondary: '#ffedd5', text: '#7c2d12', border: '#fed7aa', headerBg: '#fff7ed' }
+
+    // Cute variants
+    if (id.startsWith('cute')) {
+        if (id.includes('pink')) return { primary: '#db2777', secondary: '#fbcfe8', text: '#831843', border: '#f9a8d4', headerBg: '#fdf2f8' }
+        if (id.includes('mint')) return { primary: '#0d9488', secondary: '#ccfbf1', text: '#134e4a', border: '#99f6e4', headerBg: '#f0fdfa' }
+        if (id.includes('lavender')) return { primary: '#7c3aed', secondary: '#e9d5ff', text: '#4c1d95', border: '#ddd6fe', headerBg: '#f5f3ff' }
         return { primary: '#db2777', secondary: '#fbcfe8', text: '#831843', border: '#f9a8d4', headerBg: '#fdf2f8' }
     }
+
+    // Chic / Artisan / Minimal (Clean, Typography focused)
+    if (id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('minimal')) {
+        if (id.includes('serif')) return { primary: '#1a1a1a', secondary: '#737373', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
+        if (id.includes('sage')) return { primary: '#064e3b', secondary: '#374151', text: '#1a1a1a', border: '#d1fae5', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
+        if (id.includes('terracotta')) return { primary: '#7c2d12', secondary: '#4b5563', text: '#1a1a1a', border: '#fdba74', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
+        if (id.includes('slate')) return { primary: '#1e293b', secondary: '#64748b', text: '#1a1a1a', border: '#cbd5e1', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
+        return { primary: '#1a1a1a', secondary: '#737373', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
+    }
+
+    // Academic (Dense, publications-focused)
+    if (id.startsWith('academic')) {
+        return { primary: '#1a1a1a', secondary: '#4b5563', text: '#1a1a1a', border: '#d1d5db' }
+    }
+
+    // Creative / Split-Contrast
+    if (id.startsWith('creative') || id.startsWith('split-contrast')) {
+        if (id.includes('rose') || id.includes('pink') || id === 'creative') return { primary: '#e11d48', secondary: '#fb7185', text: '#1a1a1a', border: '#fda4af', sidebarBg: '#fff1f2', sidebarText: '#881337' }
+        if (id.includes('purple')) return { primary: '#7c3aed', secondary: '#8b5cf6', text: '#1a1a1a', border: '#ddd6fe', sidebarBg: '#f5f3ff', sidebarText: '#4c1d95' }
+        if (id.includes('orange')) return { primary: '#ea580c', secondary: '#f97316', text: '#1a1a1a', border: '#fed7aa', sidebarBg: '#fff7ed', sidebarText: '#7c2d12' }
+        // Split-contrast specific themes
+        if (id.includes('warm')) return { primary: '#1c1917', secondary: '#78716c', text: '#1a1a1a', border: '#e7e5e4', sidebarBg: '#fafaf9', sidebarText: '#1c1917' }
+        if (id.includes('slate')) return { primary: '#0f172a', secondary: '#64748b', text: '#1a1a1a', border: '#e2e8f0', sidebarBg: '#f8fafc', sidebarText: '#0f172a' }
+        if (id.startsWith('split-contrast')) return { primary: '#1f2937', secondary: '#9ca3af', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#f9fafb', sidebarText: '#111827' }
+        return { primary: '#1f2937', secondary: '#4b5563', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#f9fafb', sidebarText: '#111827' }
+    }
+
     // Default fallback
     return { primary: '#111827', secondary: '#3b82f6', text: '#1a1a1a', border: '#e5e7eb' }
 }
@@ -89,73 +122,221 @@ const getTemplateColors = (templateId: string) => {
 // Dynamic styles factory
 const createStyles = (templateId: string) => {
     const colors = getTemplateColors(templateId)
-    const isModern = templateId.startsWith('modern') || templateId.startsWith('ats-modern') || templateId.startsWith('professional') || templateId.startsWith('ats-standard')
-    const isExecutive = templateId.startsWith('executive') || templateId.startsWith('luxe') || templateId.startsWith('ats-executive') || templateId.startsWith('ats-classic')
-    const isCute = templateId.startsWith('cute')
+    const id = templateId.toLowerCase()
+
+    const hasSidebar = id.startsWith('modern') || id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('split-contrast') || id.startsWith('cute')
+    const hasColumns = id.startsWith('compact')
+    const sidebarOnRight = id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('compact')
+    const sidebarOnLeft = id.startsWith('split-contrast') || id.startsWith('modern')
+    const isDarkSidebar = id.startsWith('modern') || (id.startsWith('technical') && id.includes('dark'))
+    const isSplitContrast = id.startsWith('split-contrast')
+
+    const isSerif = id.startsWith('chic') || id.startsWith('luxe') || id.startsWith('executive') || id.startsWith('academic') || id.includes('serif') || id.startsWith('ats-classic')
+    const isCentered = id.startsWith('classic') || id.startsWith('minimal') || id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('cute') || id.startsWith('ats') || id.startsWith('graduate') || id.startsWith('professional')
+    const isJustifiedHeader = id.startsWith('compact') || id.startsWith('technical')
+    const isChic = id.startsWith('chic')
+    const isExecutive = id.startsWith('executive') || id.startsWith('luxe')
+    const isAcademic = id.startsWith('academic')
 
     return StyleSheet.create({
         page: {
+            padding: hasSidebar ? 0 : (isChic ? 50 : (isExecutive ? 45 : (isAcademic ? 30 : 35))),
+            fontFamily: isSerif ? 'Times-Roman' : (id.startsWith('technical') ? 'Courier' : 'Helvetica'),
+            fontSize: isChic ? 11 : (isAcademic ? 9 : 10),
+            lineHeight: isChic ? 1.7 : (isAcademic ? 1.4 : 1.5),
+            color: colors.text,
+            backgroundColor: colors.headerBg || '#ffffff',
+            flexDirection: sidebarOnRight ? 'row-reverse' : 'row',
+        },
+        // Layout wrapper for non-sidebar templates
+        container: {
+            flex: 1,
+            padding: 30,
+        },
+        sidebar: {
+            width: '32%',
+            backgroundColor: colors.sidebarBg || colors.primary,
+            color: colors.sidebarText || '#ffffff',
+            padding: 20,
+            paddingTop: 40,
+            borderLeftWidth: sidebarOnRight ? 1 : 0,
+            borderRightWidth: sidebarOnRight ? 0 : 1,
+            borderStyle: 'solid',
+            borderColor: 'rgba(0,0,0,0.05)',
+        },
+        initialsCircle: {
+            width: 60,
+            height: 60,
+            borderRadius: 30,
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            borderWidth: 2,
+            borderStyle: 'solid',
+            borderColor: 'rgba(255,255,255,0.2)',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 15,
+            alignSelf: 'center',
+        },
+        initialsText: {
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#ffffff',
+        },
+        terminalHeader: {
+            backgroundColor: id.includes('dark') ? '#171717' : '#f8fafc',
+            padding: 20,
+            borderRadius: 6,
+            marginBottom: 20,
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: id.includes('dark') ? '#334155' : '#e2e8f0',
+        },
+        terminalDots: {
+            flexDirection: 'row',
+            gap: 4,
+            position: 'absolute',
+            top: 10,
+            right: 10,
+        },
+        terminalDot: {
+            width: 8,
+            height: 8,
+            borderRadius: 4,
+        },
+        mainContent: {
+            width: '68%',
             padding: 40,
-            fontFamily: 'Helvetica',
-            fontSize: 10,
-            lineHeight: 1.6,
-            color: isCute ? colors.text : colors.text, // uses text color from theme for cute
-            backgroundColor: isCute ? colors.headerBg : '#ffffff', // page background matching theme for cute
+            paddingTop: 40,
+            backgroundColor: '#ffffff',
         },
         header: {
             marginBottom: 20,
-            textAlign: (isExecutive || isCute) ? 'center' : 'left',
-            backgroundColor: (isModern || isCute) ? colors.headerBg || colors.primary : undefined,
-            color: isModern ? '#ffffff' : (isCute ? colors.primary : undefined),
-            padding: (isModern || isCute) ? 20 : 0,
-            marginLeft: (isModern || isCute) ? -40 : 0,
-            marginRight: (isModern || isCute) ? -40 : 0,
-            marginTop: (isModern || isCute) ? -40 : 0,
-            borderBottomWidth: (!isModern && !isExecutive && !isCute) ? 2 : 0,
+            flexDirection: isJustifiedHeader ? 'row' : 'column',
+            justifyContent: isJustifiedHeader ? 'space-between' : 'flex-start',
+            alignItems: isJustifiedHeader ? 'flex-end' : (isCentered ? 'center' : 'flex-start'),
+            textAlign: isCentered ? 'center' : 'left',
+            paddingBottom: (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 15 : 10,
+            borderBottomWidth: (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 2 : (hasSidebar ? 0 : 1),
             borderBottomColor: colors.primary,
-            paddingBottom: (!isModern && !isExecutive && !isCute) ? 10 : (isCute ? 20 : 0),
-            borderBottomLeftRadius: isCute ? 40 : 0,
-            borderBottomRightRadius: isCute ? 40 : 0,
+            borderBottomStyle: 'solid',
         },
         name: {
-            fontSize: 22,
-            fontWeight: 'bold',
-            color: isModern ? '#ffffff' : colors.primary,
-            marginBottom: 4,
-            letterSpacing: isExecutive ? 2 : 1,
-            textTransform: isExecutive ? 'uppercase' : 'none',
+            fontSize: isChic ? 36 : (isExecutive ? 28 : 24),
+            fontWeight: isChic ? 'ultralight' : 'bold',
+            color: colors.primary,
+            marginBottom: id.startsWith('classic') ? 8 : (isChic ? 10 : (isExecutive ? 10 : 4)),
+            textTransform: isExecutive || id.startsWith('classic') ? 'uppercase' : 'none',
+            letterSpacing: id.startsWith('classic') ? 1.5 : (isChic ? -0.5 : (isExecutive ? 3 : 0)),
+        },
+        title: {
+            fontSize: isExecutive ? 14 : (isChic ? 10 : 12),
+            color: colors.secondary,
+            fontWeight: isChic ? 'normal' : 'bold',
+            fontStyle: isExecutive ? 'italic' : 'normal',
+            marginBottom: id.startsWith('classic') ? 15 : (isExecutive ? 15 : (isChic ? 20 : 10)),
+            textTransform: isChic ? 'uppercase' : 'none',
+            letterSpacing: isChic ? 2 : 0,
         },
         contactInfo: {
-            flexDirection: 'row',
-            justifyContent: isExecutive ? 'center' : 'flex-start',
-            gap: 8,
-            fontSize: 9,
-            color: isModern ? '#ffffff' : '#4b5563',
+            flexDirection: (id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('classic') || id.startsWith('ats') || id.startsWith('graduate')) ? 'row' : 'column',
+            justifyContent: (id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('classic') || id.startsWith('ats') || id.startsWith('graduate')) ? 'center' : 'flex-start',
+            alignItems: isJustifiedHeader ? 'flex-end' : 'center',
+            gap: id.startsWith('ats-professional') ? 12 : 10,
+            fontSize: (id.startsWith('ats') || id.startsWith('compact')) ? 8 : 9,
+            color: '#64748b',
             marginBottom: 10,
             flexWrap: 'wrap',
         },
+        contactItem: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 4,
+        },
+        contactIcon: {
+            fontSize: 10,
+            color: '#1a1a1a',
+        },
+        sidebarContact: {
+            marginTop: 20,
+            gap: 6,
+        },
+        sidebarContactItem: {
+            fontSize: 8.5,
+            opacity: 0.9,
+            marginBottom: 4,
+        },
         section: {
-            marginTop: 15,
+            marginTop: 18,
+        },
+        sectionTitleContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+            marginBottom: 12,
+            marginTop: 20,
         },
         sectionTitle: {
             fontSize: 11,
             fontWeight: 'bold',
             textTransform: 'uppercase',
-            borderBottomWidth: 1.5,
-            borderBottomColor: colors.border,
             color: colors.primary,
-            paddingBottom: 3,
-            marginBottom: 10,
-            letterSpacing: 0.5,
+            letterSpacing: 1,
+            borderBottomWidth: id.startsWith('ats-professional') ? 2 : 0,
+            borderBottomColor: id.startsWith('ats-professional') ? '#1a1a1a' : 'transparent',
+            borderBottomStyle: 'solid',
+            paddingBottom: id.startsWith('ats-professional') ? 3 : 0,
+            marginBottom: id.startsWith('ats-professional') ? 8 : 0,
+        },
+        sectionTitleBar: {
+            flex: 1,
+            height: 2,
+            backgroundColor: colors.primary,
+            opacity: 0.1,
+        },
+        startupSectionTitleBar: {
+            flex: 1,
+            height: 4,
+            backgroundColor: colors.primary,
+        },
+        sidebarSectionTitle: {
+            fontSize: 10,
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            color: colors.sidebarText || '#ffffff',
+            borderBottomWidth: 1,
+            borderBottomColor: 'rgba(255,255,255,0.2)',
+            borderBottomStyle: 'solid',
+            paddingBottom: 4,
+            marginBottom: 12,
+            marginTop: 25,
+            letterSpacing: 1,
         },
         experienceItem: {
-            marginBottom: 12,
+            marginBottom: 18,
+            paddingLeft: id.startsWith('creative') || id.startsWith('startup') ? 15 : 0,
+            borderLeftWidth: id.startsWith('creative') || id.startsWith('startup') ? 2 : 0,
+            borderLeftColor: (id.startsWith('creative') || id.startsWith('startup')) ? 'rgba(0,0,0,0.05)' : 'transparent',
+            borderLeftStyle: 'solid',
+            position: 'relative',
+        },
+        timelineDot: {
+            position: 'absolute',
+            left: -5,
+            top: 4,
+            width: 8,
+            height: 8,
+            borderRadius: 4,
+            backgroundColor: colors.primary,
+            borderWidth: 2,
+            borderStyle: 'solid',
+            borderColor: '#ffffff',
         },
         row: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'baseline',
-            marginBottom: 2,
+            marginBottom: 4,
         },
         bold: {
             fontWeight: 'bold',
@@ -169,46 +350,50 @@ const createStyles = (templateId: string) => {
         date: {
             fontSize: 9,
             color: '#6b7280',
+            fontWeight: 'bold',
         },
         achievement: {
             flexDirection: 'row',
-            marginLeft: 10,
-            marginBottom: 2,
+            marginLeft: 8,
+            marginBottom: 3,
         },
         bullet: {
-            width: 12,
+            width: 10,
             color: colors.secondary,
+            fontSize: 10,
         },
         achievementText: {
             flex: 1,
             color: '#374151',
+            fontSize: 9.5,
+            lineHeight: 1.4,
         },
-        skillsContainer: {
+        skillsList: {
             flexDirection: 'row',
             flexWrap: 'wrap',
-            gap: 6,
+            gap: 5,
         },
-        skillTag: {
+        skillBadge: {
             paddingVertical: 2,
             paddingHorizontal: 6,
-            backgroundColor: '#f3f4f6',
-            borderRadius: 4,
-            fontSize: 9,
+            backgroundColor: id.startsWith('ats') ? 'transparent' : '#f3f4f6',
+            borderWidth: 0,
+            borderRadius: 3,
+            fontSize: 8.5,
             color: colors.primary,
         },
-        // Two-column layout grid
-        mainGrid: {
-            flexDirection: isCute ? 'row-reverse' : 'row',
-            gap: 20,
-        },
-        leftColumn: {
-            flex: 2,
-        },
-        rightColumn: {
-            flex: 1,
+        sidebarSkill: {
+            fontSize: 9,
+            paddingVertical: 3,
+            paddingHorizontal: 8,
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            borderRadius: 4,
+            marginBottom: 4,
+            marginRight: 4,
         }
     })
 }
+
 
 interface PDFDocumentProps {
     data: ResumeDocument
@@ -217,432 +402,443 @@ interface PDFDocumentProps {
 
 export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
     // Create dynamic styles based on template
-    const styles = createStyles(data.templateId || 'classic')
     const tId = data.templateId || ''
-    const isModern = tId.startsWith('modern') || tId.startsWith('ats-modern')
-    const isTechnical = tId.startsWith('technical') || tId.startsWith('startup') || tId.startsWith('ats-technical')
-    const isExecutive = tId.startsWith('executive') || tId.startsWith('luxe') || tId.startsWith('ats-executive') || tId.startsWith('ats-classic')
-    const isStandard = tId.startsWith('professional') || tId.startsWith('ats-standard') || tId.startsWith('graduate') || tId.startsWith('ats-graduate')
+    const styles = createStyles(tId)
+    const colors = getTemplateColors(tId)
     const isCute = tId.startsWith('cute')
+    const hasSidebar = tId.startsWith('modern') || tId.startsWith('technical') || tId.startsWith('startup') || tId.startsWith('chic') || tId.startsWith('artisan') || tId.startsWith('creative') || tId.startsWith('split-contrast') || isCute
+    const isCompact = tId.startsWith('compact')
 
     return (
         <Document title={`${data.personalInfo?.fullName || 'Resume'} - Clear Career Path`}>
             <Page size="A4" style={styles.page}>
-                {/* Header Section */}
-                <View style={styles.header}>
-                    <Text style={styles.name}>{data.personalInfo?.fullName}</Text>
-                    <Text style={{
-                        fontSize: 12,
-                        color: (isModern || isTechnical) ? '#cbd5e1' : (isExecutive ? '#1a1a1a' : '#3b82f6'),
-                        marginBottom: 8,
-                        fontWeight: 'bold',
-                        textAlign: isExecutive ? 'center' : 'left'
-                    }}>
-                        {data.personalInfo?.professionalTitle}
-                    </Text>
-                    <View style={styles.contactInfo}>
-                        <Text style={{ color: isModern ? '#ffffff' : (isExecutive ? '#1a1a1a' : '#4b5563') }}>{data.personalInfo?.email}</Text>
-                        <Text style={{ color: isModern ? '#ffffff' : (isExecutive ? '#1a1a1a' : '#4b5563') }}>• {data.personalInfo?.phone}</Text>
-                        <Text style={{ color: isModern ? '#ffffff' : (isExecutive ? '#1a1a1a' : '#4b5563') }}>
-                            • {data.personalInfo?.location || [data.personalInfo?.city, data.personalInfo?.country].filter(Boolean).join(', ')}
-                        </Text>
-                    </View>
-                </View>
-
-                {(isTechnical || isCute) ? (
-                    <View style={styles.mainGrid}>
-                        {/* Left Column */}
-                        <View style={styles.leftColumn}>
-                            {/* Professional Summary - Moved for technical, shown here for others */}
-                            {(data.professionalSummary?.summaryText && !isCute) && (
-                                <View style={styles.section}>
-                                    <Text style={styles.sectionTitle}>Summary</Text>
-                                    <Text style={{ color: '#374151' }}>{data.professionalSummary.summaryText}</Text>
+                {hasSidebar ? (
+                    <>
+                        {/* FULL HEIGHT SIDEBAR LAYOUTS (Modern, Technical, etc) */}
+                        {/* SIDEBAR */}
+                        <View style={styles.sidebar}>
+                            {tId.startsWith('modern') && (
+                                <View style={styles.initialsCircle}>
+                                    <Text style={styles.initialsText}>
+                                        {data.personalInfo?.fullName?.split(' ').map(n => n[0]).join('')}
+                                    </Text>
                                 </View>
                             )}
 
-                            {/* Experience */}
-                            {data.workExperience && data.workExperience.length > 0 && (
-                                <View style={styles.section}>
-                                    <Text style={styles.sectionTitle}>Experience</Text>
-                                    {data.workExperience.map((exp, index) => (
-                                        <View key={index} style={styles.experienceItem}>
-                                            <View style={styles.row}>
-                                                <Text style={styles.bold}>{exp.jobTitle}</Text>
-                                                <Text style={styles.date}>
-                                                    {exp.startDate} — {exp.isCurrent ? 'Present' : exp.endDate}
-                                                </Text>
-                                            </View>
-                                            <View style={styles.row}>
-                                                <Text style={styles.italic}>{exp.companyName}</Text>
-                                            </View>
-                                            {exp.roleDescription && (
-                                                <Text style={{ marginTop: 4, marginBottom: 4, color: '#374151', fontSize: 9 }}>
-                                                    {exp.roleDescription}
-                                                </Text>
-                                            )}
-                                        </View>
-                                    ))}
-                                </View>
-                            )}
+                            <View style={{ marginBottom: 20, textAlign: 'center' }}>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{data.personalInfo?.fullName}</Text>
+                                <Text style={{ fontSize: 9, marginTop: 4, opacity: 0.9, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 0.5 }}>{data.personalInfo?.professionalTitle}</Text>
+                            </View>
 
-                            {/* Projects */}
-                            {data.projects && data.projects.length > 0 && (
-                                <View style={styles.section}>
-                                    <Text style={styles.sectionTitle}>Projects</Text>
-                                    {data.projects.map((proj, index) => (
-                                        <View key={index} style={styles.experienceItem}>
-                                            <View style={styles.row}>
-                                                <Text style={styles.bold}>{proj.projectName}</Text>
-                                            </View>
-                                            {proj.description && (
-                                                <Text style={{ marginTop: 2, color: '#374151', fontSize: 9 }}>{proj.description}</Text>
-                                            )}
-                                        </View>
-                                    ))}
-                                </View>
-                            )}
-                        </View>
+                            <View style={styles.sidebarSectionTitle}>
+                                <Text>{tId.startsWith('startup') ? 'Connect' : 'Contact'}</Text>
+                            </View>
+                            <View style={styles.sidebarContact}>
+                                {data.personalInfo?.email && <Text style={styles.sidebarContactItem}>{data.personalInfo.email}</Text>}
+                                {data.personalInfo?.phone && <Text style={styles.sidebarContactItem}>{data.personalInfo.phone}</Text>}
+                                {data.personalInfo?.location && <Text style={styles.sidebarContactItem}>{data.personalInfo.location}</Text>}
+                                {data.personalInfo?.linkedinUrl && <Text style={styles.sidebarContactItem}>LinkedIn</Text>}
+                            </View>
 
-                        {/* Right Column */}
-                        <View style={styles.rightColumn}>
-                            {/* Professional Summary - Sidebar for Cute */}
-                            {(data.professionalSummary?.summaryText && isCute) && (
-                                <View style={styles.section}>
-                                    <Text style={styles.sectionTitle}>About Me</Text>
-                                    <Text style={{ color: isCute ? '#374151' : '#374151', fontSize: 9 }}>{data.professionalSummary.summaryText}</Text>
-                                </View>
-                            )}
-                            {/* Skills */}
                             {data.skills && data.skills.length > 0 && (
-                                <View style={styles.section}>
-                                    <Text style={styles.sectionTitle}>Skills</Text>
-                                    <View style={styles.skillsContainer}>
+                                <>
+                                    <View style={styles.sidebarSectionTitle}>
+                                        <Text>Skills</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, gap: 4 }}>
                                         {data.skills.map((skill, i) => (
-                                            <Text key={i} style={styles.skillTag}>
+                                            <Text key={i} style={[styles.sidebarSkill, tId.startsWith('compact') ? { backgroundColor: '#171717', color: '#ffffff', fontSize: 7, paddingHorizontal: 4, paddingVertical: 1 } : {}]}>
                                                 {skill.skillName}
                                             </Text>
                                         ))}
                                     </View>
+                                </>
+                            )}
+
+                            {data.education && data.education.length > 0 && (
+                                <>
+                                    <View style={styles.sidebarSectionTitle}>
+                                        <Text>Education</Text>
+                                    </View>
+                                    <View style={{ marginTop: 10 }}>
+                                        {data.education.map((edu, i) => (
+                                            <View key={i} style={{ marginBottom: 12 }}>
+                                                <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{edu.institutionName}</Text>
+                                                <Text style={{ fontSize: 9, opacity: 0.9 }}>{edu.degree}</Text>
+                                                <Text style={{ fontSize: 8, opacity: 0.7 }}>{edu.endYear}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+                                </>
+                            )}
+
+                            {data.languages && data.languages.length > 0 && (
+                                <>
+                                    <View style={styles.sidebarSectionTitle}>
+                                        <Text>Languages</Text>
+                                    </View>
+                                    <View style={{ marginTop: 10 }}>
+                                        {data.languages.map((lang, i) => (
+                                            <View key={i} style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
+                                                <Text style={{ fontSize: 9 }}>{lang.languageName}</Text>
+                                                <Text style={{ fontSize: 8, opacity: 0.7 }}>{lang.proficiencyLevel}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+                                </>
+                            )}
+                        </View>
+
+                        {/* MAIN CONTENT */}
+                        <View style={styles.mainContent}>
+                            {tId.startsWith('technical') && (
+                                <View style={styles.terminalHeader}>
+                                    <View style={styles.terminalDots}>
+                                        <View style={[styles.terminalDot, { backgroundColor: '#ef4444' }]} />
+                                        <View style={[styles.terminalDot, { backgroundColor: '#f59e0b' }]} />
+                                        <View style={[styles.terminalDot, { backgroundColor: '#10b981' }]} />
+                                    </View>
+                                    <Text style={{ fontSize: 8, color: '#64748b', marginBottom: 4 }}>// {data.personalInfo?.professionalTitle || 'Developer'}</Text>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: tId.includes('dark') ? '#ffffff' : '#1e293b' }}>
+                                        const developer = &quot;{data.personalInfo?.fullName}&quot;;
+                                    </Text>
                                 </View>
                             )}
 
-                            {/* Education */}
-                            {data.education && data.education.length > 0 && (
+                            {data.professionalSummary?.summaryText && (
                                 <View style={styles.section}>
-                                    <Text style={styles.sectionTitle}>Education</Text>
-                                    {data.education.map((edu, index) => (
-                                        <View key={index} style={{ marginBottom: 8 }}>
-                                            <Text style={styles.bold}>{edu.institutionName}</Text>
-                                            <Text style={styles.date}>{edu.endYear}</Text>
-                                            <Text style={styles.italic}>{edu.degree}</Text>
+                                    <View style={styles.sectionTitleContainer}>
+                                        <Text style={styles.sectionTitle}>{tId.startsWith('creative') ? 'About Me' : (tId.startsWith('startup') ? 'Ambition' : 'Profile')}</Text>
+                                        <View style={tId.startsWith('startup') ? styles.startupSectionTitleBar : styles.sectionTitleBar} />
+                                    </View>
+                                    <Text style={{ fontSize: 10, color: '#334155', lineHeight: 1.6 }}>{data.professionalSummary.summaryText}</Text>
+                                </View>
+                            )}
+
+                            {data.workExperience && data.workExperience.length > 0 && (
+                                <View style={styles.section}>
+                                    <View style={styles.sectionTitleContainer}>
+                                        <Text style={styles.sectionTitle}>Experience</Text>
+                                        <View style={tId.startsWith('startup') ? styles.startupSectionTitleBar : styles.sectionTitleBar} />
+                                    </View>
+                                    {data.workExperience.map((job, i) => (
+                                        <View key={i} style={styles.experienceItem}>
+                                            {(tId.startsWith('creative') || tId.startsWith('startup')) && <View style={styles.timelineDot} />}
+                                            <View style={styles.row}>
+                                                <Text style={styles.bold}>{job.jobTitle}</Text>
+                                                <Text style={styles.date}>{job.startDate} — {job.isCurrent ? 'Present' : job.endDate}</Text>
+                                            </View>
+                                            <Text style={styles.italic}>{job.companyName}</Text>
+                                            <Text style={{ fontSize: 9.5, color: '#475569', marginTop: 4, marginBottom: 6 }}>{job.roleDescription}</Text>
+                                            {job.achievements?.map((ach, j) => (
+                                                <View key={j} style={styles.achievement}>
+                                                    <Text style={[styles.bullet, { color: tId.startsWith('creative') ? '#fb7185' : colors.secondary }]}>{tId.startsWith('creative') ? '\u279C' : '\u2022'}</Text>
+                                                    <Text style={styles.achievementText}>{ach.achievementText}</Text>
+                                                </View>
+                                            ))}
                                         </View>
                                     ))}
                                 </View>
                             )}
 
-                            {/* Custom Sections (Sidebar) */}
-                            {data.customSections && data.customSections.length > 0 && data.customSections.map((section, idx) => (
-                                <View key={idx} style={styles.section} wrap={false}>
-                                    <Text style={styles.sectionTitle}>{section.title}</Text>
-                                    {section.items && section.items.length > 0 ? (
-                                        section.items.map((item, iIdx) => (
-                                            <View key={iIdx} style={styles.achievement}>
-                                                <Text style={styles.bullet}>•</Text>
-                                                <Text style={styles.achievementText}>{item.text}</Text>
+                            {data.projects && data.projects.length > 0 && (
+                                <View style={styles.section}>
+                                    <View style={styles.sectionTitleContainer}>
+                                        <Text style={styles.sectionTitle}>Projects</Text>
+                                        <View style={tId.startsWith('startup') ? styles.startupSectionTitleBar : styles.sectionTitleBar} />
+                                    </View>
+                                    {data.projects.map((proj, i) => (
+                                        <View key={i} style={styles.experienceItem}>
+                                            {(tId.startsWith('creative') || tId.startsWith('startup')) && <View style={styles.timelineDot} />}
+                                            <View style={styles.row}>
+                                                <Text style={styles.bold}>{proj.projectName}</Text>
+                                                <Text style={styles.date}>{proj.startDate} — {proj.endDate}</Text>
                                             </View>
-                                        ))
-                                    ) : (
-                                        <Text style={{ fontSize: 9, color: '#374151' }}>{section.content}</Text>
-                                    )}
+                                            <Text style={styles.italic}>{proj.role} {proj.clientOrOrganization && `| ${proj.clientOrOrganization}`}</Text>
+                                            {proj.description && <Text style={{ fontSize: 9.5, color: '#334155', marginTop: 4 }}>{proj.description}</Text>}
+                                            {proj.toolsUsed && proj.toolsUsed.length > 0 && tId.startsWith('startup') && (
+                                                <Text style={{ fontSize: 8, color: '#94a3b8', marginTop: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
+                                                    {proj.toolsUsed.map(t => `#${t}`).join(' ')}
+                                                </Text>
+                                            )}
+                                        </View>
+                                    ))}
                                 </View>
-                            ))}
+                            )}
 
-                            {/* References (Sidebar) */}
-                            {data.references && data.references.length > 0 && (
-                                <View style={styles.section} wrap={false}>
-                                    <Text style={styles.sectionTitle}>References</Text>
-                                    {data.references.map((ref, index) => (
-                                        <View key={index} style={{ marginBottom: 6 }}>
-                                            <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{ref.referenceName}</Text>
-                                            <Text style={{ fontSize: 9 }}>
-                                                {ref.role}
-                                            </Text>
-                                            {ref.organization && <Text style={{ fontSize: 9, fontStyle: 'italic' }}>{ref.organization}</Text>}
-                                            {ref.contactDetails && <Text style={{ fontSize: 9, color: '#4b5563' }}>{ref.contactDetails}</Text>}
+                            {data.certifications && data.certifications.length > 0 && (
+                                <View style={styles.section}>
+                                    <Text style={styles.sectionTitle}>Certifications</Text>
+                                    {data.certifications.map((cert, i) => (
+                                        <View key={i} style={{ marginBottom: 4 }}>
+                                            <Text style={styles.bold}>{cert.certificationName}</Text>
+                                            <Text style={styles.italic}>{cert.issuingOrganization} • {cert.issueYear}</Text>
                                         </View>
                                     ))}
                                 </View>
                             )}
                         </View>
-                    </View>
+                    </>
                 ) : (
-                    <>
-                        {/* Professional Summary */}
-                        {data.professionalSummary?.summaryText && (
-                            <View style={styles.section}>
-                                <Text style={styles.sectionTitle}>Professional Summary</Text>
-                                <Text style={{ color: '#374151' }}>{data.professionalSummary.summaryText}</Text>
+                    <View style={styles.container}>
+                        {/* TOP HEADER LAYOUTS (Standard, Compact, Executive) */}
+                        <View style={styles.header}>
+                            <View style={isCompact ? { width: '65%' } : {}}>
+                                <Text style={styles.name}>{data.personalInfo?.fullName}</Text>
+                                {!tId.startsWith('ats-professional') && <Text style={styles.title}>{data.personalInfo?.professionalTitle}</Text>}
                             </View>
-                        )}
-
-                        {/* Skills (show early for ATS) */}
-                        {data.skills && data.skills.length > 0 && (
-                            <View style={styles.section}>
-                                <Text style={styles.sectionTitle}>Skills</Text>
-                                <View style={styles.skillsContainer}>
-                                    {data.skills.map((skill, i) => (
-                                        <Text key={i} style={styles.skillTag}>
-                                            {skill.skillName}
-                                        </Text>
-                                    ))}
-                                </View>
-                            </View>
-                        )}
-
-                        {/* Experience */}
-                        {data.workExperience && data.workExperience.length > 0 && (
-                            <View style={styles.section}>
-                                <Text style={styles.sectionTitle}>Professional Experience</Text>
-                                {data.workExperience.map((exp, index) => (
-                                    <View key={index} style={styles.experienceItem}>
-                                        <View style={styles.row}>
-                                            <Text style={styles.bold}>{exp.jobTitle}</Text>
-                                            <Text style={styles.date}>
-                                                {exp.startDate} — {exp.isCurrent ? 'Present' : exp.endDate}
-                                            </Text>
-                                        </View>
-                                        <View style={styles.row}>
-                                            <Text style={styles.italic}>{exp.companyName}</Text>
-                                            {exp.location && <Text style={{ fontSize: 9, color: '#9ca3af' }}>{exp.location}</Text>}
-                                        </View>
-                                        {exp.roleDescription && (
-                                            <Text style={{ marginTop: 4, marginBottom: 4, color: '#374151' }}>
-                                                {exp.roleDescription}
-                                            </Text>
+                            <View style={styles.contactInfo}>
+                                {tId.startsWith('ats-professional') ? (
+                                    <>
+                                        {data.personalInfo?.phone && (
+                                            <View style={styles.contactItem}>
+                                                <Text style={styles.contactIcon}>{'\u260E'}</Text>
+                                                <Text>{data.personalInfo.phone}</Text>
+                                            </View>
                                         )}
-                                        {exp.achievements?.map((ach, i) => (
-                                            <View key={i} style={styles.achievement}>
-                                                <Text style={styles.bullet}>•</Text>
-                                                <Text style={styles.achievementText}>{ach.achievementText}</Text>
+                                        {data.personalInfo?.email && (
+                                            <View style={styles.contactItem}>
+                                                <Text style={styles.contactIcon}>{'\u2709'}</Text>
+                                                <Text>{data.personalInfo.email}</Text>
+                                            </View>
+                                        )}
+                                        {data.personalInfo?.linkedinUrl && (
+                                            <View style={styles.contactItem}>
+                                                <Text style={styles.contactIcon}>in</Text>
+                                                <Text>{data.personalInfo.linkedinUrl.replace(/^https?:\/\//, '')}</Text>
+                                            </View>
+                                        )}
+                                        {(data.personalInfo?.city || data.personalInfo?.country) && (
+                                            <View style={styles.contactItem}>
+                                                <Text style={styles.contactIcon}>{'\uD83D\uDCCD'}</Text>
+                                                <Text>{[data.personalInfo.city, data.personalInfo.country].filter(Boolean).join(', ')}</Text>
+                                            </View>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        <Text>{data.personalInfo?.email}</Text>
+                                        <Text>{(tId.startsWith('ats') || isCompact) ? '• ' : ''}{data.personalInfo?.phone}</Text>
+                                        <Text>{(tId.startsWith('ats') || isCompact) ? '• ' : ''}{data.personalInfo?.location || [data.personalInfo?.city, data.personalInfo?.country].filter(Boolean).join(', ')}</Text>
+                                        {data.personalInfo?.linkedinUrl && <Text>{(tId.startsWith('ats') || isCompact) ? '• ' : ''}{data.personalInfo.linkedinUrl.replace(/^https?:\/\//, '')}</Text>}
+                                    </>
+                                )}
+                            </View>
+                        </View>
+
+                        <View style={{ flexDirection: (isCompact) ? 'row-reverse' : 'column', gap: isCompact ? 25 : 0 }}>
+                            {/* IF COMPACT, render the small sidebar sections on the right */}
+                            {isCompact && (
+                                <View style={{ width: '35%', marginTop: 10 }}>
+                                    {data.skills && data.skills.length > 0 && (
+                                        <View style={styles.section}>
+                                            <Text style={styles.sectionTitle}>Skills</Text>
+                                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
+                                                {data.skills.map((skill, i) => (
+                                                    <Text key={i} style={{ backgroundColor: '#171717', color: '#ffffff', fontSize: 7, paddingHorizontal: 5, paddingVertical: 2, borderRadius: 2 }}>{skill.skillName}</Text>
+                                                ))}
+                                            </View>
+                                        </View>
+                                    )}
+                                    {data.education && data.education.length > 0 && (
+                                        <View style={styles.section}>
+                                            <Text style={styles.sectionTitle}>Education</Text>
+                                            {data.education.map((edu, i) => (
+                                                <View key={i} style={{ marginBottom: 10 }}>
+                                                    <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{edu.institutionName}</Text>
+                                                    <Text style={{ fontSize: 8 }}>{edu.degree}</Text>
+                                                    <Text style={{ fontSize: 7, color: '#64748b' }}>{edu.endYear}</Text>
+                                                </View>
+                                            ))}
+                                        </View>
+                                    )}
+                                </View>
+                            )}
+
+                            {/* MAIN AREA */}
+                            <View style={{ flex: 1 }}>
+                                {data.professionalSummary?.summaryText && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>{isCompact ? 'Profile' : 'Professional Summary'}</Text>
+                                        <Text style={{ fontSize: 10, color: '#334155', lineHeight: 1.5 }}>{data.professionalSummary.summaryText}</Text>
+                                    </View>
+                                )}
+
+                                {!isCompact && data.skills && data.skills.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>{tId.startsWith('ats-professional') ? 'Core Skills' : 'Skills'}</Text>
+                                        <View style={styles.skillsList}>
+                                            {data.skills.map((skill, i) => (
+                                                <Text key={i} style={styles.skillBadge}>{skill.skillName}</Text>
+                                            ))}
+                                        </View>
+                                    </View>
+                                )}
+
+                                {data.workExperience && data.workExperience.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Experience</Text>
+                                        {data.workExperience.map((job, i) => (
+                                            <View key={i} style={styles.experienceItem}>
+                                                <View style={styles.row}>
+                                                    <Text style={styles.bold}>{job.jobTitle}</Text>
+                                                    <Text style={styles.date}>{job.startDate} — {job.isCurrent ? 'Present' : job.endDate}</Text>
+                                                </View>
+                                                <Text style={styles.italic}>{job.companyName}</Text>
+                                                <Text style={{ fontSize: 9.5, color: '#475569', marginTop: 4, marginBottom: 5 }}>{job.roleDescription}</Text>
+                                                {job.achievements?.map((ach, j) => (
+                                                    <View key={j} style={styles.achievement}>
+                                                        <Text style={styles.bullet}>•</Text>
+                                                        <Text style={styles.achievementText}>{ach.achievementText}</Text>
+                                                    </View>
+                                                ))}
                                             </View>
                                         ))}
                                     </View>
-                                ))}
-                            </View>
-                        )}
+                                )}
 
-                        {/* Projects */}
-                        {data.projects && data.projects.length > 0 && (
-                            <View style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>Projects</Text>
-                                {data.projects.map((proj, index) => (
-                                    <View key={index} style={styles.experienceItem}>
-                                        <View style={styles.row}>
-                                            <View style={{ flex: 1 }}>
-                                                <Text style={styles.bold}>{proj.projectName}</Text>
-                                                {proj.role && <Text style={styles.italic}>{proj.role}</Text>}
+                                {!isCompact && data.education && data.education.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Education</Text>
+                                        {data.education.map((edu, i) => (
+                                            <View key={i} style={{ marginBottom: 10 }}>
+                                                <View style={styles.row}>
+                                                    <Text style={styles.bold}>{edu.degree} {edu.fieldOfStudy && `in ${edu.fieldOfStudy}`}</Text>
+                                                    <Text style={styles.date}>{edu.endYear}</Text>
+                                                </View>
+                                                <Text style={styles.italic}>{edu.institutionName}</Text>
                                             </View>
-                                            {proj.startDate && (
-                                                <Text style={styles.date}>
-                                                    {proj.startDate} {proj.endDate ? `— ${proj.endDate}` : ''}
+                                        ))}
+                                    </View>
+                                )}
+
+                                {data.projects && data.projects.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Projects</Text>
+                                        {data.projects.map((proj, i) => (
+                                            <View key={i} style={styles.experienceItem}>
+                                                <View style={styles.row}>
+                                                    <Text style={styles.bold}>{proj.projectName}</Text>
+                                                    <Text style={styles.date}>{proj.startDate} — {proj.endDate}</Text>
+                                                </View>
+                                                <Text style={styles.italic}>{proj.role} {proj.clientOrOrganization && `| ${proj.clientOrOrganization}`}</Text>
+                                                {proj.description && <Text style={{ fontSize: 9.5, color: '#334155', marginTop: 4 }}>{proj.description}</Text>}
+                                            </View>
+                                        ))}
+                                    </View>
+                                )}
+
+                                {data.certifications && data.certifications.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Certifications</Text>
+                                        {data.certifications.map((cert, i) => (
+                                            <View key={i} style={{ marginBottom: 4 }}>
+                                                <Text style={styles.bold}>{cert.certificationName}</Text>
+                                                <Text style={styles.italic}>{cert.issuingOrganization} • {cert.issueYear}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+                                )}
+
+                                {data.languages && data.languages.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Languages</Text>
+                                        <View style={{ flexDirection: 'row', gap: 10 }}>
+                                            {data.languages.map((lang, i) => (
+                                                <Text key={i} style={{ fontSize: 9.5 }}>
+                                                    <Text style={{ fontWeight: 'bold' }}>{lang.languageName}</Text> ({lang.proficiencyLevel})
                                                 </Text>
-                                            )}
+                                            ))}
                                         </View>
-                                        {proj.description && (
-                                            <Text style={{ marginTop: 2, color: '#374151' }}>{proj.description}</Text>
-                                        )}
                                     </View>
-                                ))}
-                            </View>
-                        )}
-
-                        {/* Education */}
-                        {data.education && data.education.length > 0 && (
-                            <View style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>Education</Text>
-                                {data.education.map((edu, index) => (
-                                    <View key={index} style={{ marginBottom: 8 }}>
-                                        <View style={styles.row}>
-                                            <Text style={styles.bold}>{edu.institutionName}</Text>
-                                            <Text style={styles.date}>{edu.endYear}</Text>
-                                        </View>
-                                        <Text style={styles.italic}>
-                                            {edu.degree} {edu.fieldOfStudy && `in ${edu.fieldOfStudy}`}
-                                        </Text>
-                                        {edu.gpa && <Text style={{ fontSize: 9, color: '#6b7280' }}>GPA: {edu.gpa}</Text>}
-                                    </View>
-                                ))}
-                            </View>
-                        )}
-
-                        {/* Certifications */}
-                        {data.certifications && data.certifications.length > 0 && (
-                            <View style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>Certifications</Text>
-                                {data.certifications.map((cert, index) => (
-                                    <View key={index} style={{ marginBottom: 4 }}>
-                                        <View style={styles.row}>
-                                            <Text style={styles.bold}>{cert.certificationName}</Text>
-                                            <Text style={styles.date}>{cert.issueYear}</Text>
-                                        </View>
-                                        <Text style={styles.italic}>{cert.issuingOrganization}</Text>
-                                    </View>
-                                ))}
-                            </View>
-                        )}
-
-                        {/* Volunteer Experience */}
-                        {data.volunteerExperience && data.volunteerExperience.length > 0 && (
-                            <View style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>Volunteer Experience</Text>
-                                {data.volunteerExperience.map((vol, index) => (
-                                    <View key={index} style={{ marginBottom: 8 }}>
-                                        <View style={styles.row}>
-                                            <Text style={styles.bold}>{vol.roleTitle}</Text>
-                                            <Text style={styles.date}>
-                                                {vol.startDate} — {vol.endDate || 'Present'}
-                                            </Text>
-                                        </View>
-                                        <Text style={styles.italic}>{vol.organizationName}</Text>
-                                        {vol.contributions && (
-                                            <Text style={{ fontSize: 9, marginTop: 2 }}>{vol.contributions}</Text>
-                                        )}
-                                    </View>
-                                ))}
-                            </View>
-                        )}
-
-                        {/* Languages */}
-                        {data.languages && data.languages.length > 0 && (
-                            <View style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>Languages</Text>
-                                {data.languages.map((lang, i) => (
-                                    <Text key={i} style={{ fontSize: 9, marginBottom: 2 }}>
-                                        <Text style={{ fontWeight: 'bold' }}>{lang.languageName}</Text>
-                                        {lang.proficiencyLevel && ` — ${lang.proficiencyLevel}`}
-                                    </Text>
-                                ))}
-                            </View>
-                        )}
-
-                        {/* Publications */}
-                        {data.publications && data.publications.length > 0 && (
-                            <View style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>Publications</Text>
-                                {data.publications.map((pub, index) => (
-                                    <View key={index} style={{ marginBottom: 4 }}>
-                                        <Text style={{ fontSize: 9, fontStyle: 'italic', fontWeight: 'bold' }}>
-                                            {pub.title}
-                                        </Text>
-                                        {pub.platformOrPublisher && (
-                                            <Text style={{ fontSize: 9 }}>
-                                                {pub.platformOrPublisher} {pub.publicationYear && `(${pub.publicationYear})`}
-                                            </Text>
-                                        )}
-                                    </View>
-                                ))}
-                            </View>
-                        )}
-
-                        {/* Professional Affiliations */}
-                        {data.professionalAffiliations && data.professionalAffiliations.length > 0 && (
-                            <View style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>Professional Affiliations</Text>
-                                {data.professionalAffiliations.map((aff, index) => (
-                                    <Text key={index} style={{ fontSize: 9, marginBottom: 2 }}>
-                                        <Text style={{ fontWeight: 'bold' }}>{aff.organizationName}</Text>
-                                        {aff.roleOrMembership && ` — ${aff.roleOrMembership}`}
-                                    </Text>
-                                ))}
-                            </View>
-                        )}
-
-                        {/* Additional Information */}
-                        {data.additionalInfo && (
-                            <View style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>Additional Information</Text>
-                                {data.additionalInfo.securityClearance && (
-                                    <Text style={{ fontSize: 9, marginBottom: 2 }}>
-                                        <Text style={{ fontWeight: 'bold' }}>Security Clearance: </Text>
-                                        {data.additionalInfo.securityClearance}
-                                    </Text>
                                 )}
-                                {data.additionalInfo.workAuthorization && (
-                                    <Text style={{ fontSize: 9, marginBottom: 2 }}>
-                                        <Text style={{ fontWeight: 'bold' }}>Work Authorization: </Text>
-                                        {data.additionalInfo.workAuthorization}
-                                    </Text>
-                                )}
-                                {data.additionalInfo.availability && (
-                                    <Text style={{ fontSize: 9, marginBottom: 2 }}>
-                                        <Text style={{ fontWeight: 'bold' }}>Availability: </Text>
-                                        {data.additionalInfo.availability}
-                                    </Text>
-                                )}
-                            </View>
-                        )}
 
-                        {/* Custom Sections (Standard) */}
-                        {data.customSections && data.customSections.length > 0 && data.customSections.map((section, idx) => (
-                            <View key={idx} style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>{section.title}</Text>
-                                {section.items && section.items.length > 0 ? (
-                                    section.items.map((item, iIdx) => (
-                                        <View key={iIdx} style={styles.achievement}>
-                                            <Text style={styles.bullet}>•</Text>
-                                            <Text style={styles.achievementText}>{item.text}</Text>
+                                {data.publications && data.publications.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Publications</Text>
+                                        {data.publications.map((pub, i) => (
+                                            <View key={i} style={{ marginBottom: 6 }}>
+                                                <Text style={styles.bold}>{pub.title}</Text>
+                                                <Text style={styles.italic}>{pub.platformOrPublisher} • {pub.publicationYear}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+                                )}
+
+                                {data.volunteerExperience && data.volunteerExperience.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Volunteer Experience</Text>
+                                        {data.volunteerExperience.map((vol, i) => (
+                                            <View key={i} style={{ marginBottom: 8 }}>
+                                                <View style={styles.row}>
+                                                    <Text style={styles.bold}>{vol.roleTitle}</Text>
+                                                    <Text style={styles.date}>{vol.startDate} — {vol.endDate}</Text>
+                                                </View>
+                                                <Text style={styles.italic}>{vol.organizationName}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+                                )}
+
+                                {data.professionalAffiliations && data.professionalAffiliations.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Professional Affiliations</Text>
+                                        {data.professionalAffiliations.map((aff, i) => (
+                                            <View key={i} style={{ marginBottom: 4 }}>
+                                                <Text style={styles.bold}>{aff.organizationName}</Text>
+                                                <Text style={styles.italic}>{aff.roleOrMembership}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+                                )}
+
+                                {data.references && data.references.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>References</Text>
+                                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
+                                            {data.references.map((ref, i) => (
+                                                <View key={i} style={{ width: '45%' }}>
+                                                    <Text style={styles.bold}>{ref.referenceName}</Text>
+                                                    <Text style={{ fontSize: 9, color: '#64748b' }}>{ref.role} • {ref.organization}</Text>
+                                                    <Text style={{ fontSize: 8, color: '#94a3b8' }}>{ref.contactDetails || ref.availabilityStatement}</Text>
+                                                </View>
+                                            ))}
                                         </View>
-                                    ))
-                                ) : (
-                                    <Text style={{ fontSize: 9, color: '#374151' }}>{section.content}</Text>
+                                    </View>
                                 )}
-                            </View>
-                        ))}
 
-                        {/* References */}
-                        {data.references && data.references.length > 0 && (
-                            <View style={styles.section} wrap={false}>
-                                <Text style={styles.sectionTitle}>References</Text>
-                                {data.references.map((ref, index) => (
-                                    <View key={index} style={{ marginBottom: 6 }}>
-                                        <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{ref.referenceName}</Text>
-                                        <Text style={{ fontSize: 9 }}>
-                                            {ref.role} {ref.organization && `at ${ref.organization}`}
-                                        </Text>
-                                        {ref.contactDetails && (
-                                            <Text style={{ fontSize: 9, color: '#6b7280' }}>{ref.contactDetails}</Text>
-                                        )}
-                                        {ref.availabilityStatement && (
-                                            <Text style={{ fontSize: 9, fontStyle: 'italic', color: '#6b7280' }}>
-                                                {ref.availabilityStatement}
-                                            </Text>
+                                {/* Custom Sections */}
+                                {data.customSections?.map((section, idx) => (
+                                    <View key={idx} style={styles.section}>
+                                        <Text style={styles.sectionTitle}>{section.title}</Text>
+                                        {section.items && section.items.length > 0 ? (
+                                            <View style={{ gap: 4 }}>
+                                                {section.items.map((item, iIdx) => (
+                                                    <View key={iIdx} style={styles.achievement}>
+                                                        <Text style={styles.bullet}>•</Text>
+                                                        <Text style={styles.achievementText}>{item.text}</Text>
+                                                    </View>
+                                                ))}
+                                            </View>
+                                        ) : (
+                                            <Text style={{ fontSize: 9.5 }}>{section.content}</Text>
                                         )}
                                     </View>
                                 ))}
                             </View>
-                        )}
-                    </>
+                        </View>
+                    </View>
                 )}
-                {/* Watermark for free users */}
+
+                {/* WATERMARK */}
                 {isWatermarked && (
-                    <View
-                        style={{
-                            position: 'absolute',
-                            bottom: 20,
-                            left: 0,
-                            right: 0,
-                            textAlign: 'center',
-                            opacity: 0.5,
-                        }}
-                        fixed
-                    >
-                        <Text style={{ fontSize: 9, color: '#9ca3af', fontStyle: 'italic' }}>
+                    <View style={{ position: 'absolute', bottom: 30, left: 0, right: 0, textAlign: 'center', opacity: 0.5 }}>
+                        <Text style={{ fontSize: 8, color: '#94a3b8', fontStyle: 'italic' }}>
                             Created with Clear Career Path — Building a path to your dream job.
                         </Text>
                     </View>
                 )}
             </Page>
-        </Document >
+        </Document>
     )
 }

@@ -362,5 +362,114 @@ export const CAREER_SAMPLES: Record<string, ResumeDocument> = {
                 contributions: 'Managed an annual budget of £50,000, ensuring transparent allocation of funds for 20+ student societies.'
             }
         ]
+    },
+    healthcare_professional: {
+        id: 'sample-healthcare',
+        title: 'Healthcare Manager Sample',
+        documentType: 'resume',
+        templateId: 'professional',
+        personalInfo: {
+            fullName: 'Dr. Emily Roberts',
+            professionalTitle: 'Clinical Nurse Manager',
+            email: 'emily.roberts@medcenter.org',
+            phone: '+1 (555) 888-9999',
+            city: 'Chicago',
+            country: 'IL',
+            location: 'Chicago, IL',
+        },
+        professionalSummary: {
+            summaryText: 'Compassionate and dedicated Clinical Nurse Manager with 12+ years of experience in critical care and hospital administration. Expert in patient safety protocols, staff scheduling, and multidisciplinary team coordination. Proven ability to improve patient satisfaction scores by 25% while maintaining strict compliance with healthcare regulations.'
+        },
+        workExperience: [
+            {
+                jobTitle: 'Clinical Nurse Manager',
+                companyName: 'Central Illinois Medical Center',
+                location: 'Chicago, IL',
+                startDate: '2018-03',
+                endDate: 'Present',
+                isCurrent: true,
+                roleDescription: 'Overseeing ICU operations, managing a team of 45+ registered nurses and support staff.',
+                achievements: [
+                    { achievementText: 'Reduced hospital-acquired infections (HAIs) by 15% through rigorous implementation of new hygiene protocols.' },
+                    { achievementText: 'Optimized shift scheduling software, reducing overtime labor costs by $120k annually.' },
+                    { achievementText: 'Led the "Patient First" initiative, raising HCAHPS scores from 3/5 to 4.8/5 within 18 months.' }
+                ]
+            }
+        ],
+        education: [
+            {
+                institutionName: 'University of Illinois',
+                degree: 'Doctor of Nursing Practice (DNP)',
+                major: 'Healthcare Administration',
+                endYear: 2017
+            }
+        ],
+        skills: [
+            { skillName: 'Advanced Cardiac Life Support (ACLS)', skillType: 'technical', proficiencyLevel: 'expert' },
+            { skillName: 'Electronic Health Records (EHR)', skillType: 'technical', proficiencyLevel: 'expert' },
+            { skillName: 'Patient Advocacy', skillType: 'professional', proficiencyLevel: 'expert' },
+            { skillName: 'Risk Management', skillType: 'professional', proficiencyLevel: 'advanced' }
+        ],
+        certifications: [
+            {
+                certificationName: 'Nurse Executive Certification (NE-BC)',
+                issuingOrganization: 'American Nurses Credentialing Center',
+                issueYear: 2020
+            }
+        ]
+    },
+    education_expert: {
+        id: 'sample-education',
+        title: 'Education & Research Sample',
+        documentType: 'cv',
+        templateId: 'academic',
+        personalInfo: {
+            fullName: 'Prof. Marcus Thorne',
+            professionalTitle: 'Senior Academic Researcher & Lecturer',
+            email: 'm.thorne@university.edu',
+            phone: '+44 20 7946 0123',
+            city: 'Oxford',
+            country: 'UK',
+            location: 'Oxford, UK',
+            websiteUrl: 'university.edu/mthorne-research'
+        },
+        professionalSummary: {
+            summaryText: 'Senior Academic with 15+ years of experience in Higher Education and primary research. Published in top-tier peer-reviewed journals including Nature and Science. Expert in curriculum design, grant writing, and leading large-scale international research consortia.'
+        },
+        workExperience: [
+            {
+                jobTitle: 'Senior Research Fellow',
+                companyName: 'Oxford Research Institute',
+                location: 'Oxford, UK',
+                startDate: '2016-09',
+                endDate: 'Present',
+                isCurrent: true,
+                roleDescription: 'Directing the center for Theoretical Physics and supervising 8 PhD candidates.',
+                achievements: [
+                    { achievementText: 'Secured £2.5M in ERC Starting Grants for quantum computing research.' },
+                    { achievementText: 'Authored 45+ peer-reviewed articles with over 2,500 citations (h-index: 28).' }
+                ]
+            }
+        ],
+        education: [
+            {
+                institutionName: 'University of Cambridge',
+                degree: 'PhD in Theoretical Physics',
+                endYear: 2009
+            }
+        ],
+        skills: [
+            { skillName: 'Grant Writing', skillType: 'professional', proficiencyLevel: 'expert' },
+            { skillName: 'Research Methodology', skillType: 'technical', proficiencyLevel: 'expert' },
+            { skillName: 'Curriculum Development', skillType: 'professional', proficiencyLevel: 'expert' },
+            { skillName: 'Peer Review', skillType: 'professional', proficiencyLevel: 'expert' }
+        ],
+        publications: [
+            {
+                title: 'Quantum Entanglement in Macroscopic Systems',
+                platformOrPublisher: 'Physical Review Letters',
+                publicationYear: 2022
+            }
+        ]
     }
 }

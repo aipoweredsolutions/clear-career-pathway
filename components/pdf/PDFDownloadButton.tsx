@@ -19,10 +19,10 @@ export function PDFDownloadButton({ data, fileName = 'resume.pdf' }: PDFDownload
     // Using a small debounce to prevent "signal is aborted" errors during rapid changes
     React.useEffect(() => {
         const timer = setTimeout(() => {
-            updateInstance(<ResumePDF data={data} />)
-        }, 500)
+            updateInstance(<ResumePDF data={data} key={`${data.templateId}-${Date.now()}`} />)
+        }, 200)
         return () => clearTimeout(timer)
-    }, [data, updateInstance])
+    }, [data, data.templateId, updateInstance])
 
     return (
         <a href={instance.url || '#'} download={fileName} className="block w-full">

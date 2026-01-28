@@ -47,14 +47,27 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
         if (!template) return MOCK_PREVIEW_DATA
 
         // Correctly compose the ID for the renderer: baseId-colorVariantId
-        // This ensures the renderer finds the specific variant (e.g., 'modern-slate')
         const colorId = initialColor
         const effectiveTemplateId = colorId && colorId !== 'standard' && colorId !== 'std' && colorId !== 'clean'
             ? `${template.id}-${colorId}`
             : template.id
 
+        // Diversify content based on template personality
+        const { CAREER_SAMPLES } = require('@/lib/constants/career-samples')
+        const { MOCK_EXECUTIVE_DATA } = require('@/lib/constants/mock-data')
+
+        let baseData = MOCK_PREVIEW_DATA
+        if (template.id.startsWith('ats')) baseData = CAREER_SAMPLES.sales_executive
+        if (template.id === 'technical') baseData = CAREER_SAMPLES.software_engineer
+        if (template.id === 'modern' || template.id === 'startup') baseData = CAREER_SAMPLES.marketing_manager
+        if (template.id === 'cute') baseData = CAREER_SAMPLES.graphic_designer
+        if (template.id === 'executive' || template.id === 'luxe') baseData = MOCK_EXECUTIVE_DATA
+        if (template.id === 'graduate') baseData = CAREER_SAMPLES.graduate
+        if (template.id === 'academic') baseData = CAREER_SAMPLES.education_expert
+        if (template.id === 'professional' || template.id === 'artisan') baseData = CAREER_SAMPLES.healthcare_professional
+
         return {
-            ...MOCK_PREVIEW_DATA,
+            ...baseData,
             templateId: effectiveTemplateId
         }
     }, [template, initialColor])
@@ -109,15 +122,15 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                         </div>
 
                         {user ? (
-                            <Link href={`/editor/new?template=${template.id}`}>
+                            <Link href={`/editor/setup?template=${template.id}&color=${initialColor || 'standard'}`}>
                                 <Button size="lg" className="shadow-lg shadow-primary-200">
-                                    Edit Template
+                                    Customize Template
                                 </Button>
                             </Link>
                         ) : (
-                            <Link href={`/auth/signup?template=${template.id}`}>
+                            <Link href={`/editor/setup?template=${template.id}&color=${initialColor || 'standard'}`}>
                                 <Button size="lg" className="shadow-lg shadow-primary-200">
-                                    Get Started Free
+                                    Customize Template
                                 </Button>
                             </Link>
                         )}

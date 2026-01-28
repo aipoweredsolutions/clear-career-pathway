@@ -70,9 +70,11 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
             // Use @react-pdf/renderer to generate the PDF
             // This matches the PDF engine used for the preview
             const isWatermarked = !subscription || subscription.status !== 'active'
+            console.log('[PDF Download] Generating PDF for template:', data.templateId)
             const doc = <ResumePDF data={data} isWatermarked={isWatermarked} />
             const asBlob = await pdf(doc).toBlob()
             saveAs(asBlob, `${fileName}.pdf`)
+            console.log('[PDF Download] PDF generated successfully')
 
         } catch (error) {
             console.error('PDF generation failed:', error)

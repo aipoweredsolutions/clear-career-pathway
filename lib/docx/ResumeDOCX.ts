@@ -1,101 +1,316 @@
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, ExternalHyperlink, AlignmentType } from 'docx'
+import {
+    Document,
+    Packer,
+    Paragraph,
+    TextRun,
+    HeadingLevel,
+    AlignmentType,
+    Table,
+    TableRow,
+    TableCell,
+    WidthType,
+    BorderStyle,
+    VerticalAlign,
+    BorderStyle as BorderStyleType,
+    ShadingType
+} from 'docx'
 import { ResumeDocument } from '@/lib/types/resume'
 import { saveAs } from 'file-saver'
 
+interface DOCXTheme {
+    primary: string
+    secondary: string
+    accent: string
+    hasSidebar: boolean
+}
+
 export class ResumeDOCX {
+    private static getTheme(templateId: string = ''): DOCXTheme {
+        const id = templateId.toLowerCase()
+        const hasSidebar = id.startsWith('modern') || id.startsWith('professional') || id.startsWith('technical') || id.startsWith('startup') || id.startsWith('cute')
+
+        // Map hex to nearest simple colors or just use hex where docx supports it
+        if (id.includes('teal')) return { primary: '134E4A', secondary: '14B8A6', accent: '134E4A', hasSidebar }
+        if (id.includes('slate')) return { primary: '0F172A', secondary: '64748B', accent: '0F172A', hasSidebar }
+        if (id.includes('navy')) return { primary: '0F172A', secondary: '334155', accent: '0F172A', hasSidebar }
+        if (id.includes('gold')) return { primary: '92400E', secondary: 'D97706', accent: '92400E', hasSidebar }
+
+        return {
+            primary: '111827',
+            secondary: '4B5563',
+            accent: '3B82F6',
+            hasSidebar
+        }
+    }
+
     static async download(data: ResumeDocument, filename: string = 'resume.docx') {
+        const theme = this.getTheme(data.templateId)
+
         const doc = new Document({
             sections: [{
-                properties: {},
-                children: [
-                    // Header
-                    new Paragraph({
-                        text: data.personalInfo?.fullName || '',
-                        heading: HeadingLevel.TITLE,
-                        alignment: AlignmentType.CENTER,
-                    }),
-                    new Paragraph({
-                        text: data.personalInfo?.professionalTitle || '',
-                        heading: HeadingLevel.HEADING_2,
-                        alignment: AlignmentType.CENTER,
-                    }),
-
-                    // Contact Info
-                    new Paragraph({
-                        alignment: AlignmentType.CENTER,
-                        children: [
-                            new TextRun({ text: data.personalInfo?.email || '' }),
-                            new TextRun({ text: ' • ' }),
-                            new TextRun({ text: data.personalInfo?.phone || '' }),
-                            new TextRun({ text: ' • ' }),
-                            new TextRun({ text: `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}` }),
-                        ],
-                    }),
-
-                    // Spacing
-                    new Paragraph({ text: '' }),
-
-                    // Summary
-                    ...(data.professionalSummary?.summaryText ? [
-                        new Paragraph({
-                            text: 'Professional Summary',
-                            heading: HeadingLevel.HEADING_1,
-                        }),
-                        new Paragraph({
-                            text: data.professionalSummary.summaryText,
-                        }),
-                        new Paragraph({ text: '' }),
-                    ] : []),
-
-                    // Experience
-                    ...(data.workExperience && data.workExperience.length > 0 ? [
-                        new Paragraph({
-                            text: 'Work Experience',
-                            heading: HeadingLevel.HEADING_1,
-                        }),
-                        ...data.workExperience.flatMap(exp => [
-                            new Paragraph({
-                                children: [
-                                    new TextRun({ text: exp.jobTitle, bold: true, size: 24 }),
-                                    new TextRun({ text: ` | ${exp.companyName}`, italics: true }),
-                                    new TextRun({ text: `\t${exp.startDate} - ${exp.isCurrent ? 'Present' : exp.endDate}`, bold: true }),
-                                ]
-                            }),
-                            ...(exp.achievements?.map(ach => new Paragraph({
-                                bullet: { level: 0 },
-                                text: ach.achievementText
-                            })) || []),
-                            new Paragraph({ text: '' }),
-                        ])
-                    ] : []),
-
-                    // Education
-                    ...(data.education && data.education.length > 0 ? [
-                        new Paragraph({
-                            text: 'Education',
-                            heading: HeadingLevel.HEADING_1,
-                        }),
-                        ...data.education.map(edu => new Paragraph({
-                            text: `${edu.institutionName} - ${edu.degree} ${edu.major ? `in ${edu.major}` : ''} (${edu.endYear})`
-                        }))
-                    ] : []),
-
-                    // Skills
-                    ...(data.skills && data.skills.length > 0 ? [
-                        new Paragraph({ text: '' }),
-                        new Paragraph({
-                            text: 'Skills',
-                            heading: HeadingLevel.HEADING_1,
-                        }),
-                        new Paragraph({
-                            text: data.skills.map(s => s.skillName).join(', ')
-                        })
-                    ] : []),
-                ],
+                properties: {
+                    page: {
+                        margin: {
+                            top: 720, // 0.5 inch
+                            right: 720,
+                            bottom: 720,
+                            left: 720,
+                        },
+                    },
+                },
+                children: theme.hasSidebar
+                    ? [this.createSidebarLayout(data, theme)]
+                    : this.createStandardLayout(data, theme)
             }],
         })
 
         const blob = await Packer.toBlob(doc)
         saveAs(blob, filename)
     }
+
+    private static createSidebarLayout(data: ResumeDocument, theme: DOCXTheme): Table {
+        return new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            borders: {
+                top: { style: BorderStyle.NONE },
+                bottom: { style: BorderStyle.NONE },
+                left: { style: BorderStyle.NONE },
+                right: { style: BorderStyle.NONE },
+                insideHorizontal: { style: BorderStyle.NONE },
+                insideVertical: { style: BorderStyle.NONE },
+            },
+            rows: [
+                new TableRow({
+                    children: [
+                        // Sidebar Cell
+                        new TableCell({
+                            width: { size: 30, type: WidthType.PERCENTAGE },
+                            shading: { fill: theme.primary, type: ShadingType.CLEAR },
+                            margins: { top: 400, bottom: 400, left: 300, right: 300 },
+                            children: [
+                                // Name in Sidebar
+                                new Paragraph({
+                                    children: [new TextRun({ text: data.personalInfo?.fullName || '', bold: true, size: 36, color: 'FFFFFF' })],
+                                    alignment: AlignmentType.CENTER,
+                                }),
+                                new Paragraph({
+                                    children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: 'FFFFFF', size: 20 })],
+                                    alignment: AlignmentType.CENTER,
+                                    spacing: { after: 400 },
+                                }),
+
+                                // Contact Heading
+                                this.sidebarHeading('Contact'),
+                                ...[
+                                    data.personalInfo?.email,
+                                    data.personalInfo?.phone,
+                                    data.personalInfo?.location || `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}`.trim(),
+                                    data.personalInfo?.websiteUrl
+                                ].filter(Boolean).map(text => new Paragraph({
+                                    children: [new TextRun({ text: text as string, color: 'FFFFFF', size: 16 })],
+                                    spacing: { after: 100 },
+                                })),
+
+                                // Skills
+                                ...(data.skills && data.skills.length > 0 ? [
+                                    this.sidebarHeading('Skills'),
+                                    ...data.skills.map(s => new Paragraph({
+                                        children: [new TextRun({ text: `• ${s.skillName}`, color: 'FFFFFF', size: 16 })],
+                                        spacing: { after: 80 },
+                                    }))
+                                ] : []),
+
+                                // Education
+                                ...(data.education && data.education.length > 0 ? [
+                                    this.sidebarHeading('Education'),
+                                    ...data.education.flatMap(edu => [
+                                        new Paragraph({
+                                            children: [new TextRun({ text: edu.institutionName, bold: true, color: 'FFFFFF', size: 16 })],
+                                        }),
+                                        new Paragraph({
+                                            children: [new TextRun({ text: edu.degree, color: 'FFFFFF', size: 14, italics: true })],
+                                        }),
+                                        new Paragraph({
+                                            children: [new TextRun({ text: edu.endYear || '', color: 'FFFFFF', size: 14 })],
+                                            spacing: { after: 200 },
+                                        }),
+                                    ])
+                                ] : []),
+                            ],
+                        }),
+                        // Main Content Cell
+                        new TableCell({
+                            width: { size: 70, type: WidthType.PERCENTAGE },
+                            margins: { top: 400, bottom: 400, left: 400, right: 400 },
+                            children: [
+                                // Summary
+                                ...(data.professionalSummary?.summaryText ? [
+                                    this.mainHeading('Profile', theme),
+                                    new Paragraph({
+                                        text: data.professionalSummary.summaryText,
+                                        spacing: { after: 300 },
+                                    }),
+                                ] : []),
+
+                                // Work Experience
+                                ...(data.workExperience && data.workExperience.length > 0 ? [
+                                    this.mainHeading('Experience', theme),
+                                    ...data.workExperience.flatMap(exp => [
+                                        new Paragraph({
+                                            children: [
+                                                new TextRun({ text: exp.jobTitle, bold: true, size: 22, color: theme.primary }),
+                                                new TextRun({ text: `\t${exp.startDate} - ${exp.isCurrent ? 'Present' : exp.endDate}`, bold: true, size: 18 }),
+                                            ],
+                                            tabStops: [{ type: AlignmentType.RIGHT, position: 7500 }],
+                                        }),
+                                        new Paragraph({
+                                            children: [new TextRun({ text: exp.companyName, italics: true, color: '666666' })],
+                                            spacing: { after: 150 },
+                                        }),
+                                        ...(exp.roleDescription ? [new Paragraph({ text: exp.roleDescription, spacing: { after: 100 } })] : []),
+                                        ...(exp.achievements?.map(ach => new Paragraph({
+                                            bullet: { level: 0 },
+                                            text: ach.achievementText,
+                                            spacing: { after: 50 },
+                                        })) || []),
+                                        new Paragraph({ text: '', spacing: { after: 200 } }),
+                                    ])
+                                ] : []),
+
+                                // Projects
+                                ...(data.projects && data.projects.length > 0 ? [
+                                    this.mainHeading('Projects', theme),
+                                    ...data.projects.flatMap(proj => [
+                                        new Paragraph({
+                                            children: [new TextRun({ text: proj.projectName, bold: true, color: theme.primary })],
+                                        }),
+                                        new Paragraph({
+                                            text: proj.description || '',
+                                            spacing: { after: 200 },
+                                        }),
+                                    ])
+                                ] : []),
+                            ],
+                        }),
+                    ],
+                }),
+            ],
+        })
+    }
+
+    private static createStandardLayout(data: ResumeDocument, theme: DOCXTheme): any[] {
+        return [
+            // Header
+            new Paragraph({
+                text: data.personalInfo?.fullName || '',
+                heading: HeadingLevel.TITLE,
+                alignment: AlignmentType.CENTER,
+            }),
+            new Paragraph({
+                text: data.personalInfo?.professionalTitle || '',
+                alignment: AlignmentType.CENTER,
+                spacing: { before: 100, after: 200 },
+            }),
+            new Paragraph({
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 400 },
+                children: [
+                    new TextRun({ text: data.personalInfo?.email || '' }),
+                    new TextRun({ text: '  •  ' }),
+                    new TextRun({ text: data.personalInfo?.phone || '' }),
+                    new TextRun({ text: '  •  ' }),
+                    new TextRun({ text: data.personalInfo?.location || `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}` }),
+                ],
+            }),
+
+            // Sections
+            ...(data.professionalSummary?.summaryText ? [
+                this.standardSectionHeading('Professional Summary', theme),
+                new Paragraph({ text: data.professionalSummary.summaryText, spacing: { after: 300 } }),
+            ] : []),
+
+            ...(data.workExperience && data.workExperience.length > 0 ? [
+                this.standardSectionHeading('Experience', theme),
+                ...data.workExperience.flatMap(exp => [
+                    new Paragraph({
+                        children: [
+                            new TextRun({ text: exp.jobTitle, bold: true, size: 22 }),
+                            new TextRun({ text: `\t${exp.startDate} - ${exp.isCurrent ? 'Present' : exp.endDate}`, bold: true }),
+                        ],
+                        tabStops: [{ type: AlignmentType.RIGHT, position: 9000 }],
+                    }),
+                    new Paragraph({ text: exp.companyName, italics: true, spacing: { after: 100 } }),
+                    ...(exp.roleDescription ? [new Paragraph({ text: exp.roleDescription })] : []),
+                    ...(exp.achievements?.map(ach => new Paragraph({
+                        bullet: { level: 0 },
+                        text: ach.achievementText,
+                    })) || []),
+                    new Paragraph({ text: '', spacing: { after: 200 } }),
+                ])
+            ] : []),
+
+            ...(data.education && data.education.length > 0 ? [
+                this.standardSectionHeading('Education', theme),
+                ...data.education.map(edu => new Paragraph({
+                    children: [
+                        new TextRun({ text: edu.institutionName, bold: true }),
+                        new TextRun({ text: ` — ${edu.degree} (${edu.endYear})` }),
+                    ],
+                    spacing: { after: 100 },
+                }))
+            ] : []),
+
+            ...(data.skills && data.skills.length > 0 ? [
+                this.standardSectionHeading('Skills', theme),
+                new Paragraph({
+                    text: data.skills.map(s => s.skillName).join(', '),
+                })
+            ] : []),
+        ]
+    }
+
+    private static sidebarHeading(text: string): Paragraph {
+        return new Paragraph({
+            children: [
+                new TextRun({
+                    text: text.toUpperCase(),
+                    bold: true,
+                    color: 'FFFFFF',
+                    size: 20,
+                    underline: { type: 'single', color: 'FFFFFF' }
+                })
+            ],
+            spacing: { before: 300, after: 150 },
+        })
+    }
+
+    private static mainHeading(text: string, theme: DOCXTheme): Paragraph {
+        return new Paragraph({
+            children: [
+                new TextRun({
+                    text: text.toUpperCase(),
+                    bold: true,
+                    color: theme.primary,
+                    size: 24,
+                })
+            ],
+            border: {
+                bottom: { color: theme.primary, space: 1, style: BorderStyle.SINGLE, size: 2 },
+            },
+            spacing: { before: 400, after: 200 },
+        })
+    }
+
+    private static standardSectionHeading(text: string, theme: DOCXTheme): Paragraph {
+        return new Paragraph({
+            children: [
+                new TextRun({ text: text.toUpperCase(), bold: true, color: theme.primary, size: 24 })
+            ],
+            border: {
+                bottom: { color: theme.primary, space: 1, style: BorderStyle.SINGLE, size: 2 },
+            },
+            spacing: { before: 400, after: 200 },
+        })
+    }
 }
+

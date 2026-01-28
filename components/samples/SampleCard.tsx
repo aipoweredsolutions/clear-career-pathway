@@ -44,7 +44,7 @@ export function SampleCard({ sample, category, description }: SampleCardProps) {
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/40 transition-colors duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
                     <div className="flex flex-col gap-3 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full max-w-[200px]">
-                        <Link href={`/editor/new?sample=${sample.id}`} className="w-full">
+                        <Link href={`/editor/setup?template=${sample.templateId}&sample=${sample.id}`} className="w-full">
                             <Button variant="primary" size="lg" className="w-full shadow-lg">
                                 Use This Sample
                             </Button>

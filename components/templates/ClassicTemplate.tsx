@@ -43,22 +43,44 @@ export function ClassicTemplate({ data, className = '', accentColor = 'text-blue
         <div className={cn("resume-text bg-white p-8 max-w-[8.5in] mx-auto", className)}>
             {/* Personal Information */}
             {personalInfo && (
-                <header className={cn("mb-6 text-center border-b-2 pb-4", borderClass)}>
-                    <h1 className={cn("resume-heading text-3xl mb-2 uppercase tracking-wide", accentColor)}>{personalInfo.fullName}</h1>
+                <header className={cn("mb-10 text-center border-b-[3px] pb-8", borderClass)}>
+                    <h1 className={cn("text-4xl font-extrabold mb-3 uppercase tracking-widest", accentColor)}>
+                        {personalInfo.fullName}
+                    </h1>
                     {personalInfo.professionalTitle && (
-                        <p className="text-lg text-neutral-700 mb-3">{personalInfo.professionalTitle}</p>
+                        <p className="text-xl font-medium text-neutral-600 mb-6 tracking-tight">
+                            {personalInfo.professionalTitle}
+                        </p>
                     )}
-                    <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-neutral-600">
-                        {personalInfo.email && <span>{personalInfo.email}</span>}
-                        {personalInfo.phone && <span>{personalInfo.phone}</span>}
-                        {personalInfo.city && personalInfo.country && (
-                            <span>{personalInfo.city}, {personalInfo.country}</span>
+                    <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 text-sm text-neutral-500 font-medium">
+                        {personalInfo.email && (
+                            <div className="flex items-center gap-3">
+                                <span>{personalInfo.email}</span>
+                            </div>
+                        )}
+                        {personalInfo.phone && (
+                            <div className="flex items-center gap-3">
+                                <span className="text-neutral-300">|</span>
+                                <span>{personalInfo.phone}</span>
+                            </div>
+                        )}
+                        {(personalInfo.city || personalInfo.country) && (
+                            <div className="flex items-center gap-3">
+                                <span className="text-neutral-300">|</span>
+                                <span>{[personalInfo.city, personalInfo.country].filter(Boolean).join(', ')}</span>
+                            </div>
                         )}
                         {personalInfo.linkedinUrl && (
-                            <span className="break-all">{personalInfo.linkedinUrl}</span>
+                            <div className="flex items-center gap-3">
+                                <span className="text-neutral-300">|</span>
+                                <span className="break-all">{personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                            </div>
                         )}
                         {personalInfo.websiteUrl && (
-                            <span className="break-all">{personalInfo.websiteUrl}</span>
+                            <div className="flex items-center gap-3">
+                                <span className="text-neutral-300">|</span>
+                                <span className="break-all">{personalInfo.websiteUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                            </div>
                         )}
                     </div>
                 </header>

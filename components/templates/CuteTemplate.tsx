@@ -104,7 +104,7 @@ export function CuteTemplate({ data, className, colorTheme = 'pink' }: TemplateP
                             <h2 className={cn("text-2xl font-bold mb-6 px-2", theme.text)}>Work Experience</h2>
                             <div className="space-y-4">
                                 {workExperience.map((exp, i) => (
-                                    <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-transparent hover:border-l-4" style={{ borderColor: theme.border ? undefined : 'CurrentColor' }}>
+                                    <div key={i} className={cn("bg-white p-6 rounded-2xl shadow-sm border-l-4", theme.border)}>
                                         <div className={cn("w-1 h-full absolute left-0 top-0 rounded-l-2xl", theme.accent)}></div>
 
                                         <div className="flex justify-between items-baseline mb-2">

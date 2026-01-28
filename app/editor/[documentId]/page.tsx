@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ResumeDocument } from '@/lib/types/resume'
 import { ResumeForm } from '@/components/editor/ResumeForm'
@@ -31,6 +31,7 @@ const PDFPreview = dynamic(() => import('@/components/pdf/PDFPreview').then(mod 
 
 export default function EditorPage() {
     const params = useParams()
+    const searchParams = useSearchParams()
     const documentId = params.documentId as string
 
     const [data, setData] = useState<ResumeDocument | null>(null)
@@ -49,6 +50,43 @@ export default function EditorPage() {
 
         const loadData = async () => {
             try {
+                // Handle "new" document creation
+                if (documentId === 'new') {
+                    const templateId = searchParams.get('template') || 'classic'
+                    const sampleId = searchParams.get('sample')
+                    const isGuest = searchParams.get('guest') === 'true'
+
+                    let baseData: ResumeDocument = {
+                        id: 'new',
+                        title: 'New Resume',
+                        documentType: 'resume',
+                        templateId: templateId,
+                        personalInfo: { fullName: '' },
+                        workExperience: [],
+                        education: [],
+                        skills: [],
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    }
+
+                    // If a sample is requested, load it
+                    if (sampleId) {
+                        const { CAREER_SAMPLES } = await import('@/lib/constants/career-samples')
+                        const sample = (CAREER_SAMPLES as any)[sampleId]
+                        if (sample) {
+                            baseData = {
+                                ...sample,
+                                id: 'new',
+                                templateId: templateId // Keep the chosen template
+                            }
+                        }
+                    }
+
+                    setData(baseData)
+                    setLoading(false)
+                    return
+                }
+
                 const [fetchedData, fetchedSub] = await Promise.all([
                     fetchResume(documentId),
                     fetchSubscription()
@@ -67,7 +105,7 @@ export default function EditorPage() {
         }
 
         loadData()
-    }, [documentId])
+    }, [documentId, searchParams])
 
     // Auto-Save Logic
     const debouncedData = useDebounce(data, 2000)

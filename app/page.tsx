@@ -74,7 +74,7 @@ export default function Home() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
-                                href="/dashboard"
+                                href="/editor/setup?template=classic"
                                 className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 md:min-w-[200px] shadow-lg hover:shadow-xl transition-all"
                             >
                                 Build Your Resume
@@ -238,7 +238,18 @@ export default function Home() {
                                                     ? `${template.id}-${colorId}`
                                                     : template.id
                                             })()}
-                                            data={MOCK_PREVIEW_DATA}
+                                            data={(() => {
+                                                const { CAREER_SAMPLES } = require('@/lib/constants/career-samples')
+                                                if (template.id.startsWith('ats')) return CAREER_SAMPLES.sales_executive
+                                                if (template.id === 'technical') return CAREER_SAMPLES.software_engineer
+                                                if (template.id === 'modern' || template.id === 'startup') return CAREER_SAMPLES.marketing_manager
+                                                if (template.id === 'cute') return CAREER_SAMPLES.graphic_designer
+                                                if (template.id === 'executive' || template.id === 'luxe') return require('@/lib/constants/mock-data').MOCK_EXECUTIVE_DATA
+                                                if (template.id === 'graduate') return CAREER_SAMPLES.graduate
+                                                if (template.id === 'academic') return CAREER_SAMPLES.education_expert
+                                                if (template.id === 'professional' || template.id === 'artisan') return CAREER_SAMPLES.healthcare_professional
+                                                return MOCK_PREVIEW_DATA
+                                            })()}
                                             className="shadow-none pointer-events-none select-none w-[210mm] min-h-[297mm]"
                                         />
                                     </div>
@@ -307,7 +318,7 @@ export default function Home() {
                                     </div>
 
                                     <Link
-                                        href="/dashboard"
+                                        href={`/editor/setup?template=${template.id}&color=${getActiveColor(template.id, template.colors || [])}`}
                                         className="mt-4 block w-full text-center bg-neutral-900 text-white py-3 rounded-lg hover:bg-neutral-800 transition-colors font-medium select-none"
                                     >
                                         Use This Template

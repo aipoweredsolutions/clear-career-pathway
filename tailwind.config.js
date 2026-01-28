@@ -152,7 +152,15 @@ module.exports = {
         },
     },
     plugins: [
-        require('tailwindcss-animate'),
-    ],
+        (() => {
+            try {
+                return require('tailwindcss-animate');
+            } catch (e) {
+                console.warn('tailwindcss-animate not found. Animations will be disabled.');
+                return null;
+            }
+        })(),
+    ].filter(Boolean),
+
 
 }

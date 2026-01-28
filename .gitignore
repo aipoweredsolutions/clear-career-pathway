@@ -46,3 +46,11 @@ next-env.d.ts
 # Uploads (temporary)
 uploads/
 temp/
+
+# Agent and Tool Files
+.agent/
+.gemini/
+
+# Logs
+*.log
+npm_error.log

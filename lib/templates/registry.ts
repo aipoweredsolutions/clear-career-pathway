@@ -5,7 +5,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'ats-professional',
         name: 'ATS Professional',
-        description: 'Maximum ATS compatibility with clean single-column layout, standard fonts, and no graphics. Perfect for corporate and technical roles.',
+        description: 'Designed to pass through Applicant Tracking Systems with 99% success rate. Uses clean single-column layout, standard fonts, and zero graphics. Ideal when applying through online portals at Fortune 500 companies, government positions, or any role where your resume must first pass automated screening.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'technical'],
@@ -24,7 +24,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'cute',
         name: 'Cotton Candy',
-        description: 'Playful, rounded design with soft pastel aesthetics. Perfect for creative personalities.',
+        description: 'Stand out with soft pastels and rounded corners that showcase your creative personality. Perfect for roles in lifestyle brands, boutique agencies, or creative startups where personality matters as much as skills. Features playful color themes including pink, mint, lavender, and peach.',
         suitableFor: {
             careerLevels: ['student', 'entry', 'mid'],
             jobTypes: ['creative', 'freelance'],
@@ -45,7 +45,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'chic',
         name: 'Chic Minimalist',
-        description: 'Sophisticated typography and generous whitespace. High-end editorial look.',
+        description: 'Inspired by high-end fashion magazines and luxury brands. Features sophisticated serif typography, generous whitespace, and an editorial aesthetic. Perfect for roles in luxury retail, publishing, art galleries, or any position where refined taste and attention to detail are paramount.',
         suitableFor: {
             careerLevels: ['mid', 'senior', 'executive'],
             jobTypes: ['creative', 'corporate'],
@@ -63,7 +63,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'classic',
         name: 'Professional Standard',
-        description: 'The Gold Standard. ATS-optimized, clear hierarchy, and universally accepted.',
+        description: 'The timeless choice trusted by professionals worldwide. Features clear hierarchy, professional color accents, and a layout that works for any industry. When in doubt, choose Classic—it never goes out of style and is respected by hiring managers across all sectors.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'academic'],
@@ -84,7 +84,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'modern',
         name: 'Modern One',
-        description: 'Contemporary two-column layout with a bold sidebar for skills and contact info.',
+        description: 'Make a strong first impression with a bold sidebar that highlights your skills and contact info at a glance. The two-column layout maximizes space while maintaining readability. Ideal for tech professionals, project managers, and anyone with diverse skill sets to showcase.',
         suitableFor: {
             careerLevels: ['mid', 'senior'],
             jobTypes: ['technical', 'creative', 'corporate'],
@@ -104,7 +104,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'technical',
         name: 'Dev Terminal',
-        description: 'Monospaced font and code-block styling. Built for developers by developers.',
+        description: 'Speaks the language of developers with monospaced fonts, terminal-style headers, and code-block aesthetics. Features light and dark modes plus a DevOps theme. Perfect for software engineers, DevOps specialists, data scientists, and anyone who lives in the command line.',
         suitableFor: {
             careerLevels: ['mid', 'senior'],
             jobTypes: ['technical'],
@@ -123,7 +123,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'executive',
         name: 'Executive Board',
-        description: 'Commanding presence with centered headers and elegant serif details.',
+        description: 'Command attention with centered headers, elegant serif typography, and a layout designed for leadership. Features gold and classic color options that convey authority and experience. Ideal for C-suite executives, board members, senior partners, and established industry leaders.',
         suitableFor: {
             careerLevels: ['senior', 'executive'],
             jobTypes: ['corporate'],
@@ -141,7 +141,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'academic',
         name: 'Academic CV',
-        description: 'Optimized for length. Prioritizes publications, research, and education.',
+        description: 'Built for academia where comprehensive CVs are expected. Prioritizes publications, research, grants, and teaching experience. Compact spacing allows 2-3 pages without feeling cluttered. Essential for professors, researchers, PhD candidates, and academic positions.',
         suitableFor: {
             careerLevels: ['student', 'senior', 'executive'],
             jobTypes: ['academic'],
@@ -159,7 +159,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'creative',
         name: 'Visual Timeline',
-        description: 'Unique left-aligned timeline structure for showcasing career growth.',
+        description: 'Tell your career story visually with a unique timeline structure and vibrant accent colors. Features timeline dots and creative section headers that make your progression memorable. Perfect for designers, marketers, content creators, and roles where creativity is valued.',
         suitableFor: {
             careerLevels: ['entry', 'mid'],
             jobTypes: ['creative', 'freelance'],
@@ -178,13 +178,13 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'minimal',
         name: 'Clean Slate',
-        description: 'Centered, zero-distraction layout. Focuses purely on clarity and content.',
+        description: 'Less is more. Features centered text, generous whitespace, and zero visual distractions. Lets your experience speak for itself without competing design elements. Ideal for writers, consultants, strategists, and professionals who value substance over style.',
         suitableFor: {
             careerLevels: ['mid', 'senior'],
             jobTypes: ['creative', 'corporate'],
             industries: ['Writing', 'Marketing', 'General']
         },
-        previewImage: '/templates/classic-preview.png', // Temporary placeholder
+        previewImage: '/templates/minimal-preview.png',
         isPremium: false,
         colors: [
             { id: 'standard', name: 'Black', hex: '#000000' },
@@ -197,13 +197,13 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'compact',
         name: 'Compact Pro',
-        description: 'High-density layout designed to fit as much info as possible on one page.',
+        description: 'Maximize every inch with a high-density two-column layout that fits extensive experience on one page. Features compact spacing and skill badges. Perfect for mid-career professionals with diverse backgrounds or anyone who needs to condense 10+ years into one powerful page.',
         suitableFor: {
             careerLevels: ['entry', 'mid'],
             jobTypes: ['corporate', 'technical'],
             industries: ['Finance', 'Consulting']
         },
-        previewImage: '/templates/modern-preview.png', // Temporary placeholder
+        previewImage: '/templates/compact-preview.png',
         isPremium: true,
         colors: [
             { id: 'dark', name: 'Dark', hex: '#171717' },
@@ -215,13 +215,13 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'professional',
         name: 'Professional',
-        description: 'Clean, professional, and easy to scan. Optimized for recruiter review with a single-column layout.',
+        description: 'Designed for busy recruiters who spend 6 seconds per resume. Features scannable single-column layout, clear section breaks, and professional color accents. Works for any industry and career level. The safe, smart choice for competitive corporate roles.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'technical'],
             industries: ['General', 'Business', 'Legal', 'Tech']
         },
-        previewImage: '/templates/classic-preview.png', // Temporary placeholder
+        previewImage: '/templates/professional-preview.png',
         isPremium: false,
         colors: [
             { id: 'navy', name: 'Navy', hex: '#0f172a' },
@@ -235,13 +235,13 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'luxe',
         name: 'The Luxe',
-        description: 'Commanding elegance with center-aligned headers and refined serif typography. Built for executive presence.',
+        description: 'Exude sophistication with center-aligned headers and refined serif typography. Features gold, emerald, and charcoal color themes that convey prestige. Built for executive presence and commanding attention. Perfect for senior leadership roles in finance, law, and luxury sectors.',
         suitableFor: {
             careerLevels: ['senior', 'executive'],
             jobTypes: ['corporate'],
             industries: ['Finance', 'Legal', 'Management', 'Luxury']
         },
-        previewImage: '/templates/executive-preview.png', // Temporary placeholder
+        previewImage: '/templates/luxe-preview.png',
         isPremium: true,
         colors: [
             { id: 'gold', name: 'Gold Leaf', hex: '#b45309' },
@@ -254,13 +254,13 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'startup',
         name: 'The Startup',
-        description: 'Vibrant, high-energy layout with component-based skills and a bold sidebar. Perfect for tech and innovative roles.',
+        description: 'High-energy layout with vibrant colors and component-based design. Features bold sidebar, hashtag-style skills, and modern aesthetics. Perfect for tech startups, SaaS companies, digital agencies, and innovative roles where energy and forward-thinking are valued.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior'],
             jobTypes: ['technical', 'creative'],
             industries: ['Tech', 'SaaS', 'Digital']
         },
-        previewImage: '/templates/modern-preview.png', // Temporary placeholder
+        previewImage: '/templates/startup-preview.png',
         isPremium: true,
         colors: [
             { id: 'vibrant-blue', name: 'Vibrant Blue', hex: '#2563eb' },
@@ -273,13 +273,13 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'artisan',
         name: 'The Artisan',
-        description: 'Sophisticated offset layout with earthy tones and an organic feel. Ideal for creative and academic professionals.',
+        description: 'Sophisticated offset layout with earthy tones and organic feel. Features sage, terracotta, and slate color themes that feel warm and approachable. Ideal for creative professionals, educators, healthcare workers, and roles where human connection matters.',
         suitableFor: {
             careerLevels: ['mid', 'senior', 'executive'],
             jobTypes: ['creative', 'corporate'],
             industries: ['Design', 'Art', 'Education', 'Health']
         },
-        previewImage: '/templates/chic-preview.png', // Temporary placeholder
+        previewImage: '/templates/artisan-preview.png',
         isPremium: true,
         colors: [
             { id: 'sage', name: 'Earthy Sage', hex: '#064e3b' },
@@ -292,13 +292,13 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'split-contrast',
         name: 'The Split-Contrast',
-        description: 'Bold, modern layout using a subtle dual-tone background to create focus. Perfect for analysts, consultants, and leaders.',
+        description: 'Bold, modern layout using subtle dual-tone background to create visual hierarchy. Features skill proficiency bars and clean typography. Perfect for analysts, consultants, strategists, and professionals who need to convey both creativity and analytical thinking.',
         suitableFor: {
             careerLevels: ['mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'technical'],
             industries: ['Finance', 'Consulting', 'Tech']
         },
-        previewImage: '/templates/modern-preview.png', // Temporary placeholder
+        previewImage: '/templates/split-contrast-preview.png',
         isPremium: true,
         colors: [
             { id: 'gray', name: 'Pure Gray', hex: '#f9fafb' },
@@ -310,13 +310,13 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'graduate',
         name: 'Graduate Professional',
-        description: 'Single-column layout with clear hierarchy, prioritizing Education. Ideal for recent graduates and early career professionals.',
+        description: 'Education-first layout designed for recent graduates and early career professionals. Prioritizes academic achievements, coursework, and university projects. Clean hierarchy helps you stand out even with limited work experience. Perfect for your first professional role.',
         suitableFor: {
             careerLevels: ['student', 'entry'],
             jobTypes: ['corporate', 'academic', 'technical'],
             industries: ['General']
         },
-        previewImage: '/templates/classic-preview.png', // Temporary
+        previewImage: '/templates/graduate-preview.png',
         isPremium: false,
         colors: [
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -329,7 +329,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'ats-classic',
         name: 'ATS Classic Serif',
-        description: 'A timeless, serif-based layout for traditional industries like Law and Finance. Maximum scannability.',
+        description: 'Combines ATS compatibility with traditional elegance. Serif typography for law firms, financial institutions, and conservative industries. Passes automated screening while maintaining professional gravitas. Perfect when you need both modern technology and timeless presentation.',
         suitableFor: {
             careerLevels: ['mid', 'senior', 'executive'],
             jobTypes: ['corporate'],
@@ -344,7 +344,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'ats-minimal',
         name: 'ATS Ultra-Minimal',
-        description: 'Zero-distraction layout with high whitespace. Perfectly optimized for parsing by old and new ATS systems.',
+        description: 'The ultimate in simplicity and ATS compatibility. Maximum whitespace and zero decorative elements ensure perfect parsing by any system, old or new. When you absolutely must pass automated screening, this is your safest choice. Works for any industry or career level.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior'],
             jobTypes: ['corporate', 'creative'],
@@ -359,7 +359,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'ats-executive',
         name: 'ATS Executive Bold',
-        description: 'Structured for impact. Highlights leadership achievements and strategic skills with bold sectioning.',
+        description: 'ATS-compliant template designed for leadership roles. Bold section headers emphasize strategic achievements and executive presence. Passes automated screening while commanding attention. Perfect for C-suite, VP, and director-level positions in competitive markets.',
         suitableFor: {
             careerLevels: ['senior', 'executive'],
             jobTypes: ['corporate'],
@@ -374,7 +374,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'ats-technical',
         name: 'ATS Dev-Console',
-        description: 'Optimized for technical roles. Prioritizes skill stacks and project repositories in a monospaced format.',
+        description: 'Built for developers who need ATS compatibility. Monospaced format highlights technical skills, programming languages, and GitHub repositories. Passes automated screening while speaking the language of tech recruiters. Essential for software engineering roles at major tech companies.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior'],
             jobTypes: ['technical'],
@@ -389,7 +389,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'ats-modern',
         name: 'ATS Modern Clean',
-        description: 'A modern take on the single-column layout. Uses clean sans-serif typography and subtle hierarchy.',
+        description: 'Contemporary design meets ATS requirements. Clean sans-serif typography and subtle hierarchy create modern appeal while ensuring perfect parsing. Ideal for tech companies, SaaS startups, and marketing roles where you need both style and substance.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior'],
             jobTypes: ['corporate', 'technical'],
@@ -404,7 +404,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'ats-graduate',
         name: 'ATS New Grad',
-        description: 'Education-first layout with dedicated sections for academic coursework and university projects.',
+        description: 'Designed specifically for recent graduates entering competitive job markets. Education-first layout with dedicated sections for coursework, projects, and internships. ATS-optimized to help you land interviews even with limited work experience. Your launchpad to career success.',
         suitableFor: {
             careerLevels: ['student', 'entry'],
             jobTypes: ['corporate', 'academic'],
@@ -419,7 +419,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'ats-standard',
         name: 'ATS Pro-Standard',
-        description: 'The industry standard for recruiters. Left-aligned, high readability, and perfectly structured headers.',
+        description: 'The recruiter favorite. Left-aligned layout with perfectly structured headers that both humans and ATS systems love. High readability ensures your qualifications are never missed. The reliable, professional choice for any corporate role at any career level.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior', 'executive'],
             jobTypes: ['corporate'],

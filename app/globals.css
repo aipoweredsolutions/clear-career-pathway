@@ -7,10 +7,6 @@
 }
 
 @layer base {
-  * {
-    @apply border-neutral-200;
-  }
-
   body {
     @apply bg-neutral-50 text-neutral-900 antialiased;
   }
