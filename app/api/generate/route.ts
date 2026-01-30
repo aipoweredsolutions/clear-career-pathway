@@ -110,6 +110,90 @@ export async function POST(req: NextRequest) {
         - Mix of leadership, technical, and operational achievements
         - Return as a JSON object with a key "suggestions" containing an array of strings.
       `
+        } else if (type === 'skills_gap_analysis') {
+            const { resumeContent } = userProfile
+            prompt = `
+            You are an expert Career Coach and ATS Specialist. Your task is to perform a detailed Skills Gap Analysis between a candidate's resume and a specific Job Description.
+
+            Job Description:
+            "${currentContent.substring(0, 5000)}"
+
+            Candidate Resume (JSON format):
+            ${resumeContent}
+
+            Analyze the fit and return a valid JSON object with the following structure:
+            {
+                "matchScore": number (0-100),
+                "strengths": ["strength 1", "strength 2", ...],
+                "gaps": ["gap 1", "gap 2", ...],
+                "keywords": {
+                    "found": ["keyword 1", "keyword 2", ...],
+                    "missing": ["keyword 1", "keyword 2", ...]
+                },
+                "recommendations": ["specific instruction 1", "specific instruction 2", ...]
+            }
+
+            Analysis Requirements:
+            - matchScore: Be honest but encouraging. 85+ is excellent, 70-85 is good, below 70 needs work.
+            - strengths: Highlight where the resume already exceeds or meets requirements.
+            - gaps: Focus on missing hard skills, certifications, or specific experience levels.
+            - keywords: Extract relevant industry terms from the job description and check for their presence in the resume.
+            - recommendations: Provide 3-5 high-impact, actionable steps to improve the match (e.g., "Add a project that uses React Native", "Rewrite summary to mention ISO 9001 experience").
+            `
+        } else if (type === 'interview_prep') {
+            const { resumeContent } = userProfile
+            prompt = `
+            You are an expert Executive Recruiter and Career Coach. Generate a personalized Interview Preparation Guide for a candidate applying for the role of "${currentContent}".
+
+            Candidate Resume Data:
+            ${resumeContent}
+
+            Your output must be a valid JSON object with this structure:
+            {
+                "roleContext": "A brief overview of what companies look for in this role and how the candidate's background connects to it.",
+                "questions": [
+                    {
+                        "question": "The specific interview question",
+                        "reason": "Why the interviewer is asking this (the hidden agenda)",
+                        "suggestedApproach": "Step-by-step strategy for the candidate to answer using their specific experience",
+                        "sampleAnswerSnippet": "A short, impactful snippet or quote the candidate could use, tailored to their resume data"
+                    }
+                ]
+            }
+
+            Requirements:
+            - Generate 5-7 questions (mix of behavioral, technical, and situational).
+            - Ensure questions are deeply connected to the candidate's actual resume data (e.g., if they worked at Tesla, ask about high-pressure manufacturing environments).
+            - Use a supportive, professional, and strategic tone.
+            `
+        } else if (type === 'career_roadmap') {
+            const { resumeContent } = userProfile
+            prompt = `
+            You are a Strategic Career Mentor and Industry Analyst. Generate a detailed 5-year Career Roadmap for a professional based on their background and their and their target goal: "${currentContent}".
+
+            Candidate Resume Data:
+            ${resumeContent}
+
+            Your output must be a valid JSON object with this structure:
+            {
+                "ultimateGoal": "A bold, inspiring title for their 5-year vision",
+                "marketOutlook": "A high-level sentence about the demand and growth for this career path",
+                "milestones": [
+                    {
+                        "title": "Title of this career phase (e.g., Individual Contributor, Lead, Manager)",
+                        "timeframe": "Estimated months/years (e.g., Year 1-2)",
+                        "description": "What this phase involves strategically",
+                        "skillsToAcquire": ["Skill 1", "Skill 2", ...],
+                        "actionSteps": ["Action 1", "Action 2", ...]
+                    }
+                ]
+            }
+
+            Requirements:
+            - Generate 3-4 distinct milestones that build logically upon each other.
+            - Ensure the roadmap is Realistic but Ambitious based on the candidate's current resume data.
+            - Action steps should be concrete (e.g., "Complete a Lean Six Sigma certification", "Spearhead a multi-departmental project").
+            `
         } else if (type === 'parse_resume_from_text') {
             prompt = `
             You are an expert Resume Parser. Your job is to extract structured data from the provided resume text.

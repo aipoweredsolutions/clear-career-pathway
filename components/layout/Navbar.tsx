@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { Button } from '@/components/ui/Button'
-import { Menu, X, User, ChevronDown, LayoutDashboard, LogOut, FileText, CreditCard } from 'lucide-react'
+import { Menu, X, User, ChevronDown, LayoutDashboard, LogOut, FileText, CreditCard, Target } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function Navbar() {
@@ -37,6 +37,7 @@ export function Navbar() {
 
     const navLinks = [
         { name: 'Templates', href: '/#templates' },
+        { name: 'Career Studio', href: '/career-hub' },
         { name: 'Samples', href: '/samples' },
         { name: 'Pricing', href: '/pricing' },
     ]
@@ -124,6 +125,14 @@ export function Navbar() {
                                         >
                                             <LayoutDashboard className="w-4 h-4" />
                                             Active Dashboard
+                                        </Link>
+                                        <Link
+                                            href="/career-hub"
+                                            className="flex items-center gap-3 px-5 py-3 text-sm font-medium text-neutral-700 hover:bg-primary-50 hover:text-primary-700 transition-all"
+                                            onClick={() => setIsDropdownOpen(false)}
+                                        >
+                                            <Target className="w-4 h-4" />
+                                            Career Studio
                                         </Link>
                                         <Link
                                             href="/pricing"

@@ -27,7 +27,7 @@ export function ProfessionalTemplate({ data, className, accentColor = 'text-slat
     } = data
 
     return (
-        <div className={cn("w-full bg-white aspect-[210/297] p-12 md:p-16 text-slate-950 font-sans leading-relaxed flex flex-col gap-8", className)}>
+        <div className={cn("w-full bg-white aspect-[210/297] text-slate-950 font-sans leading-relaxed flex flex-col gap-8", className)}>
             {/* Header */}
             <header className="flex flex-col items-start gap-4">
                 <div className="w-full flex justify-between items-baseline border-b-2 border-slate-100 pb-6">

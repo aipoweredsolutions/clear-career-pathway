@@ -40,7 +40,7 @@ export function ClassicTemplate({ data, className = '', accentColor = 'text-blue
     const borderClass = accentColor.replace('text-', 'border-')
 
     return (
-        <div className={cn("resume-text bg-white p-8 max-w-[8.5in] mx-auto", className)}>
+        <div className={cn("resume-text bg-white", className)}>
             {/* Personal Information */}
             {personalInfo && (
                 <header className={cn("mb-10 text-center border-b-[3px] pb-8", borderClass)}>

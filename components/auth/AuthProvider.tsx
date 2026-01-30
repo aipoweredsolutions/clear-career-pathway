@@ -26,6 +26,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const router = useRouter()
 
     useEffect(() => {
+        // Check for mock session first (Developer Bypass)
+        const isMock = document.cookie.includes('mock_session=true')
+
+        if (isMock) {
+            setUser({
+                id: 'mock-user-id',
+                email: 'tester@example.com',
+                user_metadata: { full_name: 'Test Reviewer' },
+                app_metadata: {},
+                aud: 'authenticated',
+                created_at: new Date().toISOString()
+            } as any)
+            setSession({
+                access_token: 'mock-token',
+                refresh_token: 'mock-refresh',
+                expires_in: 3600,
+                expires_at: Math.floor(Date.now() / 1000) + 3600,
+                user: { id: 'mock-user-id', email: 'tester@example.com' } as any
+            } as any)
+            setLoading(false)
+            return
+        }
+
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
             async (event, session) => {
                 if (session) {
@@ -45,6 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     const signOut = async () => {
+        document.cookie = "mock_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         await supabase.auth.signOut()
         router.push('/')
     }

@@ -16,7 +16,9 @@ export const templateRegistry: TemplateMetadata[] = [
         colors: [
             { id: 'standard', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
-            { id: 'charcoal', name: 'Charcoal', hex: '#374151' }
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'blue', name: 'Professional Blue', hex: '#2563eb' },
+            { id: 'green', name: 'Forest Green', hex: '#065f46' }
         ]
     },
 
@@ -33,10 +35,10 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/cute-preview.png',
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Sophisticated Black', hex: '#111827' },
             { id: 'pink', name: 'Pink', hex: '#fce7f3' },
             { id: 'mint', name: 'Mint', hex: '#ccfbf1' },
             { id: 'lavender', name: 'Lavender', hex: '#f3e8ff' },
-            { id: 'sky', name: 'Sky', hex: '#e0f2fe' },
             { id: 'peach', name: 'Peach', hex: '#ffedd5' }
         ]
     },
@@ -54,8 +56,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/chic-preview.png',
         isPremium: true,
         colors: [
-            { id: 'std', name: 'Standard', hex: '#ffffff' }, // Black on white
-            { id: 'serif', name: 'Serif Mode', hex: '#f5f5f4' } // Uses serif font variant
+            { id: 'std', name: 'Standard Black', hex: '#000000' },
+            { id: 'navy', name: 'Onyx Navy', hex: '#0f172a' },
+            { id: 'slate', name: 'Modern Slate', hex: '#334155' },
+            { id: 'charcoal', name: 'Deep Charcoal', hex: '#1f2937' },
+            { id: 'serif', name: 'Serif Mode', hex: '#f5f5f4' }
         ]
     },
 
@@ -72,11 +77,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/classic-preview.png',
         isPremium: false,
         colors: [
+            { id: 'black', name: 'Classic Black', hex: '#000000' },
             { id: 'blue', name: 'Blue', hex: '#1e40af' },
             { id: 'green', name: 'Green', hex: '#047857' },
             { id: 'red', name: 'Red', hex: '#be123c' },
-            { id: 'navy', name: 'Navy', hex: '#312e81' },
-            { id: 'gray', name: 'Gray', hex: '#374151' }
+            { id: 'navy', name: 'Navy', hex: '#312e81' }
         ]
     },
 
@@ -93,6 +98,7 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/modern-preview.png',
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Stealth Black', hex: '#111827' },
             { id: 'slate', name: 'Dark Slate', hex: '#0f172a' },
             { id: 'teal', name: 'Teal', hex: '#115e59' },
             { id: 'blue', name: 'Blue', hex: '#1e3a8a' },
@@ -113,9 +119,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/technical-preview.png',
         isPremium: false,
         colors: [
+            { id: 'black', name: 'Terminal Black', hex: '#000000' },
             { id: 'standard', name: 'Light Mode', hex: '#ffffff' },
             { id: 'dark', name: 'Dark Mode', hex: '#171717' },
-            { id: 'devops', name: 'DevOps Theme', hex: '#064e3b' }
+            { id: 'devops', name: 'DevOps Theme', hex: '#064e3b' },
+            { id: 'slate', name: 'Code Slate', hex: '#334155' }
         ]
     },
 
@@ -132,8 +140,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/executive-preview.png',
         isPremium: true,
         colors: [
-            { id: 'standard', name: 'Classic', hex: '#d6d3d1' },
-            { id: 'gold', name: 'Gold', hex: '#f59e0b' }
+            { id: 'black', name: 'Premium Black', hex: '#000000' },
+            { id: 'standard', name: 'Classic Slate', hex: '#d6d3d1' },
+            { id: 'gold', name: 'Gold', hex: '#f59e0b' },
+            { id: 'navy', name: 'Presidential Navy', hex: '#0f172a' },
+            { id: 'emerald', name: 'Royal Emerald', hex: '#064e3b' }
         ]
     },
 
@@ -150,8 +161,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/academic-preview.png',
         isPremium: false,
         colors: [
-            { id: 'clean', name: 'Clean', hex: '#ffffff' },
-            { id: 'dense', name: 'Compact', hex: '#e5e7eb' }
+            { id: 'black', name: 'Formal Black', hex: '#000000' },
+            { id: 'clean', name: 'Clean White', hex: '#ffffff' },
+            { id: 'dense', name: 'Compact Gray', hex: '#e5e7eb' },
+            { id: 'navy', name: 'Oxford Navy', hex: '#1e3a8a' },
+            { id: 'maroon', name: 'Scholar Maroon', hex: '#7f1d1d' }
         ]
     },
 
@@ -168,9 +182,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/creative-preview.png',
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Midnight', hex: '#111827' },
             { id: 'purple', name: 'Purple', hex: '#9333ea' },
             { id: 'orange', name: 'Orange', hex: '#ea580c' },
-            { id: 'pink', name: 'Pink', hex: '#db2777' }
+            { id: 'pink', name: 'Pink', hex: '#db2777' },
+            { id: 'indigo', name: 'Indigo Flare', hex: '#4f46e5' }
         ]
     },
 
@@ -187,9 +203,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/minimal-preview.png',
         isPremium: false,
         colors: [
-            { id: 'standard', name: 'Black', hex: '#000000' },
+            { id: 'standard', name: 'Pure Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
-            { id: 'charcoal', name: 'Charcoal', hex: '#374151' }
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'slate', name: 'Slate Gray', hex: '#475569' },
+            { id: 'teal', name: 'Muted Teal', hex: '#0d9488' }
         ]
     },
 
@@ -206,8 +224,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/compact-preview.png',
         isPremium: true,
         colors: [
-            { id: 'dark', name: 'Dark', hex: '#171717' },
-            { id: 'blue', name: 'Blue', hex: '#2563eb' },
+            { id: 'dark', name: 'Dark Onyx', hex: '#171717' },
+            { id: 'black', name: 'Matte Black', hex: '#000000' },
+            { id: 'blue', name: 'Electric Blue', hex: '#2563eb' },
+            { id: 'emerald', name: 'Emerald', hex: '#10b981' },
+            { id: 'navy', name: 'Deep Navy', hex: '#1e3a8a' }
         ]
     },
 
@@ -224,6 +245,7 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/professional-preview.png',
         isPremium: false,
         colors: [
+            { id: 'black', name: 'Sharp Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#0f172a' },
             { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
             { id: 'blue', name: 'Muted Blue', hex: '#1e3a8a' },
@@ -244,9 +266,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/luxe-preview.png',
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Rich Black', hex: '#000000' },
             { id: 'gold', name: 'Gold Leaf', hex: '#b45309' },
             { id: 'emerald', name: 'Royal Emerald', hex: '#064e3b' },
-            { id: 'charcoal', name: 'Deep Charcoal', hex: '#1e293b' }
+            { id: 'charcoal', name: 'Deep Charcoal', hex: '#1e293b' },
+            { id: 'navy', name: 'Majestic Navy', hex: '#0f172a' }
         ]
     },
 
@@ -263,9 +287,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/startup-preview.png',
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Founders Black', hex: '#111827' },
             { id: 'vibrant-blue', name: 'Vibrant Blue', hex: '#2563eb' },
             { id: 'electric-purple', name: 'Electric Purple', hex: '#9333ea' },
-            { id: 'cyber-lime', name: 'Cyber Lime', hex: '#84cc16' }
+            { id: 'cyber-lime', name: 'Cyber Lime', hex: '#84cc16' },
+            { id: 'hot-pink', name: 'Neon Pink', hex: '#f43f5e' }
         ]
     },
 
@@ -282,9 +308,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/artisan-preview.png',
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Artisan Black', hex: '#1c1917' },
             { id: 'sage', name: 'Earthy Sage', hex: '#064e3b' },
             { id: 'terracotta', name: 'Terracotta', hex: '#c2410c' },
-            { id: 'slate', name: 'Natural Slate', hex: '#334155' }
+            { id: 'slate', name: 'Natural Slate', hex: '#334155' },
+            { id: 'clay', name: 'Warm Clay', hex: '#a8a29e' }
         ]
     },
 
@@ -301,9 +329,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/split-contrast-preview.png',
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Modern Black', hex: '#111827' },
             { id: 'gray', name: 'Pure Gray', hex: '#f9fafb' },
             { id: 'slate', name: 'Cool Slate', hex: '#f8fafc' },
-            { id: 'warm', name: 'Soft Warmth', hex: '#fafaf9' }
+            { id: 'warm', name: 'Soft Warmth', hex: '#fafaf9' },
+            { id: 'navy', name: 'Contrast Navy', hex: '#0f172a' }
         ]
     },
     // --- 16. GRADUATE (Entry level, single column, education first) ---
@@ -319,9 +349,11 @@ export const templateRegistry: TemplateMetadata[] = [
         previewImage: '/templates/graduate-preview.png',
         isPremium: false,
         colors: [
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
             { id: 'teal', name: 'Teal', hex: '#0f766e' },
-            { id: 'maroon', name: 'Maroon', hex: '#9f1239' }
+            { id: 'maroon', name: 'Maroon', hex: '#9f1239' },
+            { id: 'slate', name: 'Modern Slate', hex: '#475569' }
         ]
     },
 
@@ -336,9 +368,13 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Legal', 'Finance', 'Education']
         },
         isPremium: false,
+        previewImage: '/templates/ats-classic-preview.png',
         colors: [
-            { id: 'black', name: 'Standard', hex: '#000000' },
-            { id: 'navy', name: 'Navy', hex: '#1e3a8a' }
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
+            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'slate', name: 'Slate Gray', hex: '#475569' },
+            { id: 'maroon', name: 'Deep Maroon', hex: '#7f1d1d' }
         ]
     },
     {
@@ -351,9 +387,13 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General']
         },
         isPremium: false,
+        previewImage: '/templates/ats-minimal-preview.png',
         colors: [
-            { id: 'black', name: 'Standard', hex: '#000000' },
-            { id: 'charcoal', name: 'Charcoal', hex: '#374151' }
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
+            { id: 'slate', name: 'Slate Gray', hex: '#475569' },
+            { id: 'teal', name: 'Muted Teal', hex: '#0d9488' }
         ]
     },
     {
@@ -366,9 +406,13 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Management', 'C-Suite']
         },
         isPremium: false,
+        previewImage: '/templates/ats-executive-preview.png',
         colors: [
-            { id: 'black', name: 'Standard', hex: '#000000' },
-            { id: 'gold', name: 'Premium Gold', hex: '#b45309' }
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
+            { id: 'gold', name: 'Premium Gold', hex: '#b45309' },
+            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'emerald', name: 'Deep Emerald', hex: '#064e3b' }
         ]
     },
     {
@@ -381,9 +425,13 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Software', 'Engineering', 'AI']
         },
         isPremium: false,
+        previewImage: '/templates/ats-technical-preview.png',
         colors: [
-            { id: 'black', name: 'Standard', hex: '#000000' },
-            { id: 'green', name: 'Matrix Green', hex: '#064e3b' }
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
+            { id: 'green', name: 'Matrix Green', hex: '#064e3b' },
+            { id: 'cyan', name: 'Cyber Cyan', hex: '#0891b2' },
+            { id: 'orange', name: 'Terminal Orange', hex: '#ea580c' },
+            { id: 'slate', name: 'Carbon Slate', hex: '#334155' }
         ]
     },
     {
@@ -396,9 +444,13 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Tech', 'SaaS', 'Marketing']
         },
         isPremium: false,
+        previewImage: '/templates/ats-modern-preview.png',
         colors: [
-            { id: 'black', name: 'Standard', hex: '#000000' },
-            { id: 'blue', name: 'Modern Blue', hex: '#2563eb' }
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
+            { id: 'blue', name: 'Modern Blue', hex: '#2563eb' },
+            { id: 'violet', name: 'Modern Violet', hex: '#7c3aed' },
+            { id: 'teal', name: 'Modern Teal', hex: '#0d9488' },
+            { id: 'slate', name: 'Modern Slate', hex: '#475569' }
         ]
     },
     {
@@ -411,9 +463,13 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General', 'Education']
         },
         isPremium: false,
+        previewImage: '/templates/ats-graduate-preview.png',
         colors: [
-            { id: 'black', name: 'Standard', hex: '#000000' },
-            { id: 'maroon', name: 'Academic Maroon', hex: '#9f1239' }
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
+            { id: 'maroon', name: 'Academic Maroon', hex: '#9f1239' },
+            { id: 'navy', name: 'University Navy', hex: '#1e3a8a' },
+            { id: 'green', name: 'Campus Green', hex: '#065f46' },
+            { id: 'charcoal', name: 'Gray Charcoal', hex: '#374151' }
         ]
     },
     {
@@ -426,9 +482,32 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General', 'Business']
         },
         isPremium: false,
+        previewImage: '/templates/ats-standard-preview.png',
         colors: [
-            { id: 'black', name: 'Standard', hex: '#000000' },
-            { id: 'slate', name: 'Slate Grey', hex: '#475569' }
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
+            { id: 'slate', name: 'Slate Grey', hex: '#475569' },
+            { id: 'navy', name: 'Deep Navy', hex: '#0f172a' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'blue', name: 'Corporate Blue', hex: '#1e40af' }
+        ]
+    },
+    {
+        id: 'ats-timeline',
+        name: 'ATS Timeline Pro',
+        description: 'Elite professional template that combines a visual timeline with 100% ATS compatibility. Features refined typography, elegant whitespace, and a linear structure that ensures perfect parsing. Ideal for senior professionals and executives who want a distinctive yet safe visual identity.',
+        suitableFor: {
+            careerLevels: ['mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'technical'],
+            industries: ['Finance', 'Consulting', 'Tech', 'Legal']
+        },
+        isPremium: true,
+        previewImage: '/templates/ats-timeline-preview.png',
+        colors: [
+            { id: 'black', name: 'Elite Black', hex: '#000000' },
+            { id: 'navy', name: 'Midnight Navy', hex: '#0f172a' },
+            { id: 'slate', name: 'Silver Slate', hex: '#334155' },
+            { id: 'charcoal', name: 'Charcoal Gold', hex: '#1e293b' },
+            { id: 'emerald', name: 'Deep Emerald', hex: '#064e3b' }
         ]
     }
 ]

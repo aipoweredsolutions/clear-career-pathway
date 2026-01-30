@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 interface TemplateProps {
     data: ResumeDocument
     className?: string
-    theme?: 'sage' | 'terracotta' | 'slate'
+    theme?: 'sage' | 'terracotta' | 'slate' | 'black' | 'clay'
 }
 
 export function ArtisanTemplate({ data, className, theme = 'sage' }: TemplateProps) {
@@ -44,6 +44,18 @@ export function ArtisanTemplate({ data, className, theme = 'sage' }: TemplatePro
             bg: 'bg-slate-50',
             border: 'border-slate-200',
             dot: 'bg-slate-300'
+        },
+        black: {
+            accent: 'text-neutral-900',
+            bg: 'bg-neutral-50',
+            border: 'border-neutral-200',
+            dot: 'bg-neutral-400'
+        },
+        clay: {
+            accent: 'text-stone-800',
+            bg: 'bg-stone-50',
+            border: 'border-stone-200',
+            dot: 'bg-stone-300'
         }
     }
 

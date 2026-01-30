@@ -6,7 +6,7 @@ import { Star, Heart, Cloud } from 'lucide-react'
 interface TemplateProps {
     data: ResumeDocument
     className?: string
-    colorTheme?: 'pink' | 'mint' | 'lavender' | 'sky' | 'peach'
+    colorTheme?: 'pink' | 'mint' | 'lavender' | 'sky' | 'peach' | 'black'
 }
 
 export function CuteTemplate({ data, className, colorTheme = 'pink' }: TemplateProps) {
@@ -18,6 +18,7 @@ export function CuteTemplate({ data, className, colorTheme = 'pink' }: TemplateP
         lavender: { bg: 'bg-purple-50', header: 'bg-purple-100', text: 'text-purple-600', border: 'border-purple-200', accent: 'bg-purple-200' },
         sky: { bg: 'bg-sky-50', header: 'bg-sky-100', text: 'text-sky-600', border: 'border-sky-200', accent: 'bg-sky-200' },
         peach: { bg: 'bg-orange-50', header: 'bg-orange-100', text: 'text-orange-600', border: 'border-orange-200', accent: 'bg-orange-200' },
+        black: { bg: 'bg-neutral-50', header: 'bg-neutral-200', text: 'text-neutral-900', border: 'border-neutral-300', accent: 'bg-neutral-300' },
     }
 
     const theme = colors[colorTheme]

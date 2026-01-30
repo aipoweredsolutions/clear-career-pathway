@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 interface TemplateProps {
     data: ResumeDocument
     className?: string
-    theme?: 'gray' | 'slate' | 'warm'
+    theme?: 'gray' | 'slate' | 'warm' | 'black' | 'navy'
 }
 
 export function SplitContrastTemplate({ data, className, theme = 'gray' }: TemplateProps) {
@@ -26,6 +26,16 @@ export function SplitContrastTemplate({ data, className, theme = 'gray' }: Templ
             sidebar: 'bg-stone-50',
             accent: 'text-stone-900',
             border: 'border-stone-200'
+        },
+        black: {
+            sidebar: 'bg-neutral-900',
+            accent: 'text-neutral-50',
+            border: 'border-neutral-800'
+        },
+        navy: {
+            sidebar: 'bg-slate-900',
+            accent: 'text-slate-50',
+            border: 'border-slate-800'
         }
     }
 

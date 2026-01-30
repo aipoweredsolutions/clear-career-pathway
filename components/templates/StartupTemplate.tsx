@@ -6,7 +6,7 @@ interface TemplateProps {
     data: ResumeDocument
     className?: string
     accentColor?: string // Tailwind bg color for pills/accents
-    theme?: 'vibrant-blue' | 'electric-purple' | 'cyber-lime'
+    theme?: 'vibrant-blue' | 'electric-purple' | 'cyber-lime' | 'black' | 'hot-pink'
 }
 
 export function StartupTemplate({ data, className, theme = 'vibrant-blue' }: TemplateProps) {
@@ -48,6 +48,20 @@ export function StartupTemplate({ data, className, theme = 'vibrant-blue' }: Tem
             text: 'text-lime-700',
             border: 'border-lime-300',
             accent: 'text-lime-600'
+        },
+        'black': {
+            primary: 'bg-neutral-900',
+            secondary: 'bg-neutral-50',
+            text: 'text-neutral-900',
+            border: 'border-neutral-200',
+            accent: 'text-neutral-950'
+        },
+        'hot-pink': {
+            primary: 'bg-rose-500',
+            secondary: 'bg-rose-50',
+            text: 'text-rose-700',
+            border: 'border-rose-200',
+            accent: 'text-rose-600'
         }
     }
 

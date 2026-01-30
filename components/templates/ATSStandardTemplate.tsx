@@ -21,7 +21,7 @@ export function ATSStandardTemplate({ data, className }: TemplateProps) {
 
     return (
         <div className={cn(
-            "w-full bg-white aspect-[210/297] p-12 text-neutral-900",
+            "w-full bg-white aspect-[210/297] text-neutral-900",
             "font-sans",
             className
         )}>

@@ -64,14 +64,21 @@ export default function PrivacyPage() {
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">6. Cookies</h2>
+                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">6. Refund Policy</h2>
+                        <p>
+                            We strive for 100% customer satisfaction. If you are not satisfied with our premium templates or AI generation services, we offer a full refund within 14 days of your purchase. To request a refund, please contact our support team with your account details and transaction ID. Refunds are typically processed within 5-10 business days.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">7. Cookies</h2>
                         <p>
                             We use essential cookies to maintain your session and authentication. We do not use tracking or advertising cookies.
                         </p>
                     </section>
 
                     <section className="pt-8 border-t border-neutral-100 italic">
-                        <p>Last Updated: January 28, 2026</p>
+                        <p>Last Updated: January 29, 2026</p>
                     </section>
                 </div>
             </div>

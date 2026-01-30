@@ -2,11 +2,11 @@
 
 import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
-import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { Button } from '@/components/ui/Button'
 import { ExternalLink, Copy, Check } from 'lucide-react'
 import Link from 'next/link'
 import { TemplatePreviewDialog } from '../home/TemplatePreviewDialog'
+import { TemplateThumbnail } from '../home/TemplateThumbnail'
 import { templateRegistry } from '@/lib/templates/registry'
 
 interface SampleCardProps {
@@ -31,14 +31,12 @@ export function SampleCard({ sample, category, description }: SampleCardProps) {
         <div className="group bg-white rounded-3xl border border-neutral-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full">
             {/* Preview Container */}
             <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
-                <div className="absolute inset-x-4 top-4 bottom-4 transition-transform duration-700 group-hover:scale-[1.02] origin-top">
-                    <div className="scale-[0.25] origin-top-left w-[400%] h-[400%] pointer-events-none">
-                        <TemplateRenderer
-                            templateId={sample.templateId}
-                            data={sample}
-                            className="shadow-2xl"
+                <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.02] origin-top">
+                    {templateMetadata && (
+                        <TemplateThumbnail
+                            template={templateMetadata}
                         />
-                    </div>
+                    )}
                 </div>
 
                 {/* Overlay */}
@@ -78,7 +76,7 @@ export function SampleCard({ sample, category, description }: SampleCardProps) {
                 </p>
 
                 <div className="mt-auto pt-6 border-t border-neutral-100 flex items-center justify-between">
-                    <Link href={`/editor/new?sample=${sample.id}`} className="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1.5 transition-colors">
+                    <Link href={`/editor/setup?template=${sample.templateId}&sample=${sample.id}`} className="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1.5 transition-colors">
                         Get Started <ExternalLink className="w-3.5 h-3.5" />
                     </Link>
 

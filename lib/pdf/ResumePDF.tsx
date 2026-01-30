@@ -30,88 +30,126 @@ const getTemplateColors = (templateId: string) => {
 
     // New ATS Series
     if (id.startsWith('ats-')) {
+        if (id.includes('black')) return { primary: '#1a1a1a', secondary: '#4b5563', text: '#1a1a1a', border: '#374151' }
+        if (id.includes('navy')) return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#1e3a8a' }
+        if (id.includes('charcoal')) return { primary: '#374151', secondary: '#6b7280', text: '#1a1a1a', border: '#374151' }
+        if (id.includes('blue')) return { primary: '#2563eb', secondary: '#3b82f6', text: '#1a1a1a', border: '#2563eb' }
+        if (id.includes('green') || id.includes('matrix') || id.includes('campus')) return { primary: '#064e3b', secondary: '#10b981', text: '#1a1a1a', border: '#065f46' }
+        if (id.includes('gold')) return { primary: '#92400e', secondary: '#d97706', text: '#1a1a1a', border: '#b45309' }
+        if (id.includes('cyan')) return { primary: '#0891b2', secondary: '#22d3ee', text: '#1a1a1a', border: '#0891b2' }
+        if (id.includes('orange')) return { primary: '#ea580c', secondary: '#fb923c', text: '#1a1a1a', border: '#ea580c' }
+        if (id.includes('violet')) return { primary: '#7c3aed', secondary: '#8b5cf6', text: '#1a1a1a', border: '#7c3aed' }
+        if (id.includes('teal')) return { primary: '#0d9488', secondary: '#2dd4bf', text: '#1a1a1a', border: '#0d9488' }
+        if (id.includes('slate')) return { primary: '#475569', secondary: '#64748b', text: '#1a1a1a', border: '#475569' }
+        if (id.includes('maroon')) return { primary: '#9f1239', secondary: '#e11d48', text: '#1a1a1a', border: '#9f1239' }
+
+        // Base fallbacks
         if (id.startsWith('ats-classic')) return { primary: '#1a1a1a', secondary: '#4b5563', text: '#1a1a1a', border: '#374151' }
         if (id.startsWith('ats-minimal')) return { primary: '#000000', secondary: '#9ca3af', text: '#1a1a1a', border: '#e5e7eb' }
         if (id.startsWith('ats-executive')) return { primary: '#111827', secondary: '#b45309', text: '#1a1a1a', border: '#111827' }
         if (id.startsWith('ats-technical')) return { primary: '#000000', secondary: '#064e3b', text: '#1a1a1a', border: '#171717' }
         if (id.startsWith('ats-modern')) return { primary: '#111827', secondary: '#2563eb', text: '#1a1a1a', border: '#e5e7eb' }
         if (id.startsWith('ats-graduate')) return { primary: '#1e3a8a', secondary: '#9f1239', text: '#1a1a1a', border: '#1e3a8a' }
+        if (id.startsWith('ats-timeline')) return { primary: '#0f172a', secondary: '#475569', text: '#1a1a1a', border: '#0f172a' }
         if (id.startsWith('ats-standard')) return { primary: '#111827', secondary: '#475569', text: '#1a1a1a', border: '#f1f5f9' }
         return { primary: '#1a1a1a', secondary: '#3b82f6', text: '#1a1a1a', border: '#e5e7eb' }
     }
 
-    // Modern / Professional with Sidebar
-    if (id.startsWith('modern') || id.startsWith('professional')) {
+    // Modern / Professional / Minimal with Sidebar or explicit accent
+    if (id.startsWith('modern') || id.startsWith('professional') || id.startsWith('minimal') || id.startsWith('compact') || id.startsWith('graduate')) {
+        if (id.includes('black')) return { primary: '#111827', secondary: '#4b5563', text: '#1f2937', border: '#111827', sidebarBg: '#111827', sidebarText: '#ffffff' }
         if (id.includes('teal')) return { primary: '#134e4a', secondary: '#14b8a6', text: '#1f2937', border: '#134e4a', sidebarBg: '#134e4a', sidebarText: '#ffffff' }
         if (id.includes('slate')) return { primary: '#0f172a', secondary: '#64748b', text: '#1f2937', border: '#0f172a', sidebarBg: '#0f172a', sidebarText: '#ffffff' }
         if (id.includes('navy')) return { primary: '#0f172a', secondary: '#334155', text: '#1f2937', border: '#0f172a', sidebarBg: '#0f172a', sidebarText: '#ffffff' }
         if (id.includes('charcoal')) return { primary: '#374151', secondary: '#6b7280', text: '#1f2937', border: '#374151', sidebarBg: '#374151', sidebarText: '#ffffff' }
-        return { primary: '#0f172a', secondary: '#64748b', text: '#1f2937', border: '#0f172a', sidebarBg: '#0f172a', sidebarText: '#ffffff' }
+        if (id.includes('blue')) return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1f2937', border: '#1e3a8a', sidebarBg: '#1e3a8a', sidebarText: '#ffffff' }
+        if (id.includes('green') || id.includes('emerald')) return { primary: '#064e3b', secondary: '#10b981', text: '#1f2937', border: '#064e3b', sidebarBg: '#064e3b', sidebarText: '#ffffff' }
+        if (id.includes('violet') || id.includes('purple')) return { primary: '#4c1d95', secondary: '#8b5cf6', text: '#1f2937', border: '#4c1d95', sidebarBg: '#4c1d95', sidebarText: '#ffffff' }
+        if (id.includes('maroon') || id.includes('rose')) return { primary: '#881337', secondary: '#f43f5e', text: '#1f2937', border: '#881337', sidebarBg: '#881337', sidebarText: '#ffffff' }
+
+        if (id.startsWith('modern')) return { primary: '#0f172a', secondary: '#64748b', text: '#1f2937', border: '#0f172a', sidebarBg: '#0f172a', sidebarText: '#ffffff' }
+        if (id.startsWith('professional')) return { primary: '#0f172a', secondary: '#64748b', text: '#1f2937', border: '#0f172a' }
+        if (id.startsWith('minimal')) return { primary: '#1a1a1a', secondary: '#737373', text: '#1a1a1a', border: '#e5e7eb' }
     }
 
     // Classic / Standard
     if (id.startsWith('classic')) {
+        if (id.includes('black')) return { primary: '#000000', secondary: '#4b5563', text: '#1a1a1a', border: '#000000' }
         if (id.includes('blue')) return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#3b82f6' }
         if (id.includes('green')) return { primary: '#065f46', secondary: '#10b981', text: '#1a1a1a', border: '#10b981' }
         if (id.includes('rose') || id.includes('red')) return { primary: '#881337', secondary: '#f43f5e', text: '#1a1a1a', border: '#f43f5e' }
         if (id.includes('purple') || id.includes('violet')) return { primary: '#5b21b6', secondary: '#8b5cf6', text: '#1a1a1a', border: '#8b5cf6' }
+        if (id.includes('navy')) return { primary: '#312783', secondary: '#6366f1', text: '#1a1a1a', border: '#6366f1' }
         return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#3b82f6' }
     }
 
     // Technical / Startup (Dark Sidebar/Header)
     if (id.startsWith('technical') || id.startsWith('startup')) {
+        if (id.includes('black')) return { primary: '#000000', secondary: '#71717a', text: '#f9fafb', border: '#27272a', sidebarBg: '#000000' }
         if (id.includes('dark')) return { primary: '#111827', secondary: '#6366f1', text: '#f9fafb', border: '#374151', sidebarBg: '#030712' }
         if (id.includes('devops')) return { primary: '#064e3b', secondary: '#10b981', text: '#f0fdf4', border: '#065f46', sidebarBg: '#052c22' }
         if (id.includes('vibrant')) return { primary: '#1e40af', secondary: '#3b82f6', text: '#1e3a8a', border: '#bfdbfe', sidebarBg: '#eff6ff' }
+        if (id.includes('purple')) return { primary: '#4c1d95', secondary: '#a855f7', text: '#f5f3ff', border: '#7c3aed', sidebarBg: '#2e1065' }
+        if (id.includes('lime') || id.includes('green')) return { primary: '#14532d', secondary: '#84cc16', text: '#f0fdf4', border: '#166534', sidebarBg: '#052c22' }
+        if (id.includes('pink') || id.includes('hot-pink')) return { primary: '#831843', secondary: '#f43f5e', text: '#fff1f2', border: '#be123c', sidebarBg: '#500724' }
+        if (id.includes('slate')) return { primary: '#1e293b', secondary: '#94a3b8', text: '#f8fafc', border: '#334155', sidebarBg: '#0f172a' }
         return { primary: '#111827', secondary: '#6366f1', text: '#111827', border: '#e5e7eb', sidebarBg: '#f8fafc' }
     }
 
     // Executive variants
     if (id.startsWith('executive') || id.startsWith('luxe')) {
+        if (id.includes('black')) return { primary: '#000000', secondary: '#71717a', text: '#1a1a1a', border: '#27272a' }
         if (id.includes('gold')) return { primary: '#92400e', secondary: '#d97706', text: '#1a1a1a', border: '#f59e0b' }
         if (id.includes('emerald')) return { primary: '#064e3b', secondary: '#10b981', text: '#1a1a1a', border: '#34d399' }
         if (id.includes('charcoal')) return { primary: '#1e293b', secondary: '#64748b', text: '#1a1a1a', border: '#cbd5e1' }
+        if (id.includes('navy')) return { primary: '#0f172a', secondary: '#3b82f6', text: '#1a1a1a', border: '#1e3a8a' }
         return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#cbd5e1' }
-    }
-
-    // Luxe variants
-    if (id.startsWith('luxe')) {
-        if (id.includes('gold')) return { primary: '#78350f', secondary: '#d97706', text: '#1a1a1a', border: '#fbbf24' }
-        if (id.includes('emerald')) return { primary: '#064e3b', secondary: '#10b981', text: '#1a1a1a', border: '#34d399' }
-        return { primary: '#27272a', secondary: '#71717a', text: '#1a1a1a', border: '#a1a1aa' }
     }
 
     // Cute variants
     if (id.startsWith('cute')) {
+        if (id.includes('black')) return { primary: '#111827', secondary: '#6b7280', text: '#111827', border: '#e5e7eb', headerBg: '#f9fafb' }
         if (id.includes('pink')) return { primary: '#db2777', secondary: '#fbcfe8', text: '#831843', border: '#f9a8d4', headerBg: '#fdf2f8' }
         if (id.includes('mint')) return { primary: '#0d9488', secondary: '#ccfbf1', text: '#134e4a', border: '#99f6e4', headerBg: '#f0fdfa' }
         if (id.includes('lavender')) return { primary: '#7c3aed', secondary: '#e9d5ff', text: '#4c1d95', border: '#ddd6fe', headerBg: '#f5f3ff' }
+        if (id.includes('peach')) return { primary: '#ea580c', secondary: '#ffedd5', text: '#7c2d12', border: '#fed7aa', headerBg: '#fff7ed' }
         return { primary: '#db2777', secondary: '#fbcfe8', text: '#831843', border: '#f9a8d4', headerBg: '#fdf2f8' }
     }
 
-    // Chic / Artisan / Minimal (Clean, Typography focused)
-    if (id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('minimal')) {
-        if (id.includes('serif')) return { primary: '#1a1a1a', secondary: '#737373', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
-        if (id.includes('sage')) return { primary: '#064e3b', secondary: '#374151', text: '#1a1a1a', border: '#d1fae5', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
-        if (id.includes('terracotta')) return { primary: '#7c2d12', secondary: '#4b5563', text: '#1a1a1a', border: '#fdba74', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
-        if (id.includes('slate')) return { primary: '#1e293b', secondary: '#64748b', text: '#1a1a1a', border: '#cbd5e1', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
-        return { primary: '#1a1a1a', secondary: '#737373', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#ffffff', sidebarText: '#1a1a1a', headerBg: '#ffffff' }
+    // Chic / Artisan (Clean, Typography focused)
+    if (id.startsWith('chic') || id.startsWith('artisan')) {
+        if (id.includes('black')) return { primary: '#000000', secondary: '#404040', text: '#1a1a1a', border: '#d4d4d4' }
+        if (id.includes('navy')) return { primary: '#0f172a', secondary: '#334155', text: '#1a1a1a', border: '#cbd5e1' }
+        if (id.includes('slate')) return { primary: '#1e293b', secondary: '#64748b', text: '#1a1a1a', border: '#cbd5e1' }
+        if (id.includes('charcoal')) return { primary: '#171717', secondary: '#525252', text: '#1a1a1a', border: '#e5e7eb' }
+        if (id.includes('serif')) return { primary: '#1a1a1a', secondary: '#737373', text: '#1a1a1a', border: '#e5e7eb' }
+        if (id.includes('sage')) return { primary: '#064e3b', secondary: '#374151', text: '#1a1a1a', border: '#d1fae5' }
+        if (id.includes('terracotta')) return { primary: '#7c2d12', secondary: '#4b5563', text: '#1a1a1a', border: '#fdba74' }
+        if (id.includes('clay')) return { primary: '#78716c', secondary: '#57534e', text: '#1a1a1a', border: '#e7e5e4' }
+        return { primary: '#1a1a1a', secondary: '#737373', text: '#1a1a1a', border: '#e5e7eb' }
     }
 
     // Academic (Dense, publications-focused)
     if (id.startsWith('academic')) {
+        if (id.includes('black')) return { primary: '#000000', secondary: '#404040', text: '#1a1a1a', border: '#d4d4d4' }
+        if (id.includes('navy')) return { primary: '#1e3a8a', secondary: '#3b82f6', text: '#1a1a1a', border: '#1e3a8a' }
+        if (id.includes('maroon')) return { primary: '#7f1d1d', secondary: '#ef4444', text: '#1a1a1a', border: '#7f1d1d' }
         return { primary: '#1a1a1a', secondary: '#4b5563', text: '#1a1a1a', border: '#d1d5db' }
     }
 
     // Creative / Split-Contrast
     if (id.startsWith('creative') || id.startsWith('split-contrast')) {
+        if (id.includes('black')) return { primary: '#000000', secondary: '#525252', text: '#1a1a1a', border: '#d4d4d4', sidebarBg: '#f5f5f5', sidebarText: '#000000' }
         if (id.includes('rose') || id.includes('pink') || id === 'creative') return { primary: '#e11d48', secondary: '#fb7185', text: '#1a1a1a', border: '#fda4af', sidebarBg: '#fff1f2', sidebarText: '#881337' }
         if (id.includes('purple')) return { primary: '#7c3aed', secondary: '#8b5cf6', text: '#1a1a1a', border: '#ddd6fe', sidebarBg: '#f5f3ff', sidebarText: '#4c1d95' }
         if (id.includes('orange')) return { primary: '#ea580c', secondary: '#f97316', text: '#1a1a1a', border: '#fed7aa', sidebarBg: '#fff7ed', sidebarText: '#7c2d12' }
+        if (id.includes('indigo')) return { primary: '#4f46e5', secondary: '#818cf8', text: '#1a1a1a', border: '#c7d2fe', sidebarBg: '#eef2ff', sidebarText: '#312e81' }
+
         // Split-contrast specific themes
         if (id.includes('warm')) return { primary: '#1c1917', secondary: '#78716c', text: '#1a1a1a', border: '#e7e5e4', sidebarBg: '#fafaf9', sidebarText: '#1c1917' }
         if (id.includes('slate')) return { primary: '#0f172a', secondary: '#64748b', text: '#1a1a1a', border: '#e2e8f0', sidebarBg: '#f8fafc', sidebarText: '#0f172a' }
-        if (id.startsWith('split-contrast')) return { primary: '#1f2937', secondary: '#9ca3af', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#f9fafb', sidebarText: '#111827' }
+        if (id.includes('navy')) return { primary: '#0f172a', secondary: '#334155', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#f1f5f9', sidebarText: '#0f172a' }
+
         return { primary: '#1f2937', secondary: '#4b5563', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#f9fafb', sidebarText: '#111827' }
     }
 
@@ -132,11 +170,22 @@ const createStyles = (templateId: string) => {
     const isSplitContrast = id.startsWith('split-contrast')
 
     const isSerif = id.startsWith('chic') || id.startsWith('luxe') || id.startsWith('executive') || id.startsWith('academic') || id.includes('serif') || id.startsWith('ats-classic')
-    const isCentered = id.startsWith('classic') || id.startsWith('minimal') || id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('cute') || id.startsWith('ats') || id.startsWith('graduate') || id.startsWith('professional')
-    const isJustifiedHeader = id.startsWith('compact') || id.startsWith('technical')
     const isChic = id.startsWith('chic')
     const isExecutive = id.startsWith('executive') || id.startsWith('luxe')
     const isAcademic = id.startsWith('academic')
+
+    // Specific alignment checks to match HTML templates
+    const isCentered = id.startsWith('classic') ||
+        (id.startsWith('minimal') && !id.startsWith('ats-minimal')) ||
+        id.startsWith('executive') ||
+        id.startsWith('luxe') ||
+        id.startsWith('cute') ||
+        id.startsWith('ats-professional') ||
+        id.startsWith('ats-executive') ||
+        id.startsWith('graduate')
+
+    const isJustifiedHeader = id.startsWith('compact') || id.startsWith('technical') || id.startsWith('ats-standard') || id.startsWith('ats-minimal') || id.startsWith('ats-timeline')
+    const isTimelinePro = id.startsWith('ats-timeline')
 
     return StyleSheet.create({
         page: {
@@ -219,7 +268,8 @@ const createStyles = (templateId: string) => {
             paddingBottom: (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 15 : 10,
             borderBottomWidth: (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 2 : (hasSidebar ? 0 : 1),
             borderBottomColor: colors.primary,
-            borderBottomStyle: 'solid',
+            borderStyle: 'solid',
+            width: '100%', // Ensure header takes full width for alignment
         },
         name: {
             fontSize: isChic ? 36 : (isExecutive ? 28 : 24),
@@ -284,7 +334,7 @@ const createStyles = (templateId: string) => {
             letterSpacing: 1,
             borderBottomWidth: id.startsWith('ats-professional') ? 2 : 0,
             borderBottomColor: id.startsWith('ats-professional') ? '#1a1a1a' : 'transparent',
-            borderBottomStyle: 'solid',
+            borderStyle: 'solid',
             paddingBottom: id.startsWith('ats-professional') ? 3 : 0,
             marginBottom: id.startsWith('ats-professional') ? 8 : 0,
         },
@@ -306,7 +356,7 @@ const createStyles = (templateId: string) => {
             color: colors.sidebarText || '#ffffff',
             borderBottomWidth: 1,
             borderBottomColor: 'rgba(255,255,255,0.2)',
-            borderBottomStyle: 'solid',
+            borderStyle: 'solid',
             paddingBottom: 4,
             marginBottom: 12,
             marginTop: 25,
@@ -317,7 +367,7 @@ const createStyles = (templateId: string) => {
             paddingLeft: id.startsWith('creative') || id.startsWith('startup') ? 15 : 0,
             borderLeftWidth: id.startsWith('creative') || id.startsWith('startup') ? 2 : 0,
             borderLeftColor: (id.startsWith('creative') || id.startsWith('startup')) ? 'rgba(0,0,0,0.05)' : 'transparent',
-            borderLeftStyle: 'solid',
+            borderStyle: 'solid',
             position: 'relative',
         },
         timelineDot: {
@@ -378,6 +428,7 @@ const createStyles = (templateId: string) => {
             paddingHorizontal: 6,
             backgroundColor: id.startsWith('ats') ? 'transparent' : '#f3f4f6',
             borderWidth: 0,
+            borderStyle: 'solid',
             borderRadius: 3,
             fontSize: 8.5,
             color: colors.primary,
@@ -390,6 +441,38 @@ const createStyles = (templateId: string) => {
             borderRadius: 4,
             marginBottom: 4,
             marginRight: 4,
+        },
+        // --- Timeline Pro Styles ---
+        timelineSection: {
+            position: 'relative',
+            marginLeft: 5,
+            paddingLeft: 25,
+            marginBottom: 20,
+        },
+        timelineLine: {
+            position: 'absolute',
+            left: 0,
+            top: 10,
+            bottom: 0,
+            width: 1,
+            backgroundColor: colors.primary,
+            opacity: 0.1,
+        },
+        timelineItemPro: {
+            position: 'relative',
+            marginBottom: 25,
+        },
+        timelineDotPro: {
+            position: 'absolute',
+            left: -29,
+            top: 5,
+            width: 8,
+            height: 8,
+            borderRadius: 4,
+            borderWidth: 2,
+            borderColor: colors.primary,
+            borderStyle: 'solid',
+            backgroundColor: '#ffffff',
         }
     })
 }
@@ -408,6 +491,7 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
     const isCute = tId.startsWith('cute')
     const hasSidebar = tId.startsWith('modern') || tId.startsWith('technical') || tId.startsWith('startup') || tId.startsWith('chic') || tId.startsWith('artisan') || tId.startsWith('creative') || tId.startsWith('split-contrast') || isCute
     const isCompact = tId.startsWith('compact')
+    const isTimelinePro = tId.startsWith('ats-timeline')
 
     return (
         <Document title={`${data.personalInfo?.fullName || 'Resume'} - Clear Career Path`}>
@@ -500,7 +584,7 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                     </View>
                                     <Text style={{ fontSize: 8, color: '#64748b', marginBottom: 4 }}>// {data.personalInfo?.professionalTitle || 'Developer'}</Text>
                                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: tId.includes('dark') ? '#ffffff' : '#1e293b' }}>
-                                        const developer = &quot;{data.personalInfo?.fullName}&quot;;
+                                        const developer = "{data.personalInfo?.fullName}";
                                     </Text>
                                 </View>
                             )}
@@ -676,10 +760,12 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                 )}
 
                                 {data.workExperience && data.workExperience.length > 0 && (
-                                    <View style={styles.section}>
+                                    <View style={isTimelinePro ? styles.timelineSection : styles.section}>
+                                        {isTimelinePro && <View style={styles.timelineLine} />}
                                         <Text style={styles.sectionTitle}>Experience</Text>
                                         {data.workExperience.map((job, i) => (
-                                            <View key={i} style={styles.experienceItem}>
+                                            <View key={i} style={isTimelinePro ? styles.timelineItemPro : styles.experienceItem}>
+                                                {isTimelinePro && <View style={styles.timelineDotPro} />}
                                                 <View style={styles.row}>
                                                     <Text style={styles.bold}>{job.jobTitle}</Text>
                                                     <Text style={styles.date}>{job.startDate} — {job.isCurrent ? 'Present' : job.endDate}</Text>
