@@ -84,18 +84,65 @@ export function ATSStandardTemplate({ data, className }: TemplateProps) {
                     </section>
                 )}
 
-                {/* 3. Skills */}
+                {/* Skills - Categorized with Proficiency */}
                 {skills && skills.length > 0 && (
                     <section>
                         <h2 className="text-[10px] font-black uppercase text-neutral-300 tracking-[0.3em] mb-4">03 // Competencies</h2>
-                        <div className="grid grid-cols-4 gap-4">
-                            {skills.map((s, i) => (
-                                <div key={i} className="flex flex-col gap-1 border-t border-neutral-50 pt-2">
-                                    <span className="text-[10px] font-black text-neutral-900">{s.skillName}</span>
-                                    <span className="text-[8px] font-bold text-neutral-400 uppercase">{s.proficiencyLevel || 'Advanced'}</span>
+                        {(() => {
+                            // Group skills by type
+                            const groupedSkills = skills.reduce((acc, skill) => {
+                                const type = skill.skillType || 'professional'
+                                if (!acc[type]) acc[type] = []
+                                acc[type].push(skill)
+                                return acc
+                            }, {} as Record<string, typeof skills>)
+
+                            const categoryLabels: Record<string, string> = {
+                                technical: 'Technical',
+                                professional: 'Professional',
+                                tool: 'Tools',
+                                industry: 'Industry'
+                            }
+
+                            // If only one category or all professional, use grid layout
+                            if (Object.keys(groupedSkills).length === 1) {
+                                return (
+                                    <div className="grid grid-cols-4 gap-4">
+                                        {skills.map((s, i) => (
+                                            <div key={i} className="flex flex-col gap-1 border-t border-neutral-50 pt-2">
+                                                <span className="text-[10px] font-black text-neutral-900">{s.skillName}</span>
+                                                {s.proficiencyLevel && (
+                                                    <span className="text-[8px] font-bold text-neutral-400 uppercase">{s.proficiencyLevel}</span>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )
+                            }
+
+                            // Show categorized layout
+                            return (
+                                <div className="space-y-3">
+                                    {Object.entries(groupedSkills).map(([type, skillsList]) => (
+                                        <div key={type}>
+                                            <div className="text-[9px] font-black text-neutral-400 uppercase tracking-wider mb-2">
+                                                {categoryLabels[type] || type}
+                                            </div>
+                                            <div className="grid grid-cols-3 gap-3">
+                                                {skillsList.map((s, i) => (
+                                                    <div key={i} className="flex flex-col gap-0.5">
+                                                        <span className="text-[10px] font-black text-neutral-900">{s.skillName}</span>
+                                                        {s.proficiencyLevel && (
+                                                            <span className="text-[8px] font-bold text-neutral-400 uppercase">{s.proficiencyLevel}</span>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
+                            )
+                        })()}
                     </section>
                 )}
 

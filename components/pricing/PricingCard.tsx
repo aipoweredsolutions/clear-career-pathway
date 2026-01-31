@@ -5,6 +5,7 @@ import { Check, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/Card'
 import { initializePaddle, Paddle } from '@paddle/paddle-js'
+import { trackEvent } from '@/lib/utils/analytics'
 
 interface PricingCardProps {
     tier: {
@@ -38,6 +39,8 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
     }, [])
 
     const handleAction = async () => {
+        trackEvent('pricing_click', { tierName: tier.name, price: tier.price })
+
         if (!isLoggedIn) {
             window.location.href = tier.ctaLink
             return
@@ -91,7 +94,7 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
                 )}
                 <h3 className="text-2xl font-bold text-neutral-900 mb-2">{tier.name}</h3>
                 <div className="mb-2">
-                    <span className="text-4xl font-bold text-neutral-900">${tier.price}</span>
+                    <span className="text-4xl font-bold text-neutral-900">{tier.price === 0 ? 'Free' : `$${tier.price}`}</span>
                     <span className="text-neutral-600">/{tier.period}</span>
                 </div>
                 <p className="text-neutral-700 mt-2">{tier.description}</p>
@@ -114,7 +117,7 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
                     size="lg"
                     className="w-full"
                     onClick={handleAction}
-                    disabled={isLoading || !paddle}
+                    disabled={isLoading || (tier.price > 0 && !!tier.paddlePriceId && !paddle)}
                 >
                     {isLoading ? (
                         <>

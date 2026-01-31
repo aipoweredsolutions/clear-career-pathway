@@ -9,6 +9,10 @@ import { Button } from '@/components/ui/Button'
 import Link from 'next/link'
 import { useAuth } from '@/components/auth/AuthProvider'
 import dynamic from 'next/dynamic'
+import { CAREER_SAMPLES } from '@/lib/constants/career-samples'
+import { MOCK_EXECUTIVE_DATA, MOCK_GRADUATE_DATA, MOCK_NURSE_EXPERIENCED_DATA } from '@/lib/constants/mock-data'
+import { MOCK_DATA_SCIENTIST_DATA, MOCK_FINANCE_DATA, MOCK_TEACHER_DATA, MOCK_MARKETING_DATA, MOCK_PROJECT_MANAGER_DATA, MOCK_HR_DATA } from '@/lib/constants/mock-data-additional'
+import { MOCK_HOSPITALITY_DATA, MOCK_CRUISE_DATA } from '@/lib/constants/mock-data-hospitality'
 
 // Dynamically import PDF components with SSR disabled
 const PDFPreview = dynamic(() => import('./PDFPreview'), {
@@ -44,7 +48,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
 
     // Memoize data with the selected template ID to prevent infinite re-renders
     const previewData = React.useMemo(() => {
-        if (!template) return MOCK_PREVIEW_DATA
+        if (!template) return MOCK_EXECUTIVE_DATA
 
         // Correctly compose the ID for the renderer: baseId-colorVariantId
         const colorId = initialColor
@@ -53,18 +57,31 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             : template.id
 
         // Diversify content based on template personality
-        const { CAREER_SAMPLES } = require('@/lib/constants/career-samples')
-        const { MOCK_EXECUTIVE_DATA } = require('@/lib/constants/mock-data')
+        let baseData = MOCK_EXECUTIVE_DATA
 
-        let baseData = MOCK_PREVIEW_DATA
-        if (template.id.startsWith('ats')) baseData = CAREER_SAMPLES.sales_executive
-        if (template.id === 'technical') baseData = CAREER_SAMPLES.software_engineer
-        if (template.id === 'modern' || template.id === 'startup') baseData = CAREER_SAMPLES.marketing_manager
-        if (template.id === 'cute') baseData = CAREER_SAMPLES.graphic_designer
-        if (template.id === 'executive' || template.id === 'luxe') baseData = MOCK_EXECUTIVE_DATA
-        if (template.id === 'graduate') baseData = CAREER_SAMPLES.graduate
-        if (template.id === 'academic') baseData = CAREER_SAMPLES.education_expert
-        if (template.id === 'professional' || template.id === 'artisan') baseData = CAREER_SAMPLES.healthcare_professional
+        if (template.id.startsWith('ats-')) {
+            if (template.id.includes('technical')) baseData = MOCK_DATA_SCIENTIST_DATA
+            else if (template.id.includes('standard')) baseData = MOCK_FINANCE_DATA
+            else if (template.id.includes('classic')) baseData = MOCK_TEACHER_DATA
+            else if (template.id.includes('executive')) baseData = MOCK_EXECUTIVE_DATA
+            else if (template.id.includes('graduate')) baseData = MOCK_GRADUATE_DATA
+            else if (template.id.includes('modern')) baseData = MOCK_MARKETING_DATA
+            else if (template.id.includes('minimal')) baseData = MOCK_PROJECT_MANAGER_DATA
+            else baseData = MOCK_FINANCE_DATA
+        } else {
+            if (template.id === 'technical') baseData = MOCK_DATA_SCIENTIST_DATA
+            else if (template.id === 'modern' || template.id === 'startup') baseData = MOCK_MARKETING_DATA
+            else if (template.id === 'creative' || template.id === 'cute' || template.id === 'artisan') baseData = CAREER_SAMPLES.graphic_designer
+            else if (template.id === 'executive' || template.id === 'luxe') baseData = MOCK_EXECUTIVE_DATA
+            else if (template.id === 'graduate') baseData = MOCK_GRADUATE_DATA
+            else if (template.id === 'academic') baseData = CAREER_SAMPLES.education_expert
+            else if (template.id === 'professional') baseData = MOCK_FINANCE_DATA
+            else if (template.id === 'chic') baseData = MOCK_HR_DATA
+            else if (template.id === 'hospitality-elite') baseData = MOCK_HOSPITALITY_DATA
+            else if (template.id === 'cruise-excellence') baseData = MOCK_CRUISE_DATA
+            else if (template.id === 'service-pro') baseData = MOCK_HOSPITALITY_DATA
+            else if (template.id === 'creative-nursing') baseData = MOCK_NURSE_EXPERIENCED_DATA
+        }
 
         return {
             ...baseData,

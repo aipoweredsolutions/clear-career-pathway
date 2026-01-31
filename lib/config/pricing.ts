@@ -1,5 +1,26 @@
 export const PRICING_TIERS = [
     {
+        name: 'Free Starter',
+        price: 0,
+        period: 'forever',
+        description: 'Try our builder and see the magic',
+        features: [
+            'Create 1 resume',
+            '3 Basic Templates',
+            'Basic AI suggestions (2 tokens)',
+            'Standard PDF export',
+        ],
+        limitations: [
+            'No DOCX export',
+            'No Premium Templates',
+            'No Interview Simulator',
+            'Watermarked export',
+        ],
+        cta: 'Try for Free',
+        ctaLink: '/auth/signup?tier=free',
+        highlighted: false,
+    },
+    {
         name: 'Basic',
         price: 4.99,
         period: 'one-time',
@@ -20,6 +41,28 @@ export const PRICING_TIERS = [
         ctaLink: '/auth/signup?tier=basic',
         highlighted: false,
         paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_BASIC_PRICE_ID
+    },
+    {
+        name: 'Interview Prep',
+        price: 9.99,
+        period: 'one-time',
+        description: 'Master your interviews with AI-powered practice',
+        features: [
+            'Unlimited AI Interview Simulations',
+            'Real-time Answer Feedback',
+            'Industry-specific Question Banks',
+            'Behavioral & Technical Mock Interviews',
+            'Performance Analytics Dashboard',
+        ],
+        limitations: [
+            'No Resume Builder Access',
+            'No Document Exports',
+            'No Career Roadmap',
+        ],
+        cta: 'Start Practicing',
+        ctaLink: '/auth/signup?tier=interview',
+        highlighted: false,
+        paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_INTERVIEW_PRICE_ID
     },
     {
         name: 'Pro Career Hub',

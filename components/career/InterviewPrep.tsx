@@ -205,7 +205,7 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
                                     <div>
                                         <h5 className="flex items-center gap-2 text-primary-600 font-bold text-sm mb-3">
                                             <Lightbulb className="w-4 h-4" />
-                                            Why they're asking:
+                                            Why they&apos;re asking:
                                         </h5>
                                         <p className="text-neutral-600 text-sm leading-relaxed">
                                             {result.questions[activeQuestionIndex].reason}
@@ -225,7 +225,7 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
                                     <div className="bg-neutral-50 rounded-2xl p-6 border border-neutral-100">
                                         <h5 className="text-xs font-black text-neutral-400 uppercase tracking-widest mb-3">Sample Highlight for Your Resume:</h5>
                                         <p className="text-neutral-800 italic text-sm border-l-4 border-indigo-200 pl-4 py-1">
-                                            "{result.questions[activeQuestionIndex].sampleAnswerSnippet}"
+                                            &quot;{result.questions[activeQuestionIndex].sampleAnswerSnippet}&quot;
                                         </p>
                                     </div>
                                 </div>

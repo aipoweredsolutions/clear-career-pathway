@@ -116,7 +116,7 @@ export function CareerRoadmap({ resumes }: { resumes: ResumeDocument[] }) {
 
                         <div>
                             <label className="block text-sm font-semibold text-neutral-700 mb-2">
-                                2. "In 5 years, I want to be a..."
+                                2. &quot;In 5 years, I want to be a...&quot;
                             </label>
                             <input
                                 type="text"
@@ -171,7 +171,7 @@ export function CareerRoadmap({ resumes }: { resumes: ResumeDocument[] }) {
                                 <span className="text-sm font-bold text-neutral-500 uppercase tracking-widest">Progress Map</span>
                             </div>
                             <p className="text-neutral-600 text-sm leading-relaxed">
-                                We've broken your path into <span className="font-bold text-neutral-900">{result.milestones.length} major phases</span> based on your current background.
+                                We&apos;ve broken your path into <span className="font-bold text-neutral-900">{result.milestones.length} major phases</span> based on your current background.
                             </p>
                         </div>
                     </div>
@@ -266,7 +266,7 @@ export function CareerRoadmap({ resumes }: { resumes: ResumeDocument[] }) {
                                                         <Award className="absolute -right-4 -bottom-4 w-24 h-24 text-emerald-500 opacity-10 group-hover:scale-110 transition-transform" />
                                                         <h5 className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-4">Success Metric</h5>
                                                         <p className="text-sm text-neutral-300 leading-relaxed italic">
-                                                            "You'll know you've cleared this level when you've consistently demonstrating impact in {ms.title.toLowerCase()} and mastered the core {ms.skillsToAcquire[0]} toolset."
+                                                            &quot;You&apos;ll know you&apos;ve cleared this level when you&apos;ve consistently demonstrating impact in {ms.title.toLowerCase()} and mastered the core {ms.skillsToAcquire[0]} toolset.&quot;
                                                         </p>
                                                     </div>
                                                 </div>

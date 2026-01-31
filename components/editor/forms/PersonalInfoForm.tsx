@@ -79,6 +79,13 @@ export function PersonalInfoForm({ data, onChange }: PersonalInfoFormProps) {
                 onChange={(e) => handleChange('websiteUrl', e.target.value)}
                 placeholder="e.g. portfolio.com"
             />
+
+            <Input
+                label="Photo URL"
+                value={data.photoUrl || ''}
+                onChange={(e) => handleChange('photoUrl', e.target.value)}
+                placeholder="e.g. https://example.com/photo.jpg"
+            />
         </div>
     )
 }

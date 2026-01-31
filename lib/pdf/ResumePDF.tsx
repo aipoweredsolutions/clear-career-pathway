@@ -1,5 +1,5 @@
 import React from 'react'
-import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer'
 import { ResumeDocument } from '@/lib/types/resume'
 
 /**
@@ -53,6 +53,15 @@ const getTemplateColors = (templateId: string) => {
         if (id.startsWith('ats-timeline')) return { primary: '#0f172a', secondary: '#475569', text: '#1a1a1a', border: '#0f172a' }
         if (id.startsWith('ats-standard')) return { primary: '#111827', secondary: '#475569', text: '#1a1a1a', border: '#f1f5f9' }
         return { primary: '#1a1a1a', secondary: '#3b82f6', text: '#1a1a1a', border: '#e5e7eb' }
+    }
+
+    // Hospitality & Service
+    if (id.startsWith('hospitality') || id.startsWith('cruise') || id.startsWith('service')) {
+        if (id.includes('gold')) return { primary: '#b45309', secondary: '#d97706', text: '#1a1a1a', border: '#fcd34d' }
+        if (id.includes('navy') || id.startsWith('cruise')) return { primary: '#0c4a6e', secondary: '#0369a1', text: '#1a1a1a', border: '#bae6fd' }
+        if (id.includes('black')) return { primary: '#1a1a1a', secondary: '#4b5563', text: '#1a1a1a', border: '#e5e7eb' }
+        if (id.startsWith('service')) return { primary: '#1f2937', secondary: '#4b5563', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#1f2937', sidebarText: '#ffffff' }
+        return { primary: '#b45309', secondary: '#d97706', text: '#1a1a1a', border: '#fcd34d' }
     }
 
     // Modern / Professional / Minimal with Sidebar or explicit accent
@@ -140,7 +149,7 @@ const getTemplateColors = (templateId: string) => {
     // Creative / Split-Contrast
     if (id.startsWith('creative') || id.startsWith('split-contrast')) {
         if (id.includes('black')) return { primary: '#000000', secondary: '#525252', text: '#1a1a1a', border: '#d4d4d4', sidebarBg: '#f5f5f5', sidebarText: '#000000' }
-        if (id.includes('rose') || id.includes('pink') || id === 'creative') return { primary: '#e11d48', secondary: '#fb7185', text: '#1a1a1a', border: '#fda4af', sidebarBg: '#fff1f2', sidebarText: '#881337' }
+        if (id.includes('rose') || id.includes('pink') || id === 'creative' || id.includes('nursing')) return { primary: '#e11d48', secondary: '#fb7185', text: '#1a1a1a', border: '#fda4af', sidebarBg: '#fff1f2', sidebarText: '#881337' }
         if (id.includes('purple')) return { primary: '#7c3aed', secondary: '#8b5cf6', text: '#1a1a1a', border: '#ddd6fe', sidebarBg: '#f5f3ff', sidebarText: '#4c1d95' }
         if (id.includes('orange')) return { primary: '#ea580c', secondary: '#f97316', text: '#1a1a1a', border: '#fed7aa', sidebarBg: '#fff7ed', sidebarText: '#7c2d12' }
         if (id.includes('indigo')) return { primary: '#4f46e5', secondary: '#818cf8', text: '#1a1a1a', border: '#c7d2fe', sidebarBg: '#eef2ff', sidebarText: '#312e81' }
@@ -162,14 +171,14 @@ const createStyles = (templateId: string) => {
     const colors = getTemplateColors(templateId)
     const id = templateId.toLowerCase()
 
-    const hasSidebar = id.startsWith('modern') || id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('split-contrast') || id.startsWith('cute')
+    const hasSidebar = id.startsWith('modern') || id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('split-contrast') || id.startsWith('cute') || id.startsWith('service')
     const hasColumns = id.startsWith('compact')
     const sidebarOnRight = id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('compact')
     const sidebarOnLeft = id.startsWith('split-contrast') || id.startsWith('modern')
     const isDarkSidebar = id.startsWith('modern') || (id.startsWith('technical') && id.includes('dark'))
     const isSplitContrast = id.startsWith('split-contrast')
 
-    const isSerif = id.startsWith('chic') || id.startsWith('luxe') || id.startsWith('executive') || id.startsWith('academic') || id.includes('serif') || id.startsWith('ats-classic')
+    const isSerif = id.startsWith('chic') || id.startsWith('luxe') || id.startsWith('executive') || id.startsWith('academic') || id.includes('serif') || id.startsWith('ats-classic') || id.startsWith('hospitality')
     const isChic = id.startsWith('chic')
     const isExecutive = id.startsWith('executive') || id.startsWith('luxe')
     const isAcademic = id.startsWith('academic')
@@ -186,6 +195,14 @@ const createStyles = (templateId: string) => {
 
     const isJustifiedHeader = id.startsWith('compact') || id.startsWith('technical') || id.startsWith('ats-standard') || id.startsWith('ats-minimal') || id.startsWith('ats-timeline')
     const isTimelinePro = id.startsWith('ats-timeline')
+
+    // Pre-calculate border widths to avoid undefined issues
+    const headerBorderBottomWidth = (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 2 : (hasSidebar ? 0 : 1)
+    const sidebarBorderLeftWidth = sidebarOnRight ? 1 : 0
+    const sidebarBorderRightWidth = sidebarOnRight ? 0 : 1
+    const sectionTitleBorderBottomWidth = id.startsWith('ats-professional') ? 2 : 0
+    const experienceItemBorderLeftWidth = id.startsWith('creative') || id.startsWith('startup') ? 2 : 0
+    const photoBorderRadius = id.startsWith('cruise') ? 60 : 4
 
     return StyleSheet.create({
         page: {
@@ -208,8 +225,8 @@ const createStyles = (templateId: string) => {
             color: colors.sidebarText || '#ffffff',
             padding: 20,
             paddingTop: 40,
-            borderLeftWidth: sidebarOnRight ? 1 : 0,
-            borderRightWidth: sidebarOnRight ? 0 : 1,
+            borderLeftWidth: sidebarBorderLeftWidth,
+            borderRightWidth: sidebarBorderRightWidth,
             borderStyle: 'solid',
             borderColor: 'rgba(0,0,0,0.05)',
         },
@@ -253,6 +270,17 @@ const createStyles = (templateId: string) => {
             height: 8,
             borderRadius: 4,
         },
+        // Hospitality-specific
+        photo: {
+            width: 120,
+            height: 120,
+            objectFit: 'cover',
+            borderRadius: photoBorderRadius,
+            borderWidth: 3,
+            borderColor: '#ffffff',
+            alignSelf: 'center',
+            marginBottom: 20,
+        },
         mainContent: {
             width: '68%',
             padding: 40,
@@ -266,7 +294,7 @@ const createStyles = (templateId: string) => {
             alignItems: isJustifiedHeader ? 'flex-end' : (isCentered ? 'center' : 'flex-start'),
             textAlign: isCentered ? 'center' : 'left',
             paddingBottom: (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 15 : 10,
-            borderBottomWidth: (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 2 : (hasSidebar ? 0 : 1),
+            borderBottomWidth: headerBorderBottomWidth,
             borderBottomColor: colors.primary,
             borderStyle: 'solid',
             width: '100%', // Ensure header takes full width for alignment
@@ -332,7 +360,7 @@ const createStyles = (templateId: string) => {
             textTransform: 'uppercase',
             color: colors.primary,
             letterSpacing: 1,
-            borderBottomWidth: id.startsWith('ats-professional') ? 2 : 0,
+            borderBottomWidth: sectionTitleBorderBottomWidth,
             borderBottomColor: id.startsWith('ats-professional') ? '#1a1a1a' : 'transparent',
             borderStyle: 'solid',
             paddingBottom: id.startsWith('ats-professional') ? 3 : 0,
@@ -365,7 +393,7 @@ const createStyles = (templateId: string) => {
         experienceItem: {
             marginBottom: 18,
             paddingLeft: id.startsWith('creative') || id.startsWith('startup') ? 15 : 0,
-            borderLeftWidth: id.startsWith('creative') || id.startsWith('startup') ? 2 : 0,
+            borderLeftWidth: experienceItemBorderLeftWidth,
             borderLeftColor: (id.startsWith('creative') || id.startsWith('startup')) ? 'rgba(0,0,0,0.05)' : 'transparent',
             borderStyle: 'solid',
             position: 'relative',
@@ -485,11 +513,11 @@ interface PDFDocumentProps {
 
 export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
     // Create dynamic styles based on template
-    const tId = data.templateId || ''
+    const tId = (data.templateId || '').toLowerCase()
     const styles = createStyles(tId)
     const colors = getTemplateColors(tId)
     const isCute = tId.startsWith('cute')
-    const hasSidebar = tId.startsWith('modern') || tId.startsWith('technical') || tId.startsWith('startup') || tId.startsWith('chic') || tId.startsWith('artisan') || tId.startsWith('creative') || tId.startsWith('split-contrast') || isCute
+    const hasSidebar = tId.startsWith('modern') || tId.startsWith('technical') || tId.startsWith('startup') || tId.startsWith('chic') || tId.startsWith('artisan') || tId.startsWith('creative') || tId.startsWith('split-contrast') || isCute || tId.startsWith('service')
     const isCompact = tId.startsWith('compact')
     const isTimelinePro = tId.startsWith('ats-timeline')
 
@@ -501,7 +529,16 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                         {/* FULL HEIGHT SIDEBAR LAYOUTS (Modern, Technical, etc) */}
                         {/* SIDEBAR */}
                         <View style={styles.sidebar}>
-                            {tId.startsWith('modern') && (
+                            {data.personalInfo?.photoUrl && (tId.startsWith('modern') || tId.startsWith('service')) && (
+                                <View style={{ marginBottom: 20, alignItems: 'center' }}>
+                                    <Image
+                                        src={data.personalInfo.photoUrl}
+                                        style={{ width: 100, height: 100, borderRadius: 50, objectFit: 'cover' }}
+                                    />
+                                </View>
+                            )}
+
+                            {tId.startsWith('modern') && !data.personalInfo?.photoUrl && (
                                 <View style={styles.initialsCircle}>
                                     <Text style={styles.initialsText}>
                                         {data.personalInfo?.fullName?.split(' ').map(n => n[0]).join('')}
@@ -582,9 +619,9 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                         <View style={[styles.terminalDot, { backgroundColor: '#f59e0b' }]} />
                                         <View style={[styles.terminalDot, { backgroundColor: '#10b981' }]} />
                                     </View>
-                                    <Text style={{ fontSize: 8, color: '#64748b', marginBottom: 4 }}>// {data.personalInfo?.professionalTitle || 'Developer'}</Text>
+                                    <Text style={{ fontSize: 8, color: '#64748b', marginBottom: 4 }}>{`// ${data.personalInfo?.professionalTitle || 'Developer'}`}</Text>
                                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: tId.includes('dark') ? '#ffffff' : '#1e293b' }}>
-                                        const developer = "{data.personalInfo?.fullName}";
+                                        {`const developer = "${data.personalInfo?.fullName}";`}
                                     </Text>
                                 </View>
                             )}
@@ -667,7 +704,16 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                     <View style={styles.container}>
                         {/* TOP HEADER LAYOUTS (Standard, Compact, Executive) */}
                         <View style={styles.header}>
-                            <View style={isCompact ? { width: '65%' } : {}}>
+                            {/* Photo for Hospitality/Cruise */}
+                            {(tId.startsWith('hospitality') || tId.startsWith('cruise')) && data.personalInfo?.photoUrl && (
+                                <View style={{ position: 'absolute', right: 0, top: 0 }}>
+                                    <Image
+                                        src={data.personalInfo.photoUrl}
+                                        style={styles.photo}
+                                    />
+                                </View>
+                            )}
+                            <View style={[isCompact ? { width: '65%' } : {}, (tId.startsWith('hospitality') || tId.startsWith('cruise')) ? { width: '70%' } : {}]}>
                                 <Text style={styles.name}>{data.personalInfo?.fullName}</Text>
                                 {!tId.startsWith('ats-professional') && <Text style={styles.title}>{data.personalInfo?.professionalTitle}</Text>}
                             </View>
@@ -920,7 +966,7 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                 {isWatermarked && (
                     <View style={{ position: 'absolute', bottom: 30, left: 0, right: 0, textAlign: 'center', opacity: 0.5 }}>
                         <Text style={{ fontSize: 8, color: '#94a3b8', fontStyle: 'italic' }}>
-                            Created with Clear Career Path — Building a path to your dream job.
+                            Created with Clear Career Path &mdash; Building a path to your dream job.
                         </Text>
                     </View>
                 )}

@@ -29,25 +29,25 @@ export function ProfessionalTemplate({ data, className, accentColor = 'text-slat
     return (
         <div className={cn("w-full bg-white aspect-[210/297] text-slate-950 font-sans leading-relaxed flex flex-col gap-8", className)}>
             {/* Header */}
-            <header className="flex flex-col items-start gap-4">
-                <div className="w-full flex justify-between items-baseline border-b-2 border-slate-100 pb-6">
+            <header className="flex flex-col items-start gap-6">
+                <div className="w-full flex justify-between items-end border-b-2 border-slate-900 pb-8">
                     <div>
-                        <h1 className={cn("text-4xl font-extrabold tracking-tight mb-1", accentColor)}>
+                        <h1 className={cn("text-6xl font-black tracking-tighter mb-2", accentColor)}>
                             {personalInfo?.fullName}
                         </h1>
-                        <p className="text-xl font-medium text-slate-600">
+                        <p className="text-2xl font-medium text-slate-500 tracking-tight">
                             {personalInfo?.professionalTitle}
                         </p>
                     </div>
 
-                    <div className="text-right text-sm text-slate-500 space-y-1">
+                    <div className="text-right text-sm font-medium text-slate-500 space-y-1.5 opacity-80 mix-blend-multiply">
                         {personalInfo?.email && <div>{personalInfo.email}</div>}
                         {personalInfo?.phone && <div>{personalInfo.phone}</div>}
                         {(personalInfo?.city || personalInfo?.country) && <div>{[personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</div>}
                         {(personalInfo?.linkedinUrl || personalInfo?.websiteUrl) && (
-                            <div className="flex gap-3 justify-end mt-1">
-                                {personalInfo?.linkedinUrl && <span className="underline opacity-80 decoration-slate-200">LinkedIn</span>}
-                                {personalInfo?.websiteUrl && <span className="underline opacity-80 decoration-slate-200">Portfolio</span>}
+                            <div className="flex gap-4 justify-end mt-2">
+                                {personalInfo?.linkedinUrl && <span className="underline decoration-2 decoration-slate-200 hover:decoration-slate-400 transition-all">LinkedIn</span>}
+                                {personalInfo?.websiteUrl && <span className="underline decoration-2 decoration-slate-200 hover:decoration-slate-400 transition-all">Portfolio</span>}
                             </div>
                         )}
                     </div>
@@ -56,11 +56,11 @@ export function ProfessionalTemplate({ data, className, accentColor = 'text-slat
 
             {/* Summary */}
             {professionalSummary?.summaryText && (
-                <section className="flex flex-col gap-3">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-widest", accentColor)}>
+                <section className="flex flex-col gap-4">
+                    <h2 className={cn("text-xl font-bold uppercase tracking-[0.2em]", accentColor)}>
                         Professional Summary
                     </h2>
-                    <p className="text-slate-700 leading-relaxed max-w-4xl">
+                    <p className="text-slate-700 leading-relaxed text-lg max-w-5xl opacity-90">
                         {professionalSummary.summaryText}
                     </p>
                 </section>
@@ -68,28 +68,30 @@ export function ProfessionalTemplate({ data, className, accentColor = 'text-slat
 
             {/* Experience */}
             {workExperience && workExperience.length > 0 && (
-                <section className="flex flex-col gap-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-widest border-b border-slate-100 pb-1", accentColor)}>
-                        Professional Experience
+                <section className="flex flex-col gap-8">
+                    <h2 className={cn("text-xl font-bold uppercase tracking-[0.2em] border-b-2 border-slate-100 pb-2 flex items-center gap-4", accentColor)}>
+                        <span>Experience</span>
+                        <div className="h-px flex-1 bg-slate-100" />
                     </h2>
-                    <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-10">
                         {workExperience.map((job, i) => (
                             <div key={i} className="flex flex-col gap-2">
                                 <div className="flex justify-between items-baseline">
-                                    <h3 className="text-lg font-bold text-slate-900">{job.jobTitle}</h3>
-                                    <span className="text-sm font-semibold text-slate-500 tabular-nums">
+                                    <h3 className="text-xl font-bold text-slate-900">{job.jobTitle}</h3>
+                                    <span className="text-sm font-bold text-slate-400 tabular-nums uppercase tracking-wide">
                                         {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
                                     </span>
                                 </div>
-                                <div className="text-base font-medium text-slate-700">{job.companyName}</div>
+                                <div className="text-lg font-medium text-slate-600 mb-2">{job.companyName}</div>
                                 {job.roleDescription && (
-                                    <p className="text-slate-600 mt-1">{job.roleDescription}</p>
+                                    <p className="text-slate-600 leading-relaxed mb-3">{job.roleDescription}</p>
                                 )}
                                 {job.achievements && job.achievements.length > 0 && (
-                                    <ul className="list-disc list-outside ml-5 text-slate-600 flex flex-col gap-1.5 mt-1">
+                                    <ul className="space-y-2 mt-1">
                                         {job.achievements.map((ach, j) => (
-                                            <li key={j} className="pl-1">
-                                                {ach.achievementText}
+                                            <li key={j} className="flex gap-3 text-slate-600 leading-snug">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-slate-300 mt-2 shrink-0 element-bullet" />
+                                                <span>{ach.achievementText}</span>
                                             </li>
                                         ))}
                                     </ul>
@@ -102,18 +104,19 @@ export function ProfessionalTemplate({ data, className, accentColor = 'text-slat
 
             {/* Education */}
             {education && education.length > 0 && (
-                <section className="flex flex-col gap-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-widest border-b border-slate-100 pb-1", accentColor)}>
+                <section className="flex flex-col gap-6">
+                    <h2 className={cn("text-xl font-bold uppercase tracking-[0.2em] border-b-2 border-slate-100 pb-2", accentColor)}>
                         Education
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                    <div className="grid grid-cols-1 gap-6">
                         {education.map((edu, i) => (
                             <div key={i} className="flex flex-col gap-1">
                                 <div className="flex justify-between items-baseline">
-                                    <div className="font-bold text-slate-900">{edu.degree}</div>
-                                    <span className="text-sm text-slate-500">{edu.endYear}</span>
+                                    <div className="text-lg font-bold text-slate-900">{edu.institutionName}</div>
+                                    <span className="text-sm font-bold text-slate-400 tabular-nums">{edu.endYear}</span>
                                 </div>
-                                <div className="text-slate-600 text-sm">{edu.institutionName}</div>
+                                <div className="text-slate-600 font-medium">{edu.degree}</div>
+                                {edu.fieldOfStudy && <div className="text-slate-500 text-sm italic">{edu.fieldOfStudy}</div>}
                             </div>
                         ))}
                     </div>
@@ -122,15 +125,14 @@ export function ProfessionalTemplate({ data, className, accentColor = 'text-slat
 
             {/* Skills */}
             {skills && skills.length > 0 && (
-                <section className="flex flex-col gap-4 mt-2">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-widest border-b border-slate-100 pb-1", accentColor)}>
-                        Skills & Expertise
+                <section className="flex flex-col gap-6 mt-4">
+                    <h2 className={cn("text-xl font-bold uppercase tracking-[0.2em] border-b-2 border-slate-100 pb-2", accentColor)}>
+                        Expertise
                     </h2>
-                    <div className="flex flex-wrap gap-x-6 gap-y-2">
+                    <div className="flex flex-wrap gap-2">
                         {skills.map((skill, i) => (
-                            <div key={i} className="flex items-center gap-2">
-                                <div className={cn("w-1.5 h-1.5 rounded-full", accentColor.replace('text-', 'bg-'))} />
-                                <span className="text-slate-700 font-medium">{skill.skillName}</span>
+                            <div key={i} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded text-sm font-bold text-slate-700">
+                                {skill.skillName}
                             </div>
                         ))}
                     </div>

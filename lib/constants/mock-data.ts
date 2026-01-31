@@ -33,7 +33,9 @@ export const MOCK_PREVIEW_DATA: ResumeDocument = {
                 { achievementText: 'Spearheaded complete platform redesign, resulting in 42% increase in user retention and 28% improvement in task completion rates' },
                 { achievementText: 'Established comprehensive design system adopted by 6 product teams, reducing design-to-development handoff time by 60%' },
                 { achievementText: 'Led accessibility initiative achieving WCAG 2.1 AA compliance, expanding market reach to government and enterprise clients' },
-                { achievementText: 'Mentored team of 4 junior designers and conducted bi-weekly design critiques for 20+ cross-functional team members' }
+                { achievementText: 'Mentored team of 4 junior designers and conducted bi-weekly design critiques for 20+ cross-functional team members' },
+                { achievementText: 'Facilitated cross-departmental workshops to align product vision with engineering constraints, ensuring on-time delivery of key Q4 features' },
+                { achievementText: 'Optimized user onboarding flow, decreasing drop-off rate by 15% within the first month of launch' }
             ]
         },
         {
@@ -47,7 +49,8 @@ export const MOCK_PREVIEW_DATA: ResumeDocument = {
             achievements: [
                 { achievementText: 'Delivered 22 mobile app designs for startups, with 85% achieving successful funding rounds' },
                 { achievementText: 'Reduced design iteration cycles by 45% through implementation of rapid prototyping workflows' },
-                { achievementText: 'Conducted user research sessions with 200+ participants, informing data-driven design decisions' }
+                { achievementText: 'Conducted user research sessions with 200+ participants, informing data-driven design decisions' },
+                { achievementText: 'Collaborated with developers to ensure pixel-perfect implementation of UI designs for 3 major client projects' }
             ]
         },
         {
@@ -60,7 +63,37 @@ export const MOCK_PREVIEW_DATA: ResumeDocument = {
             roleDescription: 'Created user interfaces for web and mobile applications in fast-paced startup environment.',
             achievements: [
                 { achievementText: 'Designed responsive web platform that increased mobile conversions by 55%' },
-                { achievementText: 'Collaborated with engineering team to implement component library used across 8 products' }
+                { achievementText: 'Collaborated with engineering team to implement component library used across 8 products' },
+                { achievementText: 'Conducted A/B testing on 15+ design variations, improving click-through rates by 32%' }
+            ]
+        },
+        {
+            jobTitle: 'Junior UX Designer',
+            companyName: 'StartupLab Incubator',
+            location: 'San Francisco, CA',
+            startDate: '2015-01',
+            endDate: '2016-07',
+            isCurrent: false,
+            roleDescription: 'Supported design team in creating user experiences for early-stage startups in the incubator program.',
+            achievements: [
+                { achievementText: 'Designed user flows and wireframes for 8 mobile applications across various industries' },
+                { achievementText: 'Conducted user testing sessions with 50+ participants, gathering actionable insights' },
+                { achievementText: 'Created interactive prototypes using Sketch and InVision for client presentations' },
+                { achievementText: 'Assisted in branding and visual identity development for 5 startup companies' }
+            ]
+        },
+        {
+            jobTitle: 'Graphic Design Intern',
+            companyName: 'Creative Agency Co',
+            location: 'Boston, MA',
+            startDate: '2014-06',
+            endDate: '2014-12',
+            isCurrent: false,
+            roleDescription: 'Supported creative team in producing marketing materials and digital assets for diverse client base.',
+            achievements: [
+                { achievementText: 'Assisted in branding projects for 10+ clients across retail, tech, and healthcare sectors' },
+                { achievementText: 'Created social media graphics and email marketing templates that increased engagement by 25%' },
+                { achievementText: 'Collaborated with senior designers on website redesign projects for 3 major clients' }
             ]
         }
     ],
@@ -122,6 +155,13 @@ export const MOCK_PREVIEW_DATA: ResumeDocument = {
             issuer: 'IAAP',
             issueYear: 2021,
             issueDate: '2021-11'
+        },
+        {
+            certificationName: 'Adobe Certified Expert (ACE)',
+            issuingOrganization: 'Adobe',
+            issuer: 'Adobe',
+            issueYear: 2020,
+            issueDate: '2020-05'
         }
     ],
     projects: [
@@ -144,6 +184,26 @@ export const MOCK_PREVIEW_DATA: ResumeDocument = {
             outcomes: 'Achieved 4.8 App Store rating, 500K+ downloads in first 6 months',
             startDate: '2020-03',
             endDate: '2020-10'
+        },
+        {
+            projectName: 'Portfolio Website Redesign',
+            clientOrOrganization: 'Personal Project',
+            role: 'Designer & Developer',
+            description: 'Complete overhaul of personal portfolio website showcasing design work and case studies with interactive elements',
+            toolsUsed: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
+            outcomes: '1000+ monthly visitors, featured on Awwwards and design blogs',
+            startDate: '2021-01',
+            endDate: '2021-03'
+        },
+        {
+            projectName: 'Design System Documentation',
+            clientOrOrganization: 'TechFlow Solutions',
+            role: 'Lead Designer',
+            description: 'Created comprehensive design system documentation with component library and usage guidelines',
+            toolsUsed: ['Figma', 'Storybook', 'React', 'TypeScript'],
+            outcomes: 'Adopted by 6 product teams, reduced design inconsistencies by 80%',
+            startDate: '2022-06',
+            endDate: '2022-12'
         }
     ],
     achievements: [
@@ -265,7 +325,9 @@ export const MOCK_EXECUTIVE_DATA: ResumeDocument = {
                 { achievementText: 'Led global team of 450+ engineers, product managers, and data scientists across 4 continents' },
                 { achievementText: 'Architected migration to microservices, reducing infrastructure costs by 40% ($12M annually)' },
                 { achievementText: 'Spearheaded AI initiatives that automated loan processing, increasing throughput by 300%' },
-                { achievementText: 'Secured ISO 27001 certification and led GDPR compliance strategy for European expansion' }
+                { achievementText: 'Secured ISO 27001 certification and led GDPR compliance strategy for European expansion' },
+                { achievementText: 'Authored and executed a 3-year technology roadmap aligned with corporate IPO goals' },
+                { achievementText: 'Fostered a culture of innovation, resulting in 15 patent filings in 2023 alone' }
             ]
         },
         {
@@ -278,7 +340,22 @@ export const MOCK_EXECUTIVE_DATA: ResumeDocument = {
             roleDescription: 'Scaled engineering organization from 40 to 200+ during Series B to Series D growth phase.',
             achievements: [
                 { achievementText: 'Reduced time-to-market by 60% through implementation of CI/CD pipelines and DevOps culture' },
-                { achievementText: 'Played key role in $400M acquisition due diligence and technical integration' }
+                { achievementText: 'Played key role in $400M acquisition due diligence and technical integration' },
+                { achievementText: 'Constructed high-availability cloud infrastructure handling 50k requests per second with 99.999% uptime' }
+            ]
+        },
+        {
+            jobTitle: 'Senior Director of Engineering',
+            companyName: 'Vertex Solutions',
+            location: 'Austin, TX',
+            startDate: '2012-01',
+            endDate: '2015-02',
+            isCurrent: false,
+            roleDescription: 'Managed multiple specialized engineering teams delivering enterprise software solutions.',
+            achievements: [
+                { achievementText: 'Revitalized legacy codebase, improving system performance by 200%' },
+                { achievementText: 'Implemented Agile methodologies across the organization, increasing delivery velocity by 40%' },
+                { achievementText: 'Established an internship program that converted 80% of interns to full-time hires' }
             ]
         }
     ],
@@ -405,9 +482,27 @@ export const MOCK_GRADUATE_DATA: ResumeDocument = {
             role: 'Full Stack Developer',
             description: 'Web app helping students plan optimal class schedules',
             toolsUsed: ['Vue.js', 'Node.js', 'MongoDB'],
-            outcomes: 'Used by 500+ students during registration week',
+            outcomes: 'Using by 500+ students during registration week',
             startDate: '2023-01',
             endDate: '2023-05'
+        },
+        {
+            projectName: 'AI Sentiment Analyzer',
+            role: 'Researcher',
+            description: 'Developed a machine learning model to analyze sentiment in social media posts',
+            toolsUsed: ['Python', 'TensorFlow', 'Twitter API'],
+            outcomes: 'Achieved 89% accuracy on test dataset; published findings in undergraduate research journal',
+            startDate: '2023-09',
+            endDate: '2023-12'
+        },
+        {
+            projectName: 'Distributed File System',
+            role: 'Backend Engineer',
+            description: 'Designed and implemented a fault-tolerant distributed file system',
+            toolsUsed: ['Go', 'gRPC', 'Docker'],
+            outcomes: 'Successfully handled node failures with zero data loss during simulation testing',
+            startDate: '2024-01',
+            endDate: '2024-04'
         }
     ],
     skills: [
@@ -433,8 +528,218 @@ export const MOCK_GRADUATE_DATA: ResumeDocument = {
     ]
 }
 
+
+
+
+export const MOCK_NURSE_EXPERIENCED_DATA: ResumeDocument = {
+    id: 'preview-nurse-exp',
+    title: 'Senior ICU Nurse Resume',
+    documentType: 'resume',
+    templateId: 'ats-standard',
+    personalInfo: {
+        fullName: 'Sarah Jenkins, RN, CCRN',
+        professionalTitle: 'Critical Care Nurse Specialist',
+        email: 'sarah.jenkins.rn@example.com',
+        phone: '+1 (555) 555-0123',
+        city: 'Chicago',
+        country: 'IL',
+        location: 'Chicago, IL',
+        linkedinUrl: 'linkedin.com/in/sarahjenkinsrn',
+        photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop'
+    },
+    professionalSummary: {
+        headline: 'CCRN Certified ICU Nurse',
+        summaryText: 'Compassionate and resilient Critical Care Registered Nurse with 10+ years of experience in Level I Trauma Centers. Expert in life support protocols, patient stabilization, and interdisciplinary collaboration. Proven track record of improving patient outcomes through evidence-based practice and mentorship of junior nursing staff. Committed to delivering dignified, high-quality care in high-pressure environments.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Senior ICU Nurse (CCRN)',
+            companyName: 'Chicago Memorial Hospital',
+            location: 'Chicago, IL',
+            startDate: '2018-05',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Lead nurse for 20-bed Medical ICU, managing care for critically ill patients requiring mechanical ventilation, CRRT, and hemodynamic monitoring.',
+            achievements: [
+                { achievementText: 'Reduced ventilator-associated pneumonia (VAP) rates by 40% through strict protocol adherence initiatives' },
+                { achievementText: 'Precepted and trained 25+ new graduate nurses, ensuring successful unit integration and skill acquisition' },
+                { achievementText: 'Served on Rapid Response Team, responding to 50+ code blues annually with a 95% successful resuscitation rate' },
+                { achievementText: 'Collaborated with multidisciplinary team to implement early mobility protocols, reducing average ICU length of stay by 1.5 days' },
+                { achievementText: 'Chaired the Unit Practice Council, leading initiatives that improved staff retention by 20% over two years' }
+            ]
+        },
+        {
+            jobTitle: 'Registered Nurse - Telemetry',
+            companyName: 'Lakeside Medical Center',
+            location: 'Evanston, IL',
+            startDate: '2014-06',
+            endDate: '2018-04',
+            isCurrent: false,
+            roleDescription: 'Provided specialized care for cardiac patients, monitoring heart rhythms and administering cardiac medications.',
+            achievements: [
+                { achievementText: 'recognized as "Nurse of the Year" in 2016 for exceptional patient care and family advocacy' },
+                { achievementText: 'Implemented new bedside shift report protocol that increased patient satisfaction scores by 15%' }
+            ]
+        },
+        {
+            jobTitle: 'Medical-Surgical Nurse',
+            companyName: 'Mercy General Hospital',
+            location: 'Chicago, IL',
+            startDate: '2012-06',
+            endDate: '2014-05',
+            isCurrent: false,
+            roleDescription: 'Managed care for a diverse patient population on a busy 30-bed Med-Surg unit.',
+            achievements: [
+                { achievementText: 'Administered medications and treatments to 6-8 patients per shift with 100% accuracy' },
+                { achievementText: 'Participated in wound care committee, helping to update hospital-wide pressure ulcer prevention protocols' },
+                { achievementText: 'Commended for excellent discharge planning and patient education' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'University of Illinois at Chicago',
+            degree: 'Bachelor of Science in Nursing (BSN)',
+            location: 'Chicago, IL',
+            endYear: 2014,
+            gpa: '3.8',
+            achievements: 'Magna Cum Laude, Sigma Theta Tau Honor Society'
+        }
+    ],
+    skills: [
+        { skillName: 'Critical Care Nursing', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Advanced Cardiac Life Support (ACLS)', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Patient Advocacy', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Epic EHR', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Ventilator Management', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Trauma Care', skillType: 'professional', proficiencyLevel: 'advanced' }
+    ],
+    certifications: [
+        {
+            certificationName: 'Critical Care Registered Nurse (CCRN)',
+            issuingOrganization: 'AACN',
+            issueYear: 2019
+        },
+        {
+            certificationName: 'Trauma Nursing Core Course (TNCC)',
+            issuingOrganization: 'ENA',
+            issueYear: 2018
+        }
+    ],
+    languages: [
+        { languageName: 'English', proficiencyLevel: 'native' },
+        { languageName: 'Spanish', proficiencyLevel: 'intermediate' }
+    ]
+}
+
+export const MOCK_NURSE_ENTRY_DATA: ResumeDocument = {
+    id: 'preview-nurse-entry',
+    title: 'Entry Level Nurse Resume',
+    documentType: 'resume',
+    templateId: 'modern',
+    personalInfo: {
+        fullName: 'Michael Ross',
+        professionalTitle: 'Registered Nurse',
+        email: 'm.ross@example.com',
+        phone: '+1 (555) 999-8888',
+        city: 'Seattle',
+        country: 'WA',
+        location: 'Seattle, WA',
+        linkedinUrl: 'linkedin.com/in/michaelrossrn'
+    },
+    professionalSummary: {
+        summaryText: 'Dedicated and energetic Registered Nurse with recent BSN graduate status and clinical rotation experience in Pediatrics, Med-Surg, and ER settings. Passionate about pediatric care and family education. Strong foundation in medical terminology, patient assessment, and medication administration. Eager to launch nursing career at Seattle Children\'s Hospital.'
+    },
+    education: [
+        {
+            institutionName: 'University of Washington',
+            degree: 'Bachelor of Science in Nursing (BSN)',
+            location: 'Seattle, WA',
+            endYear: 2024,
+            gpa: '3.7',
+            achievements: 'President\'s List, Pediatric Nursing Clinical Excellence Award'
+        }
+    ],
+    workExperience: [
+        {
+            jobTitle: 'Pediatric Clinical Rotation (Student Nurse)',
+            companyName: 'Seattle Children\'s Hospital',
+            location: 'Seattle, WA',
+            startDate: '2023-09',
+            endDate: '2023-12',
+            isCurrent: false,
+            roleDescription: 'Completed 120 hours of clinical practice in acute pediatric care unit.',
+            achievements: [
+                { achievementText: 'Assisted in the care of 4-5 patients per shift under supervision, conducting assessments and documenting vitals' },
+                { achievementText: 'Developed age-appropriate educational materials for diabetic patients' }
+            ]
+        },
+        {
+            jobTitle: 'Certified Nursing Assistant (CNA)',
+            companyName: 'Evergreen Senior Living',
+            location: 'Bellevue, WA',
+            startDate: '2022-01',
+            endDate: '2024-05',
+            isCurrent: true,
+            roleDescription: 'Provided daily living assistance to 15+ residents in assisted living facility while completing nursing degree.',
+            achievements: [
+                { achievementText: 'Maintained 100% attendance record and commended for compassionate bedside manner' },
+                { achievementText: 'Assisted in organizing and leading recreational activities, improving resident engagement' },
+                { achievementText: 'Collaborated with nursing staff to report changes in resident conditions promptly' }
+            ]
+        },
+        {
+            jobTitle: 'Medical-Surgical Clinical Rotation',
+            companyName: 'Harborview Medical Center',
+            location: 'Seattle, WA',
+            startDate: '2023-01',
+            endDate: '2023-04',
+            isCurrent: false,
+            roleDescription: 'Completed 90 hours of clinical practice on a high-acuity trauma unit.',
+            achievements: [
+                { achievementText: 'Administered oral and IV medications under instructor supervision with no errors' },
+                { achievementText: 'Performed wound dressing changes and catheter care for post-operative patients' },
+                { achievementText: 'Participated in interdisciplinary rounds, presenting patient updates to the care team' }
+            ]
+        }
+    ],
+    skills: [
+        { skillName: 'Pediatric Care', skillType: 'professional', proficiencyLevel: 'intermediate' },
+        { skillName: 'Patient Education', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Medication Administration', skillType: 'technical', proficiencyLevel: 'intermediate' },
+        { skillName: 'Vital Signs Monitoring', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Compassionate Care', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Wound Care', skillType: 'technical', proficiencyLevel: 'intermediate' },
+        { skillName: 'Infection Control', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Electronic Health Records (Epic)', skillType: 'technical', proficiencyLevel: 'intermediate' }
+    ],
+    certifications: [
+        {
+            certificationName: 'Basic Life Support (BLS)',
+            issuingOrganization: 'American Heart Association',
+            issueYear: 2023
+        },
+        {
+            certificationName: 'Certified Nursing Assistant (CNA)',
+            issuingOrganization: 'Washington State DOH',
+            issueYear: 2021
+        }
+    ],
+    volunteerExperience: [
+        {
+            roleTitle: 'Medical Volunteer',
+            organizationName: 'Seattle Marathon',
+            startDate: '2023-11',
+            endDate: '2023-11',
+            contributions: 'Provided first aid and hydration support at medical tents.'
+        }
+    ]
+}
+
 export const MOCK_PERSONAS = {
     creative: MOCK_PREVIEW_DATA,
     executive: MOCK_EXECUTIVE_DATA,
-    graduate: MOCK_GRADUATE_DATA
+    graduate: MOCK_GRADUATE_DATA,
+    nurse_experienced: MOCK_NURSE_EXPERIENCED_DATA,
+    nurse_entry: MOCK_NURSE_ENTRY_DATA
 }

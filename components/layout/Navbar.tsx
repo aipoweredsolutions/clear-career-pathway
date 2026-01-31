@@ -37,7 +37,7 @@ export function Navbar() {
 
     const navLinks = [
         { name: 'Templates', href: '/#templates' },
-        { name: 'Career Studio', href: '/career-hub' },
+        { name: 'Resources', href: '/blog' },
         { name: 'Samples', href: '/samples' },
         { name: 'Pricing', href: '/pricing' },
     ]
@@ -61,7 +61,7 @@ export function Navbar() {
                     : 'bg-white border-transparent py-5'
             )}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-6 lg:px-10">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group">

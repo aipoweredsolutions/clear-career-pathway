@@ -80,20 +80,58 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
                 </section>
             )}
 
-            {/* Core Skills */}
+            {/* Core Skills - Categorized for ATS */}
             {skills && skills.length > 0 && (
                 <section className="mb-6">
                     <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
                         Core Skills
                     </h2>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
-                        {skills.map((skill, index) => (
-                            <span key={skill.id || index} className="text-neutral-800">
-                                {skill.skillName}
-                                {index < skills.length - 1 && ''}
-                            </span>
-                        ))}
-                    </div>
+                    {(() => {
+                        // Group skills by type for better ATS scanning
+                        const groupedSkills = skills.reduce((acc, skill) => {
+                            const type = skill.skillType || 'professional'
+                            if (!acc[type]) acc[type] = []
+                            acc[type].push(skill)
+                            return acc
+                        }, {} as Record<string, typeof skills>)
+
+                        const categoryLabels: Record<string, string> = {
+                            technical: 'Technical Skills',
+                            professional: 'Professional Skills',
+                            tool: 'Tools & Technologies',
+                            industry: 'Industry Knowledge'
+                        }
+
+                        // If no categorization, show inline
+                        if (Object.keys(groupedSkills).length === 1 && groupedSkills['professional']) {
+                            return (
+                                <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
+                                    {skills.map((skill, index) => (
+                                        <React.Fragment key={skill.id || index}>
+                                            <span className="text-neutral-800">{skill.skillName}</span>
+                                            {index < skills.length - 1 && <span className="text-neutral-400">•</span>}
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                            )
+                        }
+
+                        // Show categorized layout
+                        return (
+                            <div className="space-y-2">
+                                {Object.entries(groupedSkills).map(([type, skillsList]) => (
+                                    <div key={type} className="grid grid-cols-[160px_1fr] gap-4 items-start">
+                                        <span className="text-sm font-semibold text-neutral-700">
+                                            {categoryLabels[type] || type}:
+                                        </span>
+                                        <span className="text-sm text-neutral-800 leading-relaxed">
+                                            {skillsList.map(s => s.skillName).join(', ')}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    })()}
                 </section>
             )}
 

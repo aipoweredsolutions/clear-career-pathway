@@ -15,7 +15,7 @@ export default function TermsPage() {
                     <section>
                         <h2 className="text-2xl font-bold text-neutral-900 mb-4">1. Introduction</h2>
                         <p>
-                            Welcome to Clear Career Path ("we," "our," or "us"). By accessing or using our website and resume builder platform (the "Service"), you agree to comply with and be bound by these Terms of Service. If you do not agree, please do not use our Service.
+                            Welcome to Clear Career Path (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). By accessing or using our website and resume builder platform (the &quot;Service&quot;), you agree to comply with and be bound by these Terms of Service. If you do not agree, please do not use our Service.
                         </p>
                     </section>
 

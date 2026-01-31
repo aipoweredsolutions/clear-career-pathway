@@ -23,6 +23,9 @@ import { ArtisanTemplate } from './ArtisanTemplate'
 import { SplitContrastTemplate } from './SplitContrastTemplate'
 import { GraduateTemplate } from './GraduateTemplate'
 import { ATSTimelineTemplate } from './ATSTimelineTemplate'
+import { HospitalityEliteTemplate } from './HospitalityEliteTemplate'
+import { CruiseExcellenceTemplate } from './CruiseExcellenceTemplate'
+import { ServiceProTemplate } from './ServiceProTemplate'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
 
@@ -75,6 +78,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
     if (id === 'creative-orange') return { Component: CreativeTemplate, props: { accentColor: 'bg-orange-600' } }
     if (id === 'creative-pink') return { Component: CreativeTemplate, props: { accentColor: 'bg-pink-600' } }
     if (id === 'creative-indigo') return { Component: CreativeTemplate, props: { accentColor: 'bg-indigo-600' } }
+    if (id === 'creative-nursing') return { Component: CreativeTemplate, props: { accentColor: 'bg-pink-500' } }
 
     // --- Technical Variants ---
     if (id === 'technical-black') return { Component: TechnicalTemplate, props: { mode: 'dark' } }
@@ -168,6 +172,27 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
     if (id === 'ats-timeline-charcoal') return { Component: ATSTimelineTemplate, props: { accentColor: 'text-gray-800' } }
     if (id === 'ats-timeline-emerald') return { Component: ATSTimelineTemplate, props: { accentColor: 'text-emerald-900' } }
 
+    // --- Hospitality Elite Variants ---
+    if (id === 'hospitality-elite-gold') return { Component: HospitalityEliteTemplate, props: { accentColor: 'text-amber-700' } }
+    if (id === 'hospitality-elite-navy') return { Component: HospitalityEliteTemplate, props: { accentColor: 'text-blue-800' } }
+    if (id === 'hospitality-elite-burgundy') return { Component: HospitalityEliteTemplate, props: { accentColor: 'text-red-900' } }
+    if (id === 'hospitality-elite-emerald') return { Component: HospitalityEliteTemplate, props: { accentColor: 'text-green-800' } }
+    if (id === 'hospitality-elite-black') return { Component: HospitalityEliteTemplate, props: { accentColor: 'text-slate-800' } }
+
+    // --- Cruise Excellence Variants ---
+    if (id === 'cruise-excellence-ocean') return { Component: CruiseExcellenceTemplate, props: { accentColor: 'text-sky-800' } }
+    if (id === 'cruise-excellence-anchor') return { Component: CruiseExcellenceTemplate, props: { accentColor: 'text-slate-600' } }
+    if (id === 'cruise-excellence-coral') return { Component: CruiseExcellenceTemplate, props: { accentColor: 'text-rose-500' } }
+    if (id === 'cruise-excellence-white') return { Component: CruiseExcellenceTemplate, props: { accentColor: 'text-slate-400' } }
+    if (id === 'cruise-excellence-navy') return { Component: CruiseExcellenceTemplate, props: { accentColor: 'text-slate-900' } }
+
+    // --- Service Pro Variants ---
+    if (id === 'service-pro-slate') return { Component: ServiceProTemplate, props: { accentColor: 'text-slate-900' } }
+    if (id === 'service-pro-teal') return { Component: ServiceProTemplate, props: { accentColor: 'text-teal-700' } }
+    if (id === 'service-pro-orange') return { Component: ServiceProTemplate, props: { accentColor: 'text-orange-600' } }
+    if (id === 'service-pro-purple') return { Component: ServiceProTemplate, props: { accentColor: 'text-purple-700' } }
+    if (id === 'service-pro-gray') return { Component: ServiceProTemplate, props: { accentColor: 'text-slate-400' } }
+
     // --- Fallbacks / Exact Matches ---
     switch (id) {
         case 'classic': return { Component: ClassicTemplate, props: { accentColor: 'text-blue-800' } }
@@ -197,6 +222,9 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         case 'ats-graduate': return { Component: ATSGraduateTemplate, props: {} }
         case 'ats-standard': return { Component: ATSStandardTemplate, props: {} }
         case 'ats-timeline': return { Component: ATSTimelineTemplate, props: { accentColor: 'text-slate-900' } }
+        case 'hospitality-elite': return { Component: HospitalityEliteTemplate, props: { accentColor: 'text-amber-700' } }
+        case 'cruise-excellence': return { Component: CruiseExcellenceTemplate, props: { accentColor: 'text-sky-800' } }
+        case 'service-pro': return { Component: ServiceProTemplate, props: { accentColor: 'text-slate-900' } }
         default: return { Component: ClassicTemplate, props: {} }
     }
 }
@@ -228,7 +256,10 @@ export function TemplateRenderer({ templateId, data, className }: TemplateRender
         templateId.startsWith('artisan') ||
         templateId.startsWith('creative') ||
         templateId.startsWith('split-contrast') ||
-        templateId.startsWith('cute')
+        templateId.startsWith('cute') ||
+        templateId.startsWith('hospitality-elite') ||
+        templateId.startsWith('cruise-excellence') ||
+        templateId.startsWith('service-pro')
 
     if (!Component) {
         return (

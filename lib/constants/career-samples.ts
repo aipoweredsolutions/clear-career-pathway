@@ -91,6 +91,22 @@ export const CAREER_SAMPLES: Record<string, ResumeDocument> = {
                 toolsUsed: ['React', 'TypeScript', 'Storybook'],
                 startDate: '2020',
                 endDate: 'Present'
+            },
+            {
+                projectName: 'E-commerce Microservices',
+                role: 'Lead Architect',
+                description: 'Decomposed a monolithic application into event-driven microservices.',
+                toolsUsed: ['Node.js', 'Kafka', 'Redis'],
+                startDate: '2019',
+                endDate: '2020'
+            }
+        ],
+        achievements: [
+            {
+                achievementTitle: 'Hackathon Winner',
+                issuingBody: 'TechCrunch Disrupt',
+                year: 2018,
+                description: 'Best use of Blockchain technology.'
             }
         ]
     },
@@ -137,8 +153,19 @@ export const CAREER_SAMPLES: Record<string, ResumeDocument> = {
                 roleDescription: 'Developed and executed content strategies for B2B tech clients.',
                 achievements: [
                     { achievementText: 'Produced a viral whitepaper series that generated 10,000+ downloads and 500+ MQLs.' },
-                    { achievementText: 'Improved search engine rankings for 15+ high-competition keywords to position #1-3.' }
+                    { achievementText: 'Improved search engine rankings for 15+ high-competition keywords to position #1-3.' },
+                    { achievementText: 'Collaborated with sales team to create sales enablement assets, reducing sales cycle by 10%.' }
                 ]
+            }
+        ],
+        projects: [
+            {
+                projectName: 'Rebranding Campaign 2022',
+                role: 'Project Lead',
+                description: 'Led the digital rollout of the new company brand identity.',
+                toolsUsed: ['Adobe Creative Suite', 'Asana'],
+                startDate: '2022-01',
+                endDate: '2022-06'
             }
         ],
         education: [
@@ -215,8 +242,19 @@ export const CAREER_SAMPLES: Record<string, ResumeDocument> = {
                 roleDescription: 'Prospected and qualified outbound leads for the enterprise sales team.',
                 achievements: [
                     { achievementText: 'Consistently exceeded monthly meeting quotas by 20%, generating $3M+ in pipeline.' },
-                    { achievementText: 'Developed a personalized outreach sequence that increased response rates from 3% to 12%.' }
+                    { achievementText: 'Developed a personalized outreach sequence that increased response rates from 3% to 12%.' },
+                    { achievementText: 'Mentored 2 new SDR hires, accelerating their ramp-up time by 2 weeks.' }
                 ]
+            }
+        ],
+        projects: [
+            {
+                projectName: 'Enterprise Market Penetration',
+                role: 'Lead Strategist',
+                description: 'Developed and executed a strategy to break into the Fortune 500 financial services sector.',
+                startDate: '2022',
+                endDate: '2023',
+                outcomes: 'Secured 3 pilot contracts with major banks.'
             }
         ],
         education: [
@@ -299,6 +337,16 @@ export const CAREER_SAMPLES: Record<string, ResumeDocument> = {
                 ]
             }
         ],
+        projects: [
+            {
+                projectName: 'Rebrand for "EcoWear"',
+                role: 'Freelance Designer',
+                description: 'Developed full brand identity for sustainable clothing startup.',
+                outcomes: 'Featured in DesignWeekly.',
+                startDate: '2023',
+                endDate: '2023'
+            }
+        ],
         languages: [
             { languageName: 'Italian', proficiencyLevel: 'native' },
             { languageName: 'English', proficiencyLevel: 'fluent' },
@@ -344,7 +392,24 @@ export const CAREER_SAMPLES: Record<string, ResumeDocument> = {
                 major: 'Business Management',
                 endYear: 2024,
                 gpa: '3.9',
-                coursework: 'Strategic Management, Econometrics, Corporate Finance, Data Operations'
+                coursework: 'Strategic Management, Econometrics, Corporate Finance, Data Operations, Digital Marketing, Business Analytics'
+            }
+        ],
+        projects: [
+            {
+                projectName: 'Market Entry Strategy Case Study',
+                role: 'Team Lead',
+                description: 'Analyzed market viability for a hypothetical tech startup expanding to Southeast Asia.',
+                outcomes: 'Awarded "Best Strategy" by visiting McKinsey partners.',
+                startDate: '2023-11',
+                endDate: '2023-12'
+            },
+            {
+                projectName: 'Financial Modelling Workshop',
+                role: 'Participant',
+                description: 'Built complex DCF models to value FTSE 100 companies.',
+                startDate: '2023-02',
+                endDate: '2023-04'
             }
         ],
         skills: [
@@ -392,8 +457,29 @@ export const CAREER_SAMPLES: Record<string, ResumeDocument> = {
                 achievements: [
                     { achievementText: 'Reduced hospital-acquired infections (HAIs) by 15% through rigorous implementation of new hygiene protocols.' },
                     { achievementText: 'Optimized shift scheduling software, reducing overtime labor costs by $120k annually.' },
-                    { achievementText: 'Led the "Patient First" initiative, raising HCAHPS scores from 3/5 to 4.8/5 within 18 months.' }
+                    { achievementText: 'Led the "Patient First" initiative, raising HCAHPS scores from 3/5 to 4.8/5 within 18 months.' },
+                    { achievementText: 'Coordinated cross-departmental response during public health emergencies, ensuring seamless patient throughput.' }
                 ]
+            },
+            {
+                jobTitle: 'Senior Registered Nurse (ICU)',
+                companyName: 'Mercy Hospital',
+                location: 'Chicago, IL',
+                startDate: '2012-06',
+                endDate: '2018-02',
+                isCurrent: false,
+                roleDescription: 'Provided high-acuity care to trauma and post-surgical patients.',
+                achievements: [
+                    { achievementText: 'Precepted over 20 nursing students and new graduates.' },
+                    { achievementText: 'Served on the Ethics Committee, contributing to policy revisions.' }
+                ]
+            }
+        ],
+        publications: [
+            {
+                title: 'Improving Patient Handoff Communication in the ICU',
+                platformOrPublisher: 'Journal of Nursing Administration',
+                publicationYear: 2019
             }
         ],
         education: [
@@ -469,6 +555,20 @@ export const CAREER_SAMPLES: Record<string, ResumeDocument> = {
                 title: 'Quantum Entanglement in Macroscopic Systems',
                 platformOrPublisher: 'Physical Review Letters',
                 publicationYear: 2022
+            },
+            {
+                title: 'Pedagogical Approaches to Advanced Quantum Mechanics',
+                platformOrPublisher: 'Physics Education Journal',
+                publicationYear: 2020
+            }
+        ],
+        customSections: [
+            {
+                title: 'Invited Talks',
+                items: [
+                    { text: 'Keynote at International Physics Conference, Geneva (2023)' },
+                    { text: 'Guest Lecturer at MIT Physics Department (2021)' }
+                ]
             }
         ]
     }

@@ -48,22 +48,62 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                 {skills && skills.length > 0 && (
                     <section>
                         <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">01. Technical Stack</h2>
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-2 border border-neutral-100 p-4 rounded bg-neutral-50/50">
-                            {skills.reduce((acc: any[], skill, i) => {
-                                const groupIndex = Math.floor(i / 3);
-                                if (!acc[groupIndex]) acc[groupIndex] = [];
-                                acc[groupIndex].push(skill);
-                                return acc;
-                            }, []).map((group, i) => (
-                                <div key={i} className="flex flex-col gap-1">
-                                    <div className="flex flex-wrap gap-2 text-[10px]">
-                                        {group.map((s: any, j: number) => (
-                                            <span key={j} className="font-bold">[{s.skillName}]</span>
+                        {(() => {
+                            // Group skills by type for technical categorization
+                            const groupedSkills = skills.reduce((acc, skill) => {
+                                const type = skill.skillType || 'technical'
+                                if (!acc[type]) acc[type] = []
+                                acc[type].push(skill)
+                                return acc
+                            }, {} as Record<string, typeof skills>)
+
+                            const categoryLabels: Record<string, string> = {
+                                technical: 'Languages & Frameworks',
+                                tool: 'Tools & Platforms',
+                                industry: 'Technologies',
+                                professional: 'Methodologies'
+                            }
+
+                            // If only one category, use compact grid
+                            if (Object.keys(groupedSkills).length === 1) {
+                                return (
+                                    <div className="grid grid-cols-2 gap-x-8 gap-y-2 border border-neutral-100 p-4 rounded bg-neutral-50/50">
+                                        {skills.reduce((acc: any[], skill, i) => {
+                                            const groupIndex = Math.floor(i / 3);
+                                            if (!acc[groupIndex]) acc[groupIndex] = [];
+                                            acc[groupIndex].push(skill);
+                                            return acc;
+                                        }, []).map((group, i) => (
+                                            <div key={i} className="flex flex-col gap-1">
+                                                <div className="flex flex-wrap gap-2 text-[10px]">
+                                                    {group.map((s: any, j: number) => (
+                                                        <span key={j} className="font-bold">[{s.skillName}]</span>
+                                                    ))}
+                                                </div>
+                                            </div>
                                         ))}
                                     </div>
+                                )
+                            }
+
+                            // Show categorized layout for multiple types
+                            return (
+                                <div className="border border-neutral-100 p-4 rounded bg-neutral-50/50 space-y-3">
+                                    {Object.entries(groupedSkills).map(([type, skillsList]) => (
+                                        <div key={type} className="grid grid-cols-[140px_1fr] gap-4 items-start">
+                                            <span className="text-[10px] font-black text-neutral-600 uppercase tracking-wider">
+                                                {categoryLabels[type] || type}:
+                                            </span>
+                                            <div className="flex flex-wrap gap-2 text-[10px]">
+                                                {skillsList.map((s, i) => (
+                                                    <span key={i} className="font-bold">[{s.skillName}]</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
+                            )
+                        })()}
                     </section>
                 )}
 
