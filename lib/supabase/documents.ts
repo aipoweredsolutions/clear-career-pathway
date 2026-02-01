@@ -206,7 +206,7 @@ export async function fetchUserDocuments(supabase: SupabaseClient, userId: strin
             documentType: 'resume',
             templateId: 'classic',
             careerLevel: 'senior',
-            jobType: 'full-time',
+            jobType: 'technical',
             industryFocus: 'Technology',
             isPublished: false,
             createdAt: new Date().toISOString(),
@@ -257,7 +257,7 @@ export async function fetchUserDocuments(supabase: SupabaseClient, userId: strin
 
     if (error) {
         console.error('Error fetching documents:', error)
-        return []
+        throw new Error(`Failed to fetch documents: ${error.message || JSON.stringify(error)}`)
     }
 
     return docs.map(doc => mapDocumentRow(doc))
@@ -304,7 +304,7 @@ export async function fetchFullDocument(supabase: SupabaseClient, documentId: st
         supabase.from('volunteer_experience').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
         supabase.from('publications').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
         supabase.from('professional_affiliations').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
-        supabase.from('references').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
+        supabase.from('document_references').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
         supabase.from('additional_info').select('*').eq('document_id', documentId).maybeSingle(),
         supabase.from('custom_sections').select('*, custom_section_items(*)').eq('document_id', documentId).order('display_order', { ascending: true })
     ])

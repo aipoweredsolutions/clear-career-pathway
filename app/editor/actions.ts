@@ -283,7 +283,7 @@ export async function saveResume(data: ResumeDocument): Promise<{ success: boole
 
         // 13. Handle References
         if (data.references) {
-            await syncList('references', data.references, (ref) => ({
+            await syncList('document_references', data.references, (ref) => ({
                 id: ref.id,
                 reference_name: ref.referenceName,
                 role: ref.role,

@@ -2,12 +2,13 @@ import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
 
-interface TemplateProps {
+export interface TemplateProps {
     data: ResumeDocument
     className?: string
+    accentColor?: string
 }
 
-export function ATSStandardTemplate({ data, className }: TemplateProps) {
+export function ATSStandardTemplate({ data, className, accentColor = 'text-primary-600' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -64,7 +65,7 @@ export function ATSStandardTemplate({ data, className }: TemplateProps) {
                                         <h3 className="text-sm font-black text-neutral-900 uppercase tracking-wide">{job.jobTitle}</h3>
                                         <span className="text-[10px] font-bold text-neutral-400 italic bg-neutral-50 px-2 py-0.5 rounded">{job.startDate} — {job.isCurrent ? 'Current' : job.endDate}</span>
                                     </div>
-                                    <div className="text-[10px] font-black text-primary-600 uppercase mb-3">{job.companyName} | {job.location}</div>
+                                    <div className={cn("text-[10px] font-black uppercase mb-3", accentColor)}>{job.companyName} | {job.location}</div>
                                     {job.roleDescription && (
                                         <p className="text-xs text-neutral-600 mb-4 leading-relaxed font-medium">{job.roleDescription}</p>
                                     )}

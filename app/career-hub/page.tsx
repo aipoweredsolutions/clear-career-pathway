@@ -38,7 +38,7 @@ export default function CareerHubPage() {
             }
         }
         loadData()
-    }, [])
+    }, [supabase])
 
     if (isLoading) {
         return (

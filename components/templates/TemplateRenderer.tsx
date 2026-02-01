@@ -38,14 +38,29 @@ interface TemplateRendererProps {
 // Map of ID prefixes to components and default props
 const getTemplateConfig = (id: string): { Component: any, props: any } => {
     // --- ATS Series Mappings (Handles variants like ats-classic-navy) ---
-    if (id.startsWith('ats-professional')) return { Component: ATSProfessionalTemplate, props: {} }
+    if (id.startsWith('ats-professional')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-blue')) accentColor = 'text-blue-600'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-green')) accentColor = 'text-emerald-800'
+        return { Component: ATSProfessionalTemplate, props: { accentColor } }
+    }
     if (id.startsWith('ats-classic')) return { Component: ATSClassicTemplate, props: {} }
     if (id.startsWith('ats-minimal')) return { Component: ATSMinimalTemplate, props: {} }
     if (id.startsWith('ats-executive')) return { Component: ATSExecutiveTemplate, props: {} }
     if (id.startsWith('ats-technical')) return { Component: ATSTechnicalTemplate, props: {} }
     if (id.startsWith('ats-modern')) return { Component: ATSModernTemplate, props: {} }
     if (id.startsWith('ats-graduate')) return { Component: ATSGraduateTemplate, props: {} }
-    if (id.startsWith('ats-standard')) return { Component: ATSStandardTemplate, props: {} }
+    if (id.startsWith('ats-standard')) {
+        let accentColor = 'text-primary-600'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-blue')) accentColor = 'text-blue-600'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-slate')) accentColor = 'text-slate-600'
+        if (id.includes('-black')) accentColor = 'text-neutral-900'
+        return { Component: ATSStandardTemplate, props: { accentColor } }
+    }
     if (id.startsWith('ats-timeline')) return { Component: ATSTimelineTemplate, props: {} }
 
     // --- Cute Variants ---

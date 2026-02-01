@@ -14,8 +14,14 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
         skills,
         workExperience,
         education,
+        certifications,
         projects,
-        publications
+        achievements,
+        publications,
+        volunteerExperience,
+        languages,
+        professionalAffiliations,
+        customSections
     } = data
 
     return (
@@ -26,18 +32,32 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
             {/* Technical Header */}
             <header className="mb-6 border-b-2 border-neutral-900 pb-4">
                 <h1 className="text-2xl font-bold mb-1 tracking-tight">
-                    {personalInfo?.fullName}
+                    {personalInfo?.fullName || 'Root@User'}
                 </h1>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-neutral-600 font-bold uppercase tracking-wider">
-                    <span>{personalInfo?.email}</span>
-                    <span>|</span>
-                    <span>{personalInfo?.phone}</span>
-                    <span>|</span>
-                    <span>{personalInfo?.city}</span>
-                    {personalInfo?.websiteUrl && (
+                    {personalInfo?.email && <span>{personalInfo.email}</span>}
+                    {personalInfo?.phone && (
                         <>
                             <span>|</span>
-                            <span>{personalInfo.websiteUrl?.replace(/^https?:\/\//, '')}</span>
+                            <span>{personalInfo.phone}</span>
+                        </>
+                    )}
+                    {(personalInfo?.city || personalInfo?.country) && (
+                        <>
+                            <span>|</span>
+                            <span>{[personalInfo.city, personalInfo.country].filter(Boolean).join(', ')}</span>
+                        </>
+                    )}
+                    {personalInfo?.linkedinUrl && (
+                        <>
+                            <span>|</span>
+                            <span>LinkedIn</span>
+                        </>
+                    )}
+                    {personalInfo?.githubUrl && (
+                        <>
+                            <span>|</span>
+                            <span>GitHub</span>
                         </>
                     )}
                 </div>
@@ -49,7 +69,6 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                     <section>
                         <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">01. Technical Stack</h2>
                         {(() => {
-                            // Group skills by type for technical categorization
                             const groupedSkills = skills.reduce((acc, skill) => {
                                 const type = skill.skillType || 'technical'
                                 if (!acc[type]) acc[type] = []
@@ -64,29 +83,6 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                                 professional: 'Methodologies'
                             }
 
-                            // If only one category, use compact grid
-                            if (Object.keys(groupedSkills).length === 1) {
-                                return (
-                                    <div className="grid grid-cols-2 gap-x-8 gap-y-2 border border-neutral-100 p-4 rounded bg-neutral-50/50">
-                                        {skills.reduce((acc: any[], skill, i) => {
-                                            const groupIndex = Math.floor(i / 3);
-                                            if (!acc[groupIndex]) acc[groupIndex] = [];
-                                            acc[groupIndex].push(skill);
-                                            return acc;
-                                        }, []).map((group, i) => (
-                                            <div key={i} className="flex flex-col gap-1">
-                                                <div className="flex flex-wrap gap-2 text-[10px]">
-                                                    {group.map((s: any, j: number) => (
-                                                        <span key={j} className="font-bold">[{s.skillName}]</span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )
-                            }
-
-                            // Show categorized layout for multiple types
                             return (
                                 <div className="border border-neutral-100 p-4 rounded bg-neutral-50/50 space-y-3">
                                     {Object.entries(groupedSkills).map(([type, skillsList]) => (
@@ -110,7 +106,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                 {/* Experience */}
                 {workExperience && workExperience.length > 0 && (
                     <section>
-                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">02. Experience</h2>
+                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">02. Engineering Tenure</h2>
                         <div className="space-y-4">
                             {workExperience.map((job, i) => (
                                 <div key={i}>
@@ -118,7 +114,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                                         <h3>{job.jobTitle.toUpperCase()} @ {job.companyName.toUpperCase()}</h3>
                                         <span className="text-[10px] text-neutral-400">{job.startDate} {"->"} {job.isCurrent ? 'HEAD' : job.endDate}</span>
                                     </div>
-                                    <p className="text-neutral-500 italic mb-2">{`// ${job.location}`}</p>
+                                    <p className="text-neutral-500 italic mb-2">{`// ${job.location || 'Distributed'}`}</p>
                                     {job.achievements && (
                                         <ul className="space-y-1 border-l border-neutral-200 pl-4 py-1">
                                             {job.achievements.map((a, j) => (
@@ -138,7 +134,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                 {/* Projects */}
                 {projects && projects.length > 0 && (
                     <section>
-                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">03. Repositories & Tools</h2>
+                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">03. Repositories</h2>
                         <div className="grid grid-cols-2 gap-4">
                             {projects.map((proj, i) => (
                                 <div key={i} className="border border-neutral-100 p-3 rounded">
@@ -162,17 +158,65 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                 {education && education.length > 0 && (
                     <section>
                         <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">04. Education</h2>
-                        {education.map((edu, i) => (
-                            <div key={i} className="flex justify-between">
-                                <div>
-                                    <span className="font-bold">{edu.degree}</span> in <span className="italic">{edu.institutionName}</span>
+                        <div className="space-y-2">
+                            {education.map((edu, i) => (
+                                <div key={i} className="flex justify-between">
+                                    <div>
+                                        <span className="font-bold">{edu.degree}</span> in <span className="italic">{edu.institutionName}</span>
+                                        {edu.gpa && <span className="text-neutral-400 ml-2">[GPA: {edu.gpa}]</span>}
+                                    </div>
+                                    <span className="font-bold opacity-50">{edu.endYear}</span>
                                 </div>
-                                <span className="font-bold opacity-50">{edu.endYear}</span>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </section>
                 )}
+
+                {/* Bottom Metadata */}
+                <div className="grid grid-cols-2 gap-8 pt-4 border-t border-neutral-200">
+                    {certifications && certifications.length > 0 && (
+                        <section>
+                            <h2 className="text-[10px] font-black uppercase text-neutral-400 mb-2">Certifications</h2>
+                            <div className="space-y-1">
+                                {certifications.map((c, i) => (
+                                    <div key={i} className="font-bold text-neutral-700">
+                                        - {c.certificationName} ({c.issuingOrganization})
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {languages && languages.length > 0 && (
+                        <section>
+                            <h2 className="text-[10px] font-black uppercase text-neutral-400 mb-2">Spoken Languages</h2>
+                            <div className="flex flex-wrap gap-x-4">
+                                {languages.map((l, i) => (
+                                    <div key={i} className="font-bold">
+                                        {l.languageName}: <span className="text-primary-600">{l.proficiencyLevel}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+
+                {/* Custom Sections */}
+                {customSections && customSections.map((s, i) => (
+                    <section key={i}>
+                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">05. {s.title}</h2>
+                        {s.content && <p className="mb-2">{s.content}</p>}
+                        {s.items && (
+                            <div className="grid grid-cols-2 gap-2">
+                                {s.items.map((item, j) => (
+                                    <div key={j}>--{item.text}</div>
+                                ))}
+                            </div>
+                        )}
+                    </section>
+                ))}
             </div>
         </div>
     )
 }
+

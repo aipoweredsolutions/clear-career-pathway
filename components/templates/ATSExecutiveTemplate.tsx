@@ -15,7 +15,13 @@ export function ATSExecutiveTemplate({ data, className }: TemplateProps) {
         workExperience,
         education,
         certifications,
-        achievements
+        projects,
+        achievements,
+        publications,
+        volunteerExperience,
+        languages,
+        professionalAffiliations,
+        customSections
     } = data
 
     return (
@@ -27,18 +33,26 @@ export function ATSExecutiveTemplate({ data, className }: TemplateProps) {
             {/* Executive Header */}
             <header className="border-b-4 border-neutral-800 pb-6 mb-8">
                 <h1 className="text-4xl font-black tracking-tighter text-neutral-900 mb-2 uppercase">
-                    {personalInfo?.fullName}
+                    {personalInfo?.fullName || 'Your Name'}
                 </h1>
                 <div className="flex justify-between items-center">
                     <div className="text-sm font-bold text-primary-700 tracking-wider">
-                        {personalInfo?.professionalTitle?.toUpperCase()}
+                        {personalInfo?.professionalTitle?.toUpperCase() || 'EXECUTIVE LEADERSHIP'}
                     </div>
-                    <div className="flex gap-4 text-[10px] font-bold text-neutral-500">
-                        <span>{personalInfo?.email}</span>
-                        <span>•</span>
-                        <span>{personalInfo?.phone}</span>
-                        <span>•</span>
-                        <span>{personalInfo?.location || personalInfo?.city}</span>
+                    <div className="flex gap-4 text-[10px] font-bold text-neutral-500 uppercase tracking-tight">
+                        {personalInfo?.email && <span>{personalInfo.email}</span>}
+                        {personalInfo?.phone && (
+                            <>
+                                <span>•</span>
+                                <span>{personalInfo.phone}</span>
+                            </>
+                        )}
+                        {(personalInfo?.city || personalInfo?.country) && (
+                            <>
+                                <span>•</span>
+                                <span>{[personalInfo.city, personalInfo.country].filter(Boolean).join(', ')}</span>
+                            </>
+                        )}
                     </div>
                 </div>
             </header>
@@ -86,15 +100,43 @@ export function ATSExecutiveTemplate({ data, className }: TemplateProps) {
                     </section>
                 )}
 
-                {/* Skills Grid */}
+                {/* Projects */}
+                {projects && projects.length > 0 && (
+                    <section>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-900 mb-4 ml-1">Strategic Projects</h2>
+                        <div className="grid grid-cols-2 gap-6">
+                            {projects.map((proj, i) => (
+                                <div key={i} className="bg-neutral-50 p-4 rounded border-l-2 border-neutral-500">
+                                    <h3 className="text-[11px] font-black uppercase mb-1">{proj.projectName}</h3>
+                                    <div className="text-[10px] font-bold text-primary-600 mb-2 uppercase">{proj.role}</div>
+                                    <p className="text-[10px] text-neutral-600 leading-normal">{proj.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Skills Grid - Grouped */}
                 {skills && skills.length > 0 && (
                     <section>
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-900 mb-4 ml-1">Strategic Skills</h2>
-                        <div className="flex flex-wrap gap-2">
-                            {skills.map((s, i) => (
-                                <span key={i} className="text-[10px] font-bold px-3 py-1 bg-neutral-100 text-neutral-700 rounded uppercase">
-                                    {s.skillName}
-                                </span>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-900 mb-4 ml-1">Core Competencies</h2>
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                            {Object.entries(skills.reduce((acc, s) => {
+                                const t = s.skillType || 'professional';
+                                if (!acc[t]) acc[t] = [];
+                                acc[t].push(s);
+                                return acc;
+                            }, {} as Record<string, typeof skills>)).map(([type, list]) => (
+                                <div key={type} className="flex flex-col gap-2">
+                                    <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">{type}</div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {list.map((s, i) => (
+                                            <span key={i} className="text-[10px] font-bold px-2 py-0.5 bg-neutral-100 text-neutral-700 rounded border border-neutral-200">
+                                                {s.skillName}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
                             ))}
                         </div>
                     </section>
@@ -103,12 +145,12 @@ export function ATSExecutiveTemplate({ data, className }: TemplateProps) {
                 {/* Education */}
                 {education && education.length > 0 && (
                     <section>
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-900 mb-4 ml-1">Academic Background</h2>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-900 mb-4 ml-1">Education</h2>
                         <div className="space-y-4">
                             {education.map((edu, i) => (
                                 <div key={i} className="flex justify-between items-baseline">
                                     <div className="text-xs">
-                                        <span className="font-black text-neutral-900">{edu.degree}</span>
+                                        <span className="font-black text-neutral-900 uppercase">{edu.degree}</span>
                                         <span className="text-neutral-500 mx-2">•</span>
                                         <span className="font-bold text-neutral-600 italic">{edu.institutionName}</span>
                                     </div>
@@ -118,7 +160,54 @@ export function ATSExecutiveTemplate({ data, className }: TemplateProps) {
                         </div>
                     </section>
                 )}
+
+                {/* Multi-section bottom (Certs, Languages, etc) */}
+                <div className="grid grid-cols-2 gap-8 pt-4 border-t border-neutral-100">
+                    {/* Certifications */}
+                    {certifications && certifications.length > 0 && (
+                        <section>
+                            <h2 className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-3">Certifications</h2>
+                            <div className="space-y-2">
+                                {certifications.map((c, i) => (
+                                    <div key={i} className="text-[10px] font-bold text-neutral-700">
+                                        {c.certificationName} <span className="text-neutral-400 font-normal">| {c.issuingOrganization}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Languages */}
+                    {languages && languages.length > 0 && (
+                        <section>
+                            <h2 className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-3">Languages</h2>
+                            <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                {languages.map((l, i) => (
+                                    <div key={i} className="text-[10px] font-bold text-neutral-700">
+                                        {l.languageName} <span className="text-primary-600 uppercase">({l.proficiencyLevel})</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+
+                {/* Custom Sections */}
+                {customSections && customSections.map((s, i) => (
+                    <section key={i}>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-900 mb-3 ml-1">{s.title}</h2>
+                        {s.content && <p className="text-xs text-neutral-700 leading-relaxed font-medium mb-2">{s.content}</p>}
+                        {s.items && (
+                            <ul className="grid grid-cols-2 gap-x-8 gap-y-1">
+                                {s.items.map((item, j) => (
+                                    <li key={j} className="text-[10px] text-neutral-600 font-bold uppercase tracking-tight">• {item.text}</li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
+                ))}
             </div>
         </div>
     )
 }
+

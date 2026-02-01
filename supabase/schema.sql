@@ -9,7 +9,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ============================================
 
 -- User profiles table (extends Supabase auth.users)
-CREATE TABLE profiles (
+CREATE TABLE IF NOT EXISTS profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL,
   full_name TEXT,
@@ -17,8 +17,28 @@ CREATE TABLE profiles (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Function to handle new user signup
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.profiles (id, email, full_name)
+  VALUES (
+    NEW.id,
+    NEW.email,
+    NEW.raw_user_meta_data->>'full_name'
+  );
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger the function every time a user is created
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
 -- Subscription tiers
-CREATE TABLE subscription_tiers (
+CREATE TABLE IF NOT EXISTS subscription_tiers (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name TEXT NOT NULL UNIQUE, -- 'free', 'starter', 'premium'
   display_name TEXT NOT NULL,
@@ -32,7 +52,7 @@ CREATE TABLE subscription_tiers (
 );
 
 -- User subscriptions
-CREATE TABLE user_subscriptions (
+CREATE TABLE IF NOT EXISTS user_subscriptions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   tier_id UUID NOT NULL REFERENCES subscription_tiers(id),
@@ -47,7 +67,7 @@ CREATE TABLE user_subscriptions (
 );
 
 -- Payment history
-CREATE TABLE payment_history (
+CREATE TABLE IF NOT EXISTS payment_history (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   subscription_id UUID REFERENCES user_subscriptions(id) ON DELETE SET NULL,
@@ -59,7 +79,7 @@ CREATE TABLE payment_history (
 );
 
 -- User usage tracking (AI, Exports)
-CREATE TABLE user_usage (
+CREATE TABLE IF NOT EXISTS user_usage (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   month_year TEXT NOT NULL, -- e.g. '2026-01'
@@ -75,7 +95,7 @@ CREATE TABLE user_usage (
 -- ============================================
 
 -- Main documents table (resumes, CVs, cover letters)
-CREATE TABLE documents (
+CREATE TABLE IF NOT EXISTS documents (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   document_type TEXT NOT NULL, -- 'resume', 'cv', 'cover_letter', 'career_blog'
@@ -90,7 +110,7 @@ CREATE TABLE documents (
 );
 
 -- Personal information
-CREATE TABLE personal_info (
+CREATE TABLE IF NOT EXISTS personal_info (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   full_name TEXT NOT NULL,
@@ -106,7 +126,7 @@ CREATE TABLE personal_info (
 );
 
 -- Professional summary
-CREATE TABLE professional_summary (
+CREATE TABLE IF NOT EXISTS professional_summary (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   headline TEXT,
@@ -116,7 +136,7 @@ CREATE TABLE professional_summary (
 );
 
 -- Skills (individual entries for ATS parsing)
-CREATE TABLE skills (
+CREATE TABLE IF NOT EXISTS skills (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   skill_name TEXT NOT NULL,
@@ -127,7 +147,7 @@ CREATE TABLE skills (
 );
 
 -- Work experience
-CREATE TABLE work_experience (
+CREATE TABLE IF NOT EXISTS work_experience (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   job_title TEXT NOT NULL,
@@ -143,7 +163,7 @@ CREATE TABLE work_experience (
 );
 
 -- Work experience achievements (individual bullets)
-CREATE TABLE work_achievements (
+CREATE TABLE IF NOT EXISTS work_achievements (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   work_experience_id UUID NOT NULL REFERENCES work_experience(id) ON DELETE CASCADE,
   achievement_text TEXT NOT NULL,
@@ -153,7 +173,7 @@ CREATE TABLE work_achievements (
 );
 
 -- Projects
-CREATE TABLE projects (
+CREATE TABLE IF NOT EXISTS projects (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   project_name TEXT NOT NULL,
@@ -170,7 +190,7 @@ CREATE TABLE projects (
 );
 
 -- Education
-CREATE TABLE education (
+CREATE TABLE IF NOT EXISTS education (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   degree TEXT NOT NULL,
@@ -187,7 +207,7 @@ CREATE TABLE education (
 );
 
 -- Certifications
-CREATE TABLE certifications (
+CREATE TABLE IF NOT EXISTS certifications (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   certification_name TEXT NOT NULL,
@@ -200,7 +220,7 @@ CREATE TABLE certifications (
 );
 
 -- Achievements & Awards
-CREATE TABLE achievements (
+CREATE TABLE IF NOT EXISTS achievements (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   achievement_title TEXT NOT NULL,
@@ -212,7 +232,7 @@ CREATE TABLE achievements (
 );
 
 -- Publications
-CREATE TABLE publications (
+CREATE TABLE IF NOT EXISTS publications (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
@@ -224,7 +244,7 @@ CREATE TABLE publications (
 );
 
 -- Volunteer experience
-CREATE TABLE volunteer_experience (
+CREATE TABLE IF NOT EXISTS volunteer_experience (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   role_title TEXT NOT NULL,
@@ -237,7 +257,7 @@ CREATE TABLE volunteer_experience (
 );
 
 -- Languages
-CREATE TABLE languages (
+CREATE TABLE IF NOT EXISTS languages (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   language_name TEXT NOT NULL,
@@ -247,7 +267,7 @@ CREATE TABLE languages (
 );
 
 -- Professional affiliations
-CREATE TABLE professional_affiliations (
+CREATE TABLE IF NOT EXISTS professional_affiliations (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   organization_name TEXT NOT NULL,
@@ -257,8 +277,8 @@ CREATE TABLE professional_affiliations (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- References
-CREATE TABLE references (
+-- References (Renamed from 'references' to avoid reserved keyword conflict)
+CREATE TABLE IF NOT EXISTS document_references (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   reference_name TEXT,
@@ -271,7 +291,7 @@ CREATE TABLE references (
 );
 
 -- Additional information
-CREATE TABLE additional_info (
+CREATE TABLE IF NOT EXISTS additional_info (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   security_clearance TEXT,
@@ -286,13 +306,32 @@ CREATE TABLE additional_info (
 -- INDEXES FOR PERFORMANCE
 -- ============================================
 
-CREATE INDEX idx_documents_user_id ON documents(user_id);
-CREATE INDEX idx_documents_type ON documents(document_type);
-CREATE INDEX idx_work_experience_document_id ON work_experience(document_id);
-CREATE INDEX idx_skills_document_id ON skills(document_id);
-CREATE INDEX idx_education_document_id ON education(document_id);
-CREATE INDEX idx_user_subscriptions_user_id ON user_subscriptions(user_id);
-CREATE INDEX idx_payment_history_user_id ON payment_history(user_id);
+CREATE INDEX IF NOT EXISTS idx_documents_user_id ON documents(user_id);
+CREATE INDEX IF NOT EXISTS idx_documents_type ON documents(document_type);
+CREATE INDEX IF NOT EXISTS idx_work_experience_document_id ON work_experience(document_id);
+CREATE INDEX IF NOT EXISTS idx_skills_document_id ON skills(document_id);
+CREATE INDEX IF NOT EXISTS idx_education_document_id ON education(document_id);
+CREATE INDEX IF NOT EXISTS idx_user_subscriptions_user_id ON user_subscriptions(user_id);
+CREATE INDEX IF NOT EXISTS idx_payment_history_user_id ON payment_history(user_id);
+
+-- ============================================
+-- HELPER FUNCTIONS
+-- ============================================
+
+-- Function to safely ensure a user profile exists (Bypasses RLS)
+CREATE OR REPLACE FUNCTION ensure_user_profile(
+    p_user_id UUID,
+    p_email TEXT,
+    p_full_name TEXT
+)
+RETURNS VOID AS $$
+BEGIN
+    INSERT INTO public.profiles (id, email, full_name)
+    VALUES (p_user_id, p_email, p_full_name)
+    ON CONFLICT (id) DO NOTHING;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
 
 -- ============================================
 -- ROW LEVEL SECURITY (RLS)
@@ -314,7 +353,7 @@ ALTER TABLE publications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE volunteer_experience ENABLE ROW LEVEL SECURITY;
 ALTER TABLE languages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE professional_affiliations ENABLE ROW LEVEL SECURITY;
-ALTER TABLE references ENABLE ROW LEVEL SECURITY;
+ALTER TABLE document_references ENABLE ROW LEVEL SECURITY;
 ALTER TABLE additional_info ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payment_history ENABLE ROW LEVEL SECURITY;
@@ -322,26 +361,35 @@ ALTER TABLE user_usage ENABLE ROW LEVEL SECURITY;
 
 -- Profiles: Users can only see and update their own profile
 
-CREATE POLICY "Users can view own profile" ON profiles
-  FOR SELECT USING (auth.uid() = id);
+DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
+CREATE POLICY "Users can view own profile" ON profiles FOR SELECT USING (auth.uid() = id);
 
-CREATE POLICY "Users can update own profile" ON profiles
-  FOR UPDATE USING (auth.uid() = id);
+DROP POLICY IF EXISTS "Users can insert own profile" ON profiles;
+CREATE POLICY "Users can insert own profile" ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
+
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
+CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
+
 
 -- Documents: Users can only access their own documents
+DROP POLICY IF EXISTS "Users can view own documents" ON documents;
 CREATE POLICY "Users can view own documents" ON documents
   FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can create own documents" ON documents;
 CREATE POLICY "Users can create own documents" ON documents
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update own documents" ON documents;
 CREATE POLICY "Users can update own documents" ON documents
   FOR UPDATE USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can delete own documents" ON documents;
 CREATE POLICY "Users can delete own documents" ON documents
   FOR DELETE USING (auth.uid() = user_id);
 
 -- Personal info: Users can access via their documents
+DROP POLICY IF EXISTS "Users can view own personal info" ON personal_info;
 CREATE POLICY "Users can view own personal info" ON personal_info
   FOR SELECT USING (
     EXISTS (
@@ -351,6 +399,7 @@ CREATE POLICY "Users can view own personal info" ON personal_info
     )
   );
 
+DROP POLICY IF EXISTS "Users can manage own personal info" ON personal_info;
 CREATE POLICY "Users can manage own personal info" ON personal_info
   FOR ALL USING (
     EXISTS (
@@ -364,14 +413,17 @@ CREATE POLICY "Users can manage own personal info" ON personal_info
 -- (Professional summary, skills, work experience, etc.)
 
 -- Subscriptions: Users can view their own subscription
+DROP POLICY IF EXISTS "Users can view own subscription" ON user_subscriptions;
 CREATE POLICY "Users can view own subscription" ON user_subscriptions
   FOR SELECT USING (auth.uid() = user_id);
 
 -- Payment history: Users can view their own payments
+DROP POLICY IF EXISTS "Users can view own payments" ON payment_history;
 CREATE POLICY "Users can view own payments" ON payment_history
   FOR SELECT USING (auth.uid() = user_id);
 
 -- User usage: Users can view their own usage
+DROP POLICY IF EXISTS "Users can view own usage" ON user_usage;
 CREATE POLICY "Users can view own usage" ON user_usage
   FOR SELECT USING (auth.uid() = user_id);
 
@@ -390,12 +442,15 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Apply trigger to relevant tables
+DROP TRIGGER IF EXISTS update_profiles_updated_at ON profiles;
 CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_documents_updated_at ON documents;
 CREATE TRIGGER update_documents_updated_at BEFORE UPDATE ON documents
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_subscriptions_updated_at ON user_subscriptions;
 CREATE TRIGGER update_subscriptions_updated_at BEFORE UPDATE ON user_subscriptions
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
@@ -419,6 +474,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Trigger to create subscription when profile is created
+DROP TRIGGER IF EXISTS create_subscription_on_signup ON profiles;
 CREATE TRIGGER create_subscription_on_signup AFTER INSERT ON profiles
   FOR EACH ROW EXECUTE FUNCTION create_default_subscription();
 
@@ -430,7 +486,8 @@ INSERT INTO subscription_tiers (name, display_name, price_monthly, price_yearly,
 VALUES
   ('free', 'Free', 0, 0, 1, 1, 5, '["browse_templates", "create_one_document", "watermarked_export"]'),
   ('starter', 'Starter Pass', 9.99, NULL, 5, 10, 25, '["full_export", "template_switching", "cover_letter", "career_blog"]'),
-  ('premium', 'Premium', 19.99, 199.99, NULL, NULL, NULL, '["unlimited_documents", "unlimited_exports", "advanced_ai", "priority_support", "all_formats"]');
+  ('premium', 'Premium', 19.99, 199.99, NULL, NULL, NULL, '["unlimited_documents", "unlimited_exports", "advanced_ai", "priority_support", "all_formats"]')
+ON CONFLICT (name) DO NOTHING;
 
 -- ============================================
 -- NOTES

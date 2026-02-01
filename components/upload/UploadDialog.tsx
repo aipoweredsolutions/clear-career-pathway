@@ -46,15 +46,23 @@ export function UploadDialog({ isOpen, onClose, onUpload }: UploadDialogProps) {
                 body: formData,
             })
 
+            const result = await response.json()
+
             if (!response.ok) {
-                throw new Error('Upload failed')
+                console.error('Upload failed:', result)
+                throw new Error(result.error || 'Upload failed')
             }
 
-            const result = await response.json()
+            if (!result.success || !result.data) {
+                console.error('Invalid response:', result)
+                throw new Error('Invalid response from server')
+            }
+
             onUpload(result.data)
             onClose()
-        } catch (err) {
-            setError('Failed to process file. Please try again.')
+        } catch (err: any) {
+            console.error('Upload error:', err)
+            setError(err.message || 'Failed to process file. Please try again.')
         } finally {
             setIsUploading(false)
         }

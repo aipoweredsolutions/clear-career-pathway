@@ -57,10 +57,10 @@ export function CruiseExcellenceTemplate({ data, className, accentColor = 'text-
                         <Anchor className="w-full h-full" />
                     </div>
                     <h1 className={cn("text-5xl font-black tracking-tighter mb-2 italic", accentColor)}>
-                        {personalInfo?.fullName}
+                        {personalInfo?.fullName || 'Root User'}
                     </h1>
                     <p className="text-xl font-bold text-slate-400 tracking-widest uppercase mb-4">
-                        {personalInfo?.professionalTitle}
+                        {personalInfo?.professionalTitle || 'Maritime Professional'}
                     </p>
                     <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-slate-500">
                         {personalInfo?.email && <div className="flex items-center gap-2"><Mail className="w-4 h-4" /> {personalInfo.email}</div>}

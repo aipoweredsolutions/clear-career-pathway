@@ -5,6 +5,7 @@ import { ProfessionalSummary, ResumeDocument } from '@/lib/types/resume'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
 import { Sparkles, Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface SummaryFormProps {
     data: ProfessionalSummary
@@ -24,7 +25,7 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
         })
     }
 
-    const [tone, setTone] = useState<'professional' | 'creative' | 'minimalist'>('professional')
+    const [tone, setTone] = useState<'professional' | 'creative' | 'minimalist' | 'executive' | 'ats-optimized'>('professional')
 
     const handleGenerate = async () => {
         if (!fullResumeData) return
@@ -55,15 +56,30 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
                     userProfile
                 })
             })
+            if (response.status === 401) {
+                toast.error('Please sign up or log in to use AI features.')
+                return
+            }
+
+            if (response.status === 403) {
+                toast.error('Monthly AI limit reached. Please upgrade your plan.')
+                return
+            }
 
             const result = await response.json()
-            if (result.data && result.data.suggestions) {
+            console.log('AI Summary Result:', result)
+
+            if (result.data && Array.isArray(result.data.suggestions) && result.data.suggestions.length > 0) {
                 setSuggestions(result.data.suggestions)
+                toast.success('Suggestions generated!')
+            } else {
+                console.error('No suggestions found in result:', result)
+                toast.error(result.error || 'AI did not provide suggestions. Please try again.')
             }
 
         } catch (error) {
             console.error('Failed to generate summary', error)
-            alert('Failed to generate summary. Please try again.')
+            toast.error('Connection error. Please check your internet and try again.')
         } finally {
             setIsGenerating(false)
         }
@@ -78,23 +94,23 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
                     </div>
                     <div className="flex-1">
                         <h3 className="text-base font-bold text-primary-900 mb-1">
-                            AI Summary Writer
+                            Elite AI Summary Writer
                         </h3>
                         <p className="text-sm text-primary-700 mb-4">
-                            Choose a tone and we&apos;ll craft the perfect introduction using your experience.
+                            Choose a style and Gemini will craft the perfect introduction using your background.
                         </p>
 
                         <div className="flex flex-wrap gap-2 mb-4">
-                            {(['professional', 'creative', 'minimalist'] as const).map((t) => (
+                            {(['professional', 'executive', 'creative', 'minimalist', 'ats-optimized'] as const).map((t) => (
                                 <button
                                     key={t}
-                                    onClick={() => setTone(t)}
-                                    className={`px-3 py-1.5 rounded-full text-xs font-bold capitalize transition-all border ${tone === t
-                                        ? 'bg-primary-600 text-white border-primary-600 shadow-sm'
+                                    onClick={() => setTone(t as any)}
+                                    className={`px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${tone === t
+                                        ? 'bg-primary-600 text-white border-primary-600 shadow-md'
                                         : 'bg-white text-primary-700 border-primary-200 hover:border-primary-400'
                                         }`}
                                 >
-                                    {t}
+                                    {t.replace('-', ' ')}
                                 </button>
                             ))}
                         </div>

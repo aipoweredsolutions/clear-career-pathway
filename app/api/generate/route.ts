@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { createClient } from '@/lib/supabase/server'
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-})
+// Providers
+type AIProvider = 'openai' | 'gemini'
 
 export async function POST(req: NextRequest) {
     try {
@@ -16,8 +16,22 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        // 2. Check Usage Limits
-        // Get subscription and tier info
+        // 2. Determine Provider
+        let provider: AIProvider | null = null
+        if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.length > 10) {
+            provider = 'openai'
+        } else if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 10) {
+            provider = 'gemini'
+        }
+
+        if (!provider) {
+            return NextResponse.json({
+                error: 'AI Configuration Missing',
+                message: 'No API key found. Please add OPENAI_API_KEY or GEMINI_API_KEY to your environment variables.'
+            }, { status: 503 })
+        }
+
+        // 3. Check Usage Limits
         const { data: sub } = await supabase
             .from('user_subscriptions')
             .select('*, tier:subscription_tiers(*)')
@@ -25,13 +39,8 @@ export async function POST(req: NextRequest) {
             .maybeSingle()
 
         const tier = sub?.tier as any
-        const aiLimit = tier?.ai_improvements_per_month ?? 5 // Default to free limit if not found
+        const aiLimit = tier?.ai_improvements_per_month ?? 5
 
-        // Skip check if it's a critical 'parse_resume_from_text' for a new document? 
-        // No, let's keep it consistent.
-
-        // Use a dynamic import or the utility we just created
-        // Since we are in an API route, we can just call it
         const monthYear = new Date().toISOString().substring(0, 7)
         const { data: usage } = await supabase
             .from('user_usage')
@@ -48,255 +57,167 @@ export async function POST(req: NextRequest) {
                 limit: aiLimit,
                 count: currentCount,
                 upgradeNeeded: true
-            }, { status: 429 })
+            }, { status: 403 })
         }
 
-
-        // 2. Parse request
-        const { type, currentContent, userProfile } = await req.json()
-
-        if (!type) {
-            return NextResponse.json({ error: 'Missing generation type' }, { status: 400 })
-        }
+        // 4. Parse Request
+        const body = await req.json()
+        const { type, content, currentContent, userProfile, jobDescription } = body
+        const targetContent = content || currentContent // Handle different field names from frontend
+        const resumeData = userProfile?.resumeContent || body.resumeContent || ''
 
         let prompt = ''
+        let systemInstruction = 'You are an expert career coach. Return strictly valid JSON only. Do not include markdown code blocks or any other text.'
 
-        // 3. Construct prompt based on type
+        // 5. Construct Prompts based on type
         if (type === 'summary') {
-            const { jobTitle, skills, experience, tone = 'professional' } = userProfile
+            const { jobTitle, skills, experience, tone = 'professional' } = userProfile || {}
+
+            let toneInstruction = ''
+            if (tone === 'creative') toneInstruction = 'Use engaging, slightly vibrant language. Focus on passion and innovation.'
+            else if (tone === 'minimalist') toneInstruction = 'Be extremely concise. Use clear, powerful statements. No fluff.'
+            else if (tone === 'executive') toneInstruction = 'Focus on high-level strategy, P&L responsibility, and leadership impact. Use authoritative language.'
+            else if (tone === 'ats-optimized') toneInstruction = 'Maximize keyword density for the target role while maintaining readability. Focus on hard skills and standard industry terms.'
+            else toneInstruction = 'Use standard high-level business language. Focus on reliability and quantifiable success.'
 
             prompt = `
-        You are an expert career coach and resume writer.
-        Write 3 distinct professional summaries for a resume based on the following profile:
-        - Role: ${jobTitle}
-        - Skills: ${skills.join(', ')}
-        - Experience Highlights: ${JSON.stringify(experience)}
-        
-        Tone: ${tone}
-        
-        Requirements:
-        - ${tone} tone
-        - 2-3 sentences max per summary
-        - Highlight unique value proposition
-        - Use active voice
-        
-        Return the response as a JSON object with a key "suggestions" containing an array of 3 strings.
-      `
+            Write 3 distinct, high-impact professional summaries for a resume. 
+            Target Role: ${jobTitle || 'Professional'}
+            Key Skills: ${Array.isArray(skills) ? skills.join(', ') : 'Not specified'}
+            Experience Highlights: ${JSON.stringify(experience || [])}
+            
+            Tone Requirements (${tone.toUpperCase()}):
+            ${toneInstruction}
+
+            Return a JSON object with a key "suggestions" containing an array of 3 distinct strings. 
+            Each summary should be 2-3 sentences long and focus on business impact.
+            `
         } else if (type === 'improve_experience') {
             prompt = `
-        You are an expert resume writer. Improve the following work experience bullet point to be more impact-oriented and ATS-friendly:
-        "${currentContent}"
-        
-        Return the response as a JSON object with a key "suggestion" containing the improved string.
-       `
+            Improve the following work experience bullet point to be more impact-oriented and ATS-friendly:
+            "${targetContent}"
+            
+            Return a JSON object with a key "suggestion" containing the improved string.
+            `
         } else if (type === 'suggest_skills') {
-            const { jobTitle } = userProfile
+            const { jobTitle } = userProfile || {}
             prompt = `
-        You are an expert career coach. Suggest 10 highly relevant technical and soft skills for the role of "${jobTitle}".
-        
-        Requirements:
-        - Mix of technical skills and soft skills
-        - 1-3 words per skill
-        - Return as a JSON object with a key "suggestions" containing an array of strings.
-      `
+            Suggest 10 highly relevant technical and soft skills for the role of "${jobTitle || 'the candidate'}".
+            Return a JSON object with a key "suggestions" containing an array of strings.
+            `
         } else if (type === 'suggest_achievements') {
-            const { jobTitle, companyName } = userProfile
+            const { jobTitle, companyName } = userProfile || {}
             prompt = `
-        You are an expert resume writer. Suggest 5 high-impact achievement bullet points for a "${jobTitle}" at "${companyName}".
-        
-        Requirements:
-        - Use action verbs (Managed, Spearheaded, Increased, etc.)
-        - Include placeholders for metrics where appropriate (e.g., "[X]%")
-        - Mix of leadership, technical, and operational achievements
-        - Return as a JSON object with a key "suggestions" containing an array of strings.
-      `
+            Suggest 5 high-impact achievement bullet points for a "${jobTitle || 'Professional'}" at "${companyName || 'their company'}".
+            Use action verbs and specific metrics placeholders like [X]%.
+            Return a JSON object with a key "suggestions" containing an array of 5 strings.
+            `
         } else if (type === 'skills_gap_analysis') {
-            const { resumeContent } = userProfile
             prompt = `
-            You are an expert Career Coach and ATS Specialist. Your task is to perform a detailed Skills Gap Analysis between a candidate's resume and a specific Job Description.
+            Perform a Skills Gap Analysis.
+            Job Description: "${targetContent?.substring(0, 5000)}"
+            Candidate Resume: ${resumeData}
 
-            Job Description:
-            "${currentContent.substring(0, 5000)}"
-
-            Candidate Resume (JSON format):
-            ${resumeContent}
-
-            Analyze the fit and return a valid JSON object with the following structure:
+            Return a valid JSON object with this structure:
             {
                 "matchScore": number (0-100),
-                "strengths": ["strength 1", "strength 2", ...],
-                "gaps": ["gap 1", "gap 2", ...],
-                "keywords": {
-                    "found": ["keyword 1", "keyword 2", ...],
-                    "missing": ["keyword 1", "keyword 2", ...]
-                },
-                "recommendations": ["specific instruction 1", "specific instruction 2", ...]
+                "strengths": ["string"],
+                "gaps": ["string"],
+                "keywords": { "found": ["string"], "missing": ["string"] },
+                "recommendations": ["string"]
             }
-
-            Analysis Requirements:
-            - matchScore: Be honest but encouraging. 85+ is excellent, 70-85 is good, below 70 needs work.
-            - strengths: Highlight where the resume already exceeds or meets requirements.
-            - gaps: Focus on missing hard skills, certifications, or specific experience levels.
-            - keywords: Extract relevant industry terms from the job description and check for their presence in the resume.
-            - recommendations: Provide 3-5 high-impact, actionable steps to improve the match (e.g., "Add a project that uses React Native", "Rewrite summary to mention ISO 9001 experience").
             `
         } else if (type === 'interview_prep') {
-            const { resumeContent } = userProfile
             prompt = `
-            You are an expert Executive Recruiter and Career Coach. Generate a personalized Interview Preparation Guide for a candidate applying for the role of "${currentContent}".
-
-            Candidate Resume Data:
-            ${resumeContent}
-
-            Your output must be a valid JSON object with this structure:
+            Generate a personalized Interview Preparation Guide.
+            Target Role/Job Description: "${targetContent?.substring(0, 5000)}"
+            Candidate Resume: ${resumeData}
+            
+            Return a valid JSON object with this structure:
             {
-                "roleContext": "A brief overview of what companies look for in this role and how the candidate's background connects to it.",
+                "roleContext": "string",
                 "questions": [
                     {
-                        "question": "The specific interview question",
-                        "reason": "Why the interviewer is asking this (the hidden agenda)",
-                        "suggestedApproach": "Step-by-step strategy for the candidate to answer using their specific experience",
-                        "sampleAnswerSnippet": "A short, impactful snippet or quote the candidate could use, tailored to their resume data"
+                        "question": "string",
+                        "reason": "string",
+                        "suggestedApproach": "string",
+                        "sampleAnswerSnippet": "string"
                     }
                 ]
             }
-
-            Requirements:
-            - Generate 5-7 questions (mix of behavioral, technical, and situational).
-            - Ensure questions are deeply connected to the candidate's actual resume data (e.g., if they worked at Tesla, ask about high-pressure manufacturing environments).
-            - Use a supportive, professional, and strategic tone.
             `
         } else if (type === 'career_roadmap') {
-            const { resumeContent } = userProfile
             prompt = `
-            You are a Strategic Career Mentor and Industry Analyst. Generate a detailed 5-year Career Roadmap for a professional based on their background and their and their target goal: "${currentContent}".
-
-            Candidate Resume Data:
-            ${resumeContent}
-
-            Your output must be a valid JSON object with this structure:
+            Generate a detailed 5-year Career Roadmap.
+            Ultimate Goal: "${targetContent}"
+            Current Background: ${resumeData}
+            
+            Return a valid JSON object with this structure:
             {
-                "ultimateGoal": "A bold, inspiring title for their 5-year vision",
-                "marketOutlook": "A high-level sentence about the demand and growth for this career path",
+                "ultimateGoal": "string",
+                "marketOutlook": "string",
                 "milestones": [
                     {
-                        "title": "Title of this career phase (e.g., Individual Contributor, Lead, Manager)",
-                        "timeframe": "Estimated months/years (e.g., Year 1-2)",
-                        "description": "What this phase involves strategically",
-                        "skillsToAcquire": ["Skill 1", "Skill 2", ...],
-                        "actionSteps": ["Action 1", "Action 2", ...]
+                        "title": "string",
+                        "timeframe": "string",
+                        "description": "string",
+                        "skillsToAcquire": ["string"],
+                        "actionSteps": ["string"]
                     }
                 ]
             }
-
-            Requirements:
-            - Generate 3-4 distinct milestones that build logically upon each other.
-            - Ensure the roadmap is Realistic but Ambitious based on the candidate's current resume data.
-            - Action steps should be concrete (e.g., "Complete a Lean Six Sigma certification", "Spearhead a multi-departmental project").
             `
         } else if (type === 'parse_resume_from_text') {
             prompt = `
-            You are an expert Resume Parser. Your job is to extract structured data from the provided resume text.
-            Resume Text:
-            "${currentContent.substring(0, 15000)}"
-
-            Return a valid JSON object with the following structure (match the keys exactly):
-            {
-                "personalInfo": {
-                    "fullName": "",
-                    "email": "",
-                    "phone": "",
-                    "city": "",
-                    "country": "",
-                    "linkedinUrl": "",
-                    "websiteUrl": ""
-                },
-                "professionalSummary": {
-                    "summaryText": ""
-                },
-                "workExperience": [
-                    {
-                        "jobTitle": "",
-                        "companyName": "",
-                        "startDate": "YYYY-MM-DD",
-                        "endDate": "YYYY-MM-DD",
-                        "isCurrent": boolean,
-                        "location": "",
-                        "roleDescription": "",
-                        "achievements": [ { "achievementText": "" }, ... ]
-                    }
-                ],
-                "education": [
-                    {
-                        "institutionName": "",
-                        "degree": "",
-                        "fieldOfStudy": "",
-                        "startDate": "YYYY-MM-DD",
-                        "endDate": "YYYY-MM-DD",
-                        "location": ""
-                    }
-                ],
-                "skills": [
-                    { "skillName": "", "skillType": "technical" | "professional" | "tool" | "industry" }
-                ],
-                "certifications": [
-                    { "certificationName": "", "issuingOrganization": "", "issueYear": 2023 }
-                ],
-                "languages": [
-                    { "languageName": "", "proficiencyLevel": "basic" | "intermediate" | "fluent" | "native" }
-                ],
-                "volunteerExperience": [
-                    { "roleTitle": "", "organizationName": "", "startDate": "YYYY-MM", "endDate": "YYYY-MM", "contributions": "" }
-                ],
-                "publications": [
-                    { "title": "", "platformOrPublisher": "", "publicationYear": 2023 }
-                ],
-                "professionalAffiliations": [
-                    { "organizationName": "", "roleOrMembership": "" }
-                ],
-                "references": [
-                    { "referenceName": "", "role": "", "organization": "", "contactDetails": "" }
-                ],
-                "additionalInfo": {
-                    "securityClearance": "",
-                    "workAuthorization": "",
-                    "willingToRelocate": boolean,
-                    "availability": ""
-                },
-                "projects": [
-                     {
-                        "projectName": "",
-                        "role": "",
-                        "description": "",
-                        "toolsUsed": ["tool1", "tool2"],
-                         "startDate": "YYYY-MM",
-                         "endDate": "YYYY-MM"
-                     }
-                ],
-                "customSections": [
-                    {
-                        "title": "",
-                        "items": [ { "text": "" } ],
-                        "content": ""
-                    }
-                ]
-            }
-            Do not invent data. If a field is missing, leave it blank or empty array.
-            Format dates as YYYY-MM-DD where possible, or YYYY-MM.
-            Ensure toolsUsed is an array of strings, not a single string.
+            Extract structured data from the following resume text. 
+            Resume Text: "${targetContent?.substring(0, 20000)}"
+            
+            Return a valid JSON object with the following keys:
+            personalInfo, professionalSummary, workExperience (array), education (array), skills (array), certifications (array), languages (array), projects (array), additionalInfo.
+            Ensure dates are in YYYY-MM-DD or YYYY-MM format.
             `
+        } else if (type === 'improve_summary' || type === 'fix_grammar' || type === 'generate_bullets' || type === 'optimize_for_job') {
+            prompt = `Task: ${type}. Content: "${targetContent}". Context: "${jobDescription || 'None'}". Return result as JSON: { "result": "string" }`
+        } else {
+            return NextResponse.json({ error: 'Invalid generation type' }, { status: 400 })
         }
 
-        // 4. Call OpenAI
-        const completion = await openai.chat.completions.create({
-            messages: [{ role: 'user', content: prompt }],
-            model: 'gpt-4o-mini',
-            response_format: { type: 'json_object' },
-        })
+        let resultData: any = {}
 
-        const result = JSON.parse(completion.choices[0].message.content || '{}')
+        // 6. Call AI Provider
+        if (provider === 'openai') {
+            const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+            const completion = await openai.chat.completions.create({
+                messages: [
+                    { role: 'system', content: systemInstruction },
+                    { role: 'user', content: prompt }
+                ],
+                model: 'gpt-4o-mini',
+                response_format: { type: 'json_object' },
+            })
+            resultData = JSON.parse(completion.choices[0].message.content || '{}')
+        } else if (provider === 'gemini') {
+            const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+            const model = genAI.getGenerativeModel({
+                model: 'gemini-1.5-flash',
+                generationConfig: { responseMimeType: "application/json" }
+            })
 
-        // 5. Increment Usage
+            const result = await model.generateContent(`${systemInstruction}\n\n${prompt}`)
+            const response = await result.response
+            const text = response.text()
+
+            try {
+                // Remove potential markdown wrappers and trim
+                const sanitized = text.replace(/```json\n?|```/g, '').trim()
+                resultData = JSON.parse(sanitized)
+            } catch (e) {
+                console.error('Gemini JSON Parse Error. Raw Text:', text)
+                throw new Error('AI returned invalid data format. Please try again.')
+            }
+        }
+
+        // 7. Update Usage
         await supabase
             .from('user_usage')
             .upsert({
@@ -306,14 +227,12 @@ export async function POST(req: NextRequest) {
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id, month_year' })
 
-        return NextResponse.json({ data: result })
-
+        return NextResponse.json({ data: resultData })
 
     } catch (error: any) {
-        console.error('AI Generation Error:', error)
-        return NextResponse.json(
-            { error: 'Failed to generate content' },
-            { status: 500 }
-        )
+        console.error('AI Generation error:', error)
+        return NextResponse.json({
+            error: error.message || 'Failed to generate content'
+        }, { status: 500 })
     }
 }

@@ -42,111 +42,115 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
         })
     }
 
-    const handleUploadSuccess = async (parsedData: any) => {
-        if (!parsedData.rawText) return
+    const handleUploadSuccess = async (result: any) => {
+        const { sections, contactInfo } = result
 
-        setIsAnalyzing(true)
-        setShowUpload(false)
-
-        try {
-            const response = await fetch('/api/generate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'parse_resume_from_text',
-                    currentContent: parsedData.rawText,
-                    userProfile: {}
-                })
-            })
-
-            const result = await response.json()
-            if (result.data) {
-                const mapped = result.data
-                // Map AI result to our schema
-                // Note: We generate new IDs to avoid conflicts
-                const newDoc: ResumeDocument = {
-                    ...data,
-                    personalInfo: {
-                        ...data.personalInfo,
-                        ...mapped.personalInfo
-                    },
-                    professionalSummary: {
-                        ...data.professionalSummary,
-                        ...mapped.professionalSummary
-                    },
-                    workExperience: mapped.workExperience?.map((exp: any) => ({
-                        ...exp,
-                        id: crypto.randomUUID(),
-                        achievements: exp.achievements?.map((a: any) => ({
-                            ...a,
-                            id: crypto.randomUUID()
-                        })) || []
-                    })) || [],
-                    education: mapped.education?.map((edu: any) => ({
-                        ...edu,
-                        id: crypto.randomUUID(),
-                        major: edu.fieldOfStudy || edu.major,
-                        startYear: edu.startDate ? parseInt(edu.startDate.split('-')[0]) : undefined,
-                        endYear: edu.endDate ? parseInt(edu.endDate.split('-')[0]) : undefined
-                    })) || [],
-                    skills: mapped.skills?.map((s: any) => ({
-                        ...s,
-                        id: crypto.randomUUID()
-                    })) || [],
-                    projects: mapped.projects?.map((p: any) => ({
-                        ...p,
-                        id: crypto.randomUUID(),
-                        toolsUsed: Array.isArray(p.toolsUsed) ? p.toolsUsed : (typeof p.toolsUsed === 'string' ? p.toolsUsed.split(',').map((t: string) => t.trim()) : [])
-                    })) || [],
-                    certifications: mapped.certifications?.map((c: any) => ({
-                        ...c,
-                        id: crypto.randomUUID()
-                    })) || [],
-                    languages: mapped.languages?.map((l: any) => ({
-                        ...l,
-                        id: crypto.randomUUID()
-                    })) || [],
-                    volunteerExperience: mapped.volunteerExperience?.map((v: any) => ({
-                        ...v,
-                        id: crypto.randomUUID()
-                    })) || [],
-                    publications: mapped.publications?.map((p: any) => ({
-                        ...p,
-                        id: crypto.randomUUID()
-                    })) || [],
-                    professionalAffiliations: mapped.professionalAffiliations?.map((a: any) => ({
-                        ...a,
-                        id: crypto.randomUUID()
-                    })) || [],
-                    references: mapped.references?.map((r: any) => ({
-                        ...r,
-                        id: crypto.randomUUID()
-                    })) || [],
-                    additionalInfo: {
-                        ...data.additionalInfo,
-                        ...mapped.additionalInfo
-                    },
-                    customSections: mapped.customSections?.map((cs: any) => ({
-                        ...cs,
-                        id: crypto.randomUUID(),
-                        items: cs.items?.map((item: any) => ({
-                            ...item,
-                            id: crypto.randomUUID()
-                        })) || []
-                    })) || []
-                }
-
-                onChange(newDoc)
-                toast.success('Resume imported and analyzed successfully!')
-            } else {
-                throw new Error('No data returned from AI')
-            }
-        } catch (error) {
-            console.error('Import Analysis Error:', error)
-            toast.error('Failed to analyze resume. Please try again or fill manually.')
-        } finally {
-            setIsAnalyzing(false)
+        if (!sections) {
+            toast.error('Could not identify sections in the file')
+            return
         }
+
+        // Map heuristic result to our schema
+        const newDoc: ResumeDocument = {
+            ...data,
+            personalInfo: {
+                ...data.personalInfo,
+                fullName: contactInfo?.fullName || data.personalInfo?.fullName || '',
+                email: contactInfo?.email || data.personalInfo?.email || '',
+                phone: contactInfo?.phone || data.personalInfo?.phone || '',
+                linkedinUrl: contactInfo?.websites?.find((w: string) => w.includes('linkedin.com')) || data.personalInfo?.linkedinUrl || '',
+                websiteUrl: contactInfo?.websites?.find((w: string) => !w.includes('linkedin.com') && !w.includes('github.com')) || data.personalInfo?.websiteUrl || '',
+                githubUrl: contactInfo?.websites?.find((w: string) => w.includes('github.com')) || data.personalInfo?.githubUrl || '',
+            },
+            professionalSummary: {
+                ...data.professionalSummary,
+                summaryText: sections.summary || data.professionalSummary?.summaryText || ''
+            },
+            workExperience: sections.experience ? [
+                {
+                    id: crypto.randomUUID(),
+                    jobTitle: 'Imported Experience',
+                    companyName: 'Draft',
+                    startDate: new Date().toISOString().split('T')[0],
+                    roleDescription: sections.experience,
+                    achievements: []
+                }
+            ] : data.workExperience,
+            education: sections.education ? [
+                {
+                    id: crypto.randomUUID(),
+                    institutionName: 'Imported Education',
+                    degree: 'Draft',
+                    fieldOfStudy: sections.education,
+                }
+            ] : data.education,
+            skills: sections.skills ? sections.skills.split('\n').filter((s: string) => s.trim().length > 0).map((s: string) => ({
+                id: crypto.randomUUID(),
+                skillName: s.trim()
+            })) : data.skills,
+            projects: sections.projects ? [
+                {
+                    id: crypto.randomUUID(),
+                    projectName: 'Imported Projects',
+                    description: sections.projects
+                }
+            ] : data.projects,
+            certifications: sections.certifications ? [
+                {
+                    id: crypto.randomUUID(),
+                    certificationName: 'Imported Certification',
+                    issuingOrganization: 'Draft',
+                    credentialId: sections.certifications
+                }
+            ] : data.certifications,
+            languages: sections.languages ? sections.languages.split('\n').filter((s: string) => s.trim().length > 0).map((s: string) => ({
+                id: crypto.randomUUID(),
+                languageName: s.trim(),
+                proficiencyLevel: 'fluent'
+            })) : data.languages,
+            achievements: sections.awards ? [
+                {
+                    id: crypto.randomUUID(),
+                    achievementTitle: 'Imported Awards',
+                    description: sections.awards
+                }
+            ] : data.achievements,
+            volunteerExperience: sections.volunteer ? [
+                {
+                    id: crypto.randomUUID(),
+                    roleTitle: 'Imported Volunteer Work',
+                    organizationName: 'Draft',
+                    contributions: sections.volunteer
+                }
+            ] : data.volunteerExperience,
+            publications: sections.publications ? [
+                {
+                    id: crypto.randomUUID(),
+                    title: 'Imported Publications',
+                    platformOrPublisher: 'Draft',
+                    url: sections.publications
+                }
+            ] : data.publications,
+            professionalAffiliations: sections.affiliations ? [
+                {
+                    id: crypto.randomUUID(),
+                    organizationName: 'Imported Affiliation',
+                    roleOrMembership: sections.affiliations
+                }
+            ] : data.professionalAffiliations,
+            references: sections.references ? [
+                {
+                    id: crypto.randomUUID(),
+                    referenceName: 'Imported Reference',
+                    availabilityStatement: sections.references
+                }
+            ] : data.references,
+        }
+
+        onChange(newDoc)
+        setShowUpload(false)
+        setIsAnalyzing(false)
+        toast.success('Resume imported! Review and enhance each section with Gemini.')
     }
 
     const tabs = [

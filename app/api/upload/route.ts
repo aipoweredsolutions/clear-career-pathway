@@ -39,29 +39,41 @@ export async function POST(req: NextRequest) {
         }
 
         const buffer = Buffer.from(await file.arrayBuffer())
-        let parsedData
+        let rawText = ''
 
         // Parse content based on file type
         if (fileType === 'application/pdf') {
-            parsedData = await PDFParser.parse(buffer)
+            const result = await PDFParser.parse(buffer)
+            rawText = result.rawText
         } else {
-            parsedData = await DOCXParser.parse(buffer)
+            const result = await DOCXParser.parse(buffer)
+            rawText = result.rawText
         }
 
-        // In a real implementation, we would now:
-        // 1. Save the file to Supabase Storage (optional, if we want to keep the original)
-        // 2. Or just return the parsed structured data for the editor to populate
+        // 2. Perform Heuristic Parsing (Non-AI)
+        const { splitSections, extractContactInfo } = await import('@/lib/utils/resume-parser')
+        const sections = splitSections(rawText)
+        const contactInfo = extractContactInfo(rawText)
 
         // For now, we'll return the parsed text/structure
         return NextResponse.json({
             success: true,
-            data: parsedData
+            data: {
+                rawText,
+                sections,
+                contactInfo
+            }
         })
 
     } catch (error: any) {
         console.error('Upload error:', error)
+        console.error('Error stack:', error.stack)
         return NextResponse.json(
-            { error: 'Failed to process file' },
+            {
+                success: false,
+                error: error.message || 'Failed to process file',
+                details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+            },
             { status: 500 }
         )
     }

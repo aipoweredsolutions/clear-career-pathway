@@ -2,7 +2,7 @@ import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
 import { FileText, MoreVertical, Trash2, Edit, Calendar, Plus } from 'lucide-react'
 import { ResumeDocument } from '@/lib/types/resume'
-import { deleteResume } from '@/app/dashboard/actions'
+import { deleteResume, createResume } from '@/app/dashboard/actions'
 
 interface ResumeGridProps {
     resumes: ResumeDocument[]
@@ -12,7 +12,7 @@ export function ResumeGrid({ resumes }: ResumeGridProps) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Create New Card */}
-            <form action="/dashboard/create-action" method="POST">
+            <form action={createResume}>
                 <button
                     type="submit"
                     className="w-full h-full min-h-[250px] flex flex-col items-center justify-center bg-white border-2 border-dashed border-neutral-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 transition-all group cursor-pointer"

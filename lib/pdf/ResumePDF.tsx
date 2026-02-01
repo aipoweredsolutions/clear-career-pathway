@@ -12,7 +12,9 @@ Font.register({
     family: 'Inter',
     fonts: [
         { src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2' },
-        { src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2', fontWeight: 'bold' }
+        { src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2', fontWeight: 'bold' },
+        { src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2', fontStyle: 'italic' },
+        { src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2', fontWeight: 'bold', fontStyle: 'italic' }
     ]
 })
 
@@ -20,7 +22,9 @@ Font.register({
     family: 'Lora',
     fonts: [
         { src: 'https://fonts.gstatic.com/s/lora/v23/0QI6MX1D_JOuAwHTJED0.woff2' },
-        { src: 'https://fonts.gstatic.com/s/lora/v23/0QI6MX1D_JOuAwHTJED0.woff2', fontWeight: 'bold' }
+        { src: 'https://fonts.gstatic.com/s/lora/v23/0QI6MX1D_JOuAwHTJED0.woff2', fontWeight: 'bold' },
+        { src: 'https://fonts.gstatic.com/s/lora/v23/0QI6MX1D_JOuAwHTJED0.woff2', fontStyle: 'italic' },
+        { src: 'https://fonts.gstatic.com/s/lora/v23/0QI6MX1D_JOuAwHTJED0.woff2', fontWeight: 'bold', fontStyle: 'italic' }
     ]
 })
 
@@ -57,10 +61,24 @@ const getTemplateColors = (templateId: string) => {
 
     // Hospitality & Service
     if (id.startsWith('hospitality') || id.startsWith('cruise') || id.startsWith('service')) {
+        // Cruise
+        if (id.includes('ocean')) return { primary: '#0369a1', secondary: '#0ea5e9', text: '#0c4a6e', border: '#bae6fd', sidebarBg: '#f0f9ff' }
+        if (id.includes('anchor')) return { primary: '#334155', secondary: '#64748b', text: '#0f172a', border: '#cbd5e1', sidebarBg: '#f8fafc' }
+        if (id.includes('coral')) return { primary: '#e11d48', secondary: '#f43f5e', text: '#881337', border: '#fecdd3', sidebarBg: '#fff1f2' }
+        if (id.includes('white')) return { primary: '#475569', secondary: '#94a3b8', text: '#1e293b', border: '#e2e8f0', sidebarBg: '#ffffff' }
+        if (id.includes('navy') || id.startsWith('cruise')) return { primary: '#0f172a', secondary: '#334155', text: '#0f172a', border: '#e2e8f0', sidebarBg: '#f1f5f9' }
+
+        // Service
+        if (id.includes('teal')) return { primary: '#0d9488', secondary: '#14b8a6', text: '#134e4a', border: '#ccfbf1', sidebarBg: '#f0fdfa' }
+        if (id.includes('orange')) return { primary: '#ea580c', secondary: '#f97316', text: '#7c2d12', border: '#ffedd5', sidebarBg: '#fff7ed' }
+        if (id.includes('purple')) return { primary: '#7c3aed', secondary: '#8b5cf6', text: '#4c1d95', border: '#ede9fe', sidebarBg: '#f5f3ff' }
+        if (id.includes('slate')) return { primary: '#475569', secondary: '#64748b', text: '#1e293b', border: '#e2e8f0', sidebarBg: '#f8fafc' }
+
+        // Hospitality
         if (id.includes('gold')) return { primary: '#b45309', secondary: '#d97706', text: '#1a1a1a', border: '#fcd34d' }
-        if (id.includes('navy') || id.startsWith('cruise')) return { primary: '#0c4a6e', secondary: '#0369a1', text: '#1a1a1a', border: '#bae6fd' }
         if (id.includes('black')) return { primary: '#1a1a1a', secondary: '#4b5563', text: '#1a1a1a', border: '#e5e7eb' }
         if (id.startsWith('service')) return { primary: '#1f2937', secondary: '#4b5563', text: '#1a1a1a', border: '#e5e7eb', sidebarBg: '#1f2937', sidebarText: '#ffffff' }
+
         return { primary: '#b45309', secondary: '#d97706', text: '#1a1a1a', border: '#fcd34d' }
     }
 
@@ -94,13 +112,15 @@ const getTemplateColors = (templateId: string) => {
 
     // Technical / Startup (Dark Sidebar/Header)
     if (id.startsWith('technical') || id.startsWith('startup')) {
+        // Startup Colors
+        if (id.includes('vibrant') || id.includes('blue')) return { primary: '#2563eb', secondary: '#60a5fa', text: '#1e40af', border: '#bfdbfe', sidebarBg: '#eff6ff' }
+        if (id.includes('electric') || id.includes('purple')) return { primary: '#9333ea', secondary: '#c084fc', text: '#6b21a8', border: '#e9d5ff', sidebarBg: '#faf5ff' }
+        if (id.includes('cyber') || id.includes('lime') || id.includes('green')) return { primary: '#84cc16', secondary: '#a3e635', text: '#3f6212', border: '#d9f99d', sidebarBg: '#f7fee7' }
+        if (id.includes('hot-pink') || id.includes('pink')) return { primary: '#f43f5e', secondary: '#fb7185', text: '#be123c', border: '#fecdd3', sidebarBg: '#fff1f2' }
+
         if (id.includes('black')) return { primary: '#000000', secondary: '#71717a', text: '#f9fafb', border: '#27272a', sidebarBg: '#000000' }
         if (id.includes('dark')) return { primary: '#111827', secondary: '#6366f1', text: '#f9fafb', border: '#374151', sidebarBg: '#030712' }
         if (id.includes('devops')) return { primary: '#064e3b', secondary: '#10b981', text: '#f0fdf4', border: '#065f46', sidebarBg: '#052c22' }
-        if (id.includes('vibrant')) return { primary: '#1e40af', secondary: '#3b82f6', text: '#1e3a8a', border: '#bfdbfe', sidebarBg: '#eff6ff' }
-        if (id.includes('purple')) return { primary: '#4c1d95', secondary: '#a855f7', text: '#f5f3ff', border: '#7c3aed', sidebarBg: '#2e1065' }
-        if (id.includes('lime') || id.includes('green')) return { primary: '#14532d', secondary: '#84cc16', text: '#f0fdf4', border: '#166534', sidebarBg: '#052c22' }
-        if (id.includes('pink') || id.includes('hot-pink')) return { primary: '#831843', secondary: '#f43f5e', text: '#fff1f2', border: '#be123c', sidebarBg: '#500724' }
         if (id.includes('slate')) return { primary: '#1e293b', secondary: '#94a3b8', text: '#f8fafc', border: '#334155', sidebarBg: '#0f172a' }
         return { primary: '#111827', secondary: '#6366f1', text: '#111827', border: '#e5e7eb', sidebarBg: '#f8fafc' }
     }
@@ -171,16 +191,16 @@ const createStyles = (templateId: string) => {
     const colors = getTemplateColors(templateId)
     const id = templateId.toLowerCase()
 
-    const hasSidebar = id.startsWith('modern') || id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('split-contrast') || id.startsWith('cute') || id.startsWith('service')
+    const hasSidebar = id.startsWith('modern') || id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('split-contrast') || id.startsWith('cute') || id.startsWith('service') || id.startsWith('hospitality') || id.startsWith('cruise') || id.startsWith('nursing') || id.startsWith('ats-modern')
     const hasColumns = id.startsWith('compact')
-    const sidebarOnRight = id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('compact')
-    const sidebarOnLeft = id.startsWith('split-contrast') || id.startsWith('modern')
+    const sidebarOnRight = id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('compact') || id.startsWith('ats-modern')
+    const sidebarOnLeft = id.startsWith('split-contrast') || id.startsWith('modern') || id.startsWith('hospitality') || id.startsWith('service') || id.startsWith('cruise') || id.startsWith('nursing')
     const isDarkSidebar = id.startsWith('modern') || (id.startsWith('technical') && id.includes('dark'))
     const isSplitContrast = id.startsWith('split-contrast')
 
     const isSerif = id.startsWith('chic') || id.startsWith('luxe') || id.startsWith('executive') || id.startsWith('academic') || id.includes('serif') || id.startsWith('ats-classic') || id.startsWith('hospitality')
     const isChic = id.startsWith('chic')
-    const isExecutive = id.startsWith('executive') || id.startsWith('luxe')
+    const isExecutive = id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('ats-executive')
     const isAcademic = id.startsWith('academic')
 
     // Specific alignment checks to match HTML templates
@@ -197,19 +217,28 @@ const createStyles = (templateId: string) => {
     const isTimelinePro = id.startsWith('ats-timeline')
 
     // Pre-calculate border widths to avoid undefined issues
-    const headerBorderBottomWidth = (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 2 : (hasSidebar ? 0 : 1)
+    // We force these to be constants, effectively casting boolean logic to number
+    const headerBorderBottomWidth =
+        id.startsWith('ats-executive') ? 4 :
+            (id.startsWith('ats-standard') || id.startsWith('ats-classic') || id.startsWith('ats-modern') || id.startsWith('classic')) ? 1 :
+                (id.startsWith('compact') || id.startsWith('ats-timeline')) ? 2 : 0
+
     const sidebarBorderLeftWidth = sidebarOnRight ? 1 : 0
     const sidebarBorderRightWidth = sidebarOnRight ? 0 : 1
-    const sectionTitleBorderBottomWidth = id.startsWith('ats-professional') ? 2 : 0
-    const experienceItemBorderLeftWidth = id.startsWith('creative') || id.startsWith('startup') ? 2 : 0
+
+    const sectionTitleBorderBottomWidth =
+        (id.startsWith('ats-professional') || id.startsWith('technical')) ? 2 :
+            (id.startsWith('ats-classic') || id.startsWith('ats-graduate')) ? 1 : 0
+
+    const experienceItemBorderLeftWidth = id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical') || id.startsWith('ats-executive') ? 2 : 0
     const photoBorderRadius = id.startsWith('cruise') ? 60 : 4
 
     return StyleSheet.create({
         page: {
-            padding: hasSidebar ? 0 : (isChic ? 50 : (isExecutive ? 45 : (isAcademic ? 30 : 35))),
+            padding: hasSidebar ? 0 : (id.startsWith('ats-classic') ? 48 : (isChic ? 50 : (isExecutive ? 50 : (isAcademic ? 40 : 45)))),
             fontFamily: isSerif ? 'Times-Roman' : (id.startsWith('technical') ? 'Courier' : 'Helvetica'),
-            fontSize: isChic ? 11 : (isAcademic ? 9 : 10),
-            lineHeight: isChic ? 1.7 : (isAcademic ? 1.4 : 1.5),
+            fontSize: id.startsWith('ats-classic') ? 10 : (isChic ? 11 : (isAcademic ? 9 : (isExecutive ? 10.5 : 10))),
+            lineHeight: id.startsWith('ats-classic') ? 1.5 : (isChic ? 1.7 : (isAcademic ? 1.45 : (isExecutive ? 1.65 : 1.6))),
             color: colors.text,
             backgroundColor: colors.headerBg || '#ffffff',
             flexDirection: sidebarOnRight ? 'row-reverse' : 'row',
@@ -217,7 +246,7 @@ const createStyles = (templateId: string) => {
         // Layout wrapper for non-sidebar templates
         container: {
             flex: 1,
-            padding: 30,
+            padding: 0,
         },
         sidebar: {
             width: '32%',
@@ -278,6 +307,7 @@ const createStyles = (templateId: string) => {
             borderRadius: photoBorderRadius,
             borderWidth: 3,
             borderColor: '#ffffff',
+            borderStyle: 'solid',
             alignSelf: 'center',
             marginBottom: 20,
         },
@@ -295,7 +325,10 @@ const createStyles = (templateId: string) => {
             textAlign: isCentered ? 'center' : 'left',
             paddingBottom: (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 15 : 10,
             borderBottomWidth: headerBorderBottomWidth,
-            borderBottomColor: colors.primary,
+            borderBottomColor: id.startsWith('ats-executive') ? '#262626' :
+                (id.startsWith('ats-standard') ? '#f3f4f6' :
+                    (id.startsWith('ats-classic') ? '#d1d5db' :
+                        (id.startsWith('ats-modern') ? '#e5e7eb' : colors.primary))),
             borderStyle: 'solid',
             width: '100%', // Ensure header takes full width for alignment
         },
@@ -345,14 +378,15 @@ const createStyles = (templateId: string) => {
             marginBottom: 4,
         },
         section: {
-            marginTop: 18,
+            marginTop: isExecutive ? 28 : 22,
+            marginBottom: 8,
         },
         sectionTitleContainer: {
             flexDirection: 'row',
             alignItems: 'center',
             gap: 10,
-            marginBottom: 12,
-            marginTop: 20,
+            marginBottom: isExecutive ? 15 : 12,
+            marginTop: isExecutive ? 28 : 20,
         },
         sectionTitle: {
             fontSize: 11,
@@ -361,10 +395,13 @@ const createStyles = (templateId: string) => {
             color: colors.primary,
             letterSpacing: 1,
             borderBottomWidth: sectionTitleBorderBottomWidth,
-            borderBottomColor: id.startsWith('ats-professional') ? '#1a1a1a' : 'transparent',
+            borderBottomColor: id.startsWith('ats-professional') ? '#1a1a1a' :
+                (id.startsWith('ats-classic') ? '#d1d5db' :
+                    (id.startsWith('ats-graduate') ? '#f3f4f6' :
+                        (id.startsWith('technical') ? colors.secondary : 'transparent'))),
             borderStyle: 'solid',
-            paddingBottom: id.startsWith('ats-professional') ? 3 : 0,
-            marginBottom: id.startsWith('ats-professional') ? 8 : 0,
+            paddingBottom: (id.startsWith('ats-professional') || id.startsWith('ats-classic') || id.startsWith('ats-graduate')) ? 3 : 0,
+            marginBottom: (id.startsWith('ats-professional') || id.startsWith('ats-classic') || id.startsWith('ats-graduate')) ? 8 : 0,
         },
         sectionTitleBar: {
             flex: 1,
@@ -390,11 +427,26 @@ const createStyles = (templateId: string) => {
             marginTop: 25,
             letterSpacing: 1,
         },
+        summaryContainer: {
+            paddingLeft: (id.startsWith('ats-standard') || id.startsWith('ats-executive')) ? 15 : 0,
+            paddingVertical: id.startsWith('ats-executive') ? 10 : 0,
+            paddingHorizontal: id.startsWith('ats-executive') ? 15 : 0,
+            backgroundColor: id.startsWith('ats-executive') ? '#f9fafb' : 'transparent',
+            borderLeftWidth: id.startsWith('ats-executive') ? 4 : (id.startsWith('ats-standard') ? 2 : 0),
+            borderLeftColor: id.startsWith('ats-executive') ? '#1a1a1a' : '#f3f4f6',
+            borderStyle: 'solid',
+        },
+        summaryText: {
+            fontSize: 10,
+            color: '#334155',
+            lineHeight: 1.6,
+            fontStyle: (id.startsWith('ats-classic') || id.startsWith('ats-executive')) ? 'italic' : 'normal',
+        },
         experienceItem: {
-            marginBottom: 18,
-            paddingLeft: id.startsWith('creative') || id.startsWith('startup') ? 15 : 0,
+            marginBottom: 22,
+            paddingLeft: id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical') ? 15 : 0,
             borderLeftWidth: experienceItemBorderLeftWidth,
-            borderLeftColor: (id.startsWith('creative') || id.startsWith('startup')) ? 'rgba(0,0,0,0.05)' : 'transparent',
+            borderLeftColor: (id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical')) ? 'rgba(0,0,0,0.05)' : 'transparent',
             borderStyle: 'solid',
             position: 'relative',
         },
@@ -517,7 +569,7 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
     const styles = createStyles(tId)
     const colors = getTemplateColors(tId)
     const isCute = tId.startsWith('cute')
-    const hasSidebar = tId.startsWith('modern') || tId.startsWith('technical') || tId.startsWith('startup') || tId.startsWith('chic') || tId.startsWith('artisan') || tId.startsWith('creative') || tId.startsWith('split-contrast') || isCute || tId.startsWith('service')
+    const hasSidebar = tId.startsWith('modern') || tId.startsWith('technical') || tId.startsWith('startup') || tId.startsWith('chic') || tId.startsWith('artisan') || tId.startsWith('creative') || tId.startsWith('split-contrast') || isCute || tId.startsWith('service') || tId.startsWith('hospitality') || tId.startsWith('cruise') || tId.startsWith('nursing') || tId.startsWith('ats-modern')
     const isCompact = tId.startsWith('compact')
     const isTimelinePro = tId.startsWith('ats-timeline')
 
@@ -529,7 +581,7 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                         {/* FULL HEIGHT SIDEBAR LAYOUTS (Modern, Technical, etc) */}
                         {/* SIDEBAR */}
                         <View style={styles.sidebar}>
-                            {data.personalInfo?.photoUrl && (tId.startsWith('modern') || tId.startsWith('service')) && (
+                            {data.personalInfo?.photoUrl && (tId.startsWith('modern') || tId.startsWith('service') || tId.startsWith('hospitality') || tId.startsWith('cruise')) && (
                                 <View style={{ marginBottom: 20, alignItems: 'center' }}>
                                     <Image
                                         src={data.personalInfo.photoUrl}
@@ -722,25 +774,25 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                     <>
                                         {data.personalInfo?.phone && (
                                             <View style={styles.contactItem}>
-                                                <Text style={styles.contactIcon}>{'\u260E'}</Text>
+                                                <Text style={[styles.contactIcon, { fontSize: 8, fontWeight: 'bold' }]}>P:</Text>
                                                 <Text>{data.personalInfo.phone}</Text>
                                             </View>
                                         )}
                                         {data.personalInfo?.email && (
                                             <View style={styles.contactItem}>
-                                                <Text style={styles.contactIcon}>{'\u2709'}</Text>
+                                                <Text style={[styles.contactIcon, { fontSize: 8, fontWeight: 'bold' }]}>E:</Text>
                                                 <Text>{data.personalInfo.email}</Text>
                                             </View>
                                         )}
                                         {data.personalInfo?.linkedinUrl && (
                                             <View style={styles.contactItem}>
-                                                <Text style={styles.contactIcon}>in</Text>
+                                                <Text style={[styles.contactIcon, { fontSize: 8, fontWeight: 'bold' }]}>LI:</Text>
                                                 <Text>{data.personalInfo.linkedinUrl.replace(/^https?:\/\//, '')}</Text>
                                             </View>
                                         )}
                                         {(data.personalInfo?.city || data.personalInfo?.country) && (
                                             <View style={styles.contactItem}>
-                                                <Text style={styles.contactIcon}>{'\uD83D\uDCCD'}</Text>
+                                                <Text style={[styles.contactIcon, { fontSize: 8, fontWeight: 'bold' }]}>L:</Text>
                                                 <Text>{[data.personalInfo.city, data.personalInfo.country].filter(Boolean).join(', ')}</Text>
                                             </View>
                                         )}
@@ -789,56 +841,183 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                             <View style={{ flex: 1 }}>
                                 {data.professionalSummary?.summaryText && (
                                     <View style={styles.section}>
-                                        <Text style={styles.sectionTitle}>{isCompact ? 'Profile' : 'Professional Summary'}</Text>
-                                        <Text style={{ fontSize: 10, color: '#334155', lineHeight: 1.5 }}>{data.professionalSummary.summaryText}</Text>
-                                    </View>
-                                )}
-
-                                {!isCompact && data.skills && data.skills.length > 0 && (
-                                    <View style={styles.section}>
-                                        <Text style={styles.sectionTitle}>{tId.startsWith('ats-professional') ? 'Core Skills' : 'Skills'}</Text>
-                                        <View style={styles.skillsList}>
-                                            {data.skills.map((skill, i) => (
-                                                <Text key={i} style={styles.skillBadge}>{skill.skillName}</Text>
-                                            ))}
+                                        <Text style={styles.sectionTitle}>
+                                            {tId.startsWith('ats-standard') ? '01 // Profile' :
+                                                (isCompact ? 'Profile' :
+                                                    (tId.startsWith('ats-executive') ? 'Executive Profile' : 'Professional Summary'))}
+                                        </Text>
+                                        <View style={styles.summaryContainer}>
+                                            <Text style={styles.summaryText}>{data.professionalSummary.summaryText}</Text>
                                         </View>
                                     </View>
                                 )}
 
-                                {data.workExperience && data.workExperience.length > 0 && (
-                                    <View style={isTimelinePro ? styles.timelineSection : styles.section}>
-                                        {isTimelinePro && <View style={styles.timelineLine} />}
-                                        <Text style={styles.sectionTitle}>Experience</Text>
-                                        {data.workExperience.map((job, i) => (
-                                            <View key={i} style={isTimelinePro ? styles.timelineItemPro : styles.experienceItem}>
-                                                {isTimelinePro && <View style={styles.timelineDotPro} />}
-                                                <View style={styles.row}>
-                                                    <Text style={styles.bold}>{job.jobTitle}</Text>
-                                                    <Text style={styles.date}>{job.startDate} — {job.isCurrent ? 'Present' : job.endDate}</Text>
-                                                </View>
-                                                <Text style={styles.italic}>{job.companyName}</Text>
-                                                <Text style={{ fontSize: 9.5, color: '#475569', marginTop: 4, marginBottom: 5 }}>{job.roleDescription}</Text>
-                                                {job.achievements?.map((ach, j) => (
-                                                    <View key={j} style={styles.achievement}>
-                                                        <Text style={styles.bullet}>•</Text>
-                                                        <Text style={styles.achievementText}>{ach.achievementText}</Text>
+                                {tId.startsWith('ats-standard') ? (
+                                    <>
+                                        {/* ATS Standard Order: Experience -> Skills */}
+                                        {data.workExperience && data.workExperience.length > 0 && (
+                                            <View style={isTimelinePro ? styles.timelineSection : styles.section}>
+                                                {isTimelinePro && <View style={styles.timelineLine} />}
+                                                <Text style={styles.sectionTitle}>
+                                                    {tId.startsWith('ats-standard') ? '02 // Experience' :
+                                                        (tId.startsWith('ats') ? 'Work Experience' : 'Experience')}
+                                                </Text>
+                                                {data.workExperience.map((job, i) => (
+                                                    <View key={i} style={isTimelinePro ? styles.timelineItemPro : styles.experienceItem}>
+                                                        {isTimelinePro && <View style={styles.timelineDotPro} />}
+                                                        <View style={styles.row}>
+                                                            <Text style={styles.bold}>{job.jobTitle}</Text>
+                                                            <Text style={styles.date}>{job.startDate} — {job.isCurrent ? 'Present' : job.endDate}</Text>
+                                                        </View>
+                                                        <Text style={styles.italic}>{job.companyName}{job.location ? ` | ${job.location}` : ''}</Text>
+                                                        <Text style={{ fontSize: 9.5, color: '#475569', marginTop: 4, marginBottom: 5 }}>{job.roleDescription}</Text>
+                                                        {job.achievements?.map((ach, j) => (
+                                                            <View key={j} style={styles.achievement}>
+                                                                <Text style={styles.bullet}>•</Text>
+                                                                <Text style={styles.achievementText}>{ach.achievementText}</Text>
+                                                            </View>
+                                                        ))}
                                                     </View>
                                                 ))}
                                             </View>
-                                        ))}
-                                    </View>
+                                        )}
+                                        {!isCompact && data.skills && data.skills.length > 0 && (
+                                            <View style={styles.section}>
+                                                <Text style={styles.sectionTitle}>
+                                                    {tId.startsWith('ats-standard') ? '03 // Competencies' :
+                                                        (tId.startsWith('ats') ? 'Core Skills' : 'Skills')}
+                                                </Text>
+                                                {tId.startsWith('ats') ? (
+                                                    <View style={{ gap: 4 }}>
+                                                        {(() => {
+                                                            const grouped: Record<string, string[]> = {}
+                                                            data.skills.forEach(s => {
+                                                                const type = s.skillType || 'professional'
+                                                                if (!grouped[type]) grouped[type] = []
+                                                                grouped[type].push(s.skillName)
+                                                            })
+
+                                                            const categoryLabels: Record<string, string> = {
+                                                                technical: 'Technical Skills',
+                                                                professional: 'Professional Skills',
+                                                                tool: 'Tools & Technologies',
+                                                                industry: 'Industry Knowledge'
+                                                            }
+
+                                                            return Object.entries(grouped).map(([type, skills], idx) => (
+                                                                <View key={idx} style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
+                                                                    <Text style={{ fontSize: 9, fontWeight: 'bold', width: 120, color: '#475569' }}>
+                                                                        {categoryLabels[type] || type}:
+                                                                    </Text>
+                                                                    <Text style={{ fontSize: 9, flex: 1, color: '#1e293b' }}>
+                                                                        {skills.join(', ')}
+                                                                    </Text>
+                                                                </View>
+                                                            ))
+                                                        })()}
+                                                    </View>
+                                                ) : (
+                                                    <View style={styles.skillsList}>
+                                                        {data.skills.map((skill, i) => (
+                                                            <Text key={i} style={styles.skillBadge}>{skill.skillName}</Text>
+                                                        ))}
+                                                    </View>
+                                                )}
+                                            </View>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        {/* Default Order: Skills -> Experience */}
+                                        {!isCompact && data.skills && data.skills.length > 0 && (
+                                            <View style={styles.section}>
+                                                <Text style={styles.sectionTitle}>
+                                                    {tId.startsWith('ats-standard') ? '03 // Competencies' :
+                                                        (tId.startsWith('ats') ? 'Core Skills' : 'Skills')}
+                                                </Text>
+                                                {tId.startsWith('ats') ? (
+                                                    <View style={{ gap: 4 }}>
+                                                        {(() => {
+                                                            const grouped: Record<string, string[]> = {}
+                                                            data.skills.forEach(s => {
+                                                                const type = s.skillType || 'professional'
+                                                                if (!grouped[type]) grouped[type] = []
+                                                                grouped[type].push(s.skillName)
+                                                            })
+
+                                                            const categoryLabels: Record<string, string> = {
+                                                                technical: 'Technical Skills',
+                                                                professional: 'Professional Skills',
+                                                                tool: 'Tools & Technologies',
+                                                                industry: 'Industry Knowledge'
+                                                            }
+
+                                                            return Object.entries(grouped).map(([type, skills], idx) => (
+                                                                <View key={idx} style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
+                                                                    <Text style={{ fontSize: 9, fontWeight: 'bold', width: 120, color: '#475569' }}>
+                                                                        {categoryLabels[type] || type}:
+                                                                    </Text>
+                                                                    <Text style={{ fontSize: 9, flex: 1, color: '#1e293b' }}>
+                                                                        {skills.join(', ')}
+                                                                    </Text>
+                                                                </View>
+                                                            ))
+                                                        })()}
+                                                    </View>
+                                                ) : (
+                                                    <View style={styles.skillsList}>
+                                                        {data.skills.map((skill, i) => (
+                                                            <Text key={i} style={styles.skillBadge}>{skill.skillName}</Text>
+                                                        ))}
+                                                    </View>
+                                                )}
+                                            </View>
+                                        )}
+                                        {data.workExperience && data.workExperience.length > 0 && (
+                                            <View style={isTimelinePro ? styles.timelineSection : styles.section}>
+                                                {isTimelinePro && <View style={styles.timelineLine} />}
+                                                <Text style={styles.sectionTitle}>
+                                                    {tId.startsWith('ats-standard') ? '02 // Experience' :
+                                                        (tId.startsWith('ats') ? 'Work Experience' : 'Experience')}
+                                                </Text>
+                                                {data.workExperience.map((job, i) => (
+                                                    <View key={i} style={isTimelinePro ? styles.timelineItemPro : styles.experienceItem}>
+                                                        {isTimelinePro && <View style={styles.timelineDotPro} />}
+                                                        <View style={styles.row}>
+                                                            <Text style={styles.bold}>{job.jobTitle}</Text>
+                                                            <Text style={styles.date}>{job.startDate} — {job.isCurrent ? 'Present' : job.endDate}</Text>
+                                                        </View>
+                                                        <Text style={styles.italic}>{job.companyName}{job.location ? ` | ${job.location}` : ''}</Text>
+                                                        <Text style={{ fontSize: 9.5, color: '#475569', marginTop: 4, marginBottom: 5 }}>{job.roleDescription}</Text>
+                                                        {job.achievements?.map((ach, j) => (
+                                                            <View key={j} style={styles.achievement}>
+                                                                <Text style={styles.bullet}>•</Text>
+                                                                <Text style={styles.achievementText}>{ach.achievementText}</Text>
+                                                            </View>
+                                                        ))}
+                                                    </View>
+                                                ))}
+                                            </View>
+                                        )}
+                                    </>
                                 )}
 
                                 {!isCompact && data.education && data.education.length > 0 && (
                                     <View style={styles.section}>
-                                        <Text style={styles.sectionTitle}>Education</Text>
+                                        <Text style={styles.sectionTitle}>
+                                            {tId.startsWith('ats-standard') ? '04 // Education' : 'Education'}
+                                        </Text>
                                         {data.education.map((edu, i) => (
                                             <View key={i} style={{ marginBottom: 10 }}>
                                                 <View style={styles.row}>
-                                                    <Text style={styles.bold}>{edu.degree} {edu.fieldOfStudy && `in ${edu.fieldOfStudy}`}</Text>
+                                                    <Text style={styles.bold}>
+                                                        {edu.degree}
+                                                        {(edu.major || edu.fieldOfStudy) && ` in ${edu.major || edu.fieldOfStudy}`}
+                                                    </Text>
                                                     <Text style={styles.date}>{edu.endYear}</Text>
                                                 </View>
-                                                <Text style={styles.italic}>{edu.institutionName}</Text>
+                                                <Text style={styles.italic}>{edu.institutionName}{edu.location ? ` | ${edu.location}` : ''}</Text>
+                                                {edu.gpa && <Text style={{ fontSize: 9, color: '#64748b', marginTop: 2 }}>GPA: {edu.gpa}</Text>}
                                             </View>
                                         ))}
                                     </View>
@@ -936,6 +1115,41 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                                 </View>
                                             ))}
                                         </View>
+                                    </View>
+                                )}
+
+                                {data.achievements && data.achievements.length > 0 && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Achievements & Awards</Text>
+                                        <View style={{ gap: 6 }}>
+                                            {data.achievements.map((ach, i) => (
+                                                <View key={i}>
+                                                    <View style={styles.row}>
+                                                        <Text style={styles.bold}>{ach.achievementTitle}</Text>
+                                                        {ach.year && <Text style={styles.date}>{ach.year}</Text>}
+                                                    </View>
+                                                    {ach.issuingBody && <Text style={styles.italic}>{ach.issuingBody}</Text>}
+                                                    {ach.description && <Text style={{ fontSize: 9, color: '#475569', marginTop: 2 }}>{ach.description}</Text>}
+                                                </View>
+                                            ))}
+                                        </View>
+                                    </View>
+                                )}
+
+                                {(data.additionalInfo?.otherInfo || (data.professionalAffiliations && data.professionalAffiliations.length > 0)) && (
+                                    <View style={styles.section}>
+                                        <Text style={styles.sectionTitle}>Additional Information</Text>
+                                        {data.professionalAffiliations && data.professionalAffiliations.length > 0 && (
+                                            <View style={{ marginBottom: 6 }}>
+                                                <Text style={[styles.bold, { fontSize: 9 }]}>Professional Affiliations:</Text>
+                                                <Text style={{ fontSize: 9, color: '#334155' }}>
+                                                    {data.professionalAffiliations.map(aff => aff.organizationName).join(', ')}
+                                                </Text>
+                                            </View>
+                                        )}
+                                        {data.additionalInfo?.otherInfo && (
+                                            <Text style={{ fontSize: 9.5, color: '#334155', lineHeight: 1.5 }}>{data.additionalInfo.otherInfo}</Text>
+                                        )}
                                     </View>
                                 )}
 

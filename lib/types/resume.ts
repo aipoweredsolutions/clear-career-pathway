@@ -19,6 +19,7 @@ export interface PersonalInfo {
     country?: string
     location?: string // Combined city, country
     linkedinUrl?: string
+    githubUrl?: string
     websiteUrl?: string
     portfolioUrl?: string
     photoUrl?: string

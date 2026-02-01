@@ -12,6 +12,7 @@
         "generate-screenshots": "node scripts/generate-screenshots.js"
     },
     "dependencies": {
+        "@google/generative-ai": "^0.24.1",
         "@next/swc-win32-x64-msvc": "^16.1.6",
         "@paddle/paddle-js": "^1.6.1",
         "@react-pdf/renderer": "^4.3.2",

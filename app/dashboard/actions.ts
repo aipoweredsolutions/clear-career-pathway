@@ -25,52 +25,89 @@ export async function createResume() {
         redirect('/auth/login')
     }
 
-    // --- CHECK DOCUMENT LIMITS ---
-    const { data: sub } = await supabase
-        .from('user_subscriptions')
-        .select('*, tier:subscription_tiers(*)')
-        .eq('user_id', session.user.id)
-        .maybeSingle()
+    try {
+        // --- ENSURE PROFILE EXISTS (Fix for legacy users) ---
+        // Check if profile exists
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('id', session.user.id)
+            .maybeSingle()
 
-    const tier = sub?.tier as any
-    const docLimit = tier?.max_documents ?? 1 // Default to 1 for free
+        if (!profile) {
+            console.log('Profile missing for user, creating via RPC...')
+            const { error: rpcError } = await supabase.rpc('ensure_user_profile', {
+                p_user_id: session.user.id,
+                p_email: session.user.email || '',
+                p_full_name: session.user.user_metadata?.full_name || ''
+            })
 
-    const { count } = await supabase
-        .from('documents')
-        .select('id', { count: 'exact', head: true })
-        .eq('user_id', session.user.id)
+            if (rpcError) {
+                console.error('Failed to ensure profile via RPC:', rpcError)
+                throw new Error(`Failed to initialize user profile: ${rpcError.message}`)
+            }
 
-    if (docLimit !== null && (count || 0) >= docLimit) {
-        // Instead of redirecting, we could throw or return an error, 
-        // but since this is directly called from a form action, 
-        // it's better to redirect with a param or handle in the UI.
-        // For simplicity and to match current flow, let's redirect to pricing.
-        redirect('/pricing?reason=limit_reached')
+            // Wait a moment for the profile to be established/propagated
+            await new Promise(resolve => setTimeout(resolve, 500))
+        }
+        // ----------------------------------------------------
+
+        // --- CHECK DOCUMENT LIMITS ---
+        let docLimit = 1 // Default to 1 for free
+        let currentCount = 0
+
+        try {
+            const { data: sub } = await supabase
+                .from('user_subscriptions')
+                .select('*, tier:subscription_tiers(*)')
+                .eq('user_id', session.user.id)
+                .maybeSingle()
+
+            const tier = sub?.tier as any
+            docLimit = tier?.max_documents ?? 1
+
+            const { count } = await supabase
+                .from('documents')
+                .select('id', { count: 'exact', head: true })
+                .eq('user_id', session.user.id)
+
+            currentCount = count || 0
+        } catch (limitError) {
+            console.warn('Could not check document limits, using defaults:', limitError)
+            // Continue with default limits if subscription tables don't exist
+        }
+
+        if (docLimit !== null && currentCount >= docLimit) {
+            redirect('/pricing?reason=limit_reached')
+        }
+        // ----------------------------
+
+        const { data, error } = await supabase
+            .from('documents')
+            .insert({
+                user_id: session.user.id,
+                title: 'Untitled Resume',
+                document_type: 'resume',
+                template_id: 'classic', // Default template
+            })
+            .select()
+            .single()
+
+        if (error) {
+            console.error('Error creating resume:', error)
+            throw new Error(error.message || 'Database error during insert')
+        }
+
+        redirect(`/editor/${data.id}`)
+    } catch (error: any) {
+        console.error('Create resume error:', error)
+        // If it's a redirect, re-throw it
+        if (error.message?.includes('NEXT_REDIRECT') || error.digest?.startsWith('NEXT_REDIRECT')) {
+            throw error
+        }
+        // Otherwise, show the ACTUAL error
+        throw new Error(`Unable to create resume: ${error.message}`)
     }
-    // ----------------------------
-
-
-    const { data, error } = await supabase
-        .from('documents')
-        .insert({
-            user_id: session.user.id,
-            title: 'Untitled Resume',
-            document_type: 'resume',
-            template_id: 'classic', // Default template
-            // Normalized schema does not use a content json blob
-        })
-        .select()
-        .single()
-
-    if (error) {
-        console.error('Error creating resume:', error)
-        throw new Error('Failed to create resume')
-    }
-
-    // Optionally init empty personal_info to make fetching easier?
-    // For now, we trust the fetcher to handle missing relations.
-
-    redirect(`/editor/${data.id}`)
 }
 
 export async function deleteResume(resumeId: string) {

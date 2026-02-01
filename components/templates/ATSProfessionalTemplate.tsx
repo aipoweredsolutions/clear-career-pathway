@@ -2,12 +2,13 @@ import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
 
-interface TemplateProps {
+export interface TemplateProps {
     data: ResumeDocument
     className?: string
+    accentColor?: string
 }
 
-export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
+export function ATSProfessionalTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -71,7 +72,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* Professional Summary */}
             {professionalSummary?.summaryText && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Professional Summary
                     </h2>
                     <p className="text-sm leading-relaxed text-neutral-800">
@@ -83,7 +84,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* Core Skills - Categorized for ATS */}
             {skills && skills.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Core Skills
                     </h2>
                     {(() => {
@@ -138,7 +139,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* Work Experience */}
             {workExperience && workExperience.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Work Experience
                     </h2>
                     <div className="space-y-4">
@@ -179,7 +180,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* Education */}
             {education && education.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Education
                     </h2>
                     <div className="space-y-3">
@@ -217,7 +218,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* Certifications */}
             {certifications && certifications.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Certifications
                     </h2>
                     <div className="space-y-2">
@@ -237,7 +238,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* Achievements */}
             {achievements && achievements.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Achievements & Awards
                     </h2>
                     <div className="space-y-3">
@@ -258,7 +259,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* Projects */}
             {projects && projects.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Projects
                     </h2>
                     <div className="space-y-3">
@@ -292,7 +293,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* Volunteer Experience */}
             {volunteerExperience && volunteerExperience.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Volunteer Experience
                     </h2>
                     <div className="space-y-4">
@@ -313,7 +314,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* Publications */}
             {publications && publications.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Publications
                     </h2>
                     <div className="space-y-2">
@@ -331,7 +332,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
             {/* References */}
             {references && references.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         References
                     </h2>
                     <div className="grid grid-cols-2 gap-4">
@@ -352,7 +353,7 @@ export function ATSProfessionalTemplate({ data, className }: TemplateProps) {
                 (professionalAffiliations && professionalAffiliations.length > 0) ||
                 additionalInfo?.otherInfo && (
                     <section className="mb-6">
-                        <h2 className="text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-neutral-900">
+                        <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                             Additional Information
                         </h2>
 

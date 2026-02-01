@@ -37,18 +37,36 @@ export function AuthForm({ type }: AuthFormProps) {
                 router.push('/dashboard')
                 router.refresh()
             } else {
-                const { error } = await supabase.auth.signUp({
+                const { data, error } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
                         emailRedirectTo: `${location.origin}/auth/callback`,
+                        // Auto-confirm for development if email confirmation is disabled
+                        data: {
+                            email_confirmed: true
+                        }
                     },
                 })
                 if (error) throw error
-                setMessage('Check your email to confirm your account.')
+
+                // Check if email confirmation is required
+                if (data.user && !data.session) {
+                    setMessage('✅ Account created! Please check your email to confirm your account. If you don\'t receive an email within a few minutes, you can try signing in directly.')
+                } else if (data.session) {
+                    // Auto-confirmed (email confirmation disabled in Supabase)
+                    setMessage('✅ Account created successfully! Redirecting to dashboard...')
+                    setTimeout(() => {
+                        router.push('/dashboard')
+                        router.refresh()
+                    }, 1500)
+                } else {
+                    setMessage('✅ Account created! You can now sign in.')
+                }
             }
         } catch (err: any) {
-            setError(err.message)
+            console.error('Auth error:', err)
+            setError(err.message || 'An error occurred during authentication')
         } finally {
             setLoading(false)
         }

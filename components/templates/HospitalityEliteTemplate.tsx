@@ -40,10 +40,10 @@ export function HospitalityEliteTemplate({ data, className, accentColor = 'text-
             <header className="flex border-b-8 border-slate-100">
                 <div className="flex-1 p-12 flex flex-col justify-center">
                     <h1 className={cn("text-6xl font-black tracking-tight mb-2 uppercase", accentColor)}>
-                        {personalInfo?.fullName}
+                        {personalInfo?.fullName || 'Root User'}
                     </h1>
                     <p className="text-2xl font-medium text-slate-500 tracking-[0.2em] uppercase">
-                        {personalInfo?.professionalTitle}
+                        {personalInfo?.professionalTitle || 'Luxury Hospitality Expert'}
                     </p>
                 </div>
 
@@ -158,7 +158,7 @@ export function HospitalityEliteTemplate({ data, className, accentColor = 'text-
                     {professionalSummary?.summaryText && (
                         <section>
                             <p className="text-xl text-slate-600 leading-relaxed italic">
-                                "{professionalSummary.summaryText}"
+                                &quot;{professionalSummary.summaryText}&quot;
                             </p>
                         </section>
                     )}
