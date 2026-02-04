@@ -1,6 +1,7 @@
 import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
+import NextImage from 'next/image'
 import { Mail, Phone, MapPin, Linkedin, Globe, Award, Languages } from 'lucide-react'
 
 interface TemplateProps {
@@ -50,10 +51,12 @@ export function HospitalityEliteTemplate({ data, className, accentColor = 'text-
                 {/* Photo Area */}
                 <div className="w-64 bg-slate-50 flex items-center justify-center border-l-8 border-white overflow-hidden relative">
                     {personalInfo?.photoUrl ? (
-                        <img
+                        <NextImage
                             src={personalInfo.photoUrl}
-                            alt={personalInfo.fullName}
-                            className="w-full h-full object-cover"
+                            alt={personalInfo.fullName || 'Profile'}
+                            fill
+                            className="object-cover"
+                            unoptimized={personalInfo.photoUrl.startsWith('data:')}
                         />
                     ) : (
                         <div className="flex flex-col items-center text-slate-300">

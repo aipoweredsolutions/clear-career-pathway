@@ -6,23 +6,24 @@ import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export function BrandMarquee() {
-    const brands = [
-        "Google", "Amazon", "Meta", "Microsoft", "Goldman Sachs",
-        "Deloitte", "Salesforce", "J.P. Morgan", "McKinsey", "Adobe"
+    const industries = [
+        "Software Engineering", "Healthcare", "Digital Marketing", "Finance", "Education",
+        "Hospitality", "Project Management", "Data Science", "Sales", "Legal",
+        "Creative Design", "Supply Chain", "Customer Service", "Real Estate"
     ]
 
     return (
         <div className="py-12 bg-white border-y border-neutral-100 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 mb-8 text-center">
                 <p className="text-xs font-black uppercase tracking-[0.3em] text-neutral-400">
-                    Our Graduates Work At
+                    Trusted Layouts Across Leading Industries
                 </p>
             </div>
             <div className="relative flex overflow-x-hidden">
                 <div className="animate-marquee whitespace-nowrap flex items-center gap-16 py-4">
-                    {[...brands, ...brands].map((brand, i) => (
+                    {[...industries, ...industries].map((industry, i) => (
                         <span key={i} className="text-3xl font-black text-neutral-200 hover:text-primary-600 transition-colors cursor-default tracking-tighter">
-                            {brand}
+                            {industry}
                         </span>
                     ))}
                 </div>
@@ -137,9 +138,9 @@ export function AIDemoSection() {
                         </div>
 
                         {/* Floating Stats */}
-                        <div className="absolute -bottom-10 -left-10 bg-white p-6 rounded-3xl shadow-2xl hidden md:block">
-                            <p className="text-3xl font-black text-neutral-900">+114%</p>
-                            <p className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Interview rate</p>
+                        <div className="absolute -bottom-10 -left-10 bg-white p-6 rounded-3xl shadow-2xl hidden md:block border border-neutral-100">
+                            <p className="text-3xl font-black text-primary-600">99%</p>
+                            <p className="text-xs font-bold text-neutral-500 uppercase tracking-widest">ATS Reliability</p>
                         </div>
                     </div>
                 </div>

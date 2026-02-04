@@ -302,6 +302,26 @@ CREATE TABLE IF NOT EXISTS additional_info (
   UNIQUE(document_id)
 );
 
+-- Custom sections (for flexible/user-defined content)
+CREATE TABLE IF NOT EXISTS custom_sections (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  icon TEXT,
+  content TEXT, -- For simple text content
+  display_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Items within custom sections (for bullet-point style content)
+CREATE TABLE IF NOT EXISTS custom_section_items (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  custom_section_id UUID NOT NULL REFERENCES custom_sections(id) ON DELETE CASCADE,
+  text TEXT NOT NULL,
+  display_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- ============================================
 -- INDEXES FOR PERFORMANCE
 -- ============================================
@@ -355,6 +375,8 @@ ALTER TABLE languages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE professional_affiliations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE document_references ENABLE ROW LEVEL SECURITY;
 ALTER TABLE additional_info ENABLE ROW LEVEL SECURITY;
+ALTER TABLE custom_sections ENABLE ROW LEVEL SECURITY;
+ALTER TABLE custom_section_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payment_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_usage ENABLE ROW LEVEL SECURITY;
@@ -399,7 +421,7 @@ CREATE POLICY "Users can view own personal info" ON personal_info
     )
   );
 
-DROP POLICY IF EXISTS "Users can manage own personal info" ON personal_info;
+-- Personal info: Users can access via their documents
 CREATE POLICY "Users can manage own personal info" ON personal_info
   FOR ALL USING (
     EXISTS (
@@ -409,8 +431,66 @@ CREATE POLICY "Users can manage own personal info" ON personal_info
     )
   );
 
--- Apply similar policies to all document-related tables
+-- Helper policy for all document-sub-tables
 -- (Professional summary, skills, work experience, etc.)
+
+CREATE POLICY "Users can manage own professional summary" ON professional_summary
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = professional_summary.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own skills" ON skills
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = skills.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own work experience" ON work_experience
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = work_experience.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own work achievements" ON work_achievements
+  FOR ALL USING (EXISTS (
+    SELECT 1 FROM work_experience 
+    JOIN documents ON work_experience.document_id = documents.id 
+    WHERE work_experience.id = work_achievements.work_experience_id 
+    AND documents.user_id = auth.uid()
+  ));
+
+CREATE POLICY "Users can manage own projects" ON projects
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = projects.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own education" ON education
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = education.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own certifications" ON certifications
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = certifications.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own achievements" ON achievements
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = achievements.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own publications" ON publications
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = publications.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own volunteer experience" ON volunteer_experience
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = volunteer_experience.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own languages" ON languages
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = languages.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own professional affiliations" ON professional_affiliations
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = professional_affiliations.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own document references" ON document_references
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = document_references.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own additional info" ON additional_info
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = additional_info.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own custom sections" ON custom_sections
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = custom_sections.document_id AND documents.user_id = auth.uid()));
+
+CREATE POLICY "Users can manage own custom section items" ON custom_section_items
+  FOR ALL USING (EXISTS (
+    SELECT 1 FROM custom_sections 
+    JOIN documents ON custom_sections.document_id = documents.id 
+    WHERE custom_sections.id = custom_section_items.custom_section_id 
+    AND documents.user_id = auth.uid()
+  ));
 
 -- Subscriptions: Users can view their own subscription
 DROP POLICY IF EXISTS "Users can view own subscription" ON user_subscriptions;

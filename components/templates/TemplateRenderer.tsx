@@ -1,33 +1,49 @@
-import { ATSProfessionalTemplate } from './ATSProfessionalTemplate'
-import { ATSClassicTemplate } from './ATSClassicTemplate'
-import { ATSMinimalTemplate } from './ATSMinimalTemplate'
-import { ATSExecutiveTemplate } from './ATSExecutiveTemplate'
-import { ATSTechnicalTemplate } from './ATSTechnicalTemplate'
-import { ATSModernTemplate } from './ATSModernTemplate'
-import { ATSGraduateTemplate } from './ATSGraduateTemplate'
-import { ATSStandardTemplate } from './ATSStandardTemplate'
-import { ClassicTemplate } from './ClassicTemplate'
-import { ModernTemplate } from './ModernTemplate'
-import { CreativeTemplate } from './CreativeTemplate'
-import { TechnicalTemplate } from './TechnicalTemplate'
-import { ExecutiveTemplate } from './ExecutiveTemplate'
-import { AcademicTemplate } from './AcademicTemplate'
-import { ChicTemplate } from './ChicTemplate'
-import { CuteTemplate } from './CuteTemplate'
-import { MinimalTemplate } from './MinimalTemplate'
-import { CompactTemplate } from './CompactTemplate'
-import { ProfessionalTemplate } from './ProfessionalTemplate'
-import { LuxeTemplate } from './LuxeTemplate'
-import { StartupTemplate } from './StartupTemplate'
-import { ArtisanTemplate } from './ArtisanTemplate'
-import { SplitContrastTemplate } from './SplitContrastTemplate'
-import { GraduateTemplate } from './GraduateTemplate'
-import { ATSTimelineTemplate } from './ATSTimelineTemplate'
-import { HospitalityEliteTemplate } from './HospitalityEliteTemplate'
-import { CruiseExcellenceTemplate } from './CruiseExcellenceTemplate'
-import { ServiceProTemplate } from './ServiceProTemplate'
+import dynamic from 'next/dynamic'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
+
+// Loading placeholder for smoother transitions
+const TemplateLoading = () => (
+    <div className="w-full h-full bg-white flex flex-col items-center justify-center p-20 animate-pulse">
+        <div className="w-32 h-6 bg-neutral-100 rounded mb-8" />
+        <div className="w-full h-px bg-neutral-50 mb-12" />
+        <div className="space-y-4 w-full">
+            <div className="h-4 bg-neutral-50 rounded w-3/4" />
+            <div className="h-4 bg-neutral-50 rounded w-1/2" />
+            <div className="h-4 bg-neutral-50 rounded w-5/6" />
+        </div>
+    </div>
+)
+
+// Dynamic imports for all templates to reduce bundle size
+const ATSProfessionalTemplate = dynamic(() => import('./ATSProfessionalTemplate').then(m => m.ATSProfessionalTemplate), { loading: () => <TemplateLoading /> })
+const ATSClassicTemplate = dynamic(() => import('./ATSClassicTemplate').then(m => m.ATSClassicTemplate), { loading: () => <TemplateLoading /> })
+const ATSMinimalTemplate = dynamic(() => import('./ATSMinimalTemplate').then(m => m.ATSMinimalTemplate), { loading: () => <TemplateLoading /> })
+const ATSExecutiveTemplate = dynamic(() => import('./ATSExecutiveTemplate').then(m => m.ATSExecutiveTemplate), { loading: () => <TemplateLoading /> })
+const ATSTechnicalTemplate = dynamic(() => import('./ATSTechnicalTemplate').then(m => m.ATSTechnicalTemplate), { loading: () => <TemplateLoading /> })
+const ATSModernTemplate = dynamic(() => import('./ATSModernTemplate').then(m => m.ATSModernTemplate), { loading: () => <TemplateLoading /> })
+const ATSGraduateTemplate = dynamic(() => import('./ATSGraduateTemplate').then(m => m.ATSGraduateTemplate), { loading: () => <TemplateLoading /> })
+const ATSStandardTemplate = dynamic(() => import('./ATSStandardTemplate').then(m => m.ATSStandardTemplate), { loading: () => <TemplateLoading /> })
+const ClassicTemplate = dynamic(() => import('./ClassicTemplate').then(m => m.ClassicTemplate), { loading: () => <TemplateLoading /> })
+const ModernTemplate = dynamic(() => import('./ModernTemplate').then(m => m.ModernTemplate), { loading: () => <TemplateLoading /> })
+const CreativeTemplate = dynamic(() => import('./CreativeTemplate').then(m => m.CreativeTemplate), { loading: () => <TemplateLoading /> })
+const TechnicalTemplate = dynamic(() => import('./TechnicalTemplate').then(m => m.TechnicalTemplate), { loading: () => <TemplateLoading /> })
+const ExecutiveTemplate = dynamic(() => import('./ExecutiveTemplate').then(m => m.ExecutiveTemplate), { loading: () => <TemplateLoading /> })
+const AcademicTemplate = dynamic(() => import('./AcademicTemplate').then(m => m.AcademicTemplate), { loading: () => <TemplateLoading /> })
+const ChicTemplate = dynamic(() => import('./ChicTemplate').then(m => m.ChicTemplate), { loading: () => <TemplateLoading /> })
+const CuteTemplate = dynamic(() => import('./CuteTemplate').then(m => m.CuteTemplate), { loading: () => <TemplateLoading /> })
+const MinimalTemplate = dynamic(() => import('./MinimalTemplate').then(m => m.MinimalTemplate), { loading: () => <TemplateLoading /> })
+const CompactTemplate = dynamic(() => import('./CompactTemplate').then(m => m.CompactTemplate), { loading: () => <TemplateLoading /> })
+const ProfessionalTemplate = dynamic(() => import('./ProfessionalTemplate').then(m => m.ProfessionalTemplate), { loading: () => <TemplateLoading /> })
+const LuxeTemplate = dynamic(() => import('./LuxeTemplate').then(m => m.LuxeTemplate), { loading: () => <TemplateLoading /> })
+const StartupTemplate = dynamic(() => import('./StartupTemplate').then(m => m.StartupTemplate), { loading: () => <TemplateLoading /> })
+const ArtisanTemplate = dynamic(() => import('./ArtisanTemplate').then(m => m.ArtisanTemplate), { loading: () => <TemplateLoading /> })
+const SplitContrastTemplate = dynamic(() => import('./SplitContrastTemplate').then(m => m.SplitContrastTemplate), { loading: () => <TemplateLoading /> })
+const GraduateTemplate = dynamic(() => import('./GraduateTemplate').then(m => m.GraduateTemplate), { loading: () => <TemplateLoading /> })
+const ATSTimelineTemplate = dynamic(() => import('./ATSTimelineTemplate').then(m => m.ATSTimelineTemplate), { loading: () => <TemplateLoading /> })
+const HospitalityEliteTemplate = dynamic(() => import('./HospitalityEliteTemplate').then(m => m.HospitalityEliteTemplate), { loading: () => <TemplateLoading /> })
+const CruiseExcellenceTemplate = dynamic(() => import('./CruiseExcellenceTemplate').then(m => m.CruiseExcellenceTemplate), { loading: () => <TemplateLoading /> })
+const ServiceProTemplate = dynamic(() => import('./ServiceProTemplate').then(m => m.ServiceProTemplate), { loading: () => <TemplateLoading /> })
 
 interface TemplateRendererProps {
     templateId: string

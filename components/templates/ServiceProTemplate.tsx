@@ -1,6 +1,7 @@
 import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
+import NextImage from 'next/image'
 import { User, Mail, Phone, MapPin, Star, Award, CheckCircle2 } from 'lucide-react'
 
 interface TemplateProps {
@@ -55,10 +56,12 @@ export function ServiceProTemplate({ data, className, accentColor = 'text-slate-
                     {/* Small Photo Area */}
                     <div className="w-56 bg-slate-100 border-l-4 border-slate-900 flex items-center justify-center overflow-hidden">
                         {personalInfo?.photoUrl ? (
-                            <img
+                            <NextImage
                                 src={personalInfo.photoUrl}
-                                alt={personalInfo.fullName}
-                                className="w-full h-full object-cover"
+                                alt={personalInfo.fullName || 'Profile'}
+                                fill
+                                className="object-cover"
+                                unoptimized={personalInfo.photoUrl.startsWith('data:')}
                             />
                         ) : (
                             <div className="flex flex-col items-center text-slate-400">

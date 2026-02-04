@@ -3,6 +3,7 @@
 import React from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { BLOG_POSTS } from '@/lib/data/blog'
 import { ArrowLeft, Calendar, User, Tag, Share2 } from 'lucide-react'
 
@@ -31,7 +32,13 @@ export default function BlogPostPage() {
             {/* Hero Header */}
             <div className="bg-neutral-900 py-24 text-white relative overflow-hidden">
                 <div className="absolute inset-0 opacity-40">
-                    <img src={post.image} alt="" className="w-full h-full object-cover blur-sm" />
+                    <Image
+                        src={post.image}
+                        alt=""
+                        fill
+                        className="object-cover blur-sm"
+                        priority
+                    />
                 </div>
                 <div className="max-w-4xl mx-auto px-4 relative z-10 text-center">
                     <Link href="/blog" className="inline-flex items-center gap-2 text-primary-400 font-bold mb-8 hover:text-primary-300 transition-colors">

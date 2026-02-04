@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import NextImage from 'next/image'
 import { Check, X, Maximize2, Minimize2, File, ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
@@ -166,13 +167,25 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                 >
                     {/* Real Mini Preview */}
                     <div className="w-full aspect-[210/297] bg-white rounded-lg border border-neutral-200 mb-4 overflow-hidden shadow-sm group-hover:shadow-md transition-all relative">
-                        <div className="absolute inset-0 origin-top left-0 right-0 scale-[0.25] pointer-events-none">
-                            <TemplateRenderer
-                                templateId={template.id}
-                                data={getPreviewData(template.id, realData)}
-                                className="w-[210mm] h-[297mm]"
-                            />
-                        </div>
+                        {template.previewImage ? (
+                            <div className="relative w-full h-full">
+                                <NextImage
+                                    src={template.previewImage}
+                                    alt={template.name}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 400px) 50vw, 20vw"
+                                />
+                            </div>
+                        ) : (
+                            <div className="absolute inset-0 origin-top left-0 right-0 scale-[0.25] pointer-events-none">
+                                <TemplateRenderer
+                                    templateId={template.id}
+                                    data={getPreviewData(template.id, realData)}
+                                    className="w-[210mm] h-[297mm]"
+                                />
+                            </div>
+                        )}
 
                         {/* Active Indicator Over Preview */}
                         {currentTemplateId === template.id && (

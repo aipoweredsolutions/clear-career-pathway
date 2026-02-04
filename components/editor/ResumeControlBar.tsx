@@ -5,8 +5,11 @@ import { DownloadButtons } from '@/components/editor/DownloadButtons'
 import { Minimize2, Maximize2, Type, MoveHorizontal, File, Minus, Square, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+import { UserSubscription } from '@/lib/types/resume'
+
 interface ResumeControlBarProps {
     data: ResumeDocument
+    subscription: UserSubscription | null
     onUpdate: (data: ResumeDocument) => void
     isMaximized: boolean
     onToggleMaximize: () => void
@@ -15,7 +18,7 @@ interface ResumeControlBarProps {
     onMaximize?: () => void
 }
 
-export function ResumeControlBar({ data, onUpdate, isMaximized, onToggleMaximize, onClose, onMinimize, onMaximize }: ResumeControlBarProps) {
+export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, onToggleMaximize, onClose, onMinimize, onMaximize }: ResumeControlBarProps) {
     const updateFormatting = (key: string, value: string) => {
         onUpdate({
             ...data,
@@ -128,7 +131,7 @@ export function ResumeControlBar({ data, onUpdate, isMaximized, onToggleMaximize
                 {/* Download buttons when maximized */}
                 {isMaximized && (
                     <>
-                        <DownloadButtons data={data} variant="toolbar" />
+                        <DownloadButtons data={data} subscription={subscription} variant="toolbar" />
                         <div className="h-6 w-px bg-neutral-200" />
                     </>
                 )}

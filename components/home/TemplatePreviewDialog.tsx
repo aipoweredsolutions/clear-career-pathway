@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic'
 import { CAREER_SAMPLES } from '@/lib/constants/career-samples'
 import { MOCK_EXECUTIVE_DATA, MOCK_GRADUATE_DATA, MOCK_NURSE_EXPERIENCED_DATA } from '@/lib/constants/mock-data'
 import { MOCK_DATA_SCIENTIST_DATA, MOCK_FINANCE_DATA, MOCK_TEACHER_DATA, MOCK_MARKETING_DATA, MOCK_PROJECT_MANAGER_DATA, MOCK_HR_DATA } from '@/lib/constants/mock-data-additional'
+import { cn } from '@/lib/utils'
 import { MOCK_HOSPITALITY_DATA, MOCK_CRUISE_DATA } from '@/lib/constants/mock-data-hospitality'
 
 // Dynamically import PDF components with SSR disabled
@@ -41,6 +42,14 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
     const { user } = useAuth()
     const [viewMode, setViewMode] = useState<'web' | 'pdf'>('web')
     const [isMounted, setIsMounted] = useState(false)
+    const [selectedColor, setSelectedColor] = useState<string>(initialColor || 'standard')
+
+    // Sync local color with prop when template changes or initialColor changes
+    useEffect(() => {
+        if (initialColor) {
+            setSelectedColor(initialColor)
+        }
+    }, [initialColor, template?.id])
 
     useEffect(() => {
         setIsMounted(true)
@@ -51,7 +60,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
         if (!template) return MOCK_EXECUTIVE_DATA
 
         // Correctly compose the ID for the renderer: baseId-colorVariantId
-        const colorId = initialColor
+        const colorId = selectedColor
         const effectiveTemplateId = colorId && colorId !== 'standard' && colorId !== 'std' && colorId !== 'clean'
             ? `${template.id}-${colorId}`
             : template.id
@@ -87,15 +96,18 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             ...baseData,
             templateId: effectiveTemplateId
         }
-    }, [template, initialColor])
+    }, [template, selectedColor])
 
     if (!template) return null
 
     return (
-        <div className={`fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 ${isOpen ? '' : 'hidden'}`}>
+        <div className={cn(
+            "fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 transition-all duration-500",
+            isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}>
             {/* Backdrop */}
             <div
-                className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity"
+                className="absolute inset-0 bg-neutral-900/80 backdrop-blur-md transition-opacity duration-500"
                 onClick={onClose}
                 aria-hidden="true"
             />
@@ -202,6 +214,29 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                                 </div>
                             </div>
                         </section>
+
+                        {template.colors && template.colors.length > 0 && (
+                            <section>
+                                <h4 className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em] mb-4">Color Palette</h4>
+                                <div className="flex flex-wrap gap-2.5">
+                                    {template.colors.map((color: any) => (
+                                        <button
+                                            key={color.id}
+                                            onClick={() => setSelectedColor(color.id)}
+                                            className={cn(
+                                                "w-8 h-8 rounded-full border-2 transition-all p-0.5",
+                                                (selectedColor === color.id)
+                                                    ? "border-primary-600 scale-110 shadow-lg"
+                                                    : "border-transparent opacity-60 hover:opacity-100"
+                                            )}
+                                            title={color.name}
+                                        >
+                                            <div className="w-full h-full rounded-full" style={{ backgroundColor: color.hex }} />
+                                        </button>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
                     </div>
 
                     {/* Preview Canvas */}

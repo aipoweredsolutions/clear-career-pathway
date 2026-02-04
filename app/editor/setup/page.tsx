@@ -1,13 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { LogIn, UserPlus, ArrowRight, UserCircle, ShieldCheck, Zap } from 'lucide-react'
 import { useAuth } from '@/components/auth/AuthProvider'
 
-export default function EditorSetupPage() {
+function EditorSetupContent() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const { user } = useAuth()
@@ -97,6 +97,14 @@ export default function EditorSetupPage() {
                 <ArrowLeft className="w-4 h-4" /> Back to Templates
             </Link>
         </div>
+    )
+}
+
+export default function EditorSetupPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-neutral-50 flex items-center justify-center">Loading...</div>}>
+            <EditorSetupContent />
+        </Suspense>
     )
 }
 

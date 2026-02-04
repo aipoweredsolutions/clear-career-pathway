@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import NextImage from 'next/image'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { TemplateMetadata } from '@/lib/types/resume'
 import {
@@ -66,17 +67,28 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
 
     return (
         <div className={cn("relative w-full h-full bg-white overflow-hidden", className)}>
-            {/* Always render actual template for accurate preview */}
-            <div
-                className="w-full h-full transform scale-[0.35] origin-top-left flex justify-center bg-white"
-                style={{ width: '286%', height: '286%' }}
-            >
-                <TemplateRenderer
-                    templateId={`${template.id}${colorSuffix}`}
-                    data={getSampleData() as any}
-                    className="shadow-none pointer-events-none select-none w-[210mm] min-h-[297mm]"
-                />
-            </div>
+            {template.previewImage ? (
+                <div className="relative w-full h-full">
+                    <NextImage
+                        src={template.previewImage}
+                        alt={template.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                </div>
+            ) : (
+                <div
+                    className="w-full h-full transform scale-[0.35] origin-top-left flex justify-center bg-white"
+                    style={{ width: '286%', height: '286%' }}
+                >
+                    <TemplateRenderer
+                        templateId={`${template.id}${colorSuffix}`}
+                        data={getSampleData() as any}
+                        className="shadow-none pointer-events-none select-none w-[210mm] min-h-[297mm]"
+                    />
+                </div>
+            )}
 
             {/* Subtle overlay to indicate it's a preview */}
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-white/10" />

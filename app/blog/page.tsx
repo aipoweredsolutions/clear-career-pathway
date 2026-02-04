@@ -1,7 +1,5 @@
-'use client'
-
-import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { BLOG_POSTS } from '@/lib/data/blog'
 import { ArrowRight, Calendar, User, Tag } from 'lucide-react'
 
@@ -20,10 +18,12 @@ export default function BlogPage() {
                     {BLOG_POSTS.map((post) => (
                         <article key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-neutral-100 flex flex-col group">
                             <div className="relative h-48 overflow-hidden">
-                                <img
+                                <Image
                                     src={post.image}
                                     alt={post.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 />
                                 <div className="absolute top-4 left-4">
                                     <span className="bg-white/90 backdrop-blur-sm text-primary-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm flex items-center gap-1">

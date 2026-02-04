@@ -210,10 +210,10 @@ const createStyles = (templateId: string) => {
         id.startsWith('luxe') ||
         id.startsWith('cute') ||
         id.startsWith('ats-professional') ||
-        id.startsWith('ats-executive') ||
+        id.startsWith('ats-classic') ||
         id.startsWith('graduate')
 
-    const isJustifiedHeader = id.startsWith('compact') || id.startsWith('technical') || id.startsWith('ats-standard') || id.startsWith('ats-minimal') || id.startsWith('ats-timeline')
+    const isJustifiedHeader = id.startsWith('compact') || id.startsWith('technical') || id.startsWith('ats-standard') || id.startsWith('ats-modern') || id.startsWith('ats-timeline')
     const isTimelinePro = id.startsWith('ats-timeline')
 
     // Pre-calculate border widths to avoid undefined issues
@@ -843,8 +843,10 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                     <View style={styles.section}>
                                         <Text style={styles.sectionTitle}>
                                             {tId.startsWith('ats-standard') ? '01 // Profile' :
-                                                (isCompact ? 'Profile' :
-                                                    (tId.startsWith('ats-executive') ? 'Executive Profile' : 'Professional Summary'))}
+                                                (isTimelinePro ? 'Executive Profile' :
+                                                    (tId.startsWith('ats-modern') ? 'Profile' :
+                                                        (tId.startsWith('ats-minimal') ? '' :
+                                                            (tId.startsWith('ats-executive') ? 'Executive Profile' : 'Professional Summary'))))}
                                         </Text>
                                         <View style={styles.summaryContainer}>
                                             <Text style={styles.summaryText}>{data.professionalSummary.summaryText}</Text>
@@ -860,7 +862,9 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                                 {isTimelinePro && <View style={styles.timelineLine} />}
                                                 <Text style={styles.sectionTitle}>
                                                     {tId.startsWith('ats-standard') ? '02 // Experience' :
-                                                        (tId.startsWith('ats') ? 'Work Experience' : 'Experience')}
+                                                        (isTimelinePro ? 'Career Milestone' :
+                                                            (tId.startsWith('ats-modern') ? 'Experience' :
+                                                                (tId.startsWith('ats') ? 'Work Experience' : 'Experience')))}
                                                 </Text>
                                                 {data.workExperience.map((job, i) => (
                                                     <View key={i} style={isTimelinePro ? styles.timelineItemPro : styles.experienceItem}>
@@ -885,7 +889,9 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                             <View style={styles.section}>
                                                 <Text style={styles.sectionTitle}>
                                                     {tId.startsWith('ats-standard') ? '03 // Competencies' :
-                                                        (tId.startsWith('ats') ? 'Core Skills' : 'Skills')}
+                                                        (isTimelinePro ? 'Core Expertise' :
+                                                            (tId.startsWith('ats-modern') ? 'Competencies' :
+                                                                (tId.startsWith('ats') ? 'Core Skills' : 'Skills')))}
                                                 </Text>
                                                 {tId.startsWith('ats') ? (
                                                     <View style={{ gap: 4 }}>
@@ -933,7 +939,9 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                             <View style={styles.section}>
                                                 <Text style={styles.sectionTitle}>
                                                     {tId.startsWith('ats-standard') ? '03 // Competencies' :
-                                                        (tId.startsWith('ats') ? 'Core Skills' : 'Skills')}
+                                                        (isTimelinePro ? 'Core Expertise' :
+                                                            (tId.startsWith('ats-modern') ? 'Competencies' :
+                                                                (tId.startsWith('ats') ? 'Core Skills' : 'Skills')))}
                                                 </Text>
                                                 {tId.startsWith('ats') ? (
                                                     <View style={{ gap: 4 }}>
@@ -978,7 +986,9 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                                                 {isTimelinePro && <View style={styles.timelineLine} />}
                                                 <Text style={styles.sectionTitle}>
                                                     {tId.startsWith('ats-standard') ? '02 // Experience' :
-                                                        (tId.startsWith('ats') ? 'Work Experience' : 'Experience')}
+                                                        (isTimelinePro ? 'Career Milestone' :
+                                                            (tId.startsWith('ats-modern') ? 'Experience' :
+                                                                (tId.startsWith('ats') ? 'Work Experience' : 'Experience')))}
                                                 </Text>
                                                 {data.workExperience.map((job, i) => (
                                                     <View key={i} style={isTimelinePro ? styles.timelineItemPro : styles.experienceItem}>

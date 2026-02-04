@@ -107,7 +107,7 @@ export class ResumeDOCX {
                                     data.personalInfo?.location || `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}`.trim(),
                                     data.personalInfo?.websiteUrl
                                 ].filter(Boolean).map(text => new Paragraph({
-                                    children: [new TextRun({ text: text as string, color: 'FFFFFF', size: 16 })],
+                                    children: [new TextRun({ text: String(text), color: 'FFFFFF', size: 16 })],
                                     spacing: { after: 100 },
                                 })),
 
@@ -131,7 +131,7 @@ export class ResumeDOCX {
                                             children: [new TextRun({ text: edu.degree, color: 'FFFFFF', size: 14, italics: true })],
                                         }),
                                         new Paragraph({
-                                            children: [new TextRun({ text: edu.endYear || '', color: 'FFFFFF', size: 14 })],
+                                            children: [new TextRun({ text: edu.endYear ? String(edu.endYear) : '', color: 'FFFFFF', size: 14 })],
                                             spacing: { after: 200 },
                                         }),
                                     ])
@@ -239,7 +239,10 @@ export class ResumeDOCX {
                         ],
                         tabStops: [{ type: AlignmentType.RIGHT, position: 9000 }],
                     }),
-                    new Paragraph({ text: exp.companyName, italics: true, spacing: { after: 100 } }),
+                    new Paragraph({
+                        children: [new TextRun({ text: exp.companyName, italics: true })],
+                        spacing: { after: 100 }
+                    }),
                     ...(exp.roleDescription ? [new Paragraph({ text: exp.roleDescription })] : []),
                     ...(exp.achievements?.map(ach => new Paragraph({
                         bullet: { level: 0 },
@@ -254,7 +257,7 @@ export class ResumeDOCX {
                 ...data.education.map(edu => new Paragraph({
                     children: [
                         new TextRun({ text: edu.institutionName, bold: true }),
-                        new TextRun({ text: ` — ${edu.degree} (${edu.endYear})` }),
+                        new TextRun({ text: ` — ${edu.degree} (${edu.endYear || ''})` }),
                     ],
                     spacing: { after: 100 },
                 }))

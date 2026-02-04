@@ -19,7 +19,7 @@ import { MinimalTemplate } from '../components/templates/MinimalTemplate'
 import { ProfessionalTemplate } from '../components/templates/ProfessionalTemplate'
 import { CreativeTemplate } from '../components/templates/CreativeTemplate'
 import { ExecutiveTemplate } from '../components/templates/ExecutiveTemplate'
-import { TechTemplate } from '../components/templates/TechTemplate'
+import { TechnicalTemplate } from '../components/templates/TechnicalTemplate'
 import { StartupTemplate } from '../components/templates/StartupTemplate'
 import { ATSClassicTemplate } from '../components/templates/ATSClassicTemplate'
 import { ATSProfessionalTemplate } from '../components/templates/ATSProfessionalTemplate'
@@ -34,7 +34,7 @@ const templateComponents: Record<string, any> = {
     'professional': ProfessionalTemplate,
     'creative': CreativeTemplate,
     'executive': ExecutiveTemplate,
-    'tech': TechTemplate,
+    'tech': TechnicalTemplate,
     'startup': StartupTemplate,
     'ats-classic': ATSClassicTemplate,
     'ats-professional': ATSProfessionalTemplate,
@@ -47,8 +47,8 @@ function getAccentColor(templateId: string, colorId: string = 'standard'): strin
     const template = templateRegistry.find(t => t.id === templateId)
     const color = template?.colors?.find(c => c.id === colorId)
 
-    if (color?.className) {
-        return color.className
+    if (color?.hex) {
+        return color.hex
     }
 
     // Default colors based on template type

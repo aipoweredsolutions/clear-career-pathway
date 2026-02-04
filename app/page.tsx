@@ -12,6 +12,7 @@ import { PricingCard } from '@/components/pricing/PricingCard'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { trackEvent } from '@/lib/utils/analytics'
 import { BrandMarquee, AIDemoSection, ComparisonSection } from '@/components/home/HomeEnhancements'
+import Image from 'next/image'
 
 export default function Home() {
     const { user } = useAuth()
@@ -56,8 +57,13 @@ export default function Home() {
     }
 
     const handlePreview = (id: string) => {
-        trackEvent('template_preview', { templateId: id })
-        setPreviewTemplateId(id)
+        try {
+            trackEvent('template_preview', { templateId: id })
+            setPreviewTemplateId(id)
+        } catch (error) {
+            console.error("Error in handlePreview:", error)
+            // Optionally, handle the error gracefully, e.g., show a toast
+        }
     }
 
     const handleUseTemplate = (id: string) => {
@@ -73,16 +79,6 @@ export default function Home() {
 
     return (
         <div className="min-h-screen font-sans relative">
-            {/* Preview Modal */}
-            {previewTemplateId && (
-                <TemplatePreviewDialog
-                    isOpen={!!previewTemplateId}
-                    onClose={() => setPreviewTemplateId(null)}
-                    template={templateRegistry.find(t => t.id === previewTemplateId) || null}
-                    initialColor={getActiveColor(previewTemplateId, templateRegistry.find(t => t.id === previewTemplateId)?.colors || [])}
-                />
-            )}
-
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-white pb-20">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.08),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(99,102,241,0.08),transparent_50%)] pointer-events-none" />
@@ -124,8 +120,13 @@ export default function Home() {
                             <div className="mt-16 flex items-center gap-6">
                                 <div className="flex -space-x-3">
                                     {[1, 2, 3, 4].map(i => (
-                                        <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-neutral-200 overflow-hidden shadow-sm">
-                                            <img src={`https://i.pravatar.cc/150?u=${i + 10}`} alt="User" />
+                                        <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-neutral-200 overflow-hidden shadow-sm relative">
+                                            <Image
+                                                src={`https://i.pravatar.cc/150?u=${i + 10}`}
+                                                alt="User"
+                                                fill
+                                                className="object-cover"
+                                            />
                                         </div>
                                     ))}
                                 </div>
@@ -133,7 +134,7 @@ export default function Home() {
                                     <div className="flex gap-1 mb-1">
                                         {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
                                     </div>
-                                    <p className="text-sm font-bold text-neutral-500 uppercase tracking-wider">Trusted by 50,000+ professionals</p>
+                                    <p className="text-sm font-bold text-neutral-500 uppercase tracking-wider">Join 10,000+ career-focused professionals</p>
                                 </div>
                             </div>
                         </div>
@@ -143,10 +144,12 @@ export default function Home() {
                                 className="relative z-10 w-full aspect-[4/5] bg-neutral-100 rounded-[3rem] shadow-2xl border-8 border-white overflow-hidden group cursor-pointer hover:shadow-primary-100/50 hover:border-primary-50 transition-all duration-300"
                                 onClick={() => handlePreview('cruise-excellence')}
                             >
-                                <img
+                                <Image
                                     src="/templates/cruise-excellence-preview.png"
                                     className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
                                     alt="Professional Resume Design"
+                                    fill
+                                    priority
                                 />
                                 <div className="absolute inset-x-8 bottom-8 p-10 bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-white/50 group-hover:translate-y-[-10px] transition-transform duration-500">
                                     <div className="flex items-center gap-6">
@@ -202,36 +205,32 @@ export default function Home() {
 
             <AIDemoSection />
 
-            {/* Testimonials Section */}
-            <section className="py-24 bg-neutral-900 text-white overflow-hidden relative">
+            {/* Founder's Vision Section */}
+            <section className="py-32 bg-neutral-900 text-white overflow-hidden relative">
                 <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-500 rounded-full blur-[120px]" />
                     <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500 rounded-full blur-[120px]" />
                 </div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Trusted by Professionals Globally</h2>
-                        <div className="flex justify-center gap-1 mb-8">
-                            {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="w-6 h-6 text-amber-400 fill-amber-400" />)}
-                        </div>
-                    </div>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {[
-                            { quote: "The ATS-optimized templates helped me bypass the initial screening at a top-tier tech firm. I got the interview within 48 hours!", author: "Emily S.", role: "Software Engineer", avatar: "E" },
-                            { quote: "Clean, professional, and so easy to use. The AI suggestions for my work experience bullets were game-changers for my resume.", author: "Marcus T.", role: "Project Manager", avatar: "M" },
-                            { quote: "I was struggling to fit 10 years of experience onto one page. The 'Compact' template made it look effortless and stylish.", author: "Jessica L.", role: "Marketing Director", avatar: "J" }
-                        ].map((t, i) => (
-                            <div key={i} className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-colors">
-                                <p className="text-lg italic mb-6 text-neutral-300">&quot;{t.quote}&quot;</p>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-primary-600 flex items-center justify-center font-bold text-xl">{t.avatar}</div>
-                                    <div>
-                                        <div className="font-bold text-white">{t.author}</div>
-                                        <div className="text-sm text-neutral-400">{t.role}</div>
-                                    </div>
-                                </div>
+                <div className="max-w-4xl mx-auto px-6 relative z-10">
+                    <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-12 md:p-16 rounded-[3rem] shadow-2xl">
+                        <div className="flex flex-col items-center text-center">
+                            <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center font-black text-4xl mb-8 shadow-xl shadow-primary-500/20">
+                                CP
                             </div>
-                        ))}
+                            <h2 className="text-3xl md:text-5xl font-black mb-8 leading-tight tracking-tight uppercase italic">A Note from the Founder</h2>
+                            <div className="space-y-6 text-xl text-neutral-300 leading-relaxed font-medium mb-12">
+                                <p>
+                                    &quot;Clear Career Path isn&apos;t a corporate behemoth. It&apos;s a passion project built to solve a single, frustrating problem: the modern resume struggle. Every template here was hand-coded with one goal in mind—to ensure your expertise isn&apos;t just listed, but celebrated.&quot;
+                                </p>
+                                <p>
+                                    &quot;I personally designed these layouts to pass through the toughest ATS filters while maintaining a visual elegance that resonates with human recruiters. Whether you&apos;re a software engineer or a healthcare hero, these tools are built for your success.&quot;
+                                </p>
+                            </div>
+                            <div className="flex flex-col items-center">
+                                <div className="text-2xl font-black text-white italic">The Creator of Clear Career Path</div>
+                                <div className="text-sm font-bold text-primary-500 uppercase tracking-[0.3em] mt-2">Solo Founder & Designer</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -335,11 +334,20 @@ export default function Home() {
                     <div className="mt-20 p-12 rounded-[2rem] bg-primary-600 text-white text-center relative overflow-hidden shadow-2xl">
                         <div className="absolute top-0 right-0 p-12 opacity-10"><Sparkles className="w-32 h-32" /></div>
                         <h3 className="text-3xl font-bold mb-6">Ready to clear your career path?</h3>
-                        <p className="text-primary-100 mb-10 text-xl max-w-xl mx-auto">Join 10,000+ professionals who have already accelerated their careers with our tools.</p>
+                        <p className="text-primary-100 mb-10 text-xl max-w-xl mx-auto">Accelerate your career today with our precision-engineered resume tools.</p>
                         <Link href="/editor/setup" className="inline-flex items-center justify-center px-10 py-5 text-xl font-black rounded-2xl bg-white text-primary-600 hover:bg-primary-50 transition-all hover:scale-105 shadow-xl">Get Started for Free</Link>
                     </div>
                 </div>
             </section>
+            {previewTemplateId && (
+                <TemplatePreviewDialog
+                    key={previewTemplateId}
+                    isOpen={!!previewTemplateId}
+                    onClose={() => setPreviewTemplateId(null)}
+                    template={templateRegistry.find(t => t.id === previewTemplateId) || null}
+                    initialColor={getActiveColor(previewTemplateId, templateRegistry.find(t => t.id === previewTemplateId)?.colors || [])}
+                />
+            )}
         </div>
     )
 }

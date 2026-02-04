@@ -1,12 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { MOCK_PREVIEW_DATA } from '@/lib/constants/mock-data'
 import { CAREER_SAMPLES } from '@/lib/constants/career-samples'
 
-export default function PreviewPage() {
+function PreviewContent() {
     const params = useParams()
     const searchParams = useSearchParams()
     const templateId = (params?.templateId as string) || 'classic'
@@ -34,5 +34,13 @@ export default function PreviewPage() {
                 className="w-[210mm] min-h-[297mm] shadow-none"
             />
         </div>
+    )
+}
+
+export default function PreviewPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center">Loading Preview...</div>}>
+            <PreviewContent />
+        </Suspense>
     )
 }

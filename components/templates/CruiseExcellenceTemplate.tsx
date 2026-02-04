@@ -1,6 +1,7 @@
 import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
+import NextImage from 'next/image'
 import { Anchor, MapPin, Mail, Phone, Globe, Linkedin, ShieldCheck, Ship } from 'lucide-react'
 
 interface TemplateProps {
@@ -38,11 +39,13 @@ export function CruiseExcellenceTemplate({ data, className, accentColor = 'text-
             <header className="flex h-64 border-b-2 border-slate-100">
                 <div className="w-1/3 bg-slate-50 flex items-center justify-center p-8 overflow-hidden">
                     {personalInfo?.photoUrl ? (
-                        <div className="w-48 h-48 rounded-full border-4 border-white shadow-xl overflow-hidden">
-                            <img
+                        <div className="w-48 h-48 rounded-full border-4 border-white shadow-xl overflow-hidden relative">
+                            <NextImage
                                 src={personalInfo.photoUrl}
-                                alt={personalInfo.fullName}
-                                className="w-full h-full object-cover"
+                                alt={personalInfo.fullName || 'Profile'}
+                                fill
+                                className="object-cover"
+                                unoptimized={personalInfo.photoUrl.startsWith('data:')}
                             />
                         </div>
                     ) : (

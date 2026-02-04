@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { ResumeDocument } from '@/lib/types/resume'
@@ -71,7 +71,7 @@ const previewData: ResumeDocument = {
     ]
 }
 
-export default function StudioPage() {
+function StudioContent() {
     const params = useParams()
     const searchParams = useSearchParams()
 
@@ -95,5 +95,13 @@ export default function StudioPage() {
                 />
             </div>
         </div>
+    )
+}
+
+export default function StudioPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center">Loading Preview...</div>}>
+            <StudioContent />
+        </Suspense>
     )
 }

@@ -23,24 +23,14 @@ export default function SamplesPage() {
             description: 'Modern, balanced design highlighting growth metrics, brand management, and digital transformation.'
         },
         {
-            data: CAREER_SAMPLES.project_manager,
-            category: 'Management',
-            description: 'Strategic roadmap focus with clear emphasis on stakeholder management and delivery timelines.'
-        },
-        {
-            data: CAREER_SAMPLES.data_scientist,
-            category: 'Data Science',
-            description: 'Analytical layout emphasizing machine learning models, statistical analysis, and business impact.'
-        },
-        {
             data: CAREER_SAMPLES.sales_executive,
             category: 'Sales',
             description: 'Professional traditional layout designed to showcase quota attainment, relationship building, and revenue growth.'
         },
         {
-            data: CAREER_SAMPLES.hr_manager,
-            category: 'Human Resources',
-            description: 'Relationship-driven layout focusing on organizational health, talent acquisition, and cultural growth.'
+            data: CAREER_SAMPLES.graphic_designer,
+            category: 'Creative',
+            description: 'Artistic offset layout showcasing brand identity expertise and a refined aesthetic approach.'
         },
         {
             data: CAREER_SAMPLES.education_expert,
@@ -48,9 +38,9 @@ export default function SamplesPage() {
             description: 'Comprehensive academic layout for teachers and educators, focusing on curriculum and student outcomes.'
         },
         {
-            data: CAREER_SAMPLES.graphic_designer,
-            category: 'Creative',
-            description: 'Artistic offset layout showcasing brand identity expertise and a refined aesthetic approach.'
+            data: CAREER_SAMPLES.healthcare_professional,
+            category: 'Healthcare',
+            description: 'Detailed clinical layout emphasizing patient care, certifications, and healthcare management.'
         },
         {
             data: CAREER_SAMPLES.graduate,
