@@ -5,9 +5,13 @@ import { cn } from '@/lib/utils'
 interface TemplateProps {
     data: ResumeDocument
     className?: string
+    accentColor?: string
 }
 
-export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
+export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
+    // Extract base color for borders/backgrounds
+    const borderColorClass = accentColor.replace('text-', 'border-')
+    const bgColorClass = accentColor.replace('text-', 'bg-')
     const {
         personalInfo,
         professionalSummary,
@@ -30,7 +34,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
             className
         )}>
             {/* Technical Header */}
-            <header className="mb-6 border-b-2 border-neutral-900 pb-4">
+            <header className={cn("mb-6 border-b-2 pb-4", borderColorClass)}>
                 <h1 className="text-2xl font-bold mb-1 tracking-tight">
                     {personalInfo?.fullName || 'Root@User'}
                 </h1>
@@ -67,7 +71,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                 {/* Technical Skills - Show this first for tech ATS */}
                 {skills && skills.length > 0 && (
                     <section>
-                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">01. Technical Stack</h2>
+                        <h2 className={cn("text-xs font-black uppercase text-white px-2 py-1 mb-3 inline-block", bgColorClass)}>01. Technical Stack</h2>
                         {(() => {
                             const groupedSkills = skills.reduce((acc, skill) => {
                                 const type = skill.skillType || 'technical'
@@ -106,7 +110,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                 {/* Experience */}
                 {workExperience && workExperience.length > 0 && (
                     <section>
-                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">02. Engineering Tenure</h2>
+                        <h2 className={cn("text-xs font-black uppercase text-white px-2 py-1 mb-3 inline-block", bgColorClass)}>02. Engineering Tenure</h2>
                         <div className="space-y-4">
                             {workExperience.map((job, i) => (
                                 <div key={i}>
@@ -119,7 +123,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                                         <ul className="space-y-1 border-l border-neutral-200 pl-4 py-1">
                                             {job.achievements.map((a, j) => (
                                                 <li key={j} className="flex gap-2">
-                                                    <span className="text-primary-600 font-bold">$</span>
+                                                    <span className={cn("font-bold", accentColor)}>$</span>
                                                     <span>{a.achievementText}</span>
                                                 </li>
                                             ))}
@@ -134,7 +138,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                 {/* Projects */}
                 {projects && projects.length > 0 && (
                     <section>
-                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">03. Repositories</h2>
+                        <h2 className={cn("text-xs font-black uppercase text-white px-2 py-1 mb-3 inline-block", bgColorClass)}>03. Repositories</h2>
                         <div className="grid grid-cols-2 gap-4">
                             {projects.map((proj, i) => (
                                 <div key={i} className="border border-neutral-100 p-3 rounded">
@@ -157,7 +161,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                 {/* Education */}
                 {education && education.length > 0 && (
                     <section>
-                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">04. Education</h2>
+                        <h2 className={cn("text-xs font-black uppercase text-white px-2 py-1 mb-3 inline-block", bgColorClass)}>04. Education</h2>
                         <div className="space-y-2">
                             {education.map((edu, i) => (
                                 <div key={i} className="flex justify-between">
@@ -193,7 +197,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                             <div className="flex flex-wrap gap-x-4">
                                 {languages.map((l, i) => (
                                     <div key={i} className="font-bold">
-                                        {l.languageName}: <span className="text-primary-600">{l.proficiencyLevel}</span>
+                                        {l.languageName}: <span className={accentColor}>{l.proficiencyLevel}</span>
                                     </div>
                                 ))}
                             </div>
@@ -204,7 +208,7 @@ export function ATSTechnicalTemplate({ data, className }: TemplateProps) {
                 {/* Custom Sections */}
                 {customSections && customSections.map((s, i) => (
                     <section key={i}>
-                        <h2 className="text-xs font-black uppercase text-white bg-neutral-900 px-2 py-1 mb-3 inline-block">05. {s.title}</h2>
+                        <h2 className={cn("text-xs font-black uppercase text-white px-2 py-1 mb-3 inline-block", bgColorClass)}>05. {s.title}</h2>
                         {s.content && <p className="mb-2">{s.content}</p>}
                         {s.items && (
                             <div className="grid grid-cols-2 gap-2">

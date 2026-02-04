@@ -5,9 +5,12 @@ import { cn } from '@/lib/utils'
 interface TemplateProps {
     data: ResumeDocument
     className?: string
+    accentColor?: string
 }
 
-export function ATSExecutiveTemplate({ data, className }: TemplateProps) {
+export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
+    // Extract base color for borders
+    const borderColorClass = accentColor.replace('text-', 'border-')
     const {
         personalInfo,
         professionalSummary,
@@ -31,12 +34,12 @@ export function ATSExecutiveTemplate({ data, className }: TemplateProps) {
             className
         )}>
             {/* Executive Header */}
-            <header className="border-b-4 border-neutral-800 pb-6 mb-8">
-                <h1 className="text-4xl font-black tracking-tighter text-neutral-900 mb-2 uppercase">
+            <header className={cn("border-b-4 pb-6 mb-8", borderColorClass)}>
+                <h1 className={cn("text-4xl font-black tracking-tighter mb-2 uppercase", accentColor)}>
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
                 <div className="flex justify-between items-center">
-                    <div className="text-sm font-bold text-primary-700 tracking-wider">
+                    <div className={cn("text-sm font-bold tracking-wider", accentColor)}>
                         {personalInfo?.professionalTitle?.toUpperCase() || 'EXECUTIVE LEADERSHIP'}
                     </div>
                     <div className="flex gap-4 text-[10px] font-bold text-neutral-500 uppercase tracking-tight">
@@ -108,7 +111,7 @@ export function ATSExecutiveTemplate({ data, className }: TemplateProps) {
                             {projects.map((proj, i) => (
                                 <div key={i} className="bg-neutral-50 p-4 rounded border-l-2 border-neutral-500">
                                     <h3 className="text-[11px] font-black uppercase mb-1">{proj.projectName}</h3>
-                                    <div className="text-[10px] font-bold text-primary-600 mb-2 uppercase">{proj.role}</div>
+                                    <div className={cn("text-[10px] font-bold mb-2 uppercase", accentColor)}>{proj.role}</div>
                                     <p className="text-[10px] text-neutral-600 leading-normal">{proj.description}</p>
                                 </div>
                             ))}
@@ -184,7 +187,7 @@ export function ATSExecutiveTemplate({ data, className }: TemplateProps) {
                             <div className="flex flex-wrap gap-x-4 gap-y-2">
                                 {languages.map((l, i) => (
                                     <div key={i} className="text-[10px] font-bold text-neutral-700">
-                                        {l.languageName} <span className="text-primary-600 uppercase">({l.proficiencyLevel})</span>
+                                        {l.languageName} <span className={cn("uppercase", accentColor)}>({l.proficiencyLevel})</span>
                                     </div>
                                 ))}
                             </div>

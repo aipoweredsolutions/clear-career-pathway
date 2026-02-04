@@ -62,22 +62,81 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         if (id.includes('-green')) accentColor = 'text-emerald-800'
         return { Component: ATSProfessionalTemplate, props: { accentColor } }
     }
-    if (id.startsWith('ats-classic')) return { Component: ATSClassicTemplate, props: {} }
-    if (id.startsWith('ats-minimal')) return { Component: ATSMinimalTemplate, props: {} }
-    if (id.startsWith('ats-executive')) return { Component: ATSExecutiveTemplate, props: {} }
-    if (id.startsWith('ats-technical')) return { Component: ATSTechnicalTemplate, props: {} }
-    if (id.startsWith('ats-modern')) return { Component: ATSModernTemplate, props: {} }
-    if (id.startsWith('ats-graduate')) return { Component: ATSGraduateTemplate, props: {} }
-    if (id.startsWith('ats-standard')) {
-        let accentColor = 'text-primary-600'
+
+    if (id.startsWith('ats-classic')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-slate')) accentColor = 'text-slate-600'
+        if (id.includes('-maroon')) accentColor = 'text-red-900'
+        return { Component: ATSClassicTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('ats-minimal')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-slate')) accentColor = 'text-slate-600'
+        if (id.includes('-teal')) accentColor = 'text-teal-700'
+        return { Component: ATSMinimalTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('ats-executive')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-gold')) accentColor = 'text-amber-700'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-emerald')) accentColor = 'text-emerald-800'
+        return { Component: ATSExecutiveTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('ats-technical')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-green')) accentColor = 'text-emerald-700'
+        if (id.includes('-cyan')) accentColor = 'text-cyan-700'
+        if (id.includes('-orange')) accentColor = 'text-orange-600'
+        if (id.includes('-slate')) accentColor = 'text-slate-600'
+        return { Component: ATSTechnicalTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('ats-modern')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-blue')) accentColor = 'text-blue-600'
+        if (id.includes('-violet')) accentColor = 'text-violet-600'
+        if (id.includes('-teal')) accentColor = 'text-teal-600'
+        if (id.includes('-slate')) accentColor = 'text-slate-600'
+        return { Component: ATSModernTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('ats-graduate')) {
+        let accentColor = 'text-blue-900'
+        if (id.includes('-maroon')) accentColor = 'text-rose-900'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-green')) accentColor = 'text-green-800'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        return { Component: ATSGraduateTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('ats-standard')) { // Includes ats-standard-nursing
+        let accentColor = 'text-neutral-900'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-blue')) accentColor = 'text-blue-600'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         if (id.includes('-slate')) accentColor = 'text-slate-600'
         if (id.includes('-black')) accentColor = 'text-neutral-900'
+        if (id.includes('-teal')) accentColor = 'text-teal-700' // Added for nursing variant
         return { Component: ATSStandardTemplate, props: { accentColor } }
     }
-    if (id.startsWith('ats-timeline')) return { Component: ATSTimelineTemplate, props: {} }
+
+    if (id.startsWith('ats-timeline')) {
+        let accentColor = 'text-slate-900'
+        if (id.includes('-black')) accentColor = 'text-neutral-950'
+        if (id.includes('-navy')) accentColor = 'text-slate-900' // Default navy-ish
+        if (id.includes('-slate')) accentColor = 'text-slate-700'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-800'
+        if (id.includes('-emerald')) accentColor = 'text-emerald-900'
+        return { Component: ATSTimelineTemplate, props: { accentColor } }
+    }
 
     // --- Cute Variants ---
     if (id === 'cute-black') return { Component: CuteTemplate, props: { colorTheme: 'black' } }
@@ -245,13 +304,13 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         case 'graduate': return { Component: GraduateTemplate, props: { accentColor: 'text-blue-900' } }
 
         // --- NEW ATS Series Fallbacks ---
-        case 'ats-classic': return { Component: ATSClassicTemplate, props: {} }
-        case 'ats-minimal': return { Component: ATSMinimalTemplate, props: {} }
-        case 'ats-executive': return { Component: ATSExecutiveTemplate, props: {} }
-        case 'ats-technical': return { Component: ATSTechnicalTemplate, props: {} }
-        case 'ats-modern': return { Component: ATSModernTemplate, props: {} }
-        case 'ats-graduate': return { Component: ATSGraduateTemplate, props: {} }
-        case 'ats-standard': return { Component: ATSStandardTemplate, props: {} }
+        case 'ats-classic': return { Component: ATSClassicTemplate, props: { accentColor: 'text-neutral-900' } }
+        case 'ats-minimal': return { Component: ATSMinimalTemplate, props: { accentColor: 'text-neutral-900' } }
+        case 'ats-executive': return { Component: ATSExecutiveTemplate, props: { accentColor: 'text-neutral-900' } }
+        case 'ats-technical': return { Component: ATSTechnicalTemplate, props: { accentColor: 'text-neutral-900' } }
+        case 'ats-modern': return { Component: ATSModernTemplate, props: { accentColor: 'text-neutral-900' } }
+        case 'ats-graduate': return { Component: ATSGraduateTemplate, props: { accentColor: 'text-blue-900' } }
+        case 'ats-standard': return { Component: ATSStandardTemplate, props: { accentColor: 'text-neutral-900' } }
         case 'ats-timeline': return { Component: ATSTimelineTemplate, props: { accentColor: 'text-slate-900' } }
         case 'hospitality-elite': return { Component: HospitalityEliteTemplate, props: { accentColor: 'text-amber-700' } }
         case 'cruise-excellence': return { Component: CruiseExcellenceTemplate, props: { accentColor: 'text-sky-800' } }

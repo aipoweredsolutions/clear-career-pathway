@@ -191,11 +191,11 @@ const createStyles = (templateId: string) => {
     const colors = getTemplateColors(templateId)
     const id = templateId.toLowerCase()
 
-    const hasSidebar = id.startsWith('modern') || id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('split-contrast') || id.startsWith('cute') || id.startsWith('service') || id.startsWith('hospitality') || id.startsWith('cruise') || id.startsWith('nursing') || id.startsWith('ats-modern')
+    const hasSidebar = id.startsWith('modern') || id.startsWith('technical') || id.startsWith('ats-technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('split-contrast') || id.startsWith('cute') || id.startsWith('service') || id.startsWith('hospitality') || id.startsWith('cruise') || id.startsWith('nursing') || id.startsWith('ats-modern')
     const hasColumns = id.startsWith('compact')
-    const sidebarOnRight = id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('compact') || id.startsWith('ats-modern')
+    const sidebarOnRight = id.startsWith('technical') || id.startsWith('ats-technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('artisan') || id.startsWith('creative') || id.startsWith('compact') || id.startsWith('ats-modern')
     const sidebarOnLeft = id.startsWith('split-contrast') || id.startsWith('modern') || id.startsWith('hospitality') || id.startsWith('service') || id.startsWith('cruise') || id.startsWith('nursing')
-    const isDarkSidebar = id.startsWith('modern') || (id.startsWith('technical') && id.includes('dark'))
+    const isDarkSidebar = id.startsWith('modern') || ((id.startsWith('technical') || id.startsWith('ats-technical')) && id.includes('dark'))
     const isSplitContrast = id.startsWith('split-contrast')
 
     const isSerif = id.startsWith('chic') || id.startsWith('luxe') || id.startsWith('executive') || id.startsWith('academic') || id.includes('serif') || id.startsWith('ats-classic') || id.startsWith('hospitality')
@@ -213,30 +213,37 @@ const createStyles = (templateId: string) => {
         id.startsWith('ats-classic') ||
         id.startsWith('graduate')
 
-    const isJustifiedHeader = id.startsWith('compact') || id.startsWith('technical') || id.startsWith('ats-standard') || id.startsWith('ats-modern') || id.startsWith('ats-timeline')
+    const isJustifiedHeader = id.startsWith('compact') || id.startsWith('technical') || id.startsWith('ats-technical') || id.startsWith('ats-standard') || id.startsWith('ats-modern') || id.startsWith('ats-timeline')
     const isTimelinePro = id.startsWith('ats-timeline')
 
     // Pre-calculate border widths to avoid undefined issues
-    // We force these to be constants, effectively casting boolean logic to number
-    const headerBorderBottomWidth =
-        id.startsWith('ats-executive') ? 4 :
-            (id.startsWith('ats-standard') || id.startsWith('ats-classic') || id.startsWith('ats-modern') || id.startsWith('classic')) ? 1 :
-                (id.startsWith('compact') || id.startsWith('ats-timeline')) ? 2 : 0
+    // Using explicit logic for better maintainability and safety
+    let headerBorderBottomWidth = 0
+    if (id.startsWith('ats-executive')) {
+        headerBorderBottomWidth = 4
+    } else if (id.startsWith('ats-standard') || id.startsWith('ats-classic') || id.startsWith('ats-modern') || id.startsWith('classic')) {
+        headerBorderBottomWidth = 1
+    } else if (id.startsWith('compact') || id.startsWith('ats-timeline')) {
+        headerBorderBottomWidth = 2
+    }
 
     const sidebarBorderLeftWidth = sidebarOnRight ? 1 : 0
     const sidebarBorderRightWidth = sidebarOnRight ? 0 : 1
 
-    const sectionTitleBorderBottomWidth =
-        (id.startsWith('ats-professional') || id.startsWith('technical')) ? 2 :
-            (id.startsWith('ats-classic') || id.startsWith('ats-graduate')) ? 1 : 0
+    let sectionTitleBorderBottomWidth = 0
+    if (id.startsWith('ats-professional') || id.startsWith('technical')) {
+        sectionTitleBorderBottomWidth = 2
+    } else if (id.startsWith('ats-classic') || id.startsWith('ats-graduate')) {
+        sectionTitleBorderBottomWidth = 1
+    }
 
-    const experienceItemBorderLeftWidth = id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical') || id.startsWith('ats-executive') ? 2 : 0
+    const experienceItemBorderLeftWidth = (id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical') || id.startsWith('ats-technical') || id.startsWith('ats-executive')) ? 2 : 0
     const photoBorderRadius = id.startsWith('cruise') ? 60 : 4
 
     return StyleSheet.create({
         page: {
             padding: hasSidebar ? 0 : (id.startsWith('ats-classic') ? 48 : (isChic ? 50 : (isExecutive ? 50 : (isAcademic ? 40 : 45)))),
-            fontFamily: isSerif ? 'Times-Roman' : (id.startsWith('technical') ? 'Courier' : 'Helvetica'),
+            fontFamily: isSerif ? 'Times-Roman' : ((id.startsWith('technical') || id.startsWith('ats-technical')) ? 'Courier' : 'Helvetica'),
             fontSize: id.startsWith('ats-classic') ? 10 : (isChic ? 11 : (isAcademic ? 9 : (isExecutive ? 10.5 : 10))),
             lineHeight: id.startsWith('ats-classic') ? 1.5 : (isChic ? 1.7 : (isAcademic ? 1.45 : (isExecutive ? 1.65 : 1.6))),
             color: colors.text,
@@ -254,10 +261,8 @@ const createStyles = (templateId: string) => {
             color: colors.sidebarText || '#ffffff',
             padding: 20,
             paddingTop: 40,
-            borderLeftWidth: sidebarBorderLeftWidth,
-            borderRightWidth: sidebarBorderRightWidth,
-            borderStyle: 'solid',
-            borderColor: 'rgba(0,0,0,0.05)',
+            ...(sidebarBorderLeftWidth > 0 ? { borderLeftWidth: sidebarBorderLeftWidth, borderLeftColor: 'rgba(0,0,0,0.05)', borderStyle: 'solid' } : {}),
+            ...(sidebarBorderRightWidth > 0 ? { borderRightWidth: sidebarBorderRightWidth, borderRightColor: 'rgba(0,0,0,0.05)', borderStyle: 'solid' } : {}),
         },
         initialsCircle: {
             width: 60,
@@ -324,12 +329,14 @@ const createStyles = (templateId: string) => {
             alignItems: isJustifiedHeader ? 'flex-end' : (isCentered ? 'center' : 'flex-start'),
             textAlign: isCentered ? 'center' : 'left',
             paddingBottom: (id.startsWith('classic') || id.startsWith('compact') || id.startsWith('ats')) ? 15 : 10,
-            borderBottomWidth: headerBorderBottomWidth,
-            borderBottomColor: id.startsWith('ats-executive') ? '#262626' :
-                (id.startsWith('ats-standard') ? '#f3f4f6' :
-                    (id.startsWith('ats-classic') ? '#d1d5db' :
-                        (id.startsWith('ats-modern') ? '#e5e7eb' : colors.primary))),
-            borderStyle: 'solid',
+            ...(headerBorderBottomWidth > 0 ? {
+                borderBottomWidth: headerBorderBottomWidth,
+                borderBottomColor: id.startsWith('ats-executive') ? '#262626' :
+                    (id.startsWith('ats-standard') ? '#f3f4f6' :
+                        (id.startsWith('ats-classic') ? '#d1d5db' :
+                            (id.startsWith('ats-modern') ? '#e5e7eb' : colors.primary))),
+                borderStyle: 'solid',
+            } : {}),
             width: '100%', // Ensure header takes full width for alignment
         },
         name: {
@@ -394,14 +401,16 @@ const createStyles = (templateId: string) => {
             textTransform: 'uppercase',
             color: colors.primary,
             letterSpacing: 1,
-            borderBottomWidth: sectionTitleBorderBottomWidth,
-            borderBottomColor: id.startsWith('ats-professional') ? '#1a1a1a' :
-                (id.startsWith('ats-classic') ? '#d1d5db' :
-                    (id.startsWith('ats-graduate') ? '#f3f4f6' :
-                        (id.startsWith('technical') ? colors.secondary : 'transparent'))),
-            borderStyle: 'solid',
-            paddingBottom: (id.startsWith('ats-professional') || id.startsWith('ats-classic') || id.startsWith('ats-graduate')) ? 3 : 0,
-            marginBottom: (id.startsWith('ats-professional') || id.startsWith('ats-classic') || id.startsWith('ats-graduate')) ? 8 : 0,
+            ...(sectionTitleBorderBottomWidth > 0 ? {
+                borderBottomWidth: sectionTitleBorderBottomWidth,
+                borderBottomColor: id.startsWith('ats-professional') ? '#1a1a1a' :
+                    (id.startsWith('ats-classic') ? '#d1d5db' :
+                        (id.startsWith('ats-graduate') ? '#f3f4f6' :
+                            (id.startsWith('technical') ? colors.secondary : '#ffffff'))),
+                borderStyle: 'solid',
+                paddingBottom: (id.startsWith('ats-professional') || id.startsWith('ats-classic') || id.startsWith('ats-graduate')) ? 3 : 0,
+                marginBottom: (id.startsWith('ats-professional') || id.startsWith('ats-classic') || id.startsWith('ats-graduate')) ? 8 : 0,
+            } : {}),
         },
         sectionTitleBar: {
             flex: 1,
@@ -432,9 +441,16 @@ const createStyles = (templateId: string) => {
             paddingVertical: id.startsWith('ats-executive') ? 10 : 0,
             paddingHorizontal: id.startsWith('ats-executive') ? 15 : 0,
             backgroundColor: id.startsWith('ats-executive') ? '#f9fafb' : 'transparent',
-            borderLeftWidth: id.startsWith('ats-executive') ? 4 : (id.startsWith('ats-standard') ? 2 : 0),
-            borderLeftColor: id.startsWith('ats-executive') ? '#1a1a1a' : '#f3f4f6',
-            borderStyle: 'solid',
+            // Fix: Conditional border width with explicit values
+            ...(id.startsWith('ats-executive') ? {
+                borderLeftWidth: 4,
+                borderLeftColor: '#1a1a1a',
+                borderStyle: 'solid'
+            } : (id.startsWith('ats-standard') ? {
+                borderLeftWidth: 2,
+                borderLeftColor: '#f3f4f6',
+                borderStyle: 'solid'
+            } : {}))
         },
         summaryText: {
             fontSize: 10,
@@ -444,10 +460,12 @@ const createStyles = (templateId: string) => {
         },
         experienceItem: {
             marginBottom: 22,
-            paddingLeft: id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical') ? 15 : 0,
-            borderLeftWidth: experienceItemBorderLeftWidth,
-            borderLeftColor: (id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical')) ? 'rgba(0,0,0,0.05)' : 'transparent',
-            borderStyle: 'solid',
+            paddingLeft: (id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical') || id.startsWith('ats-technical')) ? 15 : 0,
+            ...(experienceItemBorderLeftWidth > 0 ? {
+                borderLeftWidth: experienceItemBorderLeftWidth,
+                borderLeftColor: (id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical') || id.startsWith('ats-technical')) ? 'rgba(0,0,0,0.05)' : '#ffffff',
+                borderStyle: 'solid'
+            } : {}),
             position: 'relative',
         },
         timelineDot: {
@@ -581,8 +599,9 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                         {/* FULL HEIGHT SIDEBAR LAYOUTS (Modern, Technical, etc) */}
                         {/* SIDEBAR */}
                         <View style={styles.sidebar}>
-                            {data.personalInfo?.photoUrl && (tId.startsWith('modern') || tId.startsWith('service') || tId.startsWith('hospitality') || tId.startsWith('cruise')) && (
+                            {data.personalInfo?.photoUrl && data.personalInfo.photoUrl.startsWith('http') && (tId.startsWith('modern') || tId.startsWith('service') || tId.startsWith('hospitality') || tId.startsWith('cruise')) && (
                                 <View style={{ marginBottom: 20, alignItems: 'center' }}>
+                                    {/* @react-pdf/renderer Image component */}
                                     <Image
                                         src={data.personalInfo.photoUrl}
                                         style={{ width: 100, height: 100, borderRadius: 50, objectFit: 'cover' }}
@@ -593,7 +612,7 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                             {tId.startsWith('modern') && !data.personalInfo?.photoUrl && (
                                 <View style={styles.initialsCircle}>
                                     <Text style={styles.initialsText}>
-                                        {data.personalInfo?.fullName?.split(' ').map(n => n[0]).join('')}
+                                        {data.personalInfo?.fullName ? data.personalInfo.fullName.split(' ').map(n => n[0]).join('') : 'RN'}
                                     </Text>
                                 </View>
                             )}
@@ -664,7 +683,7 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
 
                         {/* MAIN CONTENT */}
                         <View style={styles.mainContent}>
-                            {tId.startsWith('technical') && (
+                            {(tId.startsWith('technical') || tId.startsWith('ats-technical')) && (
                                 <View style={styles.terminalHeader}>
                                     <View style={styles.terminalDots}>
                                         <View style={[styles.terminalDot, { backgroundColor: '#ef4444' }]} />
@@ -757,7 +776,7 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                         {/* TOP HEADER LAYOUTS (Standard, Compact, Executive) */}
                         <View style={styles.header}>
                             {/* Photo for Hospitality/Cruise */}
-                            {(tId.startsWith('hospitality') || tId.startsWith('cruise')) && data.personalInfo?.photoUrl && (
+                            {(tId.startsWith('hospitality') || tId.startsWith('cruise')) && data.personalInfo?.photoUrl && data.personalInfo.photoUrl.startsWith('http') && (
                                 <View style={{ position: 'absolute', right: 0, top: 0 }}>
                                     <Image
                                         src={data.personalInfo.photoUrl}
@@ -1190,7 +1209,7 @@ export function ResumePDF({ data, isWatermarked = false }: PDFDocumentProps) {
                 {isWatermarked && (
                     <View style={{ position: 'absolute', bottom: 30, left: 0, right: 0, textAlign: 'center', opacity: 0.5 }}>
                         <Text style={{ fontSize: 8, color: '#94a3b8', fontStyle: 'italic' }}>
-                            Created with Clear Career Path &mdash; Building a path to your dream job.
+                            Created with Clear Career Path — Building a path to your dream job.
                         </Text>
                     </View>
                 )}

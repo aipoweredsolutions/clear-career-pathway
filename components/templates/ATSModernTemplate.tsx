@@ -5,9 +5,13 @@ import { cn } from '@/lib/utils'
 interface TemplateProps {
     data: ResumeDocument
     className?: string
+    accentColor?: string
 }
 
-export function ATSModernTemplate({ data, className }: TemplateProps) {
+export function ATSModernTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
+    // Extract base color for borders/backgrounds
+    const borderColorClass = accentColor.replace('text-', 'border-')
+    const bgColorClass = accentColor.replace('text-', 'bg-')
     const {
         personalInfo,
         professionalSummary,
@@ -45,7 +49,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                     </div>
                     {personalInfo?.email && <div className="text-sm font-semibold text-neutral-900">{personalInfo.email}</div>}
                     {personalInfo?.phone && <div className="text-sm font-semibold text-neutral-900">{personalInfo.phone}</div>}
-                    {personalInfo?.linkedinUrl && <div className="text-[10px] font-bold text-primary-600 uppercase">LinkedIn</div>}
+                    {personalInfo?.linkedinUrl && <div className={cn("text-[10px] font-bold uppercase", accentColor)}>LinkedIn</div>}
                 </div>
             </header>
 
@@ -55,7 +59,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                     {/* Summary */}
                     {professionalSummary?.summaryText && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] mb-4">Profile</h2>
+                            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4", accentColor)}>Profile</h2>
                             <p className="text-xs text-neutral-600 leading-relaxed font-medium">
                                 {professionalSummary.summaryText}
                             </p>
@@ -65,7 +69,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                     {/* Work Experience */}
                     {workExperience && workExperience.length > 0 && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] mb-4">Experience</h2>
+                            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4", accentColor)}>Experience</h2>
                             <div className="space-y-8">
                                 {workExperience.map((job, i) => (
                                     <div key={i}>
@@ -81,7 +85,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                                             <ul className="space-y-2">
                                                 {job.achievements.map((a, j) => (
                                                     <li key={j} className="text-xs text-neutral-700 leading-relaxed flex gap-3">
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-primary-200 mt-1.5 shrink-0" />
+                                                        <span className={cn("w-1.5 h-1.5 rounded-full mt-1.5 shrink-0", bgColorClass)} />
                                                         <span>{a.achievementText}</span>
                                                     </li>
                                                 ))}
@@ -96,7 +100,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                     {/* Projects */}
                     {projects && projects.length > 0 && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] mb-4">Featured Projects</h2>
+                            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4", accentColor)}>Featured Projects</h2>
                             <div className="space-y-6">
                                 {projects.map((proj, i) => (
                                     <div key={i}>
@@ -105,7 +109,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                                             <span className="text-[10px] font-bold text-neutral-400">{proj.role}</span>
                                         </div>
                                         <p className="text-xs text-neutral-600 leading-relaxed italic mb-1">{proj.description}</p>
-                                        {proj.toolsUsed && <div className="text-[9px] font-bold text-primary-400 uppercase tracking-wider">{proj.toolsUsed.join(' • ')}</div>}
+                                        {proj.toolsUsed && <div className={cn("text-[9px] font-bold uppercase tracking-wider", accentColor)}>{proj.toolsUsed.join(' • ')}</div>}
                                     </div>
                                 ))}
                             </div>
@@ -118,7 +122,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                     {/* Skills - Grouped */}
                     {skills && skills.length > 0 && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] mb-4">Competencies</h2>
+                            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4", accentColor)}>Competencies</h2>
                             <div className="space-y-4">
                                 {Object.entries(skills.reduce((acc, s) => {
                                     const t = s.skillType || 'professional';
@@ -127,7 +131,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                                     return acc;
                                 }, {} as Record<string, typeof skills>)).map(([type, list]) => (
                                     <div key={type}>
-                                        <div className="text-[9px] font-black text-neutral-400 uppercase tracking-widest mb-2 border-l-2 border-primary-500 pl-2">{type}</div>
+                                        <div className={cn("text-[9px] font-black text-neutral-400 uppercase tracking-widest mb-2 border-l-2 pl-2", borderColorClass)}>{type}</div>
                                         <div className="flex flex-wrap gap-1.5">
                                             {list.map((s, i) => (
                                                 <span key={i} className="text-[10px] font-bold text-neutral-700 bg-neutral-50 px-2 py-0.5 rounded border border-neutral-100">{s.skillName}</span>
@@ -142,7 +146,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                     {/* Education */}
                     {education && education.length > 0 && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] mb-4">Learning</h2>
+                            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4", accentColor)}>Learning</h2>
                             <div className="space-y-6">
                                 {education.map((edu, i) => (
                                     <div key={i}>
@@ -158,7 +162,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                     {/* Certs & Honors */}
                     {(certifications?.length || achievements?.length) ? (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] mb-4">Validation</h2>
+                            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4", accentColor)}>Validation</h2>
                             <div className="space-y-4">
                                 {certifications && certifications.map((c, i) => (
                                     <div key={i} className="text-[10px] text-neutral-600">
@@ -179,12 +183,12 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                     {/* Languages */}
                     {languages && languages.length > 0 && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] mb-4">Languages</h2>
+                            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4", accentColor)}>Languages</h2>
                             <div className="space-y-2">
                                 {languages.map((l, i) => (
                                     <div key={i} className="flex justify-between items-center">
                                         <span className="text-[10px] font-bold text-neutral-700">{l.languageName}</span>
-                                        <span className="text-[9px] font-black text-primary-500 uppercase">{l.proficiencyLevel}</span>
+                                        <span className={cn("text-[9px] font-black uppercase", accentColor)}>{l.proficiencyLevel}</span>
                                     </div>
                                 ))}
                             </div>
@@ -194,7 +198,7 @@ export function ATSModernTemplate({ data, className }: TemplateProps) {
                     {/* Custom Sections */}
                     {customSections && customSections.map((s, i) => (
                         <section key={i}>
-                            <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] mb-4">{s.title}</h2>
+                            <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4", accentColor)}>{s.title}</h2>
                             {s.content && <p className="text-[10px] text-neutral-600 mb-2">{s.content}</p>}
                             {s.items && (
                                 <ul className="space-y-1">

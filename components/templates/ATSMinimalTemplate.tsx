@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils'
 interface TemplateProps {
     data: ResumeDocument
     className?: string
+    accentColor?: string
 }
 
-export function ATSMinimalTemplate({ data, className }: TemplateProps) {
+export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -31,7 +32,7 @@ export function ATSMinimalTemplate({ data, className }: TemplateProps) {
         )}>
             {/* Minimal Header */}
             <header className="mb-8">
-                <h1 className="text-3xl font-light tracking-tight mb-1">
+                <h1 className={cn("text-3xl font-light tracking-tight mb-1", accentColor)}>
                     {personalInfo?.fullName?.toUpperCase() || 'YOUR NAME'}
                 </h1>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-neutral-500 font-medium uppercase tracking-widest">
@@ -72,7 +73,7 @@ export function ATSMinimalTemplate({ data, className }: TemplateProps) {
                                         <h3 className="text-sm font-bold text-neutral-800">{job.jobTitle}</h3>
                                         <span className="text-[10px] font-bold text-neutral-400">{job.startDate} — {job.isCurrent ? 'Current' : job.endDate}</span>
                                     </div>
-                                    <div className="text-[10px] font-bold text-primary-600 mb-2">{job.companyName.toUpperCase()}</div>
+                                    <div className={cn("text-[10px] font-bold mb-2", accentColor)}>{job.companyName.toUpperCase()}</div>
                                     <p className="text-xs text-neutral-600 mb-2 leading-relaxed">{job.roleDescription}</p>
                                     {job.achievements && (
                                         <div className="space-y-1">

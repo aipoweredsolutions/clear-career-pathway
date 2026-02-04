@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils'
 interface TemplateProps {
     data: ResumeDocument
     className?: string
+    accentColor?: string
 }
 
-export function ATSGraduateTemplate({ data, className }: TemplateProps) {
+export function ATSGraduateTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -37,7 +38,7 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-bold text-neutral-500 uppercase tracking-widest">
-                    {personalInfo?.email && <span className="hover:text-primary-600 transition-colors">{personalInfo.email}</span>}
+                    {personalInfo?.email && <span className={cn("hover:opacity-80 transition-opacity", accentColor)}>{personalInfo.email}</span>}
                     {personalInfo?.phone && (
                         <>
                             <span className="text-neutral-300">|</span>
@@ -69,7 +70,7 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                 {/* Summary - Optional but good if they have a clear career objective */}
                 {professionalSummary?.summaryText && (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] border-b border-primary-100 pb-1.5 mb-3">Objective & Profile</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-3", accentColor)}>Objective & Profile</h2>
                         <p className="text-xs text-neutral-700 leading-relaxed">
                             {professionalSummary.summaryText}
                         </p>
@@ -79,7 +80,7 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                 {/* EDUCATION FIRST for Graduates */}
                 {education && education.length > 0 && (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] border-b border-primary-100 pb-1.5 mb-3">Academic Foundation</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-3", accentColor)}>Academic Foundation</h2>
                         <div className="space-y-4">
                             {education.map((edu, i) => (
                                 <div key={i}>
@@ -112,7 +113,7 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                 {/* SKILLS - Categorized */}
                 {skills && skills.length > 0 && (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] border-b border-primary-100 pb-1.5 mb-3">Skills & Toolsets</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-3", accentColor)}>Skills & Toolsets</h2>
                         {(() => {
                             const groupedSkills = skills.reduce((acc, skill) => {
                                 const type = skill.skillType || 'professional'
@@ -151,13 +152,13 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                 {/* PROJECTS - Crucial for Grads */}
                 {projects && projects.length > 0 && (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] border-b border-primary-100 pb-1.5 mb-3">Key Projects & Research</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-3", accentColor)}>Key Projects & Research</h2>
                         <div className="space-y-4">
                             {projects.map((proj, i) => (
                                 <div key={i}>
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-xs font-black text-neutral-900 uppercase tracking-wider">{proj.projectName}</h3>
-                                        <span className="text-[9px] font-bold text-primary-500 bg-primary-50 px-2 py-0.5 rounded uppercase">{proj.role}</span>
+                                        <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 px-2 py-0.5 rounded uppercase">{proj.role}</span>
                                     </div>
                                     <p className="text-xs text-neutral-600 mb-1 leading-relaxed">{proj.description}</p>
                                     {proj.toolsUsed && proj.toolsUsed.length > 0 && (
@@ -172,7 +173,7 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                 {/* INTERNSHIPS / EXPERIENCE */}
                 {workExperience && workExperience.length > 0 && (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] border-b border-primary-100 pb-1.5 mb-3">Professional Experience</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-3", accentColor)}>Professional Experience</h2>
                         <div className="space-y-4">
                             {workExperience.map((job, i) => (
                                 <div key={i}>
@@ -185,7 +186,7 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                                         {job.location && <div className="text-[10px] text-neutral-400 px-2 border border-neutral-100 rounded">{job.location}</div>}
                                     </div>
                                     {job.achievements && (
-                                        <ul className="space-y-1 ml-4 list-disc marker:text-primary-300">
+                                        <ul className="space-y-1 ml-4 list-disc marker:text-neutral-300">
                                             {job.achievements.map((a, j) => (
                                                 <li key={j} className="text-xs text-neutral-700 leading-relaxed">{a.achievementText}</li>
                                             ))}
@@ -200,7 +201,7 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                 {/* AWARDS & CERTIFICATIONS */}
                 {(achievements?.length || certifications?.length) ? (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] border-b border-primary-100 pb-1.5 mb-3">Honors & Certifications</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-3", accentColor)}>Honors & Certifications</h2>
                         <div className="grid grid-cols-2 gap-4">
                             {certifications && certifications.length > 0 && (
                                 <div className="space-y-1.5">
@@ -231,7 +232,7 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                     <div className="grid grid-cols-2 gap-x-8">
                         {volunteerExperience && volunteerExperience.length > 0 && (
                             <section>
-                                <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] border-b border-primary-100 pb-1.5 mb-2">Volunteerism</h2>
+                                <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-2", accentColor)}>Volunteerism</h2>
                                 {volunteerExperience.map((vol, i) => (
                                     <div key={i} className="mb-2">
                                         <div className="text-[10px] font-black text-neutral-800">{vol.roleTitle}</div>
@@ -243,7 +244,7 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                         <div className="space-y-6">
                             {languages && languages.length > 0 && (
                                 <section>
-                                    <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] border-b border-primary-100 pb-1.5 mb-2">Languages</h2>
+                                    <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-2", accentColor)}>Languages</h2>
                                     <div className="flex flex-wrap gap-2">
                                         {languages.map((l, i) => (
                                             <div key={i} className="text-[10px]">
@@ -263,10 +264,10 @@ export function ATSGraduateTemplate({ data, className }: TemplateProps) {
                     <div className="space-y-6">
                         {customSections.map((section, i) => (
                             <section key={i}>
-                                <h2 className="text-[10px] font-black uppercase text-primary-600 tracking-[0.2em] border-b border-primary-100 pb-1.5 mb-3">{section.title}</h2>
+                                <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-3", accentColor)}>{section.title}</h2>
                                 {section.content && <p className="text-xs text-neutral-700 mb-2">{section.content}</p>}
                                 {section.items && section.items.length > 0 && (
-                                    <ul className="space-y-1.5 ml-4 list-disc marker:text-primary-200">
+                                    <ul className="space-y-1.5 ml-4 list-disc marker:text-neutral-300">
                                         {section.items.map((item, j) => (
                                             <li key={j} className="text-xs text-neutral-700 leading-relaxed">{item.text}</li>
                                         ))}

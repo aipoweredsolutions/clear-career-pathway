@@ -47,7 +47,7 @@ export function ATSStandardTemplate({ data, className, accentColor = 'text-prima
                 {/* 1. Summary */}
                 {professionalSummary?.summaryText && (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-neutral-300 tracking-[0.3em] mb-3">01 // Profile</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.3em] mb-3", accentColor)}>01 // Profile</h2>
                         <p className="text-xs font-medium text-neutral-700 leading-relaxed border-l-2 border-neutral-100 pl-4">
                             {professionalSummary.summaryText}
                         </p>
@@ -57,7 +57,7 @@ export function ATSStandardTemplate({ data, className, accentColor = 'text-prima
                 {/* 2. Experience */}
                 {workExperience && workExperience.length > 0 && (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-neutral-300 tracking-[0.3em] mb-6">02 // Experience</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.3em] mb-6", accentColor)}>02 // Experience</h2>
                         <div className="space-y-8">
                             {workExperience.map((job, i) => (
                                 <div key={i}>
@@ -88,7 +88,7 @@ export function ATSStandardTemplate({ data, className, accentColor = 'text-prima
                 {/* Skills - Categorized with Proficiency */}
                 {skills && skills.length > 0 && (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-neutral-300 tracking-[0.3em] mb-4">03 // Competencies</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.3em] mb-4", accentColor)}>03 // Competencies</h2>
                         {(() => {
                             // Group skills by type
                             const groupedSkills = skills.reduce((acc, skill) => {
@@ -150,7 +150,7 @@ export function ATSStandardTemplate({ data, className, accentColor = 'text-prima
                 {/* 4. Education */}
                 {education && education.length > 0 && (
                     <section>
-                        <h2 className="text-[10px] font-black uppercase text-neutral-300 tracking-[0.3em] mb-4">04 // Education</h2>
+                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.3em] mb-4", accentColor)}>04 // Education</h2>
                         <div className="space-y-4">
                             {education.map((edu, i) => (
                                 <div key={i} className="flex justify-between items-baseline">

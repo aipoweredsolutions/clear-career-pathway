@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils'
 interface TemplateProps {
     data: ResumeDocument
     className?: string
+    accentColor?: string
 }
 
-export function ATSClassicTemplate({ data, className }: TemplateProps) {
+export function ATSClassicTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -24,14 +25,17 @@ export function ATSClassicTemplate({ data, className }: TemplateProps) {
         customSections
     } = data
 
+    // Extract base color for borders/accents
+    const borderColorClass = accentColor.replace('text-', 'border-')
+
     return (
         <div className={cn(
             "w-full bg-white aspect-[210/297] p-12 text-neutral-900 font-serif leading-snug",
             className
         )}>
             {/* Header */}
-            <header className="text-center border-b border-neutral-300 pb-4 mb-6">
-                <h1 className="text-2xl font-bold uppercase mb-2">
+            <header className={cn("text-center border-b pb-4 mb-6", borderColorClass)}>
+                <h1 className={cn("text-2xl font-bold uppercase mb-2", accentColor)}>
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
                 <div className="text-[11px] text-neutral-600 flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
@@ -67,7 +71,7 @@ export function ATSClassicTemplate({ data, className }: TemplateProps) {
                 {/* Summary */}
                 {professionalSummary?.summaryText && (
                     <section>
-                        <h2 className="text-sm font-bold uppercase border-b border-neutral-300 mb-2">Summary</h2>
+                        <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Summary</h2>
                         <p className="text-xs text-neutral-800 leading-relaxed italic">
                             {professionalSummary.summaryText}
                         </p>
@@ -77,7 +81,7 @@ export function ATSClassicTemplate({ data, className }: TemplateProps) {
                 {/* Experience */}
                 {workExperience && workExperience.length > 0 && (
                     <section>
-                        <h2 className="text-sm font-bold uppercase border-b border-neutral-300 mb-2">Professional Experience</h2>
+                        <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Professional Experience</h2>
                         <div className="space-y-4">
                             {workExperience.map((job, i) => (
                                 <div key={i}>
@@ -105,7 +109,7 @@ export function ATSClassicTemplate({ data, className }: TemplateProps) {
                 {/* Education */}
                 {education && education.length > 0 && (
                     <section>
-                        <h2 className="text-sm font-bold uppercase border-b border-neutral-300 mb-2">Education</h2>
+                        <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Education</h2>
                         <div className="space-y-3">
                             {education.map((edu, i) => (
                                 <div key={i}>
@@ -130,7 +134,7 @@ export function ATSClassicTemplate({ data, className }: TemplateProps) {
                 {/* Projects */}
                 {projects && projects.length > 0 && (
                     <section>
-                        <h2 className="text-sm font-bold uppercase border-b border-neutral-300 mb-2">Projects</h2>
+                        <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Projects</h2>
                         <div className="space-y-3">
                             {projects.map((proj, i) => (
                                 <div key={i}>
@@ -151,7 +155,7 @@ export function ATSClassicTemplate({ data, className }: TemplateProps) {
                 {/* Skills - Grouped for Better ATS Handling */}
                 {skills && skills.length > 0 && (
                     <section>
-                        <h2 className="text-sm font-bold uppercase border-b border-neutral-300 mb-2">Core Competencies</h2>
+                        <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Core Competencies</h2>
                         {(() => {
                             const grouped = skills.reduce((acc, skill) => {
                                 const type = skill.skillType || 'professional'
@@ -177,7 +181,7 @@ export function ATSClassicTemplate({ data, className }: TemplateProps) {
                 {/* Certifications & Awards */}
                 {(certifications?.length || achievements?.length) ? (
                     <section>
-                        <h2 className="text-sm font-bold uppercase border-b border-neutral-300 mb-2">Honors & Certifications</h2>
+                        <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Honors & Certifications</h2>
                         <div className="grid grid-cols-2 gap-x-8">
                             {certifications && certifications.map((cert, i) => (
                                 <div key={i} className="text-xs mb-1">
@@ -198,7 +202,7 @@ export function ATSClassicTemplate({ data, className }: TemplateProps) {
                 {/* Additional Sections */}
                 {(languages?.length || professionalAffiliations?.length || volunteerExperience?.length) ? (
                     <section>
-                        <h2 className="text-sm font-bold uppercase border-b border-neutral-300 mb-2">Additional Information</h2>
+                        <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Additional Information</h2>
                         <div className="grid grid-cols-2 gap-x-8 gap-y-2">
                             {languages && (
                                 <div className="text-xs">
@@ -225,7 +229,7 @@ export function ATSClassicTemplate({ data, className }: TemplateProps) {
                 {/* Custom Sections */}
                 {customSections && customSections.map((section, i) => (
                     <section key={i}>
-                        <h2 className="text-sm font-bold uppercase border-b border-neutral-300 mb-2">{section.title}</h2>
+                        <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>{section.title}</h2>
                         {section.content && <p className="text-xs mb-2">{section.content}</p>}
                         {section.items && section.items.map((item, j) => (
                             <div key={j} className="text-xs mb-1">• {item.text}</div>

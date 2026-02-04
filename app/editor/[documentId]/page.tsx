@@ -18,6 +18,7 @@ import { fetchResume, saveResume, fetchSubscription } from '@/app/editor/actions
 import { UserSubscription } from '@/lib/types/resume'
 import { useDebounce } from '@/lib/hooks/use-debounce'
 import { toast } from 'sonner'
+import { getMockDataForTemplate } from '@/lib/utils/template-helpers'
 
 const PDFPreview = dynamic(() => import('@/components/pdf/PDFPreview').then(mod => mod.PDFPreview), {
     ssr: false,
@@ -56,15 +57,13 @@ function EditorContent() {
                     const sampleId = searchParams.get('sample')
                     const isGuest = searchParams.get('guest') === 'true'
 
+                    // Use the specialized mock data for this template as the starting point
+                    const mockTemplateData = getMockDataForTemplate(templateId)
+
                     let baseData: ResumeDocument = {
+                        ...mockTemplateData,
                         id: 'new',
                         title: 'New Resume',
-                        documentType: 'resume',
-                        templateId: templateId,
-                        personalInfo: { fullName: '' },
-                        workExperience: [],
-                        education: [],
-                        skills: [],
                         createdAt: new Date().toISOString(),
                         updatedAt: new Date().toISOString()
                     }

@@ -7,7 +7,6 @@ import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { templateRegistry } from '@/lib/templates/registry'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
-import { MOCK_PREVIEW_DATA, MOCK_PERSONAS } from '@/lib/constants/mock-data'
 import { Button } from '@/components/ui/Button'
 import { TemplateMetadata, ResumeDocument, UserSubscription } from '@/lib/types/resume'
 import { hasPremiumAccess } from '@/lib/supabase/subscriptions'
@@ -20,25 +19,13 @@ interface TemplateSelectorProps {
     subscription: UserSubscription | null
 }
 
+import { getMockDataForTemplate } from '@/lib/utils/template-helpers'
+
 const getPreviewData = (templateId: string, realData?: ResumeDocument | null) => {
     if (realData) {
         return { ...realData, templateId }
     }
-
-    // Role-specific personas
-    if (templateId === 'ats-standard-nursing') return { ...MOCK_PERSONAS.nurse_experienced, templateId }
-    if (templateId === 'creative-nursing') return { ...MOCK_PERSONAS.nurse_entry, templateId }
-
-    // Level-specific personas
-    if (templateId === 'ats-graduate' || templateId === 'graduate') {
-        return { ...MOCK_PERSONAS.graduate, templateId }
-    }
-    if (templateId === 'ats-executive' || templateId === 'executive' || templateId === 'luxe') {
-        return { ...MOCK_PERSONAS.executive, templateId }
-    }
-
-    // Default to the rich creative/professional persona
-    return { ...MOCK_PERSONAS.creative, templateId }
+    return getMockDataForTemplate(templateId)
 }
 
 export function TemplateSelector({ currentTemplateId, onSelect, realData, subscription }: TemplateSelectorProps) {
