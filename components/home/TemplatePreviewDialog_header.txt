@@ -1,0 +1,42 @@
+﻿'use client'
+
+import React, { useState, useEffect } from 'react'
+import { X, Check, FileText, Globe, Download, Lock } from 'lucide-react'
+import { TemplateMetadata } from '@/lib/types/resume'
+import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
+import {
+    MOCK_PREVIEW_DATA,
+    MOCK_EXECUTIVE_DATA,
+    MOCK_GRADUATE_DATA,
+    MOCK_NURSE_EXPERIENCED_DATA,
+    MOCK_TECHNICAL_DATA,
+    MOCK_HOSPITALITY_DATA,
+    MOCK_CRUISE_DATA,
+    MOCK_ACADEMIC_DATA,
+    MOCK_CORPORATE_DATA,
+    MOCK_LEGAL_DATA,
+    MOCK_FASHION_DATA,
+    MOCK_ATS_PROFESSIONAL_DATA,
+    MOCK_ATS_MINIMAL_DATA,
+    MOCK_ATS_EXECUTIVE_DATA,
+    MOCK_ATS_MODERN_DATA,
+    MOCK_ATS_GRADUATE_DATA,
+    MOCK_ATS_TIMELINE_DATA,
+    MOCK_SERVICE_PRO_DATA,
+    MOCK_TECHNICAL_TEMPLATE_DATA,
+    MOCK_EXECUTIVE_TEMPLATE_DATA,
+    MOCK_CREATIVE_TEMPLATE_DATA,
+    MOCK_PROFESSIONAL_TEMPLATE_DATA,
+    MOCK_LUXE_TEMPLATE_DATA,
+    MOCK_STARTUP_TEMPLATE_DATA,
+    MOCK_ARTISAN_TEMPLATE_DATA,
+    MOCK_SPLIT_CONTRAST_DATA,
+    MOCK_COMPACT_TEMPLATE_DATA,
+    MOCK_GRADUATE_TEMPLATE_DATA,
+    MOCK_CUTE_TEMPLATE_DATA
+} from '@/lib/constants/mock-data'
+import { Button } from '@/components/ui/Button'
+import Link from 'next/link'
+import { useAuth } from '@/components/auth/AuthProvider'
+import dynamic from 'next/dynamic'
+import { cn } from '@/lib/utils'

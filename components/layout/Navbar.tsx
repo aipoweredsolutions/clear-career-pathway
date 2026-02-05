@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { Button } from '@/components/ui/Button'
-import { Menu, X, User, ChevronDown, LayoutDashboard, LogOut, FileText, CreditCard, Target } from 'lucide-react'
+import { Menu, X, User, ChevronDown, LayoutDashboard, LogOut, FileText, CreditCard, Target, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function Navbar() {
@@ -64,13 +64,18 @@ export function Navbar() {
             <div className="w-full px-6 lg:px-10">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                            <FileText className="w-6 h-6 text-white" />
+                    <Link href="/" className="flex items-center gap-3 group">
+                        <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-[0_10px_30px_rgba(59,130,246,0.4)] group-hover:rotate-12 group-hover:scale-110 transition-all duration-500">
+                            <Sparkles className="w-6 h-6 text-white" />
                         </div>
-                        <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-neutral-600">
-                            Clear Career Path
-                        </span>
+                        <div className="flex flex-col">
+                            <span className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-neutral-950 via-neutral-800 to-neutral-600 tracking-tighter leading-none">
+                                Clear Career Path
+                            </span>
+                            <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.3em] mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                Build Your Legacy
+                            </span>
+                        </div>
                     </Link>
 
                     {/* Desktop Navigation */}

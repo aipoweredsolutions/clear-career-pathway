@@ -4,11 +4,12 @@
 
 :root {
   --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-lora: 'Lora', Georgia, serif;
 }
 
 @layer base {
   body {
-    @apply bg-neutral-50 text-neutral-900 antialiased;
+    @apply bg-white text-neutral-900 antialiased selection:bg-primary-100 selection:text-primary-900;
   }
 
   h1,
@@ -17,7 +18,7 @@
   h4,
   h5,
   h6 {
-    @apply font-semibold text-neutral-900;
+    @apply font-bold tracking-tight text-neutral-950;
   }
 
   h1 {
@@ -45,27 +46,38 @@
   }
 
   p {
-    @apply text-neutral-700 leading-relaxed;
-  }
-
-  a {
-    @apply text-primary-600 hover:text-primary-700 transition-colors;
-  }
-
-  button {
-    @apply transition-all duration-200;
-  }
-
-  input,
-  textarea,
-  select {
-    @apply transition-colors duration-200;
+    @apply text-neutral-600 leading-relaxed;
   }
 }
 
 @layer components {
 
-  /* ATS-safe typography for resume templates */
+  /* Premium UI Patterns */
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl;
+  }
+
+  .glass-dark {
+    @apply bg-neutral-950/70 backdrop-blur-xl border border-white/10 shadow-2xl;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-neutral-950 via-neutral-800 to-neutral-600;
+  }
+
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-indigo-600;
+  }
+
+  .section-padding {
+    @apply py-24 md:py-32;
+  }
+
+  /* Resume Specifics */
+  .resume-shadow {
+    box-shadow: 0 10px 50px -12px rgba(0, 0, 0, 0.15);
+  }
+
   .resume-text {
     font-family: Arial, Calibri, sans-serif;
     @apply text-neutral-900;
@@ -73,7 +85,16 @@
 
   .resume-heading {
     font-family: Arial, Calibri, sans-serif;
-    @apply font-semibold text-neutral-900;
+    @apply font-bold text-neutral-900;
+  }
+
+  /* Interactive Elements */
+  .btn-premium {
+    @apply relative overflow-hidden px-8 py-4 rounded-2xl font-black text-white bg-neutral-900 hover:bg-neutral-800 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 shadow-2xl shadow-neutral-900/20 flex items-center justify-center gap-2;
+  }
+
+  .btn-premium-primary {
+    @apply bg-primary-600 hover:bg-primary-700 shadow-primary-500/30;
   }
 
   /* Print-friendly styles */
@@ -92,40 +113,23 @@
     .no-print {
       display: none !important;
     }
-
-    .resume-text,
-    .resume-heading {
-      color: #000 !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-
-    .page-break-avoid {
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-
-    .page-break-before {
-      break-before: page;
-      page-break-before: always;
-    }
   }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .mask-radial {
+    mask-image: radial-gradient(circle, black, transparent);
   }
 
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .perspective-1000 {
+    perspective: 1000px;
   }
 
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  .rotate-y-12 {
+    transform: rotateY(12deg);
   }
 
+  /* Marquee Animation */
   @keyframes marquee {
     0% {
       transform: translateX(0);
@@ -137,22 +141,22 @@
   }
 
   .animate-marquee {
-    animation: marquee 40s linear infinite;
+    animation: marquee 60s linear infinite;
   }
 
-  @keyframes bounce-x {
+  @keyframes float {
 
     0%,
     100% {
-      transform: translateX(0);
+      transform: translateY(0);
     }
 
     50% {
-      transform: translateX(10px);
+      transform: translateY(-20px);
     }
   }
 
-  .animate-bounce-x {
-    animation: bounce-x 1s infinite;
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
   }
 }

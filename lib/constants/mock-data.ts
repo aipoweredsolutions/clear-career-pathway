@@ -1827,13 +1827,1007 @@ export const MOCK_SERVICE_PRO_DATA: ResumeDocument = {
     ]
 }
 
+// --- 12. Technical Template Persona ---
+export const MOCK_TECHNICAL_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-technical-template',
+    title: 'Technical Resume',
+    documentType: 'resume',
+    templateId: 'technical',
+    personalInfo: {
+        fullName: 'Ryan Mitchell',
+        professionalTitle: 'Full Stack Software Engineer',
+        email: 'ryan.mitchell@devmail.com',
+        phone: '+1 (555) 111-2222',
+        city: 'San Jose',
+        country: 'CA',
+        location: 'San Jose, CA',
+        linkedinUrl: 'linkedin.com/in/ryanmitchell-dev',
+        websiteUrl: 'github.com/ryanmitchell',
+        portfolioUrl: 'ryanmitchell.dev'
+    },
+    professionalSummary: {
+        summaryText: 'Innovative Full Stack Engineer with 7+ years of experience building scalable web applications using modern JavaScript frameworks. Expert in React, Node.js, and cloud infrastructure. Passionate about clean code, test-driven development, and mentoring junior developers. Proven track record of delivering high-performance applications serving millions of users.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Senior Full Stack Engineer',
+            companyName: 'StreamTech Solutions',
+            location: 'San Jose, CA',
+            startDate: '2021-02',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Building real-time streaming platform serving 5M+ concurrent users.',
+            achievements: [
+                { achievementText: 'Architected microservices infrastructure reducing API response time by 60%' },
+                { achievementText: 'Led migration from monolith to serverless architecture, cutting infrastructure costs by $200K annually' },
+                { achievementText: 'Implemented comprehensive testing strategy achieving 95% code coverage' },
+                { achievementText: 'Mentored 6 junior engineers, 4 promoted to mid-level within 12 months' }
+            ]
+        },
+        {
+            jobTitle: 'Full Stack Developer',
+            companyName: 'AppWorks Inc',
+            location: 'Mountain View, CA',
+            startDate: '2018-06',
+            endDate: '2021-01',
+            isCurrent: false,
+            roleDescription: 'Developed customer-facing web applications for SaaS platform.',
+            achievements: [
+                { achievementText: 'Built responsive dashboard used by 100K+ daily active users' },
+                { achievementText: 'Optimized database queries reducing page load time by 45%' },
+                { achievementText: 'Implemented OAuth 2.0 authentication improving security compliance' }
+            ]
+        },
+        {
+            jobTitle: 'Junior Software Developer',
+            companyName: 'CodeCraft Studios',
+            location: 'Palo Alto, CA',
+            startDate: '2017-01',
+            endDate: '2018-05',
+            isCurrent: false,
+            roleDescription: 'Contributed to front-end development of e-commerce platform.',
+            achievements: [
+                { achievementText: 'Developed reusable React components adopted across 8 projects' },
+                { achievementText: 'Fixed 150+ bugs improving overall application stability' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'San Jose State University',
+            degree: 'Bachelor of Science',
+            fieldOfStudy: 'Computer Science',
+            location: 'San Jose, CA',
+            endYear: 2016,
+            gpa: '3.7'
+        }
+    ],
+    skills: [
+        { skillName: 'JavaScript/TypeScript', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'React/Next.js', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Node.js/Express', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'PostgreSQL/MongoDB', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'AWS/Docker', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'GraphQL/REST APIs', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Git/CI/CD', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Jest/Testing', skillType: 'technical', proficiencyLevel: 'advanced' }
+    ],
+    projects: [
+        {
+            projectName: 'Open Source Contribution - React Query',
+            role: 'Contributor',
+            description: 'Contributed bug fixes and documentation improvements to popular data-fetching library.',
+            toolsUsed: ['React', 'TypeScript', 'Jest'],
+            startDate: '2022',
+            endDate: 'Present'
+        },
+        {
+            projectName: 'Personal Finance Tracker',
+            role: 'Creator',
+            description: 'Built full-stack application for tracking expenses with data visualization.',
+            toolsUsed: ['Next.js', 'Prisma', 'PostgreSQL', 'Chart.js'],
+            outcomes: '2K+ stars on GitHub',
+            startDate: '2023',
+            endDate: '2023'
+        }
+    ]
+}
+
+// --- 13. Executive Template Persona ---
+export const MOCK_EXECUTIVE_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-executive-template',
+    title: 'Executive Resume',
+    documentType: 'resume',
+    templateId: 'executive',
+    personalInfo: {
+        fullName: 'Catherine Williams',
+        professionalTitle: 'Chief Marketing Officer',
+        email: 'c.williams@executive.com',
+        phone: '+1 (555) 333-4444',
+        city: 'Chicago',
+        country: 'IL',
+        location: 'Chicago, IL',
+        linkedinUrl: 'linkedin.com/in/catherinewilliams-cmo'
+    },
+    professionalSummary: {
+        summaryText: 'Visionary Chief Marketing Officer with 20+ years of experience driving brand growth and market expansion for Fortune 500 companies. Expert in digital transformation, customer acquisition, and building high-performing marketing teams. Proven track record of increasing revenue by $500M+ through strategic marketing initiatives and data-driven decision making.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Chief Marketing Officer',
+            companyName: 'Global Retail Corporation',
+            location: 'Chicago, IL',
+            startDate: '2019-01',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Leading global marketing strategy for $5B retail company with 500+ stores worldwide.',
+            achievements: [
+                { achievementText: 'Drove 35% revenue growth over 4 years through omnichannel marketing strategy' },
+                { achievementText: 'Built and led marketing organization of 150+ professionals across 12 countries' },
+                { achievementText: 'Launched successful brand repositioning campaign increasing brand awareness by 60%' },
+                { achievementText: 'Implemented marketing automation platform generating $100M in incremental revenue' },
+                { achievementText: 'Managed annual marketing budget of $200M with consistent ROI of 5:1' }
+            ]
+        },
+        {
+            jobTitle: 'VP of Marketing',
+            companyName: 'TechGrowth Enterprises',
+            location: 'San Francisco, CA',
+            startDate: '2014-06',
+            endDate: '2018-12',
+            isCurrent: false,
+            roleDescription: 'Led marketing for B2B SaaS company during hypergrowth phase.',
+            achievements: [
+                { achievementText: 'Scaled company from $50M to $300M ARR in 4 years' },
+                { achievementText: 'Built demand generation engine producing 10,000+ qualified leads monthly' },
+                { achievementText: 'Led successful IPO marketing strategy and investor relations' }
+            ]
+        },
+        {
+            jobTitle: 'Director of Digital Marketing',
+            companyName: 'Consumer Brands Inc',
+            location: 'New York, NY',
+            startDate: '2009-03',
+            endDate: '2014-05',
+            isCurrent: false,
+            roleDescription: 'Pioneered digital marketing transformation for traditional consumer goods company.',
+            achievements: [
+                { achievementText: 'Increased digital revenue from 5% to 35% of total sales' },
+                { achievementText: 'Launched e-commerce platform generating $150M in first year' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'Kellogg School of Management, Northwestern',
+            degree: 'Master of Business Administration',
+            location: 'Evanston, IL',
+            endYear: 2008
+        },
+        {
+            institutionName: 'University of Michigan',
+            degree: 'Bachelor of Arts',
+            fieldOfStudy: 'Marketing',
+            location: 'Ann Arbor, MI',
+            endYear: 2004
+        }
+    ],
+    skills: [
+        { skillName: 'Strategic Marketing', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Brand Management', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Digital Transformation', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Team Leadership', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'P&L Management', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Customer Analytics', skillType: 'professional', proficiencyLevel: 'advanced' }
+    ],
+    professionalAffiliations: [
+        {
+            organizationName: 'American Marketing Association',
+            roleOrMembership: 'Board Member',
+            yearsActive: '2020-Present'
+        }
+    ]
+}
+
+// --- 14. Creative Template Persona ---
+export const MOCK_CREATIVE_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-creative-template',
+    title: 'Creative Resume',
+    documentType: 'resume',
+    templateId: 'creative',
+    personalInfo: {
+        fullName: 'Jordan Blake',
+        professionalTitle: 'Creative Director & Brand Strategist',
+        email: 'jordan@blakecreative.com',
+        phone: '+1 (555) 777-8888',
+        city: 'Brooklyn',
+        country: 'NY',
+        location: 'Brooklyn, NY',
+        portfolioUrl: 'jordanblake.com',
+        linkedinUrl: 'linkedin.com/in/jordanblake',
+        photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop'
+    },
+    professionalSummary: {
+        summaryText: 'Award-winning Creative Director with 10+ years of experience crafting compelling brand narratives and visual identities. Specialized in integrated campaigns that blend storytelling, design, and technology. Led creative teams that have won 15+ industry awards including Cannes Lions and D&AD. Passionate about pushing creative boundaries while delivering measurable business results.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Creative Director',
+            companyName: 'Visionary Creative Agency',
+            location: 'Brooklyn, NY',
+            startDate: '2020-03',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Leading creative vision for boutique agency serving premium lifestyle brands.',
+            achievements: [
+                { achievementText: 'Directed 25+ integrated campaigns generating 200M+ impressions' },
+                { achievementText: 'Won Gold Lion at Cannes for innovative AR brand experience' },
+                { achievementText: 'Grew agency revenue by 150% through new client acquisition' },
+                { achievementText: 'Built and mentored creative team of 12 designers and copywriters' }
+            ]
+        },
+        {
+            jobTitle: 'Senior Art Director',
+            companyName: 'Modern Brand Studio',
+            location: 'Manhattan, NY',
+            startDate: '2016-01',
+            endDate: '2020-02',
+            isCurrent: false,
+            roleDescription: 'Created visual concepts for Fortune 500 brands and startups.',
+            achievements: [
+                { achievementText: 'Designed brand identity for 3 companies that achieved unicorn status' },
+                { achievementText: 'Led rebranding project featured in Communication Arts and Print Magazine' },
+                { achievementText: 'Directed photo and video shoots with budgets up to $500K' }
+            ]
+        },
+        {
+            jobTitle: 'Art Director',
+            companyName: 'Digital First Agency',
+            location: 'San Francisco, CA',
+            startDate: '2013-06',
+            endDate: '2015-12',
+            isCurrent: false,
+            roleDescription: 'Designed digital-first campaigns for tech startups.',
+            achievements: [
+                { achievementText: 'Created viral social campaign reaching 50M+ users organically' },
+                { achievementText: 'Designed UI/UX for mobile app with 4.8 App Store rating' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'School of Visual Arts',
+            degree: 'Bachelor of Fine Arts',
+            fieldOfStudy: 'Advertising',
+            location: 'New York, NY',
+            endYear: 2013
+        }
+    ],
+    skills: [
+        { skillName: 'Creative Direction', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Brand Strategy', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Adobe Creative Suite', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Figma', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Art Direction', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Copywriting', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Video Production', skillType: 'professional', proficiencyLevel: 'advanced' }
+    ],
+    achievements: [
+        {
+            achievementTitle: 'Gold Lion - Cannes Lions',
+            issuingBody: 'Cannes Lions International Festival',
+            year: 2022,
+            description: 'Best Use of AR/VR Technology'
+        },
+        {
+            achievementTitle: 'D&AD Yellow Pencil',
+            issuingBody: 'D&AD Awards',
+            year: 2021,
+            description: 'Brand Identity Design'
+        }
+    ],
+    customSections: [
+        {
+            title: 'Featured Work',
+            items: [
+                { text: 'Nike "Just Do It" Campaign Refresh - 100M+ Impressions' },
+                { text: 'Spotify Brand Evolution - Featured in Fast Company' }
+            ]
+        }
+    ]
+}
+
+// --- 15. Professional Template Persona ---
+export const MOCK_PROFESSIONAL_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-professional-template',
+    title: 'Professional Resume',
+    documentType: 'resume',
+    templateId: 'professional',
+    personalInfo: {
+        fullName: 'Daniel Foster',
+        professionalTitle: 'Business Development Manager',
+        email: 'daniel.foster@bizdev.com',
+        phone: '+1 (555) 999-0000',
+        city: 'Dallas',
+        country: 'TX',
+        location: 'Dallas, TX',
+        linkedinUrl: 'linkedin.com/in/danielfoster-bd'
+    },
+    professionalSummary: {
+        summaryText: 'Strategic Business Development Manager with 8+ years of experience driving revenue growth and forging strategic partnerships. Proven track record of exceeding sales targets by 30%+ annually and closing deals worth $50M+. Expert in relationship building, contract negotiation, and market expansion. Strong analytical skills combined with exceptional communication abilities.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Senior Business Development Manager',
+            companyName: 'Enterprise Solutions Group',
+            location: 'Dallas, TX',
+            startDate: '2020-04',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Leading business development initiatives for enterprise software company.',
+            achievements: [
+                { achievementText: 'Generated $25M in new business revenue over 3 years' },
+                { achievementText: 'Established strategic partnerships with 15 Fortune 500 companies' },
+                { achievementText: 'Expanded market presence into 3 new geographic regions' },
+                { achievementText: 'Achieved 135% of annual quota for 3 consecutive years' }
+            ]
+        },
+        {
+            jobTitle: 'Business Development Associate',
+            companyName: 'TechVentures Inc',
+            location: 'Austin, TX',
+            startDate: '2016-08',
+            endDate: '2020-03',
+            isCurrent: false,
+            roleDescription: 'Identified and pursued new business opportunities in technology sector.',
+            achievements: [
+                { achievementText: 'Closed 40+ deals with average contract value of $500K' },
+                { achievementText: 'Built pipeline of $15M in qualified opportunities' },
+                { achievementText: 'Reduced sales cycle from 9 months to 6 months through process optimization' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'University of Texas at Dallas',
+            degree: 'Bachelor of Business Administration',
+            fieldOfStudy: 'Marketing',
+            location: 'Dallas, TX',
+            endYear: 2016,
+            gpa: '3.6'
+        }
+    ],
+    skills: [
+        { skillName: 'Business Development', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Strategic Partnerships', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Salesforce CRM', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Contract Negotiation', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Market Analysis', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Presentation Skills', skillType: 'professional', proficiencyLevel: 'expert' }
+    ],
+    certifications: [
+        {
+            certificationName: 'Certified Business Development Professional',
+            issuingOrganization: 'CBDP',
+            issueYear: 2019
+        }
+    ]
+}
+
+// --- 16. Luxe Template Persona ---
+export const MOCK_LUXE_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-luxe-template',
+    title: 'Luxury Executive Resume',
+    documentType: 'resume',
+    templateId: 'luxe',
+    personalInfo: {
+        fullName: 'Sophia Laurent',
+        professionalTitle: 'Luxury Brand Director',
+        email: 'sophia.laurent@luxebrands.com',
+        phone: '+33 6 12 34 56 78',
+        city: 'Paris',
+        country: 'France',
+        location: 'Paris, France',
+        linkedinUrl: 'linkedin.com/in/sophialaurent',
+        photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop'
+    },
+    professionalSummary: {
+        summaryText: 'Distinguished Luxury Brand Director with 15+ years of experience in haute couture and premium lifestyle sectors. Expert in brand positioning, heritage storytelling, and cultivating exclusive clientele relationships. Proven success in elevating brand prestige while driving 40%+ revenue growth. Fluent in French, English, and Italian with deep understanding of global luxury markets.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Brand Director',
+            companyName: 'Maison de Luxe',
+            location: 'Paris, France',
+            startDate: '2018-09',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Overseeing brand strategy and global market positioning for prestigious fashion house.',
+            achievements: [
+                { achievementText: 'Orchestrated brand repositioning increasing average transaction value by 45%' },
+                { achievementText: 'Curated exclusive events for UHNW clientele generating €20M in annual revenue' },
+                { achievementText: 'Expanded brand presence into Asian markets with 8 flagship boutiques' },
+                { achievementText: 'Collaborated with renowned artists on limited edition collections sold out within 48 hours' }
+            ]
+        },
+        {
+            jobTitle: 'Senior Marketing Manager',
+            companyName: 'Prestige Maison',
+            location: 'Milan, Italy',
+            startDate: '2013-03',
+            endDate: '2018-08',
+            isCurrent: false,
+            roleDescription: 'Led marketing initiatives for luxury leather goods and accessories.',
+            achievements: [
+                { achievementText: 'Developed influencer strategy reaching 50M+ affluent consumers' },
+                { achievementText: 'Managed €15M marketing budget with 6:1 ROI' },
+                { achievementText: 'Launched successful capsule collection in partnership with celebrity designer' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'HEC Paris',
+            degree: 'Master in Luxury Brand Management',
+            location: 'Paris, France',
+            endYear: 2012
+        },
+        {
+            institutionName: 'Sorbonne University',
+            degree: 'Bachelor of Arts',
+            fieldOfStudy: 'Art History',
+            location: 'Paris, France',
+            endYear: 2010
+        }
+    ],
+    skills: [
+        { skillName: 'Luxury Brand Management', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Client Relations (UHNW)', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Heritage Storytelling', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Event Curation', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Market Positioning', skillType: 'professional', proficiencyLevel: 'expert' }
+    ],
+    languages: [
+        { languageName: 'French', proficiencyLevel: 'native' },
+        { languageName: 'English', proficiencyLevel: 'fluent' },
+        { languageName: 'Italian', proficiencyLevel: 'fluent' },
+        { languageName: 'Mandarin', proficiencyLevel: 'intermediate' }
+    ]
+}
+
+// --- 17. Startup Template Persona ---
+export const MOCK_STARTUP_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-startup-template',
+    title: 'Startup Resume',
+    documentType: 'resume',
+    templateId: 'startup',
+    personalInfo: {
+        fullName: 'Alex Chen',
+        professionalTitle: 'Product Manager | Growth Hacker',
+        email: 'alex@startupmail.io',
+        phone: '+1 (555) 123-9999',
+        city: 'San Francisco',
+        country: 'CA',
+        location: 'San Francisco, CA',
+        linkedinUrl: 'linkedin.com/in/alexchen-pm',
+        websiteUrl: 'alexchen.io'
+    },
+    professionalSummary: {
+        summaryText: 'Entrepreneurial Product Manager with 6+ years of experience building 0-to-1 products in fast-paced startup environments. Expert in lean methodology, growth hacking, and data-driven product decisions. Successfully launched 5 products with combined 2M+ users. Passionate about solving hard problems and creating products people love.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Senior Product Manager',
+            companyName: 'RocketShip (YC S21)',
+            location: 'San Francisco, CA',
+            startDate: '2022-01',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Leading product for Series B fintech startup disrupting payments.',
+            achievements: [
+                { achievementText: 'Launched MVP in 8 weeks, acquired 100K users in first 3 months' },
+                { achievementText: 'Drove 10x user growth through viral referral mechanics' },
+                { achievementText: 'Improved activation rate from 15% to 45% through onboarding optimization' },
+                { achievementText: 'Led product strategy for successful $30M Series B raise' }
+            ]
+        },
+        {
+            jobTitle: 'Product Manager',
+            companyName: 'GrowthLabs (Acquired)',
+            location: 'Palo Alto, CA',
+            startDate: '2019-06',
+            endDate: '2021-12',
+            isCurrent: false,
+            roleDescription: 'Built growth team and owned entire product lifecycle.',
+            achievements: [
+                { achievementText: 'Scaled product from 0 to 500K users in 18 months' },
+                { achievementText: 'Implemented growth experiments increasing MRR by 200%' },
+                { achievementText: 'Led product through acquisition by Fortune 500 company' }
+            ]
+        },
+        {
+            jobTitle: 'Associate Product Manager',
+            companyName: 'TechStartup Inc',
+            location: 'Mountain View, CA',
+            startDate: '2018-01',
+            endDate: '2019-05',
+            isCurrent: false,
+            roleDescription: 'First PM hire, wore multiple hats across product and growth.',
+            achievements: [
+                { achievementText: 'Shipped 15+ features based on user feedback and data analysis' },
+                { achievementText: 'Reduced churn by 30% through retention initiatives' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'Stanford University',
+            degree: 'Bachelor of Science',
+            fieldOfStudy: 'Computer Science',
+            location: 'Stanford, CA',
+            endYear: 2017
+        }
+    ],
+    skills: [
+        { skillName: 'Product Management', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Growth Hacking', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'A/B Testing', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'SQL/Analytics', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Lean Startup', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'User Research', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Figma/Design', skillType: 'technical', proficiencyLevel: 'intermediate' }
+    ],
+    projects: [
+        {
+            projectName: 'Side Project - TaskFlow',
+            role: 'Founder',
+            description: 'Built productivity app as nights/weekends project.',
+            outcomes: '10K+ downloads, featured on Product Hunt',
+            startDate: '2023',
+            endDate: 'Present'
+        }
+    ]
+}
+
+// --- 18. Artisan Template Persona ---
+export const MOCK_ARTISAN_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-artisan-template',
+    title: 'Artisan Resume',
+    documentType: 'resume',
+    templateId: 'artisan',
+    personalInfo: {
+        fullName: 'Maya Patel',
+        professionalTitle: 'Ceramic Artist & Studio Owner',
+        email: 'maya@artisanstudio.com',
+        phone: '+1 (555) 246-8135',
+        city: 'Portland',
+        country: 'OR',
+        location: 'Portland, OR',
+        portfolioUrl: 'mayapatelceramics.com',
+        photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop'
+    },
+    professionalSummary: {
+        summaryText: 'Award-winning ceramic artist specializing in functional stoneware and sculptural pieces. 12+ years of experience creating handcrafted pottery using traditional techniques and sustainable practices. Work featured in 20+ galleries nationwide and collected by museums. Passionate about teaching ceramics and building community through art.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Owner & Lead Artist',
+            companyName: 'Earthen Studio',
+            location: 'Portland, OR',
+            startDate: '2016-03',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Operating independent ceramics studio creating custom pieces and teaching workshops.',
+            achievements: [
+                { achievementText: 'Built thriving studio business with $200K+ annual revenue' },
+                { achievementText: 'Created signature collection sold in 15 boutique retailers nationwide' },
+                { achievementText: 'Taught 50+ workshops to 500+ students over 7 years' },
+                { achievementText: 'Commissioned for large-scale installation at Portland Art Museum' }
+            ]
+        },
+        {
+            jobTitle: 'Resident Artist',
+            companyName: 'Craftworks Collective',
+            location: 'Seattle, WA',
+            startDate: '2012-06',
+            endDate: '2016-02',
+            isCurrent: false,
+            roleDescription: 'Created functional pottery and taught community classes.',
+            achievements: [
+                { achievementText: 'Developed unique glaze formulations featured in Ceramics Monthly' },
+                { achievementText: 'Sold work at 10+ juried craft fairs with $50K+ in sales' },
+                { achievementText: 'Mentored 5 emerging ceramic artists' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'Rhode Island School of Design',
+            degree: 'Master of Fine Arts',
+            fieldOfStudy: 'Ceramics',
+            location: 'Providence, RI',
+            endYear: 2012
+        },
+        {
+            institutionName: 'Portland State University',
+            degree: 'Bachelor of Fine Arts',
+            fieldOfStudy: 'Studio Art',
+            location: 'Portland, OR',
+            endYear: 2009
+        }
+    ],
+    skills: [
+        { skillName: 'Wheel Throwing', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Glaze Chemistry', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Kiln Firing', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Hand Building', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Teaching/Instruction', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Small Business Management', skillType: 'professional', proficiencyLevel: 'advanced' }
+    ],
+    achievements: [
+        {
+            achievementTitle: 'Best in Show',
+            issuingBody: 'American Craft Council',
+            year: 2021,
+            description: 'Portland Craft Fair'
+        },
+        {
+            achievementTitle: 'Emerging Artist Award',
+            issuingBody: 'National Council on Education for the Ceramic Arts',
+            year: 2015
+        }
+    ],
+    customSections: [
+        {
+            title: 'Exhibitions',
+            items: [
+                { text: 'Solo Exhibition - "Earth & Fire" at Portland Contemporary (2023)' },
+                { text: 'Group Show - Museum of Arts and Design, New York (2022)' },
+                { text: 'Juried Exhibition - Smithsonian Craft Show, Washington DC (2020)' }
+            ]
+        }
+    ]
+}
+
+// --- 19. Split Contrast Template Persona ---
+export const MOCK_SPLIT_CONTRAST_DATA: ResumeDocument = {
+    id: 'preview-split-contrast',
+    title: 'Split Contrast Resume',
+    documentType: 'resume',
+    templateId: 'split-contrast',
+    personalInfo: {
+        fullName: 'Marcus Thompson',
+        professionalTitle: 'Cybersecurity Analyst',
+        email: 'marcus.thompson@securemail.com',
+        phone: '+1 (555) 369-2580',
+        city: 'Washington',
+        country: 'DC',
+        location: 'Washington, DC',
+        linkedinUrl: 'linkedin.com/in/marcusthompson-security'
+    },
+    professionalSummary: {
+        summaryText: 'Dedicated Cybersecurity Analyst with 7+ years of experience protecting enterprise systems and data. Expert in threat detection, incident response, and security architecture. CISSP certified with proven track record of preventing security breaches and reducing vulnerabilities by 80%. Strong technical skills combined with ability to communicate complex security concepts to non-technical stakeholders.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Senior Cybersecurity Analyst',
+            companyName: 'Federal Security Solutions',
+            location: 'Washington, DC',
+            startDate: '2020-07',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Leading security operations for government contractor protecting critical infrastructure.',
+            achievements: [
+                { achievementText: 'Detected and mitigated 50+ security threats preventing potential data breaches' },
+                { achievementText: 'Implemented SIEM solution reducing incident response time by 60%' },
+                { achievementText: 'Conducted security audits identifying and remediating 200+ vulnerabilities' },
+                { achievementText: 'Led team of 5 analysts in 24/7 security operations center' }
+            ]
+        },
+        {
+            jobTitle: 'Cybersecurity Analyst',
+            companyName: 'TechDefense Corp',
+            location: 'Arlington, VA',
+            startDate: '2017-03',
+            endDate: '2020-06',
+            isCurrent: false,
+            roleDescription: 'Monitored networks and systems for security incidents.',
+            achievements: [
+                { achievementText: 'Responded to 100+ security incidents with 99% resolution rate' },
+                { achievementText: 'Developed security policies adopted across organization' },
+                { achievementText: 'Achieved zero successful phishing attacks through employee training program' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'George Washington University',
+            degree: 'Master of Science',
+            fieldOfStudy: 'Cybersecurity',
+            location: 'Washington, DC',
+            endYear: 2019
+        },
+        {
+            institutionName: 'Virginia Tech',
+            degree: 'Bachelor of Science',
+            fieldOfStudy: 'Computer Science',
+            location: 'Blacksburg, VA',
+            endYear: 2016
+        }
+    ],
+    skills: [
+        { skillName: 'Threat Detection', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Incident Response', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'SIEM (Splunk)', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Penetration Testing', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Network Security', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Python/Scripting', skillType: 'technical', proficiencyLevel: 'intermediate' }
+    ],
+    certifications: [
+        {
+            certificationName: 'Certified Information Systems Security Professional (CISSP)',
+            issuingOrganization: 'ISC2',
+            issueYear: 2021
+        },
+        {
+            certificationName: 'Certified Ethical Hacker (CEH)',
+            issuingOrganization: 'EC-Council',
+            issueYear: 2019
+        },
+        {
+            certificationName: 'CompTIA Security+',
+            issuingOrganization: 'CompTIA',
+            issueYear: 2017
+        }
+    ]
+}
+
+// --- 20. Compact Template Persona ---
+export const MOCK_COMPACT_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-compact-template',
+    title: 'Compact Resume',
+    documentType: 'resume',
+    templateId: 'compact',
+    personalInfo: {
+        fullName: 'Lisa Anderson',
+        professionalTitle: 'Administrative Manager',
+        email: 'lisa.anderson@office.com',
+        phone: '+1 (555) 147-2589',
+        city: 'Minneapolis',
+        country: 'MN',
+        location: 'Minneapolis, MN',
+        linkedinUrl: 'linkedin.com/in/lisaanderson-admin'
+    },
+    professionalSummary: {
+        summaryText: 'Highly organized Administrative Manager with 10+ years of experience supporting C-level executives and managing office operations. Expert in streamlining processes, coordinating complex schedules, and maintaining confidentiality. Proficient in Microsoft Office Suite and project management tools. Known for exceptional attention to detail and proactive problem-solving.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Administrative Manager',
+            companyName: 'Corporate Headquarters Inc',
+            location: 'Minneapolis, MN',
+            startDate: '2018-05',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Managing administrative operations for executive team of 8 C-suite leaders.',
+            achievements: [
+                { achievementText: 'Streamlined expense reporting process saving 20 hours per month' },
+                { achievementText: 'Coordinated 50+ executive meetings and events annually' },
+                { achievementText: 'Implemented new filing system improving document retrieval by 40%' },
+                { achievementText: 'Supervised team of 4 administrative assistants' }
+            ]
+        },
+        {
+            jobTitle: 'Executive Assistant',
+            companyName: 'Business Solutions Group',
+            location: 'St. Paul, MN',
+            startDate: '2014-02',
+            endDate: '2018-04',
+            isCurrent: false,
+            roleDescription: 'Provided high-level administrative support to CEO and COO.',
+            achievements: [
+                { achievementText: 'Managed complex calendars with 100+ appointments monthly' },
+                { achievementText: 'Organized international travel for 20+ business trips per year' },
+                { achievementText: 'Prepared presentations and reports for board meetings' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'University of Minnesota',
+            degree: 'Bachelor of Arts',
+            fieldOfStudy: 'Business Administration',
+            location: 'Minneapolis, MN',
+            endYear: 2013
+        }
+    ],
+    skills: [
+        { skillName: 'Office Management', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Microsoft Office Suite', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Calendar Management', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Project Coordination', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Communication', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Problem Solving', skillType: 'professional', proficiencyLevel: 'advanced' }
+    ]
+}
+
+// --- 21. Graduate Template Persona ---
+export const MOCK_GRADUATE_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-graduate-template',
+    title: 'Graduate Resume',
+    documentType: 'resume',
+    templateId: 'graduate',
+    personalInfo: {
+        fullName: 'Taylor Brooks',
+        professionalTitle: 'Recent Finance Graduate',
+        email: 'taylor.brooks@university.edu',
+        phone: '+1 (555) 753-9514',
+        city: 'Boston',
+        country: 'MA',
+        location: 'Boston, MA',
+        linkedinUrl: 'linkedin.com/in/taylorbrooks-finance'
+    },
+    professionalSummary: {
+        summaryText: 'Motivated finance graduate with strong analytical skills and passion for investment banking. Completed rigorous coursework in financial modeling, corporate finance, and valuation. Gained practical experience through competitive internship at top-tier investment bank. Seeking analyst position to leverage quantitative skills and drive value for clients.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Investment Banking Summer Analyst',
+            companyName: 'Goldman Sachs',
+            location: 'New York, NY',
+            startDate: '2023-06',
+            endDate: '2023-08',
+            isCurrent: false,
+            roleDescription: 'Supported M&A team in executing transactions for healthcare clients.',
+            achievements: [
+                { achievementText: 'Built financial models for 3 M&A transactions totaling $2B in deal value' },
+                { achievementText: 'Prepared pitch books and presentations for client meetings' },
+                { achievementText: 'Conducted industry research and comparable company analysis' },
+                { achievementText: 'Received offer for full-time analyst position' }
+            ]
+        },
+        {
+            jobTitle: 'Finance Intern',
+            companyName: 'Boston Consulting Group',
+            location: 'Boston, MA',
+            startDate: '2022-06',
+            endDate: '2022-08',
+            isCurrent: false,
+            roleDescription: 'Assisted consulting team with financial analysis for client projects.',
+            achievements: [
+                { achievementText: 'Analyzed financial statements for Fortune 500 client' },
+                { achievementText: 'Created Excel models to support strategic recommendations' },
+                { achievementText: 'Presented findings to senior partners and clients' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'Boston College',
+            degree: 'Bachelor of Science',
+            fieldOfStudy: 'Finance',
+            location: 'Chestnut Hill, MA',
+            endYear: 2024,
+            gpa: '3.85',
+            achievements: 'Summa Cum Laude, Dean\'s List (All Semesters)',
+            coursework: 'Corporate Finance, Investment Analysis, Financial Modeling, Econometrics'
+        }
+    ],
+    skills: [
+        { skillName: 'Financial Modeling', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Excel (VBA)', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Valuation', skillType: 'professional', proficiencyLevel: 'intermediate' },
+        { skillName: 'Bloomberg Terminal', skillType: 'technical', proficiencyLevel: 'intermediate' },
+        { skillName: 'PowerPoint', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Financial Analysis', skillType: 'professional', proficiencyLevel: 'advanced' }
+    ],
+    volunteerExperience: [
+        {
+            roleTitle: 'Treasurer',
+            organizationName: 'Finance Club',
+            startDate: '2022',
+            endDate: '2024',
+            contributions: 'Managed $25,000 budget and organized networking events with 200+ attendees'
+        }
+    ],
+    certifications: [
+        {
+            certificationName: 'Bloomberg Market Concepts (BMC)',
+            issuingOrganization: 'Bloomberg',
+            issueYear: 2023
+        }
+    ]
+}
+
+// --- 22. Cute Template Persona ---
+export const MOCK_CUTE_TEMPLATE_DATA: ResumeDocument = {
+    id: 'preview-cute-template',
+    title: 'Cute Resume',
+    documentType: 'resume',
+    templateId: 'cute',
+    personalInfo: {
+        fullName: 'Emma Rose',
+        professionalTitle: 'Social Media Coordinator',
+        email: 'emma.rose@creative.com',
+        phone: '+1 (555) 852-9630',
+        city: 'Austin',
+        country: 'TX',
+        location: 'Austin, TX',
+        linkedinUrl: 'linkedin.com/in/emmarose-social',
+        portfolioUrl: 'emmarose.co'
+    },
+    professionalSummary: {
+        summaryText: 'Creative and enthusiastic Social Media Coordinator with 4+ years of experience building engaging online communities. Passionate about creating authentic content that resonates with audiences. Expert in Instagram, TikTok, and emerging platforms. Proven ability to grow followers by 300%+ and drive meaningful engagement through storytelling and visual creativity.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Social Media Coordinator',
+            companyName: 'Bloom Beauty Co',
+            location: 'Austin, TX',
+            startDate: '2021-09',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Managing social media presence for sustainable beauty brand.',
+            achievements: [
+                { achievementText: 'Grew Instagram following from 5K to 50K in 2 years' },
+                { achievementText: 'Created viral TikTok content reaching 5M+ views' },
+                { achievementText: 'Increased engagement rate from 2% to 8% through authentic storytelling' },
+                { achievementText: 'Collaborated with 20+ micro-influencers on successful campaigns' }
+            ]
+        },
+        {
+            jobTitle: 'Social Media Intern',
+            companyName: 'Creative Collective',
+            location: 'Austin, TX',
+            startDate: '2020-06',
+            endDate: '2021-08',
+            isCurrent: false,
+            roleDescription: 'Supported social media team for lifestyle brand clients.',
+            achievements: [
+                { achievementText: 'Created content calendars for 5 client accounts' },
+                { achievementText: 'Designed graphics and wrote copy for 100+ social posts' },
+                { achievementText: 'Monitored analytics and provided monthly performance reports' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'University of Texas at Austin',
+            degree: 'Bachelor of Arts',
+            fieldOfStudy: 'Communications',
+            location: 'Austin, TX',
+            endYear: 2020,
+            gpa: '3.5'
+        }
+    ],
+    skills: [
+        { skillName: 'Social Media Strategy', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Content Creation', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Canva', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Instagram/TikTok', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Copywriting', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Community Management', skillType: 'professional', proficiencyLevel: 'advanced' },
+        { skillName: 'Photography', skillType: 'technical', proficiencyLevel: 'intermediate' }
+    ],
+    projects: [
+        {
+            projectName: 'Personal Brand - @EmmaRoseCreates',
+            role: 'Creator',
+            description: 'Built personal brand sharing social media tips and creative inspiration.',
+            outcomes: '15K followers, partnered with 5 brands',
+            startDate: '2021',
+            endDate: 'Present'
+        }
+    ]
+}
+
 export const MOCK_PERSONAS = {
-    creative: MOCK_PREVIEW_DATA,
-    executive: MOCK_EXECUTIVE_DATA,
-    graduate: MOCK_GRADUATE_DATA,
+    creative: MOCK_CREATIVE_TEMPLATE_DATA, // Updated
+    executive: MOCK_EXECUTIVE_TEMPLATE_DATA, // Updated
+    graduate: MOCK_GRADUATE_TEMPLATE_DATA, // Updated
     nurse_experienced: MOCK_NURSE_EXPERIENCED_DATA,
     nurse_entry: MOCK_NURSE_ENTRY_DATA,
-    technical: MOCK_TECHNICAL_DATA,
+    technical: MOCK_TECHNICAL_TEMPLATE_DATA, // Updated
     hospitality: MOCK_HOSPITALITY_DATA,
     cruise: MOCK_CRUISE_DATA,
     academic: MOCK_ACADEMIC_DATA,
@@ -1846,5 +2840,13 @@ export const MOCK_PERSONAS = {
     ats_modern: MOCK_ATS_MODERN_DATA,
     ats_graduate: MOCK_ATS_GRADUATE_DATA,
     ats_timeline: MOCK_ATS_TIMELINE_DATA,
-    service_pro: MOCK_SERVICE_PRO_DATA
+    service_pro: MOCK_SERVICE_PRO_DATA,
+    // New templates added
+    professional: MOCK_PROFESSIONAL_TEMPLATE_DATA,
+    luxe: MOCK_LUXE_TEMPLATE_DATA,
+    startup: MOCK_STARTUP_TEMPLATE_DATA,
+    artisan: MOCK_ARTISAN_TEMPLATE_DATA,
+    split_contrast: MOCK_SPLIT_CONTRAST_DATA,
+    compact: MOCK_COMPACT_TEMPLATE_DATA,
+    cute: MOCK_CUTE_TEMPLATE_DATA
 }

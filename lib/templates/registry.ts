@@ -11,8 +11,8 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'technical'],
             industries: ['General', 'Business', 'Tech', 'Finance', 'Legal', 'Healthcare']
         },
-        previewImage: '/templates/ats-professional-preview.png',
         isPremium: false,
+        previewImage: '/templates/ats-professional-preview.png',
         colors: [
             { id: 'standard', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -33,7 +33,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General', 'Business']
         },
         isPremium: false,
-        previewImage: '/templates/ats-standard-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'slate', name: 'Slate Grey', hex: '#475569' },
@@ -54,7 +53,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General']
         },
         isPremium: false,
-        previewImage: '/templates/ats-minimal-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
@@ -75,7 +73,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Legal', 'Finance', 'Education']
         },
         isPremium: false,
-        previewImage: '/templates/ats-classic-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -96,7 +93,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Management', 'C-Suite']
         },
         isPremium: false,
-        previewImage: '/templates/ats-executive-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'gold', name: 'Premium Gold', hex: '#b45309' },
@@ -117,7 +113,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Tech', 'SaaS', 'Marketing']
         },
         isPremium: false,
-        previewImage: '/templates/ats-modern-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'blue', name: 'Modern Blue', hex: '#2563eb' },
@@ -137,7 +132,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['creative', 'freelance'],
             industries: ['Design', 'Marketing']
         },
-        previewImage: '/templates/creative-preview.png',
         isPremium: true,
         colors: [
             { id: 'black', name: 'Midnight', hex: '#111827' },
@@ -159,7 +153,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Finance', 'Consulting', 'Tech', 'Legal']
         },
         isPremium: true,
-        previewImage: '/templates/ats-timeline-preview.png',
         colors: [
             { id: 'black', name: 'Elite Black', hex: '#000000' },
             { id: 'navy', name: 'Midnight Navy', hex: '#0f172a' },
@@ -180,7 +173,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Healthcare', 'Nursing', 'Medical']
         },
         isPremium: false,
-        previewImage: '/templates/ats-standard-preview.png',
         colors: [
             { id: 'black', name: 'Clinical Black', hex: '#000000' },
             { id: 'blue', name: 'Scrub Blue', hex: '#1e40af' },
@@ -201,7 +193,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Healthcare', 'Pediatrics', 'Non-profit']
         },
         isPremium: true,
-        previewImage: '/templates/creative-preview.png',
         colors: [
             { id: 'pink', name: 'Compassion Pink', hex: '#db2777' },
             { id: 'blue', name: 'Pediatric Blue', hex: '#3b82f6' },
@@ -222,7 +213,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Software', 'Engineering', 'AI']
         },
         isPremium: false,
-        previewImage: '/templates/ats-technical-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'green', name: 'Matrix Green', hex: '#064e3b' },
@@ -243,7 +233,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General', 'Education']
         },
         isPremium: false,
-        previewImage: '/templates/ats-graduate-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'maroon', name: 'Academic Maroon', hex: '#9f1239' },
@@ -263,7 +252,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['technical', 'creative', 'corporate'],
             industries: ['Tech', 'Startup', 'Media']
         },
-        previewImage: '/templates/modern-preview.png',
         isPremium: true,
         colors: [
             { id: 'black', name: 'Stealth Black', hex: '#111827' },
@@ -284,7 +272,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'academic'],
             industries: ['General', 'Business', 'Finance']
         },
-        previewImage: '/templates/classic-preview.png',
         isPremium: false,
         colors: [
             { id: 'black', name: 'Classic Black', hex: '#000000' },
@@ -305,7 +292,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate'],
             industries: ['Management', 'C-Suite', 'Legal']
         },
-        previewImage: '/templates/executive-preview.png',
         isPremium: true,
         colors: [
             { id: 'black', name: 'Premium Black', hex: '#000000' },
@@ -326,7 +312,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['creative', 'corporate'],
             industries: ['Luxury', 'Fashion', 'Art']
         },
-        previewImage: '/templates/chic-preview.png',
         isPremium: true,
         colors: [
             { id: 'std', name: 'Standard Black', hex: '#000000' },
@@ -347,7 +332,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['technical'],
             industries: ['Software', 'Engineering', 'Data']
         },
-        previewImage: '/templates/technical-preview.png',
         isPremium: false,
         colors: [
             { id: 'black', name: 'Terminal Black', hex: '#000000' },
@@ -368,7 +352,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['academic'],
             industries: ['Education', 'Research', 'Science']
         },
-        previewImage: '/templates/academic-preview.png',
         isPremium: false,
         colors: [
             { id: 'black', name: 'Formal Black', hex: '#000000' },
@@ -389,7 +372,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'technical'],
             industries: ['Finance', 'Consulting']
         },
-        previewImage: '/templates/compact-preview.png',
         isPremium: true,
         colors: [
             { id: 'dark', name: 'Dark Onyx', hex: '#171717' },
@@ -404,7 +386,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'professional',
         name: 'Professional',
-        description: 'Designed for busy recruiters who spend 6 seconds per resume. Features scannable single-column layout, clear section breaks, and professional color accents. Works for any industry and career level. The safe, smart choice for competitive corporate roles.',
+        description: 'A sophisticated two-column layout that balances high-impact content with elegant sidebar details. Features a clean visual timeline, skill proficiency bars, and modern typography. Designed for professionals who want to stand out to both recruiters and hiring managers.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'technical'],
@@ -452,7 +434,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['technical', 'creative'],
             industries: ['Tech', 'SaaS', 'Digital']
         },
-        previewImage: '/templates/startup-preview.png',
         isPremium: true,
         colors: [
             { id: 'black', name: 'Founders Black', hex: '#111827' },
@@ -473,7 +454,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['creative', 'corporate'],
             industries: ['Design', 'Art', 'Education', 'Health']
         },
-        previewImage: '/templates/artisan-preview.png',
         isPremium: true,
         colors: [
             { id: 'black', name: 'Artisan Black', hex: '#1c1917' },
@@ -494,7 +474,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'technical'],
             industries: ['Finance', 'Consulting', 'Tech']
         },
-        previewImage: '/templates/split-contrast-preview.png',
         isPremium: true,
         colors: [
             { id: 'black', name: 'Modern Black', hex: '#111827' },
@@ -515,7 +494,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['creative', 'freelance'],
             industries: ['Lifestyle', 'Fashion', 'Design']
         },
-        previewImage: '/templates/cute-preview.png',
         isPremium: true,
         colors: [
             { id: 'black', name: 'Sophisticated Black', hex: '#111827' },
@@ -536,7 +514,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'academic', 'technical'],
             industries: ['General']
         },
-        previewImage: '/templates/graduate-preview.png',
         isPremium: false,
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
@@ -557,7 +534,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['creative', 'corporate'],
             industries: ['Writing', 'Marketing', 'General']
         },
-        previewImage: '/templates/minimal-preview.png',
         isPremium: false,
         colors: [
             { id: 'standard', name: 'Pure Black', hex: '#000000' },
@@ -578,7 +554,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['service', 'corporate'],
             industries: ['Hospitality', 'Tourism', 'Service']
         },
-        previewImage: '/templates/hospitality-elite-preview.png',
         isPremium: true,
         colors: [
             { id: 'gold', name: 'Luxury Gold', hex: '#b45309' },
@@ -599,7 +574,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['service', 'technical'],
             industries: ['Maritime', 'Cruise', 'Travel']
         },
-        previewImage: '/templates/cruise-excellence-preview.png',
         isPremium: true,
         colors: [
             { id: 'ocean', name: 'Ocean Blue', hex: '#0369a1' },
@@ -620,7 +594,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['service', 'freelance'],
             industries: ['F&B', 'Retail', 'Customer Service']
         },
-        previewImage: '/templates/service-pro-preview.png',
         isPremium: true,
         colors: [
             { id: 'slate', name: 'Modern Slate', hex: '#475569' },

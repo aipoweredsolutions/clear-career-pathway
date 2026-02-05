@@ -4,16 +4,42 @@ import React, { useState, useEffect } from 'react'
 import { X, Check, FileText, Globe, Download, Lock } from 'lucide-react'
 import { TemplateMetadata } from '@/lib/types/resume'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
-import { MOCK_PREVIEW_DATA } from '@/lib/constants/mock-data'
+import {
+    MOCK_PREVIEW_DATA,
+    MOCK_EXECUTIVE_DATA,
+    MOCK_GRADUATE_DATA,
+    MOCK_NURSE_EXPERIENCED_DATA,
+    MOCK_TECHNICAL_DATA,
+    MOCK_HOSPITALITY_DATA,
+    MOCK_CRUISE_DATA,
+    MOCK_ACADEMIC_DATA,
+    MOCK_CORPORATE_DATA,
+    MOCK_LEGAL_DATA,
+    MOCK_FASHION_DATA,
+    MOCK_ATS_PROFESSIONAL_DATA,
+    MOCK_ATS_MINIMAL_DATA,
+    MOCK_ATS_EXECUTIVE_DATA,
+    MOCK_ATS_MODERN_DATA,
+    MOCK_ATS_GRADUATE_DATA,
+    MOCK_ATS_TIMELINE_DATA,
+    MOCK_SERVICE_PRO_DATA,
+    MOCK_TECHNICAL_TEMPLATE_DATA,
+    MOCK_EXECUTIVE_TEMPLATE_DATA,
+    MOCK_CREATIVE_TEMPLATE_DATA,
+    MOCK_PROFESSIONAL_TEMPLATE_DATA,
+    MOCK_LUXE_TEMPLATE_DATA,
+    MOCK_STARTUP_TEMPLATE_DATA,
+    MOCK_ARTISAN_TEMPLATE_DATA,
+    MOCK_SPLIT_CONTRAST_DATA,
+    MOCK_COMPACT_TEMPLATE_DATA,
+    MOCK_GRADUATE_TEMPLATE_DATA,
+    MOCK_CUTE_TEMPLATE_DATA
+} from '@/lib/constants/mock-data'
 import { Button } from '@/components/ui/Button'
 import Link from 'next/link'
 import { useAuth } from '@/components/auth/AuthProvider'
 import dynamic from 'next/dynamic'
-import { CAREER_SAMPLES } from '@/lib/constants/career-samples'
-import { MOCK_EXECUTIVE_DATA, MOCK_GRADUATE_DATA, MOCK_NURSE_EXPERIENCED_DATA } from '@/lib/constants/mock-data'
-import { MOCK_DATA_SCIENTIST_DATA, MOCK_FINANCE_DATA, MOCK_TEACHER_DATA, MOCK_MARKETING_DATA, MOCK_PROJECT_MANAGER_DATA, MOCK_HR_DATA } from '@/lib/constants/mock-data-additional'
 import { cn } from '@/lib/utils'
-import { MOCK_HOSPITALITY_DATA, MOCK_CRUISE_DATA } from '@/lib/constants/mock-data-hospitality'
 
 // Dynamically import PDF components with SSR disabled
 const PDFPreview = dynamic(() => import('./PDFPreview'), {
@@ -66,30 +92,44 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             : template.id
 
         // Diversify content based on template personality
-        let baseData = MOCK_EXECUTIVE_DATA
+        let baseData = MOCK_PREVIEW_DATA
 
+        // ATS templates - use dedicated ATS mock data
         if (template.id.startsWith('ats-')) {
-            if (template.id.includes('technical')) baseData = MOCK_DATA_SCIENTIST_DATA
-            else if (template.id.includes('standard')) baseData = MOCK_FINANCE_DATA
-            else if (template.id.includes('classic')) baseData = MOCK_TEACHER_DATA
-            else if (template.id.includes('executive')) baseData = MOCK_EXECUTIVE_DATA
-            else if (template.id.includes('graduate')) baseData = MOCK_GRADUATE_DATA
-            else if (template.id.includes('modern')) baseData = MOCK_MARKETING_DATA
-            else if (template.id.includes('minimal')) baseData = MOCK_PROJECT_MANAGER_DATA
-            else baseData = MOCK_FINANCE_DATA
+            if (template.id.includes('nursing')) baseData = MOCK_NURSE_EXPERIENCED_DATA
+            else if (template.id.includes('professional')) baseData = MOCK_ATS_PROFESSIONAL_DATA
+            else if (template.id.includes('technical')) baseData = MOCK_TECHNICAL_DATA
+            else if (template.id.includes('standard')) baseData = MOCK_CORPORATE_DATA
+            else if (template.id.includes('classic')) baseData = MOCK_LEGAL_DATA
+            else if (template.id.includes('executive')) baseData = MOCK_ATS_EXECUTIVE_DATA
+            else if (template.id.includes('graduate')) baseData = MOCK_ATS_GRADUATE_DATA
+            else if (template.id.includes('modern')) baseData = MOCK_ATS_MODERN_DATA
+            else if (template.id.includes('mini')) baseData = MOCK_ATS_MINIMAL_DATA
+            else if (template.id.includes('timeline')) baseData = MOCK_ATS_TIMELINE_DATA
+            else baseData = MOCK_CORPORATE_DATA
         } else {
-            if (template.id === 'technical') baseData = MOCK_DATA_SCIENTIST_DATA
-            else if (template.id === 'modern' || template.id === 'startup') baseData = MOCK_MARKETING_DATA
-            else if (template.id === 'creative' || template.id === 'cute' || template.id === 'artisan') baseData = CAREER_SAMPLES.graphic_designer
-            else if (template.id === 'executive' || template.id === 'luxe') baseData = MOCK_EXECUTIVE_DATA
-            else if (template.id === 'graduate') baseData = MOCK_GRADUATE_DATA
-            else if (template.id === 'academic') baseData = CAREER_SAMPLES.education_expert
-            else if (template.id === 'professional') baseData = MOCK_FINANCE_DATA
-            else if (template.id === 'chic') baseData = MOCK_HR_DATA
+            // Visual templates - use dedicated template mock data
+            if (template.id.includes('nursing')) baseData = MOCK_NURSE_EXPERIENCED_DATA
+            else if (template.id === 'technical') baseData = MOCK_TECHNICAL_TEMPLATE_DATA
+            else if (template.id === 'executive') baseData = MOCK_EXECUTIVE_TEMPLATE_DATA
+            else if (template.id === 'creative') baseData = MOCK_CREATIVE_TEMPLATE_DATA
+            else if (template.id === 'professional') baseData = MOCK_PROFESSIONAL_TEMPLATE_DATA
+            else if (template.id === 'luxe') baseData = MOCK_LUXE_TEMPLATE_DATA
+            else if (template.id === 'startup' || template.id === 'startups') baseData = MOCK_STARTUP_TEMPLATE_DATA
+            else if (template.id === 'artisan') baseData = MOCK_ARTISAN_TEMPLATE_DATA
+            else if (template.id === 'split-contrast') baseData = MOCK_SPLIT_CONTRAST_DATA
+            else if (template.id === 'compact') baseData = MOCK_COMPACT_TEMPLATE_DATA
+            else if (template.id === 'graduate') baseData = MOCK_GRADUATE_TEMPLATE_DATA
+            else if (template.id === 'minimal') baseData = MOCK_ATS_MINIMAL_DATA
+            else if (template.id === 'cute') baseData = MOCK_CUTE_TEMPLATE_DATA
+            else if (template.id === 'modern') baseData = MOCK_CORPORATE_DATA
+            else if (template.id === 'classic') baseData = MOCK_LEGAL_DATA
+            else if (template.id === 'chic') baseData = MOCK_FASHION_DATA
+            else if (template.id === 'academic') baseData = MOCK_ACADEMIC_DATA
+            // Industry-specific templates
             else if (template.id === 'hospitality-elite') baseData = MOCK_HOSPITALITY_DATA
             else if (template.id === 'cruise-excellence') baseData = MOCK_CRUISE_DATA
-            else if (template.id === 'service-pro') baseData = MOCK_HOSPITALITY_DATA
-            else if (template.id === 'creative-nursing') baseData = MOCK_NURSE_EXPERIENCED_DATA
+            else if (template.id === 'service-pro') baseData = MOCK_SERVICE_PRO_DATA
         }
 
         return {
@@ -102,7 +142,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
 
     return (
         <div className={cn(
-            "fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 transition-all duration-500",
+            "fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 transition-all duration-500",
             isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}>
             {/* Backdrop */}
