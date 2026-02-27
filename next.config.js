@@ -2,7 +2,6 @@
 const nextConfig = {
     reactStrictMode: true,
     images: {
-        domains: ['i.pravatar.cc'],
         remotePatterns: [
             {
                 protocol: 'https',
@@ -15,6 +14,12 @@ const nextConfig = {
                 hostname: 'rbaazdlxbevymvpxtazc.supabase.co',
                 port: '',
                 pathname: '/storage/v1/object/public/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+                port: '',
+                pathname: '/**',
             },
         ],
     },

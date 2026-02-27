@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { X, Check, FileText, Globe, Download, Lock } from 'lucide-react'
+import { createPortal } from 'react-dom'
+import { X, Check, FileText, Globe, Download, Lock, Sparkles } from 'lucide-react'
 import { TemplateMetadata } from '@/lib/types/resume'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import {
@@ -138,11 +139,11 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
         }
     }, [template, selectedColor])
 
-    if (!template) return null
+    if (!template || !isMounted) return null
 
-    return (
+    const dialogContent = (
         <div className={cn(
-            "fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 transition-all duration-500",
+            "fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 transition-all duration-500",
             isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}>
             {/* Backdrop */}
@@ -306,4 +307,6 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             </div>
         </div>
     )
+
+    return createPortal(dialogContent, document.body)
 }

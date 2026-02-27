@@ -90,11 +90,13 @@ export function SampleCard({ sample, category, description }: SampleCardProps) {
                 </div>
             </div>
 
-            <TemplatePreviewDialog
-                isOpen={isPreviewOpen}
-                onClose={() => setIsPreviewOpen(false)}
-                template={templateMetadata}
-            />
+            {isPreviewOpen && (
+                <TemplatePreviewDialog
+                    isOpen={isPreviewOpen}
+                    onClose={() => setIsPreviewOpen(false)}
+                    template={templateMetadata}
+                />
+            )}
         </div>
     )
 }
