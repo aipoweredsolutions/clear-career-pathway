@@ -359,6 +359,13 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         if (id.includes('-slate'))   accentColor = 'text-slate-600'
         return { Component: ClassicCleanTemplate, props: { accentColor } }
     }
+    if (id.startsWith('legal-expert')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-burgundy')) accentColor = 'text-red-900'
+        return { Component: LegalExpertTemplate, props: { accentColor } }
+    }
 
     // --- Fallbacks / Exact Matches ---
     switch (id) {

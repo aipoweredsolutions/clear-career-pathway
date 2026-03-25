@@ -24,7 +24,7 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
                     </div>
                 )}
 
-                <div className="border-t-[1.5px] border-b-[1.5px] border-neutral-900 py-4 max-w-3xl mx-auto">
+                <div className={cn("border-t-[1.5px] border-b-[1.5px] py-4 max-w-3xl mx-auto border-current", accentColor)}>
                     <div className="text-xs uppercase tracking-wider space-x-2 text-neutral-600 font-medium">
                         {personalInfo?.location && <span>{personalInfo.location}</span>}
                         {(personalInfo?.location && personalInfo?.phone) && <span>•</span>}
@@ -40,7 +40,7 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
                 {/* Professional Summary */}
                 {professionalSummary?.summaryText && (
                     <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-neutral-900 mb-3 pb-1", accentColor)}>Professional Profile</h2>
+                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 mb-3 pb-1 border-current", accentColor)}>Professional Profile</h2>
                         <p className="text-[13px] leading-relaxed text-justify indent-8">{professionalSummary.summaryText}</p>
                     </section>
                 )}
@@ -48,7 +48,7 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
                 {/* Experience (Indented Style) */}
                 {workExperience && workExperience.length > 0 && (
                     <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-neutral-900 mb-4 pb-1", accentColor)}>Legal Experience</h2>
+                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current mb-4 pb-1", accentColor)}>Legal Experience</h2>
                         <div className="space-y-6">
                             {workExperience.map((job, i) => (
                                 <div key={i} className="pl-4">
@@ -79,7 +79,7 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
                 {/* Education (Crucial for Legal) */}
                 {education && education.length > 0 && (
                     <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-neutral-900 mb-4 pb-1", accentColor)}>Education & Clerkships</h2>
+                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current mb-4 pb-1", accentColor)}>Education & Clerkships</h2>
                         <div className="space-y-5">
                             {education.map((edu, i) => (
                                 <div key={i} className="pl-4">
@@ -104,7 +104,7 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
                 <div className="grid grid-cols-2 gap-12">
                     {skills && skills.length > 0 && (
                         <section>
-                            <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-neutral-900 mb-3 pb-1", accentColor)}>Practice Areas</h2>
+                            <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current mb-3 pb-1", accentColor)}>Practice Areas</h2>
                             <ul className="list-none space-y-1">
                                 {skills.map((skill, i) => (
                                     <li key={i} className="text-[13px] flex items-center gap-2">
@@ -118,7 +118,7 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
 
                     {languages && languages.length > 0 && (
                         <section>
-                            <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-neutral-900 mb-3 pb-1", accentColor)}>Languages</h2>
+                            <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current mb-3 pb-1", accentColor)}>Languages</h2>
                             <div className="space-y-1">
                                 {languages.map((lang, i) => (
                                     <div key={i} className="flex justify-between items-baseline text-[13px]">
@@ -134,7 +134,7 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
                 {/* Professional Affiliations */}
                 {professionalAffiliations && professionalAffiliations.length > 0 && (
                     <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-neutral-900 mb-3 pb-1", accentColor)}>Professional Affiliations</h2>
+                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current mb-3 pb-1", accentColor)}>Professional Affiliations</h2>
                         <div className="space-y-2 pl-4">
                             {professionalAffiliations.map((aff, i) => (
                                 <div key={i} className="text-[13px]">
@@ -150,7 +150,7 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
                 {/* Custom Sections (Publications, etc.) */}
                 {customSections?.map((sec, idx) => (
                     <section key={idx}>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-neutral-900 mb-3 pb-1", accentColor)}>{sec.title}</h2>
+                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current mb-3 pb-1", accentColor)}>{sec.title}</h2>
                         <ul className="list-none space-y-3 pl-4">
                             {sec.items?.map((item, j) => (
                                 <li key={j} className="text-[13px] leading-snug text-neutral-800">
