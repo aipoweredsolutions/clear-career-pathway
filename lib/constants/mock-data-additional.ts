@@ -389,11 +389,25 @@ export const MOCK_DATA_SCIENTIST_DATA: ResumeDocument = {
             startDate: '2016-09',
             endDate: '2020-03',
             isCurrent: false,
-            roleDescription: 'Applied statistical modeling to optimize complex logistical chains.',
+            roleDescription: 'Applied statistical modeling to optimize complex logistical chains and predict supply chain disruption.',
             achievements: [
                 { achievementText: 'Built a custom time-series forecasting model that reduced inventory waste by $3.5M annually' },
                 { achievementText: 'Launched a real-time anomaly detection system for payment processing, identifying $1M in fraud monthly' },
-                { achievementText: 'Mentored 5 junior analysts in Python and statistical best practices' }
+                { achievementText: 'Mentored 5 junior analysts in Python and statistical best practices' },
+                { achievementText: 'Optimized SQL queries for large-scale data retrieval, decreasing report generation time by 60%' }
+            ]
+        },
+        {
+            jobTitle: 'Data Analyst',
+            companyName: 'QuantTech Solutions',
+            location: 'New York, NY',
+            startDate: '2014-06',
+            endDate: '2016-08',
+            isCurrent: false,
+            roleDescription: 'Developed automated dashboards and conducted exploratory data analysis for financial clients.',
+            achievements: [
+                { achievementText: 'Created Tableau dashboards serving 200+ daily active users across C-suite executives' },
+                { achievementText: 'Assisted in the development of a churn prediction model that retained $2M in annual revenue' }
             ]
         }
     ],
@@ -539,11 +553,25 @@ export const MOCK_TEACHER_DATA: ResumeDocument = {
             startDate: '2008-08',
             endDate: '2015-06',
             isCurrent: false,
-            roleDescription: 'Taught general mathematics and introductory computer science.',
+            roleDescription: 'Taught general mathematics and introductory computer science to grades 9-12.',
             achievements: [
-                { achievementText: 'Introduced the first-ever Computer Science club, growing it to 60+ members' },
-                { achievementText: 'Winner of the "Innovative Teacher of the Year" award in 2012' },
-                { achievementText: 'Published 3 articles on educational technology in national teaching journals' }
+                { achievementText: 'Introduced the first-ever Computer Science club, growing it to 60+ members and competing in state hackathons' },
+                { achievementText: 'Winner of the "Innovative Teacher of the Year" award in 2012 for the district' },
+                { achievementText: 'Published 3 articles on educational technology integration in national teaching journals' },
+                { achievementText: 'Designed and implemented a successful peer-tutoring system that improved math proficiency scores by 15%' }
+            ]
+        },
+        {
+            jobTitle: 'Middle School Math Teacher',
+            companyName: 'Oakridge Public Schools',
+            location: 'Boulder, CO',
+            startDate: '2005-08',
+            endDate: '2008-06',
+            isCurrent: false,
+            roleDescription: 'Instructed 7th and 8th grade pre-algebra and geometry.',
+            achievements: [
+                { achievementText: 'Developed hands-on geometry projects that increased student engagement and comprehension' },
+                { achievementText: 'Coordinated the annual school math fair, involving over 300 students and parent volunteers' }
             ]
         }
     ],

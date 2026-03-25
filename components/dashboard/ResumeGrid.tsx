@@ -1,8 +1,9 @@
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
-import { FileText, MoreVertical, Trash2, Edit, Calendar, Plus } from 'lucide-react'
+import { FileText, MoreVertical, Trash2, Edit, Calendar, Plus, Copy } from 'lucide-react'
 import { ResumeDocument } from '@/lib/types/resume'
-import { deleteResume, createResume } from '@/app/dashboard/actions'
+import { deleteResume, createResume, duplicateResume } from '@/app/dashboard/actions'
+import { UploadResumeCard } from './UploadResumeCard'
 
 interface ResumeGridProps {
     resumes: ResumeDocument[]
@@ -12,7 +13,7 @@ export function ResumeGrid({ resumes }: ResumeGridProps) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Create New Card */}
-            <form action={createResume}>
+            <form action={async () => { 'use server'; await createResume('resume') }}>
                 <button
                     type="submit"
                     className="w-full h-full min-h-[250px] flex flex-col items-center justify-center bg-white border-2 border-dashed border-neutral-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 transition-all group cursor-pointer"
@@ -25,12 +26,19 @@ export function ResumeGrid({ resumes }: ResumeGridProps) {
                 </button>
             </form>
 
+            {/* AI Upload Card */}
+            <UploadResumeCard />
+
             {resumes.map((resume) => (
                 <div key={resume.id} className="bg-white border border-neutral-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow flex flex-col">
                     {/* Card Preview Area */}
                     <div className="h-40 bg-neutral-100 relative group border-b border-neutral-100">
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <FileText className="w-12 h-12 text-neutral-300" />
+                            {resume.documentType === 'cover_letter' ? (
+                                <Edit className="w-12 h-12 text-primary-200" />
+                            ) : (
+                                <FileText className="w-12 h-12 text-neutral-300" />
+                            )}
                         </div>
                         {/* Overlay */}
                         <Link href={`/editor/${resume.id}`} className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -38,13 +46,18 @@ export function ResumeGrid({ resumes }: ResumeGridProps) {
                                 Open Editor
                             </span>
                         </Link>
+                        {resume.documentType === 'cover_letter' && (
+                            <div className="absolute top-3 left-3 bg-primary-600 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded shadow-lg">
+                                Cover Letter
+                            </div>
+                        )}
                     </div>
 
                     {/* Card Content */}
                     <div className="p-5 flex flex-col flex-1">
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="font-semibold text-neutral-900 truncate pr-2" title={resume.title}>
-                                {resume.title || 'Untitled Resume'}
+                                {resume.title || (resume.documentType === 'cover_letter' ? 'Untitled Cover Letter' : 'Untitled Resume')}
                             </h3>
                             {/* Simple Delete Button (Form) */}
                             <form action={deleteResume.bind(null, resume.id || '')}>
@@ -52,10 +65,21 @@ export function ResumeGrid({ resumes }: ResumeGridProps) {
                                     <Trash2 className="w-4 h-4" />
                                 </button>
                             </form>
+                            {/* Duplicate Button */}
+                            <form action={async () => {
+                                'use server'
+                                await duplicateResume(resume.id || '')
+                            }}>
+                                <button type="submit" className="text-neutral-400 hover:text-primary-600 transition-colors p-1" title="Duplicate Resume">
+                                    <Copy className="w-4 h-4" />
+                                </button>
+                            </form>
                         </div>
 
                         <p className="text-sm text-neutral-500 mb-4 flex-1">
-                            {resume.personalInfo?.fullName || 'No Name'} • {resume.templateId || 'Classic'}
+                            {resume.documentType === 'cover_letter'
+                                ? (resume.coverLetter?.jobTitle || 'No Job Title Specified')
+                                : `${resume.personalInfo?.fullName || 'No Name'} • ${resume.templateId || 'Classic'}`}
                         </p>
 
                         <div className="flex justify-between items-center text-xs text-neutral-400 pt-4 border-t border-neutral-100 mt-auto">

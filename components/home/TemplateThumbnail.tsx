@@ -49,6 +49,7 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         // ATS templates - use dedicated ATS mock data
         if (template.id.startsWith('ats-')) {
             if (template.id.includes('nursing')) return MOCK_NURSE_EXPERIENCED_DATA
+            if (template.id.includes('academia')) return MOCK_ACADEMIC_DATA
             if (template.id.includes('professional')) return MOCK_ATS_PROFESSIONAL_DATA
             if (template.id.includes('technical')) return MOCK_TECHNICAL_DATA
             if (template.id.includes('standard')) return MOCK_CORPORATE_DATA
@@ -57,6 +58,7 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
             if (template.id.includes('graduate')) return MOCK_ATS_GRADUATE_DATA
             if (template.id.includes('modern')) return MOCK_ATS_MODERN_DATA
             if (template.id.includes('mini')) return MOCK_ATS_MINIMAL_DATA
+            if (template.id.includes('hospitality')) return MOCK_HOSPITALITY_DATA
             if (template.id.includes('timeline')) return MOCK_ATS_TIMELINE_DATA
             return MOCK_CORPORATE_DATA
         }
@@ -86,10 +88,20 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         if (template.id === 'service-pro') return MOCK_SERVICE_PRO_DATA
         if (template.id === 'academic') return MOCK_ACADEMIC_DATA
         if (template.id === 'chic') return MOCK_FASHION_DATA
+        if (template.id === 'legal-expert') return MOCK_LEGAL_DATA
+        if (template.id === 'military-transition') return MOCK_ATS_EXECUTIVE_DATA
+        if (template.id === 'real-estate-pro') return MOCK_LUXE_TEMPLATE_DATA
+        if (template.id === 'trades-pro') return MOCK_SERVICE_PRO_DATA
+        if (template.id === 'international-cv') return MOCK_EXECUTIVE_TEMPLATE_DATA
+        if (template.id === 'revenue-leader') return MOCK_ATS_EXECUTIVE_DATA
+        if (template.id === 'classic-clean') return MOCK_LEGAL_DATA
 
         // Default to comprehensive preview data
         return MOCK_PREVIEW_DATA
     }
+
+    // Determine if we should use a real image or fallback to a dynamic renderer
+    const previewImage = template.previewImage
 
     // Get color suffix for template
     const colorSuffix = activeColorId && activeColorId !== 'standard' && activeColorId !== 'std' && activeColorId !== 'clean'
@@ -97,32 +109,70 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         : ''
 
     return (
-        <div className={cn("relative w-full h-full bg-white overflow-hidden", className)}>
-            {template.previewImage ? (
+        <div className={cn("relative w-full h-full bg-neutral-100 overflow-hidden", className)}>
+            {previewImage ? (
                 <div className="relative w-full h-full">
                     <NextImage
-                        src={template.previewImage}
+                        src={previewImage}
                         alt={template.name}
                         fill
-                        className="object-cover"
+                        className="object-cover object-top"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                 </div>
             ) : (
-                <div
-                    className="w-full h-full transform scale-[0.35] origin-top-left flex justify-center bg-white"
-                    style={{ width: '286%', height: '286%' }}
-                >
-                    <TemplateRenderer
-                        templateId={`${template.id}${colorSuffix}`}
-                        data={getSampleData() as any}
-                        className="shadow-none pointer-events-none select-none w-[210mm] min-h-[297mm]"
-                    />
-                </div>
+                <LazyTemplatePreview
+                    template={template}
+                    colorSuffix={colorSuffix}
+                    data={getSampleData()}
+                />
             )}
 
             {/* Subtle overlay to indicate it's a preview */}
-            <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-white/10" />
+            <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-black/5" />
+        </div>
+    )
+}
+
+function LazyTemplatePreview({ template, colorSuffix, data }: { template: TemplateMetadata, colorSuffix: string, data: any }) {
+    const [isVisible, setIsVisible] = React.useState(false)
+    const ref = React.useRef<HTMLDivElement>(null)
+
+    React.useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                // Introduce a slight delay so scrolling isn't completely blocked immediately
+                setTimeout(() => setIsVisible(true), 150)
+                observer.disconnect()
+            }
+        }, { rootMargin: '300px' })
+
+        if (ref.current) {
+            observer.observe(ref.current)
+        }
+        return () => observer.disconnect()
+    }, [])
+
+    return (
+        <div
+            ref={ref}
+            className="w-full h-full transform scale-[0.35] origin-top-left flex justify-center bg-white"
+            style={{ width: '286%', height: '286%' }}
+        >
+            {isVisible ? (
+                <TemplateRenderer
+                    templateId={`${template.id}${colorSuffix}`}
+                    data={data}
+                    className="shadow-none pointer-events-none select-none w-[210mm] min-h-[297mm] overflow-hidden"
+                />
+            ) : (
+                <div className="w-[210mm] min-h-[297mm] bg-neutral-100 flex items-center justify-center">
+                    <div className="flex flex-col items-center gap-4 text-neutral-400">
+                        <div className="w-16 h-16 border-4 border-neutral-200 border-t-neutral-400 rounded-full animate-spin" />
+                        <span className="text-2xl font-bold uppercase tracking-widest">Loading</span>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

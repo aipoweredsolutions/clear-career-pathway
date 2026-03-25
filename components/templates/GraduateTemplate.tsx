@@ -37,10 +37,10 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
     }
 
     return (
-        <div className={cn("w-full bg-white text-neutral-900 font-sans p-[1in]", className)} id="resume-preview">
+        <div className={cn("w-full bg-white text-neutral-900 font-serif leading-relaxed", className)} id="resume-preview">
             {/* Header */}
-            <header className="text-center mb-8">
-                <h1 className="text-3xl font-bold uppercase tracking-wide text-neutral-900 mb-2">
+            <header className="text-center mb-10">
+                <h1 className={cn("text-4xl font-normal uppercase tracking-widest mb-3", accentColor)}>
                     {personalInfo?.fullName}
                 </h1>
 
@@ -84,7 +84,7 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
             {/* Career Objective */}
             {professionalSummary?.summaryText && (
                 <section className="mb-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wider mb-3 border-b-2 pb-1", accentColor.replace('text-', 'border-'))}>
+                    <h2 className={cn("text-[13px] font-bold uppercase tracking-[0.2em] mb-4 border-b pb-2 border-neutral-300", accentColor)}>
                         Career Objective
                     </h2>
                     <p className="text-sm leading-relaxed text-neutral-800">
@@ -96,7 +96,7 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
             {/* Education */}
             {education && education.length > 0 && (
                 <section className="mb-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wider mb-4 border-b-2 pb-1", accentColor.replace('text-', 'border-'))}>
+                    <h2 className={cn("text-[13px] font-bold uppercase tracking-[0.2em] mb-4 border-b pb-2 border-neutral-300", accentColor)}>
                         Education
                     </h2>
                     <div className="space-y-4">
@@ -135,7 +135,7 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
             {/* Internships or Work Experience */}
             {workExperience && workExperience.length > 0 && (
                 <section className="mb-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wider mb-4 border-b-2 pb-1", accentColor.replace('text-', 'border-'))}>
+                    <h2 className={cn("text-[13px] font-bold uppercase tracking-[0.2em] mb-4 border-b pb-2 border-neutral-300", accentColor)}>
                         Internships & Work Experience
                     </h2>
                     <div className="space-y-5">
@@ -174,7 +174,7 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
             {/* Projects */}
             {projects && projects.length > 0 && (
                 <section className="mb-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wider mb-4 border-b-2 pb-1", accentColor.replace('text-', 'border-'))}>
+                    <h2 className={cn("text-[13px] font-bold uppercase tracking-[0.2em] mb-4 border-b pb-2 border-neutral-300", accentColor)}>
                         Academic & Personal Projects
                     </h2>
                     <div className="space-y-4">
@@ -206,7 +206,7 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
             {/* Skills */}
             {skills && skills.length > 0 && (
                 <section className="mb-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wider mb-3 border-b-2 pb-1", accentColor.replace('text-', 'border-'))}>
+                    <h2 className={cn("text-[13px] font-bold uppercase tracking-[0.2em] mb-4 border-b pb-2 border-neutral-300", accentColor)}>
                         Skills
                     </h2>
                     <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-neutral-800">
@@ -223,7 +223,7 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
             {/* Certifications & Awards */}
             {((certifications && certifications.length > 0) || (achievements && achievements.length > 0)) && (
                 <section className="mb-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wider mb-4 border-b-2 pb-1", accentColor.replace('text-', 'border-'))}>
+                    <h2 className={cn("text-[13px] font-bold uppercase tracking-[0.2em] mb-4 border-b pb-2 border-neutral-300", accentColor)}>
                         Certifications & Awards
                     </h2>
                     <div className="space-y-3">
@@ -248,7 +248,7 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
             {/* Volunteering / Extracurriculars */}
             {volunteerExperience && volunteerExperience.length > 0 && (
                 <section className="mb-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wider mb-4 border-b-2 pb-1", accentColor.replace('text-', 'border-'))}>
+                    <h2 className={cn("text-[13px] font-bold uppercase tracking-[0.2em] mb-4 border-b pb-2 border-neutral-300", accentColor)}>
                         Volunteering & Extracurriculars
                     </h2>
                     <div className="space-y-4">
@@ -275,7 +275,7 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
             {/* Languages & Affiliations */}
             {((languages && languages.length > 0) || (professionalAffiliations && professionalAffiliations.length > 0)) && (
                 <section className="mb-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wider mb-4 border-b-2 pb-1", accentColor.replace('text-', 'border-'))}>
+                    <h2 className={cn("text-[13px] font-bold uppercase tracking-[0.2em] mb-4 border-b pb-2 border-neutral-300", accentColor)}>
                         Languages & Affiliations
                     </h2>
                     <div className="grid grid-cols-2 gap-8 text-sm">
@@ -311,7 +311,7 @@ export function GraduateTemplate({ data, className, accentColor = 'text-blue-900
             {/* References */}
             {references && references.length > 0 && (
                 <section className="mb-6">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wider mb-4 border-b-2 pb-1", accentColor.replace('text-', 'border-'))}>
+                    <h2 className={cn("text-[13px] font-bold uppercase tracking-[0.2em] mb-4 border-b pb-2 border-neutral-300", accentColor)}>
                         References
                     </h2>
                     <div className="grid grid-cols-2 gap-8">

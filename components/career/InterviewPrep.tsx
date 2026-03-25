@@ -36,6 +36,7 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
     const [isGenerating, setIsGenerating] = useState(false)
     const [result, setResult] = useState<InterviewResult | null>(null)
     const [activeQuestionIndex, setActiveQuestionIndex] = useState(0)
+    const [category, setCategory] = useState<'general' | 'behavioral' | 'technical'>('general')
 
     const handleGenerate = async () => {
         if (!selectedResumeId) {
@@ -59,6 +60,7 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     type: 'interview_prep',
+                    category,
                     currentContent: targetRole,
                     userProfile: {
                         resumeContent: JSON.stringify(selectedResume)
@@ -73,7 +75,7 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
             }
 
             setResult(data.data)
-            toast.success('Interview guide ready!')
+            toast.success(`${category.charAt(0).toUpperCase() + category.slice(1)} interview guide ready!`)
         } catch (error: any) {
             console.error('Interview prep error:', error)
             toast.error(error.message || 'Failed to generate interview prep')
@@ -118,7 +120,7 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
                         {/* Target Role */}
                         <div>
                             <label className="block text-sm font-semibold text-neutral-700 mb-2">
-                                2. Target Job Title
+                                2. Target Job Title/Description
                             </label>
                             <input
                                 type="text"
@@ -127,6 +129,28 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
                                 placeholder="e.g. Senior Frontend Engineer"
                                 className="w-full p-3 rounded-xl border border-neutral-200 focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm"
                             />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-semibold text-neutral-700 mb-3">
+                            3. Focus Category
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                            {(['general', 'behavioral', 'technical'] as const).map((cat) => (
+                                <button
+                                    key={cat}
+                                    onClick={() => setCategory(cat)}
+                                    className={cn(
+                                        "px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border",
+                                        category === cat
+                                            ? "bg-indigo-600 text-white border-indigo-600 shadow-md"
+                                            : "bg-white text-neutral-500 border-neutral-200 hover:border-neutral-300"
+                                    )}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
                         </div>
                     </div>
 

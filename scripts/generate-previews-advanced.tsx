@@ -13,7 +13,7 @@ import fs from 'fs'
 import path from 'path'
 
 // Import all templates
-import { ClassicTemplate } from '../components/templates/ClassicTemplate'
+import { ClassicCleanTemplate } from '../components/templates/ClassicCleanTemplate'
 import { ModernTemplate } from '../components/templates/ModernTemplate'
 import { MinimalTemplate } from '../components/templates/MinimalTemplate'
 import { ProfessionalTemplate } from '../components/templates/ProfessionalTemplate'
@@ -23,12 +23,13 @@ import { TechnicalTemplate } from '../components/templates/TechnicalTemplate'
 import { StartupTemplate } from '../components/templates/StartupTemplate'
 import { ATSClassicTemplate } from '../components/templates/ATSClassicTemplate'
 import { ATSProfessionalTemplate } from '../components/templates/ATSProfessionalTemplate'
-import { ATSStandardTemplate } from '../components/templates/ATSStandardTemplate'
+// ATSStandardTemplate does not exist, using ATSModernTemplate for preview generation if needed
+import { ATSModernTemplate } from '../components/templates/ATSModernTemplate'
 import { ATSTechnicalTemplate } from '../components/templates/ATSTechnicalTemplate'
 
 // Template component mapping
 const templateComponents: Record<string, any> = {
-    'classic': ClassicTemplate,
+    'classic': ClassicCleanTemplate,
     'modern': ModernTemplate,
     'minimal': MinimalTemplate,
     'professional': ProfessionalTemplate,
@@ -38,7 +39,7 @@ const templateComponents: Record<string, any> = {
     'startup': StartupTemplate,
     'ats-classic': ATSClassicTemplate,
     'ats-professional': ATSProfessionalTemplate,
-    'ats-standard': ATSStandardTemplate,
+    'ats-standard': ATSModernTemplate,
     'ats-technical': ATSTechnicalTemplate,
 }
 

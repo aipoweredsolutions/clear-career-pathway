@@ -7,12 +7,13 @@ import { ResumeDOCX } from '@/lib/docx/ResumeDOCX'
 import { Button } from '@/components/ui/Button'
 import { Download, FileText, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { pdf } from '@react-pdf/renderer'
-import { ResumePDF } from '@/lib/pdf/ResumePDF'
+
 import { saveAs } from 'file-saver'
 import { UserSubscription } from '@/lib/types/resume'
 import { canExportFormat } from '@/lib/supabase/subscriptions'
 import { incrementExportCount } from '@/app/editor/actions'
+import { useRouter } from 'next/navigation'
+import { Lock } from 'lucide-react'
 
 interface DownloadButtonsProps {
     data: ResumeDocument
@@ -23,22 +24,26 @@ interface DownloadButtonsProps {
 }
 
 export function DownloadButtons({ data, subscription, className, variant = 'header', previewElementId = 'resume-preview' }: DownloadButtonsProps) {
+    const router = useRouter()
     const [downloadingDocx, setDownloadingDocx] = useState(false)
     const [downloadingPdf, setDownloadingPdf] = useState(false)
     const fileName = `${data.personalInfo?.fullName?.replace(/\s+/g, '_') || 'resume'}`
 
     const handleDocxDownload = async () => {
         if (!canExportFormat(subscription, 'docx')) {
-            toast.error('DOCX export is available on paid plans. Please upgrade to download in Word format.')
+            toast.error('DOCX export requires a premium credit. Redirecting to plans...')
+            setTimeout(() => router.push('/pricing'), 1500)
             return
         }
 
         setDownloadingDocx(true)
         try {
-            const result = await incrementExportCount()
+            const result = await incrementExportCount(data.id || '', 'docx')
             if (!result.success) {
-                if (result.limitReached) {
-                    toast.error('Monthly export limit reached. Please upgrade to Premium for unlimited downloads.')
+                if (result.requiresPayment) {
+                    toast.error('No download credits remaining. Please purchase a bundle or subscribe.')
+                } else if (result.limitReached) {
+                    toast.error('Monthly export limit reached. Please upgrade to Power User plan.')
                 } else {
                     toast.error('Failed to process download request. Please try again.')
                 }
@@ -55,21 +60,31 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
     }
 
     const handlePdfDownload = async () => {
+        if (!canExportFormat(subscription, 'pdf')) {
+            toast.error('Full PDF download requires a premium credit. Redirecting to plans...')
+            setTimeout(() => router.push('/pricing'), 1500)
+            return
+        }
+
         setDownloadingPdf(true)
         try {
-            const result = await incrementExportCount()
+            const result = await incrementExportCount(data.id || '', 'pdf')
             if (!result.success) {
-                if (result.limitReached) {
-                    toast.error('Monthly export limit reached. Please upgrade to Premium for unlimited downloads.')
+                if (result.requiresPayment) {
+                    toast.error('No download credits remaining. Please purchase a bundle or subscribe.')
+                } else if (result.limitReached) {
+                    toast.error('Monthly export limit reached. Please upgrade to Power User plan.')
                 } else {
                     toast.error('Failed to process download request. Please try again.')
                 }
                 return
             }
 
-            // Use @react-pdf/renderer to generate the PDF
-            // This matches the PDF engine used for the preview
-            const isWatermarked = !subscription || subscription.status !== 'active'
+            // Dynamically import @react-pdf/renderer to generate the PDF
+            const { pdf } = await import('@react-pdf/renderer')
+            const { ResumePDF } = await import('@/lib/pdf/ResumePDF')
+
+            const isWatermarked = !subscription || (subscription.status !== 'active' && (subscription as any).downloadCredits <= 0)
             console.log('[PDF Download] Generating PDF for template:', data.templateId)
             const doc = <ResumePDF data={data} isWatermarked={isWatermarked} />
             const asBlob = await pdf(doc).toBlob()
@@ -93,18 +108,19 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                     size="sm"
                     onClick={handlePdfDownload}
                     disabled={downloadingPdf}
-                    className="flex-1 text-xs font-bold py-2 border-neutral-200 hover:border-red-500 hover:bg-red-50 hover:text-red-700 transition-all duration-300"
+                    className="flex-1 text-xs font-bold py-2 border-neutral-200 hover:border-red-500 hover:bg-red-50 hover:text-red-700 transition-all duration-300 group"
                 >
                     {downloadingPdf ? (
                         <span className="flex items-center gap-2">
                             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                            Generating...
+                            Wait...
                         </span>
                     ) : (
-                        <>
-                            <Download className="w-3.5 h-3.5 mr-2" />
+                        <div className="flex items-center gap-1.5">
+                            {!canExportFormat(subscription, 'pdf') && <Lock className="w-3 h-3 text-red-400 group-hover:text-red-500" />}
+                            <Download className="w-3.5 h-3.5" />
                             PDF
-                        </>
+                        </div>
                     )}
                 </Button>
 
@@ -114,18 +130,19 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                     size="sm"
                     onClick={handleDocxDownload}
                     disabled={downloadingDocx}
-                    className="flex-1 text-xs font-bold py-2 border-neutral-200 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300"
+                    className="flex-1 text-xs font-bold py-2 border-neutral-200 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 group"
                 >
                     {downloadingDocx ? (
                         <span className="flex items-center gap-2">
                             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                            Generating...
+                            Wait...
                         </span>
                     ) : (
-                        <>
-                            <FileText className="w-3.5 h-3.5 mr-2" />
+                        <div className="flex items-center gap-1.5">
+                            {!canExportFormat(subscription, 'docx') && <Lock className="w-3 h-3 text-blue-400 group-hover:text-blue-500" />}
+                            <FileText className="w-3.5 h-3.5" />
                             DOCX
-                        </>
+                        </div>
                     )}
                 </Button>
             </div>
@@ -141,7 +158,7 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                 size="sm"
                 onClick={handleDocxDownload}
                 disabled={downloadingDocx}
-                className="hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300"
+                className="hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 group"
             >
                 {downloadingDocx ? (
                     <>
@@ -149,20 +166,21 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                         Generating...
                     </>
                 ) : (
-                    <>
+                    <div className="flex items-center">
+                        {!canExportFormat(subscription, 'docx') && <Lock className="w-3 h-3 mr-2 text-blue-400 group-hover:text-blue-600" />}
                         <FileText className="w-4 h-4 mr-2" />
-                        DOCX
-                    </>
+                        Download DOCX
+                    </div>
                 )}
             </Button>
 
             {/* PDF Download */}
             <Button
-                variant="outline"
+                variant="primary"
                 size="sm"
                 onClick={handlePdfDownload}
                 disabled={downloadingPdf}
-                className="hover:border-red-500 hover:bg-red-50 hover:text-red-700 transition-all duration-300"
+                className="shadow-lg shadow-primary-200 transition-all duration-300 group"
             >
                 {downloadingPdf ? (
                     <>
@@ -170,10 +188,11 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                         Generating...
                     </>
                 ) : (
-                    <>
+                    <div className="flex items-center">
+                        {!canExportFormat(subscription, 'pdf') && <Lock className="w-3 h-3 mr-2 text-white/70" />}
                         <Download className="w-4 h-4 mr-2" />
-                        PDF
-                    </>
+                        Download PDF
+                    </div>
                 )}
             </Button>
         </div>

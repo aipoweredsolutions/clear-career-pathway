@@ -44,11 +44,18 @@ export default async function DashboardPage() {
                     <h1 className="text-3xl font-bold text-neutral-900">
                         My Documents
                     </h1>
-                    <form action={createResume}>
-                        <button type="submit" className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium">
-                            + New Resume
-                        </button>
-                    </form>
+                    <div className="flex gap-4">
+                        <form action={createResume.bind(null, 'resume')}>
+                            <button type="submit" className="bg-white text-primary-600 border border-primary-100 px-4 py-2 rounded-lg hover:bg-primary-50 transition-colors font-medium">
+                                + New Resume
+                            </button>
+                        </form>
+                        <form action={createResume.bind(null, 'cover_letter')}>
+                            <button type="submit" className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium">
+                                + AI Cover Letter
+                            </button>
+                        </form>
+                    </div>
                 </div>
 
                 {fetchError && (
@@ -82,11 +89,18 @@ export default async function DashboardPage() {
                         <p className="text-neutral-600 mb-8 max-w-md mx-auto">
                             Create your first resume to get started. Choose from our professional templates or start from scratch.
                         </p>
-                        <form action={createResume}>
-                            <button className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-semibold shadow-md">
-                                Create Your First Resume
-                            </button>
-                        </form>
+                        <div className="flex justify-center gap-4">
+                            <form action={createResume.bind(null, 'resume')}>
+                                <button className="bg-white text-primary-600 border border-primary-100 px-6 py-3 rounded-lg hover:bg-primary-50 transition-colors font-semibold shadow-sm">
+                                    Create Your First Resume
+                                </button>
+                            </form>
+                            <form action={createResume.bind(null, 'cover_letter')}>
+                                <button className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-semibold shadow-md">
+                                    Create AI Cover Letter
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 )}
             </div>

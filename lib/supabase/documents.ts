@@ -20,7 +20,8 @@ export function mapDocumentRow(doc: any, relations: any = {}): ResumeDocument {
         professional_affiliations: affiliations,
         references,
         additional_info: ai,
-        custom_sections: custom
+        custom_sections: custom,
+        cover_letters: cl
     } = relations
 
     return {
@@ -189,7 +190,18 @@ export function mapDocumentRow(doc: any, relations: any = {}): ResumeDocument {
                 text: item.text,
                 displayOrder: item.display_order
             })) || []
-        })) || []
+        })) || [],
+
+        coverLetter: cl ? {
+            recipientName: cl.recipient_name,
+            recipientTitle: cl.recipient_title,
+            companyName: cl.company_name,
+            companyAddress: cl.company_address,
+            jobTitle: cl.job_title,
+            jobDescription: cl.job_description,
+            tone: cl.tone,
+            content: cl.content
+        } : undefined
     }
 }
 
@@ -290,7 +302,8 @@ export async function fetchFullDocument(supabase: SupabaseClient, documentId: st
         { data: affiliations },
         { data: references },
         { data: additionalInfo },
-        { data: customSections }
+        { data: customSections },
+        { data: coverLetter }
     ] = await Promise.all([
         supabase.from('personal_info').select('*').eq('document_id', documentId).maybeSingle(),
         supabase.from('professional_summary').select('*').eq('document_id', documentId).maybeSingle(),
@@ -306,7 +319,8 @@ export async function fetchFullDocument(supabase: SupabaseClient, documentId: st
         supabase.from('professional_affiliations').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
         supabase.from('document_references').select('*').eq('document_id', documentId).order('display_order', { ascending: true }),
         supabase.from('additional_info').select('*').eq('document_id', documentId).maybeSingle(),
-        supabase.from('custom_sections').select('*, custom_section_items(*)').eq('document_id', documentId).order('display_order', { ascending: true })
+        supabase.from('custom_sections').select('*, custom_section_items(*)').eq('document_id', documentId).order('display_order', { ascending: true }),
+        supabase.from('cover_letters').select('*').eq('document_id', documentId).maybeSingle()
     ])
 
     return mapDocumentRow(doc, {
@@ -324,6 +338,7 @@ export async function fetchFullDocument(supabase: SupabaseClient, documentId: st
         professional_affiliations: affiliations,
         references,
         additional_info: additionalInfo,
-        custom_sections: customSections
+        custom_sections: customSections,
+        cover_letters: coverLetter
     })
 }

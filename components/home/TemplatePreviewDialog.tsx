@@ -53,10 +53,6 @@ const PDFPreview = dynamic(() => import('./PDFPreview'), {
     )
 })
 
-const SafePDFDownloadButton = dynamic(() => import('../pdf/PDFDownloadButton').then(mod => mod.PDFDownloadButton), {
-    ssr: false,
-    loading: () => <Button disabled className="w-full py-5 opacity-50">Loading...</Button>
-})
 
 interface TemplatePreviewDialogProps {
     isOpen: boolean
@@ -70,6 +66,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
     const [viewMode, setViewMode] = useState<'web' | 'pdf'>('web')
     const [isMounted, setIsMounted] = useState(false)
     const [selectedColor, setSelectedColor] = useState<string>(initialColor || 'standard')
+    const [pdfUrl, setPdfUrl] = useState<string | null>(null)
 
     // Sync local color with prop when template changes or initialColor changes
     useEffect(() => {
@@ -107,6 +104,8 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             else if (template.id.includes('modern')) baseData = MOCK_ATS_MODERN_DATA
             else if (template.id.includes('mini')) baseData = MOCK_ATS_MINIMAL_DATA
             else if (template.id.includes('timeline')) baseData = MOCK_ATS_TIMELINE_DATA
+            else if (template.id.includes('hospitality')) baseData = MOCK_HOSPITALITY_DATA
+            else if (template.id.includes('academia')) baseData = MOCK_ACADEMIC_DATA
             else baseData = MOCK_CORPORATE_DATA
         } else {
             // Visual templates - use dedicated template mock data
@@ -131,6 +130,13 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             else if (template.id === 'hospitality-elite') baseData = MOCK_HOSPITALITY_DATA
             else if (template.id === 'cruise-excellence') baseData = MOCK_CRUISE_DATA
             else if (template.id === 'service-pro') baseData = MOCK_SERVICE_PRO_DATA
+            else if (template.id === 'legal-expert') baseData = MOCK_LEGAL_DATA
+            else if (template.id === 'military-transition') baseData = MOCK_ATS_EXECUTIVE_DATA
+            else if (template.id === 'real-estate-pro') baseData = MOCK_LUXE_TEMPLATE_DATA
+            else if (template.id === 'trades-pro') baseData = MOCK_SERVICE_PRO_DATA
+            else if (template.id === 'international-cv') baseData = MOCK_EXECUTIVE_TEMPLATE_DATA
+            else if (template.id === 'revenue-leader') baseData = MOCK_ATS_EXECUTIVE_DATA
+            else if (template.id === 'classic-clean') baseData = MOCK_LEGAL_DATA
         }
 
         return {
@@ -227,11 +233,24 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                                         <span className="text-[10px] font-black text-primary-600 uppercase bg-primary-50 px-1.5 py-0.5 rounded">PDF v1.7</span>
                                     </div>
                                     <p className="text-[10px] text-neutral-500 leading-relaxed font-medium">Standard ATS-compliant document structure.</p>
-                                    <SafePDFDownloadButton
-                                        key={template.id}
-                                        data={previewData}
-                                        fileName={`${template.name.replace(/\s+/g, '_')}_Preview.pdf`}
-                                    />
+                                    
+                                    <div className="mt-4">
+                                        {pdfUrl ? (
+                                            <a 
+                                                href={pdfUrl} 
+                                                download={`Clear_Career_Path_${template.name.replace(/\s+/g, '_')}_Preview.pdf`}
+                                                className="flex items-center justify-center gap-2 p-3 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg shadow-neutral-200"
+                                            >
+                                                <Download className="w-4 h-4" />
+                                                Download Preview PDF
+                                            </a>
+                                        ) : (
+                                            <div className="flex items-center gap-2 p-3 bg-neutral-100 rounded-lg text-neutral-400 border border-dashed border-neutral-200">
+                                                <div className="w-3 h-3 border-2 border-neutral-200 border-t-neutral-400 rounded-full animate-spin" />
+                                                <span className="text-[10px] font-bold uppercase tracking-wider">Generating PDF...</span>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
 
                                 <div className="p-4 rounded-xl border border-neutral-100 bg-neutral-50/50">
@@ -298,6 +317,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                                         data={previewData}
                                         isAuthenticated={!!user}
                                         templateName={template.name}
+                                        onUrlUpdate={setPdfUrl}
                                     />
                                 )}
                             </div>

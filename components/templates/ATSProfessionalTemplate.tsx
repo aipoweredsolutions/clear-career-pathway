@@ -28,13 +28,13 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
     return (
         <div className={cn(
-            "w-full bg-white aspect-[210/297] text-neutral-900",
+            "w-full bg-white text-neutral-900",
             "font-sans",
             className
         )}>
             {/* Header - Name centered */}
-            <header className="text-center mb-6">
-                <h1 className="text-3xl font-bold tracking-tight mb-3">
+            <header className="text-center mb-4">
+                <h1 className="text-3xl font-bold tracking-tight mb-2">
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
 
@@ -71,7 +71,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* Professional Summary */}
             {professionalSummary?.summaryText && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Professional Summary
                     </h2>
@@ -83,7 +83,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* Core Skills - Categorized for ATS */}
             {skills && skills.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Core Skills
                     </h2>
@@ -121,7 +121,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                         return (
                             <div className="space-y-2">
                                 {Object.entries(groupedSkills).map(([type, skillsList]) => (
-                                    <div key={type} className="grid grid-cols-[160px_1fr] gap-4 items-start">
+                                    <div key={type} className="grid grid-cols-1 gap-1 items-start mb-2">
                                         <span className="text-sm font-semibold text-neutral-700">
                                             {categoryLabels[type] || type}:
                                         </span>
@@ -138,7 +138,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* Work Experience */}
             {workExperience && workExperience.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Work Experience
                     </h2>
@@ -179,7 +179,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* Education */}
             {education && education.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Education
                     </h2>
@@ -217,7 +217,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* Certifications */}
             {certifications && certifications.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Certifications
                     </h2>
@@ -237,7 +237,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* Achievements */}
             {achievements && achievements.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Achievements & Awards
                     </h2>
@@ -258,7 +258,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* Projects */}
             {projects && projects.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Projects
                     </h2>
@@ -292,7 +292,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* Volunteer Experience */}
             {volunteerExperience && volunteerExperience.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Volunteer Experience
                     </h2>
@@ -313,7 +313,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* Publications */}
             {publications && publications.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         Publications
                     </h2>
@@ -331,11 +331,11 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
 
             {/* References */}
             {references && references.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-4">
                     <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                         References
                     </h2>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4">
                         {references.map((ref, index) => (
                             <div key={ref.id || index} className="text-sm text-neutral-800">
                                 {ref.referenceName && <div className="font-bold">{ref.referenceName}</div>}
@@ -352,7 +352,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
             {(languages && languages.length > 0) ||
                 (professionalAffiliations && professionalAffiliations.length > 0) ||
                 additionalInfo?.otherInfo && (
-                    <section className="mb-6">
+                    <section className="mb-4">
                         <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
                             Additional Information
                         </h2>

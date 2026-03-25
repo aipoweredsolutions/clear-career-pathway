@@ -30,7 +30,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
 
     return (
         <div className={cn(
-            "w-full bg-white aspect-[210/297] p-12 text-neutral-900 font-serif leading-snug",
+            "w-full bg-white text-neutral-900 font-serif leading-snug",
             className
         )}>
             {/* Header */}
@@ -182,7 +182,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                 {(certifications?.length || achievements?.length) ? (
                     <section>
                         <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Honors & Certifications</h2>
-                        <div className="grid grid-cols-2 gap-x-8">
+                        <div className="grid grid-cols-1 gap-y-2">
                             {certifications && certifications.map((cert, i) => (
                                 <div key={i} className="text-xs mb-1">
                                     <span className="font-bold">{cert.certificationName}</span>
@@ -203,7 +203,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                 {(languages?.length || professionalAffiliations?.length || volunteerExperience?.length) ? (
                     <section>
                         <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Additional Information</h2>
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                        <div className="grid grid-cols-1 gap-y-2">
                             {languages && (
                                 <div className="text-xs">
                                     <span className="font-bold mr-2 uppercase text-[10px]">Languages:</span>
@@ -217,7 +217,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                                 </div>
                             )}
                             {volunteerExperience && (
-                                <div className="text-xs col-span-2">
+                                <div className="text-xs">
                                     <span className="font-bold mr-2 uppercase text-[10px]">Volunteer Experience:</span>
                                     {volunteerExperience.map(v => `${v.roleTitle} at ${v.organizationName}`).join(' • ')}
                                 </div>

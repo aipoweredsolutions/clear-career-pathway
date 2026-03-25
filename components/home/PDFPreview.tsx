@@ -11,10 +11,18 @@ interface PDFPreviewProps {
     data: ResumeDocument
     isAuthenticated: boolean
     templateName: string
+    onUrlUpdate?: (url: string | null) => void
 }
 
-export default function PDFPreview({ data, isAuthenticated, templateName }: PDFPreviewProps) {
+export default function PDFPreview({ data, isAuthenticated, templateName, onUrlUpdate }: PDFPreviewProps) {
     const [instance, updateInstance] = usePDF({ document: <ResumePDF data={data} /> })
+
+    // Sync instance URL with parent if callback provided
+    React.useEffect(() => {
+        if (onUrlUpdate) {
+            onUrlUpdate(instance.url)
+        }
+    }, [instance.url, onUrlUpdate])
 
     // Force update when data changes
     React.useEffect(() => {
@@ -31,21 +39,6 @@ export default function PDFPreview({ data, isAuthenticated, templateName }: PDFP
                 {/* Overlay removed to allow preview for all users */}
             </div>
 
-            <div className="mt-4 xl:hidden">
-                <a
-                    href={instance.url || '#'}
-                    download={`${templateName.replace(/\s+/g, '_')}_Preview.pdf`}
-                    className="block w-full"
-                >
-                    <Button
-                        variant="primary"
-                        className="w-full font-bold"
-                        disabled={instance.loading}
-                    >
-                        {instance.loading ? 'Generating...' : 'Download PDF Preview'}
-                    </Button>
-                </a>
-            </div>
 
             {/* Hidden hook trigger for parent or handled internally */}
             <div id="pdf-instance-data" data-url={instance.url} data-loading={instance.loading} className="hidden" />

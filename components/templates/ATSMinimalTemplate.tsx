@@ -27,11 +27,11 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
 
     return (
         <div className={cn(
-            "w-full bg-white aspect-[210/297] p-10 text-neutral-900 font-sans leading-tight",
+            "w-full bg-white text-neutral-900 font-sans leading-tight",
             className
         )}>
             {/* Minimal Header */}
-            <header className="mb-8">
+            <header className="mb-5">
                 <h1 className={cn("text-3xl font-light tracking-tight mb-1", accentColor)}>
                     {personalInfo?.fullName?.toUpperCase() || 'YOUR NAME'}
                 </h1>
@@ -52,7 +52,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                 </div>
             </header>
 
-            <div className="space-y-8">
+            <div className="space-y-5">
                 {/* Summary */}
                 {professionalSummary?.summaryText && (
                     <section>
@@ -131,7 +131,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                 {skills && skills.length > 0 && (
                     <section>
                         <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400 mb-4">Competencies</h2>
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                        <div className="grid grid-cols-1 gap-4">
                             {Object.entries(skills.reduce((acc, s) => {
                                 const t = s.skillType || 'professional';
                                 if (!acc[t]) acc[t] = [];
@@ -153,7 +153,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
 
                 {/* Certifications & Awards */}
                 {(certifications?.length || achievements?.length) ? (
-                    <div className="grid grid-cols-2 gap-8 border-t border-neutral-100 pt-6">
+                    <div className="grid grid-cols-1 gap-6 border-t border-neutral-100 pt-6">
                         {certifications && certifications.length > 0 && (
                             <section>
                                 <h2 className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-3">Certs</h2>

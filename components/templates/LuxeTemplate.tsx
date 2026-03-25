@@ -51,10 +51,10 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
     const activeTheme = themeColors[theme]
 
     return (
-        <div className={cn("w-full bg-white aspect-[210/297] p-16 text-slate-900 font-serif leading-relaxed", className)}>
+        <div className={cn("w-full bg-white aspect-[210/297] p-10 text-slate-900 font-playfair tracking-normal leading-relaxed", className)}>
             {/* Elegant Header - Centered */}
-            <header className="flex flex-col items-center text-center mb-16">
-                <h1 className={cn("text-5xl font-medium tracking-tight mb-4", activeTheme.text)}>
+            <header className="flex flex-col items-center text-center mb-5">
+                <h1 className={cn("text-5xl font-medium tracking-normal mb-2", activeTheme.text)}>
                     {personalInfo?.fullName}
                 </h1>
 
@@ -83,7 +83,7 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
                 <div className={cn("w-32 h-px mt-8", activeTheme.border, "border-b-2")}></div>
             </header>
 
-            <div className="flex flex-col gap-12">
+            <div className="flex flex-col gap-4">
                 {/* Summary */}
                 {professionalSummary?.summaryText && (
                     <section className="flex flex-col items-center text-center px-12">
@@ -95,7 +95,7 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
 
                 {/* Experience */}
                 {workExperience && workExperience.length > 0 && (
-                    <section className="flex flex-col gap-8">
+                    <section className="flex flex-col gap-4">
                         <div className="flex items-center gap-6">
                             <h2 className={cn("text-xs font-bold uppercase tracking-[0.3em] whitespace-nowrap", activeTheme.accent)}>
                                 Professional Experience
@@ -103,7 +103,7 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
                             <div className={cn("flex-1 h-px", activeTheme.border, "border-b")}></div>
                         </div>
 
-                        <div className="flex flex-col gap-10">
+                        <div className="flex flex-col gap-6">
                             {workExperience.map((job, i) => (
                                 <div key={i} className="flex flex-col gap-3">
                                     <div className="flex justify-between items-baseline">

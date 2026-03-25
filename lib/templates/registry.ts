@@ -4,15 +4,14 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 1. ATS PROFESSIONAL (Maximum ATS Compatibility) ---
     {
         id: 'ats-professional',
-        name: 'ATS Professional',
+        name: 'Professional Blue Accent',
         description: 'Designed to pass through Applicant Tracking Systems with 99% success rate. Uses clean single-column layout, standard fonts, and zero graphics. Ideal when applying through online portals at Fortune 500 companies, government positions, or any role where your resume must first pass automated screening.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'technical'],
             industries: ['General', 'Business', 'Tech', 'Finance', 'Legal', 'Healthcare']
         },
-        isPremium: false,
-        previewImage: '/templates/ats-professional-preview.png',
+        isPremium: true,
         colors: [
             { id: 'standard', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -22,37 +21,17 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 2. ATS PRO-STANDARD ---
-    {
-        id: 'ats-standard',
-        name: 'ATS Pro-Standard',
-        description: 'The recruiter favorite. Left-aligned layout with perfectly structured headers that both humans and ATS systems love. High readability ensures your qualifications are never missed. The reliable, professional choice for any corporate role at any career level.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior', 'executive'],
-            jobTypes: ['corporate'],
-            industries: ['General', 'Business']
-        },
-        isPremium: false,
-        colors: [
-            { id: 'black', name: 'Standard Black', hex: '#000000' },
-            { id: 'slate', name: 'Slate Grey', hex: '#475569' },
-            { id: 'navy', name: 'Deep Navy', hex: '#0f172a' },
-            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
-            { id: 'blue', name: 'Corporate Blue', hex: '#1e40af' }
-        ]
-    },
-
     // --- 3. ATS ULTRA-MINIMAL ---
     {
         id: 'ats-minimal',
-        name: 'ATS Ultra-Minimal',
+        name: 'Elegant Minimal',
         description: 'The ultimate in simplicity and ATS compatibility. Maximum whitespace and zero decorative elements ensure perfect parsing by any system, old or new. When you absolutely must pass automated screening, this is your safest choice. Works for any industry or career level.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior'],
             jobTypes: ['corporate', 'creative'],
             industries: ['General']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
@@ -65,14 +44,14 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 4. ATS CLASSIC SERIF ---
     {
         id: 'ats-classic',
-        name: 'ATS Classic Serif',
+        name: 'Executive Classic',
         description: 'Combines ATS compatibility with traditional elegance. Serif typography for law firms, financial institutions, and conservative industries. Passes automated screening while maintaining professional gravitas. Perfect when you need both modern technology and timeless presentation.',
         suitableFor: {
             careerLevels: ['mid', 'senior', 'executive'],
             jobTypes: ['corporate'],
             industries: ['Legal', 'Finance', 'Education']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -85,14 +64,14 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 5. ATS EXECUTIVE BOLD ---
     {
         id: 'ats-executive',
-        name: 'ATS Executive Bold',
+        name: 'Executive Leadership',
         description: 'ATS-compliant template designed for leadership roles. Bold section headers emphasize strategic achievements and executive presence. Passes automated screening while commanding attention. Perfect for C-suite, VP, and director-level positions in competitive markets.',
         suitableFor: {
             careerLevels: ['senior', 'executive'],
             jobTypes: ['corporate'],
             industries: ['Management', 'C-Suite']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'gold', name: 'Premium Gold', hex: '#b45309' },
@@ -105,14 +84,14 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 6. ATS MODERN CLEAN ---
     {
         id: 'ats-modern',
-        name: 'ATS Modern Clean',
+        name: 'Modern Professional',
         description: 'Contemporary design meets ATS requirements. Clean sans-serif typography and subtle hierarchy create modern appeal while ensuring perfect parsing. Ideal for tech companies, SaaS startups, and marketing roles where you need both style and substance.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior'],
             jobTypes: ['corporate', 'technical'],
             industries: ['Tech', 'SaaS', 'Marketing']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'blue', name: 'Modern Blue', hex: '#2563eb' },
@@ -122,7 +101,27 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 7. VISUAL TIMELINE (Creative) ---
+    // --- 7. HOSPITALITY PRO (Unified Maritime, Culinary, Hotel) ---
+    {
+        id: 'hospitality-pro',
+        name: 'Hospitality Pro (3-in-1)',
+        description: 'The ultimate professional toolkit for the hospitality industry. This intelligent template automatically adapts its design, icons, and layout based on your role—whether you are an Executive Chef, a Cruise Ship Officer, or a Luxury Hotel Manager. Features high-impact photo support, maritime certification tracking, and specialized skill metrics.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'technical'],
+            industries: ['Hospitality', 'Cruise', 'Culinary', 'Tourism', 'Luxury Service']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'gold', name: 'Luxury Gold (Hotel)', hex: '#b45309' },
+            { id: 'navy', name: 'Maritime Navy (Cruise)', hex: '#1e3a8a' },
+            { id: 'red', name: 'Signature Red (Chef)', hex: '#b91c1c' },
+            { id: 'emerald', name: 'Deep Emerald (Resort)', hex: '#064e3b' },
+            { id: 'black', name: 'Executive Onyx', hex: '#111827' }
+        ]
+    },
+
+    // --- 9. VISUAL TIMELINE (Creative) ---
     {
         id: 'creative',
         name: 'Visual Timeline',
@@ -142,7 +141,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 8. ATS TIMELINE PRO ---
+    // --- 10. ATS TIMELINE PRO ---
     {
         id: 'ats-timeline',
         name: 'ATS Timeline Pro',
@@ -162,7 +161,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 9. NURSING PROFESSIONAL (NEW - ATS-Standard based) ---
+    // --- 11. NURSING PROFESSIONAL (NEW - ATS-Standard based) ---
     {
         id: 'ats-standard-nursing',
         name: 'Nursing Professional',
@@ -172,7 +171,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'technical'],
             industries: ['Healthcare', 'Nursing', 'Medical']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Clinical Black', hex: '#000000' },
             { id: 'blue', name: 'Scrub Blue', hex: '#1e40af' },
@@ -182,7 +181,27 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 10. CARE CREATIVE (NEW - Creative based) ---
+    // --- 12. HOSPITALITY ATS PRO ---
+    {
+        id: 'ats-hospitality',
+        name: 'ATS Hospitality Pro',
+        description: 'ATS-compliant design strictly optimized for the hospitality industry. Prominently features language proficiencies, core competencies, and critical certifications like ServSafe. Evaluates perfectly in applicant tracking systems for Hotel Managers, Guest Services, Executive Chefs, and Concierge roles.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['service', 'corporate'],
+            industries: ['Hospitality', 'Tourism', 'Service', 'F&B', 'Events']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'black', name: 'Classic Black', hex: '#000000' },
+            { id: 'navy', name: 'Resort Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Charcoal Night', hex: '#374151' },
+            { id: 'emerald', name: 'Emerald', hex: '#064e3b' },
+            { id: 'slate', name: 'Cool Slate', hex: '#334155' }
+        ]
+    },
+
+    // --- 13. CARE CREATIVE (NEW - Creative based) ---
     {
         id: 'creative-nursing',
         name: 'Care & Compassion',
@@ -202,7 +221,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 11. ATS TECHNICAL ---
+    // --- 14. ATS TECHNICAL ---
     {
         id: 'ats-technical',
         name: 'ATS Dev-Console',
@@ -212,7 +231,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['technical'],
             industries: ['Software', 'Engineering', 'AI']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'green', name: 'Matrix Green', hex: '#064e3b' },
@@ -222,7 +241,47 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 12. ATS NEW GRAD ---
+    // --- 15a. ATS NURSING RN ---
+    {
+        id: 'ats-nursing',
+        name: 'ATS Nursing RN',
+        description: 'Purpose-built for Registered Nurses, LPNs, and advanced-practice clinicians. Features clinical-focused sections for licensures (RN, CCRN, BLS, ACLS), patient care metrics, and unit specializations. 100% ATS-compliant for hospital portals like Workday and Taleo. Passes automated screening at every major healthcare system.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior'],
+            jobTypes: ['corporate', 'technical'],
+            industries: ['Healthcare', 'Nursing', 'Medical', 'Clinical']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'standard', name: 'Clinical Teal', hex: '#0f766e' },
+            { id: 'blue', name: 'Scrub Blue', hex: '#1e40af' },
+            { id: 'emerald', name: 'Medical Green', hex: '#065f46' },
+            { id: 'rose', name: 'Heart Rose', hex: '#be123c' },
+            { id: 'slate', name: 'Slate Gray', hex: '#475569' }
+        ]
+    },
+
+    // --- 15b. ATS ACADEMIA ---
+    {
+        id: 'ats-academia',
+        name: 'ATS Scholar CV',
+        description: 'The definitive ATS-compliant academic curriculum vitae. Publication-first layout with dedicated sections for research grants, teaching experience, and professional society memberships. Scholarly serif typography preserves academic gravitas while ensuring perfect parsing by university HR systems. Essential for professors, postdocs, and research scientists.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['academic'],
+            industries: ['Education', 'Research', 'Science', 'University']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'standard', name: 'Oxford Slate', hex: '#334155' },
+            { id: 'navy', name: 'Academic Navy', hex: '#1e3a8a' },
+            { id: 'maroon', name: 'Scholar Maroon', hex: '#7f1d1d' },
+            { id: 'emerald', name: 'Ivy Green', hex: '#064e3b' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' }
+        ]
+    },
+
+    // --- 15. ATS NEW GRAD ---
     {
         id: 'ats-graduate',
         name: 'ATS New Grad',
@@ -232,7 +291,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'academic'],
             industries: ['General', 'Education']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'maroon', name: 'Academic Maroon', hex: '#9f1239' },
@@ -242,7 +301,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 13. MODERN ---
+    // --- 16. MODERN ---
     {
         id: 'modern',
         name: 'Modern One',
@@ -262,27 +321,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 14. CLASSIC ---
-    {
-        id: 'classic',
-        name: 'Professional Standard',
-        description: 'The timeless choice trusted by professionals worldwide. Features clear hierarchy, professional color accents, and a layout that works for any industry. When in doubt, choose Classic—it never goes out of style and is respected by hiring managers across all sectors.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior', 'executive'],
-            jobTypes: ['corporate', 'academic'],
-            industries: ['General', 'Business', 'Finance']
-        },
-        isPremium: false,
-        colors: [
-            { id: 'black', name: 'Classic Black', hex: '#000000' },
-            { id: 'blue', name: 'Blue', hex: '#1e40af' },
-            { id: 'green', name: 'Green', hex: '#047857' },
-            { id: 'red', name: 'Red', hex: '#be123c' },
-            { id: 'navy', name: 'Navy', hex: '#312e81' }
-        ]
-    },
-
-    // --- 15. EXECUTIVE ---
+    // --- 18. EXECUTIVE ---
     {
         id: 'executive',
         name: 'Executive Board',
@@ -302,7 +341,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 16. CHIC ---
+    // --- 19. CHIC ---
     {
         id: 'chic',
         name: 'Chic Minimalist',
@@ -322,7 +361,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 17. TECHNICAL (Dev Terminal) ---
+    // --- 20. TECHNICAL (Dev Terminal) ---
     {
         id: 'technical',
         name: 'Dev Terminal',
@@ -332,7 +371,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['technical'],
             industries: ['Software', 'Engineering', 'Data']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Terminal Black', hex: '#000000' },
             { id: 'standard', name: 'Light Mode', hex: '#ffffff' },
@@ -342,7 +381,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 18. ACADEMIC ---
+    // --- 21. ACADEMIC ---
     {
         id: 'academic',
         name: 'Academic CV',
@@ -352,7 +391,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['academic'],
             industries: ['Education', 'Research', 'Science']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Formal Black', hex: '#000000' },
             { id: 'clean', name: 'Clean White', hex: '#ffffff' },
@@ -362,7 +401,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 19. COMPACT ---
+    // --- 22. COMPACT ---
     {
         id: 'compact',
         name: 'Compact Pro',
@@ -382,7 +421,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 20. PROFESSIONAL ---
+    // --- 23. PROFESSIONAL ---
     {
         id: 'professional',
         name: 'Professional',
@@ -392,8 +431,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'technical'],
             industries: ['General', 'Business', 'Legal', 'Tech']
         },
-        previewImage: '/templates/professional-preview.png',
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Sharp Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#0f172a' },
@@ -403,7 +441,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 21. LUXE ---
+    // --- 24. LUXE ---
     {
         id: 'luxe',
         name: 'The Luxe',
@@ -413,7 +451,6 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate'],
             industries: ['Finance', 'Legal', 'Management', 'Luxury']
         },
-        previewImage: '/templates/luxe-preview.png',
         isPremium: true,
         colors: [
             { id: 'black', name: 'Rich Black', hex: '#000000' },
@@ -424,7 +461,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 22. STARTUP ---
+    // --- 25. STARTUP ---
     {
         id: 'startup',
         name: 'The Startup',
@@ -444,7 +481,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 23. ARTISAN ---
+    // --- 26. ARTISAN ---
     {
         id: 'artisan',
         name: 'The Artisan',
@@ -464,7 +501,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 24. SPLIT-CONTRAST ---
+    // --- 27. SPLIT-CONTRAST ---
     {
         id: 'split-contrast',
         name: 'The Split-Contrast',
@@ -484,27 +521,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 25. CUTE ---
-    {
-        id: 'cute',
-        name: 'Cotton Candy',
-        description: 'Stand out with soft pastels and rounded corners that showcase your creative personality. Perfect for roles in lifestyle brands, boutique agencies, or creative startups where personality matters as much as skills. Features playful color themes including pink, mint, lavender, and peach.',
-        suitableFor: {
-            careerLevels: ['student', 'entry', 'mid'],
-            jobTypes: ['creative', 'freelance'],
-            industries: ['Lifestyle', 'Fashion', 'Design']
-        },
-        isPremium: true,
-        colors: [
-            { id: 'black', name: 'Sophisticated Black', hex: '#111827' },
-            { id: 'pink', name: 'Pink', hex: '#fce7f3' },
-            { id: 'mint', name: 'Mint', hex: '#ccfbf1' },
-            { id: 'lavender', name: 'Lavender', hex: '#f3e8ff' },
-            { id: 'peach', name: 'Peach', hex: '#ffedd5' }
-        ]
-    },
-
-    // --- 26. GRADUATE (Original) ---
+    // --- 29. GRADUATE (Original) ---
     {
         id: 'graduate',
         name: 'Graduate Professional',
@@ -514,7 +531,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'academic', 'technical'],
             industries: ['General']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -524,7 +541,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 27. MINIMAL (Clean Slate) ---
+    // --- 30. MINIMAL (Clean Slate) ---
     {
         id: 'minimal',
         name: 'Clean Slate',
@@ -534,7 +551,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['creative', 'corporate'],
             industries: ['Writing', 'Marketing', 'General']
         },
-        isPremium: false,
+        isPremium: true,
         colors: [
             { id: 'standard', name: 'Pure Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -544,63 +561,133 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 28. HOSPITALITY ELITE ---
+    // --- 31. REVENUE LEADER ---
     {
-        id: 'hospitality-elite',
-        name: 'Hospitality Elite',
-        description: 'Premium template designed specifically for hospitality professionals. Features a professional photo placeholder, elegant typography, and dedicated sections for service certifications and language proficiency. Perfect for hotel managers, concierges, and high-end service roles.',
+        id: 'revenue-leader',
+        name: 'Revenue Leader',
+        description: 'Built for sales professionals, business developers, account executives, and revenue-focused leaders. The dark gradient header features a live KPI metrics strip drawn straight from your achievements — quota attainment, ARR, deal count, and more. A clean two-column layout separates your accomplishments and key deals from skills and credentials. ATS-compatible, multi-page ready, and designed to make numbers impossible to miss.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior', 'executive'],
-            jobTypes: ['service', 'corporate'],
-            industries: ['Hospitality', 'Tourism', 'Service']
+            jobTypes: ['corporate', 'technical'],
+            industries: ['Sales', 'Business Development', 'Growth', 'SaaS', 'Finance', 'Consulting']
         },
         isPremium: true,
         colors: [
-            { id: 'gold', name: 'Luxury Gold', hex: '#b45309' },
-            { id: 'navy', name: 'Elite Navy', hex: '#1e3a8a' },
-            { id: 'burgundy', name: 'Royal Burgundy', hex: '#7f1d1d' },
-            { id: 'emerald', name: 'Deep Emerald', hex: '#064e3b' },
-            { id: 'black', name: 'Classic Onyx', hex: '#111827' }
+            { id: 'blue', name: 'Pipeline Blue', hex: '#1e3a8a' },
+            { id: 'green', name: 'Revenue Green', hex: '#065f46' },
+            { id: 'slate', name: 'Deal Slate', hex: '#1e293b' },
+            { id: 'violet', name: 'Strategy Violet', hex: '#4c1d95' },
+            { id: 'orange', name: 'Growth Orange', hex: '#9a3412' }
         ]
     },
 
-    // --- 29. CRUISE EXCELLENCE ---
+    // --- 32. CLASSIC CLEAN ---
     {
-        id: 'cruise-excellence',
-        name: 'Cruise Excellence',
-        description: 'The standard for cruise ship and maritime employment. Optimized to showcase international experience, multiple languages, and specialized maritime certifications. Includes a large photo area as required by many cruise line recruiters. Clean, professional, and globally recognized.',
+        id: 'classic-clean',
+        name: 'Classic Clean',
+        description: 'The timeless, no-frills single-column résumé with centered name, pipe-separated contact info, and ruled section headers. Built for maximum ATS compatibility and recruiter readability. Ideal for professionals in any industry who want a clean, traditional, and universally accepted format.',
         suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior'],
-            jobTypes: ['service', 'technical'],
-            industries: ['Maritime', 'Cruise', 'Travel']
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'academic', 'technical'],
+            industries: ['General', 'Business', 'Finance', 'Legal', 'Healthcare', 'Education']
         },
         isPremium: true,
         colors: [
-            { id: 'ocean', name: 'Ocean Blue', hex: '#0369a1' },
-            { id: 'anchor', name: 'Anchor Grey', hex: '#334155' },
-            { id: 'coral', name: 'Sunset Coral', hex: '#f43f5e' },
-            { id: 'white', name: 'Yacht White', hex: '#f8fafc' },
-            { id: 'navy', name: 'Deep Sea Navy', hex: '#0f172a' }
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
+            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'maroon', name: 'Deep Maroon', hex: '#7f1d1d' },
+            { id: 'slate', name: 'Slate Gray', hex: '#475569' }
         ]
     },
-
-    // --- 30. SERVICE PRO ---
+    // --- 33. LEGAL EXPERT ---
     {
-        id: 'service-pro',
-        name: 'Service Professional',
-        description: 'A versatile, modern template for service industry experts. Features a clean layout with a small profile photo, emphasizing professional certifications and customer service achievements. Ideal for bartenders, chefs, restaurant managers, and retail leaders.',
+        id: 'legal-expert',
+        name: 'Legal Practitioner',
+        description: 'Ultra-traditional, serif-driven layout designed specifically for the legal industry. Adheres to strict law firm standards with double-ruled headers and an emphasis on bar admissions, clerkships, and publication history. Command respect with timeless professional gravitas.',
         suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior'],
-            jobTypes: ['service', 'freelance'],
-            industries: ['F&B', 'Retail', 'Customer Service']
+            careerLevels: ['mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'academic'],
+            industries: ['Legal', 'Law', 'Governance', 'Compliance']
         },
         isPremium: true,
         colors: [
-            { id: 'slate', name: 'Modern Slate', hex: '#475569' },
-            { id: 'teal', name: 'Fresh Teal', hex: '#0d9488' },
-            { id: 'orange', name: 'Vibrant Orange', hex: '#f97316' },
-            { id: 'purple', name: 'Service Purple', hex: '#7c3aed' },
-            { id: 'gray', name: 'Cool Gray', hex: '#94a3b8' }
+            { id: 'standard', name: 'Legal Onyx', hex: '#111827' },
+            { id: 'navy', name: 'Solicitor Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'burgundy', name: 'Precedent Burgundy', hex: '#7f1d1d' }
+        ]
+    },
+    // --- 34. MILITARY TRANSITION ---
+    {
+        id: 'military-transition',
+        name: 'Military Transition Pro',
+        description: 'Designed to help veterans translate complex military service into civilian-friendly professional achievements. Features high-visibility sections for core competencies, technical certifications, and security clearances. Authoritative and organized for transition success.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'technical'],
+            industries: ['Defense', 'Operations', 'Logistics', 'Security', 'General']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'standard', name: 'Duty Slate', hex: '#0f172a' },
+            { id: 'olive', name: 'Service Green', hex: '#3f6212' },
+            { id: 'navy', name: 'Command Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Onyx', hex: '#111827' }
+        ]
+    },
+    // --- 35. REAL ESTATE PRO ---
+    {
+        id: 'real-estate-pro',
+        name: 'Real Estate & Property Pro',
+        description: 'Sophisticated, metrics-driven design for real estate agents and property managers. Highlights sales performance, transaction volume, and client outcomes with high-impact visual strips. Supports professional photography for personal branding excellence.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'creative'],
+            industries: ['Real Estate', 'Property Management', 'Construction', 'Sales']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'standard', name: 'Luxury Stone', hex: '#1c1917' },
+            { id: 'gold', name: 'Premium Gold', hex: '#b45309' },
+            { id: 'slate', name: 'Modern Slate', hex: '#334155' },
+            { id: 'maroon', name: 'Estate Maroon', hex: '#7f1d1d' }
+        ]
+    },
+    // --- 36. SKILLED TRADES PRO ---
+    {
+        id: 'trades-pro',
+        name: 'Skilled Trades & Construction',
+        description: 'Rugged, high-visibility layout for masters of the trade. Prioritizes project highlights, safety certifications, and specialized equipment proficiency. Perfect for showing the heavy-duty impact of your craftsmanship and field leadership.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior'],
+            jobTypes: ['technical'],
+            industries: ['Construction', 'HVAC', 'Electrical', 'Automotive', 'Logistics']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'standard', name: 'Project Orange', hex: '#ea580c' },
+            { id: 'yellow', name: 'Safety Yellow', hex: '#eab308' },
+            { id: 'black', name: 'Steel Black', hex: '#171717' },
+            { id: 'blue', name: 'Workshop Blue', hex: '#2563eb' }
+        ]
+    },
+    // --- 37. INTERNATIONAL CV ---
+    {
+        id: 'international-cv',
+        name: 'International Expat CV',
+        description: 'Global-standard curriculum vitae optimized for international job markets (EU, Middle East, Asia). Features detailed personal profile sidebars, multilingual proficiency tracking, and a layout that emphasizes cross-border career progression.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'academic', 'technical'],
+            industries: ['International Business', 'NGO', 'Education', 'Diplomatic']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'standard', name: 'Global Blue', hex: '#1e3a8a' },
+            { id: 'slate', name: 'Oxford Slate', hex: '#334155' },
+            { id: 'emerald', name: 'Expedition Green', hex: '#064e3b' },
+            { id: 'black', name: 'Midnight', hex: '#111827' }
         ]
     }
 ]

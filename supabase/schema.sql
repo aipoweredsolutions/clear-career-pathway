@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL,
   full_name TEXT,
+  is_admin BOOLEAN DEFAULT FALSE,
+  download_credits INTEGER DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -88,6 +90,17 @@ CREATE TABLE IF NOT EXISTS user_usage (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE(user_id, month_year)
 );
+
+-- Download History
+CREATE TABLE IF NOT EXISTS download_history (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  format TEXT NOT NULL, -- 'pdf', 'docx'
+  payment_method TEXT NOT NULL, -- 'subscription', 'credit'
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 
 
 -- ============================================
@@ -313,6 +326,21 @@ CREATE TABLE IF NOT EXISTS custom_sections (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Cover letters
+CREATE TABLE IF NOT EXISTS cover_letters (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  recipient_name TEXT,
+  recipient_title TEXT,
+  company_name TEXT,
+  company_address TEXT,
+  job_title TEXT,
+  job_description TEXT,
+  tone TEXT DEFAULT 'formal',
+  content TEXT,
+  UNIQUE(document_id)
+);
+
 -- Items within custom sections (for bullet-point style content)
 CREATE TABLE IF NOT EXISTS custom_section_items (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -333,6 +361,7 @@ CREATE INDEX IF NOT EXISTS idx_skills_document_id ON skills(document_id);
 CREATE INDEX IF NOT EXISTS idx_education_document_id ON education(document_id);
 CREATE INDEX IF NOT EXISTS idx_user_subscriptions_user_id ON user_subscriptions(user_id);
 CREATE INDEX IF NOT EXISTS idx_payment_history_user_id ON payment_history(user_id);
+CREATE INDEX IF NOT EXISTS idx_cover_letters_document_id ON cover_letters(document_id);
 
 -- ============================================
 -- HELPER FUNCTIONS
@@ -377,6 +406,7 @@ ALTER TABLE document_references ENABLE ROW LEVEL SECURITY;
 ALTER TABLE additional_info ENABLE ROW LEVEL SECURITY;
 ALTER TABLE custom_sections ENABLE ROW LEVEL SECURITY;
 ALTER TABLE custom_section_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cover_letters ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payment_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_usage ENABLE ROW LEVEL SECURITY;
@@ -484,6 +514,9 @@ CREATE POLICY "Users can manage own additional info" ON additional_info
 CREATE POLICY "Users can manage own custom sections" ON custom_sections
   FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = custom_sections.document_id AND documents.user_id = auth.uid()));
 
+CREATE POLICY "Users can manage own cover letters" ON cover_letters
+  FOR ALL USING (EXISTS (SELECT 1 FROM documents WHERE documents.id = cover_letters.document_id AND documents.user_id = auth.uid()));
+
 CREATE POLICY "Users can manage own custom section items" ON custom_section_items
   FOR ALL USING (EXISTS (
     SELECT 1 FROM custom_sections 
@@ -505,6 +538,12 @@ CREATE POLICY "Users can view own payments" ON payment_history
 -- User usage: Users can view their own usage
 DROP POLICY IF EXISTS "Users can view own usage" ON user_usage;
 CREATE POLICY "Users can view own usage" ON user_usage
+  FOR SELECT USING (auth.uid() = user_id);
+
+-- Download history: Users can view their own history
+ALTER TABLE download_history ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can view own download history" ON download_history;
+CREATE POLICY "Users can view own download history" ON download_history
   FOR SELECT USING (auth.uid() = user_id);
 
 -- ============================================
@@ -566,7 +605,8 @@ INSERT INTO subscription_tiers (name, display_name, price_monthly, price_yearly,
 VALUES
   ('free', 'Free', 0, 0, 1, 1, 5, '["browse_templates", "create_one_document", "watermarked_export"]'),
   ('starter', 'Starter Pass', 9.99, NULL, 5, 10, 25, '["full_export", "template_switching", "cover_letter", "career_blog"]'),
-  ('premium', 'Premium', 19.99, 199.99, NULL, NULL, NULL, '["unlimited_documents", "unlimited_exports", "advanced_ai", "priority_support", "all_formats"]')
+  ('premium', 'Premium', 19.99, 199.99, NULL, NULL, NULL, '["unlimited_documents", "unlimited_exports", "advanced_ai", "priority_support", "all_formats"]'),
+  ('power_user_plan', 'Power User Plan', 19.99, 199.99, NULL, NULL, NULL, '["unlimited_documents", "unlimited_exports", "advanced_ai", "priority_support", "all_formats", "cover_letter"]')
 ON CONFLICT (name) DO NOTHING;
 
 -- ============================================

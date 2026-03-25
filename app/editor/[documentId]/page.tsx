@@ -9,10 +9,13 @@ import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { TemplateSelector } from '@/components/editor/TemplateSelector'
 import { Button } from '@/components/ui/Button'
 import { DownloadButtons } from '@/components/editor/DownloadButtons'
-import { Save, ArrowLeft, LayoutTemplate, X, Loader2, Check, Maximize2, Minimize2, Eye } from 'lucide-react'
+import { Save, ArrowLeft, LayoutTemplate, X, Loader2, Check, Maximize2, Minimize2, Eye, Sparkles, Target } from 'lucide-react'
 import Link from 'next/link'
 import { ATSScore } from '@/components/editor/ATSScore'
 import { ResumeControlBar } from '@/components/editor/ResumeControlBar'
+import { CoverLetterForm } from '@/components/editor/forms/CoverLetterForm'
+import { ResumeCoach } from '@/components/editor/ResumeCoach'
+import { KeywordOptimizer } from '@/components/editor/KeywordOptimizer'
 import dynamic from 'next/dynamic'
 import { fetchResume, saveResume, fetchSubscription } from '@/app/editor/actions'
 import { UserSubscription } from '@/lib/types/resume'
@@ -44,6 +47,10 @@ function EditorContent() {
     const [previewMode, setPreviewMode] = useState<'html' | 'pdf'>('html')
     const [scale, setScale] = useState(0.85)
     const [subscription, setSubscription] = useState<UserSubscription | null>(null)
+    const [showCoach, setShowCoach] = useState(false)
+    const [showKeywords, setShowKeywords] = useState(false)
+    const [leftPanelWidth, setLeftPanelWidth] = useState(50) // Percentage
+    const [isResizing, setIsResizing] = useState(false)
 
     // Initial Fetch
     useEffect(() => {
@@ -175,6 +182,40 @@ function EditorContent() {
         }
     }
 
+    // Resize Handlers
+    const startResizing = (e: React.MouseEvent) => {
+        setIsResizing(true)
+        e.preventDefault()
+    }
+
+
+    const onResize = React.useCallback((e: MouseEvent) => {
+        if (!isResizing) return
+
+        const newWidth = (e.clientX / window.innerWidth) * 100
+        if (newWidth > 20 && newWidth < 80) { // Limit resize range
+            setLeftPanelWidth(newWidth)
+        }
+    }, [isResizing])
+
+    const stopResizing = React.useCallback(() => {
+        setIsResizing(false)
+    }, [])
+
+    useEffect(() => {
+        if (isResizing) {
+            window.addEventListener('mousemove', onResize)
+            window.addEventListener('mouseup', stopResizing)
+        } else {
+            window.removeEventListener('mousemove', onResize)
+            window.removeEventListener('mouseup', stopResizing)
+        }
+        return () => {
+            window.removeEventListener('mousemove', onResize)
+            window.removeEventListener('mouseup', stopResizing)
+        }
+    }, [isResizing, onResize, stopResizing])
+
     const handleTemplateSelect = (templateId: string) => {
         if (data) {
             setData({ ...data, templateId })
@@ -235,6 +276,27 @@ function EditorContent() {
 
                 <div className="flex items-center gap-3">
                     <ATSScore data={data} />
+
+                    <Button
+                        variant={showKeywords ? "primary" : "outline"}
+                        size="sm"
+                        onClick={() => { setShowKeywords(!showKeywords); if (showCoach) setShowCoach(false) }}
+                        className={cn("transition-all duration-300 gap-2", showKeywords && "ring-2 ring-violet-500 shadow-lg shadow-violet-500/20 bg-violet-600 hover:bg-violet-700 border-violet-600")}
+                    >
+                        <Target className={cn("w-4 h-4", showKeywords ? "text-white" : "text-violet-600")} />
+                        Keywords
+                    </Button>
+
+                    <Button
+                        variant={showCoach ? "primary" : "outline"}
+                        size="sm"
+                        onClick={() => { setShowCoach(!showCoach); if (showKeywords) setShowKeywords(false) }}
+                        className={cn("transition-all duration-300 gap-2", showCoach && "ring-2 ring-primary-500 shadow-lg shadow-primary-500/20")}
+                    >
+                        <Sparkles className={cn("w-4 h-4", showCoach ? "text-white" : "text-primary-500")} />
+                        Coach
+                    </Button>
+
                     <div className="h-6 w-px bg-neutral-300 mx-1" />
 
                     <Button
@@ -305,19 +367,58 @@ function EditorContent() {
             </header>
 
             {/* Main Content */}
-            <div className="flex flex-1 overflow-hidden relative">
+            <div
+                className={cn(
+                    "flex flex-1 overflow-hidden relative",
+                    isResizing && "cursor-col-resize select-none"
+                )}
+            >
                 {/* Left Panel: Form Editor */}
-                <div className={cn(
-                    "w-1/2 min-w-[400px] h-full overflow-y-auto border-r border-neutral-200 bg-white transition-all duration-300",
-                    isMaximized ? "w-0 min-w-0 opacity-0 overflow-hidden pointer-events-none" : "opacity-100"
-                )}>
-                    <ResumeForm data={data} onChange={setData} />
+                <div
+                    className={cn(
+                        "h-full overflow-y-auto border-r border-neutral-200 bg-white transition-opacity duration-300",
+                        isMaximized ? "w-0 min-w-0 opacity-0 overflow-hidden pointer-events-none" : "opacity-100"
+                    )}
+                    style={{
+                        width: isMaximized ? '0%' : `${leftPanelWidth}%`,
+                        flexShrink: 0
+                    }}
+                >
+                    {data.documentType === 'cover_letter' ? (
+                        <div className="p-6">
+                            <h2 className="text-xl font-bold text-neutral-900 mb-8">Cover Letter Designer</h2>
+                            <CoverLetterForm
+                                data={data.coverLetter || {}}
+                                fullResumeData={data}
+                                onChange={(cl) => setData({ ...data, coverLetter: cl })}
+                            />
+                        </div>
+                    ) : (
+                        <ResumeForm data={data} onChange={setData} />
+                    )}
                 </div>
+
+                {/* Resize Handle */}
+                {!isMaximized && (
+                    <div
+                        onMouseDown={startResizing}
+                        className={cn(
+                            "group absolute top-0 bottom-0 z-40 w-1 hover:w-1.5 transition-all cursor-col-resize flex items-center justify-center bg-transparent hover:bg-primary-500/30",
+                            isResizing && "w-1.5 bg-primary-500/50"
+                        )}
+                        style={{ left: `${leftPanelWidth}%`, transform: 'translateX(-50%)' }}
+                    >
+                        <div className={cn(
+                            "w-0.5 h-12 bg-neutral-300 rounded-full group-hover:bg-primary-500 transition-colors",
+                            isResizing && "bg-primary-500"
+                        )} />
+                    </div>
+                )}
 
                 {/* Right Panel: Live Preview */}
                 <div className={cn(
-                    "flex-1 h-full bg-neutral-400 overflow-hidden flex flex-col relative transition-all duration-300",
-                    isMaximized ? "absolute inset-0 z-50 bg-neutral-800" : ""
+                    "h-full bg-neutral-400 overflow-hidden flex flex-col relative transition-all duration-300",
+                    isMaximized ? "fixed inset-0 z-50 bg-neutral-800" : "flex-1"
                 )}>
                     {/* Control Bar */}
                     <ResumeControlBar
@@ -399,6 +500,22 @@ function EditorContent() {
                         />
                     </div>
                 )}
+
+                {/* AI Resume Coach Sidebar */}
+                <ResumeCoach
+                    data={data}
+                    onUpdate={setData}
+                    isOpen={showCoach}
+                    onClose={() => setShowCoach(false)}
+                />
+
+                {/* Keyword Optimizer Sidebar */}
+                <KeywordOptimizer
+                    data={data}
+                    onUpdate={setData}
+                    isOpen={showKeywords}
+                    onClose={() => setShowKeywords(false)}
+                />
             </div>
         </div>
     )

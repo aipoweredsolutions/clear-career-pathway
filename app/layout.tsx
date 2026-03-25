@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Lora } from 'next/font/google'
+import { Inter, Lora, Playfair_Display, Lato } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({
@@ -11,6 +11,19 @@ const inter = Inter({
 const lora = Lora({
     subsets: ['latin'],
     variable: '--font-lora',
+    display: 'swap',
+})
+
+const playfair = Playfair_Display({
+    subsets: ['latin'],
+    variable: '--font-playfair',
+    display: 'swap',
+})
+
+const lato = Lato({
+    weight: ['300', '400', '700', '900'],
+    subsets: ['latin'],
+    variable: '--font-lato',
     display: 'swap',
 })
 
@@ -63,7 +76,7 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" className={cn(inter.variable, lora.variable)}>
+        <html lang="en" className={cn(inter.variable, lora.variable, playfair.variable, lato.variable)}>
             <body className="min-h-screen bg-white">
                 <AuthProvider>
                     <Navbar />

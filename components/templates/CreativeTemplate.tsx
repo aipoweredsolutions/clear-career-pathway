@@ -21,7 +21,7 @@ export function CreativeTemplate({ data, className, accentColor = 'bg-rose-500' 
     return (
         <div className={cn("w-full bg-white text-neutral-800 aspect-[210/297] font-sans", className)}>
             {/* Heavy Header with Accent Color */}
-            <header className={cn("text-white p-10 print:text-white", accentColor)}>
+            <header className={cn("text-white p-8 pb-6 print:text-white", accentColor)}>
                 <h1 className="text-5xl font-black tracking-tight mb-2">
                     {personalInfo?.fullName}
                 </h1>
@@ -37,7 +37,7 @@ export function CreativeTemplate({ data, className, accentColor = 'bg-rose-500' 
                 </div>
             </header>
 
-            <div className="p-10 grid grid-cols-12 gap-8">
+            <div className="p-8 pt-6 grid grid-cols-12 gap-8">
 
                 {/* Main Column */}
                 <div className="col-span-8 space-y-8">

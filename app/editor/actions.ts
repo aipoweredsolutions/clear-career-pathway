@@ -346,6 +346,23 @@ export async function saveResume(data: ResumeDocument): Promise<{ success: boole
             }
         }
 
+        // 16. Upsert Cover Letter
+        if (data.coverLetter) {
+            await supabase
+                .from('cover_letters')
+                .upsert({
+                    document_id: documentId,
+                    recipient_name: data.coverLetter.recipientName,
+                    recipient_title: data.coverLetter.recipientTitle,
+                    company_name: data.coverLetter.companyName,
+                    company_address: data.coverLetter.companyAddress,
+                    job_title: data.coverLetter.jobTitle,
+                    job_description: data.coverLetter.jobDescription,
+                    tone: data.coverLetter.tone,
+                    content: data.coverLetter.content
+                }, { onConflict: 'document_id' })
+        }
+
         return { success: true }
 
     } catch (error: any) {
@@ -354,14 +371,23 @@ export async function saveResume(data: ResumeDocument): Promise<{ success: boole
     }
 }
 
-export async function incrementExportCount(): Promise<{ success: boolean, limitReached?: boolean }> {
+export async function incrementExportCount(documentId: string, format: string): Promise<{ success: boolean, limitReached?: boolean, requiresPayment?: boolean }> {
     const supabase = await getSupabase()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { success: false }
 
     const monthYear = new Date().toISOString().substring(0, 7)
 
-    // 1. Get tier info
+    // 1. Get profile for credits
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('download_credits')
+        .eq('id', user.id)
+        .single()
+
+    const credits = profile?.download_credits || 0
+
+    // 2. Get tier info
     const { data: sub } = await supabase
         .from('user_subscriptions')
         .select('*, tier:subscription_tiers(*)')
@@ -369,31 +395,55 @@ export async function incrementExportCount(): Promise<{ success: boolean, limitR
         .maybeSingle()
 
     const tier = sub?.tier as any
+    const isPremium = tier?.name === 'premium' || tier?.name === 'pro' || tier?.name === 'power'
     const exportLimit = tier?.max_exports_per_month ?? 1
 
-    // 2. Get current usage
-    const { data: usage } = await supabase
-        .from('user_usage')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('month_year', monthYear)
-        .maybeSingle()
+    let paymentMethod = 'subscription'
 
-    const currentCount = usage?.export_count || 0
+    if (credits > 0 && !isPremium) { // Use credit if not on unlimited plan
+        // Deduct credit
+        await supabase
+            .from('profiles')
+            .update({ download_credits: credits - 1 })
+            .eq('id', user.id)
 
-    if (exportLimit !== null && currentCount >= exportLimit) {
-        return { success: false, limitReached: true }
+        paymentMethod = 'credit'
+    } else {
+        // Check regular subscription usage limit
+        const { data: usage } = await supabase
+            .from('user_usage')
+            .select('*')
+            .eq('user_id', user.id)
+            .eq('month_year', monthYear)
+            .maybeSingle()
+
+        const currentCount = usage?.export_count || 0
+
+        // If they have no credits and reached their limit (and it's not unlimited)
+        if (exportLimit !== null && currentCount >= exportLimit && tier?.name !== 'premium') {
+            return { success: false, limitReached: true, requiresPayment: true }
+        }
+
+        // Increment standard usage
+        await supabase
+            .from('user_usage')
+            .upsert({
+                user_id: user.id,
+                month_year: monthYear,
+                export_count: currentCount + 1,
+                updated_at: new Date().toISOString()
+            }, { onConflict: 'user_id, month_year' })
     }
 
-    // 3. Increment
-    await supabase
-        .from('user_usage')
-        .upsert({
+    // 3. Record in download history
+    if (documentId) {
+        await supabase.from('download_history').insert({
             user_id: user.id,
-            month_year: monthYear,
-            export_count: currentCount + 1,
-            updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id, month_year' })
+            document_id: documentId,
+            format: format,
+            payment_method: paymentMethod
+        })
+    }
 
     return { success: true }
 }

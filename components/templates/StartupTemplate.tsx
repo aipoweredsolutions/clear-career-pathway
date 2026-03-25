@@ -68,19 +68,19 @@ export function StartupTemplate({ data, className, theme = 'vibrant-blue' }: Tem
     const activeTheme = themeConfig[theme]
 
     return (
-        <div className={cn("w-full bg-white aspect-[210/297] grid grid-cols-12 font-sans text-slate-900", className)}>
+        <div className={cn("w-full bg-white aspect-[210/297] grid grid-cols-12 font-lato text-slate-900", className)}>
             {/* Left Column - Main Content */}
-            <div className="col-span-8 p-12 flex flex-col gap-10">
+            <div className="col-span-8 p-10 flex flex-col gap-6">
                 <header>
-                    <h1 className="text-5xl font-black tracking-tighter text-slate-900 mb-2">
+                    <h1 className="text-5xl font-black tracking-normal text-slate-900 mb-2">
                         {personalInfo?.fullName}
                     </h1>
-                    <p className={cn("text-xl font-bold uppercase tracking-tight", activeTheme.accent)}>
+                    <p className={cn("text-xl font-bold uppercase tracking-wider", activeTheme.accent)}>
                         {personalInfo?.professionalTitle}
                     </p>
 
                     {professionalSummary?.summaryText && (
-                        <p className="mt-6 text-slate-600 leading-relaxed text-lg font-medium">
+                        <p className="mt-4 text-slate-600 leading-relaxed text-lg font-medium">
                             {professionalSummary.summaryText}
                         </p>
                     )}
@@ -89,7 +89,7 @@ export function StartupTemplate({ data, className, theme = 'vibrant-blue' }: Tem
                 {workExperience && workExperience.length > 0 && (
                     <section className="flex flex-col gap-8">
                         <div className="flex items-center gap-4">
-                            <h2 className="text-xl font-black uppercase tracking-tighter text-slate-900">Experience</h2>
+                            <h2 className="text-xl font-black uppercase tracking-normal text-slate-900">Experience</h2>
                             <div className={cn("flex-1 h-1", activeTheme.primary)}></div>
                         </div>
 

@@ -153,7 +153,7 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
         toast.success('Resume imported! Review and enhance each section with Gemini.')
     }
 
-    const tabs = [
+    const [tabs, setTabs] = useState([
         { id: 'personal', label: 'Personal' },
         { id: 'summary', label: 'Summary' },
         { id: 'experience', label: 'Experience' },
@@ -169,48 +169,140 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
         { id: 'references', label: 'References' },
         { id: 'additional', label: 'Extra Info' },
         { id: 'custom', label: 'Custom' },
-    ]
+    ])
+
+    // Sync tabs with document sectionOrder
+    React.useEffect(() => {
+        if (data.sectionOrder && data.sectionOrder.length > 0) {
+            const orderedTabs = data.sectionOrder
+                .map(id => tabs.find(t => t.id === id))
+                .filter(Boolean) as { id: string, label: string }[]
+
+            // Add any missing tabs that might be in the default list but not in sectionOrder
+            const missingTabs = tabs.filter(t => !data.sectionOrder?.includes(t.id))
+            setTabs([...orderedTabs, ...missingTabs])
+        }
+    }, [data.id, data.sectionOrder, tabs]) // Only on initial load or document change
+
+    const moveTab = (index: number, direction: 'up' | 'down') => {
+        const newTabs = [...tabs]
+        const targetIndex = direction === 'up' ? index - 1 : index + 1
+        if (targetIndex < 0 || targetIndex >= tabs.length) return
+
+        const temp = newTabs[index]
+        newTabs[index] = newTabs[targetIndex]
+        newTabs[targetIndex] = temp
+        setTabs(newTabs)
+
+        // Update sectionOrder in the document
+        onChange({
+            ...data,
+            sectionOrder: newTabs.map(t => t.id)
+        })
+    }
 
     return (
-        <div className="flex flex-col h-full bg-white border-r border-neutral-200 relative">
-            {/* Upload Banner */}
-            <div className="p-4 border-b border-neutral-200 bg-neutral-50 flex items-center gap-3">
-                <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => setShowUpload(true)}
-                >
-                    <Upload className="w-4 h-4 mr-2" />
-                    Import from Resume
-                </Button>
-            </div>
-
-            {/* Tabs Navigation - Scrollable */}
-            <div className="flex overflow-x-auto border-b border-neutral-200 scrollbar-hide bg-white sticky top-0 z-10">
-                <div className="flex px-2">
-                    {tabs.map(tab => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`
-                                px-4 py-3 text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-2
-                                ${activeTab === tab.id
-                                    ? 'text-primary-600 border-primary-600 bg-primary-50/30'
-                                    : 'text-neutral-500 border-transparent hover:text-neutral-900 hover:bg-neutral-50'}
-                            `}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
+        <div className="flex h-full bg-white relative overflow-hidden">
+            {/* Vertical Sidebar Navigation */}
+            <aside className="w-64 flex-shrink-0 border-r border-neutral-100 flex flex-col bg-neutral-50/30">
+                <div className="p-4 border-b border-neutral-200">
+                    <Button
+                        variant="outline"
+                        className="w-full justify-start gap-2 bg-white shadow-sm border border-neutral-200 hover:border-primary-300"
+                        onClick={() => setShowUpload(true)}
+                    >
+                        <Upload className="w-4 h-4 text-primary-500" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Import Data</span>
+                    </Button>
                 </div>
-            </div>
 
-            {/* Form Content */}
-            <div className="flex-1 overflow-y-auto p-6 scrollbar-hide pb-20">
+                <nav className="flex-1 overflow-y-auto py-4 scrollbar-hide">
+                    <div className="px-3 space-y-1">
+                        {tabs.map((tab, idx) => (
+                            <div key={tab.id} className="group relative">
+                                <div
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`
+                                        w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all cursor-pointer
+                                        ${activeTab === tab.id
+                                            ? 'bg-primary-600 text-white shadow-lg shadow-primary-200 font-bold'
+                                            : 'text-neutral-500 hover:text-neutral-900 hover:bg-white'}
+                                    `}
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            setActiveTab(tab.id)
+                                        }
+                                    }}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <span className={`w-1.5 h-1.5 rounded-full ${activeTab === tab.id ? 'bg-white' : 'bg-neutral-300'}`} />
+                                        {tab.label}
+                                    </div>
+
+                                    {/* Mini Reorder Controls */}
+                                    <div className={`flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ${activeTab === tab.id ? 'text-white/60' : 'text-neutral-400'}`}>
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); moveTab(idx, 'up') }}
+                                            disabled={idx === 0}
+                                            className="p-0.5 hover:bg-black/10 rounded disabled:opacity-30"
+                                        >
+                                            <svg className="w-3 h-3 rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="m6 9 6 6 6-6" /></svg>
+                                        </button>
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); moveTab(idx, 'down') }}
+                                            disabled={idx === tabs.length - 1}
+                                            className="p-0.5 hover:bg-black/10 rounded disabled:opacity-30"
+                                        >
+                                            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="m6 9 6 6 6-6" /></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </nav>
+
+                {/* Footer Help or Status */}
+                <div className="p-4 border-t border-neutral-100 bg-white/50">
+                    <div className="flex items-center gap-2 text-[10px] font-bold text-neutral-400 uppercase tracking-widest leading-none">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                        AI Assistant Active
+                    </div>
+                </div>
+            </aside>
+
+            {/* Main Form Content */}
+            <div className="flex-1 flex flex-col min-w-0 bg-white">
+                <div className="flex-1 overflow-y-auto scrollbar-hide">
+                    <div className="max-w-3xl mx-auto p-8 pb-32">
                 {activeTab === 'personal' && (
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-bold text-neutral-900">Personal Information</h2>
+                        </div>
+                        <div className="flex flex-col gap-4 mb-8 bg-primary-50/50 p-6 rounded-2xl border border-primary-100/50">
+                            <label className="text-sm font-bold text-primary-900 uppercase tracking-wider">Career Level</label>
+                            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                                {['student', 'entry', 'mid', 'senior', 'executive'].map((level) => (
+                                    <button
+                                        key={level}
+                                        onClick={() => updateField('careerLevel', level)}
+                                        className={`
+                                            px-3 py-2 rounded-xl text-xs font-bold capitalize transition-all border-2
+                                            ${data.careerLevel === level
+                                                ? 'bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-200'
+                                                : 'bg-white text-neutral-600 border-neutral-200 hover:border-primary-300'}
+                                        `}
+                                    >
+                                        {level}
+                                    </button>
+                                ))}
+                            </div>
+                            <p className="text-[10px] text-neutral-500 italic mt-1">
+                                Adjusting this will help Gemini tailor suggestions to your experience level.
+                            </p>
                         </div>
                         <PersonalInfoForm
                             data={data.personalInfo || { fullName: '' }}
@@ -360,7 +452,27 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
                         />
                     </div>
                 )}
+
+                {/* Next Section Button */}
+                <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
+                    {tabs.findIndex(t => t.id === activeTab) < tabs.length - 1 ? (
+                        <Button
+                            onClick={() => {
+                                const nextIdx = tabs.findIndex(t => t.id === activeTab) + 1
+                                setActiveTab(tabs[nextIdx].id)
+                                window.scrollTo({ top: 0, behavior: 'smooth' })
+                            }}
+                            className="bg-primary-600 text-white shadow-lg shadow-primary-200"
+                        >
+                            Continue to {tabs[tabs.findIndex(t => t.id === activeTab) + 1].label}
+                        </Button>
+                    ) : (
+                        <p className="text-sm font-medium text-neutral-400 italic">This is the final section. Your resume is looking great!</p>
+                    )}
+                </div>
             </div>
+        </div>
+    </div>
 
             <UploadDialog
                 isOpen={showUpload}

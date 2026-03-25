@@ -87,6 +87,8 @@ module.exports = {
             fontFamily: {
                 sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
                 serif: ['var(--font-lora)', 'serif'],
+                playfair: ['var(--font-playfair)', 'serif'],
+                lato: ['var(--font-lato)', 'sans-serif'],
             },
             fontSize: {
                 'xs': ['0.75rem', { lineHeight: '1rem' }],

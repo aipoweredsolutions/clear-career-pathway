@@ -30,7 +30,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
 
     return (
         <div className={cn(
-            "w-full bg-white aspect-[210/297] p-10 text-neutral-900 font-mono text-[11px] leading-relaxed",
+            "w-full bg-white text-neutral-900 font-mono text-[11px] leading-relaxed",
             className
         )}>
             {/* Technical Header */}
@@ -90,7 +90,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
                             return (
                                 <div className="border border-neutral-100 p-4 rounded bg-neutral-50/50 space-y-3">
                                     {Object.entries(groupedSkills).map(([type, skillsList]) => (
-                                        <div key={type} className="grid grid-cols-[140px_1fr] gap-4 items-start">
+                                        <div key={type} className="grid grid-cols-1 gap-1 items-start mb-3">
                                             <span className="text-[10px] font-black text-neutral-600 uppercase tracking-wider">
                                                 {categoryLabels[type] || type}:
                                             </span>
@@ -139,7 +139,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
                 {projects && projects.length > 0 && (
                     <section>
                         <h2 className={cn("text-xs font-black uppercase text-white px-2 py-1 mb-3 inline-block", bgColorClass)}>03. Repositories</h2>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4">
                             {projects.map((proj, i) => (
                                 <div key={i} className="border border-neutral-100 p-3 rounded">
                                     <div className="font-bold mb-1">{proj.projectName}</div>
@@ -177,7 +177,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
                 )}
 
                 {/* Bottom Metadata */}
-                <div className="grid grid-cols-2 gap-8 pt-4 border-t border-neutral-200">
+                <div className="grid grid-cols-1 gap-6 pt-4 border-t border-neutral-200">
                     {certifications && certifications.length > 0 && (
                         <section>
                             <h2 className="text-[10px] font-black uppercase text-neutral-400 mb-2">Certifications</h2>
@@ -211,7 +211,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
                         <h2 className={cn("text-xs font-black uppercase text-white px-2 py-1 mb-3 inline-block", bgColorClass)}>05. {s.title}</h2>
                         {s.content && <p className="mb-2">{s.content}</p>}
                         {s.items && (
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 gap-2">
                                 {s.items.map((item, j) => (
                                     <div key={j}>--{item.text}</div>
                                 ))}

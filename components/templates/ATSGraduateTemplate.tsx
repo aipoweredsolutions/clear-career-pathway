@@ -29,7 +29,7 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-neutr
 
     return (
         <div className={cn(
-            "w-full bg-white aspect-[210/297] p-12 text-neutral-900 font-sans leading-snug",
+            "w-full bg-white text-neutral-900 font-sans leading-snug",
             className
         )}>
             {/* Graduate Header - Clean & Approachable */}
@@ -202,7 +202,7 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-neutr
                 {(achievements?.length || certifications?.length) ? (
                     <section>
                         <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-3", accentColor)}>Honors & Certifications</h2>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4">
                             {certifications && certifications.length > 0 && (
                                 <div className="space-y-1.5">
                                     {certifications.map((cert, i) => (
@@ -229,7 +229,7 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-neutr
 
                 {/* VOLUNTEER & OTHER */}
                 {(volunteerExperience?.length || languages?.length || professionalAffiliations?.length) ? (
-                    <div className="grid grid-cols-2 gap-x-8">
+                    <div className="grid grid-cols-1 gap-6">
                         {volunteerExperience && volunteerExperience.length > 0 && (
                             <section>
                                 <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] border-b border-neutral-200 pb-1.5 mb-2", accentColor)}>Volunteerism</h2>

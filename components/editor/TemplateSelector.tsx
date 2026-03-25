@@ -2,12 +2,13 @@
 
 import React, { useState } from 'react'
 import NextImage from 'next/image'
-import { Check, X, Maximize2, Minimize2, File, ArrowLeft } from 'lucide-react'
+import { Check, X, Maximize2, Minimize2, File, ArrowLeft, ChevronLeft, ChevronRight, Download } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { templateRegistry } from '@/lib/templates/registry'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { Button } from '@/components/ui/Button'
+import { DownloadButtons } from '@/components/editor/DownloadButtons'
 import { TemplateMetadata, ResumeDocument, UserSubscription } from '@/lib/types/resume'
 import { hasPremiumAccess } from '@/lib/supabase/subscriptions'
 import { Lock } from 'lucide-react'
@@ -31,7 +32,10 @@ const getPreviewData = (templateId: string, realData?: ResumeDocument | null) =>
 export function TemplateSelector({ currentTemplateId, onSelect, realData, subscription }: TemplateSelectorProps) {
     const [previewTemplate, setPreviewTemplate] = useState<TemplateMetadata | null>(null)
     const [paperSize, setPaperSize] = useState<'letter' | 'a4'>('a4')
+    const [currentPage, setCurrentPage] = useState(0)
+    const [totalPages, setTotalPages] = useState(1)
     const [isMaximized, setIsMaximized] = useState(false)
+    const contentRef = React.useRef<HTMLDivElement>(null)
 
     const handleSelect = () => {
         if (previewTemplate) {
@@ -44,6 +48,26 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
             setIsMaximized(false)
         }
     }
+
+    // Effect to calculate total pages when template or data changes
+    React.useEffect(() => {
+        if (!previewTemplate) return
+
+        const timer = setTimeout(() => {
+            if (contentRef.current) {
+                const element = contentRef.current.querySelector('#resume-preview')
+                if (element) {
+                    const totalHeight = element.scrollHeight
+                    const pageHeight = element.clientHeight // This is the height of one page based on its CSS (297mm or 11in)
+                    const pages = Math.ceil(totalHeight / pageHeight)
+                    setTotalPages(pages || 1)
+                }
+            }
+        }, 500) // Small delay to ensure rendering is complete
+        
+        setCurrentPage(0) // Reset to first page
+        return () => clearTimeout(timer)
+    }, [previewTemplate, paperSize, realData])
 
     if (previewTemplate) {
         return (
@@ -70,6 +94,29 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                     </div>
 
                     <div className="flex items-center gap-2">
+                        {/* Page Navigation */}
+                        {totalPages > 1 && (
+                            <div className="flex items-center bg-neutral-100 rounded-lg p-1 gap-1 border border-neutral-200">
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
+                                    disabled={currentPage === 0}
+                                    className="p-1 hover:bg-white rounded transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                                >
+                                    <ChevronLeft className="w-4 h-4 text-neutral-600" />
+                                </button>
+                                <div className="px-2 text-[10px] font-black text-neutral-500 uppercase tracking-widest min-w-[70px] text-center">
+                                    Page {currentPage + 1} / {totalPages}
+                                </div>
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
+                                    disabled={currentPage === totalPages - 1}
+                                    className="p-1 hover:bg-white rounded transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                                >
+                                    <ChevronRight className="w-4 h-4 text-neutral-600" />
+                                </button>
+                            </div>
+                        )}
+
                         {/* Paper Size Toggle */}
                         <div className="flex bg-neutral-100 rounded-md p-0.5 mr-1">
                             <button
@@ -101,6 +148,17 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                             {isMaximized ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
                         </Button>
 
+                        <div className="h-6 w-px bg-neutral-200 mx-1" />
+
+                        <DownloadButtons 
+                            data={getPreviewData(previewTemplate.id, realData)} 
+                            subscription={subscription} 
+                            variant="toolbar" 
+                            className="w-auto"
+                        />
+
+                        <div className="h-6 w-px bg-neutral-200 mx-1" />
+
                         <Button
                             variant="primary"
                             size="sm"
@@ -119,21 +177,74 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                     </div>
                 </div>
 
-                {/* Preview Content */}
-                <div className="flex-1 overflow-auto bg-neutral-200/50 p-6 flex justify-center min-h-0 bg-[radial-gradient(#c5c5c5_1px,transparent_1px)] [background-size:16px_16px]">
-                    <div className={cn(
-                        "origin-top shadow-2xl transition-all duration-500 ease-out bg-white",
-                        isMaximized ? "scale-100" : "scale-[0.55] sm:scale-[0.75]"
-                    )}>
-                        <TemplateRenderer
-                            templateId={previewTemplate.id}
-                            data={getPreviewData(previewTemplate.id, realData)}
-                            className={cn(
-                                "transition-all duration-300",
-                                paperSize === 'a4' ? 'w-[210mm] min-h-[297mm]' : 'w-[8.5in] min-h-[11in]'
-                            )}
-                        />
+                <div className="flex-1 overflow-auto bg-neutral-200/50 p-6 flex flex-col items-center min-h-0 bg-[radial-gradient(#c5c5c5_1px,transparent_1px)] [background-size:16px_16px]">
+                    <div 
+                        className={cn(
+                            "origin-top shadow-2xl transition-all duration-500 ease-out bg-white overflow-hidden relative",
+                            isMaximized ? "scale-100" : "scale-[0.55] sm:scale-[0.75]"
+                        )}
+                        style={{
+                            height: paperSize === 'a4' ? '297mm' : '11in',
+                            width: paperSize === 'a4' ? '210mm' : '8.5in'
+                        }}
+                    >
+                        <div 
+                            ref={contentRef}
+                            className="transition-transform duration-500 ease-in-out"
+                            style={{
+                                transform: `translateY(-${currentPage * 100}%)`,
+                            }}
+                        >
+                            <TemplateRenderer
+                                templateId={previewTemplate.id}
+                                data={getPreviewData(previewTemplate.id, realData)}
+                                className={cn(
+                                    "transition-all duration-300",
+                                    paperSize === 'a4' ? 'w-[210mm] min-h-[297mm]' : 'w-[8.5in] min-h-[11in]'
+                                )}
+                            />
+                        </div>
+
+                        {/* Slide Indicator Overlay (Subtle) */}
+                        {totalPages > 1 && (
+                            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 pointer-events-none">
+                                {Array.from({ length: totalPages }).map((_, i) => (
+                                    <div 
+                                        key={i}
+                                        className={cn(
+                                            "w-1.5 h-1.5 rounded-full transition-all duration-300",
+                                            currentPage === i ? "bg-primary-500 w-4" : "bg-neutral-300"
+                                        )}
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
+
+                    {totalPages > 1 && (
+                        <div className="mt-8 flex gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
+                                disabled={currentPage === 0}
+                                className="rounded-full gap-2 border-neutral-300 bg-white"
+                            >
+                                <ChevronLeft className="w-4 h-4" />
+                                Previous Page
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
+                                disabled={currentPage === totalPages - 1}
+                                className="rounded-full gap-2 border-neutral-300 bg-white"
+                            >
+                                Next Page
+                                <ChevronRight className="w-4 h-4" />
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
         )
@@ -155,23 +266,20 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                     {/* Real Mini Preview */}
                     <div className="w-full aspect-[210/297] bg-white rounded-lg border border-neutral-200 mb-4 overflow-hidden shadow-sm group-hover:shadow-md transition-all relative">
                         {template.previewImage ? (
-                            <div className="relative w-full h-full">
+                            <div className="relative w-full h-[120%] -top-[10%]">
                                 <NextImage
                                     src={template.previewImage}
                                     alt={template.name}
                                     fill
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                     sizes="(max-width: 400px) 50vw, 20vw"
                                 />
                             </div>
                         ) : (
-                            <div className="absolute inset-0 origin-top left-0 right-0 scale-[0.25] pointer-events-none">
-                                <TemplateRenderer
-                                    templateId={template.id}
-                                    data={getPreviewData(template.id, realData)}
-                                    className="w-[210mm] h-[297mm]"
-                                />
-                            </div>
+                            <LazyTemplateSelectorPreview
+                                template={template}
+                                data={getPreviewData(template.id, realData)}
+                            />
                         )}
 
                         {/* Active Indicator Over Preview */}
@@ -206,6 +314,47 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                     </div>
                 </button>
             ))}
+        </div>
+    )
+}
+
+function LazyTemplateSelectorPreview({ template, data }: { template: TemplateMetadata, data: any }) {
+    const [isVisible, setIsVisible] = React.useState(false)
+    const ref = React.useRef<HTMLDivElement>(null)
+
+    React.useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                // Stagger loading slightly to prevent locking the thread when scrolling fast
+                setTimeout(() => setIsVisible(true), 150)
+                observer.disconnect()
+            }
+        }, { rootMargin: '300px' })
+
+        if (ref.current) {
+            observer.observe(ref.current)
+        }
+        return () => observer.disconnect()
+    }, [])
+
+    return (
+        <div
+            ref={ref}
+            className="absolute inset-0 origin-top left-0 right-0 scale-[0.25] pointer-events-none"
+        >
+            {isVisible ? (
+                <TemplateRenderer
+                    templateId={template.id}
+                    data={data}
+                    className="w-[210mm] min-h-[297mm] overflow-hidden bg-white"
+                />
+            ) : (
+                <div className="w-[210mm] min-h-[297mm] bg-neutral-100 flex items-center justify-center">
+                    <div className="flex flex-col items-center gap-6 text-neutral-400">
+                        <div className="w-20 h-20 border-[6px] border-neutral-200 border-t-neutral-400 rounded-full animate-spin" />
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

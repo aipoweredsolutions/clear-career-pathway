@@ -28,17 +28,17 @@ export function ProfessionalTemplate({ data, className, accentColor = 'text-slat
     const primaryBg = accentColor.replace('text-', 'bg-') || 'bg-slate-900'
 
     return (
-        <div className={cn("w-full bg-white text-slate-900 font-sans leading-relaxed flex flex-col items-stretch", className)}>
+        <div className={cn("w-full bg-white text-slate-900 font-lato leading-relaxed flex flex-col items-stretch", className)}>
             {/* Elegant Top Header */}
-            <header className="p-10 pb-8 flex flex-col gap-6 border-b-4 border-slate-100">
+            <header className="p-8 pb-5 flex flex-col gap-6 border-b-4 border-slate-100">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                     <div className="flex-1">
-                        <h1 className={cn("text-5xl font-black tracking-tight uppercase mb-2", primaryColor)}>
+                        <h1 className={cn("text-5xl font-black tracking-normal uppercase mb-2", primaryColor)}>
                             {personalInfo?.fullName}
                         </h1>
                         <div className="flex items-center gap-3">
                             <div className={cn("h-1 w-12", primaryBg)} />
-                            <p className="text-xl font-bold text-slate-500 uppercase tracking-[0.2em]">
+                            <p className="text-xl font-bold text-slate-500 uppercase tracking-widest">
                                 {personalInfo?.professionalTitle}
                             </p>
                         </div>
@@ -69,13 +69,13 @@ export function ProfessionalTemplate({ data, className, accentColor = 'text-slat
 
             <div className="flex flex-1">
                 {/* Main Content Column */}
-                <main className="flex-[1.8] p-10 pt-8 flex flex-col gap-10 border-r border-slate-100">
+                <main className="flex-[1.8] p-8 pt-5 flex flex-col gap-6 border-r border-slate-100">
                     {/* Summary */}
                     {professionalSummary?.summaryText && (
                         <section>
                             <div className="flex items-center gap-3 mb-4">
                                 <div className={cn("w-1.5 h-6 rounded-full", primaryBg)} />
-                                <h2 className="text-sm font-black uppercase tracking-[0.3em] text-slate-400">Profile</h2>
+                                <h2 className="text-sm font-black uppercase tracking-widest text-slate-400">Profile</h2>
                             </div>
                             <p className="text-slate-600 leading-relaxed font-normal text-lg">
                                 {professionalSummary.summaryText}

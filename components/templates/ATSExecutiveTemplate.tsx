@@ -29,8 +29,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
 
     return (
         <div className={cn(
-            "w-full bg-white aspect-[210/297] p-12 text-neutral-900",
-            "font-sans",
+            "w-full bg-white text-neutral-900 font-sans leading-snug",
             className
         )}>
             {/* Executive Header */}
@@ -107,7 +106,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                 {projects && projects.length > 0 && (
                     <section>
                         <h2 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-900 mb-4 ml-1">Strategic Projects</h2>
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 gap-4">
                             {projects.map((proj, i) => (
                                 <div key={i} className="bg-neutral-50 p-4 rounded border-l-2 border-neutral-500">
                                     <h3 className="text-[11px] font-black uppercase mb-1">{proj.projectName}</h3>
@@ -123,7 +122,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                 {skills && skills.length > 0 && (
                     <section>
                         <h2 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-900 mb-4 ml-1">Core Competencies</h2>
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                        <div className="grid grid-cols-1 gap-4">
                             {Object.entries(skills.reduce((acc, s) => {
                                 const t = s.skillType || 'professional';
                                 if (!acc[t]) acc[t] = [];
@@ -165,7 +164,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                 )}
 
                 {/* Multi-section bottom (Certs, Languages, etc) */}
-                <div className="grid grid-cols-2 gap-8 pt-4 border-t border-neutral-100">
+                <div className="grid grid-cols-1 gap-8 pt-4 border-t border-neutral-100">
                     {/* Certifications */}
                     {certifications && certifications.length > 0 && (
                         <section>
@@ -201,7 +200,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                         <h2 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-900 mb-3 ml-1">{s.title}</h2>
                         {s.content && <p className="text-xs text-neutral-700 leading-relaxed font-medium mb-2">{s.content}</p>}
                         {s.items && (
-                            <ul className="grid grid-cols-2 gap-x-8 gap-y-1">
+                            <ul className="grid grid-cols-1 gap-2">
                                 {s.items.map((item, j) => (
                                     <li key={j} className="text-[10px] text-neutral-600 font-bold uppercase tracking-tight">• {item.text}</li>
                                 ))}

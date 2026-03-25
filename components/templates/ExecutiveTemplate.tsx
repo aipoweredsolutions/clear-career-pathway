@@ -32,11 +32,11 @@ export function ExecutiveTemplate({ data, className, theme = 'standard' }: Templ
     const bg = isGold ? 'bg-amber-50/30' : 'bg-stone-50'
 
     return (
-        <div className={cn("w-full text-neutral-900 min-h-[11in] shadow-sm p-16 font-serif", bg, className)}>
+        <div className={cn("w-full text-neutral-900 min-h-[11in] shadow-sm p-10 font-playfair tracking-normal leading-relaxed text-sm", bg, className)}>
             {/* Centered Header */}
-            <header className={cn("text-center border-b-2 pb-10 mb-12", accentBorder)}>
-                <h1 className={cn("text-5xl font-bold uppercase tracking-widest mb-4", accentText)}>{personalInfo?.fullName}</h1>
-                <div className="text-xl text-neutral-600 mb-6 italic">{personalInfo?.professionalTitle}</div>
+            <header className={cn("text-center border-b-2 pb-6 mb-8", accentBorder)}>
+                <h1 className={cn("text-5xl font-bold uppercase tracking-widest mb-2", accentText)}>{personalInfo?.fullName}</h1>
+                <div className="text-xl text-neutral-600 mb-4 italic">{personalInfo?.professionalTitle}</div>
 
                 <div className="flex justify-center flex-wrap gap-6 text-sm font-medium text-neutral-500 uppercase tracking-wide">
                     {personalInfo?.email && <span>{personalInfo.email}</span>}
@@ -55,16 +55,16 @@ export function ExecutiveTemplate({ data, className, theme = 'standard' }: Templ
 
             {/* Summary - Centered & Prominent */}
             {professionalSummary && (
-                <section className="mb-12 max-w-3xl mx-auto text-center">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-widest mb-4 inline-block border-b-2 pb-1", accentBorder, accentText)}>Executive Profile</h2>
+                <section className="mb-8 max-w-3xl mx-auto text-center">
+                    <h2 className={cn("text-lg font-bold uppercase tracking-widest mb-3 inline-block border-b-2 pb-1", accentBorder, accentText)}>Executive Profile</h2>
                     <p className="text-lg leading-relaxed text-neutral-700">{professionalSummary.summaryText}</p>
                 </section>
             )}
 
             {/* Two Column Layout */}
-            <div className="grid grid-cols-3 gap-12">
+            <div className="grid grid-cols-3 gap-8">
                 {/* Main Column */}
-                <div className="col-span-2 space-y-10">
+                <div className="col-span-2 space-y-6">
                     {workExperience && workExperience.length > 0 && (
                         <section>
                             <h2 className={cn("text-xl font-bold uppercase tracking-widest mb-8 border-b border-neutral-200 pb-2", accentText)}>Professional Experience</h2>
@@ -95,7 +95,7 @@ export function ExecutiveTemplate({ data, className, theme = 'standard' }: Templ
                 </div>
 
                 {/* Sidebar Column */}
-                <div className="col-span-1 space-y-10 border-l border-neutral-200 pl-10">
+                <div className="col-span-1 space-y-6 border-l border-neutral-200 pl-8">
                     {/* Core Competencies */}
                     {skills && skills.length > 0 && (
                         <section>

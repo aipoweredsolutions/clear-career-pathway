@@ -115,6 +115,7 @@ export interface Achievement {
     achievementTitle: string
     issuingBody?: string
     year?: number
+    date?: string // Added for compatibility
     description?: string
     displayOrder?: number
 }
@@ -161,9 +162,13 @@ export interface Reference {
     id?: string
     documentId?: string
     referenceName?: string
+    name?: string // Added for compatibility
     role?: string
+    title?: string // Added for compatibility
     organization?: string
+    company?: string // Added for compatibility
     contactDetails?: string
+    contactInfo?: string // Added for compatibility
     availabilityStatement?: string
     displayOrder?: number
 }
@@ -176,6 +181,17 @@ export interface AdditionalInfo {
     willingToRelocate?: boolean
     availability?: string
     otherInfo?: string
+}
+
+export interface CoverLetterContent {
+    recipientName?: string
+    recipientTitle?: string
+    companyName?: string
+    companyAddress?: string
+    jobTitle?: string
+    jobDescription?: string
+    tone?: 'formal' | 'confident' | 'persuasive' | 'professional'
+    content?: string
 }
 
 export interface CustomSectionItem {
@@ -215,6 +231,7 @@ export interface ResumeDocument {
         margin?: 'narrow' | 'normal' | 'wide'
         paperSize?: 'letter' | 'a4'
     }
+    sectionOrder?: string[]
 
     // Related data
     personalInfo?: PersonalInfo
@@ -231,6 +248,7 @@ export interface ResumeDocument {
     professionalAffiliations?: ProfessionalAffiliation[]
     references?: Reference[]
     additionalInfo?: AdditionalInfo
+    coverLetter?: CoverLetterContent
     customSections?: CustomSection[]
 }
 

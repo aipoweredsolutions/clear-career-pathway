@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Check, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/Card'
@@ -25,18 +25,20 @@ interface PricingCardProps {
 
 export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
     const [isLoading, setIsLoading] = useState(false)
-    const [paddle, setPaddle] = useState<Paddle | undefined>(undefined)
+    const paddleRef = React.useRef<Paddle | undefined>(undefined)
 
-    useEffect(() => {
-        initializePaddle({
+    // Lazily initialize Paddle only when needed (on first paid click)
+    const getPaddle = async (): Promise<Paddle | undefined> => {
+        if (paddleRef.current) return paddleRef.current
+        const paddleInstance = await initializePaddle({
             environment: (process.env.NEXT_PUBLIC_PADDLE_ENVIRONMENT as 'sandbox' | 'production') || 'sandbox',
             token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN!,
-        }).then((paddleInstance) => {
-            if (paddleInstance) {
-                setPaddle(paddleInstance)
-            }
         })
-    }, [])
+        if (paddleInstance) {
+            paddleRef.current = paddleInstance
+        }
+        return paddleRef.current
+    }
 
     const handleAction = async () => {
         trackEvent('pricing_click', { tierName: tier.name, price: tier.price })
@@ -51,14 +53,14 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
             return
         }
 
-        if (!paddle) {
-            alert('Payment system is still loading. Please try again in a moment.')
-            return
-        }
-
         setIsLoading(true)
         try {
-            // Fetch user ID ahead of time or from a session provider if available
+            const paddle = await getPaddle()
+            if (!paddle) {
+                alert('Payment system failed to load. Please try again.')
+                return
+            }
+
             const response = await fetch('/api/auth/me')
             const userData = await response.json()
             const userId = userData.user?.id
@@ -117,7 +119,7 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
                     size="lg"
                     className="w-full"
                     onClick={handleAction}
-                    disabled={isLoading || (tier.price > 0 && !!tier.paddlePriceId && !paddle)}
+                    disabled={isLoading}
                 >
                     {isLoading ? (
                         <>

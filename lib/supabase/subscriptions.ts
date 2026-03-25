@@ -4,7 +4,13 @@ import { UserSubscription } from '@/lib/types/resume'
 /**
  * Fetches the user's current subscription from Supabase
  */
-export async function fetchUserSubscription(supabase: SupabaseClient, userId: string): Promise<UserSubscription | null> {
+export async function fetchUserSubscription(supabase: SupabaseClient, userId: string): Promise<(UserSubscription & { downloadCredits?: number }) | null> {
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('download_credits')
+        .eq('id', userId)
+        .single()
+
     const { data, error } = await supabase
         .from('user_subscriptions')
         .select('*, tier:subscription_tiers(name)')
@@ -13,7 +19,7 @@ export async function fetchUserSubscription(supabase: SupabaseClient, userId: st
 
     if (error || !data) {
         if (error) console.error('Error fetching subscription:', error)
-        return null
+        return profile ? { downloadCredits: profile.download_credits } as any : null
     }
 
     const tierName = (data.tier as any)?.name || 'free'
@@ -29,7 +35,8 @@ export async function fetchUserSubscription(supabase: SupabaseClient, userId: st
         currentPeriodStart: data.current_period_start,
         currentPeriodEnd: data.current_period_end,
         createdAt: data.created_at,
-        updatedAt: data.updated_at
+        updatedAt: data.updated_at,
+        downloadCredits: profile?.download_credits || 0
     }
 }
 
@@ -52,21 +59,30 @@ export function hasPremiumAccess(subscription: UserSubscription | null): boolean
 }
 
 /**
- * Checks if a user can export a document based on their tier
+ * Checks if a user can export a document based on their tier or credits
  */
-export function canExportFormat(subscription: UserSubscription | null, format: 'pdf' | 'docx' | 'md' | 'html'): boolean {
+export function canExportFormat(subscription: (UserSubscription & { downloadCredits?: number }) | null, format: 'pdf' | 'docx' | 'md' | 'html'): boolean {
     const tier = subscription?.tierId || 'free'
+    const credits = subscription?.downloadCredits || 0
 
-    if (format === 'pdf') return true // Everyone can PDF (maybe watermarked)
+    // If they have credits, they can download PDF or DOCX
+    if (credits > 0 && (format === 'pdf' || format === 'docx')) {
+        return true
+    }
+
+    if (format === 'pdf') {
+        return tier !== 'free'
+    }
 
     if (format === 'docx') {
-        return tier === 'starter' || tier === 'premium' || tier === 'pro' || tier === 'basic'
+        return tier === 'starter' || tier === 'premium' || tier === 'pro' || tier === 'basic' || tier === 'power'
     }
 
     if (format === 'md' || format === 'html') {
-        return tier === 'premium' || tier === 'pro'
+        return tier === 'premium' || tier === 'pro' || tier === 'power'
     }
 
     return false
 }
+
 

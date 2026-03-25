@@ -44,7 +44,21 @@ export const MOCK_HOSPITALITY_DATA: ResumeDocument = {
             roleDescription: 'Providing elite concierge services to international clientele in a high-volume seasonal resort.',
             achievements: [
                 { achievementText: 'Awarded "Employee of the Year" twice for exceptional guest feedback' },
-                { achievementText: 'Developed a local partnership network with 50+ exclusive vendors' }
+                { achievementText: 'Developed a local partnership network with 50+ exclusive vendors' },
+                { achievementText: 'Curated customized luxury itineraries for over 200 VIP families per season' }
+            ]
+        },
+        {
+            jobTitle: 'Front Desk Supervisor',
+            companyName: 'Boutique Firenze',
+            location: 'Florence, Italy',
+            startDate: '2012-06',
+            endDate: '2015-02',
+            isCurrent: false,
+            roleDescription: 'Managed check-in operations and night audit procedures for an exclusive 50-room boutique property.',
+            achievements: [
+                { achievementText: 'Trained and onboarded 15 new front desk agents on property management systems' },
+                { achievementText: 'Implemented an automated upselling protocol that increased room revenue by 12%' }
             ]
         }
     ],
@@ -127,7 +141,21 @@ export const MOCK_CRUISE_DATA: ResumeDocument = {
             roleDescription: 'Assisting in the management of onboard hotel operations including F&B and housekeeping.',
             achievements: [
                 { achievementText: 'Reduced onboard food waste by 18% through optimized inventory management' },
-                { achievementText: 'Led the launch of two new specialty restaurants on the flagship vessel' }
+                { achievementText: 'Led the launch of two new specialty restaurants on the flagship vessel' },
+                { achievementText: 'Managed housekeeping rotations for 1,200 cabins, maintaining a pristine standard of cleanliness' }
+            ]
+        },
+        {
+            jobTitle: 'Purser / Chief Receptionist',
+            companyName: 'Royal Odyssey Cruises',
+            location: 'Global Deployments',
+            startDate: '2008-03',
+            endDate: '2012-04',
+            isCurrent: false,
+            roleDescription: 'Handled guest accounts, currency exchange, and general inquiries at the main purser desk.',
+            achievements: [
+                { achievementText: 'Processed over $500k in daily onboard transactions accurately across 4 currencies' },
+                { achievementText: 'Pioneered an interactive digital directory that decreased guest inquiries at the desk by 30%' }
             ]
         }
     ],

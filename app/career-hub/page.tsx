@@ -6,12 +6,13 @@ import { fetchUserDocuments } from '@/lib/supabase/documents'
 import { SkillsGapAnalysis } from '@/components/career/SkillsGapAnalysis'
 import { InterviewPrep } from '@/components/career/InterviewPrep'
 import { CareerRoadmap } from '@/components/career/CareerRoadmap'
-import { Target, MessageSquare, TrendingUp, Loader2 } from 'lucide-react'
+import { SalaryNegotiation } from '@/components/career/SalaryNegotiation'
+import { Target, MessageSquare, TrendingUp, Loader2, Banknote } from 'lucide-react'
 import { createBrowserClient } from '@supabase/ssr'
 import { cn } from '@/lib/utils'
 
 export default function CareerHubPage() {
-    const [activeTab, setActiveTab] = useState<'gap' | 'interview' | 'roadmap'>('gap')
+    const [activeTab, setActiveTab] = useState<'gap' | 'interview' | 'roadmap' | 'negotiation'>('gap')
     const [resumes, setResumes] = useState<ResumeDocument[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -89,6 +90,18 @@ export default function CareerHubPage() {
                                 <span>Interview Prep</span>
                             </button>
                             <button
+                                onClick={() => setActiveTab('negotiation')}
+                                className={cn(
+                                    "flex items-center gap-3 px-4 py-3 rounded-xl transition-all",
+                                    activeTab === 'negotiation'
+                                        ? "bg-white text-primary-600 font-semibold shadow-sm border border-neutral-200"
+                                        : "text-neutral-600 hover:bg-white hover:text-neutral-900 font-medium"
+                                )}
+                            >
+                                <Banknote className="w-5 h-5" />
+                                <span>Salary Negotiation</span>
+                            </button>
+                            <button
                                 onClick={() => setActiveTab('roadmap')}
                                 className={cn(
                                     "flex items-center gap-3 px-4 py-3 rounded-xl transition-all",
@@ -109,7 +122,9 @@ export default function CareerHubPage() {
                                     ? "Use the Skills Gap Analysis for every job you apply to. Targeted resumes receive 3x more interview callbacks."
                                     : activeTab === 'interview'
                                         ? "Practice makes perfect. Use the AI Interview Simulator to refine your pitch before the high-stakes call."
-                                        : "Growth is a marathon, not a sprint. Follow your roadmap to systematically acquire the skills needed for your dream role."}
+                                        : activeTab === 'negotiation'
+                                            ? "Know your worth. Salary negotiation is most effective when you have data and a clear value proposition."
+                                            : "Growth is a marathon, not a sprint. Follow your roadmap to systematically acquire the skills needed for your dream role."}
                             </p>
                         </div>
                     </div>
@@ -119,6 +134,7 @@ export default function CareerHubPage() {
                         {activeTab === 'gap' && <SkillsGapAnalysis resumes={resumes} />}
                         {activeTab === 'interview' && <InterviewPrep resumes={resumes} />}
                         {activeTab === 'roadmap' && <CareerRoadmap resumes={resumes} />}
+                        {activeTab === 'negotiation' && <SalaryNegotiation resumes={resumes} />}
                     </div>
                 </div>
             </div>

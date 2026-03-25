@@ -92,29 +92,41 @@ export async function POST(req: NextRequest) {
                 if (!userId) break
 
                 const tierName = getTierFromPriceId(priceId)
-
-                // Resolve tier name to UUID
-                const { data: tierData } = await supabase
-                    .from('subscription_tiers')
-                    .select('id')
-                    .eq('name', tierName)
-                    .single()
-
-                if (!tierName || !tierData) break
-
                 const isSubscription = data.subscription_id !== null
 
-                // Only handle if it's NOT a subscription (those are handled by subscription.* events)
                 if (!isSubscription) {
-                    await supabase
-                        .from('user_subscriptions')
-                        .upsert({
-                            user_id: userId,
-                            status: 'active',
-                            tier_id: tierData.id,
-                            updated_at: new Date().toISOString()
-                            // One-time purchases don't have periods or subscription IDs
-                        }, { onConflict: 'user_id' })
+                    if (tierName === 'single_download') {
+                        // Add 1 credit
+                        const { data: profile } = await supabase.from('profiles').select('download_credits').eq('id', userId).single()
+                        const credits = (profile?.download_credits || 0) + 1
+                        await supabase.from('profiles').update({ download_credits: credits }).eq('id', userId)
+                        break
+                    } else if (tierName === 'download_bundle') {
+                        // Add 5 credits
+                        const { data: profile } = await supabase.from('profiles').select('download_credits').eq('id', userId).single()
+                        const credits = (profile?.download_credits || 0) + 5
+                        await supabase.from('profiles').update({ download_credits: credits }).eq('id', userId)
+                        break
+                    }
+
+                    // Resolve tier name to UUID for other one-time purchases
+                    const { data: tierData } = await supabase
+                        .from('subscription_tiers')
+                        .select('id')
+                        .eq('name', tierName)
+                        .single()
+
+                    if (tierName && tierData) {
+                        await supabase
+                            .from('user_subscriptions')
+                            .upsert({
+                                user_id: userId,
+                                status: 'active',
+                                tier_id: tierData.id,
+                                updated_at: new Date().toISOString()
+                                // One-time purchases don't have periods or subscription IDs
+                            }, { onConflict: 'user_id' })
+                    }
                 }
                 break
             }

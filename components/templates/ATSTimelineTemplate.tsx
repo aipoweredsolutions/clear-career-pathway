@@ -25,7 +25,7 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
     const bgColorClass = accentColor.replace('text-', 'bg-')
 
     return (
-        <div className={cn("w-full bg-white aspect-[210/297] p-12 font-sans text-neutral-800 leading-relaxed", className)}>
+        <div className={cn("w-full bg-white font-sans text-neutral-800 leading-relaxed", className)}>
             {/* Elegant Header */}
             <header className="mb-12 border-b-2 pb-8 border-neutral-100 italic">
                 <div className="flex justify-between items-end">
@@ -101,10 +101,10 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                     </section>
                 )}
 
-                {/* Bottom Grid for Secondary Info */}
-                <div className="grid grid-cols-12 gap-12 pt-4 border-t border-neutral-50">
+                {/* Bottom Section */}
+                <div className="flex flex-col gap-8 pt-4 border-t border-neutral-50">
                     {/* Education & Certs */}
-                    <div className="col-span-12 lg:col-span-8 space-y-10">
+                    <div className="space-y-8">
                         {education && education.length > 0 && (
                             <section>
                                 <h2 className={cn("text-xs font-black uppercase tracking-[0.3em] mb-6 opacity-40", accentColor)}>Academic Foundation</h2>
@@ -138,7 +138,7 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                     </div>
 
                     {/* Skills & Langs */}
-                    <div className="col-span-12 lg:col-span-4 space-y-10">
+                    <div className="space-y-8">
                         {skills && skills.length > 0 && (
                             <section>
                                 <h2 className={cn("text-xs font-black uppercase tracking-[0.3em] mb-6 opacity-40", accentColor)}>Core Expertise</h2>

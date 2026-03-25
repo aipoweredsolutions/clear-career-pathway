@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
+    compress: true,
+    poweredByHeader: false,
     images: {
         remotePatterns: [
             {
@@ -22,11 +24,23 @@ const nextConfig = {
                 pathname: '/**',
             },
         ],
+        minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
+    },
+    compiler: {
+        removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error"] } : false,
     },
     experimental: {
+        reactCompiler: true,
         serverActions: {
             bodySizeLimit: '10mb',
         },
+        optimizePackageImports: [
+            'lucide-react',
+            'framer-motion',
+            'date-fns',
+            '@react-pdf/renderer',
+            'sonner',
+        ],
     },
 }
 

@@ -27,7 +27,7 @@ export function PDFPreview({ data, subscription, className }: PDFPreviewProps) {
 
     return (
         <div className={className}>
-            <PDFViewer key={debouncedData.templateId} className="w-full h-full border-none rounded-lg shadow-2xl" showToolbar={true}>
+            <PDFViewer key={debouncedData.templateId} className="w-full h-full border-none rounded-lg shadow-2xl" showToolbar={false}>
                 <ResumePDF key={debouncedData.templateId} data={debouncedData} isWatermarked={isWatermarked} />
             </PDFViewer>
         </div>

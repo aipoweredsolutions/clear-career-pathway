@@ -62,11 +62,11 @@ export function ArtisanTemplate({ data, className, theme = 'sage' }: TemplatePro
     const activeTheme = themeConfig[theme]
 
     return (
-        <div className={cn("w-full bg-white aspect-[210/297] p-16 font-serif text-slate-900 leading-relaxed", className)}>
+        <div className={cn("w-full bg-white aspect-[210/297] p-10 font-playfair tracking-normal text-slate-900 leading-relaxed", className)}>
             {/* Header - Simple & Clean */}
-            <header className="mb-20 flex justify-between items-end border-b pb-12 border-slate-100">
+            <header className="mb-5 flex justify-between items-end border-b pb-4 border-slate-100">
                 <div className="flex flex-col gap-2">
-                    <h1 className={cn("text-6xl font-medium tracking-tight", activeTheme.accent)}>
+                    <h1 className={cn("text-6xl font-medium tracking-normal", activeTheme.accent)}>
                         {personalInfo?.fullName}
                     </h1>
                     <p className="font-sans text-sm font-bold uppercase tracking-[0.3em] text-slate-400">
@@ -81,10 +81,10 @@ export function ArtisanTemplate({ data, className, theme = 'sage' }: TemplatePro
                 </div>
             </header>
 
-            <div className="flex flex-col gap-20">
+            <div className="flex flex-col gap-6">
                 {/* Summary */}
                 {professionalSummary?.summaryText && (
-                    <section className="flex flex-col gap-6">
+                    <section className="flex flex-col gap-4">
                         <div className="font-sans text-[10px] font-black uppercase tracking-[0.5em] text-slate-300">About</div>
                         <p className="text-xl text-slate-700 font-medium leading-relaxed max-w-4xl">
                             {professionalSummary.summaryText}
@@ -94,9 +94,9 @@ export function ArtisanTemplate({ data, className, theme = 'sage' }: TemplatePro
 
                 {/* Main Experience Flow - Offset Layout */}
                 {workExperience && workExperience.length > 0 && (
-                    <section className="flex flex-col gap-10">
+                    <section className="flex flex-col gap-6">
                         <div className="font-sans text-[10px] font-black uppercase tracking-[0.5em] text-slate-300 mb-2">Experience</div>
-                        <div className="flex flex-col gap-16">
+                        <div className="flex flex-col gap-6">
                             {workExperience.map((job, i) => (
                                 <div key={i} className="grid grid-cols-12 gap-8">
                                     {/* Left Side: Date/Company */}
@@ -109,7 +109,7 @@ export function ArtisanTemplate({ data, className, theme = 'sage' }: TemplatePro
 
                                     {/* Right Side: Title/Description */}
                                     <div className="col-span-8 flex flex-col gap-4">
-                                        <h3 className="text-2xl font-medium text-slate-900">{job.jobTitle}</h3>
+                                        <h3 className="text-2xl font-medium text-slate-900 tracking-wide">{job.jobTitle}</h3>
                                         {job.roleDescription && (
                                             <p className="text-slate-600 leading-relaxed opacity-90">{job.roleDescription}</p>
                                         )}
