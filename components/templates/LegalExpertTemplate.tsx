@@ -32,11 +32,6 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
                         {(personalInfo?.phone && personalInfo?.email) && <span>•</span>}
                         {personalInfo?.email && <span className="lowercase">{personalInfo.email}</span>}
                     </div>
-                    {personalInfo?.linkedinUrl && (
-                        <div className="text-[10px] mt-2 text-neutral-400 font-mono italic">
-                            {personalInfo.linkedinUrl}
-                        </div>
-                    )}
                 </div>
             </header>
 
