@@ -1,3 +1,5 @@
+'use client'
+
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
 import { FileText, MoreVertical, Trash2, Edit, Calendar, Plus, Copy } from 'lucide-react'
@@ -13,7 +15,7 @@ export function ResumeGrid({ resumes }: ResumeGridProps) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Create New Card */}
-            <form action={async () => { 'use server'; await createResume('resume') }}>
+            <form action={async (formData: FormData) => { await createResume('resume') }}>
                 <button
                     type="submit"
                     className="w-full h-full min-h-[250px] flex flex-col items-center justify-center bg-white border-2 border-dashed border-neutral-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 transition-all group cursor-pointer"
@@ -60,16 +62,13 @@ export function ResumeGrid({ resumes }: ResumeGridProps) {
                                 {resume.title || (resume.documentType === 'cover_letter' ? 'Untitled Cover Letter' : 'Untitled Resume')}
                             </h3>
                             {/* Simple Delete Button (Form) */}
-                            <form action={deleteResume.bind(null, resume.id || '')}>
+                            <form action={async (formData: FormData) => { await deleteResume(resume.id || '') }}>
                                 <button type="submit" className="text-neutral-400 hover:text-red-600 transition-colors p-1" title="Delete Resume">
                                     <Trash2 className="w-4 h-4" />
                                 </button>
                             </form>
                             {/* Duplicate Button */}
-                            <form action={async () => {
-                                'use server'
-                                await duplicateResume(resume.id || '')
-                            }}>
+                            <form action={async (formData: FormData) => { await duplicateResume(resume.id || '') }}>
                                 <button type="submit" className="text-neutral-400 hover:text-primary-600 transition-colors p-1" title="Duplicate Resume">
                                     <Copy className="w-4 h-4" />
                                 </button>

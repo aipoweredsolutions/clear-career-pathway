@@ -46,7 +46,7 @@ interface TemplateThumbnailProps {
 export function TemplateThumbnail({ template, activeColorId, className }: TemplateThumbnailProps) {
     // Get appropriate sample data based on template type
     const getSampleData = () => {
-        // ATS templates - use dedicated ATS mock data
+        // ... (rest of the sample data logic remains the same)
         if (template.id.startsWith('ats-')) {
             if (template.id.includes('nursing')) return MOCK_NURSE_EXPERIENCED_DATA
             if (template.id.includes('academia')) return MOCK_ACADEMIC_DATA
@@ -63,10 +63,7 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
             return MOCK_CORPORATE_DATA
         }
 
-        // Industry and specialized variants
         if (template.id.includes('nursing')) return MOCK_NURSE_EXPERIENCED_DATA
-
-        // Visual templates - use dedicated template mock data
         if (template.id === 'technical') return MOCK_TECHNICAL_TEMPLATE_DATA
         if (template.id === 'executive') return MOCK_EXECUTIVE_TEMPLATE_DATA
         if (template.id === 'creative') return MOCK_CREATIVE_TEMPLATE_DATA
@@ -81,8 +78,6 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         if (template.id === 'minimal') return MOCK_ATS_MINIMAL_DATA
         if (template.id === 'modern') return MOCK_CORPORATE_DATA
         if (template.id === 'classic') return MOCK_LEGAL_DATA
-
-        // Industry-specific templates
         if (template.id === 'hospitality-elite') return MOCK_HOSPITALITY_DATA
         if (template.id === 'cruise-excellence') return MOCK_CRUISE_DATA
         if (template.id === 'service-pro') return MOCK_SERVICE_PRO_DATA
@@ -95,35 +90,31 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         if (template.id === 'international-cv') return MOCK_EXECUTIVE_TEMPLATE_DATA
         if (template.id === 'revenue-leader') return MOCK_ATS_EXECUTIVE_DATA
         if (template.id === 'classic-clean') return MOCK_LEGAL_DATA
-
-        // Default to comprehensive preview data
         return MOCK_PREVIEW_DATA
     }
 
-    // Determine if we should use a real image or fallback to a dynamic renderer
-    const previewImage = template.previewImage
+    const [imageError, setImageError] = React.useState(false)
 
-    // Get color suffix for template
-    const colorSuffix = activeColorId && activeColorId !== 'standard' && activeColorId !== 'std' && activeColorId !== 'clean'
-        ? `-${activeColorId}`
-        : ''
+    // Construct the static image path
+    // Format: /templates/[id]-[color]-preview.png
+    const colorId = activeColorId || (template.colors && template.colors[0]?.id) || 'standard'
+    const staticImagePath = `/templates/${template.id}-${colorId}-preview.png`
 
     return (
         <div className={cn("relative w-full h-full bg-neutral-100 overflow-hidden", className)}>
-            {previewImage ? (
+            {!imageError ? (
                 <div className="relative w-full h-full">
-                    <NextImage
-                        src={previewImage}
+                    <img
+                        src={staticImagePath}
                         alt={template.name}
-                        fill
-                        className="object-cover object-top"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="w-full h-full object-cover object-top"
+                        onError={() => setImageError(true)}
                     />
                 </div>
             ) : (
                 <LazyTemplatePreview
                     template={template}
-                    colorSuffix={colorSuffix}
+                    colorSuffix={activeColorId ? `-${activeColorId}` : ''}
                     data={getSampleData()}
                 />
             )}

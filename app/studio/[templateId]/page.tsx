@@ -1,107 +1,236 @@
-'use client'
+"use client"
 
-import React, { Suspense } from 'react'
-import { useParams, useSearchParams } from 'next/navigation'
+import React, { useState } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { saveAs } from 'file-saver'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
-import { ResumeDocument } from '@/lib/types/resume'
+import { Button } from '@/components/ui/Button'
+import { 
+    ChevronLeft, 
+    ArrowRight, 
+    Maximize2, 
+    Download, 
+    Layers, 
+    Sparkles,
+    Shield,
+    CheckCircle2,
+    Palette,
+    Loader2
+} from 'lucide-react'
+import Link from 'next/link'
+import { getMockDataForTemplate } from '@/lib/utils/persona-matcher'
 
-// Robust mock data for preview generation
-const previewData: ResumeDocument = {
-    id: 'preview',
-    title: 'Preview Resume',
-    documentType: 'resume',
-    templateId: 'classic',
-    personalInfo: {
-        fullName: 'Alex Morgan',
-        professionalTitle: 'Product Designer',
-        email: 'alex.morgan@example.com',
-        phone: '+1 (555) 012-3456',
-        city: 'Seattle',
-        country: 'WA',
-        linkedinUrl: 'linkedin.com/in/alexmorgan',
-        websiteUrl: 'alexmorgan.design'
-    },
-    professionalSummary: {
-        summaryText: 'Creative and detail-oriented User Experience Designer with 5+ years of experience building intuitive digital products. Proven track record of improving user engagement and conversion rates through data-driven design decisions. Expert in Figma, Prototyping, and Design Systems.'
-    },
-    skills: [
-        { skillName: 'UI/UX Design', skillType: 'technical' },
-        { skillName: 'Figma & Sketch', skillType: 'technical' },
-        { skillName: 'User Research', skillType: 'technical' },
-        { skillName: 'HTML/CSS', skillType: 'technical' },
-        { skillName: 'Design Systems', skillType: 'technical' },
-        { skillName: 'Agile/Scrum', skillType: 'professional' }
-    ],
-    workExperience: [
-        {
-            jobTitle: 'Senior UX Designer',
-            companyName: 'Creative Solutions Inc.',
-            location: 'Seattle, WA',
-            startDate: '2021-03-01',
-            isCurrent: true,
-            roleDescription: 'Leading the design of the core SaaS platform.',
-            achievements: [
-                { achievementText: 'Redesigned the main dashboard, increasing user retention by 25%.' },
-                { achievementText: 'Established a comprehensive design system used solely by 4 engineering teams.' },
-                { achievementText: 'Mentored 3 junior designers and conducted weekly design critiques.' }
-            ]
-        },
-        {
-            jobTitle: 'UX Designer',
-            companyName: 'TechFlow Startups',
-            location: 'San Francisco, CA',
-            startDate: '2018-06-01',
-            endDate: '2021-02-01',
-            achievements: [
-                { achievementText: 'Collaborated with PMs to ship 5 major features in the first year.' },
-                { achievementText: 'Conducted user usability testing sessions to validate prototypes.' }
-            ]
-        }
-    ],
-    education: [
-        {
-            institutionName: 'University of Washington',
-            degree: 'Bachelor of Design',
-            major: 'Visual Communication',
-            location: 'Seattle, WA',
-            startYear: 2014,
-            endYear: 2018,
-            gpa: '3.8'
-        }
-    ]
-}
-
-function StudioContent() {
+export default function TemplateStudioPage() {
     const params = useParams()
-    const searchParams = useSearchParams()
+    const router = useRouter()
+    const templateId = params.templateId as string
 
-    // Allow overriding template ID via path or query
-    const templateId = (params.templateId as string) || 'classic'
-    // Allow overriding colors via query param (e.g. ?color=blue)
-    const colorId = searchParams.get('color')
+    // Fetch the best-matching mock data for this specific template
+    const mockData = getMockDataForTemplate(templateId ?? "ats-professional")
 
-    // Construct the composite template ID if a color is present
-    // The TemplateRenderer expects "base" or "base-color"
-    const effectiveTemplateId = colorId ? `${templateId}-${colorId}` : templateId
+    // Format template ID for display: e.g. "ats-classic-navy" -> "ATS Classic Navy"
+    const displayName = (templateId ?? "Professional")
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+
+    // Go back to previous page
+    const handleBack = () => {
+        router.back()
+    }
+
+    const [isDownloading, setIsDownloading] = useState(false)
+
+    const handleDownloadSample = async () => {
+        setIsDownloading(true)
+        toast.info('Generating high-quality PDF sample...')
+        
+        try {
+            // Dynamically import PDF generator to preserve browser bundle size
+            const { pdf } = await import('@react-pdf/renderer')
+            const { ResumePDF } = await import('@/lib/pdf/ResumePDF')
+
+            const doc = <ResumePDF data={{...mockData, templateId: templateId}} isWatermarked={true} />
+            const asBlob = await pdf(doc).toBlob()
+            
+            saveAs(asBlob, `Clear_Career_Path_${displayName.replace(/\s+/g, '_')}_Sample.pdf`)
+            toast.success('Sample downloaded successfully')
+        } catch (error) {
+            console.error('Sample generation failed:', error)
+            toast.error('Failed to generate sample. Please try again.')
+        } finally {
+            setIsDownloading(false)
+        }
+    }
 
     return (
-        <div className="min-h-screen bg-white flex items-center justify-center p-8">
-            <div id="preview-container" className="shadow-2xl">
-                <TemplateRenderer
-                    templateId={effectiveTemplateId}
-                    data={{ ...previewData, templateId: effectiveTemplateId }}
-                // Force a consistent scale/width if needed, or let it be natural
-                // standard A4 width approx 800-900px for web display
-                />
+        <div className="min-h-screen bg-[#F8F9FA] flex flex-col pt-20">
+            {/* --- Sticky Preview Top-Bar --- */}
+            <div className="sticky top-20 z-40 w-full bg-white/80 backdrop-blur-xl border-b border-neutral-200 shadow-sm">
+                <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={handleBack}
+                            className="text-neutral-500 hover:text-black hover:bg-neutral-100 rounded-lg group"
+                        >
+                            <ChevronLeft className="w-4 h-4 mr-1 transition-transform group-hover:-translate-x-0.5" />
+                            Back
+                        </Button>
+                        <div className="h-4 w-px bg-neutral-200" />
+                        <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Previewing Template</span>
+                            <h1 className="text-sm font-bold text-neutral-900">{displayName}</h1>
+                            <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-black rounded-full border border-blue-100 uppercase tracking-tighter">
+                                {templateId}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                        <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={handleDownloadSample}
+                            disabled={isDownloading}
+                            className="hidden sm:flex border-neutral-200 hover:bg-neutral-50 text-neutral-700 font-bold h-9 w-[200px]"
+                        >
+                            {isDownloading ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    Generating...
+                                </>
+                            ) : (
+                                <>
+                                    <Download className="w-4 h-4 mr-2" />
+                                    Download PDF Sample
+                                </>
+                            )}
+                        </Button>
+                        <Link href={`/editor/setup?template=${templateId}`}>
+                            <Button className="h-9 px-5 bg-black hover:bg-neutral-800 text-white font-bold rounded-lg shadow-lg hover:shadow-black/10 transition-all">
+                                Use This Template
+                                <ArrowRight className="w-4 h-4 ml-2" />
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            {/* --- Workspace Layout --- */}
+            <div className="flex-1 max-w-[1400px] mx-auto w-full px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                {/* --- Left Column: Template Features & Attributes (Desktop Sticky) --- */}
+                <aside className="lg:col-span-4 space-y-8">
+                    <div className="lg:sticky lg:top-40 space-y-8">
+                        {/* Highlights Card */}
+                        <div className="bg-white rounded-3xl p-8 border border-neutral-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                            <h2 className="text-xl font-black text-neutral-900 mb-6 flex items-center gap-3 italic">
+                                <Sparkles className="w-6 h-6 text-blue-600" />
+                                Expert Highlights
+                            </h2>
+                            <ul className="space-y-4">
+                                {[
+                                    { icon: Shield, title: "ATS Optimized", desc: "Crafted to bypass 99.9% of modern applicant tracking systems." },
+                                    { icon: Layers, title: "Industry Proven", desc: "Top choice for fortune 500 applications and executive roles." },
+                                    { icon: Palette, title: "Premium Design", desc: "Perfect balance of aesthetic appeal and professional readability." },
+                                    { icon: Maximize2, title: "Fully Scaleable", desc: "Adapts perfectly to single-page or multi-page career histories." }
+                                ].map((feature, idx) => (
+                                    <li key={idx} className="flex gap-4 group">
+                                        <div className="p-2.5 bg-neutral-50 rounded-xl group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors shrink-0 h-fit">
+                                            <feature.icon className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-black text-neutral-900 leading-none mb-1 uppercase tracking-tight">{feature.title}</p>
+                                            <p className="text-xs text-neutral-500 font-medium leading-relaxed">{feature.desc}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Why this template */}
+                        <div className="p-8 bg-black rounded-3xl text-white relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-8 opacity-10 blur-xl group-hover:opacity-20 transition-opacity">
+                                <CheckCircle2 className="w-32 h-32" />
+                            </div>
+                            <h3 className="text-lg font-black mb-3 italic relative z-10">Professional Recommendation</h3>
+                            <p className="text-sm text-neutral-400 font-bold leading-relaxed mb-6 relative z-10">
+                                This template is statistically preferred for candidates applying into high-competition sectors. The layout emphasizes professional titles and clear career progression.
+                            </p>
+                            <Link href="/pricing" className="text-xs font-black uppercase tracking-widest text-blue-400 hover:text-blue-300 flex items-center gap-2 group/link relative z-10">
+                                View Our Career Hub
+                                <ArrowRight className="w-3 h-3 transition-transform group-hover/link:translate-x-1" />
+                            </Link>
+                        </div>
+                    </div>
+                </aside>
+
+                {/* --- Right Column: The Live Preview --- */}
+                <main className="lg:col-span-8 flex flex-col items-center">
+                    {/* Shadow Enhancement Container */}
+                    <div className="relative w-full max-w-[850px] group">
+                        {/* Decorative Background Elements */}
+                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-[2.5rem] blur opacity-5 group-hover:opacity-10 transition-opacity" />
+                        
+                        {/* The Actual Template Window */}
+                        <div className="relative overflow-hidden rounded-[2rem] bg-white border border-neutral-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)]">
+                            <div className="w-full bg-neutral-50 border-b border-neutral-100 flex items-center px-6 py-3 gap-2">
+                                <div className="flex gap-1.5">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-neutral-200" />
+                                    <div className="w-2.5 h-2.5 rounded-full bg-neutral-200" />
+                                    <div className="w-2.5 h-2.5 rounded-full bg-neutral-200" />
+                                </div>
+                                <div className="flex-1 text-center">
+                                    <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Premium Draft • {displayName}</span>
+                                </div>
+                            </div>
+                            
+                            {/* The Template Content */}
+                            <div className="bg-neutral-100 overflow-y-auto max-h-[85vh] p-4 sm:p-10 flex w-full">
+                                <div className="mx-auto w-full max-w-[850px]">
+                                    <TemplateRenderer 
+                                        templateId={templateId} 
+                                        data={mockData} 
+                                        className="shadow-2xl rounded-sm border border-neutral-200 min-h-[1100px]"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Preview Footer Tooltip */}
+                        <div className="mt-8 flex items-center justify-center gap-4 text-neutral-400">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            <span className="text-xs font-bold uppercase tracking-widest">Full Customization Enabled in Editor</span>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+            {/* --- Global Action Footer --- */}
+            <div className="mt-auto w-full bg-white border-t border-neutral-200 py-12">
+                <div className="max-w-[800px] mx-auto text-center px-6">
+                    <h2 className="text-3xl font-black text-neutral-900 mb-4 italic leading-tight">Ready to boost your hireability?</h2>
+                    <p className="text-neutral-500 font-bold mb-8 text-lg">
+                        Apply with confidence using our most advanced resume layout. 
+                        Over 25,000 professionals have secured interviews using this specific framework.
+                    </p>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Link href={`/editor/setup?template=${templateId}`} className="w-full sm:w-auto">
+                            <Button size="lg" className="w-full h-14 px-10 bg-black hover:bg-neutral-800 text-white font-black text-lg rounded-2xl shadow-xl hover:shadow-black/20 transition-all">
+                                Build My Resume with {displayName}
+                            </Button>
+                        </Link>
+                        <Link href="/templates" className="w-full sm:w-auto">
+                            <Button size="lg" variant="ghost" className="w-full h-14 px-8 text-neutral-900 font-black text-lg hover:bg-neutral-100 rounded-2xl">
+                                Explore All Templates
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
-    )
-}
-
-export default function StudioPage() {
-    return (
-        <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center">Loading Preview...</div>}>
-            <StudioContent />
-        </Suspense>
     )
 }

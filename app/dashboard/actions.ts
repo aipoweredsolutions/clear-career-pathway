@@ -20,7 +20,18 @@ export async function createResume(type: 'resume' | 'cover_letter' = 'resume') {
         }
     )
 
-    const { data: { session } } = await supabase.auth.getSession()
+    // 1. Session check with Developer Guest Mode/Bypass support
+    const isMock = cookieStore.get('mock_session')?.value === 'true'
+    let session: any = null
+
+    if (isMock) {
+        session = { user: { id: 'mock-user-id', email: 'tester@example.com' } }
+        // For mock mode, avoid DB calls and send to mock editor
+        return redirect('/editor/mock-resume-id')
+    } else {
+        const { data: { session: realSession } } = await supabase.auth.getSession()
+        session = realSession
+    }
 
     if (!session) {
         redirect('/auth/login')
@@ -133,7 +144,18 @@ export async function duplicateResume(resumeId: string) {
         }
     )
 
-    const { data: { session } } = await supabase.auth.getSession()
+    // 1. Session check with Developer Guest Mode/Bypass support
+    const isMock = cookieStore.get('mock_session')?.value === 'true'
+    let session: any = null
+
+    if (isMock) {
+        session = { user: { id: 'mock-user-id', email: 'tester@example.com' } }
+        return { success: true, id: 'mock-resume-id' }
+    } else {
+        const { data: { session: realSession } } = await supabase.auth.getSession()
+        session = realSession
+    }
+
     if (!session) redirect('/auth/login')
 
     try {

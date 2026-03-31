@@ -1,14 +1,54 @@
-﻿components/templates/CruiseOfficerTemplate.tsx(137,110): error TS2367: This comparison appears to be unintentional because the types 'LanguageProficiency' and '"expert"' have no overlap.
-components/templates/CruiseOfficerTemplate.tsx(137,151): error TS2367: This comparison appears to be unintentional because the types 'LanguageProficiency' and '"advanced"' have no overlap.
-lib/pdf/ResumePDF.tsx(1266,89): error TS2304: Cannot find name 'photoBorderRadius'.
-lib/pdf/ResumePDF.tsx(1456,118): error TS2339: Property 'date' does not exist on type 'Achievement'.
-lib/pdf/ResumePDF.tsx(1505,96): error TS2339: Property 'name' does not exist on type 'Reference'.
-lib/pdf/ResumePDF.tsx(1506,98): error TS2339: Property 'title' does not exist on type 'Reference'.
-lib/pdf/ResumePDF.tsx(1506,112): error TS2339: Property 'company' does not exist on type 'Reference'.
-lib/pdf/ResumePDF.tsx(1507,118): error TS2339: Property 'contactInfo' does not exist on type 'Reference'.
-lib/pdf/ResumePDF.tsx(1514,96): error TS2339: Property 'length' does not exist on type 'AdditionalInfo'.
-lib/pdf/ResumePDF.tsx(1520,102): error TS2769: No overload matches this call.
-  Overload 1 of 2, '(props: PropsWithChildren<TextProps> | SVGTextProps): Text', gave the following error.
-    Type 'AdditionalInfo' is not assignable to type 'ReactNode'.
-  Overload 2 of 2, '(props: PropsWithChildren<TextProps> | SVGTextProps, context: any): Text', gave the following error.
-    Type 'AdditionalInfo' is not assignable to type 'ReactNode'.
+﻿app/studio/[templateId]/page.tsx(6,24): error TS1149: File name 'C:/Users/user/Desktop/Clear Career Path/components/ui/button.tsx' differs from already included file name 'C:/Users/user/Desktop/Clear Career Path/components/ui/Button.tsx' only in casing.
+  The file is in the program because:
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/layout/Navbar.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/home/TemplatePreviewDialog.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/home/PDFPreview.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/pricing/PricingCard.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/auth/AuthForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/career/FeatureGate.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/dashboard/ResumeUploadModal.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/SummaryForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/ExperienceForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/EducationForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/SkillsForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/ProjectsForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/CertificationsForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/AchievementsForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/LanguagesForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/VolunteerForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/PublicationsForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/AffiliationsForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/ReferencesForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/CustomSectionsForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/upload/UploadDialog.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/ResumeForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/TemplateSelector.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/DownloadButtons.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/app/editor/[documentId]/page.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/ResumeControlBar.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/editor/forms/CoverLetterForm.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/app/editor/setup/page.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/app/pricing/page.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/samples/SampleCard.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/app/samples/page.tsx'
+    Imported via '@/components/ui/button' from file 'C:/Users/user/Desktop/Clear Career Path/app/studio/[templateId]/page.tsx'
+    Imported via '@/components/ui/Button' from file 'C:/Users/user/Desktop/Clear Career Path/components/pdf/PDFDownloadButton.tsx'
+    Matched by include pattern '**/*.tsx' in 'C:/Users/user/Desktop/Clear Career Path/tsconfig.json'
+components/career/JobTracker.tsx(380,30): error TS2552: Cannot find name 'ClipboardList'. Did you mean 'Clipboard'?
+components/dashboard/ResumeGrid.tsx(71,35): error TS2322: Type '() => Promise<{ success: boolean; id: any; error?: undefined; } | { success: boolean; error: any; id?: undefined; }>' is not assignable to type 'string | ((formData: FormData) => void | Promise<void>) | undefined'.
+  Type '() => Promise<{ success: boolean; id: any; error?: undefined; } | { success: boolean; error: any; id?: undefined; }>' is not assignable to type '(formData: FormData) => void | Promise<void>'.
+    Type 'Promise<{ success: boolean; id: any; error?: undefined; } | { success: boolean; error: any; id?: undefined; }>' is not assignable to type 'void | Promise<void>'.
+      Type 'Promise<{ success: boolean; id: any; error?: undefined; } | { success: boolean; error: any; id?: undefined; }>' is not assignable to type 'Promise<void>'.
+        Type '{ success: boolean; id: any; error?: undefined; } | { success: boolean; error: any; id?: undefined; }' is not assignable to type 'void'.
+          Type '{ success: boolean; id: any; error?: undefined; }' is not assignable to type 'void'.
+components/home/HomeEnhancements.tsx(71,30): error TS2304: Cannot find name 'Star'.
+lib/docx/ResumeDOCX.ts(211,44): error TS18048: 'section.items' is possibly 'undefined'.
+lib/docx/ResumeDOCX.ts(212,69): error TS2339: Property 'content' does not exist on type 'CustomSectionItem'.
+lib/docx/ResumeDOCX.ts(318,24): error TS18048: 'section.items' is possibly 'undefined'.
+lib/docx/ResumeDOCX.ts(319,49): error TS2339: Property 'content' does not exist on type 'CustomSectionItem'.
+lib/docx/ResumeDOCX.ts(319,65): error TS2339: Property 'title' does not exist on type 'CustomSectionItem'.
+lib/utils/persona-matcher.ts(33,59): error TS2551: Property 'MOCK_SALES_DATA' does not exist on type 'typeof import("C:/Users/user/Desktop/Clear Career Path/lib/constants/mock-data")'. Did you mean 'MOCK_LEGAL_DATA'?
+scripts/generate-previews-advanced.tsx(18,10): error TS2300: Duplicate identifier 'CreativeTemplate'.
+scripts/generate-previews-advanced.tsx(19,10): error TS2300: Duplicate identifier 'CreativeTemplate'.
+scripts/generate-previews-advanced.tsx(34,10): error TS2300: Duplicate identifier 'ArtisanTemplate'.
+scripts/generate-previews-advanced.tsx(37,10): error TS2300: Duplicate identifier 'ArtisanTemplate'.

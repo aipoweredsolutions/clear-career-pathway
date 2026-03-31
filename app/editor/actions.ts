@@ -28,6 +28,30 @@ export async function fetchResume(documentId: string): Promise<ResumeDocument | 
 }
 
 export async function fetchSubscription(): Promise<UserSubscription | null> {
+    const cookieStore = await cookies()
+    const isMock = cookieStore.get('mock_session')?.value === 'true'
+
+    if (isMock) {
+        return {
+            id: 'mock-sub-id',
+            userId: 'mock-user-id',
+            tierId: 'premium',
+            status: 'active',
+            currentPeriodEnd: '2099-12-31',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            tier: {
+                id: 'premium',
+                name: 'premium',
+                price: 2900,
+                interval: 'monthly',
+                max_resumes: 99,
+                max_exports_per_month: 99,
+                features: ['AI Support', 'Unlimited PDF Exports', 'Custom Templates']
+            } as any
+        }
+    }
+
     const supabase = await getSupabase()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return null

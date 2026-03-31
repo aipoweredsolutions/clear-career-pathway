@@ -350,6 +350,21 @@ CREATE TABLE IF NOT EXISTS custom_section_items (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Job Applications (For career tracking)
+CREATE TABLE IF NOT EXISTS job_applications (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  company TEXT NOT NULL,
+  role TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'applied', -- 'wishlist', 'applied', 'interviewing', 'offer', 'rejected'
+  date_applied DATE DEFAULT CURRENT_DATE,
+  job_url TEXT,
+  notes TEXT,
+  resume_id UUID REFERENCES documents(id) ON DELETE SET NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- ============================================
 -- INDEXES FOR PERFORMANCE
 -- ============================================
@@ -362,6 +377,44 @@ CREATE INDEX IF NOT EXISTS idx_education_document_id ON education(document_id);
 CREATE INDEX IF NOT EXISTS idx_user_subscriptions_user_id ON user_subscriptions(user_id);
 CREATE INDEX IF NOT EXISTS idx_payment_history_user_id ON payment_history(user_id);
 CREATE INDEX IF NOT EXISTS idx_cover_letters_document_id ON cover_letters(document_id);
+CREATE INDEX IF NOT EXISTS idx_job_applications_user_id ON job_applications(user_id);
+CREATE INDEX IF NOT EXISTS idx_interview_sessions_user_id ON interview_sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_linkedin_optimizations_user_id ON linkedin_optimizations(user_id);
+CREATE INDEX IF NOT EXISTS idx_career_roadmaps_user_id ON career_roadmaps(user_id);
+
+-- Interview Sessions (For Simulator)
+CREATE TABLE IF NOT EXISTS interview_sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  resume_id UUID REFERENCES documents(id) ON DELETE SET NULL,
+  target_role TEXT NOT NULL,
+  category TEXT NOT NULL DEFAULT 'general',
+  role_context TEXT,
+  questions JSONB DEFAULT '[]', -- Array of InterviewQuestion
+  feedbacks JSONB DEFAULT '{}', -- Map of index -> feedback
+  user_answers JSONB DEFAULT '{}', -- Map of index -> answer
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- LinkedIn Optimizations
+CREATE TABLE IF NOT EXISTS linkedin_optimizations (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  resume_id UUID REFERENCES documents(id) ON DELETE SET NULL,
+  content JSONB NOT NULL, -- The LinkedInContent object
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Career Roadmaps
+CREATE TABLE IF NOT EXISTS career_roadmaps (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  resume_id UUID REFERENCES documents(id) ON DELETE SET NULL,
+  target_goal TEXT NOT NULL,
+  roadmap_data JSONB NOT NULL, -- The CareerRoadmapResult object
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
 
 -- ============================================
 -- HELPER FUNCTIONS
@@ -410,6 +463,10 @@ ALTER TABLE cover_letters ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payment_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_usage ENABLE ROW LEVEL SECURITY;
+ALTER TABLE job_applications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE interview_sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE linkedin_optimizations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE career_roadmaps ENABLE ROW LEVEL SECURITY;
 
 -- Profiles: Users can only see and update their own profile
 
@@ -525,6 +582,22 @@ CREATE POLICY "Users can manage own custom section items" ON custom_section_item
     AND documents.user_id = auth.uid()
   ));
 
+DROP POLICY IF EXISTS "Users can manage own job applications" ON job_applications;
+CREATE POLICY "Users can manage own job applications" ON job_applications
+  FOR ALL USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can manage own interview sessions" ON interview_sessions;
+CREATE POLICY "Users can manage own interview sessions" ON interview_sessions
+  FOR ALL USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can manage own linkedin optimizations" ON linkedin_optimizations;
+CREATE POLICY "Users can manage own linkedin optimizations" ON linkedin_optimizations
+  FOR ALL USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can manage own career roadmaps" ON career_roadmaps;
+CREATE POLICY "Users can manage own career roadmaps" ON career_roadmaps
+  FOR ALL USING (auth.uid() = user_id);
+
 -- Subscriptions: Users can view their own subscription
 DROP POLICY IF EXISTS "Users can view own subscription" ON user_subscriptions;
 CREATE POLICY "Users can view own subscription" ON user_subscriptions
@@ -571,6 +644,14 @@ CREATE TRIGGER update_documents_updated_at BEFORE UPDATE ON documents
 
 DROP TRIGGER IF EXISTS update_subscriptions_updated_at ON user_subscriptions;
 CREATE TRIGGER update_subscriptions_updated_at BEFORE UPDATE ON user_subscriptions
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_job_applications_updated_at ON job_applications;
+CREATE TRIGGER update_job_applications_updated_at BEFORE UPDATE ON job_applications
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_interview_sessions_updated_at ON interview_sessions;
+CREATE TRIGGER update_interview_sessions_updated_at BEFORE UPDATE ON interview_sessions
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Function to create default subscription for new users

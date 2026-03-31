@@ -21,7 +21,7 @@ export function HeroSection() {
                     {/* Text Content */}
                     <div className="lg:col-span-7 flex flex-col justify-center animate-in fade-in slide-in-from-bottom-12 duration-1000 ease-out">
                         <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-primary-300 text-xs font-black uppercase tracking-[0.2em] mb-8 w-max shadow-[0_0_30px_rgba(79,70,229,0.2)] backdrop-blur-md">
-                            <Sparkles className="w-4 h-4 text-primary-400" />
+                            <Star className="w-4 h-4 text-primary-400" />
                             <span>The New Standard of Excellence</span>
                         </div>
 
@@ -37,7 +37,7 @@ export function HeroSection() {
 
                         <div className="flex flex-col sm:flex-row gap-5">
                             <Link
-                                href="/editor/setup?template=classic"
+                                href="/editor/setup?template=ats-classic"
                                 className="group relative inline-flex items-center justify-center gap-3 px-8 py-5 font-bold text-white bg-primary-600 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(79,70,229,0.4)] hover:shadow-[0_0_60px_rgba(79,70,229,0.6)] transition-all duration-300 hover:-translate-y-1"
                                 prefetch={true}
                             >
@@ -87,7 +87,7 @@ export function HeroSection() {
                             <div className="absolute inset-0 -left-8 -bottom-8 bg-indigo-500/10 backdrop-blur-3xl rounded-2xl border border-indigo-500/20 -rotate-3 scale-95 opacity-70" />
 
                             {/* Main Card */}
-                            <HeroPreviewClick templateId="executive">
+                            <HeroPreviewClick templateId="ats-executive">
                                 <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20 pointer-events-none" />
                                 <Image
                                     src="/templates/hero-resume-preview.png"
@@ -105,7 +105,7 @@ export function HeroSection() {
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-black text-primary-400 uppercase tracking-widest mb-0.5">Featured Design</p>
-                                        <h4 className="text-lg font-black text-white">The Executive</h4>
+                                        <h4 className="text-lg font-black text-white">ATS Executive</h4>
                                     </div>
                                 </div>
                             </HeroPreviewClick>

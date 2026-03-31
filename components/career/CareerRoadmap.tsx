@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import {
     TrendingUp,
@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { saveCareerRoadmap, fetchLatestCareerRoadmap } from '@/app/career-hub/actions'
 
 interface RoadmapMilestone {
     title: string
@@ -37,6 +38,24 @@ export function CareerRoadmap({ resumes }: { resumes: ResumeDocument[] }) {
     const [isGenerating, setIsGenerating] = useState(false)
     const [result, setResult] = useState<CareerRoadmapResult | null>(null)
     const [expandedMilestone, setExpandedMilestone] = useState<number | null>(0)
+    const [isRestoring, setIsRestoring] = useState(false)
+
+    // Load latest roadmap when resume is selected
+    useEffect(() => {
+        if (!selectedResumeId) return
+        
+        async function loadPrevious() {
+            setIsRestoring(true)
+            const roadmap = await fetchLatestCareerRoadmap(selectedResumeId)
+            if (roadmap) {
+                setResult(roadmap.data)
+                setTargetCareerGoal(roadmap.targetGoal)
+                toast.success('Loaded your latest career journey')
+            }
+            setIsRestoring(false)
+        }
+        loadPrevious()
+    }, [selectedResumeId])
 
     const handleGenerate = async () => {
         if (!selectedResumeId) {
@@ -73,7 +92,11 @@ export function CareerRoadmap({ resumes }: { resumes: ResumeDocument[] }) {
             }
 
             setResult(data.data)
-            toast.success('Your Career Roadmap is ready!')
+            
+            // Save to cloud
+            await saveCareerRoadmap(selectedResumeId, targetCareerGoal, data.data)
+            
+            toast.success('Your Career Roadmap is ready and saved!')
         } catch (error: any) {
             console.error('Roadmap error:', error)
             toast.error(error.message || 'Failed to generate roadmap')
@@ -102,16 +125,24 @@ export function CareerRoadmap({ resumes }: { resumes: ResumeDocument[] }) {
                             <label className="block text-sm font-semibold text-neutral-700 mb-2">
                                 1. Start from
                             </label>
-                            <select
-                                value={selectedResumeId}
-                                onChange={(e) => setSelectedResumeId(e.target.value)}
-                                className="w-full p-3 rounded-xl border border-neutral-200 bg-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-sm"
-                            >
-                                <option value="">Select current profile...</option>
-                                {resumes.map((resume) => (
-                                    <option key={resume.id} value={resume.id}>{resume.title || 'Untitled Resume'}</option>
-                                ))}
-                            </select>
+                            <div className="relative">
+                                <select
+                                    value={selectedResumeId}
+                                    onChange={(e) => setSelectedResumeId(e.target.value)}
+                                    className="w-full p-3 rounded-xl border border-neutral-200 bg-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-sm appearance-none"
+                                >
+                                    <option value="">Select current profile...</option>
+                                    {resumes.map((resume) => (
+                                        <option key={resume.id} value={resume.id}>{resume.title || 'Untitled Resume'}</option>
+                                    ))}
+                                </select>
+                                {isRestoring && (
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2 bg-white/80 px-2">
+                                        <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+                                        <span className="text-[8px] font-black uppercase text-emerald-600">Syncing...</span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div>

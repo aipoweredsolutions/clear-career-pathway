@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Check, X, Sparkles, ArrowRight, Zap, Target, TrendingUp } from 'lucide-react'
+import { Check, X, Sparkles, ArrowRight, Zap, Target, TrendingUp, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -67,9 +67,9 @@ export function AIDemoSection() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid lg:grid-cols-2 gap-20 items-center">
                     <div>
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-xs font-bold uppercase tracking-widest mb-8">
-                            <Zap className="w-4 h-4" />
-                            <span>Instant Impact</span>
+                        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-primary-300 text-xs font-black uppercase tracking-[0.2em] mb-8 w-max shadow-[0_0_30px_rgba(79,70,229,0.2)] backdrop-blur-md">
+                            <Star className="w-4 h-4 text-primary-400" />
+                            <span>The New Standard of Excellence</span>
                         </div>
                         <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-[1.1]">
                             Stop writing. <br />
@@ -99,10 +99,6 @@ export function AIDemoSection() {
 
                     <div className="relative">
                         <div className="bg-neutral-800 rounded-[2.5rem] p-8 border border-white/10 shadow-2xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-6">
-                                <Sparkles className="w-8 h-8 text-primary-500 opacity-20" />
-                            </div>
-
                             <div className="space-y-8">
                                 <div>
                                     <p className="text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-4">Original Bullet</p>
@@ -121,7 +117,7 @@ export function AIDemoSection() {
                                         exit={{ opacity: 0, y: -20 }}
                                         className="relative"
                                     >
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-primary-500 mb-4">AI Enhanced 🎉</p>
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-primary-500 mb-4">Next Gen Strategy 🎉</p>
                                         <div className="bg-primary-500 text-white p-6 rounded-2xl text-lg font-bold shadow-xl shadow-primary-500/20 leading-relaxed">
                                             {demos[currentIndex].after}
                                         </div>
@@ -157,6 +153,8 @@ export function ComparisonSection() {
         { feature: "Unlimited Edits", self: true, coach: "No", other: "Extra $" },
         { feature: "Instant Delivery", self: true, coach: "Weeks", other: true },
         { feature: "Career Roadmap", self: true, coach: "No", other: false },
+        { feature: "LinkedIn Optimization", self: true, coach: "Extra $", other: false },
+        { feature: "Application Tracker", self: true, coach: "Manual", other: "Basic" },
     ]
 
     return (

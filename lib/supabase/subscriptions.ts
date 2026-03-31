@@ -85,4 +85,37 @@ export function canExportFormat(subscription: (UserSubscription & { downloadCred
     return false
 }
 
+// Career Hub tool IDs
+export type CareerHubFeature = 'skills_gap' | 'interview_prep' | 'career_roadmap' | 'salary_negotiation' | 'job_tracker' | 'linkedin_optimizer'
 
+/**
+ * Determines whether a given subscription tier can access a Career Hub tool.
+ *
+ * Tier rules (matches the pricing config):
+ *   free      → skills_gap only (limited)
+ *   single    → skills_gap, interview_prep, salary_negotiation  (no roadmap)
+ *   bundle    → skills_gap, interview_prep, salary_negotiation  (no roadmap)
+ *   power     → all tools
+ *   starter   → treat same as bundle for legacy compat
+ *   premium / pro → treat same as power for legacy compat
+ */
+export function canAccessCareerHubFeature(
+    tierName: string | undefined | null,
+    feature: CareerHubFeature
+): boolean {
+    const tier = (tierName || 'free').toLowerCase()
+
+    // Power tier (and legacy premium/pro) get everything
+    if (tier === 'power' || tier === 'premium' || tier === 'pro') return true
+
+    // Skills gap is available to every signed-in user
+    if (feature === 'skills_gap') return true
+
+    // Single and bundle get interview prep + salary negotiation but NOT career roadmap
+    if (tier === 'single' || tier === 'bundle' || tier === 'starter' || tier === 'basic') {
+        return feature === 'interview_prep' || feature === 'salary_negotiation' || feature === 'job_tracker' || feature === 'linkedin_optimizer'
+    }
+
+    // Free tier: nothing beyond skills_gap
+    return false
+}

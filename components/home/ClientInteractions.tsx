@@ -55,18 +55,18 @@ export function TemplateGallery() {
     const [templateColors, setTemplateColors] = useState<Record<string, string>>({})
     const [previewTemplateId, setPreviewTemplateId] = useState<string | null>(null)
 
-    const categories = ['All', 'ATS', 'Creative', 'Corporate', 'Hospitality', 'Technical', 'Academic']
+    const categories = ['All', 'Essential', 'Modern Clean', 'Technical', 'Healthcare', 'Academic', 'Hospitality']
     const levels = ['All', 'Entry', 'Mid', 'Senior', 'Executive', 'Student']
 
     const filteredTemplates = useMemo(() => {
         return templateRegistry.filter(template => {
             const categoryMatch = selectedCategory === 'All' ||
-                (selectedCategory === 'ATS' && template.id.toLowerCase().startsWith('ats-')) ||
-                (selectedCategory === 'Creative' && template.suitableFor.jobTypes.some(t => t.toLowerCase() === 'creative')) ||
-                (selectedCategory === 'Corporate' && template.suitableFor.jobTypes.some(t => t.toLowerCase() === 'corporate')) ||
-                (selectedCategory === 'Technical' && template.suitableFor.jobTypes.some(t => t.toLowerCase() === 'technical')) ||
-                (selectedCategory === 'Academic' && template.suitableFor.jobTypes.some(t => t.toLowerCase() === 'academic')) ||
-                (selectedCategory === 'Hospitality' && template.suitableFor.jobTypes.some(t => t.toLowerCase() === 'service'));
+                (selectedCategory === 'Essential' && ['ats-professional', 'ats-minimal', 'ats-classic', 'ats-executive'].includes(template.id)) ||
+                (selectedCategory === 'Modern Clean' && ['ats-modern', 'ats-timeline', 'classic-clean'].includes(template.id)) ||
+                (selectedCategory === 'Technical' && template.id === 'ats-technical') ||
+                (selectedCategory === 'Healthcare' && ['ats-nursing', 'ats-standard-nursing'].includes(template.id)) ||
+                (selectedCategory === 'Academic' && template.id === 'ats-academia') ||
+                (selectedCategory === 'Hospitality' && template.id === 'ats-hospitality');
 
             const levelMatch = selectedLevel === 'All' ||
                 template.suitableFor.careerLevels.some(l => l.toLowerCase() === selectedLevel.toLowerCase());
@@ -193,9 +193,6 @@ export function FAQSection() {
         <div className="grid gap-6">
             {faqs.map((faq, i) => (
                 <div key={i} className={cn("group p-10 rounded-[2.5rem] border transition-all duration-500 cursor-pointer overflow-hidden relative", expandedFaq === i ? "border-primary-100 bg-primary-50/20 shadow-2xl shadow-primary-100/20" : "border-neutral-100 bg-white hover:border-neutral-200")} onClick={() => toggleFaq(i)}>
-                    <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity">
-                        <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
-                    </div>
                     <h4 className="text-2xl font-black text-neutral-950 flex justify-between items-center tracking-tight">
                         {faq.q}
                         <span className={cn("w-10 h-10 rounded-full flex items-center justify-center border border-neutral-200 transition-all text-neutral-400", expandedFaq === i ? "rotate-45 bg-primary-600 text-white border-primary-600" : "group-hover:bg-neutral-50")}>+</span>

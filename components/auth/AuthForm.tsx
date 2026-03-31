@@ -105,6 +105,17 @@ export function AuthForm({ type }: AuthFormProps) {
                         minLength={6}
                     />
 
+                    {type === 'login' && (
+                        <div className="flex justify-end -mt-2">
+                            <Link
+                                href="/auth/forgot-password"
+                                className="text-xs font-semibold text-primary-600 hover:text-primary-700 transition"
+                            >
+                                Forgot password?
+                            </Link>
+                        </div>
+                    )}
+
                     {error && (
                         <div className="bg-danger-50 text-danger-700 p-3 rounded-lg text-sm flex flex-col gap-2">
                             <div className="flex items-start">

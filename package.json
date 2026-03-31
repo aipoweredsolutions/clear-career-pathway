@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "generate-previews": "ts-node scripts/generate-previews.ts",
+        "generate-previews": "tsx scripts/generate-previews-advanced.tsx",
         "generate-preview-page": "ts-node scripts/generate-preview-page.ts",
         "generate-screenshots": "node scripts/generate-screenshots.js"
     },
@@ -39,6 +39,7 @@
         "@types/file-saver": "^2.0.7",
         "@types/node": "^20.10.6",
         "@types/pdf-parse": "^1.1.4",
+        "@types/puppeteer": "^5.4.7",
         "@types/react": "^19.0.0",
         "@types/react-dom": "^19.0.0",
         "autoprefixer": "^10.4.16",
@@ -46,8 +47,11 @@
         "eslint": "^8.56.0",
         "eslint-config-next": "^15.1.3",
         "postcss": "^8.4.33",
+        "puppeteer": "^24.40.0",
         "tailwindcss": "^3.4.1",
         "ts-node": "^10.9.2",
+        "tsconfig-paths": "^4.2.0",
+        "tsx": "^4.21.0",
         "typescript": "^5.3.3"
     }
 }

@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
             }, { status: 503 })
         }
 
-        // 3. Check Usage Limits
+        // 3. Check Usage Limits & Rate Limiting
         const { data: sub } = await supabase
             .from('user_subscriptions')
             .select('*, tier:subscription_tiers(*)')
@@ -50,6 +50,16 @@ export async function POST(req: NextRequest) {
             .maybeSingle()
 
         const currentCount = usage?.ai_count || 0
+        const lastUpdated = usage?.updated_at ? new Date(usage.updated_at).getTime() : 0
+        const now = new Date().getTime()
+
+        // Anti-spam: 5 second cooldown
+        if (now - lastUpdated < 5000) {
+            return NextResponse.json({
+                error: 'Too many requests',
+                message: 'Please wait a few seconds between AI generations.'
+            }, { status: 429 })
+        }
 
         if (aiLimit !== null && currentCount >= aiLimit) {
             return NextResponse.json({
@@ -177,6 +187,38 @@ export async function POST(req: NextRequest) {
                 ]
             }
             `
+        } else if (type === 'interview_feedback') {
+            const { question, answer, roleContext } = body
+            prompt = `
+            You are a senior hiring manager and interview coach.
+            Evaluate the following interview answer from a candidate.
+            
+            Role Context: "${roleContext}"
+            Question: "${question}"
+            Candidate's Answer: "${answer}"
+            Candidate's Background/Resume: ${resumeData}
+            
+            Your task:
+            1. Provide "strengths" (what they did well, especially STAR alignment).
+            2. Provide "improvements" (what's missing, e.g., metrics, specific actions, or soft skills).
+            3. Provide a "score" (0-100) based on relevance, impact, and clarity.
+            4. Suggest an "improvedAnswer" (a version of THEIR answer that is more powerful).
+            5. Provide a "starCheck" (Boolean for each: Situation, Task, Action, Result) indicating if they hit each point.
+            
+            Return a valid JSON object with EXACTLY this structure:
+            {
+                "strengths": [<string>],
+                "improvements": [<string>],
+                "score": <integer>,
+                "improvedAnswer": "string",
+                "starCheck": {
+                    "situation": <boolean>,
+                    "task": <boolean>,
+                    "action": <boolean>,
+                    "result": <boolean>
+                }
+            }
+            `
         } else if (type === 'salary_negotiation') {
             const { jobTitle, companyName, offerDetails, location } = body
             prompt = `
@@ -198,6 +240,27 @@ export async function POST(req: NextRequest) {
                     }
                 ],
                 "tips": ["string"]
+            }
+            `
+        } else if (type === 'linkedin_optimizer') {
+            prompt = `
+            You are an expert personal branding coach and LinkedIn specialist.
+            Optimize a candidate's LinkedIn profile based on their resume.
+            
+            Candidate Resume: ${resumeData}
+            
+            Return a valid JSON object with EXACTLY this structure:
+            {
+                "headline": "string (A punchy, professional headline with relevant keywords and value proposition)",
+                "about": "string (A 2-3 paragraph 'About' section that tells a story and highlights impact. Use a conversational but professional tone.)",
+                "experiences": [
+                    {
+                        "title": "string",
+                        "company": "string",
+                        "description": "string (3-5 high-impact bullet points summarizing the key achievements for LinkedIn specifically, focusing on narrative impact.)"
+                    }
+                ],
+                "skills": ["string (Top 10 skills to feature)"]
             }
             `
         } else if (type === 'career_roadmap') {

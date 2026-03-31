@@ -141,7 +141,11 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
 
         return {
             ...baseData,
-            templateId: effectiveTemplateId
+            templateId: effectiveTemplateId,
+            personalInfo: {
+                ...baseData.personalInfo,
+                fullName: 'Alexandra Morgan'
+            }
         }
     }, [template, selectedColor])
 
@@ -305,9 +309,8 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                             <div className="origin-top scale-[0.6] sm:scale-[0.8] lg:scale-[0.9] xl:scale-[1.0] transition-all duration-500">
                                 <TemplateRenderer
                                     templateId={previewData.templateId}
-
                                     data={previewData}
-                                    className="shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] ring-1 ring-neutral-200/50"
+                                    className="w-[210mm] min-h-[297mm] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] ring-1 ring-neutral-200/50"
                                 />
                             </div>
                         ) : (

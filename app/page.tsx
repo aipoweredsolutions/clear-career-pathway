@@ -1,10 +1,12 @@
 import React, { Suspense } from 'react'
 import Link from 'next/link'
-import { Sparkles, FileText, Download, ArrowRight } from 'lucide-react'
+import { FileText, Download, ArrowRight, Target, Zap, LayoutTemplate } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { PRICING_TIERS } from '@/lib/config/pricing'
 import { HeroSection } from '@/components/home/HeroSection'
 import { TemplateGallery, FAQSection, PricingSection } from '@/components/home/ClientInteractions'
+import { ToolboxSection } from '@/components/home/ToolboxSection'
+import { IndustryKitsSection } from '@/components/home/IndustryKitsSection'
 import dynamic from 'next/dynamic'
 
 // Lazy-load heavy below-the-fold sections
@@ -35,23 +37,23 @@ export default function Home() {
             <section className="py-32 bg-white relative">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-20">
-                        <h2 className="text-4xl font-bold text-neutral-900 mb-6 font-serif">The Path to Your Next Role</h2>
+                        <h2 className="text-4xl font-bold text-neutral-900 mb-6 font-serif tracking-tight">The Fast Track to Your Next Role</h2>
                         <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
-                            Three simple steps to transform your career documentation with AI precision.
+                            Three simple steps to transform your career documentation and win more high-quality interviews.
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-10 lg:gap-14">
                         {[
-                            { step: '01', title: 'Upload or Enter Info', desc: 'Import your old resume or start fresh. Our parser extracts every detail instantly.', icon: 'file', color: 'bg-primary-50 border-primary-100', iconColor: 'text-primary-600' },
-                            { step: '02', title: 'Optimize with AI', desc: 'Our AI analyzes your experience and suggests impact-driven bullets that recruiters love.', icon: 'sparkles', color: 'bg-indigo-50 border-indigo-100', iconColor: 'text-indigo-600' },
-                            { step: '03', title: 'Export & Apply', desc: 'Choose a premium template and download as an ATS-compliant PDF or DOCX.', icon: 'download', color: 'bg-emerald-50 border-emerald-100', iconColor: 'text-emerald-600' }
+                            { step: '01', title: 'Build Your Foundation', desc: 'Import your old resume or start fresh. Our parser handles the data so you can focus on the strategy.', icon: 'file', color: 'bg-primary-50 border-primary-100', iconColor: 'text-primary-600' },
+                            { step: '02', title: 'Command Professional Narrative', desc: 'Transform passive lists of tasks into high-impact achievements that command recruiter attention.', icon: 'target', color: 'bg-indigo-50 border-indigo-100', iconColor: 'text-indigo-600' },
+                            { step: '03', title: 'Claim Your Seat at the Table', desc: 'Choose from 25+ premium, ATS-compliant designs and download in seconds to start winning interviews.', icon: 'download', color: 'bg-emerald-50 border-emerald-100', iconColor: 'text-emerald-600' }
                         ].map((item, idx) => (
                             <div key={idx} className="relative p-10 rounded-3xl bg-white border border-neutral-100 shadow-xl shadow-neutral-100/50 hover:shadow-2xl hover:shadow-neutral-200/50 hover:-translate-y-2 transition-all duration-300 group">
-                                <div className="absolute top-0 right-0 p-8 opacity-10 font-black text-6xl text-neutral-900 select-none">{item.step}</div>
+                                <div className="absolute top-0 right-0 p-8 opacity-10 font-black text-6xl text-neutral-900 select-none tracking-tighter italic">{item.step}</div>
                                 <div className={cn("inline-flex p-4 rounded-2xl mb-8", item.color)}>
                                     {item.icon === 'file' && <FileText className={cn("w-10 h-10", item.iconColor)} />}
-                                    {item.icon === 'sparkles' && <Sparkles className={cn("w-10 h-10", item.iconColor)} />}
+                                    {item.icon === 'target' && <Target className={cn("w-10 h-10", item.iconColor)} />}
                                     {item.icon === 'download' && <Download className={cn("w-10 h-10", item.iconColor)} />}
                                 </div>
                                 <h4 className="text-2xl font-bold text-neutral-900 mb-4">{item.title}</h4>
@@ -61,6 +63,8 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
+            <ToolboxSection />
 
             <AIDemoSection />
 
@@ -97,6 +101,8 @@ export default function Home() {
                 </div>
             </section>
 
+            <IndustryKitsSection />
+
             {/* Templates Section - Client Component (interactive) */}
             <TemplateGallery />
 
@@ -129,7 +135,7 @@ export default function Home() {
 
                     {/* Final Cinematic CTA */}
                     <div className="mt-40 p-16 md:p-24 rounded-[4rem] bg-neutral-950 text-white text-center relative overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.3)]">
-                        <div className="absolute top-0 right-0 p-24 opacity-10 rotate-12 scale-150"><Sparkles className="w-64 h-64 text-primary-500" /></div>
+                        <div className="absolute top-0 right-0 p-24 opacity-10 rotate-12 scale-150"><Zap className="w-64 h-64 text-primary-500" /></div>
                         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary-600/20 rounded-full blur-[100px]" />
 
                         <div className="relative z-10">

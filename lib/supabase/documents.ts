@@ -279,6 +279,57 @@ export async function fetchUserDocuments(supabase: SupabaseClient, userId: strin
  * Fetches a single document with all its relations
  */
 export async function fetchFullDocument(supabase: SupabaseClient, documentId: string): Promise<ResumeDocument | null> {
+    // Return mock data for demo sessions
+    if (documentId === 'mock-resume-id') {
+        return {
+            id: 'mock-resume-id',
+            userId: 'mock-user-id',
+            title: 'Sample Senior Engineer Resume',
+            documentType: 'resume',
+            templateId: 'classic',
+            careerLevel: 'senior',
+            jobType: 'technical',
+            industryFocus: 'Technology',
+            isPublished: false,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            formatting: {
+                fontSize: 'medium',
+                lineHeight: 'normal',
+                margin: 'normal',
+                paperSize: 'a4'
+            },
+            personalInfo: {
+                fullName: 'John Doe',
+                professionalTitle: 'Senior Full Stack Engineer',
+                email: 'john.doe@example.com',
+                phone: '+1 (555) 000-1111',
+                location: 'San Francisco, CA'
+            },
+            professionalSummary: {
+                summaryText: 'Expert software engineer with 8+ years of experience building scalable web applications. Specialist in React, Node.js, and Cloud Architecture.',
+            },
+            workExperience: [
+                {
+                    id: 'w1',
+                    jobTitle: 'Senior Software Engineer',
+                    companyName: 'TechCorp Solutions',
+                    startDate: '2020-01',
+                    isCurrent: true,
+                    roleDescription: 'Leading the core platform team in architecting microservices.',
+                    achievements: [
+                        { id: 'a1', achievementText: 'Reduced infrastructure costs by 40% through Kubernetes optimization.' }
+                    ]
+                }
+            ],
+            skills: [
+                { id: 's1', skillName: 'React', skillType: 'technical' },
+                { id: 's2', skillName: 'Node.js', skillType: 'technical' },
+                { id: 's3', skillName: 'AWS', skillType: 'technical' }
+            ]
+        }
+    }
+
     const { data: doc, error: docError } = await supabase
         .from('documents')
         .select('*')
