@@ -2,7 +2,7 @@ import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import { Shield, Target, Award, MapPin, ExternalLink, Globe, Award as CertIcon } from 'lucide-react'
+import { Shield, Target, Award, MapPin, ExternalLink, Globe, Award as CertIcon, Phone, Mail } from 'lucide-react'
 
 interface TemplateProps {
     data: ResumeDocument
@@ -11,6 +11,7 @@ interface TemplateProps {
 }
 
 export function MilitaryTransitionTemplate({ data, className, accentColor = 'bg-slate-900 text-white' }: TemplateProps) {
+    const { personalInfo, professionalSummary, skills, workExperience, education, certifications, achievements } = data
     return (
         <div className={cn('w-full bg-white min-h-[297mm] font-sans text-sm text-slate-950 flex flex-col', className)}>
             {/* Header: High Contrast & Authoritative */}

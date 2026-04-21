@@ -120,7 +120,7 @@ export function TechnicalTemplate({ data, className, mode = 'standard' }: Templa
                                         <div className={cn("p-6 rounded-xl text-sm leading-relaxed font-mono space-y-3", codeBg, mutedText)}>
                                             {job.achievements.map((a, j) => (
                                                 <div key={j} className="flex gap-4">
-                                                    <span className={accentColor.split(' ')[0]}>{`[*]` ?? `>`}</span>
+                                                    <span className={accentColor.split(' ')[0]}>{`[*]`}</span>
                                                     <span>{a.achievementText}</span>
                                                 </div>
                                             ))}

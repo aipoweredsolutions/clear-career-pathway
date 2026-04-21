@@ -41,7 +41,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                     <div className={cn("text-sm font-bold tracking-wider", accentColor)}>
                         {personalInfo?.professionalTitle?.toUpperCase() || 'EXECUTIVE LEADERSHIP'}
                     </div>
-                    <div className="flex gap-4 text-[10px] font-bold text-neutral-500 uppercase tracking-tight">
+                    <div className="flex gap-4 text-[11px] font-bold text-neutral-500 uppercase tracking-tight">
                         {personalInfo?.email && <span>{personalInfo.email}</span>}
                         {personalInfo?.phone && (
                             <>
@@ -82,7 +82,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                                     <div className="absolute top-1 -left-[5px] w-2 h-2 rounded-full bg-neutral-800" />
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-sm font-black text-neutral-900">{job.jobTitle}</h3>
-                                        <span className="text-[10px] font-bold text-neutral-400 uppercase">{job.startDate} — {job.isCurrent ? 'Present' : job.endDate}</span>
+                                        <span className="text-[11px] font-bold text-neutral-400 uppercase">{job.startDate} — {job.isCurrent ? 'Present' : job.endDate}</span>
                                     </div>
                                     <div className="text-[11px] font-bold text-neutral-500 italic mb-3">{job.companyName} | {job.location}</div>
                                     <p className="text-xs text-neutral-700 mb-3 leading-relaxed font-medium">{job.roleDescription}</p>
@@ -110,8 +110,8 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                             {projects.map((proj, i) => (
                                 <div key={i} className="bg-neutral-50 p-4 rounded border-l-2 border-neutral-500">
                                     <h3 className="text-[11px] font-black uppercase mb-1">{proj.projectName}</h3>
-                                    <div className={cn("text-[10px] font-bold mb-2 uppercase", accentColor)}>{proj.role}</div>
-                                    <p className="text-[10px] text-neutral-600 leading-normal">{proj.description}</p>
+                                    <div className={cn("text-[11px] font-bold mb-2 uppercase", accentColor)}>{proj.role}</div>
+                                    <p className="text-[11px] text-neutral-600 leading-normal">{proj.description}</p>
                                 </div>
                             ))}
                         </div>
@@ -130,10 +130,10 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                                 return acc;
                             }, {} as Record<string, typeof skills>)).map(([type, list]) => (
                                 <div key={type} className="flex flex-col gap-2">
-                                    <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">{type}</div>
+                                    <div className="text-[11px] font-black text-neutral-400 uppercase tracking-widest">{type}</div>
                                     <div className="flex flex-wrap gap-2">
                                         {list.map((s, i) => (
-                                            <span key={i} className="text-[10px] font-bold px-2 py-0.5 bg-neutral-100 text-neutral-700 rounded border border-neutral-200">
+                                            <span key={i} className="text-[11px] font-bold px-2 py-0.5 bg-neutral-100 text-neutral-700 rounded border border-neutral-200">
                                                 {s.skillName}
                                             </span>
                                         ))}
@@ -156,7 +156,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                                         <span className="text-neutral-500 mx-2">•</span>
                                         <span className="font-bold text-neutral-600 italic">{edu.institutionName}</span>
                                     </div>
-                                    <span className="text-[10px] font-bold text-neutral-400">{edu.endYear}</span>
+                                    <span className="text-[11px] font-bold text-neutral-400">{edu.endYear}</span>
                                 </div>
                             ))}
                         </div>
@@ -168,10 +168,10 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                     {/* Certifications */}
                     {certifications && certifications.length > 0 && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-3">Certifications</h2>
+                            <h2 className="text-[11px] font-black uppercase tracking-widest text-neutral-400 mb-3">Certifications</h2>
                             <div className="space-y-2">
                                 {certifications.map((c, i) => (
-                                    <div key={i} className="text-[10px] font-bold text-neutral-700">
+                                    <div key={i} className="text-[11px] font-bold text-neutral-700">
                                         {c.certificationName} <span className="text-neutral-400 font-normal">| {c.issuingOrganization}</span>
                                     </div>
                                 ))}
@@ -182,10 +182,10 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                     {/* Languages */}
                     {languages && languages.length > 0 && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-3">Languages</h2>
+                            <h2 className="text-[11px] font-black uppercase tracking-widest text-neutral-400 mb-3">Languages</h2>
                             <div className="flex flex-wrap gap-x-4 gap-y-2">
                                 {languages.map((l, i) => (
-                                    <div key={i} className="text-[10px] font-bold text-neutral-700">
+                                    <div key={i} className="text-[11px] font-bold text-neutral-700">
                                         {l.languageName} <span className={cn("uppercase", accentColor)}>({l.proficiencyLevel})</span>
                                     </div>
                                 ))}
@@ -202,7 +202,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                         {s.items && (
                             <ul className="grid grid-cols-1 gap-2">
                                 {s.items.map((item, j) => (
-                                    <li key={j} className="text-[10px] text-neutral-600 font-bold uppercase tracking-tight">• {item.text}</li>
+                                    <li key={j} className="text-[11px] text-neutral-600 font-bold uppercase tracking-tight">• {item.text}</li>
                                 ))}
                             </ul>
                         )}

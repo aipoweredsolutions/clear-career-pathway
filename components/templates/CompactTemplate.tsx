@@ -122,7 +122,7 @@ export function CompactTemplate({ data, className, accentColor = 'bg-neutral-900
                                 <div key={i} className="p-5 border border-neutral-50 rounded bg-neutral-50/20">
                                     <div className="flex justify-between items-baseline mb-2">
                                         <h3 className="font-bold text-neutral-900 text-[15px] uppercase tracking-tight">{proj.projectName}</h3>
-                                        <span className="text-[9px] font-black text-neutral-300 uppercase shrink-0 ml-4">{proj.endYear || proj.startDate}</span>
+                                        <span className="text-[9px] font-black text-neutral-300 uppercase shrink-0 ml-4">{proj.endDate || proj.startDate}</span>
                                     </div>
                                     <div className="text-[11px] text-neutral-500 font-bold uppercase tracking-widest mb-3">{proj.role}</div>
                                     {proj.description && <p className="text-[12px] text-neutral-600 leading-relaxed font-medium">{proj.description}</p>}

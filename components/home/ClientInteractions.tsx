@@ -61,7 +61,7 @@ export function TemplateGallery() {
     const filteredTemplates = useMemo(() => {
         return templateRegistry.filter(template => {
             const categoryMatch = selectedCategory === 'All' ||
-                (selectedCategory === 'Essential' && ['ats-professional', 'ats-minimal', 'ats-classic', 'ats-executive'].includes(template.id)) ||
+                (selectedCategory === 'Essential' && ['ats-gold-standard', 'ats-professional', 'ats-minimal', 'ats-classic', 'ats-executive'].includes(template.id)) ||
                 (selectedCategory === 'Modern Clean' && ['ats-modern', 'ats-timeline', 'classic-clean'].includes(template.id)) ||
                 (selectedCategory === 'Technical' && template.id === 'ats-technical') ||
                 (selectedCategory === 'Healthcare' && ['ats-nursing', 'ats-standard-nursing'].includes(template.id)) ||

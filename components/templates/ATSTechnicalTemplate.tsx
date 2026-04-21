@@ -30,7 +30,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
 
     return (
         <div className={cn(
-            "w-full bg-white text-neutral-900 font-mono text-[11px] leading-relaxed",
+            "w-full bg-white text-neutral-900 font-mono text-[12px] leading-relaxed",
             className
         )}>
             {/* Technical Header */}
@@ -91,10 +91,10 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
                                 <div className="border border-neutral-100 p-4 rounded bg-neutral-50/50 space-y-3">
                                     {Object.entries(groupedSkills).map(([type, skillsList]) => (
                                         <div key={type} className="grid grid-cols-1 gap-1 items-start mb-3">
-                                            <span className="text-[10px] font-black text-neutral-600 uppercase tracking-wider">
+                                            <span className="text-[11px] font-black text-neutral-600 uppercase tracking-wider">
                                                 {categoryLabels[type] || type}:
                                             </span>
-                                            <div className="flex flex-wrap gap-2 text-[10px]">
+                                            <div className="flex flex-wrap gap-2 text-[11px]">
                                                 {skillsList.map((s, i) => (
                                                     <span key={i} className="font-bold">[{s.skillName}]</span>
                                                 ))}
@@ -110,13 +110,13 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
                 {/* Experience */}
                 {workExperience && workExperience.length > 0 && (
                     <section>
-                        <h2 className={cn("text-xs font-black uppercase text-white px-2 py-1 mb-3 inline-block", bgColorClass)}>02. Engineering Tenure</h2>
+                        <h2 className={cn("text-sm font-black uppercase text-white px-2 py-1 mb-3 inline-block", bgColorClass)}>02. Engineering Tenure</h2>
                         <div className="space-y-4">
                             {workExperience.map((job, i) => (
                                 <div key={i}>
                                     <div className="flex justify-between items-baseline font-bold">
                                         <h3>{job.jobTitle.toUpperCase()} @ {job.companyName.toUpperCase()}</h3>
-                                        <span className="text-[10px] text-neutral-400">{job.startDate} {"->"} {job.isCurrent ? 'HEAD' : job.endDate}</span>
+                                        <span className="text-[11px] text-neutral-400">{job.startDate} {"->"}  {job.isCurrent ? 'HEAD' : job.endDate}</span>
                                     </div>
                                     <p className="text-neutral-500 italic mb-2">{`// ${job.location || 'Distributed'}`}</p>
                                     {job.achievements && (
@@ -143,12 +143,12 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
                             {projects.map((proj, i) => (
                                 <div key={i} className="border border-neutral-100 p-3 rounded">
                                     <div className="font-bold mb-1">{proj.projectName}</div>
-                                    <div className="text-[10px] text-neutral-400 mb-2 italic">Role: {proj.role}</div>
-                                    <p className="text-[10px] text-neutral-600 mb-2 line-clamp-3">{proj.description}</p>
+                                    <div className="text-[11px] text-neutral-400 mb-2 italic">Role: {proj.role}</div>
+                                    <p className="text-[11px] text-neutral-600 mb-2 line-clamp-3">{proj.description}</p>
                                     {proj.toolsUsed && (
                                         <div className="flex flex-wrap gap-1">
                                             {proj.toolsUsed.map((t, j) => (
-                                                <span key={j} className="text-[9px] px-1.5 py-0.5 bg-neutral-100 rounded">#{t}</span>
+                                                <span key={j} className="text-[10px] px-1.5 py-0.5 bg-neutral-100 rounded">#{t}</span>
                                             ))}
                                         </div>
                                     )}
@@ -180,7 +180,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
                 <div className="grid grid-cols-1 gap-6 pt-4 border-t border-neutral-200">
                     {certifications && certifications.length > 0 && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase text-neutral-400 mb-2">Certifications</h2>
+                            <h2 className="text-[11px] font-black uppercase text-neutral-400 mb-2">Certifications</h2>
                             <div className="space-y-1">
                                 {certifications.map((c, i) => (
                                     <div key={i} className="font-bold text-neutral-700">
@@ -193,7 +193,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
 
                     {languages && languages.length > 0 && (
                         <section>
-                            <h2 className="text-[10px] font-black uppercase text-neutral-400 mb-2">Spoken Languages</h2>
+                            <h2 className="text-[11px] font-black uppercase text-neutral-400 mb-2">Spoken Languages</h2>
                             <div className="flex flex-wrap gap-x-4">
                                 {languages.map((l, i) => (
                                     <div key={i} className="font-bold">

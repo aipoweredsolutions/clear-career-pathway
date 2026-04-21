@@ -1,7 +1,7 @@
 import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
-import { HardHat, Hammer, Construction, ShieldCheck, Ruler, Truck, ClipboardList, PenTool as Tool } from 'lucide-react'
+import { HardHat, Hammer, Construction, ShieldCheck, Ruler, Truck, ClipboardList, PenTool as Tool, MapPin, Phone, Mail } from 'lucide-react'
 
 interface TemplateProps {
     data: ResumeDocument

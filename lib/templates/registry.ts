@@ -1,6 +1,26 @@
 import { TemplateMetadata } from '../types/resume'
 
 export const templateRegistry: TemplateMetadata[] = [
+    // --- 0. ATS GOLD STANDARD (The Definitive ATS Template) ---
+    {
+        id: 'ats-gold-standard',
+        name: 'ATS Gold Standard',
+        description: 'The definitive ATS-compliant résumé. Centered header with elegantly spaced typography, clean single-column layout, and warm gold accents. Passes 100% of Applicant Tracking Systems with maximum recruiter readability. The gold standard for professional résumés across all industries.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'technical', 'academic'],
+            industries: ['General', 'Business', 'Finance', 'Tech', 'Legal', 'Healthcare', 'Education']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'gold', name: 'Gold Standard', hex: '#b8860b' },
+            { id: 'black', name: 'Classic Black', hex: '#000000' },
+            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'slate', name: 'Slate', hex: '#475569' }
+        ]
+    },
+
     // --- 1. ATS PROFESSIONAL (Maximum ATS Compatibility) ---
     {
         id: 'ats-professional',

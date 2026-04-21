@@ -16,6 +16,7 @@ const TemplateLoading = () => (
 )
 
 // Dynamic imports for ATS-compliant templates
+const ATSGoldStandardTemplate = dynamic(() => import('./ATSGoldStandardTemplate').then(m => m.ATSGoldStandardTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSProfessionalTemplate = dynamic(() => import('./ATSProfessionalTemplate').then(m => m.ATSProfessionalTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSClassicTemplate = dynamic(() => import('./ATSClassicTemplate').then(m => m.ATSClassicTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSMinimalTemplate = dynamic(() => import('./ATSMinimalTemplate').then(m => m.ATSMinimalTemplate), { ssr: false, loading: () => <TemplateLoading /> })
@@ -39,6 +40,15 @@ interface TemplateRendererProps {
 // Map of ID prefixes to components and default props
 const getTemplateConfig = (id: string): { Component: any, props: any } => {
     // --- ATS Series Mappings ---
+    if (id.startsWith('ats-gold-standard')) {
+        let accentColor = 'text-amber-800'
+        if (id.includes('-black')) accentColor = 'text-neutral-900'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-slate')) accentColor = 'text-slate-600'
+        return { Component: ATSGoldStandardTemplate, props: { accentColor } }
+    }
+
     if (id.startsWith('ats-professional')) {
         let accentColor = 'text-neutral-900'
         if (id.includes('-navy')) accentColor = 'text-blue-900'

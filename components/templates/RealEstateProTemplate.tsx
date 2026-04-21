@@ -18,26 +18,6 @@ export function RealEstateProTemplate({ data, className, accentColor = 'bg-stone
     return (
         <div className={cn('w-full bg-white min-h-[297mm] font-sans text-sm text-stone-950 flex flex-col', className)}>
             {/* Header: Luxury Branding */}
-            <header className={cn('px-10 py-12 flex justify-between items-end border-b-8', accentColor)}>
-                <div className="max-w-3xl">
-                    <h1 className="text-5xl font-extralight uppercase tracking-widest text-white leading-none mb-4">{personalInfo?.fullName}</h1>
-                    <p className="text-xl font-bold uppercase tracking-[0.3em] text-stone-400 mb-8">{personalInfo?.professionalTitle || "Licensed Real Estate Professional"}</p>
-                    <div className="flex flex-wrap gap-x-8 gap-y-3 text-xs font-bold uppercase tracking-widest text-stone-300">
-                        {personalInfo?.location && <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-stone-500" /> {personalInfo.location}</div>}
-                        {personalInfo?.phone && <div className="flex items-center gap-2 text-stone-100">{personalInfo.phone}</div>}
-                        {personalInfo?.email && <div className="flex items-center gap-2 lowercase tracking-normal text-stone-100">{personalInfo.email}</div>}
-                    </div>
-                </div>
-                {personalInfo?.photoUrl && (
-                    <div className="hidden lg:block w-40 h-40 rounded-full overflow-hidden border-8 border-white/10 shadow-2xl skew-x-3 -mr-4 mb-4 grayscale hover:grayscale-0 transition-all duration-700 relative">
-                        <Image src={personalInfo.photoUrl} alt={personalInfo.fullName || 'Photo'} fill className="object-cover" unoptimized={personalInfo.photoUrl.startsWith('data:')} />
-                    </div>
-                )}
-            </header>
-
-    return (
-        <div className={cn('w-full bg-white min-h-[297mm] font-sans text-sm text-stone-950 flex flex-col', className)}>
-            {/* Header: Luxury Branding */}
             <header className={cn('px-12 py-20 flex flex-col md:flex-row justify-between items-start md:items-end border-b-[12px] shadow-2xl shrink-0', accentColor)}>
                 <div className="max-w-4xl">
                     <h1 className="text-7xl font-extralight uppercase tracking-[0.2em] text-white leading-none mb-6">{personalInfo?.fullName}</h1>

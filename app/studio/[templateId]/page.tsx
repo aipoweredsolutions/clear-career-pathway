@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { saveAs } from 'file-saver'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { Button } from '@/components/ui/Button'
+import { cn } from '@/lib/utils'
 import { 
     ChevronLeft, 
     ArrowRight, 
@@ -15,7 +16,11 @@ import {
     Loader2,
     Eye,
     LayoutTemplate,
-    Columns
+    Columns,
+    Sparkles,
+    CheckCircle2,
+    Shield,
+    Layers
 } from 'lucide-react'
 import Link from 'next/link'
 import { getMockDataForTemplate } from '@/lib/utils/persona-matcher'

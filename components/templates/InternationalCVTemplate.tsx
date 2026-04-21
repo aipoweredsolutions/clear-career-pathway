@@ -11,6 +11,7 @@ interface TemplateProps {
 }
 
 export function InternationalCVTemplate({ data, className, accentColor = 'bg-blue-900 border-blue-900' }: TemplateProps) {
+    const { personalInfo, professionalSummary, workExperience, languages, skills, education } = data
     return (
         <div className={cn('w-full bg-white min-h-[297mm] font-sans text-sm text-neutral-900 flex flex-col', className)}>
             {/* High Impact Header */}

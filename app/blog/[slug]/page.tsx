@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation'
 import { ShareButton } from '@/components/blog/ShareButton'
 
 interface PageProps {
-    params: { slug: string }
+    params: Promise<{ slug: string }>
 }
 
 // SSG: Pre-generate all blog post routes
@@ -20,7 +20,8 @@ export async function generateStaticParams() {
 
 // SEO: Dynamic metadata generation
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const post = BLOG_POSTS.find((p) => p.slug === params.slug)
+    const { slug } = await params
+    const post = BLOG_POSTS.find((p) => p.slug === slug)
     
     if (!post) return { title: 'Post Not Found' }
 
@@ -44,8 +45,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 }
 
-export default function BlogPostPage({ params }: PageProps) {
-    const { slug } = params
+export default async function BlogPostPage({ params }: PageProps) {
+    const { slug } = await params
     const post = BLOG_POSTS.find(p => p.slug === slug)
 
     if (!post) notFound()

@@ -72,7 +72,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                 {professionalSummary?.summaryText && (
                     <section>
                         <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>Summary</h2>
-                        <p className="text-xs text-neutral-800 leading-relaxed italic">
+                        <p className="text-[12px] text-neutral-800 leading-relaxed italic">
                             {professionalSummary.summaryText}
                         </p>
                     </section>
@@ -96,7 +96,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                                     {job.achievements && job.achievements.length > 0 && (
                                         <ul className="list-disc list-outside ml-4 space-y-0.5">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="text-xs text-neutral-800">{ach.achievementText}</li>
+                                                <li key={j} className="text-[12px] text-neutral-800">{ach.achievementText}</li>
                                             ))}
                                         </ul>
                                     )}
@@ -168,7 +168,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                                 <div className="space-y-1">
                                     {Object.entries(grouped).map(([type, list]) => (
                                         <div key={type} className="text-xs">
-                                            <span className="font-bold uppercase text-[10px] w-24 inline-block">{type}:</span>
+                                            <span className="font-bold uppercase text-[11px] w-24 inline-block">{type}:</span>
                                             <span>{list.map(s => s.skillName).join(' • ')}</span>
                                         </div>
                                     ))}
@@ -206,19 +206,19 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                         <div className="grid grid-cols-1 gap-y-2">
                             {languages && (
                                 <div className="text-xs">
-                                    <span className="font-bold mr-2 uppercase text-[10px]">Languages:</span>
+                                    <span className="font-bold mr-2 uppercase text-[11px]">Languages:</span>
                                     {languages.map(l => `${l.languageName} (${l.proficiencyLevel})`).join(', ')}
                                 </div>
                             )}
                             {professionalAffiliations && (
                                 <div className="text-xs">
-                                    <span className="font-bold mr-2 uppercase text-[10px]">Affiliations:</span>
+                                    <span className="font-bold mr-2 uppercase text-[11px]">Affiliations:</span>
                                     {professionalAffiliations.map(p => p.organizationName).join(', ')}
                                 </div>
                             )}
                             {volunteerExperience && (
                                 <div className="text-xs">
-                                    <span className="font-bold mr-2 uppercase text-[10px]">Volunteer Experience:</span>
+                                    <span className="font-bold mr-2 uppercase text-[11px]">Volunteer Experience:</span>
                                     {volunteerExperience.map(v => `${v.roleTitle} at ${v.organizationName}`).join(' • ')}
                                 </div>
                             )}
