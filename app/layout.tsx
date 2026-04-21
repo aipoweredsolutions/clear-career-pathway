@@ -67,6 +67,7 @@ export const metadata: Metadata = {
 import { AuthProvider } from '@/components/auth/AuthProvider'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { CookieConsent } from '@/components/layout/CookieConsent'
 import { cn } from '@/lib/utils'
 import { Toaster } from 'sonner'
 
@@ -84,6 +85,7 @@ export default function RootLayout({
                         {children}
                     </main>
                     <Footer />
+                    <CookieConsent />
                     <Toaster position="top-center" richColors />
                 </AuthProvider>
             </body>

@@ -127,80 +127,139 @@ export function RevenueLeaderTemplate({ data, className, accentColor = 'text-blu
             </header>
 
             {/* ─────────────────────────────────────────
-                BODY — 2-column below
+                BODY — Single Column Stack
             ───────────────────────────────────────── */}
-            <div style={{ display: 'flex', flex: 1 }}>
+            <main style={{ padding: '36px 40px', display: 'flex', flexDirection: 'column', gap: 36 }}>
 
-                {/* ── Main Content ── */}
-                <main style={{ flex: 1, padding: '28px 32px', display: 'flex', flexDirection: 'column', gap: 24, minWidth: 0 }}>
+                {/* Professional Summary */}
+                {professionalSummary?.summaryText && (
+                    <section aria-label="Professional Summary">
+                        <SectionHeading label="Value Proposition" c={c} />
+                        <p style={{ fontSize: 13, color: '#334155', lineHeight: 1.8, margin: 0, fontWeight: 500 }}>
+                            {professionalSummary.summaryText}
+                        </p>
+                    </section>
+                )}
 
-                    {/* Professional Summary */}
-                    {professionalSummary?.summaryText && (
-                        <section aria-label="Professional Summary">
-                            <SectionHeading label="Value Proposition" c={c} />
-                            <p style={{ fontSize: 11.5, color: '#475569', lineHeight: 1.7, margin: 0 }}>
-                                {professionalSummary.summaryText}
-                            </p>
-                        </section>
-                    )}
+                {/* Integrated Skills - Full Width Cloud */}
+                {skills && skills.length > 0 && (
+                    <section aria-label="Skills">
+                        <SectionHeading label="Core Performance Capabilities" c={c} />
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                            {skills.map((skill: any, i: number) => (
+                                <span key={i} style={{
+                                    background: '#f8fafc', color: c.primary,
+                                    border: `1px solid ${c.border}`,
+                                    borderRadius: 10, padding: '6px 14px',
+                                    fontSize: 11, fontWeight: 700,
+                                    textTransform: 'uppercase', letterSpacing: '0.05em'
+                                }}>
+                                    {skill.skillName}
+                                </span>
+                            ))}
+                        </div>
+                    </section>
+                )}
 
-                    {/* Work Experience */}
-                    {workExperience && workExperience.length > 0 && (
-                        <section aria-label="Work Experience">
-                            <SectionHeading label="Professional Experience" c={c} />
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                                {workExperience.map((job: any, i: number) => (
-                                    <div key={i} style={{ borderLeft: `2px solid ${c.border}`, paddingLeft: 14 }}>
-                                        {/* Title + Date */}
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 4 }}>
-                                            <h3 style={{ fontSize: 13, fontWeight: 800, margin: 0, color: c.primary }}>{job.jobTitle}</h3>
-                                            <span style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', flexShrink: 0 }}>
-                                                {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
-                                            </span>
+                {/* Work Experience */}
+                {workExperience && workExperience.length > 0 && (
+                    <section aria-label="Work Experience">
+                        <SectionHeading label="Professional Trajectory" c={c} />
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
+                            {workExperience.map((job: any, i: number) => (
+                                <div key={i} style={{ borderLeft: `4px solid ${c.primary}20`, paddingLeft: 24, position: 'relative' }}>
+                                    <div style={{ position: 'absolute', left: -7, top: 4, width: 10, height: 10, borderRadius: '50%', background: c.primary }} />
+                                    
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                                        <div style={{ flex: 1 }}>
+                                            <h3 style={{ fontSize: 18, fontWeight: 900, margin: 0, color: c.primary, letterSpacing: '-0.2px' }}>{job.jobTitle}</h3>
+                                            <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginTop: 4 }}>
+                                                <span style={{ fontSize: 14, fontWeight: 700, color: c.accent }}>{job.companyName}</span>
+                                                {job.location && <span style={{ fontSize: 12, color: '#94a3b8', fontWeight: 600 }}>{job.location}</span>}
+                                            </div>
                                         </div>
-                                        {/* Company + Location */}
-                                        <div style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '2px 0 6px', flexWrap: 'wrap' }}>
-                                            <span style={{ fontSize: 11, fontWeight: 700, color: c.accent }}>{job.companyName}</span>
-                                            {job.location && <span style={{ fontSize: 10, color: '#94a3b8' }}>{job.location}</span>}
+                                        <div style={{ fontSize: 11, fontWeight: 900, color: '#fff', background: '#0f172a', padding: '6px 16px', borderRadius: 8, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                                            {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
                                         </div>
-                                        {job.roleDescription && (
-                                            <p style={{ fontSize: 11, color: '#64748b', margin: '0 0 6px', lineHeight: 1.6 }}>{job.roleDescription}</p>
-                                        )}
-                                        {job.achievements && job.achievements.length > 0 && (
-                                            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                                                {job.achievements.map((ach: any, j: number) => (
-                                                    <li key={j} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 11, color: '#334155', lineHeight: 1.55 }}>
-                                                        <span style={{ color: c.accent, fontWeight: 900, marginTop: 1, flexShrink: 0 }}>▸</span>
-                                                        {ach.achievementText}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        )}
+                                    </div>
+
+                                    {job.roleDescription && (
+                                        <p style={{ fontSize: 13, color: '#475569', margin: '12px 0 16px', lineHeight: 1.7, fontWeight: 500, fontStyle: 'italic' }}>{job.roleDescription}</p>
+                                    )}
+
+                                    {job.achievements && job.achievements.length > 0 && (
+                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                                            {job.achievements.map((ach: any, j: number) => (
+                                                <div key={j} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', fontSize: 12.5, color: '#334155', lineHeight: 1.6, background: '#f8fafc', padding: 16, borderRadius: 16, border: '1px solid #e2e8f0' }}>
+                                                    <span style={{ color: c.accent, fontWeight: 900, flexShrink: 0 }}>▸</span>
+                                                    <span style={{ fontWeight: 600 }}>{ach.achievementText}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Integrated Row for Education & Certifications */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, paddingTop: 20, borderTop: `8px solid #f8fafc` }}>
+                    {/* Education */}
+                    {education && education.length > 0 && (
+                        <section aria-label="Education">
+                            <SectionHeading label="Foundational Education" c={c} />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                                {education.map((edu: any, i: number) => (
+                                    <div key={i} style={{ borderLeft: `2px solid ${c.border}`, paddingLeft: 16 }}>
+                                        <div style={{ fontSize: 14, fontWeight: 800, color: c.primary }}>{edu.degree}</div>
+                                        <div style={{ fontSize: 13, fontWeight: 700, color: c.accent, marginTop: 2 }}>{edu.institutionName}</div>
+                                        <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                                            Class of {edu.endYear}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
                         </section>
                     )}
 
-                    {/* Projects / Key Deals */}
+                    {/* Certifications */}
+                    {certifications && certifications.length > 0 && (
+                        <section aria-label="Certifications">
+                            <SectionHeading label="Professional Credentials" c={c} />
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                                {certifications.map((cert: any, i: number) => (
+                                    <div key={i} style={{ 
+                                        padding: '12px 20px', background: '#fff', border: `1px solid ${c.border}`, 
+                                        borderRadius: 16, display: 'flex', flexDirection: 'column', gap: 4, flex: '1 1 calc(50% - 8px)'
+                                    }}>
+                                        <div style={{ fontSize: 12, fontWeight: 800, color: c.primary, lineHeight: 1.3 }}>{cert.certificationName}</div>
+                                        <div style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>{cert.issuingOrganization}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+
+                {/* Key Initiatives & Recognition Column */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 40 }}>
+                    {/* Projects */}
                     {projects && projects.length > 0 && (
                         <section aria-label="Projects">
-                            <SectionHeading label="Key Deals &amp; Initiatives" c={c} />
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                            <SectionHeading label="Strategic Deal Portfolio" c={c} />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                                 {projects.map((proj: any, i: number) => (
                                     <div key={i} style={{
-                                        background: c.accentLight, borderRadius: 10,
-                                        border: `1px solid ${c.border}`,
-                                        padding: '12px 14px',
+                                        background: '#0f172a', borderRadius: 20,
+                                        padding: '24px', color: '#fff'
                                     }}>
-                                        <h4 style={{ fontSize: 12, fontWeight: 800, margin: '0 0 3px', color: c.primary }}>{proj.projectName}</h4>
-                                        {proj.clientOrOrganization && (
-                                            <div style={{ fontSize: 10, fontWeight: 700, color: c.accent, marginBottom: 4 }}>{proj.clientOrOrganization}</div>
-                                        )}
-                                        {proj.description && <p style={{ fontSize: 10, color: '#64748b', margin: 0, lineHeight: 1.5 }}>{proj.description}</p>}
+                                        <h4 style={{ fontSize: 16, fontWeight: 900, margin: '0 0 6px', color: '#fff' }}>{proj.projectName}</h4>
+                                        <div style={{ fontSize: 12, fontWeight: 700, color: c.accent, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{proj.clientOrOrganization}</div>
+                                        {proj.description && <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.6 }}>{proj.description}</p>}
                                         {proj.outcomes && (
-                                            <div style={{ fontSize: 10, fontWeight: 700, color: c.accent, marginTop: 6, paddingTop: 6, borderTop: `1px solid ${c.border}` }}>
-                                                {proj.outcomes}
+                                            <div style={{ fontSize: 13, fontWeight: 900, color: '#fff', marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', gap: 10 }}>
+                                                <span style={{ fontSize: 10, color: c.accent }}>IMPACT:</span> {proj.outcomes}
                                             </div>
                                         )}
                                     </div>
@@ -209,171 +268,64 @@ export function RevenueLeaderTemplate({ data, className, accentColor = 'text-blu
                         </section>
                     )}
 
-                    {/* Publications */}
-                    {publications && publications.length > 0 && (
-                        <section aria-label="Publications">
-                            <SectionHeading label="Publications &amp; Thought Leadership" c={c} />
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                                {publications.map((pub: any, i: number) => (
-                                    <div key={i} style={{ fontSize: 11, color: '#334155', lineHeight: 1.55 }}>
-                                        <span style={{ fontWeight: 700, color: c.primary }}>&ldquo;{pub.title}&rdquo;</span>
-                                        {pub.platformOrPublisher && <span style={{ color: '#64748b' }}> — {pub.platformOrPublisher}</span>}
-                                        {pub.publicationYear && <span style={{ color: '#94a3b8' }}> ({pub.publicationYear})</span>}
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Volunteer */}
-                    {volunteerExperience && volunteerExperience.length > 0 && (
-                        <section aria-label="Volunteer Experience">
-                            <SectionHeading label="Community Leadership" c={c} />
-                            {volunteerExperience.map((vol: any, i: number) => (
-                                <div key={i} style={{ marginBottom: 12 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                                        <h4 style={{ fontSize: 12, fontWeight: 700, margin: 0, color: c.primary }}>{vol.roleTitle}</h4>
-                                        <span style={{ fontSize: 10, color: '#94a3b8' }}>{vol.startDate} — {vol.endDate || 'Present'}</span>
-                                    </div>
-                                    <div style={{ fontSize: 11, fontWeight: 700, color: c.accent, margin: '2px 0 4px' }}>{vol.organizationName}</div>
-                                    {vol.contributions && <p style={{ fontSize: 11, color: '#64748b', margin: 0, lineHeight: 1.55 }}>{vol.contributions}</p>}
-                                </div>
-                            ))}
-                        </section>
-                    )}
-
-                    {/* Additional Info */}
-                    {additionalInfo?.otherInfo && (
-                        <section aria-label="Additional Information">
-                            <SectionHeading label="Additional Information" c={c} />
-                            <p style={{ fontSize: 11, color: '#475569', lineHeight: 1.65, margin: 0 }}>{additionalInfo.otherInfo}</p>
-                        </section>
-                    )}
-                </main>
-
-                {/* ── Sidebar ── */}
-                <aside style={{
-                    width: 220,
-                    flexShrink: 0,
-                    background: '#f8fafc',
-                    borderLeft: '1px solid #e2e8f0',
-                    padding: '24px 20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 22,
-                }}>
-
-                    {/* Skills */}
-                    {skills && skills.length > 0 && (
-                        <section aria-label="Skills">
-                            <SidebarHeading label="Core Competencies" c={c} />
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                                {skills.map((skill: any, i: number) => (
-                                    <span key={i} style={{
-                                        background: c.accentLight, color: c.primary,
-                                        border: `1px solid ${c.border}`,
-                                        borderRadius: 6, padding: '3px 8px',
-                                        fontSize: 9.5, fontWeight: 700,
-                                    }}>
-                                        {skill.skillName}
-                                    </span>
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Education */}
-                    {education && education.length > 0 && (
-                        <section aria-label="Education">
-                            <SidebarHeading label="Education" c={c} />
-                            {education.map((edu: any, i: number) => (
-                                <div key={i} style={{ marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid #e2e8f0' }}>
-                                    <div style={{ fontSize: 11, fontWeight: 800, color: c.primary, lineHeight: 1.3 }}>{edu.institutionName}</div>
-                                    <div style={{ fontSize: 10.5, color: '#475569', marginTop: 1, lineHeight: 1.4 }}>
-                                        {edu.degree}{edu.fieldOfStudy ? `, ${edu.fieldOfStudy}` : ''}
-                                    </div>
-                                    <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 2 }}>
-                                        {edu.startYear ? `${edu.startYear} – ` : ''}{edu.endYear || 'Present'}
-                                    </div>
-                                    {edu.gpa && <div style={{ fontSize: 10, fontWeight: 700, color: c.accent, marginTop: 2 }}>GPA: {edu.gpa}</div>}
-                                </div>
-                            ))}
-                        </section>
-                    )}
-
-                    {/* Certifications */}
-                    {certifications && certifications.length > 0 && (
-                        <section aria-label="Certifications">
-                            <SidebarHeading label="Certifications" c={c} />
-                            {certifications.map((cert: any, i: number) => (
-                                <div key={i} style={{ marginBottom: 10, display: 'flex', gap: 7, alignItems: 'flex-start' }}>
-                                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: c.accent, marginTop: 4, flexShrink: 0 }} />
-                                    <div>
-                                        <div style={{ fontSize: 11, fontWeight: 700, color: c.primary, lineHeight: 1.3 }}>{cert.certificationName}</div>
-                                        <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 1 }}>
-                                            {cert.issuingOrganization}{cert.issueYear ? ` · ${cert.issueYear}` : ''}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </section>
-                    )}
-
-                    {/* Achievements / Recognition */}
+                    {/* Recognition */}
                     {achievements && achievements.length > 0 && (
                         <section aria-label="Achievements">
-                            <SidebarHeading label="Recognition" c={c} />
-                            {achievements.map((ach: any, i: number) => (
-                                <div key={i} style={{
-                                    background: c.accentLight, border: `1px solid ${c.border}`,
-                                    borderRadius: 8, padding: '8px 10px', marginBottom: 8,
-                                }}>
-                                    <div style={{ fontSize: 11, fontWeight: 800, color: c.primary, lineHeight: 1.3 }}>{ach.achievementTitle}</div>
-                                    {ach.issuingBody && (
-                                        <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 2 }}>
-                                            {ach.issuingBody}{ach.year ? ` · ${ach.year}` : ''}
-                                        </div>
-                                    )}
-                                    {ach.description && <p style={{ fontSize: 10, color: '#64748b', margin: '4px 0 0', lineHeight: 1.5 }}>{ach.description}</p>}
-                                </div>
-                            ))}
+                            <SectionHeading label="Executive Recognition" c={c} />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                {achievements.map((ach: any, i: number) => (
+                                    <div key={i} style={{
+                                        padding: '16px', background: '#f8fafc', border: `1px solid ${c.border}`,
+                                        borderRadius: 20,
+                                    }}>
+                                        <div style={{ fontSize: 13, fontWeight: 900, color: c.primary, lineHeight: 1.3 }}>{ach.achievementTitle}</div>
+                                        {ach.issuingBody && (
+                                            <div style={{ fontSize: 11, fontWeight: 700, color: c.accent, marginTop: 4, textTransform: 'uppercase' }}>{ach.issuingBody}</div>
+                                        )}
+                                        {ach.description && <p style={{ fontSize: 11, color: '#64748b', margin: '8px 0 0', lineHeight: 1.6, fontWeight: 500 }}>{ach.description}</p>}
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+
+                {/* Final Row for Associations & Languages */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
+                    {/* Affiliations */}
+                    {professionalAffiliations && professionalAffiliations.length > 0 && (
+                        <section aria-label="Professional Affiliations">
+                            <SectionHeading label="Leadership Affiliations" c={c} />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                {professionalAffiliations.map((aff: any, i: number) => (
+                                    <div key={i} style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: 8 }}>
+                                        <div style={{ fontSize: 13, fontWeight: 800, color: c.primary }}>{aff.organizationName}</div>
+                                        <div style={{ fontSize: 11, color: '#64748b', fontWeight: 600, marginTop: 2 }}>{aff.roleOrMembership}</div>
+                                    </div>
+                                ))}
+                            </div>
                         </section>
                     )}
 
                     {/* Languages */}
                     {languages && languages.length > 0 && (
                         <section aria-label="Languages">
-                            <SidebarHeading label="Languages" c={c} />
-                            {languages.map((lang: any, i: number) => (
-                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                                    <span style={{ fontSize: 11, fontWeight: 600, color: '#334155' }}>{lang.languageName}</span>
-                                    <span style={{
-                                        background: c.accentLight, color: c.accent,
-                                        border: `1px solid ${c.border}`,
-                                        borderRadius: 4, padding: '2px 6px',
-                                        fontSize: 9, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em',
+                            <SectionHeading label="Linguistic Range" c={c} />
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                                {languages.map((lang: any, i: number) => (
+                                    <div key={i} style={{ 
+                                        padding: '8px 16px', background: '#fff', border: `1px solid ${c.border}`, 
+                                        borderRadius: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12
                                     }}>
-                                        {lang.proficiencyLevel}
-                                    </span>
-                                </div>
-                            ))}
+                                        <span style={{ fontSize: 12, fontWeight: 700, color: '#334155' }}>{lang.languageName}</span>
+                                        <span style={{ fontSize: 10, fontWeight: 900, color: c.accent, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{lang.proficiencyLevel}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </section>
                     )}
-
-                    {/* Professional Affiliations */}
-                    {professionalAffiliations && professionalAffiliations.length > 0 && (
-                        <section aria-label="Professional Affiliations">
-                            <SidebarHeading label="Affiliations" c={c} />
-                            {professionalAffiliations.map((aff: any, i: number) => (
-                                <div key={i} style={{ marginBottom: 8 }}>
-                                    <div style={{ fontSize: 11, fontWeight: 700, color: c.primary, lineHeight: 1.3 }}>{aff.organizationName}</div>
-                                    {aff.roleOrMembership && <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 1 }}>{aff.roleOrMembership}</div>}
-                                </div>
-                            ))}
-                        </section>
-                    )}
-                </aside>
-            </div>
+                </div>
+            </main>
 
             {/* Footer accent bar */}
             <div style={{ height: 5, background: `linear-gradient(90deg, ${c.primary}, ${c.accent})` }} />

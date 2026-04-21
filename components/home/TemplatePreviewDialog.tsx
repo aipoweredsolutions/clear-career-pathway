@@ -53,6 +53,10 @@ const PDFPreview = dynamic(() => import('./PDFPreview'), {
     )
 })
 
+const PDFUrlGenerator = dynamic(() => import('./PDFPreview').then(m => m.PDFUrlGenerator), {
+    ssr: false
+})
+
 
 interface TemplatePreviewDialogProps {
     isOpen: boolean
@@ -305,6 +309,14 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
 
                     {/* Preview Canvas */}
                     <div className="flex-1 overflow-y-auto p-12 flex justify-center bg-neutral-200/30 bg-[radial-gradient(#d1d1d1_1px,transparent_1px)] [background-size:24px_24px]">
+                        {/* Always generate PDF URL in the background to ensure download button works */}
+                        {isMounted && (
+                            <PDFUrlGenerator
+                                data={previewData}
+                                onUrlUpdate={setPdfUrl}
+                            />
+                        )}
+
                         {viewMode === 'web' ? (
                             <div className="origin-top scale-[0.6] sm:scale-[0.8] lg:scale-[0.9] xl:scale-[1.0] transition-all duration-500">
                                 <TemplateRenderer

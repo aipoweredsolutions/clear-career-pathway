@@ -100,29 +100,29 @@ export function LegalExpertTemplate({ data, className, accentColor = 'text-neutr
                     </section>
                 )}
 
-                {/* Skills & Bar Admissions */}
+                {/* Skills & Bar Admissions - Refactored to Vertical Stack */}
                 {skills && skills.length > 0 && (
                     <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 mb-3 pb-1 border-current", accentColor)}>Practice Areas</h2>
-                        <ul className="grid grid-cols-3 gap-y-2 gap-x-8 list-none">
+                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 mb-4 pb-1 border-current", accentColor)}>Practice Areas & Bar Admissions</h2>
+                        <div className="flex flex-wrap gap-x-12 gap-y-3 pl-4">
                             {skills.map((skill, i) => (
-                                <li key={i} className="text-[13px] flex items-center gap-2">
-                                    <div className={cn("w-1 h-1", accentColor.replace('text-', 'bg-'))} />
-                                    {skill.skillName}
-                                </li>
+                                <div key={i} className="text-[13px] flex items-center gap-3 min-w-[200px] border-b border-neutral-50 pb-1">
+                                    <span className="font-bold text-neutral-400">§</span>
+                                    <span className="font-medium">{skill.skillName}</span>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </section>
                 )}
 
                 {languages && languages.length > 0 && (
                     <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 mb-3 pb-1 border-current", accentColor)}>Languages</h2>
-                        <div className="grid grid-cols-2 gap-x-12 gap-y-1">
+                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.2em] border-b-2 mb-4 pb-1 border-current", accentColor)}>Languages</h2>
+                        <div className="space-y-2 pl-4">
                             {languages.map((lang, i) => (
-                                <div key={i} className="flex justify-between items-baseline text-[13px] border-b border-neutral-50 pb-1">
-                                    <span className="font-bold italic">{lang.languageName}</span>
-                                    <span className="text-[11px] text-neutral-500 uppercase tracking-widest">{lang.proficiencyLevel}</span>
+                                <div key={i} className="flex justify-between items-baseline text-[13px] max-w-xl pb-1">
+                                    <span className="font-bold underline decoration-neutral-100 underline-offset-4">{lang.languageName}</span>
+                                    <span className="text-[11px] text-neutral-500 uppercase tracking-widest italic">{lang.proficiencyLevel}</span>
                                 </div>
                             ))}
                         </div>

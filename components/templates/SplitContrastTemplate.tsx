@@ -42,98 +42,81 @@ export function SplitContrastTemplate({ data, className, theme = 'gray' }: Templ
     const activeTheme = themeConfig[theme]
 
     return (
-        <div className={cn("w-full bg-white aspect-[210/297] grid grid-cols-12 font-sans text-slate-900 overflow-hidden", className)}>
-            {/* Sidebar - Minimal Contrast */}
-            <div className={cn("col-span-4 p-10 flex flex-col gap-10 border-r", activeTheme.sidebar, activeTheme.border)}>
-                {/* Contact */}
-                <section className="flex flex-col gap-4">
-                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Contact</h3>
-                    <div className="flex flex-col gap-2 text-sm font-medium">
-                        {personalInfo?.email && <div className="break-all">{personalInfo.email}</div>}
-                        {personalInfo?.phone && <div>{personalInfo.phone}</div>}
-                        {personalInfo?.city && <div>{personalInfo.city}, {personalInfo.country}</div>}
-                        {personalInfo?.linkedinUrl && <div className="text-slate-500 underline underline-offset-4">LinkedIn</div>}
-                    </div>
-                </section>
-
-                {/* Skills */}
-                {skills && skills.length > 0 && (
-                    <section className="flex flex-col gap-4">
-                        <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Expertise</h3>
-                        <div className="flex flex-col gap-2">
-                            {skills.map((skill, i) => (
-                                <div key={i} className="flex flex-col gap-1">
-                                    <span className="text-sm font-bold text-slate-700">{skill.skillName}</span>
-                                    <div className="h-1 w-full bg-slate-200 rounded-full overflow-hidden">
-                                        <div
-                                            className={cn("h-full", activeTheme.accent.replace('text-', 'bg-'))}
-                                            style={{ width: skill.proficiencyLevel === 'expert' ? '100%' : skill.proficiencyLevel === 'advanced' ? '75%' : '50%' }}
-                                        ></div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
-
-                {/* Education */}
-                {education && education.length > 0 && (
-                    <section className="flex flex-col gap-4">
-                        <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Education</h3>
-                        <div className="flex flex-col gap-6">
-                            {education.map((edu, i) => (
-                                <div key={i} className="flex flex-col gap-1">
-                                    <div className="font-bold text-slate-800 text-sm leading-tight">{edu.degree}</div>
-                                    <div className="text-slate-500 text-xs font-medium">{edu.institutionName}</div>
-                                    <div className="text-[10px] font-bold text-slate-400 mt-1">{edu.endYear}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
-            </div>
-
-            {/* Main Content */}
-            <div className="col-span-8 p-12 flex flex-col gap-12">
-                <header>
-                    <h1 className="text-6xl font-black tracking-tighter text-slate-900 mb-2 leading-none">
+        <div className={cn("w-full bg-white min-h-[297mm] font-sans text-slate-900 flex flex-col", className)}>
+            {/* High Impact Header */}
+            <header className={cn("p-12 border-b-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-end gap-10", activeTheme.sidebar, activeTheme.border)}>
+                <div className="flex-1">
+                    <h1 className="text-7xl font-black tracking-tighter text-slate-900 mb-4 leading-none uppercase">
                         {personalInfo?.fullName}
                     </h1>
-                    <p className="text-xl font-medium text-slate-500 tracking-tight">
+                    <p className="text-2xl font-bold text-slate-500 tracking-widest uppercase">
                         {personalInfo?.professionalTitle}
                     </p>
-                </header>
+                </div>
+                
+                {/* Integrated Contact Info */}
+                <div className="flex flex-wrap md:flex-col gap-x-10 gap-y-3 text-xs font-black uppercase tracking-widest text-slate-400 md:text-right shrink-0">
+                    {personalInfo?.email && <div className="lowercase">{personalInfo.email}</div>}
+                    {personalInfo?.phone && <div>{personalInfo.phone}</div>}
+                    {personalInfo?.city && <div>{personalInfo.city}, {personalInfo.country}</div>}
+                </div>
+            </header>
 
+            <main className="flex-1 p-12 space-y-16">
+                {/* Statement */}
                 {professionalSummary?.summaryText && (
-                    <section className="flex flex-col gap-4">
-                        <h2 className="text-xs font-black uppercase tracking-widest text-slate-300">Statement</h2>
-                        <p className="text-lg text-slate-700 leading-relaxed font-medium">
+                    <section>
+                        <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-300 mb-6">Expert Statement</h2>
+                        <p className="text-2xl text-slate-800 leading-snug font-black border-l-8 pl-10 border-slate-100 italic">
                             {professionalSummary.summaryText}
                         </p>
                     </section>
                 )}
 
+                {/* Expertise & Skills - Horizontal Cloud for space efficiency but vertical parsing */}
+                {skills && skills.length > 0 && (
+                    <section>
+                        <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-300 mb-8">Core Expertise</h2>
+                        <div className="flex flex-wrap gap-4">
+                            {skills.map((skill, i) => (
+                                <div key={i} className={cn("px-6 py-3 rounded-full border-2 text-xs font-black uppercase tracking-widest transition-transform hover:-translate-y-1", activeTheme.border, activeTheme.accent)}>
+                                    {skill.skillName}
+                                    <span className="ml-3 opacity-30">/</span>
+                                    <span className="ml-3 opacity-50">{skill.proficiencyLevel}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Experience */}
                 {workExperience && workExperience.length > 0 && (
-                    <section className="flex flex-col gap-8">
-                        <h2 className="text-xs font-black uppercase tracking-widest text-slate-300">Experience</h2>
-                        <div className="flex flex-col gap-10">
+                    <section>
+                        <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-300 mb-12">Professional Journey</h2>
+                        <div className="space-y-16">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="flex flex-col gap-3">
-                                    <div className="flex justify-between items-baseline">
-                                        <h3 className="text-2xl font-black text-slate-900 tracking-tight">{job.jobTitle}</h3>
-                                        <span className="text-xs font-bold text-slate-400 uppercase tabular-nums">
+                                <div key={i} className="group">
+                                    <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline mb-6 gap-4">
+                                        <div className="flex flex-col gap-1">
+                                            <h3 className="text-4xl font-black text-slate-900 tracking-tighter uppercase leading-none">{job.jobTitle}</h3>
+                                            <div className="text-xl font-bold text-slate-500 italic uppercase tracking-wide">{job.companyName}</div>
+                                        </div>
+                                        <div className="text-sm font-black text-white px-5 py-2 bg-neutral-900 rounded-full tabular-nums uppercase tracking-widest">
                                             {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
-                                        </span>
+                                        </div>
                                     </div>
-                                    <div className="text-base font-bold text-slate-500 italic">{job.companyName}</div>
+                                    
+                                    {job.roleDescription && <p className="text-lg text-slate-700 font-medium mb-8 leading-relaxed italic opacity-80">{job.roleDescription}</p>}
+                                    
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <ul className="flex flex-col gap-3 mt-2">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 pl-10 border-l-4 border-slate-50 italic">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="text-slate-600 leading-relaxed pl-4 border-l-2 border-slate-100 italic">
+                                                <div key={j} className="text-slate-600 leading-relaxed text-sm font-bold relative">
+                                                    <span className="absolute -left-6 top-0 text-slate-300 font-black">»</span>
                                                     {ach.achievementText}
-                                                </li>
+                                                </div>
                                             ))}
-                                        </ul>
+                                        </div>
                                     )}
                                 </div>
                             ))}
@@ -141,20 +124,44 @@ export function SplitContrastTemplate({ data, className, theme = 'gray' }: Templ
                     </section>
                 )}
 
-                {projects && projects.length > 0 && (
-                    <section className="flex flex-col gap-6">
-                        <h2 className="text-xs font-black uppercase tracking-widest text-slate-300">Selected Work</h2>
-                        <div className="grid grid-cols-2 gap-6">
-                            {projects.map((project, i) => (
-                                <div key={i} className="flex flex-col gap-1">
-                                    <div className="font-bold text-slate-900">{project.projectName}</div>
-                                    <p className="text-xs text-slate-500 line-clamp-2">{project.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
-            </div>
+                {/* Unified Footer Stats - Projects & Education */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-16 pt-16 border-t-8 border-slate-50">
+                    {/* Education */}
+                    {education && education.length > 0 && (
+                        <section>
+                            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-300 mb-10">Academic Foundation</h2>
+                            <div className="space-y-10">
+                                {education.map((edu, i) => (
+                                    <div key={i} className="flex flex-col gap-2">
+                                        <div className="text-lg font-black text-slate-900 uppercase tracking-tight leading-tight">{edu.degree}</div>
+                                        <div className="text-sm font-bold text-slate-500 uppercase tracking-widest">{edu.institutionName}</div>
+                                        <div className="text-[11px] font-black text-slate-300 mt-2 uppercase tabular-nums">Completed {edu.endYear}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Selected Work */}
+                    {projects && projects.length > 0 && (
+                        <section>
+                            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-300 mb-10">Signature Projects</h2>
+                            <div className="space-y-10">
+                                {projects.map((project, i) => (
+                                    <div key={i} className="flex flex-col gap-2">
+                                        <div className="text-lg font-black text-slate-900 uppercase tracking-tight leading-tight">{project.projectName}</div>
+                                        <p className="text-sm font-medium text-slate-500 leading-relaxed italic line-clamp-2">{project.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+            </main>
+            
+            <footer className={cn("p-12 text-center text-[11px] font-black uppercase tracking-[1em] text-slate-400 mt-auto", activeTheme.sidebar)}>
+                Split Contrast Standard
+            </footer>
         </div>
     )
 }

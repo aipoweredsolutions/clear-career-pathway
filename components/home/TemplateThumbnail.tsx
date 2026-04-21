@@ -104,10 +104,11 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         <div className={cn("relative w-full h-full bg-neutral-100 overflow-hidden", className)}>
             {!imageError ? (
                 <div className="relative w-full h-full">
-                    <img
+                    <NextImage
                         src={staticImagePath}
                         alt={template.name}
-                        className="w-full h-full object-cover object-top"
+                        fill
+                        className="object-cover object-top"
                         onError={() => setImageError(true)}
                     />
                 </div>

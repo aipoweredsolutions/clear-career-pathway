@@ -579,7 +579,7 @@ export function AccountShell({ user, subscription, usage, documentCount, downloa
                         </div>
                         <FormInput label="New Email Address" id="email" type="email" placeholder="new@example.com" required />
                         <p className="text-xs text-neutral-400 -mt-1">
-                            A verification link will be sent to your new address. Your email won't change until confirmed.
+                            A verification link will be sent to your new address. Your email won&apos;t change until confirmed.
                         </p>
                         <Feedback state={emailState} />
                         <button

@@ -11,15 +11,25 @@ import {
     ArrowRight, 
     Maximize2, 
     Download, 
-    Layers, 
-    Sparkles,
-    Shield,
-    CheckCircle2,
     Palette,
-    Loader2
+    Loader2,
+    Eye,
+    LayoutTemplate,
+    Columns
 } from 'lucide-react'
 import Link from 'next/link'
 import { getMockDataForTemplate } from '@/lib/utils/persona-matcher'
+import dynamic from 'next/dynamic'
+
+const PDFPreview = dynamic(() => import('@/components/pdf/PDFPreview').then(mod => mod.PDFPreview), {
+    ssr: false,
+    loading: () => (
+        <div className="flex flex-col items-center justify-center h-full w-full min-h-[500px] bg-neutral-50 rounded-2xl gap-4">
+            <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+            <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Waking up PDF Engine...</p>
+        </div>
+    )
+})
 
 export default function TemplateStudioPage() {
     const params = useParams()
@@ -41,6 +51,7 @@ export default function TemplateStudioPage() {
     }
 
     const [isDownloading, setIsDownloading] = useState(false)
+    const [previewMode, setPreviewMode] = useState<'html' | 'pdf' | 'split'>('html')
 
     const handleDownloadSample = async () => {
         setIsDownloading(true)
@@ -87,6 +98,46 @@ export default function TemplateStudioPage() {
                                 {templateId}
                             </span>
                         </div>
+                    </div>
+
+                    {/* Preview Mode Toggle */}
+                    <div className="hidden md:flex bg-neutral-100 rounded-xl p-1 border border-neutral-200 shadow-inner">
+                        <button
+                            onClick={() => setPreviewMode('html')}
+                            className={cn(
+                                "flex items-center gap-2 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all",
+                                previewMode === 'html' 
+                                    ? "bg-white text-blue-600 shadow-sm ring-1 ring-neutral-200" 
+                                    : "text-neutral-500 hover:text-neutral-700"
+                            )}
+                        >
+                            <LayoutTemplate className="w-3.5 h-3.5" />
+                            Live
+                        </button>
+                        <button
+                            onClick={() => setPreviewMode('split')}
+                            className={cn(
+                                "flex items-center gap-2 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all",
+                                previewMode === 'split' 
+                                    ? "bg-white text-blue-600 shadow-sm ring-1 ring-neutral-200" 
+                                    : "text-neutral-500 hover:text-neutral-700"
+                            )}
+                        >
+                            <Columns className="w-3.5 h-3.5" />
+                            Dual
+                        </button>
+                        <button
+                            onClick={() => setPreviewMode('pdf')}
+                            className={cn(
+                                "flex items-center gap-2 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all",
+                                previewMode === 'pdf' 
+                                    ? "bg-white text-blue-600 shadow-sm ring-1 ring-neutral-200" 
+                                    : "text-neutral-500 hover:text-neutral-700"
+                            )}
+                        >
+                            <Eye className="w-3.5 h-3.5" />
+                            PDF
+                        </button>
                     </div>
 
                     <div className="flex items-center gap-3">
@@ -189,14 +240,40 @@ export default function TemplateStudioPage() {
                             </div>
                             
                             {/* The Template Content */}
-                            <div className="bg-neutral-100 overflow-y-auto max-h-[85vh] p-4 sm:p-10 flex w-full">
-                                <div className="mx-auto w-full max-w-[850px]">
-                                    <TemplateRenderer 
-                                        templateId={templateId} 
-                                        data={mockData} 
-                                        className="shadow-2xl rounded-sm border border-neutral-200 min-h-[1100px]"
-                                    />
-                                </div>
+                            <div className={cn(
+                                "bg-neutral-100 overflow-y-auto max-h-[85vh] p-4 sm:p-10 transition-all duration-500",
+                                previewMode === 'split' ? "flex flex-row items-start justify-center gap-8 lg:gap-12" : "flex w-full justify-center"
+                            )}>
+                                {(previewMode === 'html' || previewMode === 'split') && (
+                                    <div className="w-full max-w-[850px]" style={{ 
+                                        transform: previewMode === 'split' ? 'scale(0.5)' : 'scale(1)',
+                                        transformOrigin: 'top center',
+                                        flex: previewMode === 'split' ? '0 0 auto' : '1 1 auto'
+                                    }}>
+                                        <TemplateRenderer 
+                                            templateId={templateId} 
+                                            data={mockData} 
+                                            className="shadow-2xl rounded-sm border border-neutral-200 min-h-[1100px]"
+                                        />
+                                    </div>
+                                )}
+
+                                {(previewMode === 'pdf' || previewMode === 'split') && (
+                                    <div className={cn(
+                                        "transition-all duration-500",
+                                        previewMode === 'split' ? "w-[210mm]" : "w-full max-w-[850px]"
+                                    )} style={{ 
+                                        transform: previewMode === 'split' ? 'scale(0.5)' : 'scale(1)',
+                                        transformOrigin: 'top center',
+                                        flex: previewMode === 'split' ? '0 0 auto' : '1 1 auto',
+                                        height: previewMode === 'split' ? '297mm' : 'auto'
+                                    }}>
+                                        <PDFPreview 
+                                            data={mockData} 
+                                            className="h-full bg-neutral-900 rounded-lg shadow-2xl overflow-hidden min-h-[600px]"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
 

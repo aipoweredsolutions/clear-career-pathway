@@ -68,38 +68,6 @@ export default function Home() {
 
             <AIDemoSection />
 
-            {/* Founder's Vision Section - Server Rendered */}
-            <section className="py-40 bg-neutral-950 text-white overflow-hidden relative">
-                <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-600 rounded-full blur-[150px] animate-pulse" />
-                    <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-indigo-600 rounded-full blur-[150px] animate-pulse delay-1000" />
-                </div>
-
-                <div className="max-w-5xl mx-auto px-6 relative z-10">
-                    <div className="flex flex-col items-center text-center">
-                        <div className="w-24 h-24 rounded-[2rem] bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center font-black text-4xl mb-12 shadow-[0_20px_50px_rgba(59,130,246,0.3)] rotate-3">
-                            CP
-                        </div>
-                        <h2 className="text-4xl md:text-7xl font-black mb-16 leading-[0.9] tracking-tighter uppercase italic text-gradient bg-gradient-to-r from-white via-white to-white/40">
-                            A Note from <br /> the Founder
-                        </h2>
-                        <div className="space-y-10 text-xl md:text-3xl text-neutral-300 leading-[1.4] font-medium mb-16 max-w-4xl font-serif italic selection:bg-primary-500">
-                            <p>
-                                &quot;Clear Career Path isn&apos;t a corporate behemoth. It&apos;s a passion project built to solve a single, frustrating problem: the modern resume struggle.&quot;
-                            </p>
-                            <p>
-                                &quot;I personally designed these layouts to pass through the toughest ATS filters while maintaining a visual elegance that resonates with human recruiters. Whether you&apos;re a software engineer or a healthcare hero, these tools are built for your success.&quot;
-                            </p>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <div className="text-3xl font-black text-white italic tracking-tighter">The Creator of Clear Career Path</div>
-                            <div className="text-[10px] font-black text-primary-500 uppercase tracking-[0.5em] mt-4 bg-primary-500/10 px-6 py-2 rounded-full border border-primary-500/20">
-                                Independent Designer & Founder
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <IndustryKitsSection />
 
