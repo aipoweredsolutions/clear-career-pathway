@@ -91,8 +91,8 @@ export const createStyles = (templateId: string) => {
             paddingTop: 30,
             paddingLeft: sidebarOnRight ? 20 : 30,
             paddingRight: sidebarOnRight ? 30 : 20,
-            ...(sidebarBorderLeftWidth > 0 ? { borderLeftWidth: sidebarBorderLeftWidth, borderLeftColor: 'rgba(0,0,0,0.05)', borderStyle: 'solid' } : {}),
-            ...(sidebarBorderRightWidth > 0 ? { borderRightWidth: sidebarBorderRightWidth, borderRightColor: 'rgba(0,0,0,0.05)', borderStyle: 'solid' } : {}),
+            ...(sidebarBorderLeftWidth > 0 ? { borderLeftWidth: sidebarBorderLeftWidth, borderLeftColor: 'rgba(0,0,0,0.05)' } : {}),
+            ...(sidebarBorderRightWidth > 0 ? { borderRightWidth: sidebarBorderRightWidth, borderRightColor: 'rgba(0,0,0,0.05)' } : {}),
         },
         initialsCircle: {
             width: 60,
@@ -100,7 +100,6 @@ export const createStyles = (templateId: string) => {
             borderRadius: 30,
             backgroundColor: 'rgba(255,255,255,0.1)',
             borderWidth: 2,
-            borderStyle: 'solid',
             borderColor: 'rgba(255,255,255,0.2)',
             flexDirection: 'row',
             alignItems: 'center',
@@ -119,7 +118,6 @@ export const createStyles = (templateId: string) => {
             borderRadius: 6,
             marginBottom: 15,
             borderWidth: 1,
-            borderStyle: 'solid',
             borderColor: id.includes('dark') ? '#334155' : '#e2e8f0',
         },
         terminalDots: {
@@ -141,7 +139,6 @@ export const createStyles = (templateId: string) => {
             borderRadius: photoBorderRadius,
             borderWidth: 3,
             borderColor: '#ffffff',
-            borderStyle: 'solid',
             alignSelf: 'center',
             marginBottom: 15,
         },
@@ -169,7 +166,6 @@ export const createStyles = (templateId: string) => {
                         (id.startsWith('ats-graduate') ? '#f3f4f6' :
                             (id.startsWith('ats-classic') ? '#d1d5db' :
                                 (id.startsWith('ats-modern') ? '#e5e7eb' : colors.primary))))),
-            borderStyle: 'solid',
             width: '100%',
         },
         name: {
@@ -238,7 +234,6 @@ export const createStyles = (templateId: string) => {
             marginBottom: 8,
             borderBottomWidth: (id.startsWith('ats-professional') || id.startsWith('technical')) ? 2 : (id.startsWith('ats-classic') || id.startsWith('ats-graduate') ? 1 : 0),
             borderBottomColor: colors.primary,
-            borderStyle: 'solid',
         },
         sidebarSection: {
             marginTop: 25,
@@ -253,14 +248,12 @@ export const createStyles = (templateId: string) => {
             paddingBottom: 4,
             borderBottomWidth: 1,
             borderBottomColor: 'rgba(255,255,255,0.2)',
-            borderStyle: 'solid',
         },
         experienceItem: {
             marginBottom: 12,
             paddingLeft: (id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical')) && !id.startsWith('ats') ? 10 : 0,
             borderLeftWidth: (id.startsWith('creative') || id.startsWith('startup') || id.startsWith('technical')) && !id.startsWith('ats') ? 2 : 0,
             borderLeftColor: colors.primary,
-            borderStyle: 'solid',
         },
         experienceHeader: {
             flexDirection: 'row',
@@ -318,7 +311,6 @@ export const createStyles = (templateId: string) => {
             marginBottom: 4,
             marginRight: 4,
             borderWidth: id.startsWith('ats') ? 0 : 1,
-            borderStyle: 'solid',
             borderColor: colors.sidebarBg ? 'rgba(255,255,255,0.2)' : '#e2e8f0',
         },
         skillText: {

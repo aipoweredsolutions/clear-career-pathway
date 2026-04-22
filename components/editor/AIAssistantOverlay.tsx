@@ -82,7 +82,7 @@ export function AIAssistantOverlay({ data, onUpdate, isOpen, onClose }: AIAssist
                     return {
                         ...exp,
                         achievements: exp.achievements?.map(ach => {
-                            const optAch = optExp.achievements.find((a: any) => a.id === ach.id)
+                            const optAch = optExp.achievements?.find((a: any) => a.id === ach.id)
                             return optAch ? { ...ach, achievementText: optAch.achievementText } : ach
                         })
                     }
@@ -237,7 +237,7 @@ export function AIAssistantOverlay({ data, onUpdate, isOpen, onClose }: AIAssist
                                         </div>
                                         <h5 className="text-[10px] font-black uppercase tracking-widest text-primary-700 mb-4">Optimized Summary</h5>
                                         <p className="text-neutral-800 font-medium leading-relaxed text-lg italic">
-                                            "{optimizedData.professionalSummary.summaryText}"
+                                            &ldquo;{optimizedData.professionalSummary.summaryText}&rdquo;
                                         </p>
                                     </div>
                                 )}

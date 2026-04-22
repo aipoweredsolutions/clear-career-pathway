@@ -64,8 +64,7 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
         stopRecording, 
         isRecording, 
         mediaBlob, 
-        previewStream,
-        error: mediaError 
+        stream: previewStream
     } = useMediaRecorder()
 
     // Initialize Speech Recognition

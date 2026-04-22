@@ -40,7 +40,7 @@ export function TechnicalTemplate({ data, className, mode = 'standard' }: Templa
         <div className={cn("w-full font-mono aspect-[210/297] p-10 border-t-[12px] text-sm", bgColor, topBorder, className)}>
             {/* Header with terminal style */}
             {/* Simple Header for ATS */}
-            <header className={cn("mb-12 p-8 border-b-8 shadow-sm flex flex-col gap-6", activeTheme.border, codeBg)}>
+            <header className={cn("mb-12 p-8 border-b-8 shadow-sm flex flex-col gap-6", isDark ? 'border-neutral-700' : 'border-neutral-200', codeBg)}>
                 <div className="flex flex-col gap-2">
                     <h1 className={cn("text-5xl font-black mb-2 tracking-tighter leading-none", textColor)}>
                         {personalInfo?.fullName}
