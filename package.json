@@ -12,8 +12,11 @@
         "generate-screenshots": "node scripts/generate-screenshots.js"
     },
     "dependencies": {
+        "@fontsource/inter": "^5.2.8",
+        "@fontsource/lato": "^5.2.7",
+        "@fontsource/lora": "^5.2.8",
+        "@fontsource/playfair-display": "^5.2.8",
         "@google/generative-ai": "^0.24.1",
-        "@next/swc-win32-x64-msvc": "^16.1.6",
         "@paddle/paddle-js": "^1.6.1",
         "@react-pdf/renderer": "^4.3.2",
         "@supabase/ssr": "^0.5.2",
