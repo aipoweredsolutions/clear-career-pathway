@@ -48,12 +48,15 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
                 tone
             }
 
+            const targetJD = (document.getElementById('summary-jd-input') as HTMLTextAreaElement)?.value || ''
+
             const response = await fetch('/api/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     type: 'summary',
-                    userProfile
+                    userProfile,
+                    jobDescription: targetJD
                 })
             })
             if (response.status === 401) {
@@ -114,6 +117,17 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
                                 </button>
                             ))}
                         </div>
+
+                        {tone === 'ats-optimized' && (
+                            <div className="mb-4 animate-in fade-in slide-in-from-top-2">
+                                <label className="block text-[10px] font-black text-primary-600 uppercase tracking-widest mb-2">Paste Target Job Description (Optional)</label>
+                                <textarea 
+                                    placeholder="Paste JD here for extreme targeting..."
+                                    className="w-full p-3 text-xs border border-primary-100 rounded-xl focus:ring-1 focus:ring-primary-500 outline-none min-h-[80px] bg-white/50"
+                                    id="summary-jd-input"
+                                />
+                            </div>
+                        )}
 
                         <Button
                             size="sm"

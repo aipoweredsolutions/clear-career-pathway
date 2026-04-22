@@ -71,6 +71,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
     const [isMounted, setIsMounted] = useState(false)
     const [selectedColor, setSelectedColor] = useState<string>(initialColor || 'standard')
     const [pdfUrl, setPdfUrl] = useState<string | null>(null)
+    const [generatePdfRequested, setGeneratePdfRequested] = useState(false)
 
     // Sync local color with prop when template changes or initialColor changes
     useEffect(() => {
@@ -82,6 +83,12 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
     useEffect(() => {
         setIsMounted(true)
     }, [])
+
+    // Reset generate state when template or color changes
+    useEffect(() => {
+        setPdfUrl(null)
+        setGeneratePdfRequested(false)
+    }, [selectedColor, template?.id])
 
     // Memoize data with the selected template ID to prevent infinite re-renders
     const previewData = React.useMemo(() => {
@@ -252,11 +259,19 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                                                 <Download className="w-4 h-4" />
                                                 Download Preview PDF
                                             </a>
-                                        ) : (
+                                        ) : (generatePdfRequested || viewMode === 'pdf') ? (
                                             <div className="flex items-center gap-2 p-3 bg-neutral-100 rounded-lg text-neutral-400 border border-dashed border-neutral-200">
                                                 <div className="w-3 h-3 border-2 border-neutral-200 border-t-neutral-400 rounded-full animate-spin" />
                                                 <span className="text-[10px] font-bold uppercase tracking-wider">Generating PDF...</span>
                                             </div>
+                                        ) : (
+                                            <button
+                                                onClick={() => setGeneratePdfRequested(true)}
+                                                className="w-full flex items-center justify-center gap-2 p-3 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
+                                            >
+                                                <Download className="w-4 h-4" />
+                                                Prepare PDF Download
+                                            </button>
                                         )}
                                     </div>
                                 </div>
@@ -309,8 +324,8 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
 
                     {/* Preview Canvas */}
                     <div className="flex-1 overflow-y-auto p-12 flex justify-center bg-neutral-200/30 bg-[radial-gradient(#d1d1d1_1px,transparent_1px)] [background-size:24px_24px]">
-                        {/* Always generate PDF URL in the background to ensure download button works */}
-                        {isMounted && (
+                        {/* Only generate PDF URL when necessary to prevent severe lag during Web view */}
+                        {isMounted && (generatePdfRequested || viewMode === 'pdf') && (
                             <PDFUrlGenerator
                                 data={previewData}
                                 onUrlUpdate={setPdfUrl}

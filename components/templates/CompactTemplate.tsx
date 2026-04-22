@@ -51,11 +51,10 @@ export function CompactTemplate({ data, className, accentColor = 'bg-neutral-900
                                     <div className="text-xs text-neutral-500 mb-4 font-bold uppercase tracking-widest">{job.companyName}{job.location ? ` · ${job.location}` : ''}</div>
                                     {job.roleDescription && <p className="text-neutral-700 leading-relaxed text-[13px] mb-4">{job.roleDescription}</p>}
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <ul className="space-y-2 mt-2 ml-4 border-l-2 border-neutral-50 pl-4">
+                                        <ul className="list-disc ml-4 space-y-1 mt-2">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="flex gap-3">
-                                                    <span className="text-neutral-200 mt-1 shrink-0">•</span>
-                                                    <span className="text-[13px] text-neutral-600 leading-relaxed font-medium">{ach.achievementText}</span>
+                                                <li key={j} className="text-[13px] text-neutral-600 leading-relaxed font-medium pl-1">
+                                                    {ach.achievementText}
                                                 </li>
                                             ))}
                                         </ul>
@@ -80,7 +79,7 @@ export function CompactTemplate({ data, className, accentColor = 'bg-neutral-900
                     </section>
                 )}
 
-                <div className="grid grid-cols-2 gap-12">
+                <div className="space-y-10">
                     {/* Education */}
                     {education && education.length > 0 && (
                         <section>
@@ -117,7 +116,7 @@ export function CompactTemplate({ data, className, accentColor = 'bg-neutral-900
                 {projects && projects.length > 0 && (
                     <section>
                         <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400 mb-6 border-b border-neutral-50 pb-2">Projects</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-6">
                             {projects.map((proj, i) => (
                                 <div key={i} className="p-5 border border-neutral-50 rounded bg-neutral-50/20">
                                     <div className="flex justify-between items-baseline mb-2">
@@ -132,13 +131,13 @@ export function CompactTemplate({ data, className, accentColor = 'bg-neutral-900
                     </section>
                 )}
 
-                <div className="grid grid-cols-2 gap-12 mt-auto">
+                <div className="space-y-10 mt-auto">
                     {languages && languages.length > 0 && (
                         <section>
                             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400 mb-4">Languages</h2>
                             <div className="flex flex-col gap-2">
                                 {languages.map((lang, i) => (
-                                    <div key={i} className="flex justify-between text-[11px] border-b border-neutral-50 pb-1">
+                                    <div key={i} className="flex justify-between text-[11px] border-b border-neutral-50 pb-1 max-w-xs">
                                         <span className="font-bold text-neutral-800 uppercase tracking-wide">{lang.languageName}</span>
                                         <span className="text-neutral-400 italic">({lang.proficiencyLevel})</span>
                                     </div>

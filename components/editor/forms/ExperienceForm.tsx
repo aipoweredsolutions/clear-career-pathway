@@ -5,7 +5,8 @@ import { WorkExperience, WorkAchievement } from '@/lib/types/resume'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
-import { Plus, Trash2, GripVertical, Sparkles } from 'lucide-react'
+import { Plus, Trash2, GripVertical, Sparkles, Zap, Brain } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface ExperienceFormProps {
     data: WorkExperience[]
@@ -168,40 +169,77 @@ export function ExperienceForm({ data, onChange }: ExperienceFormProps) {
                     <div className="space-y-4">
                         <div className="flex justify-between items-center">
                             <label className="block text-sm font-medium text-neutral-700">Key Achievements</label>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                onClick={async () => {
-                                    if (!exp.jobTitle) {
-                                        alert('Please enter a job title first')
-                                        return
-                                    }
-                                    const response = await fetch('/api/generate', {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({
-                                            type: 'suggest_achievements',
-                                            userProfile: { jobTitle: exp.jobTitle, companyName: exp.companyName }
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={async () => {
+                                        if (!exp.jobTitle) {
+                                            toast.error('Please enter a job title first')
+                                            return
+                                        }
+                                        const response = await fetch('/api/generate', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                type: 'generate_star_bullets',
+                                                userProfile: { jobTitle: exp.jobTitle },
+                                                targetContent: exp.roleDescription
+                                            })
                                         })
-                                    })
-                                    const result = await response.json()
-                                    if (result.data?.suggestions) {
-                                        const newAchs = result.data.suggestions.map((text: string) => ({
-                                            id: crypto.randomUUID(),
-                                            achievementText: text
-                                        }))
-                                        const newData = [...data]
-                                        newData[index].achievements = [...(newData[index].achievements || []), ...newAchs]
-                                        onChange(newData)
-                                    }
-                                }}
-                                className="text-primary-600 h-7 text-xs"
-                                disabled={!exp.jobTitle}
-                            >
-                                <Sparkles className="w-3 h-3 mr-1.5" />
-                                Suggest Achievements
-                            </Button>
+                                        const result = await response.json()
+                                        if (result.data?.suggestions) {
+                                            const newAchs = result.data.suggestions.map((text: string) => ({
+                                                id: crypto.randomUUID(),
+                                                achievementText: text
+                                            }))
+                                            const newData = [...data]
+                                            newData[index].achievements = [...(newData[index].achievements || []), ...newAchs]
+                                            onChange(newData)
+                                            toast.success('STAR bullets generated!')
+                                        }
+                                    }}
+                                    className="text-violet-600 h-7 text-xs"
+                                    disabled={!exp.jobTitle}
+                                >
+                                    <Brain className="w-3 h-3 mr-1.5" />
+                                    STAR Bullets
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={async () => {
+                                        if (!exp.jobTitle) {
+                                            toast.error('Please enter a job title first')
+                                            return
+                                        }
+                                        const response = await fetch('/api/generate', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                type: 'suggest_achievements',
+                                                userProfile: { jobTitle: exp.jobTitle, companyName: exp.companyName }
+                                            })
+                                        })
+                                        const result = await response.json()
+                                        if (result.data?.suggestions) {
+                                            const newAchs = result.data.suggestions.map((text: string) => ({
+                                                id: crypto.randomUUID(),
+                                                achievementText: text
+                                            }))
+                                            const newData = [...data]
+                                            newData[index].achievements = [...(newData[index].achievements || []), ...newAchs]
+                                            onChange(newData)
+                                            toast.success('Suggestions added!')
+                                        }
+                                    }}
+                                    className="text-primary-600 h-7 text-xs"
+                                    disabled={!exp.jobTitle}
+                                >
+                                    <Sparkles className="w-3 h-3 mr-1.5" />
+                                    Suggest Achievements
+                                </Button>
                         </div>
 
                         {exp.achievements?.map((ach, achIndex) => (
@@ -221,6 +259,29 @@ export function ExperienceForm({ data, onChange }: ExperienceFormProps) {
                                                     method: 'POST',
                                                     headers: { 'Content-Type': 'application/json' },
                                                     body: JSON.stringify({
+                                                        type: 'quantify_achievement',
+                                                        currentContent: ach.achievementText,
+                                                        userProfile: { jobTitle: exp.jobTitle }
+                                                    })
+                                                })
+                                                const result = await response.json()
+                                                if (result.data?.suggestion) {
+                                                    updateAchievement(index, achIndex, result.data.suggestion)
+                                                    toast.success('Achievement quantified!')
+                                                }
+                                            }}
+                                            className="text-amber-500 hover:text-amber-700 p-1"
+                                            title="Quantify with AI"
+                                        >
+                                            <Zap className="w-3.5 h-3.5" />
+                                        </button>
+                                        <button
+                                            onClick={async () => {
+                                                if (ach.achievementText.length < 5) return
+                                                const response = await fetch('/api/generate', {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify({
                                                         type: 'improve_experience',
                                                         currentContent: ach.achievementText
                                                     })
@@ -228,6 +289,7 @@ export function ExperienceForm({ data, onChange }: ExperienceFormProps) {
                                                 const result = await response.json()
                                                 if (result.data?.suggestion) {
                                                     updateAchievement(index, achIndex, result.data.suggestion)
+                                                    toast.success('Optimized for impact!')
                                                 }
                                             }}
                                             className="text-primary-500 hover:text-primary-700 p-1"

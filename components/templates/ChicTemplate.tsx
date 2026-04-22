@@ -76,11 +76,10 @@ export function ChicTemplate({ data, className, font = 'sans' }: TemplateProps) 
                                     </div>
                                     {job.roleDescription && <p className="text-neutral-600 leading-loose max-w-4xl mb-4 text-[15px]">{job.roleDescription}</p>}
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <ul className="space-y-2">
+                                        <ul className="list-disc ml-4 space-y-1 mt-2">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="text-[14px] text-neutral-500 flex gap-4 leading-relaxed">
-                                                    <span className="text-neutral-200 shrink-0 mt-1">—</span>
-                                                    <span>{ach.achievementText}</span>
+                                                <li key={j} className="text-[14px] text-neutral-500 leading-relaxed pl-1">
+                                                    {ach.achievementText}
                                                 </li>
                                             ))}
                                         </ul>
@@ -134,9 +133,8 @@ export function ChicTemplate({ data, className, font = 'sans' }: TemplateProps) 
                     </section>
                 )}
 
-                <div className="grid grid-cols-2 gap-12">
-                    {/* Education */}
-                    {education && education.length > 0 && (
+                {/* Education */}
+                {education && education.length > 0 && (
                         <section>
                             <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400 mb-6 border-b border-neutral-50 pb-2">Education</h2>
                             <div className="space-y-6">
@@ -151,36 +149,33 @@ export function ChicTemplate({ data, className, font = 'sans' }: TemplateProps) 
                         </section>
                     )}
 
-                    <div className="space-y-10">
-                        {languages && languages.length > 0 && (
-                            <section>
-                                <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400 mb-6 border-b border-neutral-50 pb-2">Languages</h2>
-                                <div className="space-y-3">
-                                    {languages.map((lang, i) => (
-                                        <div key={i} className="flex justify-between items-center max-w-xs">
-                                            <span className="text-neutral-900 font-medium text-sm">{lang.languageName}</span>
-                                            <span className="text-xs text-neutral-400 italic">{lang.proficiencyLevel}</span>
-                                        </div>
-                                    ))}
+                {languages && languages.length > 0 && (
+                    <section>
+                        <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400 mb-6 border-b border-neutral-50 pb-2">Languages</h2>
+                        <div className="space-y-3">
+                            {languages.map((lang, i) => (
+                                <div key={i} className="flex justify-between items-center max-w-xs">
+                                    <span className="text-neutral-900 font-medium text-sm">{lang.languageName}</span>
+                                    <span className="text-xs text-neutral-400 italic">{lang.proficiencyLevel}</span>
                                 </div>
-                            </section>
-                        )}
+                            ))}
+                        </div>
+                    </section>
+                )}
 
-                        {certifications && certifications.length > 0 && (
-                            <section>
-                                <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400 mb-6 border-b border-neutral-50 pb-2">Certifications</h2>
-                                <div className="space-y-4">
-                                    {certifications.map((cert, i) => (
-                                        <div key={i}>
-                                            <div className="text-neutral-900 font-medium text-sm">{cert.certificationName}</div>
-                                            <div className="text-xs text-neutral-400 mt-1">{cert.issuingOrganization}</div>
-                                        </div>
-                                    ))}
+                {certifications && certifications.length > 0 && (
+                    <section>
+                        <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400 mb-6 border-b border-neutral-50 pb-2">Certifications</h2>
+                        <div className="space-y-4">
+                            {certifications.map((cert, i) => (
+                                <div key={i}>
+                                    <div className="text-neutral-900 font-medium text-sm">{cert.certificationName}</div>
+                                    <div className="text-xs text-neutral-400 mt-1">{cert.issuingOrganization}</div>
                                 </div>
-                            </section>
-                        )}
-                    </div>
-                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
             </div>
         </div>
     )

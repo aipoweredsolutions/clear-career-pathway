@@ -86,11 +86,9 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
             <main className="flex-1 space-y-20">
                 {/* Summary - Philosophical Profile */}
                 {professionalSummary?.summaryText && (
-                    <section className="flex flex-col items-center text-center px-16">
-                        <p className="text-2xl text-slate-600 italic leading-relaxed max-w-5xl relative">
-                            <span className="text-9xl font-serif absolute -left-12 -top-12 opacity-5 pointer-events-none text-slate-900">&ldquo;</span>
+                    <section className="px-16 border-l-4 border-slate-100">
+                        <p className="text-2xl text-slate-600 italic leading-relaxed max-w-5xl">
                             {professionalSummary.summaryText}
-                            <span className="text-9xl font-serif absolute -right-12 -bottom-24 opacity-5 pointer-events-none text-slate-900">&rdquo;</span>
                         </p>
                     </section>
                 )}
@@ -123,11 +121,10 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
                                     <p className="text-xl text-slate-600 leading-relaxed italic opacity-80 max-w-5xl">{job.roleDescription}</p>
 
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <ul className="list-none grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 mt-4">
+                                        <ul className="list-disc ml-8 space-y-4">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="flex gap-6 items-start text-slate-800 font-medium">
-                                                    <span className={cn("mt-2.5 w-2 h-2 rotate-45 shrink-0 transition-transform hover:rotate-[135deg]", activeTheme.border, "border-2")}></span>
-                                                    <span className="leading-relaxed text-lg tracking-tight">{ach.achievementText}</span>
+                                                <li key={j} className="text-lg text-slate-800 font-medium leading-relaxed tracking-tight pl-2">
+                                                    {ach.achievementText}
                                                 </li>
                                             ))}
                                         </ul>
@@ -138,8 +135,8 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
                     </section>
                 )}
 
-                {/* Integrated Grid for Education & Skills */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 pt-20 border-t-8 border-slate-50">
+                {/* Integrated Stack for Education & Skills */}
+                <div className="flex flex-col gap-20 pt-20 border-t-8 border-slate-50">
                     {/* Education */}
                     {education && education.length > 0 && (
                         <section className="flex flex-col gap-8">
@@ -166,7 +163,7 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
                             </h2>
                             <div className="flex flex-wrap gap-4">
                                 {skills.map((skill, i) => (
-                                    <div key={i} className="px-8 py-4 bg-white border-2 border-slate-100 font-medium text-lg text-slate-900 shadow-sm hover:border-slate-900 transition-all duration-300">
+                                    <div key={i} className="px-8 py-4 bg-white border-2 border-slate-100 font-medium text-lg text-slate-900 shadow-sm">
                                         {skill.skillName}
                                     </div>
                                 ))}
@@ -185,7 +182,7 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
                             <div className={cn("flex-1 h-px", activeTheme.border, "border-b-2 opacity-30")}></div>
                         </div>
 
-                        <div className="space-y-16">
+                        <div className="flex flex-col gap-16">
                             {projects.map((project, i) => (
                                 <div key={i} className="flex flex-col gap-6 p-12 bg-slate-50/50 border border-slate-100 rounded-[3rem]">
                                     <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline gap-6">
@@ -238,8 +235,8 @@ export function LuxeTemplate({ data, className, theme = 'gold' }: TemplateProps)
                     </section>
                 )}
 
-                {/* Secondary Grid for Languages & Affiliations */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+                {/* Secondary Stack for Languages & Affiliations */}
+                <div className="flex flex-col gap-20 pt-20 border-t-8 border-slate-50">
                     {/* Languages */}
                     {languages && languages.length > 0 && (
                         <section className="flex flex-col gap-8">

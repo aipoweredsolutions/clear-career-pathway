@@ -14,11 +14,21 @@ import {
     ChevronRight,
     ChevronLeft,
     Lightbulb,
-    History
+    History,
+    Mic,
+    MicOff,
+    Video,
+    VideoOff,
+    Square,
+    Play,
+    Volume2,
+    Monitor
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { saveInterviewSession, fetchLatestInterviewSession } from '@/app/career-hub/actions'
+import { useMediaRecorder } from '@/lib/hooks/use-media-recorder'
+import { useRef } from 'react'
 
 interface InterviewQuestion {
     question: string
@@ -43,13 +53,50 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
     const [userAnswers, setUserAnswers] = useState<Record<number, string>>({})
     const [feedbacks, setFeedbacks] = useState<Record<number, any>>({})
     const [isMockMode, setIsMockMode] = useState(false)
+    const [isSimulating, setIsSimulating] = useState(false)
     const [isAnalyzing, setIsAnalyzing] = useState(false)
     const [isRestoring, setIsRestoring] = useState(false)
+    const [transcript, setTranscript] = useState('')
+
+    const recognitionRef = useRef<any>(null)
+    const { 
+        startRecording, 
+        stopRecording, 
+        isRecording, 
+        mediaBlob, 
+        previewStream,
+        error: mediaError 
+    } = useMediaRecorder()
+
+    // Initialize Speech Recognition
+    useEffect(() => {
+        if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+            const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+            recognitionRef.current = new SpeechRecognition()
+            recognitionRef.current.continuous = true
+            recognitionRef.current.interimResults = true
+
+            recognitionRef.current.onresult = (event: any) => {
+                let interimTranscript = ''
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        setUserAnswers(prev => ({
+                            ...prev,
+                            [activeQuestionIndex]: (prev[activeQuestionIndex] || '') + event.results[i][0].transcript
+                        }))
+                    } else {
+                        interimTranscript += event.results[i][0].transcript
+                    }
+                }
+                setTranscript(interimTranscript)
+            }
+        }
+    }, [activeQuestionIndex])
 
     // Load latest session when resume is selected
     useEffect(() => {
         if (!selectedResumeId) return
-        
+
         async function loadPreviousSession() {
             setIsRestoring(true)
             const session = await fetchLatestInterviewSession(selectedResumeId)
@@ -108,7 +155,7 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
             }
 
             setResult(data.data)
-            
+
             // Auto-save the initial session
             const saveResult = await saveInterviewSession({
                 resumeId: selectedResumeId,
@@ -119,7 +166,7 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
                 userAnswers: {},
                 feedbacks: {}
             })
-            
+
             if (saveResult.success) setSessionId(saveResult.id!)
 
             toast.success(`${category.charAt(0).toUpperCase() + category.slice(1)} interview guide ready!`)
@@ -179,10 +226,36 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
             }
 
             toast.success('AI feedback received and saved!')
-        } catch (error: any) {
-            toast.error(error.message || 'Failed to analyze answer')
         } finally {
             setIsAnalyzing(false)
+        }
+    }
+
+    const handleSpeakQuestion = () => {
+        if (!result) return
+        const utterance = new SpeechSynthesisUtterance(result.questions[activeQuestionIndex].question)
+        const voices = window.speechSynthesis.getVoices()
+        utterance.voice = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Premium'))) || voices[0]
+        utterance.rate = 0.95
+        window.speechSynthesis.speak(utterance)
+    }
+
+    const handleStartRecording = async () => {
+        try {
+            setTranscript('')
+            await startRecording('video')
+            if (recognitionRef.current) {
+                recognitionRef.current.start()
+            }
+        } catch (err) {
+            toast.error('Could not access camera/microphone')
+        }
+    }
+
+    const handleStopRecording = () => {
+        stopRecording()
+        if (recognitionRef.current) {
+            recognitionRef.current.stop()
         }
     }
 
@@ -333,19 +406,111 @@ export function InterviewPrep({ resumes }: { resumes: ResumeDocument[] }) {
                                     <h2 className="text-2xl font-black text-neutral-900 leading-tight flex-1">
                                         {result.questions[activeQuestionIndex].question}
                                     </h2>
-                                    <button
-                                        onClick={() => setIsMockMode(!isMockMode)}
-                                        className={cn(
-                                            "ml-4 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
-                                            isMockMode ? "bg-primary-600 text-white" : "bg-neutral-100 text-neutral-400 hover:bg-neutral-200"
-                                        )}
-                                    >
-                                        Mock Mode: {isMockMode ? 'ON' : 'OFF'}
-                                    </button>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => {
+                                                setIsSimulating(!isSimulating)
+                                                if (isMockMode) setIsMockMode(false)
+                                            }}
+                                            className={cn(
+                                                "px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2",
+                                                isSimulating ? "bg-indigo-600 text-white" : "bg-neutral-100 text-neutral-400 hover:bg-neutral-200"
+                                            )}
+                                        >
+                                            <Monitor className="w-3 h-3" />
+                                            Simulate: {isSimulating ? 'ON' : 'OFF'}
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setIsMockMode(!isMockMode)
+                                                if (isSimulating) setIsSimulating(false)
+                                            }}
+                                            className={cn(
+                                                "px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                                                isMockMode ? "bg-primary-600 text-white" : "bg-neutral-100 text-neutral-400 hover:bg-neutral-200"
+                                            )}
+                                        >
+                                            Mock Mode: {isMockMode ? 'ON' : 'OFF'}
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div className="space-y-6 flex-1">
-                                    {isMockMode ? (
+                                    {isSimulating ? (
+                                        <div className="space-y-6 animate-in zoom-in-95 duration-300">
+                                            <div className="relative aspect-video bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                                                {previewStream && (
+                                                    <video 
+                                                        autoPlay 
+                                                        muted 
+                                                        ref={(el) => { if (el) el.srcObject = previewStream }}
+                                                        className="w-full h-full object-cover grayscale-[0.5] contrast-[1.1]"
+                                                    />
+                                                )}
+                                                
+                                                {!isRecording && !previewStream && (
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <VideoOff className="w-12 h-12 text-neutral-700" />
+                                                    </div>
+                                                )}
+
+                                                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black/40 backdrop-blur-xl px-6 py-4 rounded-2xl border border-white/20">
+                                                    {!isRecording ? (
+                                                        <button 
+                                                            onClick={handleStartRecording}
+                                                            className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
+                                                        >
+                                                            <div className="w-4 h-4 bg-white rounded-full" />
+                                                        </button>
+                                                    ) : (
+                                                        <button 
+                                                            onClick={handleStopRecording}
+                                                            className="w-12 h-12 bg-white rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
+                                                        >
+                                                            <Square className="w-5 h-5 text-neutral-900 fill-current" />
+                                                        </button>
+                                                    )}
+                                                    
+                                                    <button 
+                                                        onClick={handleSpeakQuestion}
+                                                        className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors"
+                                                        title="AI Speak Question"
+                                                    >
+                                                        <Volume2 className="w-5 h-5 text-white" />
+                                                    </button>
+                                                </div>
+
+                                                {isRecording && (
+                                                    <div className="absolute top-6 right-6 flex items-center gap-2 bg-red-600 px-3 py-1.5 rounded-full animate-pulse shadow-lg">
+                                                        <div className="w-2 h-2 bg-white rounded-full" />
+                                                        <span className="text-[10px] font-black text-white uppercase tracking-widest">Live Recording</span>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="bg-indigo-50/50 rounded-2xl p-6 border border-indigo-100 min-h-[120px] relative">
+                                                <div className="absolute -top-3 left-6 px-3 py-1 bg-indigo-600 text-white rounded-lg text-[10px] font-black uppercase tracking-widest">
+                                                    Live Transcription
+                                                </div>
+                                                <p className="text-sm font-bold text-indigo-900 leading-relaxed italic">
+                                                    {userAnswers[activeQuestionIndex] || (isRecording ? "Listening to your answer..." : "Click record and start speaking your response.")}
+                                                    {transcript && <span className="opacity-50 ml-1">{transcript}</span>}
+                                                </p>
+                                            </div>
+
+                                            <button
+                                                onClick={handleAnalyzeAnswer}
+                                                disabled={isAnalyzing || !userAnswers[activeQuestionIndex]}
+                                                className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-indigo-500/20 hover:bg-indigo-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                            >
+                                                {isAnalyzing ? (
+                                                    <><Loader2 className="w-5 h-5 animate-spin" /> Evaluating Performance...</>
+                                                ) : (
+                                                    <><Sparkles className="w-5 h-5" /> Generate Performance Report</>
+                                                )}
+                                            </button>
+                                        </div>
+                                    ) : isMockMode ? (
                                         <div className="space-y-6 animate-in slide-in-from-right-4 duration-300">
                                             <div className="space-y-2">
                                                 <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Type Your Answer</label>

@@ -319,6 +319,52 @@ export async function POST(req: NextRequest) {
 
             Return a JSON object with a key "content" containing the full cover letter text.
             `
+        } else if (type === 'optimize_resume') {
+            const { jobDescription } = body
+            prompt = `
+            You are an elite career strategist. Re-write the candidate's resume to perfectly target this specific job description.
+            
+            Job Description: "${jobDescription?.substring(0, 5000)}"
+            Current Resume: ${resumeData}
+
+            Your task:
+            1. Re-write the "professionalSummary" to mirror the core requirements and tone of the JD.
+            2. Re-write the "workExperience" achievements to emphasize skills and results that the JD explicitly asks for.
+            3. Ensure every achievement uses high-impact action verbs and includes (or estimates) quantifiable metrics.
+            4. Keep the overall structure and facts (dates, titles, companies) identical. Only improve the "achievementText" and "summaryText".
+
+            Return a valid JSON object with ONLY these keys (if they exist in the original):
+            {
+                "professionalSummary": { "summaryText": "string" },
+                "workExperience": [
+                    {
+                        "id": "original_id",
+                        "achievements": [
+                            { "id": "original_id", "achievementText": "string" }
+                        ]
+                    }
+                ]
+            }
+            `
+        } else if (type === 'quantify_achievement') {
+            prompt = `
+            Take this resume achievement and "quantify" it. 
+            If no metrics are present, use your expert industry knowledge to suggest a REALISTIC and IMPACTFUL estimated metric (%, $, time, or scale).
+            
+            Current Achievement: "${targetContent}"
+            Role Context: "${userProfile?.jobTitle || 'Professional'}"
+
+            Return a JSON object: { "suggestion": "string" }
+            `
+        } else if (type === 'generate_star_bullets') {
+            prompt = `
+            Generate 3-5 high-impact bullet points for a "${userProfile?.jobTitle || 'role'}" using the STAR method (Situation, Task, Action, Result).
+            Each bullet must include a metric.
+            
+            Context: "${targetContent || 'General experience'}"
+
+            Return a JSON object: { "suggestions": ["string", ...] }
+            `
         } else if (type === 'improve_summary' || type === 'fix_grammar' || type === 'generate_bullets' || type === 'optimize_for_job') {
             prompt = `Task: ${type}. Content: "${targetContent}". Context: "${jobDescription || 'None'}". Return result as JSON: { "result": "string" }`
         } else {

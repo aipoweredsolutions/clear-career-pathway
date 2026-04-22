@@ -69,56 +69,41 @@ export function RevenueLeaderTemplate({ data, className, accentColor = 'text-blu
                     pointerEvents: 'none',
                 }} />
 
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', position: 'relative', zIndex: 1 }}>
-                    {/* Avatar circle */}
-                    <div style={{
-                        width: 64, height: 64, borderRadius: 14,
-                        backgroundColor: `${c.accent}40`,
-                        border: `2px solid ${c.accent}80`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        flexShrink: 0,
-                        fontSize: 22, fontWeight: 900, color: '#fff',
-                    }}>
-                        {initials}
-                    </div>
-
                     <div style={{ flex: 1 }}>
-                        <h1 style={{ fontSize: 28, fontWeight: 900, lineHeight: 1.1, margin: 0, color: '#fff', letterSpacing: '-0.5px' }}>
+                        <h1 style={{ fontSize: 32, fontWeight: 900, lineHeight: 1.1, margin: 0, color: '#fff', letterSpacing: '-0.5px' }}>
                             {personalInfo?.fullName || 'Your Name'}
                         </h1>
-                        <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '6px 0 10px' }}>
+                        <p style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.8)', margin: '8px 0 12px' }}>
                             {personalInfo?.professionalTitle || 'Sales & Business Development Leader'}
                         </p>
                         {/* Contact row */}
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', fontSize: 10, color: 'rgba(255,255,255,0.65)', fontWeight: 600 }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', fontSize: 11, color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>
                             {personalInfo?.email && <span>{personalInfo.email}</span>}
                             {personalInfo?.phone && <span>{personalInfo.phone}</span>}
                             {(personalInfo?.city || personalInfo?.country) && (
                                 <span>{[personalInfo.city, personalInfo.country].filter(Boolean).join(', ')}</span>
                             )}
                             {personalInfo?.linkedinUrl && <span>{personalInfo.linkedinUrl}</span>}
-                            {personalInfo?.websiteUrl && <span>{personalInfo.websiteUrl}</span>}
                         </div>
                     </div>
-                </div>
 
-                {/* KPI strip — auto-populated from achievements if available */}
+                {/* KPI strip — Simplified for ATS */}
                 {achievements && achievements.length > 0 && (
                     <div style={{
-                        marginTop: 20, paddingTop: 18, borderTop: '1px solid rgba(255,255,255,0.1)',
+                        marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.2)',
                         display: 'flex', gap: 12, position: 'relative', zIndex: 1, flexWrap: 'wrap',
                     }}>
                         {achievements.slice(0, 4).map((ach, i) => (
                             <div key={i} style={{
-                                background: 'rgba(255,255,255,0.07)',
-                                borderRadius: 10, padding: '10px 18px',
-                                textAlign: 'center', minWidth: 100, border: '1px solid rgba(255,255,255,0.12)',
+                                background: 'rgba(255,255,255,0.1)',
+                                borderRadius: 12, padding: '12px 20px',
+                                minWidth: 140, border: '1px solid rgba(255,255,255,0.2)',
                             }}>
-                                <div style={{ fontSize: 18, fontWeight: 900, color: '#fff', lineHeight: 1 }}>
+                                <div style={{ fontSize: 20, fontWeight: 900, color: '#fff', lineHeight: 1 }}>
                                     {ach.achievementTitle?.match(/(\d[\d,.%$M+KBx]*)/i)?.[1] ?? '★'}
                                 </div>
-                                <div style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>
-                                    {ach.achievementTitle?.replace(/\d[\d,.%$M+KBx]*/i, '').trim().slice(0, 22) || ach.achievementTitle?.slice(0, 22)}
+                                <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>
+                                    {ach.achievementTitle?.replace(/\d[\d,.%$M+KBx]*/i, '').trim().slice(0, 30) || ach.achievementTitle?.slice(0, 30)}
                                 </div>
                             </div>
                         ))}
@@ -188,9 +173,9 @@ export function RevenueLeaderTemplate({ data, className, accentColor = 'text-blu
                                     )}
 
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                                             {job.achievements.map((ach: any, j: number) => (
-                                                <div key={j} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', fontSize: 12.5, color: '#334155', lineHeight: 1.6, background: '#f8fafc', padding: 16, borderRadius: 16, border: '1px solid #e2e8f0' }}>
+                                                <div key={j} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', fontSize: 13, color: '#334155', lineHeight: 1.6, background: '#f8fafc', padding: 16, borderRadius: 16, border: '1px solid #e2e8f0' }}>
                                                     <span style={{ color: c.accent, fontWeight: 900, flexShrink: 0 }}>▸</span>
                                                     <span style={{ fontWeight: 600 }}>{ach.achievementText}</span>
                                                 </div>
@@ -204,7 +189,8 @@ export function RevenueLeaderTemplate({ data, className, accentColor = 'text-blu
                 )}
 
                 {/* Integrated Row for Education & Certifications */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, paddingTop: 20, borderTop: `8px solid #f8fafc` }}>
+                {/* Stack for Education & Certifications */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 40, paddingTop: 20, borderTop: `8px solid #f8fafc` }}>
                     {/* Education */}
                     {education && education.length > 0 && (
                         <section aria-label="Education">
@@ -227,11 +213,11 @@ export function RevenueLeaderTemplate({ data, className, accentColor = 'text-blu
                     {certifications && certifications.length > 0 && (
                         <section aria-label="Certifications">
                             <SectionHeading label="Professional Credentials" c={c} />
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                                 {certifications.map((cert: any, i: number) => (
                                     <div key={i} style={{ 
                                         padding: '12px 20px', background: '#fff', border: `1px solid ${c.border}`, 
-                                        borderRadius: 16, display: 'flex', flexDirection: 'column', gap: 4, flex: '1 1 calc(50% - 8px)'
+                                        borderRadius: 16, display: 'flex', flexDirection: 'column', gap: 4
                                     }}>
                                         <div style={{ fontSize: 12, fontWeight: 800, color: c.primary, lineHeight: 1.3 }}>{cert.certificationName}</div>
                                         <div style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>{cert.issuingOrganization}</div>
@@ -243,7 +229,8 @@ export function RevenueLeaderTemplate({ data, className, accentColor = 'text-blu
                 </div>
 
                 {/* Key Initiatives & Recognition Column */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 40 }}>
+                {/* Key Initiatives & Recognition Column */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
                     {/* Projects */}
                     {projects && projects.length > 0 && (
                         <section aria-label="Projects">
@@ -291,7 +278,8 @@ export function RevenueLeaderTemplate({ data, className, accentColor = 'text-blu
                 </div>
 
                 {/* Final Row for Associations & Languages */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
+                {/* Associations & Languages */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
                     {/* Affiliations */}
                     {professionalAffiliations && professionalAffiliations.length > 0 && (
                         <section aria-label="Professional Affiliations">

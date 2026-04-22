@@ -44,9 +44,10 @@ export function SplitContrastTemplate({ data, className, theme = 'gray' }: Templ
     return (
         <div className={cn("w-full bg-white min-h-[297mm] font-sans text-slate-900 flex flex-col", className)}>
             {/* High Impact Header */}
-            <header className={cn("p-12 border-b-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-end gap-10", activeTheme.sidebar, activeTheme.border)}>
+            {/* Simple Header for ATS */}
+            <header className={cn("p-12 border-b-8 shadow-sm flex flex-col gap-6", activeTheme.sidebar, activeTheme.border)}>
                 <div className="flex-1">
-                    <h1 className="text-7xl font-black tracking-tighter text-slate-900 mb-4 leading-none uppercase">
+                    <h1 className="text-5xl font-black tracking-tighter text-slate-900 mb-4 leading-none uppercase">
                         {personalInfo?.fullName}
                     </h1>
                     <p className="text-2xl font-bold text-slate-500 tracking-widest uppercase">
@@ -55,10 +56,11 @@ export function SplitContrastTemplate({ data, className, theme = 'gray' }: Templ
                 </div>
                 
                 {/* Integrated Contact Info */}
-                <div className="flex flex-wrap md:flex-col gap-x-10 gap-y-3 text-xs font-black uppercase tracking-widest text-slate-400 md:text-right shrink-0">
+                <div className="flex flex-wrap gap-x-8 gap-y-3 text-xs font-black uppercase tracking-widest text-slate-400 shrink-0">
                     {personalInfo?.email && <div className="lowercase">{personalInfo.email}</div>}
                     {personalInfo?.phone && <div>{personalInfo.phone}</div>}
                     {personalInfo?.city && <div>{personalInfo.city}, {personalInfo.country}</div>}
+                    {personalInfo?.linkedinUrl && <div>{personalInfo.linkedinUrl}</div>}
                 </div>
             </header>
 
@@ -109,14 +111,13 @@ export function SplitContrastTemplate({ data, className, theme = 'gray' }: Templ
                                     {job.roleDescription && <p className="text-lg text-slate-700 font-medium mb-8 leading-relaxed italic opacity-80">{job.roleDescription}</p>}
                                     
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 pl-10 border-l-4 border-slate-50 italic">
+                                        <ul className="list-disc ml-8 space-y-4">
                                             {job.achievements.map((ach, j) => (
-                                                <div key={j} className="text-slate-600 leading-relaxed text-sm font-bold relative">
-                                                    <span className="absolute -left-6 top-0 text-slate-300 font-black">»</span>
+                                                <li key={j} className="text-slate-600 leading-relaxed text-sm font-bold pl-2">
                                                     {ach.achievementText}
-                                                </div>
+                                                </li>
                                             ))}
-                                        </div>
+                                        </ul>
                                     )}
                                 </div>
                             ))}
@@ -125,12 +126,12 @@ export function SplitContrastTemplate({ data, className, theme = 'gray' }: Templ
                 )}
 
                 {/* Unified Footer Stats - Projects & Education */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-16 pt-16 border-t-8 border-slate-50">
+                <div className="flex flex-col gap-16 pt-16 border-t-8 border-slate-50">
                     {/* Education */}
                     {education && education.length > 0 && (
                         <section>
                             <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-300 mb-10">Academic Foundation</h2>
-                            <div className="space-y-10">
+                            <div className="flex flex-col gap-10">
                                 {education.map((edu, i) => (
                                     <div key={i} className="flex flex-col gap-2">
                                         <div className="text-lg font-black text-slate-900 uppercase tracking-tight leading-tight">{edu.degree}</div>
@@ -146,11 +147,11 @@ export function SplitContrastTemplate({ data, className, theme = 'gray' }: Templ
                     {projects && projects.length > 0 && (
                         <section>
                             <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-300 mb-10">Signature Projects</h2>
-                            <div className="space-y-10">
+                            <div className="flex flex-col gap-10">
                                 {projects.map((project, i) => (
                                     <div key={i} className="flex flex-col gap-2">
                                         <div className="text-lg font-black text-slate-900 uppercase tracking-tight leading-tight">{project.projectName}</div>
-                                        <p className="text-sm font-medium text-slate-500 leading-relaxed italic line-clamp-2">{project.description}</p>
+                                        <p className="text-sm font-medium text-slate-500 leading-relaxed italic">{project.description}</p>
                                     </div>
                                 ))}
                             </div>

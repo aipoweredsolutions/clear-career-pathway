@@ -37,7 +37,8 @@ export function ServiceProTemplate({ data, className, accentColor = 'text-slate-
         <div className={cn("w-full bg-white min-h-[297mm] text-slate-900 font-sans leading-relaxed flex flex-col p-12", className)}>
             <div className="border-[6px] border-slate-900 flex-1 flex flex-col">
                 {/* Header Section: Integrated Identity */}
-                <header className="flex flex-col md:flex-row items-stretch border-b-[6px] border-slate-900">
+                {/* Header Section: Integrated Identity */}
+                <header className="flex flex-col border-b-[6px] border-slate-900">
                     <div className="flex-1 p-12 flex flex-col justify-center">
                         <h1 className="text-7xl font-black tracking-tighter mb-4 leading-none uppercase">
                             {personalInfo?.fullName}
@@ -47,24 +48,11 @@ export function ServiceProTemplate({ data, className, accentColor = 'text-slate-
                         </div>
 
                         <div className="mt-12 flex flex-wrap gap-x-12 gap-y-4 text-xs font-black text-slate-400 uppercase tracking-[0.3em]">
-                            {personalInfo?.email && <div className="flex items-center gap-3 lowercase truncate shrink-0 max-w-[250px]"><Mail className="w-5 h-5 text-slate-900" /> {personalInfo.email}</div>}
-                            {personalInfo?.phone && <div className="flex items-center gap-3"><Phone className="w-5 h-5 text-slate-900" /> {personalInfo.phone}</div>}
-                            {(personalInfo?.city || personalInfo?.country) && <div className="flex items-center gap-3"><MapPin className="w-5 h-5 text-slate-900" /> {[personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</div>}
+                            {personalInfo?.email && <div className="lowercase truncate shrink-0 max-w-[250px]">{personalInfo.email}</div>}
+                            {personalInfo?.phone && <div>{personalInfo.phone}</div>}
+                            {(personalInfo?.city || personalInfo?.country) && <div>{[personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</div>}
                         </div>
                     </div>
-
-                    {/* Integrated Photo: Now part of the vertical potential but works in header grid */}
-                    {personalInfo?.photoUrl && (
-                        <div className="w-full md:w-80 bg-slate-100 border-t-[6px] md:border-t-0 md:border-l-[6px] border-slate-900 flex items-center justify-center overflow-hidden relative min-h-[300px]">
-                            <NextImage
-                                src={personalInfo.photoUrl}
-                                alt={personalInfo.fullName || 'Profile'}
-                                fill
-                                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                                unoptimized={personalInfo.photoUrl.startsWith('data:')}
-                            />
-                        </div>
-                    )}
                 </header>
 
                 <main className="flex-1 p-12 space-y-20">
@@ -80,28 +68,18 @@ export function ServiceProTemplate({ data, className, accentColor = 'text-slate-
                         </section>
                     )}
 
-                    {/* Core Skills - High Impact Grid */}
+                    {/* Core Skills - Linearized for ATS */}
                     {skills && skills.length > 0 && (
                         <section>
                             <h2 className="text-xs font-black uppercase tracking-[0.6em] text-slate-300 mb-12 flex items-center gap-6">
                                 Professional Arsenal <div className="flex-1 h-px bg-slate-200" />
                             </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                            <div className="flex flex-col gap-8">
                                 {skills.map((skill, i) => (
-                                    <div key={i} className="flex flex-col gap-4 group">
-                                        <div className="flex justify-between items-center text-xs font-black uppercase tracking-widest text-slate-950 group-hover:text-slate-500 transition-colors">
+                                    <div key={i} className="flex flex-col gap-2">
+                                        <div className="flex justify-between items-center text-xs font-black uppercase tracking-widest text-slate-950">
                                             <span>{skill.skillName}</span>
                                             <span className="opacity-30">{skill.proficiencyLevel}</span>
-                                        </div>
-                                        <div className="h-3 w-full bg-slate-100 border-2 border-slate-900">
-                                            <div
-                                                className={cn("h-full transition-all duration-1000", bgColor)}
-                                                style={{
-                                                    width: skill.proficiencyLevel === 'expert' ? '100%' :
-                                                        skill.proficiencyLevel === 'advanced' ? '80%' :
-                                                            skill.proficiencyLevel === 'intermediate' ? '60%' : '40%'
-                                                }}
-                                            />
                                         </div>
                                     </div>
                                 ))}
@@ -129,14 +107,13 @@ export function ServiceProTemplate({ data, className, accentColor = 'text-slate-
                                         </div>
                                         
                                         {job.achievements && job.achievements.length > 0 && (
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-12 pl-12 border-l-8 border-slate-50 italic">
+                                            <ul className="list-disc ml-8 mt-12 space-y-6">
                                                 {job.achievements.map((ach, j) => (
-                                                    <div key={j} className="flex gap-6 items-start">
-                                                        <CheckCircle2 className={cn("w-6 h-6 shrink-0 mt-1 shadow-sm rounded-full bg-white", accentColor)} />
-                                                        <span className="text-lg font-black text-slate-700 leading-snug tracking-tight">{ach.achievementText}</span>
-                                                    </div>
+                                                    <li key={j} className="text-lg font-black text-slate-700 leading-snug tracking-tight pl-2">
+                                                        {ach.achievementText}
+                                                    </li>
                                                 ))}
-                                            </div>
+                                            </ul>
                                         )}
                                     </div>
                                 ))}
@@ -145,18 +122,18 @@ export function ServiceProTemplate({ data, className, accentColor = 'text-slate-
                     )}
 
                     {/* Integrated Certifications & Academic Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-20 pt-16 border-t-[12px] border-slate-200">
+                    {/* Integrated Certifications & Academic Stack */}
+                    <div className="flex flex-col gap-20 pt-16 border-t-[12px] border-slate-200">
                         {/* Certifications */}
                         {certifications && certifications.length > 0 && (
                             <section>
                                 <h2 className="text-xs font-black uppercase tracking-[0.6em] text-slate-300 mb-10">Credentials & Awards</h2>
                                 <div className="space-y-8">
                                     {certifications.map((cert, i) => (
-                                        <div key={i} className="flex gap-6 items-start p-8 bg-slate-50 border-2 border-slate-900 group hover:bg-slate-900 hover:text-white transition-all duration-300">
-                                            <Award className="w-8 h-8 shrink-0 group-hover:scale-125 transition-transform" />
+                                        <div key={i} className="flex gap-6 items-start p-8 bg-slate-50 border-2 border-slate-900">
                                             <div>
                                                 <div className="text-xl font-black leading-tight uppercase tracking-tight mb-2">{cert.certificationName}</div>
-                                                <div className="text-xs font-bold text-slate-500 group-hover:text-slate-400 uppercase tracking-widest leading-loose">{cert.issuingOrganization}</div>
+                                                <div className="text-xs font-bold text-slate-500 uppercase tracking-widest leading-loose">{cert.issuingOrganization}</div>
                                             </div>
                                         </div>
                                     ))}

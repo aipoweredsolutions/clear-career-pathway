@@ -16,6 +16,7 @@ import { ResumeControlBar } from '@/components/editor/ResumeControlBar'
 import { CoverLetterForm } from '@/components/editor/forms/CoverLetterForm'
 import { ResumeCoach } from '@/components/editor/ResumeCoach'
 import { KeywordOptimizer } from '@/components/editor/KeywordOptimizer'
+import { AIAssistantOverlay } from '@/components/editor/AIAssistantOverlay'
 import dynamic from 'next/dynamic'
 import { fetchResume, saveResume, fetchSubscription } from '@/app/editor/actions'
 import { UserSubscription } from '@/lib/types/resume'
@@ -49,6 +50,7 @@ function EditorContent() {
     const [subscription, setSubscription] = useState<UserSubscription | null>(null)
     const [showCoach, setShowCoach] = useState(false)
     const [showKeywords, setShowKeywords] = useState(false)
+    const [showAIAssistant, setShowAIAssistant] = useState(false)
     const [leftPanelWidth, setLeftPanelWidth] = useState(50) // Percentage
     const [isResizing, setIsResizing] = useState(false)
 
@@ -297,6 +299,16 @@ function EditorContent() {
                         Coach
                     </Button>
 
+                    <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => setShowAIAssistant(true)}
+                        className="bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white font-black uppercase tracking-widest text-[10px] h-9 px-4 shadow-lg shadow-primary-500/20 border-none group"
+                    >
+                        <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+                        Magic Optimize
+                    </Button>
+
                     <div className="h-6 w-px bg-neutral-300 mx-1" />
 
                     <Button
@@ -542,6 +554,14 @@ function EditorContent() {
                     onUpdate={setData}
                     isOpen={showKeywords}
                     onClose={() => setShowKeywords(false)}
+                />
+
+                {/* Advanced AI Assistant Overlay */}
+                <AIAssistantOverlay
+                    data={data}
+                    onUpdate={setData}
+                    isOpen={showAIAssistant}
+                    onClose={() => setShowAIAssistant(false)}
                 />
             </div>
         </div>

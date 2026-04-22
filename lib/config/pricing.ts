@@ -1,26 +1,7 @@
 export const PRICING_TIERS = [
     {
-        name: 'Free Starter',
-        price: 0,
-        period: 'forever',
-        description: 'Try our builder and see the magic',
-        features: [
-            'Create 1 resume',
-            'Basic AI suggestions (2 tokens)',
-            'Watermarked preview',
-        ],
-        limitations: [
-            'No clear exports (watermarked only)',
-            'No Premium Templates',
-            'No Interview Simulator',
-        ],
-        cta: 'Try for Free',
-        ctaLink: '/auth/signup?tier=free',
-        highlighted: false,
-    },
-    {
         name: 'Single Download',
-        price: 3.99,
+        price: 4.99,
         period: 'per download',
         description: 'Perfect for a single professional resume export',
         features: [
