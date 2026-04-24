@@ -144,9 +144,9 @@ const PRODUCT_TOOLS = [
         bg: 'bg-indigo-50'
     },
     {
-        name: 'Industry Kits',
-        description: 'Specialized kits for Tech, Healthcare, Graduates & Remote.',
-        href: '/#kits',
+        name: 'Resume Examples',
+        description: 'Explore 25+ job-specific resume samples for every industry.',
+        href: '/resume-examples',
         icon: Briefcase,
         color: 'text-rose-600',
         bg: 'bg-rose-50'

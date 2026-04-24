@@ -24,35 +24,7 @@ export default function ATSScannerPage() {
         setIssues([])
     }
 
-    useEffect(() => {
-        if (status === 'scanning') {
-            const steps = [
-                { p: 10, msg: 'Parsing document structure...' },
-                { p: 30, msg: 'Identifying contact information...' },
-                { p: 50, msg: 'Analyzing section headers...' },
-                { p: 70, msg: 'Checking action verbs and metrics...' },
-                { p: 90, msg: 'Calculating ATS compatibility score...' },
-                { p: 100, msg: 'Finalizing results...' },
-            ]
-
-            let currentIdx = 0
-            
-            const interval = setInterval(() => {
-                if (currentIdx < steps.length) {
-                    setProgress(steps[currentIdx].p)
-                    setCurrentStep(steps[currentIdx].msg)
-                    currentIdx++
-                } else {
-                    clearInterval(interval)
-                    finishScan()
-                }
-            }, 800)
-
-            return () => clearInterval(interval)
-        }
-    }, [status])
-
-    const finishScan = () => {
+    const finishScan = React.useCallback(() => {
         // Calculate a somewhat realistic score based on text content
         let newScore = 45 // Base score
         const foundIssues: { type: 'error' | 'warning' | 'success', text: string }[] = []
@@ -91,7 +63,35 @@ export default function ATSScannerPage() {
         setScore(Math.min(newScore, 85)) // Cap it so there's always room for improvement
         setIssues(foundIssues)
         setStatus('results')
-    }
+    }, [text])
+
+    useEffect(() => {
+        if (status === 'scanning') {
+            const steps = [
+                { p: 10, msg: 'Parsing document structure...' },
+                { p: 30, msg: 'Identifying contact information...' },
+                { p: 50, msg: 'Analyzing section headers...' },
+                { p: 70, msg: 'Checking action verbs and metrics...' },
+                { p: 90, msg: 'Calculating ATS compatibility score...' },
+                { p: 100, msg: 'Finalizing results...' },
+            ]
+
+            let currentIdx = 0
+            
+            const interval = setInterval(() => {
+                if (currentIdx < steps.length) {
+                    setProgress(steps[currentIdx].p)
+                    setCurrentStep(steps[currentIdx].msg)
+                    currentIdx++
+                } else {
+                    clearInterval(interval)
+                    finishScan()
+                }
+            }, 800)
+
+            return () => clearInterval(interval)
+        }
+    }, [status, finishScan])
 
     return (
         <div className="min-h-screen bg-neutral-50 pt-24 pb-20">

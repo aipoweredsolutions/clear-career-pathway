@@ -30,9 +30,9 @@ export function Footer() {
                     <div>
                         <h4 className="text-white font-bold mb-6 italic tracking-tight uppercase text-xs opacity-50">Services</h4>
                         <ul className="space-y-4">
+                            <li><Link href="/resume-examples" className="hover:text-white transition-colors">Resume Examples</Link></li>
+                            <li><Link href="/ats-resume-scanner" className="hover:text-white transition-colors">Free ATS Scanner</Link></li>
                             <li><Link href="/career-hub" className="hover:text-white transition-colors">AI Resume Coach</Link></li>
-                            <li><Link href="/career-hub" className="hover:text-white transition-colors">Keyword Optimizer</Link></li>
-                            <li><Link href="/dashboard" className="hover:text-white transition-colors">Job Application Tracker</Link></li>
                             <li><Link href="/blog" className="hover:text-white transition-colors">Career Hub &amp; Blog</Link></li>
                         </ul>
                     </div>
