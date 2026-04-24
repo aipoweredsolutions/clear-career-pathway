@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { SEO_TEMPLATES } from '@/lib/constants/templates-seo'
+import { BLOG_POSTS } from '@/lib/constants/blog-posts'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.clearcareerpath.com'
@@ -10,7 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/pricing',
         '/samples',
         '/blog',
-        '/career-hub',
+        '/ats-resume-scanner',
+        '/resume-examples',
     ].map((route) => ({
         url: `${baseUrl}${route}`,
         lastModified: new Date().toISOString().split('T')[0],
@@ -37,5 +39,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.9,
     }))
 
-    return [...routes, ...legalRoutes, ...templateRoutes]
+    // Dynamic Blog Pages
+    const blogRoutes = BLOG_POSTS.map((post) => ({
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastModified: new Date().toISOString().split('T')[0],
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+    }))
+
+    return [...routes, ...legalRoutes, ...templateRoutes, ...blogRoutes]
 }

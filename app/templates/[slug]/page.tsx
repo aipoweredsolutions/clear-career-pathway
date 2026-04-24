@@ -113,37 +113,68 @@ export default async function TemplateLandingPage({ params }: Props) {
                     </div>
 
                     {/* Right Column: Visual Preview */}
-                    <div className="lg:sticky lg:top-32 bg-neutral-900 rounded-[2.5rem] shadow-2xl border-4 border-neutral-900 overflow-hidden flex flex-col group">
-                        <div className="bg-neutral-950 px-6 py-4 flex items-center justify-between border-b border-white/10">
-                            <div className="flex gap-2">
-                                <div className="w-3 h-3 rounded-full bg-rose-500"></div>
-                                <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-                                <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                    <div className="lg:sticky lg:top-32 space-y-8">
+                        <div className="bg-neutral-900 rounded-[2.5rem] shadow-2xl border-4 border-neutral-900 overflow-hidden flex flex-col group">
+                            <div className="bg-neutral-950 px-6 py-4 flex items-center justify-between border-b border-white/10">
+                                <div className="flex gap-2">
+                                    <div className="w-3 h-3 rounded-full bg-rose-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                                </div>
+                                <div className="text-[10px] font-black text-neutral-500 uppercase tracking-[0.2em]">
+                                    Live {template.name} Preview
+                                </div>
+                                <div className="w-10"></div>
                             </div>
-                            <div className="text-[10px] font-black text-neutral-500 uppercase tracking-[0.2em]">
-                                Live {template.name} Preview
+                            {/* Container that visually scales down the A4 page */}
+                            <div className="relative w-full aspect-[8.5/11] bg-neutral-100 overflow-hidden flex items-start justify-center">
+                                <div className="absolute top-0 origin-top transform scale-[0.55] sm:scale-[0.8] lg:scale-[0.65] xl:scale-[0.8] w-[180%] sm:w-[125%] lg:w-[150%] xl:w-[125%] transition-transform duration-1000 group-hover:-translate-y-8 ease-out pointer-events-none">
+                                    <TemplateRenderer 
+                                        templateId={template.templateId} 
+                                        data={sampleData} 
+                                        className="shadow-2xl mx-auto" 
+                                    />
+                                </div>
+                                
+                                {/* Overlay CTA */}
+                                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-neutral-900 via-neutral-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-12 pointer-events-none">
+                                    <Link href="/editor/setup" className="pointer-events-auto">
+                                        <Button size="lg" variant="secondary" className="shadow-2xl font-black tracking-widest uppercase text-xs">
+                                            Build With This Template
+                                        </Button>
+                                    </Link>
+                                </div>
                             </div>
-                            <div className="w-10"></div>
                         </div>
-                        {/* Container that visually scales down the A4 page */}
-                        <div className="relative w-full aspect-[8.5/11] bg-neutral-100 overflow-hidden flex items-start justify-center">
-                            <div className="absolute top-0 origin-top transform scale-[0.55] sm:scale-[0.8] lg:scale-[0.65] xl:scale-[0.8] w-[180%] sm:w-[125%] lg:w-[150%] xl:w-[125%] transition-transform duration-1000 group-hover:-translate-y-8 ease-out pointer-events-none">
-                                <TemplateRenderer 
-                                    templateId={template.templateId} 
-                                    data={sampleData} 
-                                    className="shadow-2xl mx-auto" 
-                                />
+
+                        {/* Example Bullets Section */}
+                        {template.exampleBullets && template.exampleBullets.length > 0 && (
+                            <div className="bg-white p-8 rounded-3xl shadow-xl shadow-neutral-200/20 border border-neutral-100">
+                                <h2 className="text-xl font-black text-neutral-950 mb-6 tracking-tight uppercase italic">Role-Specific Keywords</h2>
+                                <div className="space-y-4">
+                                    {template.exampleBullets.map((bullet, idx) => (
+                                        <div key={idx} className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100 text-neutral-600 font-medium text-sm italic">
+                                            "{bullet}"
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            
-                            {/* Overlay CTA */}
-                            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-neutral-900 via-neutral-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-12 pointer-events-none">
-                                <Link href="/editor/setup" className="pointer-events-auto">
-                                    <Button size="lg" variant="secondary" className="shadow-2xl font-black tracking-widest uppercase text-xs">
-                                        Build With This Template
-                                    </Button>
-                                </Link>
+                        )}
+
+                        {/* FAQ Section */}
+                        {template.faqs && template.faqs.length > 0 && (
+                            <div className="bg-white p-8 rounded-3xl shadow-xl shadow-neutral-200/20 border border-neutral-100">
+                                <h2 className="text-xl font-black text-neutral-950 mb-6 tracking-tight uppercase italic">Template Questions</h2>
+                                <div className="space-y-6">
+                                    {template.faqs.map((faq, idx) => (
+                                        <div key={idx}>
+                                            <h4 className="font-black text-neutral-900 text-sm mb-2">{faq.q}</h4>
+                                            <p className="text-neutral-500 text-sm leading-relaxed">{faq.a}</p>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                     
                 </div>

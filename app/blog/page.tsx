@@ -1,67 +1,58 @@
+import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { BLOG_POSTS } from '@/lib/data/blog'
-import { ArrowRight, Calendar, User, Tag } from 'lucide-react'
+import { Metadata } from 'next'
+import { BLOG_POSTS } from '@/lib/constants/blog-posts'
+import { ArrowRight, BookOpen, Calendar } from 'lucide-react'
 
-export default function BlogPage() {
+export const metadata: Metadata = {
+    title: 'Career Advice & Resume Writing Guides | Clear Career Path',
+    description: 'Expert advice on resume writing, job searching, and career growth. Learn how to optimize your resume for ATS and land more interviews.',
+}
+
+export default function BlogIndexPage() {
     return (
-        <div className="min-h-screen bg-neutral-50 pt-24 pb-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">Career Resources & Insights</h1>
-                    <p className="text-xl text-neutral-600">
-                        Expert advice on resume writing, job searching, and career advancement to help you clear your path.
+        <div className="min-h-screen bg-[#FDFDFD] pt-32 pb-20">
+            <div className="max-w-7xl mx-auto px-6">
+                
+                {/* Header */}
+                <div className="text-center mb-24">
+                    <h1 className="text-5xl md:text-7xl font-black text-neutral-950 mb-8 tracking-tighter leading-none italic">
+                        Career <span className="text-primary-600">Insights.</span>
+                    </h1>
+                    <p className="text-xl text-neutral-500 max-w-3xl mx-auto font-bold leading-relaxed">
+                        Master the art of professional storytelling and technical compliance to land your dream role.
                     </p>
                 </div>
 
+                {/* Blog Grid */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {BLOG_POSTS.map((post) => (
-                        <article key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-neutral-100 flex flex-col group">
-                            <div className="relative h-48 overflow-hidden">
-                                <Image
-                                    src={post.image}
-                                    alt={post.title}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                />
-                                <div className="absolute top-4 left-4">
-                                    <span className="bg-white/90 backdrop-blur-sm text-primary-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm flex items-center gap-1">
-                                        <Tag className="w-3 h-3" />
-                                        {post.category}
-                                    </span>
-                                </div>
-                            </div>
-
+                    {BLOG_POSTS.map(post => (
+                        <Link 
+                            key={post.slug} 
+                            href={`/blog/${post.slug}`}
+                            className="group bg-white rounded-[2.5rem] border border-neutral-100 shadow-xl shadow-neutral-200/20 overflow-hidden flex flex-col hover:shadow-2xl transition-all duration-500"
+                        >
                             <div className="p-8 flex flex-col flex-1">
-                                <div className="flex items-center gap-4 text-xs text-neutral-400 mb-4">
-                                    <div className="flex items-center gap-1">
-                                        <Calendar className="w-3 h-3" />
-                                        {new Date(post.publishedAt).toLocaleDateString()}
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="bg-primary-50 px-3 py-1.5 rounded-lg text-primary-700 text-[10px] font-black uppercase tracking-widest border border-primary-100">
+                                        {post.category}
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                        <User className="w-3 h-3" />
-                                        {post.author}
+                                    <div className="flex items-center gap-1.5 text-neutral-400 text-[10px] font-black uppercase tracking-widest">
+                                        <Calendar className="w-3.5 h-3.5" />
+                                        {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                     </div>
                                 </div>
-
-                                <h2 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-primary-600 transition-colors">
+                                <h3 className="text-2xl font-black text-neutral-950 mb-4 tracking-tight leading-tight group-hover:text-primary-600 transition-colors">
                                     {post.title}
-                                </h2>
-
-                                <p className="text-neutral-600 mb-8 line-clamp-3 leading-relaxed">
+                                </h3>
+                                <p className="text-neutral-500 font-medium text-sm leading-relaxed mb-8 line-clamp-3">
                                     {post.excerpt}
                                 </p>
-
-                                <Link
-                                    href={`/blog/${post.slug}`}
-                                    className="mt-auto inline-flex items-center text-primary-600 font-bold hover:gap-2 transition-all"
-                                >
-                                    Read Article
-                                    <ArrowRight className="w-4 h-4 ml-2" />
-                                </Link>
+                                <div className="mt-auto flex items-center gap-2 text-primary-600 font-black text-xs uppercase tracking-widest">
+                                    Read Full Guide <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                                </div>
                             </div>
-                        </article>
+                        </Link>
                     ))}
                 </div>
             </div>
