@@ -47,8 +47,50 @@ export default async function TemplateLandingPage({ params }: Props) {
     // Get the sample data based on the template config
     const sampleData = (CAREER_SAMPLES as any)[template.sampleDataKey] || CAREER_SAMPLES.software_engineer
 
+    // Structured Data for AI SEO
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": template.title,
+        "description": template.description,
+        "category": "Resume Template",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+        },
+        "brand": {
+            "@type": "Brand",
+            "name": "Clear Career Path"
+        }
+    }
+
+    const faqLd = template.faqs ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": template.faqs.map(faq => ({
+            "@type": "Question",
+            "name": faq.q,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.a
+            }
+        }))
+    } : null
+
     return (
         <div className="min-h-screen bg-[#FDFDFD] pt-24 pb-20 overflow-hidden">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            {faqLd && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+                />
+            )}
             <div className="max-w-[1400px] mx-auto px-6">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
                     

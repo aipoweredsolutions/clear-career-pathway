@@ -82,6 +82,29 @@ export default function RootLayout({
         <html lang="en" className={cn(inter.variable, lora.variable, playfair.variable, lato.variable)}>
             <body className="min-h-screen bg-white">
                 <AuthProvider>
+                    <script
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{
+                            __html: JSON.stringify({
+                                "@context": "https://schema.org",
+                                "@type": "SoftwareApplication",
+                                "name": "Clear Career Path",
+                                "operatingSystem": "Web",
+                                "applicationCategory": "BusinessApplication",
+                                "offers": {
+                                    "@type": "Offer",
+                                    "price": "0",
+                                    "priceCurrency": "USD"
+                                },
+                                "description": "AI-powered ATS-compliant resume builder and CV generator. Create professional resumes optimized for applicant tracking systems.",
+                                "aggregateRating": {
+                                    "@type": "AggregateRating",
+                                    "ratingValue": "4.9",
+                                    "ratingCount": "1250"
+                                }
+                            })
+                        }}
+                    />
                     <Navbar />
                     <main className="min-h-[80vh]">
                         {children}

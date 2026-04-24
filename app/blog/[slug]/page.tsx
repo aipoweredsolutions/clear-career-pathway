@@ -31,8 +31,29 @@ export default async function BlogPostPage({ params }: Props) {
         .map(slug => getTemplateBySlug(slug))
         .filter(t => !!t)
 
+    // Article Schema for AI SEO
+    const articleLd = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": post.title,
+        "description": post.excerpt,
+        "datePublished": post.date,
+        "author": {
+            "@type": "Organization",
+            "name": "Clear Career Path"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Clear Career Path"
+        }
+    }
+
     return (
         <div className="min-h-screen bg-white pt-32 pb-20">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+            />
             <article className="max-w-4xl mx-auto px-6">
                 
                 <Link href="/blog" className="inline-flex items-center gap-2 text-neutral-400 font-black text-[10px] uppercase tracking-[0.2em] mb-12 hover:text-primary-600 transition-colors group">
