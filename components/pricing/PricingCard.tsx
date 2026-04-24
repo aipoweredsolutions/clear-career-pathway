@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Check, Loader2 } from 'lucide-react'
+import { Check, X, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/Card'
 import { initializePaddle, Paddle } from '@paddle/paddle-js'
@@ -18,6 +18,7 @@ interface PricingCardProps {
         cta: string
         ctaLink: string
         highlighted: boolean
+        badge?: string
         paddlePriceId?: string
     }
     isLoggedIn: boolean
@@ -88,10 +89,12 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
         <Card
             className={`flex flex-col h-full ${tier.highlighted ? 'ring-2 ring-primary-600 shadow-xl scale-105 z-10' : ''}`}
         >
-            <CardHeader>
+            <CardHeader className="pb-6">
                 {tier.highlighted && (
-                    <div className="inline-block bg-primary-600 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">
-                        MOST POPULAR
+                    <div className="absolute top-0 right-6 transform -translate-y-1/2">
+                        <div className="inline-block bg-gradient-to-r from-primary-600 to-primary-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg uppercase tracking-wide">
+                            {tier.badge || 'MOST POPULAR'}
+                        </div>
                     </div>
                 )}
                 <h3 className="text-2xl font-bold text-neutral-900 mb-2">{tier.name}</h3>
@@ -102,18 +105,28 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
                 <p className="text-neutral-700 mt-2">{tier.description}</p>
             </CardHeader>
 
-            <CardContent className="flex-1">
-                <ul className="space-y-3">
+            <CardContent className="flex-1 pb-8">
+                <ul className="space-y-4">
                     {tier.features.map((feature, index) => (
-                        <li key={index} className="flex items-start">
-                            <Check className="w-5 h-5 text-success-600 mr-2 flex-shrink-0 mt-0.5" />
-                            <span className="text-neutral-700">{feature}</span>
+                        <li key={`feat-${index}`} className="flex items-start">
+                            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-success-50 flex items-center justify-center mr-3 mt-0.5">
+                                <Check className="w-4 h-4 text-success-600" />
+                            </div>
+                            <span className="text-neutral-700 leading-tight">{feature}</span>
+                        </li>
+                    ))}
+                    {tier.limitations && tier.limitations.map((limitation, index) => (
+                        <li key={`lim-${index}`} className="flex items-start opacity-60">
+                            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-neutral-100 flex items-center justify-center mr-3 mt-0.5">
+                                <X className="w-4 h-4 text-neutral-400" />
+                            </div>
+                            <span className="text-neutral-500 line-through leading-tight">{limitation}</span>
                         </li>
                     ))}
                 </ul>
             </CardContent>
 
-            <CardFooter>
+            <CardFooter className="pt-0">
                 <Button
                     variant={tier.highlighted ? 'primary' : 'outline'}
                     size="lg"

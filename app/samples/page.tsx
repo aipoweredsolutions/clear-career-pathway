@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import { CAREER_SAMPLES } from '@/lib/constants/career-samples'
+import { SEO_TEMPLATES } from '@/lib/constants/templates-seo'
 import { SampleCard } from '@/components/samples/SampleCard'
 import { 
     Sparkles, 
@@ -246,9 +247,31 @@ export default function SamplesPage() {
                     )}
                 </AnimatePresence>
             </section>
+            {/* SEO Internal Linking Section */}
+            <section className="max-w-7xl mx-auto px-6 mt-32">
+                <div className="border-t border-neutral-200 pt-20">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl font-black text-neutral-900 mb-4 tracking-tight">Explore Professional Templates</h2>
+                        <p className="text-lg text-neutral-500 font-medium">Discover specialized ATS-compliant layouts tailored to your exact industry.</p>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {SEO_TEMPLATES.map(template => (
+                            <Link 
+                                key={template.slug} 
+                                href={`/templates/${template.slug}`}
+                                className="group p-8 rounded-3xl bg-white border border-neutral-100 shadow-sm hover:shadow-2xl hover:shadow-primary-600/5 hover:border-primary-200 transition-all flex flex-col h-full hover:-translate-y-1"
+                            >
+                                <div className="text-[10px] font-black uppercase tracking-widest text-primary-600 mb-4">{template.industry}</div>
+                                <h3 className="text-xl font-bold text-neutral-900 leading-tight mb-3 group-hover:text-primary-700 transition-colors">{template.name}</h3>
+                                <p className="text-sm text-neutral-500 line-clamp-3 mt-auto font-medium">{template.title}</p>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
             {/* Large Conversion Section */}
-            <section className="max-w-[1400px] mx-auto px-6 mt-40">
+            <section className="max-w-[1400px] mx-auto px-6 mt-32">
                 <div className="bg-neutral-950 rounded-[4rem] p-12 lg:p-32 text-center relative overflow-hidden group shadow-3xl">
                     {/* Decorative Elements */}
                     <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-600/10 rounded-full blur-[160px] -mr-[400px] -mt-[400px] transition-transform duration-1000 group-hover:scale-110" />

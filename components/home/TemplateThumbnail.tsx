@@ -49,7 +49,7 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         // ... (rest of the sample data logic remains the same)
         if (template.id.startsWith('ats-')) {
             if (template.id.includes('nursing')) return MOCK_NURSE_EXPERIENCED_DATA
-            if (template.id.includes('academia')) return MOCK_ACADEMIC_DATA
+            if (template.id.includes('academia') || template.id.includes('scholar')) return MOCK_ACADEMIC_DATA
             if (template.id.includes('professional')) return MOCK_ATS_PROFESSIONAL_DATA
             if (template.id.includes('technical')) return MOCK_TECHNICAL_DATA
             if (template.id.includes('standard')) return MOCK_CORPORATE_DATA

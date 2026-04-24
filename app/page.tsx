@@ -4,9 +4,6 @@ import { FileText, Download, ArrowRight, Target, Zap, LayoutTemplate } from 'luc
 import { cn } from '@/lib/utils'
 import { PRICING_TIERS } from '@/lib/config/pricing'
 import { HeroSection } from '@/components/home/HeroSection'
-import { TemplateGallery, FAQSection, PricingSection } from '@/components/home/ClientInteractions'
-import { ToolboxSection } from '@/components/home/ToolboxSection'
-import { IndustryKitsSection } from '@/components/home/IndustryKitsSection'
 import dynamic from 'next/dynamic'
 
 // Lazy-load heavy below-the-fold sections
@@ -23,6 +20,30 @@ const AIDemoSection = dynamic(
 const ComparisonSection = dynamic(
     () => import('@/components/home/HomeEnhancements').then(m => ({ default: m.ComparisonSection })),
     { loading: () => <div className="py-32 bg-white" /> }
+)
+
+const ToolboxSection = dynamic(
+    () => import('@/components/home/ToolboxSection').then(m => ({ default: m.ToolboxSection })),
+    { loading: () => <div className="py-24 bg-white" /> }
+)
+
+const IndustryKitsSection = dynamic(
+    () => import('@/components/home/IndustryKitsSection').then(m => ({ default: m.IndustryKitsSection })),
+    { loading: () => <div className="py-24 bg-neutral-50" /> }
+)
+
+const TemplateGallery = dynamic(
+    () => import('@/components/home/ClientInteractions').then(m => ({ default: m.TemplateGallery })),
+    { loading: () => <div className="py-32 bg-white" /> }
+)
+
+const FAQSection = dynamic(
+    () => import('@/components/home/ClientInteractions').then(m => ({ default: m.FAQSection })),
+    { loading: () => <div className="py-24" /> }
+)
+
+const PricingSection = dynamic(
+    () => import('@/components/home/ClientInteractions').then(m => ({ default: m.PricingSection }))
 )
 
 export default function Home() {

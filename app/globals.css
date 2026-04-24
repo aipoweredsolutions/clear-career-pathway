@@ -160,6 +160,15 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  @keyframes slideProgress {
+    0% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
   /* Custom Scrollbar */
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;

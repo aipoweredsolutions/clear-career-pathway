@@ -9,7 +9,7 @@ import {
     Menu, X, User, ChevronDown, LayoutDashboard, LogOut,
     FileText, CreditCard, Target, ArrowRight,
     Shield, Briefcase, GraduationCap, Palette, Stethoscope,
-    LayoutGrid, Zap, Search, PenTool, Rocket
+    LayoutGrid, Zap, Search, PenTool, Rocket, ScanSearch
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -134,6 +134,14 @@ const PRODUCT_TOOLS = [
         icon: FileText,
         color: 'text-blue-600',
         bg: 'bg-blue-50'
+    },
+    {
+        name: 'Free ATS Scanner',
+        description: 'Check if your resume passes applicant tracking systems.',
+        href: '/ats-resume-scanner',
+        icon: ScanSearch,
+        color: 'text-indigo-600',
+        bg: 'bg-indigo-50'
     },
     {
         name: 'Industry Kits',

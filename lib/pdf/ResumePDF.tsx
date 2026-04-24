@@ -22,27 +22,8 @@ export const ResumePDF = ({ data, isWatermarked = false }: ResumePDFProps) => {
     const templateId = (data.templateId || 'classic').toLowerCase()
     const styles = createStyles(templateId)
 
-    // Layout Dispatch Logic
-    const isSidebarLayout = (
-        templateId.startsWith('modern') || 
-        templateId.startsWith('technical') || 
-        templateId.startsWith('startup') || 
-        templateId.startsWith('chic') || 
-        templateId.startsWith('creative') || 
-        templateId.startsWith('split-contrast') || 
-        templateId.startsWith('cute') || 
-        templateId.startsWith('service') || 
-        templateId.startsWith('hospitality') || 
-        templateId.startsWith('cruise') || 
-        templateId.startsWith('nursing') || 
-        templateId.startsWith('chef') || 
-        templateId.startsWith('hotel') ||
-        templateId.startsWith('revenue-leader') ||
-        templateId.startsWith('military-transition') ||
-        templateId.startsWith('real-estate-pro') ||
-        templateId.startsWith('trades-pro') ||
-        templateId.startsWith('international-cv')
-    ) && !templateId.startsWith('ats')
+    // All active templates are now single-column/StandardLayout
+    const isSidebarLayout = false
 
     return (
         <Document

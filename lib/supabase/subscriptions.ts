@@ -63,23 +63,14 @@ export function hasPremiumAccess(subscription: UserSubscription | null): boolean
  */
 export function canExportFormat(subscription: (UserSubscription & { downloadCredits?: number }) | null, format: 'pdf' | 'docx' | 'md' | 'html'): boolean {
     const tier = subscription?.tierId || 'free'
-    const credits = subscription?.downloadCredits || 0
 
-    // If they have credits, they can download PDF or DOCX
-    if (credits > 0 && (format === 'pdf' || format === 'docx')) {
+    // All users get access to PDF and DOCX (backend enforces the 1-per-month limit for free users)
+    if (format === 'pdf' || format === 'docx') {
         return true
     }
 
-    if (format === 'pdf') {
-        return tier !== 'free'
-    }
-
-    if (format === 'docx') {
-        return tier === 'starter' || tier === 'premium' || tier === 'pro' || tier === 'basic' || tier === 'power'
-    }
-
     if (format === 'md' || format === 'html') {
-        return tier === 'premium' || tier === 'pro' || tier === 'power'
+        return tier === 'premium' || tier === 'pro' || tier === 'power' || tier === 'lifetime_pro' || tier === 'pro_monthly'
     }
 
     return false

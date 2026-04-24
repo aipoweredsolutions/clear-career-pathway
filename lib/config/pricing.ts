@@ -1,61 +1,62 @@
 export const PRICING_TIERS = [
     {
-        name: 'Single Download',
-        price: 4.99,
-        period: 'per download',
-        description: 'Perfect for a single professional resume export',
+        name: 'Free Starter',
+        price: 0,
+        period: 'forever',
+        description: 'Perfect to get started and build your first professional resume.',
         features: [
-            'Unlock 1 clean PDF/DOCX export',
-            'All Standard Templates',
-            'Watermark removed',
+            'Access to 2 Standard ATS Templates',
+            'Basic Resume Builder Tools',
+            'Watermarked PDF Export',
+            '1 Job Resume Version'
         ],
         limitations: [
-            'No ongoing Resume Builder Access',
-            'No Career Roadmap',
+            'No DOCX or Markdown Export',
+            'No AI Bullet Tailoring',
+            'No Cover Letter Generator',
+            'No Premium Templates'
         ],
-        cta: 'Buy 1 Download',
-        ctaLink: '/auth/signup?tier=single',
+        cta: 'Get Started Free',
+        ctaLink: '/auth/signup',
         highlighted: false,
-        paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_SINGLE_PRICE_ID
     },
     {
-        name: 'Download Bundle',
-        price: 9.99,
-        period: '5 downloads',
-        description: 'Great for applying to multiple roles',
-        features: [
-            'Unlock 5 clean PDF/DOCX exports',
-            'All Standard & Creative Templates',
-            'Download history tracking',
-            'Save versions of your resume',
-        ],
-        limitations: [
-            'No Career Roadmap',
-        ],
-        cta: 'Buy Bundle',
-        ctaLink: '/auth/signup?tier=bundle',
-        highlighted: true,
-        badge: 'Most Flexible',
-        paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_BUNDLE_PRICE_ID
-    },
-    {
-        name: 'Power User Plan',
-        price: 19.99,
+        name: 'Pro Monthly',
+        price: 14.99,
         period: 'month',
-        yearlyPrice: 199.99,
-        description: 'Comprehensive career management',
+        description: 'Everything you need for an active and successful job search.',
         features: [
-            'Unlimited resume tailoring',
-            'Unlimited exports (PDF, DOCX)',
-            'Unlimited job versions',
-            'Unlimited cover letters',
-            'Priority AI processing speed',
-            'Full Skills Gap & Interview Simulator'
+            'All 11+ Premium ATS Templates',
+            'Unlimited Clean PDF & DOCX Exports',
+            'Unlimited AI Resume Tailoring',
+            'AI Cover Letter Generator',
+            'Real-time ATS Compliance Scoring',
+            'Unlimited Resume Versions'
         ],
         limitations: [],
-        cta: 'Go Unlimited',
-        ctaLink: '/auth/signup?tier=power',
-        highlighted: false,
+        cta: 'Upgrade to Pro',
+        ctaLink: '/auth/signup?tier=pro',
+        highlighted: true,
+        badge: 'Most Popular',
         paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_POWER_PRICE_ID
+    },
+    {
+        name: 'Lifetime Pro',
+        price: 49.99,
+        period: 'one-time',
+        description: 'Pay once, use forever. Your complete career documentation hub.',
+        features: [
+            'Everything in Pro Plan, forever',
+            'No recurring subscriptions',
+            'Early access to Career Roadmap',
+            'Early access to Interview Simulator',
+            'Priority Customer Support',
+            'All future updates & templates'
+        ],
+        limitations: [],
+        cta: 'Get Lifetime Access',
+        ctaLink: '/auth/signup?tier=lifetime',
+        highlighted: false,
+        paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_BUNDLE_PRICE_ID
     }
 ]

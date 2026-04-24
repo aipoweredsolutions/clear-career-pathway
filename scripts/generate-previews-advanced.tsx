@@ -12,13 +12,7 @@ import { MOCK_PREVIEW_DATA } from '../lib/constants/mock-data'
 import fs from 'fs'
 import path from 'path'
 
-// Import all templates
 import { ClassicCleanTemplate } from '../components/templates/ClassicCleanTemplate'
-import { ProfessionalTemplate } from '../components/templates/ProfessionalTemplate'
-import { CreativeTemplate } from '../components/templates/CreativeTemplate'
-
-import { TechnicalTemplate } from '../components/templates/TechnicalTemplate'
-import { StartupTemplate } from '../components/templates/StartupTemplate'
 import { ATSClassicTemplate } from '../components/templates/ATSClassicTemplate'
 import { ATSProfessionalTemplate } from '../components/templates/ATSProfessionalTemplate'
 import { ATSModernTemplate } from '../components/templates/ATSModernTemplate'
@@ -30,30 +24,10 @@ import { ATSHospitalityTemplate } from '../components/templates/ATSHospitalityTe
 import { ATSMinimalTemplate } from '../components/templates/ATSMinimalTemplate'
 import { ATSNursingTemplate } from '../components/templates/ATSNursingTemplate'
 import { ATSTimelineTemplate } from '../components/templates/ATSTimelineTemplate'
-import { AcademicTemplate } from '../components/templates/AcademicTemplate'
-import { ArtisanTemplate } from '../components/templates/ArtisanTemplate'
-import { ChicTemplate } from '../components/templates/ChicTemplate'
-import { CompactTemplate } from '../components/templates/CompactTemplate'
-
-import { InternationalCVTemplate } from '../components/templates/InternationalCVTemplate'
-import { LegalExpertTemplate } from '../components/templates/LegalExpertTemplate'
-import { LuxeTemplate } from '../components/templates/LuxeTemplate'
-import { MilitaryTransitionTemplate } from '../components/templates/MilitaryTransitionTemplate'
-import { RealEstateProTemplate } from '../components/templates/RealEstateProTemplate'
-import { RevenueLeaderTemplate } from '../components/templates/RevenueLeaderTemplate'
-import { ServiceProTemplate } from '../components/templates/ServiceProTemplate'
-import { SplitContrastTemplate } from '../components/templates/SplitContrastTemplate'
-import { TradesProTemplate } from '../components/templates/TradesProTemplate'
 
 // Template component mapping
 const templateComponents: Record<string, any> = {
     'classic': ClassicCleanTemplate,
-
-    'professional': ProfessionalTemplate,
-    'creative': CreativeTemplate,
-
-    'tech': TechnicalTemplate,
-    'startup': StartupTemplate,
     'ats-classic': ATSClassicTemplate,
     'ats-professional': ATSProfessionalTemplate,
     'ats-modern': ATSModernTemplate,
@@ -65,21 +39,6 @@ const templateComponents: Record<string, any> = {
     'ats-minimal': ATSMinimalTemplate,
     'ats-nursing': ATSNursingTemplate,
     'ats-timeline': ATSTimelineTemplate,
-    'academic': AcademicTemplate,
-    'artisan': ArtisanTemplate,
-    'chic': ChicTemplate,
-    'compact': CompactTemplate,
-
-
-    'international-cv': InternationalCVTemplate,
-    'legal-expert': LegalExpertTemplate,
-    'luxe': LuxeTemplate,
-    'military-transition': MilitaryTransitionTemplate,
-    'real-estate-pro': RealEstateProTemplate,
-    'revenue-leader': RevenueLeaderTemplate,
-    'service-pro': ServiceProTemplate,
-    'split-contrast': SplitContrastTemplate,
-    'trades-pro': TradesProTemplate,
     'ats-standard': ATSProfessionalTemplate,
     'ats-standard-nursing': ATSNursingTemplate,
     'classic-clean': ClassicCleanTemplate,

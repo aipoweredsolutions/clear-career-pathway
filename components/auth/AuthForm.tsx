@@ -42,17 +42,13 @@ export function AuthForm({ type }: AuthFormProps) {
                     password,
                     options: {
                         emailRedirectTo: `${location.origin}/auth/callback`,
-                        // Auto-confirm for development if email confirmation is disabled
-                        data: {
-                            email_confirmed: true
-                        }
                     },
                 })
                 if (error) throw error
 
                 // Check if email confirmation is required
                 if (data.user && !data.session) {
-                    setMessage('✅ Account created! Please check your email to confirm your account. If you don\'t receive an email within a few minutes, you can try signing in directly.')
+                    setError('⚠️ Email Confirmation Required: Supabase is waiting for you to confirm your email. If you are testing locally and cannot receive emails, please go to your Supabase Dashboard -> Authentication -> Providers -> Email -> Disable "Confirm email", then try signing in.')
                 } else if (data.session) {
                     // Auto-confirmed (email confirmation disabled in Supabase)
                     setMessage('✅ Account created successfully! Redirecting to dashboard...')
@@ -66,7 +62,14 @@ export function AuthForm({ type }: AuthFormProps) {
             }
         } catch (err: any) {
             console.error('Auth error:', err)
-            setError(err.message || 'An error occurred during authentication')
+            // Provide human-readable errors for common Supabase issues
+            if (err.message?.includes('Database error saving new user')) {
+                setError('Database Trigger Error: The signup succeeded but the profile trigger failed. Please run the SQL in `supabase/quick_fix.sql` in your Supabase SQL Editor.')
+            } else if (err.message?.includes('Failed to fetch')) {
+                setError('Network Error: Could not connect to Supabase. Please ensure your NEXT_PUBLIC_SUPABASE_URL is correct and the database is running.')
+            } else {
+                setError(err.message || 'An error occurred during authentication')
+            }
         } finally {
             setLoading(false)
         }

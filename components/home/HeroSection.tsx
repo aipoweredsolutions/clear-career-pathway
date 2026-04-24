@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Check, Star, FileText, Sparkles, ArrowRight } from 'lucide-react'
-import { HeroPreviewClick } from './ClientInteractions'
+import { Check, Star, ArrowRight } from 'lucide-react'
+import { HeroTemplateSlideshow } from './HeroTemplateSlideshow'
 
 export function HeroSection() {
     return (
@@ -75,51 +75,19 @@ export function HeroSection() {
                         </div>
                     </div>
 
-                    {/* Visual Right Side - Floating Resumes */}
+                    {/* Visual Right Side - Template Slideshow */}
                     <div className="lg:col-span-5 relative hidden lg:flex items-center justify-center perspective-1000">
-                        <div className="relative w-full max-w-[420px] aspect-[21/29.7] animate-float">
-                            {/* Back Glow */}
-                            <div className="absolute inset-0 bg-primary-500/30 blur-[100px] rounded-full" />
+                        <HeroTemplateSlideshow />
 
-                            {/* Back Card 1 */}
-                            <div className="absolute inset-0 -right-8 -top-8 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 rotate-6 scale-95 opacity-50" />
-                            {/* Back Card 2 */}
-                            <div className="absolute inset-0 -left-8 -bottom-8 bg-indigo-500/10 backdrop-blur-3xl rounded-2xl border border-indigo-500/20 -rotate-3 scale-95 opacity-70" />
-
-                            {/* Main Card */}
-                            <HeroPreviewClick templateId="ats-executive">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20 pointer-events-none" />
-                                <Image
-                                    src="/templates/hero-resume-preview.png"
-                                    alt="Resume Preview"
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, 500px"
-                                    className="object-cover object-top filter contrast-[1.05]"
-                                    priority
-                                />
-
-                                {/* Glass Overlay Card inside the main card */}
-                                <div className="absolute inset-x-6 bottom-6 p-6 bg-neutral-900/80 backdrop-blur-2xl rounded-2xl border border-white/10 group-hover:translate-y-[-8px] transition-transform duration-500 flex items-center gap-4 z-30">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-xl">
-                                        <FileText className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] font-black text-primary-400 uppercase tracking-widest mb-0.5">Featured Design</p>
-                                        <h4 className="text-lg font-black text-white">ATS Executive</h4>
-                                    </div>
+                        {/* Floating UI Badge */}
+                        <div className="absolute -left-12 top-1/4 z-30 bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-2xl animate-float" style={{ animationDelay: '1.5s' }}>
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center border border-emerald-500/30">
+                                    <Check className="w-6 h-6 text-emerald-400" />
                                 </div>
-                            </HeroPreviewClick>
-
-                            {/* Floating UI Badge */}
-                            <div className="absolute -left-12 top-1/4 z-30 bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-2xl animate-float" style={{ animationDelay: '1.5s' }}>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center border border-emerald-500/30">
-                                        <Check className="w-6 h-6 text-emerald-400" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] uppercase font-black tracking-widest text-emerald-400 mb-0.5">ATS Score</p>
-                                        <p className="text-xl font-black text-white">99/100</p>
-                                    </div>
+                                <div>
+                                    <p className="text-[10px] uppercase font-black tracking-widest text-emerald-400 mb-0.5">ATS Score</p>
+                                    <p className="text-xl font-black text-white">99/100</p>
                                 </div>
                             </div>
                         </div>

@@ -6,11 +6,11 @@ export const createStyles = (templateId: string) => {
     const colors = getTemplateColors(templateId)
     const id = templateId.toLowerCase()
 
-    const isATS = id.startsWith('ats-') || ['classic-clean', 'minimal', 'graduate', 'compact'].includes(id)
-    const hasSidebar = (id.startsWith('modern') || id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('creative') || id.startsWith('split-contrast') || id.startsWith('cute') || id.startsWith('service') || id.startsWith('hospitality') || id.startsWith('cruise') || id.startsWith('nursing') || id.startsWith('chef') || id.startsWith('hotel') || id.startsWith('revenue-leader')) && !isATS
-    const hasColumns = id.startsWith('compact')
-    const sidebarOnRight = (id.startsWith('technical') || id.startsWith('startup') || id.startsWith('chic') || id.startsWith('creative') || id.startsWith('compact') || id.startsWith('revenue-leader')) && !isATS
-    const sidebarOnLeft = (id.startsWith('split-contrast') || id.startsWith('modern') || id.startsWith('hospitality') || id.startsWith('service') || id.startsWith('cruise') || id.startsWith('nursing') || id.startsWith('chef') || id.startsWith('hotel')) && !isATS
+    const isATS = true // All active templates are now ATS-optimized or Classic Clean
+    const hasSidebar = false
+    const hasColumns = false
+    const sidebarOnRight = false
+    const sidebarOnLeft = false
     
     // Increased margins for ATS templates for better scanner readability (Standard 1" is 72pt, 0.75" is 54pt)
     const containerPaddingX = isATS ? 54 : 30
@@ -19,33 +19,28 @@ export const createStyles = (templateId: string) => {
     // isDarkSidebar seems to be used partially, let's keep logic intact
     // const isDarkSidebar = id.startsWith('modern') || ((id.startsWith('technical') || id.startsWith('ats-technical')) && id.includes('dark'))
     
-    const isEtsyPremiumSerif = id.startsWith('artisan') || id.startsWith('chic') || id.startsWith('luxe') || id.startsWith('executive') || id.startsWith('ats-executive');
-    const isStandardSerif = id.startsWith('academic') || id.includes('serif') || id.startsWith('hospitality') || id.startsWith('hotel') || id.startsWith('chef') || id === 'graduate' || id.startsWith('graduate-');
+    const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean';
+    const isStandardSerif = id.startsWith('ats-academia') || id.includes('serif');
     
     let fontFamily = 'Inter';
     if (isEtsyPremiumSerif) fontFamily = 'Playfair Display';
     else if (isStandardSerif) fontFamily = 'Lora';
-    else if (id.startsWith('technical') || id.startsWith('ats-technical')) fontFamily = 'Courier';
-    else if (id.startsWith('minimal') || id.startsWith('cute') || id.startsWith('modern')) fontFamily = 'Lato';
+    else if (id.includes('technical')) fontFamily = 'Courier';
+    else if (id.startsWith('ats-minimal') || id.startsWith('ats-modern')) fontFamily = 'Lato';
 
     const baseLineHeight = isEtsyPremiumSerif ? 1.45 : (isStandardSerif ? 1.35 : 1.3);
     const headingLetterSpacing = (isEtsyPremiumSerif || id.startsWith('minimal') || id.startsWith('cute') || id.startsWith('modern')) ? 1.5 : 1;
 
     // Specific alignment checks to match HTML templates
     const isCentered = id.startsWith('classic') ||
-        (id.startsWith('minimal') && !id.startsWith('ats-minimal')) ||
-        id.startsWith('executive') ||
-        id.startsWith('luxe') ||
-        id.startsWith('cute') ||
         id.startsWith('ats-professional') ||
         id.startsWith('ats-classic') ||
         id.startsWith('ats-hospitality') ||
         id.startsWith('ats-nursing') ||
         id.startsWith('ats-academia') ||
-        id.startsWith('hotel') ||
-        id === 'graduate' || id.startsWith('graduate-')
+        id.startsWith('ats-graduate')
 
-    const isJustifiedHeader = (id.startsWith('compact') || id.startsWith('technical') || id.startsWith('ats-standard') || id.startsWith('ats-modern')) && !id.startsWith('ats-timeline')
+    const isJustifiedHeader = (id.includes('technical') || id.startsWith('ats-modern')) && !id.startsWith('ats-timeline')
 
     // Pre-calculate border widths
     let headerBorderBottomWidth = 0

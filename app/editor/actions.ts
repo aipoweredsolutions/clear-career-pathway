@@ -395,80 +395,113 @@ export async function saveResume(data: ResumeDocument): Promise<{ success: boole
     }
 }
 
-export async function incrementExportCount(documentId: string, format: string): Promise<{ success: boolean, limitReached?: boolean, requiresPayment?: boolean }> {
-    const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return { success: false }
+export async function incrementExportCount(documentId: string, format: string): Promise<{ success: boolean, limitReached?: boolean, requiresPayment?: boolean, error?: string }> {
+    try {
+        const supabase = await getSupabase()
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return { success: false, error: 'User not authenticated' }
 
-    const monthYear = new Date().toISOString().substring(0, 7)
+        const monthYear = new Date().toISOString().substring(0, 7)
 
-    // 1. Get profile for credits
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('download_credits')
-        .eq('id', user.id)
-        .single()
-
-    const credits = profile?.download_credits || 0
-
-    // 2. Get tier info
-    const { data: sub } = await supabase
-        .from('user_subscriptions')
-        .select('*, tier:subscription_tiers(*)')
-        .eq('user_id', user.id)
-        .maybeSingle()
-
-    const tier = sub?.tier as any
-    const isPremium = tier?.name === 'premium' || tier?.name === 'pro' || tier?.name === 'power'
-    const exportLimit = tier?.max_exports_per_month ?? 1
-
-    let paymentMethod = 'subscription'
-
-    if (credits > 0 && !isPremium) { // Use credit if not on unlimited plan
-        // Deduct credit
-        await supabase
+        // 1. Get profile for credits (use maybeSingle to avoid throw on empty)
+        const { data: profile, error: profileErr } = await supabase
             .from('profiles')
-            .update({ download_credits: credits - 1 })
+            .select('download_credits')
             .eq('id', user.id)
-
-        paymentMethod = 'credit'
-    } else {
-        // Check regular subscription usage limit
-        const { data: usage } = await supabase
-            .from('user_usage')
-            .select('*')
-            .eq('user_id', user.id)
-            .eq('month_year', monthYear)
             .maybeSingle()
 
-        const currentCount = usage?.export_count || 0
-
-        // If they have no credits and reached their limit (and it's not unlimited)
-        if (exportLimit !== null && currentCount >= exportLimit && tier?.name !== 'premium') {
-            return { success: false, limitReached: true, requiresPayment: true }
+        if (profileErr) {
+            console.error('[incrementExportCount] Profile Error:', profileErr)
         }
 
-        // Increment standard usage
-        await supabase
-            .from('user_usage')
-            .upsert({
+        const credits = profile?.download_credits || 0
+
+        // 2. Get tier info
+        const { data: sub, error: subErr } = await supabase
+            .from('user_subscriptions')
+            .select('*, tier:subscription_tiers(*)')
+            .eq('user_id', user.id)
+            .maybeSingle()
+
+        if (subErr) {
+            console.error('[incrementExportCount] Subscription Error:', subErr)
+        }
+
+        const tier = sub?.tier as any
+        const tierName = tier?.name || 'free'
+        const isPremium = tierName === 'premium' || tierName === 'pro' || tierName === 'power' || tierName === 'lifetime_pro' || tierName === 'pro_monthly'
+        const exportLimit = tier?.max_exports_per_month ?? 1
+
+        let paymentMethod = 'subscription'
+
+        if (credits > 0 && !isPremium) { // Use credit if not on unlimited plan
+            // Deduct credit
+            const { error: updateErr } = await supabase
+                .from('profiles')
+                .update({ download_credits: credits - 1 })
+                .eq('id', user.id)
+                
+            if (updateErr) {
+                console.error('[incrementExportCount] Failed to update credits:', updateErr)
+                return { success: false, error: 'Failed to update credits' }
+            }
+
+            paymentMethod = 'credit'
+        } else {
+            // Check regular subscription usage limit
+            const { data: usage, error: usageErr } = await supabase
+                .from('user_usage')
+                .select('*')
+                .eq('user_id', user.id)
+                .eq('month_year', monthYear)
+                .maybeSingle()
+
+            if (usageErr) {
+                console.error('[incrementExportCount] Usage Fetch Error:', usageErr)
+            }
+
+            const currentCount = usage?.export_count || 0
+
+            // If they have no credits and reached their limit (and it's not unlimited)
+            if (exportLimit !== null && currentCount >= exportLimit && !isPremium) {
+                return { success: false, limitReached: true, requiresPayment: true }
+            }
+
+            // Increment standard usage
+            const { error: upsertErr } = await supabase
+                .from('user_usage')
+                .upsert({
+                    user_id: user.id,
+                    month_year: monthYear,
+                    export_count: currentCount + 1,
+                    updated_at: new Date().toISOString()
+                }, { onConflict: 'user_id, month_year' })
+                
+            if (upsertErr) {
+                console.error('[incrementExportCount] Failed to update user_usage:', upsertErr)
+                // We might fail here if RLS on user_usage blocks upsert, but we still want to allow the download if they had the right to it.
+                // However, we should try to track it. If it fails, we log it, but we can still return success to not block the user arbitrarily if the DB fails.
+                // Let's just log it and proceed.
+            }
+        }
+
+        // 3. Record in download history
+        if (documentId) {
+            const { error: historyErr } = await supabase.from('download_history').insert({
                 user_id: user.id,
-                month_year: monthYear,
-                export_count: currentCount + 1,
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'user_id, month_year' })
-    }
+                document_id: documentId,
+                format: format,
+                payment_method: paymentMethod
+            })
+            if (historyErr) {
+                console.error('[incrementExportCount] Failed to insert download_history:', historyErr)
+            }
+        }
 
-    // 3. Record in download history
-    if (documentId) {
-        await supabase.from('download_history').insert({
-            user_id: user.id,
-            document_id: documentId,
-            format: format,
-            payment_method: paymentMethod
-        })
+        return { success: true }
+    } catch (err: any) {
+        console.error('[incrementExportCount] Unhandled Exception:', err)
+        return { success: false, error: err.message || 'Unknown error' }
     }
-
-    return { success: true }
 }
 

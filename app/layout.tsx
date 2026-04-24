@@ -67,9 +67,11 @@ export const metadata: Metadata = {
 import { AuthProvider } from '@/components/auth/AuthProvider'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
-import { CookieConsent } from '@/components/layout/CookieConsent'
 import { cn } from '@/lib/utils'
-import { Toaster } from 'sonner'
+import dynamic from 'next/dynamic'
+
+const CookieConsent = dynamic(() => import('@/components/layout/CookieConsent').then(mod => mod.CookieConsent))
+const Toaster = dynamic(() => import('sonner').then(mod => mod.Toaster))
 
 export default function RootLayout({
     children,
