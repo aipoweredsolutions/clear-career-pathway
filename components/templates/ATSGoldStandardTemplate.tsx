@@ -31,6 +31,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
         volunteerExperience,
         languages,
         professionalAffiliations,
+        references,
         customSections
     } = data
 
@@ -403,6 +404,24 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                                 </span>
                             ))}
                         </p>
+                    </section>
+                )}
+
+                {/* References */}
+                {references && references.length > 0 && (
+                    <section>
+                        <SectionHeader title="References" />
+                        <div className="space-y-4">
+                            {references.map((ref, i) => (
+                                <div key={i} className="text-[12px] text-neutral-800">
+                                    {ref.referenceName && <div className="font-bold">{ref.referenceName}</div>}
+                                    {ref.role && <div>{ref.role}</div>}
+                                    {ref.organization && <div className="italic">{ref.organization}</div>}
+                                    {ref.contactDetails && <div className="text-neutral-600">{ref.contactDetails}</div>}
+                                    {ref.availabilityStatement && <div className="text-neutral-500 italic mt-1">{ref.availabilityStatement}</div>}
+                                </div>
+                            ))}
+                        </div>
                     </section>
                 )}
 

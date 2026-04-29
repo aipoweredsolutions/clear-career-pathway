@@ -477,8 +477,29 @@ function EditorContent() {
                             }}
                         >
                             <div
-                                className="shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-out bg-white"
+                                className="shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-out bg-white relative"
                             >
+                                {/* Page Break Simulator Gaps */}
+                                <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
+                                    {[1, 2, 3, 4].map((page) => {
+                                        const height = data.formatting?.paperSize === 'a4' ? '297mm' : '11in'
+                                        return (
+                                            <div
+                                                key={page}
+                                                className="absolute w-full flex flex-col items-center justify-center bg-neutral-200/90 shadow-[inset_0_4px_6px_-1px_rgba(0,0,0,0.1),inset_0_-4px_6px_-1px_rgba(0,0,0,0.1)] backdrop-blur-[2px]"
+                                                style={{ 
+                                                    top: `calc(${page} * ${height} - 12px)`, // offset by half the gap size
+                                                    height: '24px' // size of the visual page gap
+                                                }}
+                                            >
+                                                <div className="bg-neutral-800 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em] shadow-md border border-white/10">
+                                                    Page Break — Page {page + 1}
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+
                                 <TemplateRenderer
                                     templateId={data.templateId}
                                     data={data}

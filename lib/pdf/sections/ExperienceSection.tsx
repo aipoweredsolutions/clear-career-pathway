@@ -7,7 +7,7 @@ export const ExperienceSection = ({ data, styles, templateId, index }: any) => {
     if (!data.workExperience?.length) return null
 
     return (
-        <Section title={getSectionTitle(templateId, 'workExperience', index)} styles={styles}>
+        <Section title={getSectionTitle(templateId, 'workExperience', index)} styles={styles} templateId={templateId} index={index}>
             {data.workExperience.map((exp: any, i: number) => (
                 <View key={i} style={styles.experienceItem} wrap={false}>
                     <View style={styles.experienceHeader}>

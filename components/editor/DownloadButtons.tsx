@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 
 import { saveAs } from 'file-saver'
 import { UserSubscription } from '@/lib/types/resume'
-import { canExportFormat } from '@/lib/supabase/subscriptions'
+import { canExportFormat, canDownloadTemplate } from '@/lib/supabase/subscriptions'
 import { incrementExportCount } from '@/app/editor/actions'
 import { useRouter } from 'next/navigation'
 import { Lock } from 'lucide-react'
@@ -30,6 +30,12 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
     const fileName = `${data.personalInfo?.fullName?.replace(/\s+/g, '_') || 'resume'}`
 
     const handleDocxDownload = async () => {
+        if (!canDownloadTemplate(data.templateId, subscription)) {
+            toast.error('This premium template requires a Pro plan or single purchase.')
+            router.push(`/pricing?template=${data.templateId}`)
+            return
+        }
+
         if (!canExportFormat(subscription, 'docx')) {
             toast.error('DOCX export requires a premium credit. Redirecting to plans...')
             setTimeout(() => router.push('/pricing'), 1500)
@@ -60,6 +66,12 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
     }
 
     const handlePdfDownload = async () => {
+        if (!canDownloadTemplate(data.templateId, subscription)) {
+            toast.error('This premium template requires a Pro plan or single purchase.')
+            router.push(`/pricing?template=${data.templateId}`)
+            return
+        }
+
         if (!canExportFormat(subscription, 'pdf')) {
             toast.error('Full PDF download requires a premium credit. Redirecting to plans...')
             setTimeout(() => router.push('/pricing'), 1500)
@@ -117,7 +129,7 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                         </span>
                     ) : (
                         <div className="flex items-center gap-1.5">
-                            {!canExportFormat(subscription, 'pdf') && <Lock className="w-3 h-3 text-red-400 group-hover:text-red-500" />}
+                            {(!canExportFormat(subscription, 'pdf') || !canDownloadTemplate(data.templateId, subscription)) && <Lock className="w-3 h-3 text-red-400 group-hover:text-red-500" />}
                             <Download className="w-3.5 h-3.5" />
                             PDF
                         </div>
@@ -139,7 +151,7 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                         </span>
                     ) : (
                         <div className="flex items-center gap-1.5">
-                            {!canExportFormat(subscription, 'docx') && <Lock className="w-3 h-3 text-blue-400 group-hover:text-blue-500" />}
+                            {(!canExportFormat(subscription, 'docx') || !canDownloadTemplate(data.templateId, subscription)) && <Lock className="w-3 h-3 text-blue-400 group-hover:text-blue-500" />}
                             <FileText className="w-3.5 h-3.5" />
                             DOCX
                         </div>
@@ -189,7 +201,7 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                     </>
                 ) : (
                     <div className="flex items-center">
-                        {!canExportFormat(subscription, 'pdf') && <Lock className="w-3 h-3 mr-2 text-white/70" />}
+                        {(!canExportFormat(subscription, 'pdf') || !canDownloadTemplate(data.templateId, subscription)) && <Lock className="w-3 h-3 mr-2 text-white/70" />}
                         <Download className="w-4 h-4 mr-2" />
                         Download PDF
                     </div>

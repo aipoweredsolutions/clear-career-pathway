@@ -19,7 +19,11 @@ export async function fetchUserSubscription(supabase: SupabaseClient, userId: st
 
     if (error || !data) {
         if (error) console.error('Error fetching subscription:', error)
-        return profile ? { downloadCredits: profile.download_credits } as any : null
+        return profile ? { 
+            tierId: 'free', 
+            status: 'active', 
+            downloadCredits: profile.download_credits 
+        } as any : null
     }
 
     const tierName = (data.tier as any)?.name || 'free'
@@ -31,7 +35,7 @@ export async function fetchUserSubscription(supabase: SupabaseClient, userId: st
         tierId: tierName, // Use the name as the tierId in the app
         paddleSubscriptionId: data.paddle_subscription_id,
         paddleCustomerId: data.paddle_customer_id,
-        status: data.status,
+        status: data.status || 'active', // Default to active for convenience
         currentPeriodStart: data.current_period_start,
         currentPeriodEnd: data.current_period_end,
         createdAt: data.created_at,
@@ -46,7 +50,7 @@ export async function fetchUserSubscription(supabase: SupabaseClient, userId: st
  * Checks if a user has access to a specific feature or template
  */
 export function hasPremiumAccess(subscription: UserSubscription | null): boolean {
-    if (!subscription) return false
+    if (!subscription || !subscription.tierId) return false
 
     // Check if subscription is active
     if (subscription.status !== 'active') {
@@ -54,8 +58,21 @@ export function hasPremiumAccess(subscription: UserSubscription | null): boolean
         return false
     }
 
-    // Check if the tier is 'premium' or 'pro'
-    return subscription.tierId === 'premium' || subscription.tierId === 'pro'
+    // Check if the tier is 'premium', 'pro', 'power', or 'lifetime_pro'
+    return ['premium', 'pro', 'power', 'lifetime_pro', 'pro_monthly'].includes(subscription.tierId.toLowerCase())
+}
+
+/**
+ * Checks if a user can download a specific template based on their tier and template's premium status
+ */
+export function canDownloadTemplate(templateId: string, subscription: UserSubscription | null): boolean {
+    const freeTemplates = ['ats-professional', 'ats-minimal']
+    
+    // If it's a free template, anyone can download
+    if (freeTemplates.includes(templateId)) return true
+
+    // Otherwise, check for premium access
+    return hasPremiumAccess(subscription)
 }
 
 /**

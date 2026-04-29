@@ -5,20 +5,40 @@ export const PRICING_TIERS = [
         period: 'forever',
         description: 'Perfect to get started and build your first professional resume.',
         features: [
-            'Access to 2 Standard ATS Templates',
+            '2 Free Premium ATS Templates',
             'Basic Resume Builder Tools',
-            'Watermarked PDF Export',
+            'Clean PDF Export (Free Templates)',
             '1 Job Resume Version'
         ],
         limitations: [
             'No DOCX or Markdown Export',
             'No AI Bullet Tailoring',
             'No Cover Letter Generator',
-            'No Premium Templates'
+            'Premium Templates Restricted'
         ],
         cta: 'Get Started Free',
         ctaLink: '/auth/signup',
         highlighted: false,
+    },
+    {
+        name: 'Single Export',
+        price: 4.99,
+        period: 'one-time',
+        description: 'Need just one perfect resume? Get a single premium export.',
+        features: [
+            'Choice of any Premium Template',
+            'Single High-Quality PDF Export',
+            '7-day access to Editor',
+            'AI Keyword Optimization'
+        ],
+        limitations: [
+            'Single Document Only',
+            'Limited AI Tailoring'
+        ],
+        cta: 'Buy Single Export',
+        ctaLink: '/auth/signup?tier=single',
+        highlighted: false,
+        paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_SINGLE_PRICE_ID
     },
     {
         name: 'Pro Monthly',

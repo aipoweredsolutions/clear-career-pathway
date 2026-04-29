@@ -25,6 +25,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-neutral
         volunteerExperience,
         languages,
         professionalAffiliations,
+        references,
         customSections
     } = data
 
@@ -39,9 +40,11 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-neutral
                     <h1 className="text-4xl font-extrabold text-neutral-900 tracking-tight leading-none mb-2">
                         {personalInfo?.fullName || 'Your Name'}
                     </h1>
-                    <div className={cn("text-lg font-bold tracking-widest uppercase", accentColor)}>
-                        {personalInfo?.professionalTitle || 'Professional Role'}
-                    </div>
+                    {personalInfo?.professionalTitle && (
+                        <div className={cn("text-lg font-bold tracking-widest uppercase", accentColor)}>
+                            {personalInfo.professionalTitle}
+                        </div>
+                    )}
                 </div>
                 <div className="text-right space-y-1">
                     <div className="text-xs font-bold text-neutral-500 uppercase tracking-widest">
@@ -216,6 +219,24 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-neutral
                                     <span className={cn("text-xs font-black uppercase px-2 py-0.5 rounded bg-neutral-100", accentColor)}>
                                         {l.proficiencyLevel}
                                     </span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* References */}
+                {references && references.length > 0 && (
+                    <section>
+                        <h2 className={cn("text-sm font-black uppercase tracking-[0.2em] border-b pb-2 mb-4", borderColorClass, accentColor)}>References</h2>
+                        <div className="grid grid-cols-2 gap-6">
+                            {references.map((ref, i) => (
+                                <div key={i} className="text-sm">
+                                    {ref.referenceName && <div className="font-bold text-neutral-900">{ref.referenceName}</div>}
+                                    {ref.role && <div className="text-neutral-700">{ref.role}</div>}
+                                    {ref.organization && <div className="italic text-neutral-600 leading-tight">{ref.organization}</div>}
+                                    {ref.contactDetails && <div className="text-neutral-500 mt-1">{ref.contactDetails}</div>}
+                                    {ref.availabilityStatement && <div className="text-neutral-500 italic mt-1">{ref.availabilityStatement}</div>}
                                 </div>
                             ))}
                         </div>

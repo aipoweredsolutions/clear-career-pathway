@@ -31,7 +31,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'technical'],
             industries: ['General', 'Business', 'Tech', 'Finance', 'Legal', 'Healthcare']
         },
-        isPremium: true,
+        isPremium: false,
         colors: [
             { id: 'standard', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -51,7 +51,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate', 'creative'],
             industries: ['General']
         },
-        isPremium: true,
+        isPremium: false,
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
@@ -446,11 +446,51 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
-            { id: 'black', name: 'Standard Black', hex: '#000000' },
-            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
-            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
-            { id: 'slate', name: 'Slate Gray', hex: '#475569' },
-            { id: 'maroon', name: 'Deep Maroon', hex: '#7f1d1d' }
+            { id: 'black',   name: 'Standard Black', hex: '#000000' },
+            { id: 'navy',    name: 'Navy',            hex: '#1e3a8a' },
+            { id: 'charcoal',name: 'Charcoal',        hex: '#374151' },
+            { id: 'slate',   name: 'Slate Gray',      hex: '#475569' },
+            { id: 'maroon',  name: 'Deep Maroon',     hex: '#7f1d1d' }
+        ]
+    },
+
+    // --- 23. ELEGANT SPLIT (Two-Column, Free, Non-ATS) ---
+    {
+        id: 'elegant-split',
+        name: 'Elegant Split',
+        description: 'A visually striking two-column layout with a dark sidebar and a clean white content area. Dark panel holds contact details, skills, and certifications while the main column showcases your experience and education. Bold, modern, and free to use.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'creative', 'technical'],
+            industries: ['General', 'Tech', 'Marketing', 'Design', 'Finance', 'Sales']
+        },
+        isPremium: false,
+        colors: [
+            { id: 'slate',    name: 'Midnight Slate', hex: '#0f172a' },
+            { id: 'navy',     name: 'Deep Navy',       hex: '#1e3a8a' },
+            { id: 'forest',   name: 'Forest Green',    hex: '#064e3b' },
+            { id: 'burgundy', name: 'Burgundy',        hex: '#4c0519' },
+            { id: 'gold',     name: 'Dark Gold',       hex: '#78350f' }
+        ]
+    },
+
+    // --- 24. PRESTIGE (Two-Column, Free, Non-ATS) ---
+    {
+        id: 'prestige',
+        name: 'Prestige',
+        description: 'An elegant two-column résumé with a wide serif header, gold accent rule, and italic professional title — inspired by premium European CV design. Skills and profile on the left, experience and education on the right. Sophisticated and free to use.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'creative', 'academic'],
+            industries: ['General', 'Business', 'Law', 'Consulting', 'Academia', 'Finance', 'Healthcare']
+        },
+        isPremium: false,
+        colors: [
+            { id: 'gold',     name: 'Classic Gold',    hex: '#C9A84C' },
+            { id: 'teal',     name: 'Sophisticated Teal', hex: '#0F766E' },
+            { id: 'charcoal', name: 'Charcoal',        hex: '#374151' },
+            { id: 'rose',     name: 'Burgundy Rose',   hex: '#9F1239' },
+            { id: 'navy',     name: 'Oxford Navy',     hex: '#1e3a8a' }
         ]
     }
 ]

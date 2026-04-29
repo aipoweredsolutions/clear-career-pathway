@@ -172,6 +172,214 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         bestFor: 'Junior Developers and Bootcamp Graduates.',
         templateId: 'ats-modern-blue',
         sampleDataKey: 'software_engineer'
+    },
+    {
+        slug: 'senior-software-engineer-resume-template',
+        name: 'Executive Leadership',
+        industry: 'Technology',
+        title: 'Senior Software Engineer Resume Template',
+        description: 'An authoritative ATS format for senior developers and engineering managers. Focuses on leadership impact and complex system architecture.',
+        atsScore: 98,
+        whyItWorks: 'Senior roles require high information density. This template manages long experience sections without breaking the ATS parsing sequence.',
+        bestFor: 'Senior Engineers, Tech Leads, and Engineering Managers.',
+        templateId: 'ats-executive-gold',
+        sampleDataKey: 'software_engineer'
+    },
+    {
+        slug: 'no-experience-resume-template',
+        name: 'Clean Minimalist',
+        industry: 'General',
+        title: 'Resume Template for No Experience',
+        description: 'A clean, effective ATS resume template for those with no work experience. Highlights education, volunteering, and transferable skills.',
+        atsScore: 99,
+        whyItWorks: 'Focuses on the skills and education headers to ensure the resume isn\'t rejected for lack of "Experience" block keywords.',
+        bestFor: 'Students, First-time job seekers, and Volunteers.',
+        templateId: 'ats-minimal-black',
+        sampleDataKey: 'graduate'
+    },
+    {
+        slug: 'ats-friendly-resume-template',
+        name: 'Professional Blue Accent',
+        industry: 'General',
+        title: '100% ATS Friendly Resume Template',
+        description: 'The ultimate ATS-optimized resume template. Zero graphics, single-column, and standard fonts for maximum compatibility.',
+        atsScore: 100,
+        whyItWorks: 'Engineered specifically for systems like Workday and Taleo. Uses standard headers and a flat hierarchy.',
+        bestFor: 'Corporate applicants and High-volume job applications.',
+        templateId: 'ats-professional-navy',
+        sampleDataKey: 'sales_executive'
+    },
+    {
+        slug: 'modern-resume-template-free',
+        name: 'Modern Clean',
+        industry: 'General',
+        title: 'Modern Resume Template - Free Download',
+        description: 'A stylish yet machine-readable resume template that gives you a modern edge without sacrificing ATS score.',
+        atsScore: 97,
+        whyItWorks: 'Balances modern typography with a conservative structure, making it perfect for human recruiters and robot screeners alike.',
+        bestFor: 'Modern professionals in Tech, Marketing, and Design.',
+        templateId: 'ats-modern-violet',
+    },
+    // Country-Specific (Programmatic SEO)
+    {
+        slug: 'best-cv-template-kenya',
+        name: 'Professional Kenyan CV',
+        industry: 'General',
+        title: 'Best CV Template in Kenya (PDF & Word format)',
+        description: 'A compliant, widely accepted CV format in Kenya PDF & Word compatible. Optimized for Kenyan employers and ATS systems.',
+        atsScore: 98,
+        whyItWorks: 'Follows the standard Kenyan resume format expectations while ensuring full ATS readability.',
+        bestFor: 'Job seekers in Kenya across all industries.',
+        templateId: 'ats-professional-navy',
+        sampleDataKey: 'sales_executive'
+    },
+    {
+        slug: 'resume-format-in-kenya',
+        name: 'Standard Kenyan Format',
+        industry: 'General',
+        title: 'Standard Resume Format in Kenya',
+        description: 'The definitive resume format in Kenya. Download this template to ensure your application meets local standards.',
+        atsScore: 99,
+        whyItWorks: 'Strikes the right balance between modern aesthetics and the traditional CV structure preferred in Nairobi and across Kenya.',
+        bestFor: 'Freshers and experienced professionals in Kenya.',
+        templateId: 'ats-classic-left',
+        sampleDataKey: 'software_engineer'
+    },
+    // Hidden Opportunities
+    {
+        slug: 'download-resume-template-word-format',
+        name: 'Word Export Ready',
+        industry: 'General',
+        title: 'Download Resume Template Word Format',
+        description: 'A highly optimized, clean resume template that looks perfect when downloaded as a Word document or PDF.',
+        atsScore: 100,
+        whyItWorks: 'Uses system-safe fonts and standard margins to ensure flawless export.',
+        bestFor: 'Users who need editable offline formats.',
+        templateId: 'ats-minimal-black',
+        sampleDataKey: 'sales_executive'
+    },
+    {
+        slug: 'one-page-resume-template-free',
+        name: 'One Page Minimalist',
+        industry: 'General',
+        title: 'One Page Resume Template Free',
+        description: 'A condensed, high-impact one-page resume template. Perfect for getting your most important metrics noticed immediately.',
+        atsScore: 95,
+        whyItWorks: 'Forces conciseness and prioritizes recent achievements, which recruiters love.',
+        bestFor: 'Recent graduates and professionals with less than 10 years of experience.',
+        templateId: 'ats-modern-blue',
+        sampleDataKey: 'graduate'
+    },
+    {
+        slug: 'clean-resume-template-ats',
+        name: 'Clean ATS Layout',
+        industry: 'General',
+        title: 'Clean Resume Template for ATS',
+        description: 'An ultra-clean, minimalist ATS resume template with plenty of whitespace and perfect machine readability.',
+        atsScore: 100,
+        whyItWorks: 'No tables, no graphics, no columns. Just pure, clean, parsable data.',
+        bestFor: 'Anyone applying through Workday, Greenhouse, or Lever.',
+        templateId: 'ats-technical-cyan',
+        sampleDataKey: 'software_engineer'
+    },
+    // Global Markets (Programmatic SEO)
+    {
+        slug: 'best-cv-template-uk',
+        name: 'Standard UK CV format',
+        industry: 'General',
+        title: 'Best CV Template UK (ATS Friendly)',
+        description: 'A traditional, highly effective UK CV template that meets the strict parsing requirements of British employers and recruiting agencies.',
+        atsScore: 98,
+        whyItWorks: 'UK CVs typically require more detail and a specific chronological structure. This template handles larger text blocks while maintaining ATS compatibility.',
+        bestFor: 'Job seekers applying to roles in the United Kingdom.',
+        templateId: 'ats-classic-left',
+        sampleDataKey: 'sales_executive'
+    },
+    {
+        slug: 'resume-format-india',
+        name: 'Indian Professional Format',
+        industry: 'General',
+        title: 'Best Resume Format for India (Free Download)',
+        description: 'The standard, widely accepted resume format in India. Includes standardized sections for extensive educational backgrounds and personal details often expected by Indian recruiters.',
+        atsScore: 99,
+        whyItWorks: 'Designed to handle the high density of information typical in Indian resumes without triggering ATS clutter filters.',
+        bestFor: 'Freshers and experienced professionals across India.',
+        templateId: 'ats-technical-cyan',
+        sampleDataKey: 'software_engineer'
+    },
+    {
+        slug: 'cv-format-dubai-uae',
+        name: 'Middle East Executive',
+        industry: 'General',
+        title: 'Best CV Format for Dubai & UAE',
+        description: 'A premium, executive-style CV format perfect for the Dubai and UAE job markets. Highly professional and ATS optimized.',
+        atsScore: 96,
+        whyItWorks: 'The UAE market values strong executive summaries and clear multinational experience mapping, which this layout emphasizes.',
+        bestFor: 'Expatriates and local professionals applying in the UAE.',
+        templateId: 'ats-executive-gold',
+        sampleDataKey: 'sales_executive'
+    },
+    {
+        slug: 'cv-format-south-africa',
+        name: 'South African Standard',
+        industry: 'General',
+        title: 'Standard CV Format South Africa',
+        description: 'A clean, compliant CV template tailored for the South African job market, ensuring perfect parsing by major local ATS platforms.',
+        atsScore: 98,
+        whyItWorks: 'Follows local conventions for education and reference listings while keeping the code structure machine-readable.',
+        bestFor: 'Job seekers in South Africa.',
+        templateId: 'ats-minimal-black',
+        sampleDataKey: 'graduate'
+    },
+    {
+        slug: 'resume-format-australia',
+        name: 'Australian Professional',
+        industry: 'General',
+        title: 'Best Resume Format Australia',
+        description: 'An optimized resume format designed specifically for the Australian job market and local Applicant Tracking Systems.',
+        atsScore: 97,
+        whyItWorks: 'Australian resumes often emphasize core competencies early. This template prioritizes a strong skills matrix.',
+        bestFor: 'Professionals and tradespeople in Australia.',
+        templateId: 'ats-modern-blue',
+        sampleDataKey: 'software_engineer'
+    },
+    {
+        slug: 'resume-format-canada',
+        name: 'Canadian Standard ATS',
+        industry: 'General',
+        title: 'Standard Resume Format Canada',
+        description: 'A crisp, no-nonsense Canadian resume format. 100% compliant with North American ATS parsing rules.',
+        atsScore: 100,
+        whyItWorks: 'Strict adherence to the North American chronological standard, eliminating parsing errors.',
+        bestFor: 'Job seekers applying within Canada.',
+        templateId: 'ats-professional-navy',
+        sampleDataKey: 'software_engineer'
+    },
+
+    // ─── Free Two-Column Designer Templates ──────────────────────────────────
+    {
+        slug: 'elegant-split-resume-template',
+        name: 'Elegant Split',
+        industry: 'General',
+        title: 'Elegant Two-Column Resume Template (Free)',
+        description: 'A premium two-column resume template with a dark sidebar and white main content area. Sophisticated, modern, and completely free to download.',
+        atsScore: 65,
+        whyItWorks: 'Visually distinctive layout that impresses human recruiters and hiring managers at creative or modern tech companies.',
+        bestFor: 'Professionals in tech, design, marketing, or sales applying to companies that prioritise design-forward candidates.',
+        templateId: 'elegant-split-slate',
+        sampleDataKey: 'marketing_manager'
+    },
+    {
+        slug: 'prestige-resume-template',
+        name: 'Prestige',
+        industry: 'General',
+        title: 'Prestige Two-Column Resume Template (Free)',
+        description: 'An elegant European-inspired two-column resume with a large serif name header, gold accent rule, and italic professional title. Free to download.',
+        atsScore: 70,
+        whyItWorks: 'Sophisticated design signals credibility. Ideal for roles where presentation and professionalism matter as much as content.',
+        bestFor: 'Business professionals, consultants, lawyers, academics, and finance professionals seeking to make a strong first impression.',
+        templateId: 'prestige-gold',
+        sampleDataKey: 'sales_executive'
     }
 ];
 

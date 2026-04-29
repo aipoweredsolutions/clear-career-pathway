@@ -6,13 +6,7 @@ import { mockHeroResume } from '@/lib/config/mock-resume'
 import { cn } from '@/lib/utils'
 import dynamic from 'next/dynamic'
 import { templateRegistry } from '@/lib/templates/registry'
-
-// Directly import only the 4 templates we need for the slideshow
-// instead of going through TemplateRenderer which has heavy dynamic imports
-import { ATSExecutiveTemplate } from '@/components/templates/ATSExecutiveTemplate'
-import { ATSGoldStandardTemplate } from '@/components/templates/ATSGoldStandardTemplate'
-import { ATSModernTemplate } from '@/components/templates/ATSModernTemplate'
-import { ATSProfessionalTemplate } from '@/components/templates/ATSProfessionalTemplate'
+import { TemplateThumbnail } from './TemplateThumbnail'
 
 const TemplatePreviewDialog = dynamic(
     () => import('@/components/home/TemplatePreviewDialog').then(m => ({ default: m.TemplatePreviewDialog })),
@@ -20,10 +14,10 @@ const TemplatePreviewDialog = dynamic(
 )
 
 const FEATURED_TEMPLATES = [
-    { id: 'ats-executive', name: 'ATS Executive', Component: ATSExecutiveTemplate },
-    { id: 'ats-gold-standard', name: 'ATS Gold Standard', Component: ATSGoldStandardTemplate },
-    { id: 'ats-modern', name: 'ATS Modern', Component: ATSModernTemplate },
-    { id: 'ats-professional', name: 'ATS Professional', Component: ATSProfessionalTemplate },
+    { id: 'prestige', name: 'Prestige Design', colorId: 'gold' },
+    { id: 'elegant-split', name: 'Elegant Split', colorId: 'slate' },
+    { id: 'ats-classic-left', name: 'Executive Left', colorId: 'navy' },
+    { id: 'ats-gold-standard', name: 'ATS Gold Standard', colorId: 'black' },
 ]
 
 const SLIDE_DURATION = 5000 // 5 seconds per slide
@@ -76,10 +70,22 @@ export function HeroTemplateSlideshow() {
                 {/* Back Glow */}
                 <div className="absolute inset-0 bg-primary-500/30 blur-[100px] rounded-full" />
 
-                {/* Back Card 1 */}
-                <div className="absolute inset-0 -right-8 -top-8 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 rotate-6 scale-95 opacity-50" />
-                {/* Back Card 2 */}
-                <div className="absolute inset-0 -left-8 -bottom-8 bg-indigo-500/10 backdrop-blur-3xl rounded-2xl border border-indigo-500/20 -rotate-3 scale-95 opacity-70" />
+                {/* Back Card 1 (Next Template) */}
+                <div className="absolute inset-0 -right-8 -top-8 rounded-2xl border border-white/10 rotate-6 scale-95 opacity-50 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-0 transition-all duration-500 pointer-events-none">
+                    <TemplateThumbnail 
+                        template={templateRegistry.find(t => t.id === FEATURED_TEMPLATES[(activeIndex + 1) % FEATURED_TEMPLATES.length].id)!}
+                        activeColorId={FEATURED_TEMPLATES[(activeIndex + 1) % FEATURED_TEMPLATES.length].colorId}
+                    />
+                    <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px] pointer-events-none z-20" />
+                </div>
+                {/* Back Card 2 (Previous Template) */}
+                <div className="absolute inset-0 -left-8 -bottom-8 rounded-2xl border border-indigo-500/20 -rotate-3 scale-95 opacity-70 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-0 transition-all duration-500 pointer-events-none">
+                    <TemplateThumbnail 
+                        template={templateRegistry.find(t => t.id === FEATURED_TEMPLATES[(activeIndex + FEATURED_TEMPLATES.length - 1) % FEATURED_TEMPLATES.length].id)!}
+                        activeColorId={FEATURED_TEMPLATES[(activeIndex + FEATURED_TEMPLATES.length - 1) % FEATURED_TEMPLATES.length].colorId}
+                    />
+                    <div className="absolute inset-0 bg-indigo-900/20 backdrop-blur-[2px] pointer-events-none z-20" />
+                </div>
 
                 {/* Main Card */}
                 <div
@@ -89,23 +95,15 @@ export function HeroTemplateSlideshow() {
                     {/* Hover shimmer overlay */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 pointer-events-none" />
 
-                    {/* CSS Transform Scaled Live Template */}
+                    {/* Optimized Image based Slide */}
                     <div className={cn(
                         "absolute inset-0 bg-white z-10 transition-all duration-500 ease-in-out",
                         isTransitioning ? "opacity-0 scale-[0.96]" : "opacity-100 scale-100"
                     )}>
-                        <div 
-                            key={currentTemplate.id}
-                            className="bg-white pointer-events-none px-12 py-14"
-                            style={{
-                                width: '794px',
-                                height: '1123px',
-                                transform: 'scale(0.529)',
-                                transformOrigin: 'top left',
-                            }}
-                        >
-                            {currentTemplate.Component && <currentTemplate.Component data={mockHeroResume} />}
-                        </div>
+                        <TemplateThumbnail 
+                            template={templateRegistry.find(t => t.id === currentTemplate.id)!}
+                            activeColorId={currentTemplate.colorId}
+                        />
                     </div>
 
                     {/* Glass Overlay Card */}

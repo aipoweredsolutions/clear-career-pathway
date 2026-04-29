@@ -7,7 +7,7 @@ export const EducationSection = ({ data, styles, templateId, index }: any) => {
     if (!data.education?.length) return null
 
     return (
-        <Section title={getSectionTitle(templateId, 'education', index)} styles={styles}>
+        <Section title={getSectionTitle(templateId, 'education', index)} styles={styles} templateId={templateId} index={index}>
             {data.education.map((edu: any, i: number) => (
                 <View key={i} style={styles.experienceItem} wrap={false}>
                     <View style={styles.experienceHeader}>

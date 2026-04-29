@@ -44,3 +44,4 @@ Objective: Ensure all resume templates are fully ATS compliant by following the 
 - **Standardization**: Replaced custom bullet points and decorative markers with standard HTML lists.
 - **Header Optimization**: Simplified complex header structures to ensure contact information is easily extractable.
 - **Consistency**: Applied the "Gold Standard" principles across the entire library to ensure uniform machine readability.
+- **Personal Branding**: Standardized the inclusion of `professionalTitle` in all headers with defensive conditional rendering to ensure prominent and reliable display across all designs.

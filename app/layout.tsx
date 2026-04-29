@@ -29,27 +29,49 @@ const lato = Lato({
 
 export const metadata: Metadata = {
     title: {
-        default: 'Clear Career Path - Professional Resume & CV Builder',
+        default: 'Clear Career Path | AI-Powered ATS Resume Builder',
         template: '%s | Clear Career Path'
     },
-    description: 'Create ATS-compliant resumes, CVs, and cover letters with AI-powered content improvement. Start from scratch or upload and enhance your existing documents.',
-    keywords: ['resume builder', 'CV maker', 'ATS resume', 'cover letter', 'career documents', 'job application'],
-    authors: [{ name: 'Clear Career Path' }],
+    description: 'Build an ATS-compliant resume in minutes. Our AI resume builder creates professional, recruiter-approved CVs guaranteed to pass Applicant Tracking Systems.',
+    keywords: [
+        // Commercial Intent
+        'ATS resume builder', 'AI resume maker', 'professional CV builder', 'resume creator', 'career documents',
+        // Transactional Intent
+        'create resume online', 'free resume builder', 'download ATS resume', 'make a resume',
+        // Informational/Feature Intent
+        'ATS compliance checker', 'resume format 2026', 'AI resume optimizer', 'cover letter generator',
+        // Navigational Intent
+        'Clear Career Path', 'ClearCareerPath'
+    ],
+    authors: [{ name: 'Clear Career Path', url: 'https://www.clearcareerpath.com' }],
     creator: 'Clear Career Path',
     publisher: 'Clear Career Path',
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://www.clearcareerpath.com'),
+    alternates: {
+        canonical: '/',
+    },
     openGraph: {
         type: 'website',
         locale: 'en_US',
         url: '/',
-        title: 'Clear Career Path - Professional Resume & CV Builder',
-        description: 'Create ATS-compliant resumes, CVs, and cover letters with AI-powered content improvement.',
+        title: 'Clear Career Path | AI-Powered ATS Resume Builder',
+        description: 'Build an ATS-compliant resume in minutes. Our AI resume builder creates professional, recruiter-approved CVs guaranteed to pass Applicant Tracking Systems.',
         siteName: 'Clear Career Path',
+        images: [
+            {
+                url: '/og-image.jpg',
+                width: 1200,
+                height: 630,
+                alt: 'Clear Career Path - ATS Resume Builder',
+            }
+        ]
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Clear Career Path - Professional Resume & CV Builder',
-        description: 'Create ATS-compliant resumes, CVs, and cover letters with AI-powered content improvement.',
+        title: 'Clear Career Path | AI-Powered ATS Resume Builder',
+        description: 'Build an ATS-compliant resume in minutes. Our AI resume builder creates professional, recruiter-approved CVs guaranteed to pass Applicant Tracking Systems.',
+        creator: '@ClearCareerPath',
+        images: ['/og-image.jpg'],
     },
     robots: {
         index: true,
@@ -87,8 +109,9 @@ export default function RootLayout({
                         dangerouslySetInnerHTML={{
                             __html: JSON.stringify({
                                 "@context": "https://schema.org",
-                                "@type": "SoftwareApplication",
+                                "@type": "WebApplication",
                                 "name": "Clear Career Path",
+                                "url": "https://www.clearcareerpath.com",
                                 "operatingSystem": "Web",
                                 "applicationCategory": "BusinessApplication",
                                 "offers": {
@@ -97,6 +120,12 @@ export default function RootLayout({
                                     "priceCurrency": "USD"
                                 },
                                 "description": "AI-powered ATS-compliant resume builder and CV generator. Create professional resumes optimized for applicant tracking systems.",
+                                "featureList": [
+                                    "ATS Resume Templates",
+                                    "AI Resume Enhancer",
+                                    "Cover Letter Generator",
+                                    "Career Document Management"
+                                ],
                                 "aggregateRating": {
                                     "@type": "AggregateRating",
                                     "ratingValue": "4.9",

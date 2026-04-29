@@ -16,7 +16,10 @@ import { createBrowserClient } from '@supabase/ssr'
 import { cn } from '@/lib/utils'
 
 export default function CareerHubPage() {
-    const [activeTab, setActiveTab] = useState<CareerHubFeature>('skills_gap')
+    const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
+    const initialTab = (searchParams?.get('tab') as CareerHubFeature) || 'skills_gap'
+    
+    const [activeTab, setActiveTab] = useState<CareerHubFeature>(initialTab)
     const [resumes, setResumes] = useState<ResumeDocument[]>([])
     const [subscription, setSubscription] = useState<(UserSubscription & { downloadCredits?: number }) | null>(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -30,7 +33,9 @@ export default function CareerHubPage() {
     useEffect(() => {
         async function loadData() {
             try {
-                const { data: { session } } = await supabase.auth.getSession()
+                const { data } = await supabase.auth.getSession()
+                const session = data?.session
+                
                 if (!session) {
                     window.location.href = '/auth/login'
                     return

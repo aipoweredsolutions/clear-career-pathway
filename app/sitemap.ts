@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/blog',
         '/ats-resume-scanner',
         '/resume-examples',
+        '/career-hub',
     ].map((route) => ({
         url: `${baseUrl}${route}`,
         lastModified: new Date().toISOString().split('T')[0],

@@ -5,8 +5,17 @@ import { createClient } from '@/lib/supabase/server'
 import { PricingCard } from '@/components/pricing/PricingCard'
 
 export const metadata = {
-    title: 'Pricing',
-    description: 'Choose the perfect plan for your career documentation needs. Transparent pricing with no hidden fees.',
+    title: 'Pricing | ATS Resume Builder Plans',
+    description: 'Compare plans for our AI-powered ATS resume builder. Choose from free standard templates or lifetime access to our entire professional career suite.',
+    keywords: ['resume builder pricing', 'ATS resume builder cost', 'premium CV maker', 'free resume builder plans'],
+    alternates: {
+        canonical: '/pricing',
+    },
+    openGraph: {
+        title: 'Pricing | ATS Resume Builder Plans',
+        description: 'Compare plans for our AI-powered ATS resume builder. Choose from free standard templates or lifetime access to our entire professional career suite.',
+        url: '/pricing',
+    }
 }
 
 import { PRICING_TIERS } from '@/lib/config/pricing'
@@ -15,7 +24,8 @@ import { Suspense } from 'react'
 
 export default async function PricingPage() {
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data } = await supabase.auth.getUser()
+    const user = data?.user
     const isLoggedIn = !!user
 
     const tiers = PRICING_TIERS

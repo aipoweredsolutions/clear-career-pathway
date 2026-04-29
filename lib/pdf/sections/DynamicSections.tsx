@@ -13,7 +13,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
             if (!data.professionalSummary?.summaryText) return null
             const title = getSectionTitle(templateId, 'professionalSummary', index)
             return (
-                <Section title={title} styles={styles} isFirst={index === 0}>
+                <Section title={title} styles={styles} isFirst={index === 0} templateId={templateId} index={index}>
                     <Text style={styles.description}>{data.professionalSummary.summaryText}</Text>
                 </Section>
             )
@@ -26,7 +26,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'certifications':
             if (!data.certifications?.length) return null
             return (
-                <Section title={getSectionTitle(templateId, 'certifications', index)} styles={styles}>
+                <Section title={getSectionTitle(templateId, 'certifications', index)} styles={styles} templateId={templateId} index={index}>
                     {data.certifications.map((cert: any, i: number) => (
                         <View key={i} style={{ marginBottom: 6 }} wrap={false}>
                             <Text style={styles.company}>{cert.certificationName}</Text>
@@ -38,7 +38,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'projects':
             if (!data.projects?.length) return null
             return (
-                <Section title={getSectionTitle(templateId, 'projects', index)} styles={styles}>
+                <Section title={getSectionTitle(templateId, 'projects', index)} styles={styles} templateId={templateId} index={index}>
                     {data.projects.map((project: any, i: number) => (
                         <View key={i} style={styles.experienceItem} wrap={false}>
                             <View style={styles.experienceHeader}>
@@ -58,7 +58,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'achievements':
             if (!data.achievements?.length) return null
             return (
-                <Section title={getSectionTitle(templateId, 'achievements', index)} styles={styles}>
+                <Section title={getSectionTitle(templateId, 'achievements', index)} styles={styles} templateId={templateId} index={index}>
                     {data.achievements.map((ach: any, i: number) => (
                         <View key={i} style={{ marginBottom: 6 }} wrap={false}>
                             <Text style={styles.company}>{ach.achievementTitle}</Text>
@@ -71,7 +71,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'volunteerExperience':
             if (!data.volunteerExperience?.length) return null
             return (
-                <Section title={getSectionTitle(templateId, 'volunteerExperience', index)} styles={styles}>
+                <Section title={getSectionTitle(templateId, 'volunteerExperience', index)} styles={styles} templateId={templateId} index={index}>
                     {data.volunteerExperience.map((vol: any, i: number) => (
                         <View key={i} style={styles.experienceItem} wrap={false}>
                             <View style={styles.experienceHeader}>
@@ -87,7 +87,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'publications':
             if (!data.publications?.length) return null
             return (
-                <Section title={getSectionTitle(templateId, 'publications', index)} styles={styles}>
+                <Section title={getSectionTitle(templateId, 'publications', index)} styles={styles} templateId={templateId} index={index}>
                     {data.publications.map((pub: any, i: number) => (
                         <View key={i} style={{ marginBottom: 6 }} wrap={false}>
                             <Text style={styles.company}>&quot;{pub.title}&quot;</Text>
@@ -99,7 +99,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'languages':
             if (!data.languages?.length) return null
             return (
-                <Section title={getSectionTitle(templateId, 'languages', index)} styles={styles}>
+                <Section title={getSectionTitle(templateId, 'languages', index)} styles={styles} templateId={templateId} index={index}>
                     <View style={styles.skillRow}>
                         {data.languages.map((lang: any, i: number) => (
                             <Text key={i} style={styles.description}>
@@ -113,7 +113,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'professionalAffiliations':
             if (!data.professionalAffiliations?.length) return null
             return (
-                <Section title={getSectionTitle(templateId, 'professionalAffiliations', index)} styles={styles}>
+                <Section title={getSectionTitle(templateId, 'professionalAffiliations', index)} styles={styles} templateId={templateId} index={index}>
                     {data.professionalAffiliations.map((aff: any, i: number) => (
                         <View key={i} style={{ marginBottom: 4 }} wrap={false}>
                             <Text style={styles.company}>{aff.organizationName}</Text>
@@ -125,7 +125,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'references':
             if (!data.references?.length) return null
             return (
-                <Section title={getSectionTitle(templateId, 'references', index)} styles={styles}>
+                <Section title={getSectionTitle(templateId, 'references', index)} styles={styles} templateId={templateId} index={index}>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
                         {data.references.map((ref: any, i: number) => (
                             <View key={i} style={{ marginBottom: 8, width: '45%' }} wrap={false}>
@@ -140,7 +140,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'additionalInfo':
             if (!data.additionalInfo && !data.additionalInfo?.otherInfo) return null
             return (
-                <Section title={getSectionTitle(templateId, 'additionalInfo', index)} styles={styles}>
+                <Section title={getSectionTitle(templateId, 'additionalInfo', index)} styles={styles} templateId={templateId} index={index}>
                     {data.additionalInfo.securityClearance && (
                         <Text style={styles.description}>
                             <Text style={{ fontWeight: 'bold' }}>Security Clearance:</Text> {data.additionalInfo.securityClearance}

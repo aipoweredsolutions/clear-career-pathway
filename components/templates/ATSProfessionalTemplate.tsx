@@ -37,6 +37,11 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                 <h1 className="text-3xl font-bold tracking-tight mb-2">
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
+                {personalInfo?.professionalTitle && (
+                    <div className={cn("text-lg font-medium mb-3", accentColor)}>
+                        {personalInfo.professionalTitle}
+                    </div>
+                )}
 
                 {/* Contact Details - Single line with minimal icons */}
                 <div className="flex items-center justify-center gap-4 text-sm text-neutral-700 flex-wrap">

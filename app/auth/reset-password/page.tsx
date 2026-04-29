@@ -80,15 +80,17 @@ function ResetPasswordForm() {
     // is established from that fragment — that's our signal that we can call
     // updateUser({ password }).
     useEffect(() => {
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+        const { data } = supabase.auth.onAuthStateChange((event) => {
             if (event === 'PASSWORD_RECOVERY') {
                 setSessionReady(true)
             }
         })
+        const subscription = data?.subscription
 
         // Also handle the case where the user is already in a recovery session
         // (e.g. page refresh after fragment is consumed)
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        supabase.auth.getSession().then(({ data }) => {
+            const session = data?.session
             if (session) setSessionReady(true)
         })
 
@@ -102,7 +104,7 @@ function ResetPasswordForm() {
         }, 10000)
 
         return () => {
-            subscription.unsubscribe()
+            subscription?.unsubscribe()
             clearTimeout(timer)
         }
     }, []) // eslint-disable-line react-hooks/exhaustive-deps

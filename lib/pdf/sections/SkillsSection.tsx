@@ -10,14 +10,13 @@ export const SkillsSection = ({ data, styles, templateId, index, isSidebar = fal
     const containerStyle = isSidebar ? styles.sidebarSection : styles.section
 
     return (
-        <View style={containerStyle}>
-            {title && <Text style={isSidebar ? styles.sidebarSectionTitle : styles.sectionTitle}>{title}</Text>}
+        <Section title={title} styles={styles} templateId={templateId} index={index}>
             <View style={styles.skillRow}>
                 {data.skills.map((skill: any, i: number) => (
                     <SkillBadge key={i} text={typeof skill === 'string' ? skill : skill.skillName} styles={styles} />
                 ))}
             </View>
-        </View>
+        </Section>
     )
 }
 

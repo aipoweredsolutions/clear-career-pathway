@@ -7,7 +7,18 @@ import { Briefcase, ArrowRight, Star, ShieldCheck, Zap } from 'lucide-react'
 export const metadata: Metadata = {
     title: 'Professional Resume Examples for 2026 | Clear Career Path',
     description: 'Explore 25+ professional resume examples for every industry. ATS-compliant, recruiter-approved, and ready to use. Find the perfect format for your next role.',
-    keywords: ['resume examples', 'resume samples', 'job resume', 'CV examples', 'professional resume'],
+    keywords: [
+        'resume examples 2026', 'ATS resume samples', 'professional resume templates', 
+        'industry specific resumes', 'CV examples', 'job winning resume samples'
+    ],
+    alternates: {
+        canonical: '/resume-examples',
+    },
+    openGraph: {
+        title: 'Professional Resume Examples for 2026 | Clear Career Path',
+        description: 'Explore 25+ professional resume examples for every industry. ATS-compliant, recruiter-approved, and ready to use.',
+        url: '/resume-examples',
+    }
 }
 
 export default function ResumeExamplesPage() {

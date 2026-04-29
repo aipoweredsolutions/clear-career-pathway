@@ -53,7 +53,8 @@ export async function fetchSubscription(): Promise<UserSubscription | null> {
     }
 
     const supabase = await getSupabase()
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data } = await supabase.auth.getUser()
+    const user = data?.user
     if (!user) return null
     return fetchUserSubscription(supabase, user.id)
 }
@@ -398,7 +399,8 @@ export async function saveResume(data: ResumeDocument): Promise<{ success: boole
 export async function incrementExportCount(documentId: string, format: string): Promise<{ success: boolean, limitReached?: boolean, requiresPayment?: boolean, error?: string }> {
     try {
         const supabase = await getSupabase()
-        const { data: { user } } = await supabase.auth.getUser()
+        const { data } = await supabase.auth.getUser()
+        const user = data?.user
         if (!user) return { success: false, error: 'User not authenticated' }
 
         const monthYear = new Date().toISOString().substring(0, 7)

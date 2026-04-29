@@ -30,24 +30,36 @@ export default async function DashboardPage() {
             user: { id: 'mock-user-id', email: 'tester@example.com' }
         }
     } else {
-        const { data: { session: realSession } } = await supabase.auth.getSession()
-        session = realSession
+        const { data } = await supabase.auth.getUser()
+        const user = data?.user
+        if (user) {
+            session = { user }
+        }
     }
 
     if (!session) {
         redirect('/auth/login')
     }
 
-    // Fetch user's resumes with error handling
+    // Fetch user's resumes and subscription
     let resumes: any[] = []
     let fetchError = null
+    let subscription: any = null
 
     try {
-        resumes = await fetchUserDocuments(supabase, session.user.id)
+        const [docs, sub] = await Promise.all([
+            fetchUserDocuments(supabase, session.user.id),
+            import('@/lib/supabase/subscriptions').then(m => m.fetchUserSubscription(supabase, session.user.id))
+        ])
+        resumes = docs
+        subscription = sub
     } catch (error: any) {
-        console.error('Error fetching documents:', error)
+        console.error('Error fetching dashboard data:', error)
         fetchError = error.message
     }
+
+    const { hasPremiumAccess } = await import('@/lib/supabase/subscriptions')
+    const isPro = hasPremiumAccess(subscription)
 
     return (
         <div className="min-h-screen bg-white pt-24 pb-20">
@@ -55,9 +67,17 @@ export default async function DashboardPage() {
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 border-b border-neutral-100 pb-12">
                     <div className="space-y-4">
-                        <div className="flex items-center gap-2.5 px-3 py-1 rounded-full bg-primary-50 text-primary-600 text-[10px] font-black uppercase tracking-[0.25em] w-fit">
-                            <Sparkles className="w-3.5 h-3.5 fill-primary-600/20" />
-                            Personal Dashboard
+                        <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2.5 px-3 py-1 rounded-full bg-primary-50 text-primary-600 text-[10px] font-black uppercase tracking-[0.25em] w-fit">
+                                <Sparkles className="w-3.5 h-3.5 fill-primary-600/20" />
+                                Personal Dashboard
+                            </div>
+                            {isPro && (
+                                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-900 text-white text-[10px] font-black uppercase tracking-[0.25em] w-fit border border-neutral-800 shadow-lg shadow-neutral-200">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                    Pro Account
+                                </div>
+                            )}
                         </div>
                         <h1 className="text-5xl md:text-7xl font-black text-neutral-950 tracking-tighter italic leading-none">
                             My <span className="text-primary-600">Space.</span>

@@ -113,9 +113,11 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                 
                 <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-1 bg-neutral-900 shrink-0" />
-                    <div className="text-sm font-bold uppercase tracking-widest text-neutral-500">
-                        {personalInfo?.professionalTitle || 'PROFESSIONAL'}
-                    </div>
+                    {personalInfo?.professionalTitle && (
+                        <div className={cn("text-[10px] font-black tracking-[0.4em] mb-4 p-1 inline-block", accentColor)}>
+                            {personalInfo.professionalTitle.toUpperCase()}
+                        </div>
+                    )}
                 </div>
 
                 <div className="text-[11px] font-bold text-neutral-400 tracking-wider flex flex-wrap gap-x-4 gap-y-1">

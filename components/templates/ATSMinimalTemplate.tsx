@@ -22,6 +22,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
         volunteerExperience,
         languages,
         professionalAffiliations,
+        references,
         customSections
     } = data
 
@@ -35,6 +36,11 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                 <h1 className={cn("text-3xl font-light tracking-tight mb-1", accentColor)}>
                     {personalInfo?.fullName?.toUpperCase() || 'YOUR NAME'}
                 </h1>
+                {personalInfo?.professionalTitle && (
+                    <div className="text-[12px] font-medium text-neutral-400 uppercase tracking-[0.3em] mb-3">
+                        {personalInfo.professionalTitle}
+                    </div>
+                )}
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-neutral-500 font-medium uppercase tracking-widest">
                     {personalInfo?.email && <span>{personalInfo.email}</span>}
                     {personalInfo?.phone && (
@@ -189,6 +195,23 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                             {languages.map((l, i) => (
                                 <div key={i} className="text-[11px] font-bold text-neutral-600">
                                     {l.languageName} <span className="text-neutral-300">({l.proficiencyLevel})</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+                {/* References */}
+                {references && references.length > 0 && (
+                    <section>
+                        <h2 className="text-xs font-black uppercase tracking-[0.2em] text-neutral-400 mb-4">References</h2>
+                        <div className="grid grid-cols-1 gap-4">
+                            {references.map((ref, i) => (
+                                <div key={i} className="text-[12px] text-neutral-600">
+                                    {ref.referenceName && <span className="font-bold text-neutral-800">{ref.referenceName}</span>}
+                                    {ref.role && <span> — {ref.role}</span>}
+                                    {ref.organization && <div className="italic">{ref.organization}</div>}
+                                    {ref.contactDetails && <div className="text-neutral-400 mt-0.5">{ref.contactDetails}</div>}
+                                    {ref.availabilityStatement && <div className="text-neutral-400 italic mt-0.5">{ref.availabilityStatement}</div>}
                                 </div>
                             ))}
                         </div>

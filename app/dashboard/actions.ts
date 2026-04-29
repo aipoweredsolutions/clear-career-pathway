@@ -29,8 +29,8 @@ export async function createResume(type: 'resume' | 'cover_letter' = 'resume') {
         // For mock mode, avoid DB calls and send to mock editor
         return redirect('/editor/mock-resume-id')
     } else {
-        const { data: { session: realSession } } = await supabase.auth.getSession()
-        session = realSession
+        const { data } = await supabase.auth.getSession()
+        session = data?.session
     }
 
     if (!session) {
@@ -152,8 +152,8 @@ export async function duplicateResume(resumeId: string) {
         session = { user: { id: 'mock-user-id', email: 'tester@example.com' } }
         return { success: true, id: 'mock-resume-id' }
     } else {
-        const { data: { session: realSession } } = await supabase.auth.getSession()
-        session = realSession
+        const { data } = await supabase.auth.getSession()
+        session = data?.session
     }
 
     if (!session) redirect('/auth/login')

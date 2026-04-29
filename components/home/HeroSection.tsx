@@ -9,9 +9,9 @@ export function HeroSection() {
         <section className="relative min-[90vh] flex items-center overflow-hidden bg-neutral-950 pt-32 pb-40">
             {/* Abstract Ambient Background */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary-900/40 blur-[120px] mix-blend-screen animate-float opacity-70" />
-                <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-indigo-900/40 blur-[150px] mix-blend-screen animate-pulse opacity-70" style={{ animationDuration: '8s' }} />
-                <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-violet-900/30 blur-[100px] mix-blend-screen opacity-50" />
+                <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary-900/40 blur-[120px] mix-blend-screen animate-float opacity-70 will-change-[transform,filter]" />
+                <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-indigo-900/40 blur-[150px] mix-blend-screen animate-pulse opacity-70 will-change-[transform,filter]" style={{ animationDuration: '8s' }} />
+                <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-violet-900/30 blur-[100px] mix-blend-screen opacity-50 will-change-[transform,filter]" />
                 {/* Grid Pattern */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_40%,#000_20%,transparent_100%)]" />
             </div>

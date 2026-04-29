@@ -113,6 +113,14 @@
     .no-print {
       display: none !important;
     }
+
+    /* Prevent awkward page breaks in the PDF */
+    .template-container section,
+    .template-container .avoid-break,
+    .template-container li {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
   }
 }
 
@@ -142,6 +150,7 @@
 
   .animate-marquee {
     animation: marquee 60s linear infinite;
+    will-change: transform;
   }
 
   @keyframes float {
@@ -158,6 +167,7 @@
 
   .animate-float {
     animation: float 6s ease-in-out infinite;
+    will-change: transform;
   }
 
   @keyframes slideProgress {

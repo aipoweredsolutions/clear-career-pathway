@@ -22,11 +22,6 @@ const ComparisonSection = dynamic(
     { loading: () => <div className="py-32 bg-white" /> }
 )
 
-const ToolboxSection = dynamic(
-    () => import('@/components/home/ToolboxSection').then(m => ({ default: m.ToolboxSection })),
-    { loading: () => <div className="py-24 bg-white" /> }
-)
-
 const IndustryKitsSection = dynamic(
     () => import('@/components/home/IndustryKitsSection').then(m => ({ default: m.IndustryKitsSection })),
     { loading: () => <div className="py-24 bg-neutral-50" /> }
@@ -35,6 +30,11 @@ const IndustryKitsSection = dynamic(
 const TemplateGallery = dynamic(
     () => import('@/components/home/ClientInteractions').then(m => ({ default: m.TemplateGallery })),
     { loading: () => <div className="py-32 bg-white" /> }
+)
+
+const ProductSuite = dynamic(
+    () => import('@/components/home/ProductSuite').then(m => ({ default: m.ProductSuite })),
+    { loading: () => <div className="py-32 bg-neutral-950" /> }
 )
 
 const FAQSection = dynamic(
@@ -53,6 +53,9 @@ export default function Home() {
             <HeroSection />
 
             <BrandMarquee />
+
+            {/* Templates Section - Client Component (interactive) */}
+            <TemplateGallery />
 
             {/* How it Works Section - Server Rendered */}
             <section className="py-32 bg-white relative">
@@ -85,15 +88,12 @@ export default function Home() {
                 </div>
             </section>
 
-            <ToolboxSection />
+            <ProductSuite />
 
             <AIDemoSection />
 
 
             <IndustryKitsSection />
-
-            {/* Templates Section - Client Component (interactive) */}
-            <TemplateGallery />
 
             <ComparisonSection />
 

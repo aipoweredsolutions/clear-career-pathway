@@ -286,12 +286,64 @@ export async function POST(req: NextRequest) {
             `
         } else if (type === 'parse_resume_from_text') {
             prompt = `
-            Extract structured data from the following resume text. 
+            Extract highly structured data from the following resume text. 
             Resume Text: "${targetContent?.substring(0, 20000)}"
             
-            Return a valid JSON object with the following keys:
-            personalInfo, professionalSummary, workExperience (array), education (array), skills (array), certifications (array), languages (array), projects (array), additionalInfo.
-            Ensure dates are in YYYY-MM-DD or YYYY-MM format.
+            Strictly follow this JSON schema:
+            {
+                "personalInfo": {
+                    "fullName": "string",
+                    "professionalTitle": "string",
+                    "email": "string",
+                    "phone": "string",
+                    "city": "string",
+                    "country": "string",
+                    "linkedinUrl": "string",
+                    "websiteUrl": "string"
+                },
+                "professionalSummary": {
+                    "summaryText": "string (concise 2-3 sentence overview)"
+                },
+                "workExperience": [
+                    {
+                        "jobTitle": "string",
+                        "companyName": "string",
+                        "location": "string",
+                        "startDate": "YYYY-MM",
+                        "endDate": "YYYY-MM or 'Present'",
+                        "isCurrent": boolean,
+                        "roleDescription": "string (summary of the role)",
+                        "achievements": ["string (quantified bullet point)", "string"]
+                    }
+                ],
+                "education": [
+                    {
+                        "institutionName": "string",
+                        "degree": "string",
+                        "fieldOfStudy": "string",
+                        "location": "string",
+                        "startYear": "string",
+                        "endYear": "string",
+                        "gpa": "string"
+                    }
+                ],
+                "skills": ["string", "string"],
+                "certifications": ["string"],
+                "languages": ["string"],
+                "projects": [
+                    {
+                        "projectName": "string",
+                        "description": "string",
+                        "toolsUsed": "string"
+                    }
+                ]
+            }
+
+            Rules:
+            1. If a field is missing, use an empty string or empty array.
+            2. Split work experience into multiple items if the candidate held different roles or worked at different companies.
+            3. For work experience, pull out specific bullet points into the "achievements" array and put the general context in "roleDescription".
+            4. Ensure dates are consistently formatted.
             `
         } else if (type === 'generate_cover_letter') {
             const { jobTitle, jobDescription, tone = 'formal' } = body

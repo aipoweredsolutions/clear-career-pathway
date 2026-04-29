@@ -38,9 +38,11 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
                 <div className="flex justify-between items-center">
-                    <div className={cn("text-sm font-bold tracking-wider", accentColor)}>
-                        {personalInfo?.professionalTitle?.toUpperCase() || 'EXECUTIVE LEADERSHIP'}
-                    </div>
+                    {personalInfo?.professionalTitle && (
+                        <div className={cn("text-sm font-bold tracking-wider", accentColor)}>
+                            {personalInfo.professionalTitle.toUpperCase()}
+                        </div>
+                    )}
                     <div className="flex gap-4 text-[11px] font-bold text-neutral-500 uppercase tracking-tight">
                         {personalInfo?.email && <span>{personalInfo.email}</span>}
                         {personalInfo?.phone && (

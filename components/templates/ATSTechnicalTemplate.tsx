@@ -38,6 +38,11 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-neut
                 <h1 className="text-2xl font-bold mb-1 tracking-tight">
                     {personalInfo?.fullName || 'Root@User'}
                 </h1>
+                {personalInfo?.professionalTitle && (
+                    <div className={cn("text-sm font-bold uppercase tracking-tighter mb-2", accentColor)}>
+                        {`// ${personalInfo.professionalTitle}`}
+                    </div>
+                )}
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-neutral-600 font-bold uppercase tracking-wider">
                     {personalInfo?.email && <span>{personalInfo.email}</span>}
                     {personalInfo?.phone && (

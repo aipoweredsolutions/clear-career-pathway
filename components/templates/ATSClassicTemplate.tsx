@@ -22,6 +22,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
         volunteerExperience,
         languages,
         professionalAffiliations,
+        references,
         customSections
     } = data
 
@@ -38,6 +39,11 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                 <h1 className={cn("text-2xl font-bold uppercase mb-2", accentColor)}>
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
+                {personalInfo?.professionalTitle && (
+                    <div className="text-sm font-semibold text-neutral-600 uppercase tracking-widest mb-2">
+                        {personalInfo.professionalTitle}
+                    </div>
+                )}
                 <div className="text-[11px] text-neutral-600 flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
                     {personalInfo?.email && <span>{personalInfo.email}</span>}
                     {personalInfo?.phone && (
@@ -225,6 +231,24 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                         </div>
                     </section>
                 ) : null}
+
+                {/* References */}
+                {references && references.length > 0 && (
+                    <section>
+                        <h2 className={cn("text-sm font-bold uppercase border-b mb-2", accentColor, borderColorClass)}>References</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {references.map((ref, i) => (
+                                <div key={i} className="text-[12px] text-neutral-800">
+                                    {ref.referenceName && <div className="font-bold">{ref.referenceName}</div>}
+                                    {ref.role && <div>{ref.role}</div>}
+                                    {ref.organization && <div className="italic">{ref.organization}</div>}
+                                    {ref.contactDetails && <div className="text-neutral-600">{ref.contactDetails}</div>}
+                                    {ref.availabilityStatement && <div className="text-neutral-500 italic mt-1">{ref.availabilityStatement}</div>}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
 
                 {/* Custom Sections */}
                 {customSections && customSections.map((section, i) => (

@@ -45,6 +45,10 @@ const ATSGridlineTemplate = dynamic(() => import('./ATSGridlineTemplate').then(m
 const ATSMetroTemplate = dynamic(() => import('./ATSMetroTemplate').then(m => m.ATSMetroTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSClassicLeftTemplate = dynamic(() => import('./ATSClassicLeftTemplate').then(m => m.ATSClassicLeftTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 
+// Non-ATS Elegant Two-Column Templates
+const ElegantSplitTemplate = dynamic(() => import('./ElegantSplitTemplate').then(m => m.ElegantSplitTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const PrestigeTemplate = dynamic(() => import('./PrestigeTemplate').then(m => m.PrestigeTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+
 interface TemplateRendererProps {
     templateId: string
     data: ResumeDocument
@@ -252,6 +256,25 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-classic-left')) {
         return { Component: ATSClassicLeftTemplate, props: {} }
+    }
+
+    // --- Non-ATS Elegant Two-Column Templates ---
+    if (id.startsWith('elegant-split')) {
+        let accentColor = 'slate'
+        if (id.includes('-forest'))   accentColor = 'forest'
+        if (id.includes('-burgundy')) accentColor = 'burgundy'
+        if (id.includes('-gold'))     accentColor = 'gold'
+        if (id.includes('-navy'))     accentColor = 'navy'
+        return { Component: ElegantSplitTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('prestige')) {
+        let accentColor = 'gold'
+        if (id.includes('-teal'))     accentColor = 'teal'
+        if (id.includes('-charcoal')) accentColor = 'charcoal'
+        if (id.includes('-rose'))     accentColor = 'rose'
+        if (id.includes('-navy'))     accentColor = 'navy'
+        return { Component: PrestigeTemplate, props: { accentColor } }
     }
 
     // --- Cover Letter ---

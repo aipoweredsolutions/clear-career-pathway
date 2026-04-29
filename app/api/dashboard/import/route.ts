@@ -82,6 +82,38 @@ export async function POST(req: NextRequest) {
             promises.push(supabase.from('education').insert(eduPayloads))
         }
 
+        // 6. Certifications
+        if (data.certifications && Array.isArray(data.certifications)) {
+            const certPayloads = data.certifications.map((c: any, idx: number) => ({
+                certification_name: typeof c === 'string' ? c : c.certificationName,
+                document_id: docId,
+                display_order: idx
+            }))
+            promises.push(supabase.from('certifications').insert(certPayloads))
+        }
+
+        // 7. Languages
+        if (data.languages && Array.isArray(data.languages)) {
+            const langPayloads = data.languages.map((l: any, idx: number) => ({
+                language_name: typeof l === 'string' ? l : l.languageName,
+                document_id: docId,
+                display_order: idx
+            }))
+            promises.push(supabase.from('languages').insert(langPayloads))
+        }
+
+        // 8. Projects
+        if (data.projects && Array.isArray(data.projects)) {
+            const projPayloads = data.projects.map((p: any, idx: number) => ({
+                project_name: p.projectName,
+                description: p.description,
+                tools_used: p.toolsUsed,
+                document_id: docId,
+                display_order: idx
+            }))
+            promises.push(supabase.from('projects').insert(projPayloads))
+        }
+
         await Promise.all(promises)
 
         // 6. Work Experience (Handle nested achievements if present)

@@ -37,6 +37,11 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-neutr
                 <h1 className="text-3xl font-black text-neutral-900 mb-2">
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
+                {personalInfo?.professionalTitle && (
+                    <div className="text-sm font-bold text-neutral-500 uppercase tracking-widest mb-3 italic">
+                        {personalInfo.professionalTitle}
+                    </div>
+                )}
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-bold text-neutral-500 uppercase tracking-widest">
                     {personalInfo?.email && <span className={cn("hover:opacity-80 transition-opacity", accentColor)}>{personalInfo.email}</span>}
                     {personalInfo?.phone && (

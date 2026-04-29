@@ -90,6 +90,8 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         if (template.id === 'international-cv') return MOCK_EXECUTIVE_TEMPLATE_DATA
         if (template.id === 'revenue-leader') return MOCK_ATS_EXECUTIVE_DATA
         if (template.id === 'classic-clean') return MOCK_LEGAL_DATA
+        if (template.id === 'elegant-split') return MOCK_ATS_MODERN_DATA
+        if (template.id === 'prestige') return MOCK_CORPORATE_DATA
         return MOCK_PREVIEW_DATA
     }
 

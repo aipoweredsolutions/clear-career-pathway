@@ -9,7 +9,7 @@ import {
     Menu, X, User, ChevronDown, LayoutDashboard, LogOut,
     FileText, CreditCard, Target, ArrowRight,
     Shield, Briefcase, GraduationCap, Palette, Stethoscope,
-    LayoutGrid, Zap, Search, PenTool, Rocket, ScanSearch
+    LayoutGrid, Zap, Search, PenTool, Rocket, ScanSearch, Layers
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -51,6 +51,16 @@ const TEMPLATE_CATEGORIES = [
             { name: 'ATS Scholar CV', id: 'ats-academia' },
             { name: 'ATS New Graduate', id: 'ats-graduate' },
         ]
+    },
+    {
+        label: 'Designer (Free)',
+        icon: Layers,
+        color: 'text-amber-600',
+        bg: 'bg-amber-50',
+        templates: [
+            { name: 'Elegant Split', id: 'elegant-split' },
+            { name: 'Prestige', id: 'prestige' },
+        ]
     }
 ]
 
@@ -66,12 +76,12 @@ function TemplatesMegaMenu({ onClose }: { onClose: () => void }) {
                     <p className="text-sm font-bold text-neutral-700 mt-0.5">High-Performance Resume Library — Full ATS Compliance</p>
                 </div>
                 <Link
-                    href="/samples"
+                    href="/templates"
                     onClick={onClose}
                     className="inline-flex items-center gap-1.5 text-xs font-black text-primary-600 hover:text-primary-700 bg-primary-50 hover:bg-primary-100 px-3 py-1.5 rounded-full transition"
                 >
                     <LayoutGrid className="w-3.5 h-3.5" />
-                    Browse All Samples
+                    View Full Gallery
                 </Link>
             </div>
 
@@ -185,35 +195,108 @@ const PRODUCT_TOOLS = [
     }
 ]
 
+const PRODUCT_SERVICES = [
+    {
+        name: 'Resume Examples',
+        description: 'Explore 25+ job-specific samples for every industry.',
+        href: '/resume-examples',
+        icon: Briefcase,
+        color: 'text-rose-600',
+        bg: 'bg-rose-50'
+    },
+    {
+        name: 'ATS Compliance Test',
+        description: 'Instant clinical analysis of your resume text.',
+        href: '/ats-resume-scanner',
+        icon: ScanSearch,
+        color: 'text-amber-600',
+        bg: 'bg-amber-50'
+    },
+    {
+        name: 'AI Resume Coach',
+        description: 'Real-time feedback on your professional story.',
+        href: '/career-hub?tab=skills_gap',
+        icon: Rocket,
+        color: 'text-purple-600',
+        bg: 'bg-purple-50'
+    },
+    {
+        name: 'Career Resources',
+        description: 'Guides, interview tips, and industry insights.',
+        href: '/blog',
+        icon: GraduationCap,
+        color: 'text-blue-600',
+        bg: 'bg-blue-50'
+    }
+]
+
 function ToolsMegaMenu({ onClose }: { onClose: () => void }) {
     return (
-        <div className="absolute top-full left-0 mt-3 w-[640px] bg-white rounded-2xl shadow-2xl border border-neutral-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
-            <div className="grid grid-cols-2 p-4 gap-2">
-                {PRODUCT_TOOLS.map((tool) => (
-                    <Link
-                        key={tool.name}
-                        href={tool.href}
-                        onClick={onClose}
-                        className="flex items-start gap-4 p-4 rounded-xl hover:bg-neutral-50 transition-all group"
-                    >
-                        <div className={cn('w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 group-hover:rotate-3', tool.bg)}>
-                            <tool.icon className={cn('w-6 h-6', tool.color)} />
-                        </div>
-                        <div>
-                            <p className="text-sm font-black text-neutral-900 group-hover:text-primary-600 transition-colors uppercase tracking-tight italic">
-                                {tool.name}
-                            </p>
-                            <p className="text-xs text-neutral-500 font-medium leading-relaxed mt-1">
-                                {tool.description}
-                            </p>
-                        </div>
-                    </Link>
-                ))}
+        <div className="absolute top-full left-0 mt-3 w-[820px] bg-white rounded-2xl shadow-2xl border border-neutral-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+            <div className="flex divide-x divide-neutral-100">
+                {/* Tools Column */}
+                <div className="flex-[3] p-4">
+                    <div className="px-4 py-2 mb-2">
+                        <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest leading-none italic">Product Tools</p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-1">
+                        {PRODUCT_TOOLS.map((tool) => (
+                            <Link
+                                key={tool.name}
+                                href={tool.href}
+                                onClick={onClose}
+                                className="flex items-start gap-4 p-4 rounded-xl hover:bg-neutral-50 transition-all group"
+                            >
+                                <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 group-hover:rotate-3', tool.bg)}>
+                                    <tool.icon className={cn('w-5 h-5', tool.color)} />
+                                </div>
+                                <div>
+                                    <p className="text-[13px] font-black text-neutral-900 group-hover:text-primary-600 transition-colors uppercase tracking-tight">
+                                        {tool.name}
+                                    </p>
+                                    <p className="text-[11px] text-neutral-500 font-medium leading-relaxed mt-0.5 line-clamp-1">
+                                        {tool.description}
+                                    </p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Services Column */}
+                <div className="flex-[2] bg-neutral-50/50 p-4">
+                    <div className="px-4 py-2 mb-2">
+                        <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest leading-none italic">Elite Services</p>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        {PRODUCT_SERVICES.map((service) => (
+                            <Link
+                                key={service.name}
+                                href={service.href}
+                                onClick={onClose}
+                                className="flex items-center gap-4 p-4 rounded-xl hover:bg-white hover:shadow-md hover:shadow-neutral-200/50 transition-all group"
+                            >
+                                <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110', service.bg)}>
+                                    <service.icon className={cn('w-5 h-5', service.color)} />
+                                </div>
+                                <div>
+                                    <p className="text-[13px] font-black text-neutral-900 group-hover:text-primary-600 transition-colors uppercase tracking-tight">
+                                        {service.name}
+                                    </p>
+                                    <p className="text-[11px] text-neutral-500 font-medium mt-0.5">
+                                        {service.name === 'AI Resume Coach' ? 'Personalized feedback.' : service.description.split('.')[0] + '.'}
+                                    </p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
             </div>
-            <div className="px-6 py-4 bg-neutral-50 border-t border-neutral-100 flex items-center justify-between">
-                <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest leading-none">Complete Professional Toolkit</p>
+            
+            <div className="px-6 py-4 bg-neutral-100 border-t border-neutral-200 flex items-center justify-between">
+                <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest leading-none">Complete Professional Ecosystem — Integrated & Automated</p>
                 <Link href="/dashboard" onClick={onClose} className="text-xs font-black text-primary-600 hover:underline inline-flex items-center gap-1 uppercase tracking-widest">
-                    Open Your Workspace <ArrowRight className="w-3 h-3" />
+                    Open Workspace <ArrowRight className="w-3 h-3" />
                 </Link>
             </div>
         </div>
@@ -277,6 +360,7 @@ export function Navbar() {
     }
 
     const isTemplatesActive =
+        pathname === '/templates' ||
         pathname === '/samples' ||
         pathname.startsWith('/studio') ||
         pathname === '/' // home has template gallery section
@@ -502,15 +586,15 @@ export function Navbar() {
 
                     <p className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em] px-2">Templates</p>
                     <Link
-                        href="/samples"
+                        href="/templates"
                         className={cn(
                             'text-lg font-bold px-2 py-1 flex items-center gap-3 rounded-lg transition-colors',
-                            pathname === '/samples' ? 'text-primary-600 bg-primary-50' : 'text-neutral-900'
+                            pathname === '/templates' ? 'text-primary-600 bg-primary-50' : 'text-neutral-900'
                         )}
                         onClick={() => setIsMenuOpen(false)}
                     >
                         <LayoutGrid className="w-5 h-5 text-primary-500" />
-                        Browse All Samples
+                        View Full Gallery
                     </Link>
 
                     {/* Collapsed category list on mobile */}
@@ -534,7 +618,7 @@ export function Navbar() {
 
                     <p className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em] px-2">Services &amp; Tools</p>
                     <div className="flex flex-col gap-1 px-2">
-                        {PRODUCT_TOOLS.map(tool => (
+                        {[...PRODUCT_TOOLS, ...PRODUCT_SERVICES].map(tool => (
                             <Link
                                 key={tool.name}
                                 href={tool.href}

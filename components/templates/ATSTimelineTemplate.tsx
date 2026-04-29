@@ -33,9 +33,11 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                         <h1 className={cn("text-5xl font-black tracking-tighter leading-none mb-3", accentColor)}>
                             {personalInfo?.fullName}
                         </h1>
-                        <p className="text-xl font-medium text-neutral-500 tracking-tight">
-                            {personalInfo?.professionalTitle}
-                        </p>
+                        {personalInfo?.professionalTitle && (
+                            <p className="text-xl font-medium text-neutral-500 tracking-tight">
+                                {personalInfo.professionalTitle}
+                            </p>
+                        )}
                     </div>
                     <div className="text-right flex flex-col gap-1 text-sm font-bold text-neutral-400 uppercase tracking-widest">
                         {personalInfo?.email && <div>{personalInfo.email}</div>}

@@ -178,6 +178,18 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
                 <span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-500" /> DOCX Support</span>
                 <span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-500" /> AI Parsing</span>
             </div>
+
+            <div className="mt-12 bg-blue-50 border border-blue-100 p-6 rounded-3xl flex items-start gap-4 max-w-md">
+                <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0 text-white shadow-lg shadow-blue-200">
+                    <Linkedin className="w-5 h-5" />
+                </div>
+                <div>
+                    <p className="text-sm font-black text-blue-900 mb-1">Pro Tip: Import from LinkedIn</p>
+                    <p className="text-xs text-blue-700 font-medium leading-relaxed">
+                        Download your LinkedIn profile as a PDF and upload it here. Our AI will perfectly structure your entire profile into a premium resume.
+                    </p>
+                </div>
+            </div>
         </div>
     )
 
@@ -335,15 +347,33 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
                                     />
                                 </div>
                                 <Textarea
-                                    label="Description"
-                                    rows={3}
+                                    label="Role Overview"
+                                    rows={2}
                                     value={exp.roleDescription || ''}
                                     onChange={(e) => {
                                         const newWork = [...structuredData.workExperience]
                                         newWork[idx].roleDescription = e.target.value
                                         setStructuredData({ ...structuredData, workExperience: newWork })
                                     }}
+                                    className="mb-3"
                                 />
+                                {exp.achievements && exp.achievements.length > 0 && (
+                                    <div className="space-y-2">
+                                        <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Achievements</p>
+                                        {exp.achievements.map((ach: string, aIdx: number) => (
+                                            <Input
+                                                key={aIdx}
+                                                value={ach}
+                                                onChange={(e) => {
+                                                    const newWork = [...structuredData.workExperience]
+                                                    newWork[idx].achievements[aIdx] = e.target.value
+                                                    setStructuredData({ ...structuredData, workExperience: newWork })
+                                                }}
+                                                className="bg-white"
+                                            />
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -394,6 +424,80 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
                         onChange={(e) => setStructuredData({ ...structuredData, skills: e.target.value.split(',').map((s: string) => s.trim()) })}
                     />
                 </Card>
+
+                {/* Projects */}
+                <Card className="p-6 border-neutral-200 shadow-sm relative overflow-hidden group md:col-span-2">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500" />
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="w-10 h-10 bg-cyan-50 rounded-xl flex items-center justify-center text-cyan-600 group-hover:rotate-12 transition-transform">
+                            <Briefcase className="w-5 h-5" />
+                        </div>
+                        <h5 className="font-bold text-neutral-900">Projects</h5>
+                    </div>
+                    <div className="space-y-4">
+                        {structuredData?.projects?.map((proj: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                <Input
+                                    label="Project Name"
+                                    value={proj.projectName || ''}
+                                    onChange={(e) => {
+                                        const newProj = [...structuredData.projects]
+                                        newProj[idx].projectName = e.target.value
+                                        setStructuredData({ ...structuredData, projects: newProj })
+                                    }}
+                                    className="mb-3"
+                                />
+                                <Textarea
+                                    label="Description"
+                                    rows={2}
+                                    value={proj.description || ''}
+                                    onChange={(e) => {
+                                        const newProj = [...structuredData.projects]
+                                        newProj[idx].description = e.target.value
+                                        setStructuredData({ ...structuredData, projects: newProj })
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </Card>
+
+                {/* Certifications & Languages */}
+                <div className="grid grid-cols-1 gap-6 md:col-span-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Card className="p-6 border-neutral-200 shadow-sm relative overflow-hidden group">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-rose-500" />
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600 group-hover:rotate-12 transition-transform">
+                                    <Check className="w-5 h-5" />
+                                </div>
+                                <h5 className="font-bold text-neutral-900">Certifications</h5>
+                            </div>
+                            <Textarea
+                                label="Certifications (comma separated)"
+                                rows={4}
+                                value={Array.isArray(structuredData?.certifications) ? structuredData.certifications.join(', ') : (structuredData?.certifications || '')}
+                                onChange={(e) => setStructuredData({ ...structuredData, certifications: e.target.value.split(',').map((s: string) => s.trim()) })}
+                            />
+                        </Card>
+
+                        <Card className="p-6 border-neutral-200 shadow-sm relative overflow-hidden group">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-orange-500" />
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 group-hover:rotate-12 transition-transform">
+                                    <List className="w-5 h-5" />
+                                </div>
+                                <h5 className="font-bold text-neutral-900">Languages</h5>
+                            </div>
+                            <Textarea
+                                label="Languages (comma separated)"
+                                rows={4}
+                                value={Array.isArray(structuredData?.languages) ? structuredData.languages.join(', ') : (structuredData?.languages || '')}
+                                onChange={(e) => setStructuredData({ ...structuredData, languages: e.target.value.split(',').map((s: string) => s.trim()) })}
+                            />
+                        </Card>
+                    </div>
+                </div>
             </div>
         </div>
     )
