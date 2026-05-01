@@ -22,6 +22,7 @@ import {
     MOCK_ATS_MODERN_DATA,
     MOCK_ATS_GRADUATE_DATA,
     MOCK_ATS_TIMELINE_DATA,
+    MOCK_ATS_GOLD_DATA,
     MOCK_SERVICE_PRO_DATA,
     MOCK_TECHNICAL_TEMPLATE_DATA,
     MOCK_EXECUTIVE_TEMPLATE_DATA,
@@ -52,6 +53,7 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
             if (template.id.includes('academia') || template.id.includes('scholar')) return MOCK_ACADEMIC_DATA
             if (template.id.includes('professional')) return MOCK_ATS_PROFESSIONAL_DATA
             if (template.id.includes('technical')) return MOCK_TECHNICAL_DATA
+            if (template.id.includes('gold-standard')) return MOCK_ATS_GOLD_DATA
             if (template.id.includes('standard')) return MOCK_CORPORATE_DATA
             if (template.id.includes('classic')) return MOCK_LEGAL_DATA
             if (template.id.includes('executive')) return MOCK_ATS_EXECUTIVE_DATA
@@ -95,7 +97,12 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         return MOCK_PREVIEW_DATA
     }
 
-    const [imageError, setImageError] = React.useState(false)
+    const [imageError, setImageError] = React.useState(template.id === 'ats-gold-standard')
+
+    // Reset error state when template changes, or force it for gold standard
+    React.useEffect(() => {
+        setImageError(template.id === 'ats-gold-standard')
+    }, [template.id])
 
     // Construct the static image path
     // Format: /templates/[id]-[color]-preview.png

@@ -20,6 +20,7 @@ import {
     MOCK_SERVICE_PRO_DATA,
     MOCK_EXECUTIVE_TEMPLATE_DATA,
     MOCK_CREATIVE_TEMPLATE_DATA,
+    MOCK_ATS_GOLD_DATA,
 } from '@/lib/constants/mock-data'
 import { cn } from '@/lib/utils'
 
@@ -51,7 +52,7 @@ function getSampleData(templateId: string): ResumeDocument {
     if (id.includes('metro'))                                                     return MOCK_TECHNICAL_DATA
     if (id.includes('classic-left') || id.includes('masthead') || id.includes('editorial')) return MOCK_LEGAL_DATA
     if (id.includes('classic'))                                                   return MOCK_LEGAL_DATA
-    if (id.includes('gold-standard'))                                             return MOCK_CORPORATE_DATA
+    if (id.includes('gold-standard'))                                             return MOCK_ATS_GOLD_DATA
     if (id.includes('service'))                                                   return MOCK_SERVICE_PRO_DATA
     if (id.includes('creative') || id.includes('artisan'))                       return MOCK_CREATIVE_TEMPLATE_DATA
     // Two-column non-ATS templates

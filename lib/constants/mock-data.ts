@@ -1804,7 +1804,100 @@ export const MOCK_ATS_MINIMAL_DATA: ResumeDocument = {
     ]
 }
 
-// --- 7. ATS Executive Persona ---
+// --- 7. ATS Gold Standard Persona ---
+export const MOCK_ATS_GOLD_DATA: ResumeDocument = {
+    id: 'preview-ats-gold',
+    title: 'Executive Assistant Resume',
+    documentType: 'resume',
+    templateId: 'ats-gold-standard',
+    personalInfo: {
+        fullName: 'Alexander V. Sterling',
+        professionalTitle: 'Executive Assistant to the CEO',
+        email: 'alex.sterling@executive-office.com',
+        phone: '+1 (202) 555-0177',
+        city: 'Washington',
+        country: 'DC',
+        location: 'Washington, DC',
+        linkedinUrl: 'linkedin.com/in/alexandersterling-ea'
+    },
+    professionalSummary: {
+        summaryText: 'Distinguished Executive Assistant with 12+ years of experience providing high-level strategic support to C-suite executives within Fortune 100 environments. Expert in complex calendar management, international travel logistics, and acting as a primary liaison between the executive office and global stakeholders. Proven ability to handle sensitive information with absolute discretion, manage high-priority projects under extreme pressure, and optimize executive workflow to increase operational efficiency by 30%. Exceptional communicator with a commitment to professional excellence and a proactive approach to anticipating leadership needs.'
+    },
+    workExperience: [
+        {
+            jobTitle: 'Senior Executive Assistant to the CEO',
+            companyName: 'Global Capital Holdings',
+            location: 'Washington, DC',
+            startDate: '2019-03',
+            endDate: 'Present',
+            isCurrent: true,
+            roleDescription: 'Primary strategic partner and gatekeeper for the CEO of a multi-billion dollar investment firm, managing all aspects of the executive office.',
+            achievements: [
+                { achievementText: 'Orchestrated the logistics for 50+ international board meetings and investor summits across 4 continents, ensuring 100% schedule adherence' },
+                { achievementText: 'Spearheaded the implementation of a new executive communications protocol that reduced internal email volume by 40% for the CEO' },
+                { achievementText: 'Managed a confidential $2M executive travel and events budget with meticulous accuracy and zero variance' },
+                { achievementText: 'Drafted and edited high-stakes executive correspondence, board presentations, and annual reports for public distribution' },
+                { achievementText: 'Coordinated the integration of a new digital project management system for the executive leadership team, improving project tracking by 50%' }
+            ]
+        },
+        {
+            jobTitle: 'Executive Assistant to the CFO',
+            companyName: 'Beacon Hill Financial',
+            location: 'Boston, MA',
+            startDate: '2015-06',
+            endDate: '2019-02',
+            isCurrent: false,
+            roleDescription: 'Provided comprehensive administrative and operational support to the Chief Financial Officer during a period of rapid market expansion.',
+            achievements: [
+                { achievementText: 'Streamlined the quarterly financial reporting process by coordinating data collection across 12 regional offices' },
+                { achievementText: 'Managed complex travel itineraries and expense reporting for the finance executive team, ensuring 100% policy compliance' },
+                { achievementText: 'Successfully organized a 3-day regional leadership retreat for 150+ attendees, managing all vendor relationships and logistics' }
+            ]
+        },
+        {
+            jobTitle: 'Administrative Coordinator',
+            companyName: 'Stratton Advisory Group',
+            location: 'New York, NY',
+            startDate: '2012-01',
+            endDate: '2015-05',
+            isCurrent: false,
+            roleDescription: 'Supported the Managing Director and a team of 15 consultants in a fast-paced advisory environment.',
+            achievements: [
+                { achievementText: 'Automated the client onboarding documentation process, reducing turnaround time by 48 hours' },
+                { achievementText: 'Awarded "Employee of the Year" for outstanding contribution to office operational efficiency in 2014' }
+            ]
+        }
+    ],
+    education: [
+        {
+            institutionName: 'Georgetown University',
+            degree: 'Bachelor of Arts',
+            fieldOfStudy: 'Business Communication & Administration',
+            location: 'Washington, DC',
+            endYear: 2012,
+            achievements: 'Magna Cum Laude, Leadership Excellence Award'
+        }
+    ],
+    skills: [
+        { skillName: 'C-Suite Executive Support', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Strategic Calendar Management', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'International Logistics & Travel', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Stakeholder Relations', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Confidential Information Handling', skillType: 'professional', proficiencyLevel: 'expert' },
+        { skillName: 'Project Management (Asana/Trello)', skillType: 'technical', proficiencyLevel: 'advanced' },
+        { skillName: 'Microsoft 365 / Google Workspace', skillType: 'technical', proficiencyLevel: 'expert' },
+        { skillName: 'Executive Communication', skillType: 'professional', proficiencyLevel: 'expert' }
+    ],
+    certifications: [
+        {
+            certificationName: 'Certified Administrative Professional (CAP)',
+            issuingOrganization: 'IAAP',
+            issueYear: 2016
+        }
+    ]
+}
+
+// --- 8. ATS Executive Persona ---
 export const MOCK_ATS_EXECUTIVE_DATA: ResumeDocument = {
     id: 'preview-ats-exec',
     title: 'ATS Executive Resume',
@@ -3565,5 +3658,6 @@ export const MOCK_PERSONAS = {
     compact: MOCK_COMPACT_TEMPLATE_DATA,
     cute: MOCK_CUTE_TEMPLATE_DATA,
     ats_nursing: MOCK_NURSE_EXPERIENCED_DATA,
-    ats_academia: MOCK_ACADEMIC_DATA
+    ats_academia: MOCK_ACADEMIC_DATA,
+    ats_gold: MOCK_ATS_GOLD_DATA
 }

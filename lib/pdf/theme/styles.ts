@@ -6,21 +6,25 @@ export const createStyles = (templateId: string) => {
     const colors = getTemplateColors(templateId)
     const id = templateId.toLowerCase()
 
-    const isATS = true // All active templates are now ATS-optimized or Classic Clean
-    const hasSidebar = false
-    const hasColumns = false
-    const sidebarOnRight = false
-    const sidebarOnLeft = false
+    const isATS = id.startsWith('ats-')
+    const isSidebarLayout = 
+        id.startsWith('modern') || 
+        id.startsWith('professional') || 
+        id.startsWith('elegant') || 
+        id.startsWith('prestige') ||
+        id.includes('sidebar')
+        
+    const hasSidebar = isSidebarLayout
+    const hasColumns = isSidebarLayout
+    const sidebarOnRight = id.includes('right') || id.startsWith('elegant') || id.startsWith('modern')
+    const sidebarOnLeft = hasSidebar && !sidebarOnRight
     
-    // Increased margins for ATS templates for better scanner readability (Standard 1" is 72pt, 0.75" is 54pt)
+    // Increased margins for ATS templates for better scanner readability
     const containerPaddingX = isATS ? 54 : 30
     const containerPaddingY = isATS ? 45 : 20
     
-    // isDarkSidebar seems to be used partially, let's keep logic intact
-    // const isDarkSidebar = id.startsWith('modern') || ((id.startsWith('technical') || id.startsWith('ats-technical')) && id.includes('dark'))
-    
-    const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean';
-    const isStandardSerif = id.startsWith('ats-academia') || id.includes('serif');
+    const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal');
+    const isStandardSerif = id.startsWith('ats-academia') || id.startsWith('ats-classic') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
     
     let fontFamily = 'Inter';
     if (isEtsyPremiumSerif) fontFamily = 'Playfair Display';
@@ -38,6 +42,7 @@ export const createStyles = (templateId: string) => {
         id.startsWith('ats-hospitality') ||
         id.startsWith('ats-nursing') ||
         id.startsWith('ats-academia') ||
+        id.startsWith('ats-gold-standard') ||
         id.startsWith('ats-graduate')
 
     const isJustifiedHeader = (id.includes('technical') || id.startsWith('ats-modern')) && !id.startsWith('ats-timeline')
@@ -46,8 +51,10 @@ export const createStyles = (templateId: string) => {
     let headerBorderBottomWidth = 0
     if (id.startsWith('ats-executive')) {
         headerBorderBottomWidth = 4
-    } else if (id.startsWith('ats-standard') || id.startsWith('ats-classic') || id.startsWith('ats-modern') || id.startsWith('classic')) {
+    } else if (id.startsWith('ats-standard') || id.startsWith('ats-classic') || id.startsWith('classic') || id.startsWith('ats-gold-standard')) {
         headerBorderBottomWidth = 1
+    } else if (id.startsWith('ats-modern')) {
+        headerBorderBottomWidth = 2
     } else if (id.startsWith('compact') || id.startsWith('ats-timeline') || id.startsWith('ats-hospitality')) {
         headerBorderBottomWidth = 2
     }
@@ -164,30 +171,31 @@ export const createStyles = (templateId: string) => {
             width: '100%',
         },
         name: {
-            fontSize: id.startsWith('minimal') || id.startsWith('ats-professional') || id.startsWith('classic') || id === 'graduate' || id.startsWith('graduate-') ? 26 : 22,
+            fontSize: id.startsWith('minimal') || id.startsWith('ats-professional') || id.startsWith('classic') || id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-modern') ? 26 : 22,
             fontWeight: 'bold',
             color: colors.primary,
-            marginBottom: 6,
-            textTransform: id.startsWith('ats') || id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('ats-executive') || id.startsWith('classic') || id === 'graduate' || id.startsWith('graduate-') ? 'uppercase' : 'none',
-            letterSpacing: id.startsWith('classic') ? 1.5 : ((id === 'graduate' || id.startsWith('graduate-')) ? 2 : (id.startsWith('ats-executive') || id.startsWith('ats-modern') ? -0.5 : 0.5)),
+            marginBottom: id.startsWith('ats-modern') ? 10 : 6,
+            textTransform: id.startsWith('ats') || id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('ats-executive') || id.startsWith('classic') || id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-gold-standard') ? 'uppercase' : 'none',
+            letterSpacing: id.startsWith('classic') ? 1.5 : ((id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-gold-standard')) ? 2 : (id.startsWith('ats-executive') || id.startsWith('ats-modern') ? -0.5 : 0.5)),
         },
         title: {
-            fontSize: 12,
+            fontSize: id.startsWith('ats-modern') ? 14 : 12,
             color: colors.secondary,
             fontWeight: 'bold',
+            marginTop: id.startsWith('ats-modern') ? 4 : 0,
             marginBottom: 8,
             textTransform: id.startsWith('chic') || id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('ats-executive') || id.startsWith('ats-hospitality') ? 'uppercase' : 'none',
             letterSpacing: headingLetterSpacing,
         },
         contactInfo: {
-            flexDirection: 'row',
-            justifyContent: (isCentered || id.startsWith('ats-professional')) ? 'center' : 'flex-start',
-            alignItems: 'center',
+            flexDirection: id.startsWith('ats-modern') ? 'column' : 'row',
+            justifyContent: (isCentered || id.startsWith('ats-professional')) ? 'center' : (id.startsWith('ats-modern') ? 'flex-end' : 'flex-start'),
+            alignItems: id.startsWith('ats-modern') ? 'flex-end' : 'center',
             columnGap: 16,
-            rowGap: 4,
+            rowGap: id.startsWith('ats-modern') ? 2 : 4,
             fontSize: 9.5,
             color: '#475569',
-            marginTop: 4,
+            marginTop: id.startsWith('ats-modern') ? 0 : 4,
             marginBottom: 0,
             flexWrap: 'wrap',
             width: '100%',
@@ -212,7 +220,7 @@ export const createStyles = (templateId: string) => {
             marginBottom: 2,
         },
         section: {
-            marginTop: (isEtsyPremiumSerif || id.startsWith('minimal') || id.startsWith('cute') || id.startsWith('modern')) ? 16 : 10,
+            marginTop: (isEtsyPremiumSerif || id.startsWith('minimal') || id.startsWith('cute') || id.startsWith('modern') || id.startsWith('ats-modern')) ? 24 : 10,
             marginBottom: 0,
         },
         sectionFirst: {
@@ -224,10 +232,10 @@ export const createStyles = (templateId: string) => {
             fontWeight: 'bold',
             color: colors.primary,
             textTransform: 'uppercase',
-            letterSpacing: 1.2,
-            paddingBottom: 4,
+            letterSpacing: id.startsWith('ats-modern') ? 2.2 : 1.2,
+            paddingBottom: id.startsWith('ats-modern') ? 6 : 4,
             marginBottom: 8,
-            borderBottomWidth: (id.startsWith('ats-professional') || id.startsWith('technical')) ? 2 : (id.startsWith('ats-classic') || id.startsWith('ats-graduate') ? 1 : 0),
+            borderBottomWidth: (id.startsWith('ats-professional') || id.startsWith('technical')) ? 2 : (id.startsWith('ats-classic') || id.startsWith('ats-graduate') || id.startsWith('ats-modern') ? 1 : 0),
             borderBottomColor: colors.primary,
         },
         sidebarSection: {
@@ -260,12 +268,14 @@ export const createStyles = (templateId: string) => {
             fontSize: 11,
             fontWeight: 'bold',
             color: colors.primary,
+            fontStyle: id.startsWith('ats-classic') ? 'italic' : 'normal',
             flex: 1,
         },
         company: {
             fontSize: 10,
             fontWeight: 'bold',
             color: colors.text,
+            fontStyle: 'normal',
         },
         date: {
             fontSize: 9,

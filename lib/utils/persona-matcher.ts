@@ -15,6 +15,7 @@ export function getMockDataForTemplate(templateId: string): ResumeDocument {
     // Default fallback to the premium designer persona
     const baseData = (() => {
         // --- 1. ATS & Professional Series ---
+        if (id.startsWith('ats-gold-standard')) return MOCK_CORE.MOCK_ATS_GOLD_DATA
         if (id.startsWith('ats-classic')) return MOCK_CORE.MOCK_LEGAL_DATA
         if (id.startsWith('ats-minimal')) return MOCK_CORE.MOCK_ATS_MINIMAL_DATA
         if (id.startsWith('ats-executive')) return MOCK_CORE.MOCK_ATS_EXECUTIVE_DATA
@@ -86,11 +87,17 @@ export function getMockDataForTemplate(templateId: string): ResumeDocument {
         return MOCK_CORE.MOCK_PREVIEW_DATA
     })()
 
+    // Global name override for consistent branding across previews
+    // EXCEPT for the Gold Standard which uses its own executive persona
+    const finalName = id.includes('gold-standard') 
+        ? baseData.personalInfo.fullName 
+        : 'Alexandra Morgan'
+
     return {
         ...baseData,
         personalInfo: {
             ...baseData.personalInfo,
-            fullName: 'Alexandra Morgan'
+            fullName: finalName
         }
     }
 }

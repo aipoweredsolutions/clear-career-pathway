@@ -8,6 +8,17 @@ export async function POST(req: NextRequest) {
         const formData = await req.formData()
         const file = formData.get('file') as File
 
+        // Verify authentication
+        const supabase = await createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+
+        if (!user) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: 401 }
+            )
+        }
+
         if (!file) {
             return NextResponse.json(
                 { error: 'No file provided' },

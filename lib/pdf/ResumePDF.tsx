@@ -22,8 +22,13 @@ export const ResumePDF = ({ data, isWatermarked = false }: ResumePDFProps) => {
     const templateId = (data.templateId || 'classic').toLowerCase()
     const styles = createStyles(templateId)
 
-    // All active templates are now single-column/StandardLayout
-    const isSidebarLayout = false
+    // Detect if template should use sidebar layout (Two-Column)
+    const isSidebarLayout = 
+        templateId.startsWith('modern') || 
+        templateId.startsWith('professional') || 
+        templateId.startsWith('elegant') || 
+        templateId.startsWith('prestige') ||
+        templateId.includes('sidebar')
 
     return (
         <Document

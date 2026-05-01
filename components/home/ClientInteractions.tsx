@@ -55,12 +55,13 @@ export function TemplateGallery() {
     const [templateColors, setTemplateColors] = useState<Record<string, string>>({})
     const [previewTemplateId, setPreviewTemplateId] = useState<string | null>(null)
 
-    const categories = ['All', 'Essential', 'Modern Clean', 'Technical', 'Healthcare', 'Academic', 'Hospitality']
+    const categories = ['All', 'Free', 'Essential', 'Modern Clean', 'Technical', 'Healthcare', 'Academic', 'Hospitality']
     const levels = ['All', 'Entry', 'Mid', 'Senior', 'Executive', 'Student']
 
     const filteredTemplates = useMemo(() => {
-        return templateRegistry.filter(template => {
+        const filtered = templateRegistry.filter(template => {
             const categoryMatch = selectedCategory === 'All' ||
+                (selectedCategory === 'Free' && !template.isPremium) ||
                 (selectedCategory === 'Essential' && ['ats-gold-standard', 'ats-professional', 'ats-minimal', 'ats-classic', 'ats-executive', 'ats-classic-left'].includes(template.id)) ||
                 (selectedCategory === 'Modern Clean' && ['ats-modern', 'ats-timeline', 'classic-clean'].includes(template.id)) ||
                 (selectedCategory === 'Technical' && template.id === 'ats-technical') ||
@@ -72,6 +73,17 @@ export function TemplateGallery() {
                 template.suitableFor.careerLevels.some(l => l.toLowerCase() === selectedLevel.toLowerCase());
 
             return categoryMatch && levelMatch
+        })
+
+        // Sorting logic: Gold Standard first, then Free, then the rest
+        return filtered.sort((a, b) => {
+            if (a.id === 'ats-gold-standard') return -1
+            if (b.id === 'ats-gold-standard') return 1
+            
+            if (!a.isPremium && b.isPremium) return -1
+            if (a.isPremium && !b.isPremium) return 1
+            
+            return 0
         })
     }, [selectedCategory, selectedLevel])
 
@@ -129,7 +141,15 @@ export function TemplateGallery() {
                                 <div className="absolute inset-0 bg-neutral-950/0 group-hover/preview-box:bg-neutral-950/40 transition-all duration-500 flex items-center justify-center opacity-0 group-hover/preview-box:opacity-100 z-10 pointer-events-none group-hover/preview-box:pointer-events-auto">
                                     <button onClick={(e) => { e.stopPropagation(); handlePreview(template.id) }} className="bg-white text-neutral-950 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl transform translate-y-8 group-hover/preview-box:translate-y-0 transition-all duration-500 hover:scale-110 active:scale-95">Quick Preview</button>
                                 </div>
-                                {template.isPremium && <div className="absolute top-6 right-6 bg-gradient-to-br from-amber-400 to-orange-500 text-white p-2.5 rounded-2xl shadow-xl z-10 animate-float" title="Premium Template"><Star className="w-5 h-5 fill-white" /></div>}
+                                {template.isPremium ? (
+                                    <div className="absolute top-6 right-6 bg-gradient-to-br from-amber-400 to-orange-500 text-white p-2.5 rounded-2xl shadow-xl z-10 animate-float" title="Premium Template">
+                                        <Star className="w-5 h-5 fill-white" />
+                                    </div>
+                                ) : (
+                                    <div className="absolute top-6 left-6 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-2xl shadow-xl z-10 animate-float" title="Free Template">
+                                        Free
+                                    </div>
+                                )}
                             </div>
                             <div className="p-8 pt-4 flex flex-col flex-1">
                                 <div className="flex justify-between items-start mb-4">

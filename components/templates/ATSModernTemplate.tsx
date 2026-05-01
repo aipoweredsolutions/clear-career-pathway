@@ -31,7 +31,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-neutral
 
     return (
         <div className={cn(
-            "w-full bg-white text-neutral-800 font-sans leading-normal",
+            "w-full bg-white text-neutral-800 font-lato leading-normal",
             className
         )}>
             {/* Header */}

@@ -68,11 +68,24 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                         </View>
                     </View>
                 </View>
+            ) : templateId.startsWith('ats-gold-standard') ? (
+                <View style={[styles.header, { borderBottomWidth: 0, paddingBottom: 0, marginBottom: 15 }]}>
+                    <View style={{ flex: 1, alignItems: 'center', width: '100%' }}>
+                        <Text style={[styles.name, { fontSize: 26, letterSpacing: 4, marginBottom: 4 }]}>{data.personalInfo?.fullName || 'Untitled'}</Text>
+                        <Text style={[styles.title, { fontSize: 10, letterSpacing: 3, marginBottom: 10, color: '#666666' }]}>
+                            {data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}
+                        </Text>
+                        <View style={{ width: '100%', height: 1.5, backgroundColor: styles.sectionTitle.color || '#171717', marginBottom: 10 }} />
+                        <ContactInfo data={data} styles={styles} />
+                    </View>
+                </View>
             ) : (
                 <View style={styles.header}>
                     <View style={{ flex: 1 }}>
                         <Text style={styles.name}>{data.personalInfo?.fullName || 'Untitled'}</Text>
                         <Text style={styles.title}>{data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}</Text>
+                    </View>
+                    <View style={{ alignItems: styles.header.textAlign === 'center' ? 'center' : 'flex-end', marginTop: styles.header.flexDirection === 'row' ? 0 : 10 }}>
                         <ContactInfo data={data} styles={styles} />
                     </View>
                 </View>

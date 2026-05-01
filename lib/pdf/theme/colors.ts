@@ -9,6 +9,7 @@ export const getTemplateColors = (templateId: string) => {
         if (id.includes('blue')) return { primary: '#2563eb', secondary: '#3b82f6', text: '#1a1a1a', border: '#2563eb' }
         if (id.includes('green') || id.includes('matrix') || id.includes('campus')) return { primary: '#064e3b', secondary: '#10b981', text: '#1a1a1a', border: '#065f46' }
         if (id.includes('gold')) return { primary: '#92400e', secondary: '#d97706', text: '#1a1a1a', border: '#b45309' }
+        if (id.startsWith('ats-gold-standard')) return { primary: '#78350f', secondary: '#92400e', text: '#1a1a1a', border: '#78350f' }
         if (id.includes('cyan')) return { primary: '#0891b2', secondary: '#22d3ee', text: '#1a1a1a', border: '#0891b2' }
         if (id.includes('orange')) return { primary: '#ea580c', secondary: '#fb923c', text: '#1a1a1a', border: '#ea580c' }
         if (id.includes('violet')) return { primary: '#7c3aed', secondary: '#8b5cf6', text: '#1a1a1a', border: '#7c3aed' }

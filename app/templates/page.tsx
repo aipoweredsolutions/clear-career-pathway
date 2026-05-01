@@ -2,15 +2,17 @@
 
 import React, { useState, useMemo } from 'react'
 import { SEO_TEMPLATES } from '@/lib/constants/templates-seo'
+import { templateRegistry } from '@/lib/templates/registry'
 import { TemplatePreview } from '@/components/templates/TemplatePreview'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, LayoutGrid, Zap, ShieldCheck, ArrowRight, X } from 'lucide-react'
+import { Search, LayoutGrid, Zap, ShieldCheck, ArrowRight, X, Star } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 
 // Extract unique industries for filters
-const INDUSTRIES = ['All', ...Array.from(new Set(SEO_TEMPLATES.map(t => t.industry))).sort()]
+// Filter categories
+const FILTER_CATEGORIES = ['All', 'Free', ...Array.from(new Set(SEO_TEMPLATES.map(t => t.industry))).sort()]
 
 export default function TemplatesGalleryPage() {
     const [activeIndustry, setActiveIndustry] = useState('All')
@@ -32,13 +34,38 @@ export default function TemplatesGalleryPage() {
     }, [])
 
     const filteredTemplates = useMemo(() => {
-        return uniqueTemplates.filter(template => {
-            const matchesIndustry = activeIndustry === 'All' || template.industry === activeIndustry
+        const filtered = uniqueTemplates.filter(template => {
+            const reg = templateRegistry.find(r => template.templateId.startsWith(r.id))
+            const isFree = reg ? !reg.isPremium : false
+
+            const matchesIndustry = activeIndustry === 'All' || 
+                                   (activeIndustry === 'Free' ? isFree : template.industry === activeIndustry)
+            
             const matchesSearch = 
                 template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 template.industry.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 template.description.toLowerCase().includes(searchQuery.toLowerCase())
             return matchesIndustry && matchesSearch
+        })
+
+        // Sorting logic
+        return filtered.sort((a, b) => {
+            // 1. Force ATS Gold Standard to the absolute top
+            if (a.templateId === 'ats-gold-standard') return -1
+            if (b.templateId === 'ats-gold-standard') return 1
+
+            const regA = templateRegistry.find(r => a.templateId.startsWith(r.id))
+            const regB = templateRegistry.find(r => b.templateId.startsWith(r.id))
+            
+            const isAFree = regA ? !regA.isPremium : false
+            const isBFree = regB ? !regB.isPremium : false
+            
+            // 2. Primary sort: Free (false) comes before Premium (true)
+            if (isAFree && !isBFree) return -1
+            if (!isAFree && isBFree) return 1
+            
+            // 3. Secondary sort: Keep consistent order
+            return a.name.localeCompare(b.name)
         })
     }, [activeIndustry, searchQuery, uniqueTemplates])
 
@@ -90,7 +117,7 @@ export default function TemplatesGalleryPage() {
                 <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-6">
                     {/* Industry Filters */}
                     <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 w-full lg:w-auto no-scrollbar mask-edges">
-                        {INDUSTRIES.map((industry) => (
+                        {FILTER_CATEGORIES.map((industry) => (
                             <button
                                 key={industry}
                                 onClick={() => setActiveIndustry(industry)}
@@ -98,7 +125,8 @@ export default function TemplatesGalleryPage() {
                                     "px-5 py-2.5 rounded-full text-xs font-bold transition-all whitespace-nowrap",
                                     activeIndustry === industry 
                                         ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.2)]" 
-                                        : "bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-white"
+                                        : "bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-white",
+                                    industry === 'Free' && activeIndustry !== 'Free' && "border border-amber-500/30 text-amber-400 hover:bg-amber-500/10"
                                 )}
                             >
                                 {industry}
@@ -149,6 +177,21 @@ export default function TemplatesGalleryPage() {
                                     {/* Template Preview Card */}
                                     <div className="relative rounded-[2rem] bg-white/5 border border-white/10 p-6 flex-1 flex flex-col items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-primary-500/30 group-hover:bg-white/10 group-hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
                                         
+                                        {/* Free Template Badge */}
+                                        {(() => {
+                                            const reg = templateRegistry.find(r => template.templateId.startsWith(r.id))
+                                            const isFree = reg ? !reg.isPremium : false
+                                            if (isFree) {
+                                                return (
+                                                    <div className="absolute top-4 left-4 z-30 flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.5)]">
+                                                        <Star className="w-3 h-3 fill-white" />
+                                                        Free Design
+                                                    </div>
+                                                )
+                                            }
+                                            return null
+                                        })()}
+
                                         {/* Dynamic Glow Effect */}
                                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-primary-500/0 rounded-full blur-[80px] transition-colors duration-500 group-hover:bg-primary-500/10 pointer-events-none" />
 

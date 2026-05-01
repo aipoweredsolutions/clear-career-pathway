@@ -60,7 +60,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
     return (
         <div className="w-full bg-white flex min-h-full" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
             {/* ═══ LEFT SIDEBAR ═══ */}
-            <div className={cn('w-[30%] shrink-0 p-7 flex flex-col', theme.sidebar)}>
+            <div className={cn('w-[30%] shrink-0 pr-7 py-7 flex flex-col', theme.sidebar)}>
                 {/* Name & Title */}
                 <div className="mb-8 pb-6 border-b border-white/20">
                     <h1 className="text-[22px] font-bold text-white leading-tight mb-2">

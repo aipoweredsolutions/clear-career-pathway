@@ -33,6 +33,18 @@ export const Section = ({ title, styles, children, isFirst, templateId = '', ind
         )
     }
 
+    if (templateId.startsWith('ats-gold-standard')) {
+        return (
+            <View style={[styles.section, isFirst && styles.sectionFirst]}>
+                <View style={{ marginTop: 15, marginBottom: 10 }}>
+                    <Text style={[styles.sectionTitle, { marginBottom: 4, paddingBottom: 0, borderBottomWidth: 0 }]}>{title}</Text>
+                    <View style={{ width: '100%', height: 1.5, backgroundColor: styles.sectionTitle.color || '#171717' }} />
+                </View>
+                {children}
+            </View>
+        )
+    }
+
     return (
         <View style={[styles.section, isFirst && styles.sectionFirst]}>
             <Text style={styles.sectionTitle}>{title}</Text>
