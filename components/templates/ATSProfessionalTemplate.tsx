@@ -34,7 +34,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
         )}>
             {/* Header - Name centered */}
             <header className="text-center mb-4">
-                <h1 className="text-3xl font-bold tracking-tight mb-2">
+                <h1 className="text-3xl font-bold tracking-tight mb-1">
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
                 {personalInfo?.professionalTitle && (

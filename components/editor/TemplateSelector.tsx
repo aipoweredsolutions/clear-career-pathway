@@ -302,11 +302,18 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                             <h3 className="text-sm font-bold text-neutral-900 truncate">
                                 {template.name}
                             </h3>
-                            {template.isPremium && (
-                                <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
-                                    Pro
-                                </span>
-                            )}
+                            <div className="flex gap-1 flex-shrink-0">
+                                {(template.id.startsWith('ats-') || template.id === 'classic-clean') && (
+                                    <span className="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider" title="ATS Compliant">
+                                        ATS
+                                    </span>
+                                )}
+                                {template.isPremium && (
+                                    <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                                        Pro
+                                    </span>
+                                )}
+                            </div>
                         </div>
                         <p className="text-xs text-neutral-500 line-clamp-1 italic">
                             {template.suitableFor.industries?.slice(0, 2).join(', ')}

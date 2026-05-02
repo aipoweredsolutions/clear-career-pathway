@@ -59,24 +59,5 @@ export const PRICING_TIERS = [
         highlighted: true,
         badge: 'Most Popular',
         paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_POWER_PRICE_ID
-    },
-    {
-        name: 'Lifetime Pro',
-        price: 49.99,
-        period: 'one-time',
-        description: 'Pay once, use forever. Your complete career documentation hub.',
-        features: [
-            'Everything in Pro Plan, forever',
-            'No recurring subscriptions',
-            'Early access to Career Roadmap',
-            'Early access to Interview Simulator',
-            'Priority Customer Support',
-            'All future updates & templates'
-        ],
-        limitations: [],
-        cta: 'Get Lifetime Access',
-        ctaLink: '/auth/signup?tier=lifetime',
-        highlighted: false,
-        paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_BUNDLE_PRICE_ID
     }
 ]

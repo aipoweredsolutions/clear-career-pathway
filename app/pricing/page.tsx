@@ -6,14 +6,14 @@ import { PricingCard } from '@/components/pricing/PricingCard'
 
 export const metadata = {
     title: 'Pricing | ATS Resume Builder Plans',
-    description: 'Compare plans for our AI-powered ATS resume builder. Choose from free standard templates or lifetime access to our entire professional career suite.',
+    description: 'Compare plans for our AI-powered ATS resume builder. Choose from free standard templates or upgrade to our Pro career suite.',
     keywords: ['resume builder pricing', 'ATS resume builder cost', 'premium CV maker', 'free resume builder plans'],
     alternates: {
         canonical: '/pricing',
     },
     openGraph: {
         title: 'Pricing | ATS Resume Builder Plans',
-        description: 'Compare plans for our AI-powered ATS resume builder. Choose from free standard templates or lifetime access to our entire professional career suite.',
+        description: 'Compare plans for our AI-powered ATS resume builder. Choose from free standard templates or upgrade to our Pro career suite.',
         url: '/pricing',
     }
 }
@@ -47,7 +47,7 @@ export default async function PricingPage() {
                         Invest in Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">Career Growth</span>
                     </h1>
                     <p className="text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-                        Choose the perfect toolkit to land your next role faster. From free standard templates to lifetime access of our entire career suite.
+                        Choose the perfect toolkit to land your next role faster. From free standard templates to full access of our entire career suite.
                     </p>
                 </div>
             </section>
@@ -90,7 +90,7 @@ export default async function PricingPage() {
                                 Can I switch templates after creating my resume?
                             </h3>
                             <p className="text-neutral-700 leading-relaxed">
-                                Yes! With Pro Monthly and Lifetime Pro plans, you can switch templates at any time without losing
+                                Yes! With Pro Monthly, you can switch templates at any time without losing
                                 your content. Your data is preserved and automatically formatted to the new template.
                             </p>
                         </div>
@@ -109,7 +109,7 @@ export default async function PricingPage() {
                                 What export formats are available?
                             </h3>
                             <p className="text-neutral-700 leading-relaxed">
-                                Free tier includes a watermarked PDF. Pro Monthly and Lifetime Pro include clean PDF, DOCX, Markdown, and HTML formats—all text-based and ATS-compliant.
+                                Free tier includes a watermarked PDF. Pro Monthly includes clean PDF, DOCX, Markdown, and HTML formats—all text-based and ATS-compliant.
                             </p>
                         </div>
                         <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-100">
@@ -118,7 +118,7 @@ export default async function PricingPage() {
                             </h3>
                             <p className="text-neutral-700 leading-relaxed">
                                 Yes, you can cancel your Pro Monthly subscription at any time. You&apos;ll retain access until the end
-                                of your current billing period. Lifetime Pro is a one-time purchase with no recurring charges.
+                                of your current billing period.
                             </p>
                         </div>
                     </div>
@@ -138,9 +138,9 @@ export default async function PricingPage() {
                     <p className="text-xl text-primary-100 mb-10 max-w-2xl mx-auto">
                         Start with our free plan. Upgrade anytime as your career needs grow.
                     </p>
-                    <Link href="/auth/signup">
+                    <Link href="/editor/setup">
                         <Button variant="secondary" size="xl" className="bg-white text-primary-900 hover:bg-neutral-50 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
-                            Create Your Free Resume
+                            Create Your First Resume
                         </Button>
                     </Link>
                 </div>

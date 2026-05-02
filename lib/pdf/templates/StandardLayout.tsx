@@ -4,7 +4,7 @@ import { ContactInfo } from '../sections/ContactInfo'
 import { RenderSection } from '../sections/DynamicSections'
 
 export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any) => {
-    const sectionOrder = data.sectionOrder || [
+    let defaultOrder = [
         'professionalSummary',
         'workExperience',
         'education',
@@ -15,6 +15,35 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
         'languages',
         'references'
     ]
+
+    // Sync PDF default order with specific hardcoded DOM templates
+    if (templateId.startsWith('ats-professional')) {
+        defaultOrder = [
+            'professionalSummary',
+            'skills',
+            'workExperience',
+            'education',
+            'certifications',
+            'achievements',
+            'projects',
+            'languages',
+            'references'
+        ]
+    } else if (templateId.startsWith('ats-graduate') || templateId === 'graduate') {
+        defaultOrder = [
+            'professionalSummary',
+            'education',
+            'skills',
+            'projects',
+            'workExperience',
+            'certifications',
+            'achievements',
+            'languages',
+            'references'
+        ]
+    }
+
+    const sectionOrder = data.sectionOrder && data.sectionOrder.length > 0 ? data.sectionOrder : defaultOrder
 
     return (
         <Page size="A4" style={[styles.page, { padding: 40 }]}>
@@ -68,6 +97,14 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                         </View>
                     </View>
                 </View>
+            ) : templateId.startsWith('ats-executive') ? (
+                <View style={[styles.header, { borderBottomWidth: 4, borderBottomColor: styles.name.color || '#171717', paddingBottom: 15, marginBottom: 20 }]}>
+                    <Text style={[styles.name, { fontSize: 32, marginBottom: 6, letterSpacing: -0.5, textTransform: 'uppercase' }]}>{data.personalInfo?.fullName || 'Untitled'}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                        <Text style={[styles.title, { fontSize: 11, marginBottom: 0, letterSpacing: 1, textTransform: 'uppercase' }]}>{data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}</Text>
+                        <ContactInfo data={data} styles={styles} />
+                    </View>
+                </View>
             ) : templateId.startsWith('ats-gold-standard') ? (
                 <View style={[styles.header, { borderBottomWidth: 0, paddingBottom: 0, marginBottom: 15 }]}>
                     <View style={{ flex: 1, alignItems: 'center', width: '100%' }}>
@@ -81,11 +118,21 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                 </View>
             ) : (
                 <View style={styles.header}>
-                    <View style={{ flex: 1 }}>
-                        <Text style={styles.name}>{data.personalInfo?.fullName || 'Untitled'}</Text>
-                        <Text style={styles.title}>{data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}</Text>
+                    <View style={{ 
+                        flex: styles.header.flexDirection === 'row' ? 1 : undefined,
+                        alignItems: styles.header.textAlign === 'center' ? 'center' : 'flex-start',
+                        width: styles.header.flexDirection === 'row' ? 'auto' : '100%'
+                    }}>
+                        <Text style={[styles.name, { textAlign: styles.header.textAlign as any }]}>{data.personalInfo?.fullName || 'Untitled'}</Text>
+                        {(data.personalInfo?.professionalTitle || data.personalInfo?.title) && (
+                            <Text style={[styles.title, { textAlign: styles.header.textAlign as any, marginBottom: styles.header.flexDirection === 'row' ? 0 : 6 }]}>{data.personalInfo?.professionalTitle || data.personalInfo?.title}</Text>
+                        )}
                     </View>
-                    <View style={{ alignItems: styles.header.textAlign === 'center' ? 'center' : 'flex-end', marginTop: styles.header.flexDirection === 'row' ? 0 : 10 }}>
+                    <View style={{ 
+                        alignItems: styles.header.textAlign === 'center' ? 'center' : 'flex-end', 
+                        marginTop: 0,
+                        width: styles.header.flexDirection === 'row' ? 'auto' : '100%'
+                    }}>
                         <ContactInfo data={data} styles={styles} />
                     </View>
                 </View>

@@ -7,6 +7,15 @@ import { ArrowRight, BookOpen, Calendar } from 'lucide-react'
 export const metadata: Metadata = {
     title: 'Career Advice & Resume Writing Guides | Clear Career Path',
     description: 'Expert advice on resume writing, job searching, and career growth. Learn how to optimize your resume for ATS and land more interviews.',
+    keywords: ['resume writing tips', 'career advice blog', 'ATS optimization guide', 'job search strategies', 'interview preparation'],
+    alternates: {
+        canonical: '/blog',
+    },
+    openGraph: {
+        title: 'Career Advice & Resume Writing Guides | Clear Career Path',
+        description: 'Expert advice on resume writing, job searching, and career growth. Learn how to optimize your resume for ATS and land more interviews.',
+        url: '/blog',
+    },
 }
 
 export default function BlogIndexPage() {

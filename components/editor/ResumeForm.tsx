@@ -153,13 +153,13 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
         toast.success('Resume imported! Review and enhance each section with Gemini.')
     }
 
-    const [tabs, setTabs] = useState([
+    const ALL_TABS = [
         { id: 'personal', label: 'Personal' },
         { id: 'summary', label: 'Summary' },
         { id: 'experience', label: 'Experience' },
-        { id: 'projects', label: 'Projects' },
         { id: 'education', label: 'Education' },
         { id: 'skills', label: 'Skills' },
+        { id: 'projects', label: 'Projects' },
         { id: 'certifications', label: 'Certs' },
         { id: 'achievements', label: 'Awards' },
         { id: 'volunteer', label: 'Volunteer' },
@@ -169,20 +169,38 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
         { id: 'references', label: 'References' },
         { id: 'additional', label: 'Extra Info' },
         { id: 'custom', label: 'Custom' },
-    ])
+    ];
 
-    // Sync tabs with document sectionOrder
+    const CORE_TABS = ['personal', 'summary', 'experience', 'education', 'skills'];
+
+    const [tabs, setTabs] = useState<{id: string, label: string}[]>([]);
+
+    // Sync tabs with document sectionOrder or initialize with defaults
     React.useEffect(() => {
         if (data.sectionOrder && data.sectionOrder.length > 0) {
             const orderedTabs = data.sectionOrder
-                .map(id => tabs.find(t => t.id === id))
-                .filter(Boolean) as { id: string, label: string }[]
+                .map(id => ALL_TABS.find(t => t.id === id))
+                .filter(Boolean) as { id: string, label: string }[];
+            setTabs(orderedTabs);
+        } else {
+            // Check what has data to not hide user's existing info
+            const activeIds = new Set(CORE_TABS);
+            if (data.projects?.length) activeIds.add('projects');
+            if (data.certifications?.length) activeIds.add('certifications');
+            if (data.achievements?.length) activeIds.add('achievements');
+            if (data.volunteerExperience?.length) activeIds.add('volunteer');
+            if (data.languages?.length) activeIds.add('languages');
+            if (data.publications?.length) activeIds.add('publications');
+            if (data.professionalAffiliations?.length) activeIds.add('affiliations');
+            if (data.references?.length) activeIds.add('references');
+            if (data.additionalInfo && Object.keys(data.additionalInfo).length > 0) activeIds.add('additional');
+            if (data.customSections?.length) activeIds.add('custom');
 
-            // Add any missing tabs that might be in the default list but not in sectionOrder
-            const missingTabs = tabs.filter(t => !data.sectionOrder?.includes(t.id))
-            setTabs([...orderedTabs, ...missingTabs])
+            const defaultTabs = ALL_TABS.filter(t => activeIds.has(t.id));
+            setTabs(defaultTabs);
         }
-    }, [data.id, data.sectionOrder, tabs]) // Only on initial load or document change
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data.id, data.sectionOrder]); 
 
     const moveTab = (index: number, direction: 'up' | 'down') => {
         const newTabs = [...tabs]
@@ -200,6 +218,8 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
             sectionOrder: newTabs.map(t => t.id)
         })
     }
+
+    const availableToAdd = ALL_TABS.filter(t => !tabs.find(vt => vt.id === t.id));
 
     return (
         <div className="flex h-full bg-white relative overflow-hidden">
@@ -221,7 +241,11 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
                         {tabs.map((tab, idx) => (
                             <div key={tab.id} className="group relative">
                                 <div
-                                    onClick={() => setActiveTab(tab.id)}
+                                    onClick={() => {
+                                        setActiveTab(tab.id)
+                                        const el = document.getElementById(`section-${tab.id}`)
+                                        if (el) el.scrollIntoView({ behavior: 'smooth' })
+                                    }}
                                     className={`
                                         w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all cursor-pointer
                                         ${activeTab === tab.id
@@ -233,6 +257,8 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter' || e.key === ' ') {
                                             setActiveTab(tab.id)
+                                            const el = document.getElementById(`section-${tab.id}`)
+                                            if (el) el.scrollIntoView({ behavior: 'smooth' })
                                         }
                                     }}
                                 >
@@ -262,6 +288,39 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
                             </div>
                         ))}
                     </div>
+
+                    {/* Add Section Dropdown */}
+                    <div className="px-3 mt-4 mb-2">
+                        {availableToAdd.length > 0 && (
+                            <div className="relative">
+                                <select
+                                    className="w-full bg-white border border-neutral-200 text-primary-600 text-sm font-bold rounded-xl px-4 py-2.5 cursor-pointer outline-none hover:border-primary-300 appearance-none shadow-sm transition-colors"
+                                    value=""
+                                    onChange={(e) => {
+                                        if (!e.target.value) return;
+                                        const tabToAdd = ALL_TABS.find(t => t.id === e.target.value);
+                                        if (tabToAdd) {
+                                            const newTabs = [...tabs, tabToAdd];
+                                            setTabs(newTabs);
+                                            onChange({
+                                                ...data,
+                                                sectionOrder: newTabs.map(t => t.id)
+                                            });
+                                            setActiveTab(tabToAdd.id);
+                                        }
+                                    }}
+                                >
+                                    <option value="" disabled>+ Add Section</option>
+                                    {availableToAdd.map(t => (
+                                        <option key={t.id} value={t.id}>{t.label}</option>
+                                    ))}
+                                </select>
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                                    <svg className="w-4 h-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </nav>
 
                 {/* Footer Help or Status */}
@@ -275,204 +334,68 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
 
             {/* Main Form Content */}
             <div className="flex-1 flex flex-col min-w-0 bg-white">
-                <div className="flex-1 overflow-y-auto scrollbar-hide">
-                    <div className="max-w-3xl mx-auto p-8 pb-32">
-                {activeTab === 'personal' && (
-                    <div className="space-y-6">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-bold text-neutral-900">Personal Information</h2>
-                        </div>
-                        <div className="flex flex-col gap-4 mb-8 bg-primary-50/50 p-6 rounded-2xl border border-primary-100/50">
-                            <label className="text-sm font-bold text-primary-900 uppercase tracking-wider">Career Level</label>
-                            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
-                                {['student', 'entry', 'mid', 'senior', 'executive'].map((level) => (
-                                    <button
-                                        key={level}
-                                        onClick={() => updateField('careerLevel', level)}
-                                        className={`
-                                            px-3 py-2 rounded-xl text-xs font-bold capitalize transition-all border-2
-                                            ${data.careerLevel === level
-                                                ? 'bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-200'
-                                                : 'bg-white text-neutral-600 border-neutral-200 hover:border-primary-300'}
-                                        `}
-                                    >
-                                        {level}
-                                    </button>
-                                ))}
+                <div className="flex-1 overflow-y-auto scrollbar-hide scroll-smooth" id="form-scroll-container">
+                    <div className="max-w-3xl mx-auto p-8 pb-32 space-y-12">
+                        {tabs.map((tab) => (
+                            <div key={tab.id} id={`section-${tab.id}`} className="scroll-mt-8 pb-12 border-b border-neutral-100 last:border-0 last:pb-0">
+                                {tab.id !== 'personal' && (
+                                    <h2 className="text-xl font-bold text-neutral-900 mb-6">{tab.label}</h2>
+                                )}
+                                
+                                {tab.id === 'personal' && (
+                                    <div className="space-y-6">
+                                        <div className="flex items-center justify-between">
+                                            <h2 className="text-xl font-bold text-neutral-900">Personal Information</h2>
+                                        </div>
+                                        <div className="flex flex-col gap-4 mb-8 bg-primary-50/50 p-6 rounded-2xl border border-primary-100/50">
+                                            <label className="text-sm font-bold text-primary-900 uppercase tracking-wider">Career Level</label>
+                                            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                                                {['student', 'entry', 'mid', 'senior', 'executive'].map((level) => (
+                                                    <button
+                                                        key={level}
+                                                        onClick={() => updateField('careerLevel', level)}
+                                                        className={`
+                                                            px-3 py-2 rounded-xl text-xs font-bold capitalize transition-all border-2
+                                                            ${data.careerLevel === level
+                                                                ? 'bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-200'
+                                                                : 'bg-white text-neutral-600 border-neutral-200 hover:border-primary-300'}
+                                                        `}
+                                                    >
+                                                        {level}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            <p className="text-[10px] text-neutral-500 italic mt-1">
+                                                Adjusting this will help Gemini tailor suggestions to your experience level.
+                                            </p>
+                                        </div>
+                                        <PersonalInfoForm
+                                            data={data.personalInfo || { fullName: '' }}
+                                            onChange={(info) => updateField('personalInfo', info)}
+                                        />
+                                    </div>
+                                )}
+                                
+                                {tab.id === 'summary' && <SummaryForm data={data.professionalSummary || {}} fullResumeData={data} onChange={(s) => updateField('professionalSummary', s)} />}
+                                {tab.id === 'experience' && <ExperienceForm data={data.workExperience || []} onChange={(e) => updateField('workExperience', e)} />}
+                                {tab.id === 'education' && <EducationForm data={data.education || []} onChange={(e) => updateField('education', e)} />}
+                                {tab.id === 'skills' && <SkillsForm data={data.skills || []} jobTitle={data.personalInfo?.professionalTitle} onChange={(s) => updateField('skills', s)} />}
+                                {tab.id === 'projects' && <ProjectsForm data={data.projects || []} onChange={(p) => updateField('projects', p)} />}
+                                {tab.id === 'certifications' && <CertificationsForm data={data.certifications || []} onChange={(c) => updateField('certifications', c)} />}
+                                {tab.id === 'achievements' && <AchievementsForm data={data.achievements || []} onChange={(a) => updateField('achievements', a)} />}
+                                {tab.id === 'volunteer' && <VolunteerForm data={data.volunteerExperience || []} onChange={(v) => updateField('volunteerExperience', v)} />}
+                                {tab.id === 'languages' && <LanguagesForm data={data.languages || []} onChange={(l) => updateField('languages', l)} />}
+                                {tab.id === 'publications' && <PublicationsForm data={data.publications || []} onChange={(p) => updateField('publications', p)} />}
+                                {tab.id === 'affiliations' && <AffiliationsForm data={data.professionalAffiliations || []} onChange={(a) => updateField('professionalAffiliations', a)} />}
+                                {tab.id === 'references' && <ReferencesForm data={data.references || []} onChange={(r) => updateField('references', r)} />}
+                                {tab.id === 'additional' && <AdditionalInfoForm data={data.additionalInfo || {}} onChange={(a) => updateField('additionalInfo', a)} />}
+                                {tab.id === 'custom' && <CustomSectionsForm data={data.customSections || []} onChange={(c) => updateField('customSections', c)} />}
                             </div>
-                            <p className="text-[10px] text-neutral-500 italic mt-1">
-                                Adjusting this will help Gemini tailor suggestions to your experience level.
-                            </p>
-                        </div>
-                        <PersonalInfoForm
-                            data={data.personalInfo || { fullName: '' }}
-                            onChange={(info) => updateField('personalInfo', info)}
-                        />
+                        ))}
                     </div>
-                )}
-
-                {activeTab === 'summary' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Professional Summary</h2>
-                        <SummaryForm
-                            data={data.professionalSummary || {}}
-                            fullResumeData={data}
-                            onChange={(summary) => updateField('professionalSummary', summary)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'experience' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Work Experience</h2>
-                        <ExperienceForm
-                            data={data.workExperience || []}
-                            onChange={(exp) => updateField('workExperience', exp)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'projects' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Projects</h2>
-                        <ProjectsForm
-                            data={data.projects || []}
-                            onChange={(projects) => updateField('projects', projects)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'education' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Education</h2>
-                        <EducationForm
-                            data={data.education || []}
-                            onChange={(edu) => updateField('education', edu)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'skills' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Skills</h2>
-                        <SkillsForm
-                            data={data.skills || []}
-                            jobTitle={data.personalInfo?.professionalTitle}
-                            onChange={(skills) => updateField('skills', skills)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'certifications' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Certifications</h2>
-                        <CertificationsForm
-                            data={data.certifications || []}
-                            onChange={(certs) => updateField('certifications', certs)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'achievements' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Achievements & Awards</h2>
-                        <AchievementsForm
-                            data={data.achievements || []}
-                            onChange={(achs) => updateField('achievements', achs)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'volunteer' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Volunteer Experience</h2>
-                        <VolunteerForm
-                            data={data.volunteerExperience || []}
-                            onChange={(vol) => updateField('volunteerExperience', vol)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'languages' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Languages</h2>
-                        <LanguagesForm
-                            data={data.languages || []}
-                            onChange={(langs) => updateField('languages', langs)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'publications' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Publications</h2>
-                        <PublicationsForm
-                            data={data.publications || []}
-                            onChange={(pubs) => updateField('publications', pubs)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'affiliations' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Professional Affiliations</h2>
-                        <AffiliationsForm
-                            data={data.professionalAffiliations || []}
-                            onChange={(affs) => updateField('professionalAffiliations', affs)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'references' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">References</h2>
-                        <ReferencesForm
-                            data={data.references || []}
-                            onChange={(refs) => updateField('references', refs)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'additional' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Additional Information</h2>
-                        <AdditionalInfoForm
-                            data={data.additionalInfo || {}}
-                            onChange={(info) => updateField('additionalInfo', info)}
-                        />
-                    </div>
-                )}
-
-                {activeTab === 'custom' && (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-neutral-900">Custom Sections</h2>
-                        <CustomSectionsForm
-                            data={data.customSections || []}
-                            onChange={(sections) => updateField('customSections', sections)}
-                        />
-                    </div>
-                )}
-
-                {/* Next Section Button */}
-                <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
-                    {tabs.findIndex(t => t.id === activeTab) < tabs.length - 1 ? (
-                        <Button
-                            onClick={() => {
-                                const nextIdx = tabs.findIndex(t => t.id === activeTab) + 1
-                                setActiveTab(tabs[nextIdx].id)
-                                window.scrollTo({ top: 0, behavior: 'smooth' })
-                            }}
-                            className="bg-primary-600 text-white shadow-lg shadow-primary-200"
-                        >
-                            Continue to {tabs[tabs.findIndex(t => t.id === activeTab) + 1].label}
-                        </Button>
-                    ) : (
-                        <p className="text-sm font-medium text-neutral-400 italic">This is the final section. Your resume is looking great!</p>
-                    )}
                 </div>
             </div>
         </div>
-    </div>
 
             <UploadDialog
                 isOpen={showUpload}

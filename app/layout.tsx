@@ -59,7 +59,7 @@ export const metadata: Metadata = {
         siteName: 'Clear Career Path',
         images: [
             {
-                url: '/og-image.jpg',
+                url: '/og-image.png',
                 width: 1200,
                 height: 630,
                 alt: 'Clear Career Path - ATS Resume Builder',
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
         title: 'Clear Career Path | AI-Powered ATS Resume Builder',
         description: 'Build an ATS-compliant resume in minutes. Our AI resume builder creates professional, recruiter-approved CVs guaranteed to pass Applicant Tracking Systems.',
         creator: '@ClearCareerPath',
-        images: ['/og-image.jpg'],
+        images: ['/og-image.png'],
     },
     robots: {
         index: true,

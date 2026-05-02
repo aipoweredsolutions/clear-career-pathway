@@ -1,5 +1,6 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
     'inline-flex items-center justify-center rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
@@ -35,7 +36,7 @@ export interface ButtonProps
 
 export function Button({ className, variant, size, children, ...props }: ButtonProps) {
     return (
-        <button className={buttonVariants({ variant, size, className })} {...props}>
+        <button className={cn(buttonVariants({ variant, size }), className)} {...props}>
             {children}
         </button>
     )

@@ -33,7 +33,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
         )}>
             {/* Minimal Header */}
             <header className="mb-5">
-                <h1 className={cn("text-3xl font-light tracking-tight mb-1", accentColor)}>
+                <h1 className={cn("text-3xl font-light tracking-tight mb-2", accentColor)}>
                     {personalInfo?.fullName?.toUpperCase() || 'YOUR NAME'}
                 </h1>
                 {personalInfo?.professionalTitle && (

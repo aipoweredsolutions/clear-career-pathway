@@ -58,12 +58,12 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
     )
 
     return (
-        <div className="w-full bg-white flex min-h-full" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+        <div className="w-full bg-white flex min-h-full overflow-hidden" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
             {/* ═══ LEFT SIDEBAR ═══ */}
-            <div className={cn('w-[30%] shrink-0 pr-7 py-7 flex flex-col', theme.sidebar)}>
+            <div className={cn('w-[30%] shrink-0 pl-6 pr-5 pt-10 pb-8 flex flex-col overflow-hidden', theme.sidebar)}>
                 {/* Name & Title */}
                 <div className="mb-8 pb-6 border-b border-white/20">
-                    <h1 className="text-[22px] font-bold text-white leading-tight mb-2">
+                    <h1 className="text-[20px] font-bold text-white leading-tight mb-2 break-words">
                         {personalInfo?.fullName || 'Your Name'}
                     </h1>
                     {personalInfo?.professionalTitle && (
@@ -77,7 +77,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                 <SidebarSection title="Contact">
                     <div className="space-y-2">
                         {personalInfo?.email && (
-                            <div className="text-[10px] text-white/80 break-all leading-snug">{personalInfo.email}</div>
+                            <div className="text-[10px] text-white/80 break-all leading-snug truncate">{personalInfo.email}</div>
                         )}
                         {personalInfo?.phone && (
                             <div className="text-[10px] text-white/80">{personalInfo.phone}</div>
@@ -88,10 +88,10 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                             </div>
                         )}
                         {personalInfo?.linkedinUrl && (
-                            <div className="text-[10px] text-white/70 break-all">{personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}</div>
+                            <div className="text-[10px] text-white/70 break-all leading-snug">{personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}</div>
                         )}
                         {personalInfo?.websiteUrl && (
-                            <div className="text-[10px] text-white/70 break-all">{personalInfo.websiteUrl.replace(/^https?:\/\/(www\.)?/, '')}</div>
+                            <div className="text-[10px] text-white/70 break-all leading-snug">{personalInfo.websiteUrl.replace(/^https?:\/\/(www\.)?/, '')}</div>
                         )}
                     </div>
                 </SidebarSection>
@@ -103,7 +103,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                             {skills.map((s, i) => (
                                 <div key={i} className="flex items-center gap-2">
                                     <div className={cn('w-1.5 h-1.5 rounded-full shrink-0', theme.dot)} />
-                                    <span className="text-[10px] text-white/85 leading-snug">{s.skillName}</span>
+                                    <span className="text-[10px] text-white/85 leading-snug break-words">{s.skillName}</span>
                                 </div>
                             ))}
                         </div>
@@ -130,7 +130,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                         <div className="space-y-3">
                             {certifications.map((c, i) => (
                                 <div key={i}>
-                                    <div className="text-[10px] font-bold text-white leading-snug">{c.certificationName}</div>
+                                    <div className="text-[10px] font-bold text-white leading-snug break-words">{c.certificationName}</div>
                                     {c.issuingOrganization && (
                                         <div className="text-[9px] text-white/60">{c.issuingOrganization}{c.issueYear ? ` · ${c.issueYear}` : ''}</div>
                                     )}
@@ -158,7 +158,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
             </div>
 
             {/* ═══ RIGHT MAIN COLUMN ═══ */}
-            <div className="flex-1 p-8 pt-9" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+            <div className="flex-1 min-w-0 pl-8 pr-10 pt-10 pb-8 overflow-hidden" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
 
                 {/* Summary */}
                 {professionalSummary?.summaryText && (

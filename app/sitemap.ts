@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const routes = [
         '',
         '/pricing',
+        '/templates',
         '/samples',
         '/blog',
         '/ats-resume-scanner',

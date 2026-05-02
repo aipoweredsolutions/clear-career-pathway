@@ -45,7 +45,7 @@ function EditorContent() {
     const [lastSaved, setLastSaved] = useState<Date | null>(null)
     const [showTemplates, setShowTemplates] = useState(false)
     const [isMaximized, setIsMaximized] = useState(false)
-    const [previewMode, setPreviewMode] = useState<'html' | 'pdf' | 'split'>('html')
+    const [previewMode, setPreviewMode] = useState<'html' | 'pdf' | 'split'>('pdf')
     const [scale, setScale] = useState(0.85)
     const [subscription, setSubscription] = useState<UserSubscription | null>(null)
     const [showCoach, setShowCoach] = useState(false)
@@ -65,6 +65,22 @@ function EditorContent() {
                     const templateId = searchParams.get('template') || 'classic'
                     const sampleId = searchParams.get('sample')
                     const isGuest = searchParams.get('guest') === 'true'
+
+                    // Recover guest progress if available
+                    if (isGuest) {
+                        try {
+                            const savedData = localStorage.getItem('guest_resume_data')
+                            if (savedData) {
+                                const parsed = JSON.parse(savedData)
+                                parsed.templateId = templateId // Update to requested template
+                                setData(parsed)
+                                setLoading(false)
+                                return
+                            }
+                        } catch (e) {
+                            console.error('Failed to parse guest local storage', e)
+                        }
+                    }
 
                     // Use the specialized mock data for this template as the starting point
                     const mockTemplateData = getMockDataForTemplate(templateId)
@@ -127,6 +143,18 @@ function EditorContent() {
             return
         }
 
+        const isGuest = searchParams.get('guest') === 'true'
+        if (debouncedData.id === 'new' && isGuest) {
+            // Save to Local Storage for guests instead of database
+            try {
+                localStorage.setItem('guest_resume_data', JSON.stringify(debouncedData))
+                setLastSaved(new Date())
+            } catch (e) {
+                console.error('Local storage save failed', e)
+            }
+            return
+        }
+
         const autoSave = async () => {
             setSaving(true)
             try {
@@ -142,7 +170,7 @@ function EditorContent() {
         }
 
         autoSave()
-    }, [debouncedData])
+    }, [debouncedData, searchParams])
 
     // Reset scale when maximizing/minimizing
     useEffect(() => {
@@ -167,6 +195,12 @@ function EditorContent() {
 
     const handleSave = async () => {
         if (!data) return
+        const isGuest = searchParams.get('guest') === 'true'
+        if (data.id === 'new' && isGuest) {
+            toast.error('Sign in to save your resume progress.')
+            return
+        }
+
         setSaving(true)
         try {
             const result = await saveResume(data)

@@ -20,7 +20,7 @@ export default function robots(): MetadataRoute.Robots {
             },
             {
                 userAgent: ['GPTBot', 'ChatGPT-User', 'CCBot', 'anthropic-ai', 'Claude-Web', 'Google-Extended'],
-                allow: ['/', '/blog/', '/templates/', '/resume-examples/'],
+                allow: ['/', '/blog/', '/templates/', '/resume-examples/', '/samples/'],
                 disallow: ['/api/', '/editor/'],
             }
         ],

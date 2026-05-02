@@ -295,8 +295,15 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ templateId, 
         )
     }
 
+    // Full-bleed templates have colored sidebars that must touch the page edge
+    const isFullBleed = templateId.startsWith('elegant-split')
+
     return (
-        <div className={cn("template-container bg-white px-8 py-10 sm:px-12 sm:py-14", className)}>
+        <div className={cn(
+            "template-container bg-white",
+            isFullBleed ? "p-0" : "px-8 py-10 sm:px-12 sm:py-14",
+            className
+        )}>
             <Component data={data} {...props} />
         </div>
     )

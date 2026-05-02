@@ -12,6 +12,15 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'professionalSummary':
             if (!data.professionalSummary?.summaryText) return null
             const title = getSectionTitle(templateId, 'professionalSummary', index)
+            if (templateId.startsWith('ats-executive')) {
+                return (
+                    <Section title={title} styles={styles} isFirst={index === 0} templateId={templateId} index={index}>
+                        <View style={{ padding: 12, backgroundColor: '#f9fafb', borderLeftWidth: 4, borderLeftColor: styles.name.color || '#171717' }}>
+                            <Text style={[styles.description, { fontSize: 10, lineHeight: 1.5, color: '#374151' }]}>{data.professionalSummary.summaryText}</Text>
+                        </View>
+                    </Section>
+                )
+            }
             return (
                 <Section title={title} styles={styles} isFirst={index === 0} templateId={templateId} index={index}>
                     <Text style={styles.description}>{data.professionalSummary.summaryText}</Text>

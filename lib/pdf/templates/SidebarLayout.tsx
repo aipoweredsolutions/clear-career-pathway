@@ -55,12 +55,12 @@ export const SidebarLayout = ({ data, styles, templateId, isWatermarked }: any) 
                                 <View style={[styles.terminalDot, { backgroundColor: '#27c93f' }]} />
                             </View>
                             <Text style={[styles.name, { fontSize: 20 }]}>{data.personalInfo?.fullName || 'Untitled'}</Text>
-                            <Text style={styles.title}>{data.personalInfo?.title || ''}</Text>
+                            <Text style={styles.title}>{data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}</Text>
                         </View>
                     ) : (
                         <View style={styles.header}>
                             <Text style={styles.name}>{data.personalInfo?.fullName || 'Untitled'}</Text>
-                            <Text style={styles.title}>{data.personalInfo?.title || ''}</Text>
+                            <Text style={styles.title}>{data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}</Text>
                         </View>
                     )}
 

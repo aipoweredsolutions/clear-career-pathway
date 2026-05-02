@@ -23,7 +23,11 @@ export const metadata: Metadata = {
 
 export default function ResumeExamplesPage() {
     // Group templates by industry for better organization
-    const industries = Array.from(new Set(SEO_TEMPLATES.map(t => t.industry)))
+    const industries = Array.from(new Set(SEO_TEMPLATES.map(t => t.industry))).sort((a, b) => {
+        if (a === 'General') return 1;
+        if (b === 'General') return -1;
+        return a.localeCompare(b);
+    })
 
     return (
         <div className="min-h-screen bg-[#FDFDFD] pt-32 pb-20">

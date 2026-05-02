@@ -88,7 +88,7 @@ function EditorSetupContent() {
                     </div>
 
                     <p className="mt-8 text-[10px] italic text-neutral-500 font-medium relative z-10">
-                        * Note: Progress will not be saved if you close your browser before downloading.
+                        * Note: Progress is safely auto-saved to your local browser, but you must create an account to sync to the cloud.
                     </p>
                 </div>
             </div>
