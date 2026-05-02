@@ -369,6 +369,42 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
                                                 Adjusting this will help Gemini tailor suggestions to your experience level.
                                             </p>
                                         </div>
+
+                                        <div className="flex flex-col gap-4 mb-8 bg-neutral-50/50 p-6 rounded-2xl border border-neutral-100/50">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                <div className="flex flex-col gap-4">
+                                                    <label className="text-sm font-bold text-neutral-900 uppercase tracking-wider">Job Type</label>
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                                        {['corporate', 'creative', 'technical', 'academic', 'service'].map((type) => (
+                                                            <button
+                                                                key={type}
+                                                                onClick={() => updateField('jobType', type)}
+                                                                className={`
+                                                                    px-3 py-2 rounded-xl text-[10px] font-bold capitalize transition-all border-2
+                                                                    ${data.jobType === type
+                                                                        ? 'bg-neutral-900 text-white border-neutral-900 shadow-lg'
+                                                                        : 'bg-white text-neutral-600 border-neutral-200 hover:border-neutral-400'}
+                                                                `}
+                                                            >
+                                                                {type}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex flex-col gap-4">
+                                                    <label className="text-sm font-bold text-neutral-900 uppercase tracking-wider">Industry Focus</label>
+                                                    <input
+                                                        type="text"
+                                                        value={data.industryFocus || ''}
+                                                        onChange={(e) => updateField('industryFocus', e.target.value)}
+                                                        placeholder="e.g., Finance, Tech, Healthcare"
+                                                        className="w-full px-4 py-3 rounded-xl border border-neutral-200 bg-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all placeholder:text-neutral-300"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <PersonalInfoForm
                                             data={data.personalInfo || { fullName: '' }}
                                             onChange={(info) => updateField('personalInfo', info)}
@@ -392,10 +428,9 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
                                 {tab.id === 'custom' && <CustomSectionsForm data={data.customSections || []} onChange={(c) => updateField('customSections', c)} />}
                             </div>
                         ))}
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
 
             <UploadDialog
                 isOpen={showUpload}

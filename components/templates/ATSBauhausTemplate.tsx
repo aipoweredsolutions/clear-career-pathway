@@ -8,16 +8,6 @@ interface TemplateProps {
     accentColor?: string
 }
 
-/**
- * ATS Bauhaus Template
- * 
- * Inspired by Bauhaus design principles: geometric clarity, functional hierarchy.
- * Each section is introduced by a large square block containing a number, creating
- * a visual rhythm. 
- * 
- * 100% ATS-compliant single-column layout. Section numbers are pure CSS/span
- * decorations that don't interfere with parsing.
- */
 export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 text-red-600' }: TemplateProps) {
     const {
         personalInfo,
@@ -28,11 +18,11 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
         projects,
         certifications,
         achievements,
-        customSections
+        customSections,
+        languages
     } = data
 
-    // Extract colors. We expect accentColor to have both bg- and text- variants passed, or just one.
-    // To be safe, let's extract the color name.
+    // Extract colors
     const colorMatch = accentColor.match(/(?:bg|text)-([a-z]+-[0-9]+)/)
     const baseColor = colorMatch ? colorMatch[1] : 'neutral-900'
     
@@ -46,128 +36,122 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
         education && education.length > 0 ? 'education' : null,
         projects && projects.length > 0 ? 'projects' : null,
         skills && skills.length > 0 ? 'skills' : null,
-        (certifications?.length || achievements?.length) ? 'awards' : null
+        (certifications?.length || achievements?.length) ? 'awards' : null,
+        languages && languages.length > 0 ? 'languages' : null
     ].filter(Boolean)
 
     const SectionHeader = ({ title, sectionId }: { title: string, sectionId: string }) => {
         const numStr = (activeSections.indexOf(sectionId) + 1).toString().padStart(2, '0')
         
         return (
-            <div className="flex items-end gap-4 mb-5 mt-8">
-                <div className={cn("w-12 h-12 flex items-center justify-center text-white font-black text-sm shrink-0", bgColorClass)} aria-hidden="true">
+            <div className="flex items-end gap-6 mb-8 mt-12 group">
+                <div className={cn("w-14 h-14 flex items-center justify-center text-white font-black text-xl shrink-0 transition-transform group-hover:scale-105", bgColorClass)} aria-hidden="true">
                     {numStr}
                 </div>
                 <div className="flex-grow pb-1">
-                    <h2 className={cn("text-sm font-black uppercase tracking-[0.2em] mb-2", textColorClass)}>
+                    <h2 className={cn("text-[15px] font-black uppercase tracking-[0.3em] mb-3", textColorClass)}>
                         {title}
                     </h2>
-                    <hr className="border-t-2 border-neutral-900" />
+                    <div className="h-1.5 w-full bg-neutral-900" />
                 </div>
             </div>
         )
     }
 
-    // Build contact info
     const contactLines: string[] = []
     if (personalInfo?.email) contactLines.push(personalInfo.email)
     if (personalInfo?.phone) contactLines.push(personalInfo.phone)
     const loc = personalInfo?.location || [personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')
     if (loc) contactLines.push(loc)
-    if (personalInfo?.linkedinUrl) contactLines.push(personalInfo.linkedinUrl)
-
-    // Format dates helper
-    const formatDateRange = (start?: string, end?: string, isCurrent?: boolean) => {
-        const s = start ? new Date(start).getFullYear() : ''
-        const e = isCurrent ? 'Present' : (end ? new Date(end).getFullYear() : '')
-        if (s && e) return `${s} – ${e}`
-        if (s) return `${s}`
-        return ''
-    }
+    if (personalInfo?.linkedinUrl) contactLines.push(personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, ''))
 
     return (
         <div
-            className={cn('w-full bg-white text-neutral-900 leading-relaxed', className)}
-            style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}
+            className={cn('w-full bg-white text-neutral-900 leading-relaxed p-12', className)}
+            style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif" }}
         >
-            {/* ── HEADER ── */}
-            <header className="mb-10">
-                {personalInfo?.fullName && (
-                    <div className="mb-4">
-                        {/* Split name for bold geometric effect if it has a space */}
-                        {(() => {
-                            const parts = personalInfo.fullName.split(' ')
-                            if (parts.length >= 2) {
-                                const last = parts.pop()
-                                const rest = parts.join(' ')
-                                return (
-                                    <>
-                                        <h1 className="text-5xl font-black uppercase tracking-tighter leading-none">{rest}</h1>
-                                        <h1 className={cn("text-5xl font-light uppercase tracking-tighter leading-none", textColorClass)}>{last}</h1>
-                                    </>
-                                )
-                            }
-                            return <h1 className="text-5xl font-black uppercase tracking-tighter leading-none">{personalInfo.fullName}</h1>
-                        })()}
-                    </div>
-                )}
-                
-                <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-1 bg-neutral-900 shrink-0" />
-                    {personalInfo?.professionalTitle && (
-                        <div className={cn("text-[10px] font-black tracking-[0.4em] mb-4 p-1 inline-block", accentColor)}>
-                            {personalInfo.professionalTitle.toUpperCase()}
+            {/* ── HEADER — GEOMETRIC MASTERY ── */}
+            <header className="mb-16">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+                    <div className="flex-1">
+                        {personalInfo?.fullName && (
+                            <div className="mb-6">
+                                {(() => {
+                                    const parts = personalInfo.fullName.split(' ')
+                                    const last = parts.pop()
+                                    const rest = parts.join(' ')
+                                    return (
+                                        <div className="flex flex-col leading-[0.85]">
+                                            <h1 className="text-[72px] font-black uppercase tracking-[-0.06em]">{rest}</h1>
+                                            <h1 className={cn("text-[72px] font-extralight uppercase tracking-[-0.06em]", textColorClass)}>{last}</h1>
+                                        </div>
+                                    )
+                                })()}
+                            </div>
+                        )}
+                        <div className="flex items-center gap-6">
+                            <div className={cn("h-3 w-32", bgColorClass)} />
+                            {personalInfo?.professionalTitle && (
+                                <div className="text-[14px] font-black tracking-[0.4em] uppercase text-neutral-400">
+                                    {personalInfo.professionalTitle}
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-
-                <div className="text-[11px] font-bold text-neutral-400 tracking-wider flex flex-wrap gap-x-4 gap-y-1">
-                    {contactLines.map((line, i) => (
-                        <React.Fragment key={i}>
-                            <span>{line}</span>
-                            {i < contactLines.length - 1 && <span className={textColorClass}>|</span>}
-                        </React.Fragment>
-                    ))}
+                    </div>
+                    
+                    <div className="text-[11px] font-black text-neutral-400 tracking-[0.15em] flex flex-col gap-2 text-right uppercase">
+                        {contactLines.map((line, i) => (
+                            <span key={i} className="whitespace-nowrap">{line}</span>
+                        ))}
+                    </div>
                 </div>
             </header>
 
             {/* ── BODY ── */}
-            <div>
-                {/* Professional Summary */}
+            <div className="pb-12">
+                {/* Profile */}
                 {professionalSummary?.summaryText && (
                     <section>
-                        <SectionHeader title="Profile" sectionId="profile" />
-                        <p className="text-[13px] font-medium text-neutral-700 leading-relaxed pl-16">
-                            {professionalSummary.summaryText}
-                        </p>
+                        <SectionHeader title="Mandate" sectionId="profile" />
+                        <div className="pl-20">
+                            <p className="text-[15px] font-medium text-neutral-700 leading-[1.8] text-justify italic border-l-4 border-neutral-50 pl-10">
+                                {professionalSummary.summaryText}
+                            </p>
+                        </div>
                     </section>
                 )}
 
-                {/* Work Experience */}
+                {/* Experience */}
                 {workExperience && workExperience.length > 0 && (
                     <section>
-                        <SectionHeader title="Experience" sectionId="experience" />
-                        <div className="space-y-6 pl-16">
+                        <SectionHeader title="Chronology" sectionId="experience" />
+                        <div className="space-y-12 pl-20">
                             {workExperience.map((job, i) => (
-                                <div key={i}>
-                                    <h3 className="text-[14px] font-black uppercase text-neutral-900">
-                                        {job.jobTitle}
-                                    </h3>
-                                    <div className={cn("text-[11px] font-bold uppercase tracking-wider mb-2", textColorClass)}>
-                                        {job.companyName} {job.location && `· ${job.location}`} · {formatDateRange(job.startDate, job.endDate, job.isCurrent)}
+                                <div key={i} className="relative">
+                                    <div className="flex justify-between items-baseline mb-4">
+                                        <h3 className="text-[18px] font-black uppercase text-neutral-900 tracking-tight">
+                                            {job.jobTitle}
+                                        </h3>
+                                        <span className="text-[12px] font-black text-neutral-300 uppercase tracking-widest">
+                                            {job.startDate} — {job.isCurrent ? 'Current' : job.endDate}
+                                        </span>
+                                    </div>
+                                    <div className={cn("text-[13px] font-black uppercase tracking-[0.2em] mb-4", textColorClass)}>
+                                        {job.companyName} <span className="text-neutral-200 mx-2">/</span> {job.location}
                                     </div>
                                     
                                     {job.roleDescription && (
-                                        <p className="text-[12px] font-medium text-neutral-600 mb-2 leading-relaxed">
+                                        <p className="text-[14px] font-medium text-neutral-600 mb-6 leading-relaxed">
                                             {job.roleDescription}
                                         </p>
                                     )}
                                     
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <ul className="space-y-1 mt-2">
+                                        <ul className="space-y-3">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="text-[12px] text-neutral-700 flex gap-3 leading-relaxed">
-                                                    <span className={cn("shrink-0 font-black", textColorClass)}>▪</span>
-                                                    <span>{ach.achievementText}</span>
+                                                <li key={j} className="text-[14px] text-neutral-700 flex gap-4 leading-relaxed group">
+                                                    <span className={cn("shrink-0 w-2 h-2 mt-2", bgColorClass, "opacity-20 group-hover:opacity-100 transition-opacity")} />
+                                                    <span className="font-medium">{ach.achievementText}</span>
                                                 </li>
                                             ))}
                                         </ul>
@@ -181,18 +165,18 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                 {/* Education */}
                 {education && education.length > 0 && (
                     <section>
-                        <SectionHeader title="Education" sectionId="education" />
-                        <div className="space-y-4 pl-16">
+                        <SectionHeader title="Academic" sectionId="education" />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pl-20">
                             {education.map((edu, i) => (
                                 <div key={i}>
-                                    <h3 className="text-[13px] font-black uppercase text-neutral-900">
-                                        {edu.degree} {edu.major && `· ${edu.major}`}
+                                    <h3 className="text-[15px] font-black uppercase text-neutral-900 mb-1">
+                                        {edu.degree}
                                     </h3>
-                                    <div className={cn("text-[11px] font-bold uppercase tracking-wider", textColorClass)}>
-                                        {edu.institutionName} · {edu.endYear || edu.startYear}
+                                    <div className={cn("text-[12px] font-black uppercase tracking-widest mb-2", textColorClass)}>
+                                        {edu.institutionName} <span className="text-neutral-200 mx-1">/</span> {edu.endYear}
                                     </div>
                                     {edu.gpa && (
-                                        <div className="text-[11px] text-neutral-500 font-medium mt-0.5">GPA: {edu.gpa}</div>
+                                        <div className="text-[11px] text-neutral-400 font-black uppercase tracking-widest">Score: {edu.gpa}</div>
                                     )}
                                 </div>
                             ))}
@@ -200,37 +184,11 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                     </section>
                 )}
                 
-                {/* Projects */}
-                {projects && projects.length > 0 && (
-                    <section>
-                        <SectionHeader title="Projects" sectionId="projects" />
-                        <div className="space-y-4 pl-16">
-                            {projects.map((proj, i) => (
-                                <div key={i}>
-                                    <h3 className="text-[13px] font-black uppercase text-neutral-900">
-                                        {proj.projectName}
-                                    </h3>
-                                    {proj.role && (
-                                        <div className={cn("text-[11px] font-bold uppercase tracking-wider mb-1", textColorClass)}>
-                                            {proj.role} {proj.startDate && `· ${formatDateRange(proj.startDate, proj.endDate, false)}`}
-                                        </div>
-                                    )}
-                                    {proj.description && (
-                                        <p className="text-[12px] font-medium text-neutral-600 leading-relaxed">
-                                            {proj.description}
-                                        </p>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
-
-                {/* Skills - Bauhaus blocky style */}
+                {/* Skills — Bauhaus blocky style */}
                 {skills && skills.length > 0 && (
                     <section>
-                        <SectionHeader title="Skills" sectionId="skills" />
-                        <div className="pl-16">
+                        <SectionHeader title="Expertise" sectionId="skills" />
+                        <div className="pl-20">
                             {(() => {
                                 const grouped = skills.reduce((acc, skill) => {
                                     const type = skill.skillType || 'professional'
@@ -240,17 +198,17 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                                 }, {} as Record<string, typeof skills>)
 
                                 return (
-                                    <div className="space-y-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                         {Object.entries(grouped).map(([type, list]) => (
                                             <div key={type}>
-                                                <div className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2">
+                                                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">
                                                     {type}
                                                 </div>
                                                 <div className="flex flex-wrap gap-2">
                                                     {list.map((s, i) => (
                                                         <span 
                                                             key={i} 
-                                                            className={cn("text-[11px] font-bold px-3 py-1.5 border-2", borderColorClass, textColorClass)}
+                                                            className={cn("text-[12px] font-black px-4 py-2 border-[3px] uppercase tracking-wider", borderColorClass, textColorClass)}
                                                         >
                                                             {s.skillName}
                                                         </span>
@@ -264,36 +222,30 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                         </div>
                     </section>
                 )}
-                
-                {/* Certifications & Awards */}
-                {(certifications?.length || achievements?.length) ? (
+
+                {/* Languages */}
+                {languages && languages.length > 0 && (
                     <section>
-                        <SectionHeader title="Awards" sectionId="awards" />
-                        <div className="pl-16 space-y-4">
-                            {certifications && certifications.map((cert, i) => (
-                                <div key={`cert-${i}`}>
-                                    <h3 className="text-[12px] font-black uppercase text-neutral-900">
-                                        {cert.certificationName}
-                                    </h3>
-                                    <div className={cn("text-[11px] font-bold uppercase tracking-wider", textColorClass)}>
-                                        {cert.issuingOrganization} {(cert.issueYear || cert.issueDate) && `· ${cert.issueYear || cert.issueDate}`}
-                                    </div>
-                                </div>
-                            ))}
-                            {achievements && achievements.map((ach, i) => (
-                                <div key={`ach-${i}`}>
-                                    <h3 className="text-[12px] font-black uppercase text-neutral-900">
-                                        {ach.achievementTitle}
-                                    </h3>
-                                    <div className={cn("text-[11px] font-bold uppercase tracking-wider", textColorClass)}>
-                                        {ach.issuingBody} {ach.year && `· ${ach.year}`}
-                                    </div>
+                        <SectionHeader title="Lexicon" sectionId="languages" />
+                        <div className="pl-20 flex flex-wrap gap-12">
+                            {languages.map((l, i) => (
+                                <div key={i} className="flex flex-col gap-1">
+                                    <span className="text-[15px] font-black uppercase tracking-tight">{l.languageName}</span>
+                                    <span className={cn("text-[10px] font-black uppercase tracking-[0.2em]", textColorClass)}>{l.proficiencyLevel}</span>
                                 </div>
                             ))}
                         </div>
                     </section>
-                ): null}
-
+                )}
+                
+                {/* Final Geometric element */}
+                <div className="mt-24 pl-20 flex items-center gap-8">
+                    <div className={cn("w-12 h-12 shrink-0", bgColorClass)} />
+                    <div className="w-12 h-12 shrink-0 border-[3px] border-neutral-900" />
+                    <div className={cn("w-12 h-12 shrink-0 rounded-full", bgColorClass, "opacity-20")} />
+                    <div className="h-px flex-1 bg-neutral-100" />
+                    <span className="text-[10px] font-black text-neutral-200 uppercase tracking-[0.5em]">Bauhaus System 2026</span>
+                </div>
             </div>
         </div>
     )

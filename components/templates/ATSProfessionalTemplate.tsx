@@ -26,367 +26,194 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
         professionalAffiliations
     } = data
 
+    const SectionHeader = ({ title }: { title: string }) => (
+        <div className="mt-10 mb-6 group">
+            <h2 className={cn("text-[12px] font-black uppercase tracking-[0.3em] mb-2", accentColor)}>
+                {title}
+            </h2>
+            <div className="h-[0.5px] w-full bg-neutral-100" />
+        </div>
+    )
+
+    const contactParts: string[] = []
+    if (personalInfo?.phone) contactParts.push(personalInfo.phone)
+    if (personalInfo?.email) contactParts.push(personalInfo.email)
+    const loc = personalInfo?.location || [personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')
+    if (loc) contactParts.push(loc)
+    if (personalInfo?.linkedinUrl) contactParts.push(personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, ''))
+
     return (
         <div className={cn(
-            "w-full bg-white text-neutral-900",
-            "font-sans",
+            "w-full bg-white text-neutral-900 font-sans leading-relaxed p-12",
             className
-        )}>
-            {/* Header - Name centered */}
-            <header className="text-center mb-4">
-                <h1 className="text-3xl font-bold tracking-tight mb-1">
+        )}
+        style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
+        >
+            {/* ── CORPORATE HEADER ── */}
+            <header className="text-center mb-12">
+                <h1 className="text-[40px] font-black tracking-[-0.02em] leading-none mb-4 text-neutral-900">
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
                 {personalInfo?.professionalTitle && (
-                    <div className={cn("text-lg font-medium mb-3", accentColor)}>
+                    <div className={cn("text-[13px] font-bold uppercase tracking-[0.4em] mb-8 opacity-60", accentColor)}>
                         {personalInfo.professionalTitle}
                     </div>
                 )}
 
-                {/* Contact Details - Single line with minimal icons */}
-                <div className="flex items-center justify-center gap-4 text-sm text-neutral-700 flex-wrap">
-                    {personalInfo?.phone && (
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-neutral-900">☎</span>
-                            <span>{personalInfo.phone}</span>
-                        </div>
-                    )}
-                    {personalInfo?.email && (
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-neutral-900">✉</span>
-                            <span>{personalInfo.email}</span>
-                        </div>
-                    )}
-                    {personalInfo?.linkedinUrl && (
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-neutral-900">in</span>
-                            <span>{personalInfo.linkedinUrl}</span>
-                        </div>
-                    )}
-                    {(personalInfo?.city || personalInfo?.country) && (
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-neutral-900">📍</span>
-                            <span>
-                                {[personalInfo.city, personalInfo.country].filter(Boolean).join(', ')}
-                            </span>
-                        </div>
-                    )}
+                <div className="flex items-center justify-center gap-6 text-[11px] text-neutral-500 font-bold uppercase tracking-[0.1em] border-y border-neutral-50 py-4">
+                    {contactParts.map((part, i) => (
+                        <React.Fragment key={i}>
+                            <span>{part}</span>
+                            {i < contactParts.length - 1 && <div className="w-1 h-1 rounded-full bg-neutral-200" />}
+                        </React.Fragment>
+                    ))}
                 </div>
             </header>
 
-            {/* Professional Summary */}
-            {professionalSummary?.summaryText && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        Professional Summary
-                    </h2>
-                    <p className="text-sm leading-relaxed text-neutral-800">
-                        {professionalSummary.summaryText}
-                    </p>
-                </section>
-            )}
+            <div className="pb-12">
+                {/* Summary */}
+                {professionalSummary?.summaryText && (
+                    <section>
+                        <SectionHeader title="Executive Overview" />
+                        <p className="text-[14px] leading-[1.8] text-neutral-700 font-medium text-justify px-4">
+                            {professionalSummary.summaryText}
+                        </p>
+                    </section>
+                )}
 
-            {/* Core Skills - Categorized for ATS */}
-            {skills && skills.length > 0 && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        Core Skills
-                    </h2>
-                    {(() => {
-                        // Group skills by type for better ATS scanning
-                        const groupedSkills = skills.reduce((acc, skill) => {
-                            const type = skill.skillType || 'professional'
-                            if (!acc[type]) acc[type] = []
-                            acc[type].push(skill)
-                            return acc
-                        }, {} as Record<string, typeof skills>)
+                {/* Experience */}
+                {workExperience && workExperience.length > 0 && (
+                    <section>
+                        <SectionHeader title="Professional History" />
+                        <div className="space-y-10 px-4">
+                            {workExperience.map((job, index) => (
+                                <div key={index}>
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div className="flex-1">
+                                            <h3 className="text-[16px] font-black text-neutral-900 tracking-tight leading-tight">
+                                                {job.jobTitle}
+                                            </h3>
+                                            <div className="text-[14px] font-bold text-neutral-400 mt-1 uppercase tracking-wider">
+                                                {job.companyName}
+                                                {job.location && <span className="font-normal mx-3 opacity-30">/</span>}
+                                                {job.location}
+                                            </div>
+                                        </div>
+                                        <div className="text-[11px] font-black text-neutral-300 uppercase tracking-widest shrink-0 ml-6 mt-1">
+                                            {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
+                                        </div>
+                                    </div>
 
-                        const categoryLabels: Record<string, string> = {
-                            technical: 'Technical Skills',
-                            professional: 'Professional Skills',
-                            tool: 'Tools & Technologies',
-                            industry: 'Industry Knowledge'
-                        }
+                                    {job.roleDescription && (
+                                        <p className="text-[14px] text-neutral-600 mb-4 leading-relaxed font-medium">
+                                            {job.roleDescription}
+                                        </p>
+                                    )}
 
-                        // If no categorization, show inline
-                        if (Object.keys(groupedSkills).length === 1 && groupedSkills['professional']) {
-                            return (
-                                <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
-                                    {skills.map((skill, index) => (
-                                        <React.Fragment key={skill.id || index}>
-                                            <span className="text-neutral-800">{skill.skillName}</span>
-                                            {index < skills.length - 1 && <span className="text-neutral-400">•</span>}
-                                        </React.Fragment>
-                                    ))}
+                                    {job.achievements && job.achievements.length > 0 && (
+                                        <ul className="space-y-3">
+                                            {job.achievements.map((a, j) => (
+                                                <li key={j} className="text-[14px] text-neutral-700 leading-relaxed flex gap-4 font-medium">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-100 mt-2.5 shrink-0" />
+                                                    <span>{a.achievementText}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
                                 </div>
-                            )
-                        }
+                            ))}
+                        </div>
+                    </section>
+                )}
 
-                        // Show categorized layout
-                        return (
-                            <div className="space-y-2">
-                                {Object.entries(groupedSkills).map(([type, skillsList]) => (
-                                    <div key={type} className="grid grid-cols-1 gap-1 items-start mb-2">
-                                        <span className="text-sm font-semibold text-neutral-700">
-                                            {categoryLabels[type] || type}:
+                {/* Skills */}
+                {skills && skills.length > 0 && (
+                    <section>
+                        <SectionHeader title="Core Competencies" />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10 px-4">
+                            {Object.entries(skills.reduce((acc, s) => {
+                                const t = s.skillType || 'professional';
+                                if (!acc[t]) acc[t] = [];
+                                acc[t].push(s);
+                                return acc;
+                            }, {} as Record<string, typeof skills>)).map(([type, list]) => (
+                                <div key={type} className="flex flex-col gap-2">
+                                    <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.2em] mb-1">
+                                        {type}
+                                    </div>
+                                    <p className="text-[14px] text-neutral-800 font-bold leading-relaxed italic">
+                                        {list.map(s => s.skillName).join('  •  ')}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Education */}
+                {education && education.length > 0 && (
+                    <section>
+                        <SectionHeader title="Academic Credentials" />
+                        <div className="space-y-8 px-4">
+                            {education.map((edu, index) => (
+                                <div key={index}>
+                                    <div className="flex justify-between items-baseline mb-2">
+                                        <h3 className="text-[16px] font-black text-neutral-900 tracking-tight">
+                                            {edu.degree}{edu.major && ` in ${edu.major}`}
+                                        </h3>
+                                        <span className="text-[11px] font-black text-neutral-300 uppercase tracking-widest shrink-0 ml-6">
+                                            {edu.endYear}
                                         </span>
-                                        <span className="text-sm text-neutral-800 leading-relaxed">
-                                            {skillsList.map(s => s.skillName).join(', ')}
-                                        </span>
+                                    </div>
+                                    <div className="text-[14px] font-bold text-neutral-400 uppercase tracking-widest">
+                                        {edu.institutionName}
+                                        {edu.location && <span className="mx-3 opacity-30 font-normal">|</span>}
+                                        {edu.location}
+                                    </div>
+                                    {edu.gpa && (
+                                        <div className="text-[11px] font-black text-neutral-300 uppercase tracking-widest mt-3">
+                                            GPA: <span className="text-neutral-700">{edu.gpa}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Additional Details */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mt-16 pt-12 border-t border-neutral-50 px-4">
+                    {certifications && certifications.length > 0 && (
+                        <section>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-6">Certifications</h2>
+                            <div className="space-y-4">
+                                {certifications.map((c, i) => (
+                                    <div key={i} className="flex flex-col">
+                                        <div className="text-[14px] font-bold text-neutral-800 leading-tight">{c.certificationName}</div>
+                                        <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest mt-1">
+                                            {c.issuingOrganization} {c.issueYear && `· ${c.issueYear}`}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
-                        )
-                    })()}
-                </section>
-            )}
-
-            {/* Work Experience */}
-            {workExperience && workExperience.length > 0 && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        Work Experience
-                    </h2>
-                    <div className="space-y-4">
-                        {workExperience.map((job, index) => (
-                            <div key={job.id || index}>
-                                <div className="flex justify-between items-baseline mb-1">
-                                    <h3 className="text-base font-bold">
-                                        {job.jobTitle}
-                                    </h3>
-                                    <span className="text-sm text-neutral-600">
-                                        {job.startDate} – {job.isCurrent ? 'Present' : job.endDate}
-                                    </span>
-                                </div>
-                                <div className="text-sm font-semibold text-neutral-700 mb-2">
-                                    {job.companyName}
-                                    {job.location && ` | ${job.location}`}
-                                </div>
-                                {job.roleDescription && (
-                                    <p className="text-sm text-neutral-800 mb-2 leading-relaxed">
-                                        {job.roleDescription}
-                                    </p>
-                                )}
-                                {job.achievements && job.achievements.length > 0 && (
-                                    <ul className="list-disc list-outside ml-5 space-y-1">
-                                        {job.achievements.map((achievement, achIndex) => (
-                                            <li key={achievement.id || achIndex} className="text-sm text-neutral-800 leading-relaxed">
-                                                {achievement.achievementText}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Education */}
-            {education && education.length > 0 && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        Education
-                    </h2>
-                    <div className="space-y-3">
-                        {education.map((edu, index) => (
-                            <div key={edu.id || index}>
-                                <div className="flex justify-between items-baseline mb-1">
-                                    <h3 className="text-base font-bold">
-                                        {edu.degree}
-                                        {edu.major && ` in ${edu.major}`}
-                                    </h3>
-                                    <span className="text-sm text-neutral-600">
-                                        {edu.endYear}
-                                    </span>
-                                </div>
-                                <div className="text-sm text-neutral-700">
-                                    {edu.institutionName}
-                                    {edu.location && ` | ${edu.location}`}
-                                </div>
-                                {edu.gpa && (
-                                    <div className="text-sm text-neutral-700">
-                                        GPA: {edu.gpa}
+                        </section>
+                    )}
+                    
+                    {languages && languages.length > 0 && (
+                        <section>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-6">Languages</h2>
+                            <div className="space-y-4">
+                                {languages.map((l, i) => (
+                                    <div key={i} className="flex justify-between items-center pb-2 border-b border-neutral-50">
+                                        <span className="text-[14px] font-bold text-neutral-800 tracking-tight">{l.languageName}</span>
+                                        <span className="text-[10px] font-black text-neutral-300 uppercase tracking-widest">{l.proficiencyLevel}</span>
                                     </div>
-                                )}
-                                {edu.achievements && (
-                                    <div className="text-sm text-neutral-800 mt-1">
-                                        {edu.achievements}
-                                    </div>
-                                )}
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Certifications */}
-            {certifications && certifications.length > 0 && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        Certifications
-                    </h2>
-                    <div className="space-y-2">
-                        {certifications.map((cert, index) => (
-                            <div key={cert.id || index} className="text-sm">
-                                <span className="font-bold">{cert.certificationName}</span>
-                                <span className="text-neutral-700"> – {cert.issuingOrganization}</span>
-                                {cert.issueYear && (
-                                    <span className="text-neutral-600"> ({cert.issueYear})</span>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Achievements */}
-            {achievements && achievements.length > 0 && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        Achievements & Awards
-                    </h2>
-                    <div className="space-y-3">
-                        {achievements.map((ach, index) => (
-                            <div key={ach.id || index}>
-                                <div className="flex justify-between items-baseline mb-1">
-                                    <h3 className="text-base font-bold">{ach.achievementTitle}</h3>
-                                    {ach.year && <span className="text-sm text-neutral-600">{ach.year}</span>}
-                                </div>
-                                <div className="text-sm text-neutral-700 mb-1">{ach.issuingBody}</div>
-                                {ach.description && <p className="text-sm text-neutral-800 leading-relaxed">{ach.description}</p>}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Projects */}
-            {projects && projects.length > 0 && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        Projects
-                    </h2>
-                    <div className="space-y-3">
-                        {projects.map((project, index) => (
-                            <div key={project.id || index}>
-                                <h3 className="text-base font-bold mb-1">
-                                    {project.projectName}
-                                    {project.role && ` – ${project.role}`}
-                                </h3>
-                                {project.clientOrOrganization && (
-                                    <div className="text-sm text-neutral-700 mb-1">
-                                        {project.clientOrOrganization}
-                                    </div>
-                                )}
-                                {project.description && (
-                                    <p className="text-sm text-neutral-800 leading-relaxed mb-1">
-                                        {project.description}
-                                    </p>
-                                )}
-                                {project.toolsUsed && project.toolsUsed.length > 0 && (
-                                    <div className="text-sm text-neutral-700">
-                                        <span className="font-semibold">Technologies:</span> {project.toolsUsed.join(', ')}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Volunteer Experience */}
-            {volunteerExperience && volunteerExperience.length > 0 && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        Volunteer Experience
-                    </h2>
-                    <div className="space-y-4">
-                        {volunteerExperience.map((vol, index) => (
-                            <div key={vol.id || index}>
-                                <div className="flex justify-between items-baseline mb-1">
-                                    <h3 className="text-base font-bold">{vol.roleTitle}</h3>
-                                    <span className="text-sm text-neutral-600">{vol.startDate} – {vol.endDate}</span>
-                                </div>
-                                <div className="text-sm text-neutral-700 mb-1 italic">{vol.organizationName}</div>
-                                {vol.contributions && <p className="text-sm text-neutral-800 leading-relaxed">{vol.contributions}</p>}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Publications */}
-            {publications && publications.length > 0 && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        Publications
-                    </h2>
-                    <div className="space-y-2">
-                        {publications.map((pub, index) => (
-                            <div key={pub.id || index} className="text-sm">
-                                <span className="font-bold">&quot;{pub.title}&quot;</span>
-                                {pub.platformOrPublisher && <span className="text-neutral-700"> – {pub.platformOrPublisher}</span>}
-                                {pub.publicationYear && <span className="text-neutral-600"> ({pub.publicationYear})</span>}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* References */}
-            {references && references.length > 0 && (
-                <section className="mb-4">
-                    <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                        References
-                    </h2>
-                    <div className="grid grid-cols-1 gap-4">
-                        {references.map((ref, index) => (
-                            <div key={ref.id || index} className="text-sm text-neutral-800">
-                                {ref.referenceName && <div className="font-bold">{ref.referenceName}</div>}
-                                {ref.role && <div>{ref.role}</div>}
-                                {ref.organization && <div className="italic">{ref.organization}</div>}
-                                {ref.contactDetails && <div className="text-neutral-600">{ref.contactDetails}</div>}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Additional Information */}
-            {(languages && languages.length > 0) ||
-                (professionalAffiliations && professionalAffiliations.length > 0) ||
-                additionalInfo?.otherInfo && (
-                    <section className="mb-4">
-                        <h2 className={cn("text-lg font-bold uppercase tracking-wide mb-3 pb-1 border-b-2 border-current", accentColor)}>
-                            Additional Information
-                        </h2>
-
-                        {languages && languages.length > 0 && (
-                            <div className="mb-2">
-                                <span className="text-sm font-bold">Languages: </span>
-                                <span className="text-sm text-neutral-800">
-                                    {languages.map(lang => `${lang.languageName} (${lang.proficiencyLevel})`).join(', ')}
-                                </span>
-                            </div>
-                        )}
-
-                        {professionalAffiliations && professionalAffiliations.length > 0 && (
-                            <div className="mb-2">
-                                <span className="text-sm font-bold">Professional Affiliations: </span>
-                                <span className="text-sm text-neutral-800">
-                                    {professionalAffiliations.map(aff => aff.organizationName).join(', ')}
-                                </span>
-                            </div>
-                        )}
-
-                        {additionalInfo?.otherInfo && (
-                            <p className="text-sm text-neutral-800 leading-relaxed">
-                                {additionalInfo.otherInfo}
-                            </p>
-                        )}
-                    </section>
-                )}
+                        </section>
+                    )}
+                </div>
+            </div>
         </div>
     )
 }

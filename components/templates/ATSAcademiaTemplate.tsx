@@ -28,12 +28,12 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
     // Derive border color from accent
     const getBorderColor = () => {
-        if (accentColor.includes('slate')) return 'border-slate-400'
-        if (accentColor.includes('blue')) return 'border-blue-800'
-        if (accentColor.includes('maroon') || accentColor.includes('rose') || accentColor.includes('red')) return 'border-red-900'
-        if (accentColor.includes('emerald') || accentColor.includes('green')) return 'border-emerald-800'
-        if (accentColor.includes('neutral')) return 'border-neutral-400'
-        return 'border-slate-400'
+        if (accentColor.includes('slate')) return 'border-slate-300'
+        if (accentColor.includes('blue')) return 'border-blue-200'
+        if (accentColor.includes('maroon') || accentColor.includes('rose') || accentColor.includes('red')) return 'border-red-200'
+        if (accentColor.includes('emerald') || accentColor.includes('green')) return 'border-emerald-200'
+        if (accentColor.includes('neutral')) return 'border-neutral-200'
+        return 'border-slate-200'
     }
 
     const borderColor = getBorderColor()
@@ -55,15 +55,19 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
         'additionalInfo'
     ]
 
+    const SectionTitle = ({ children }: { children: React.ReactNode }) => (
+        <h2 className={cn("text-[13px] font-black uppercase tracking-[0.25em] mb-4 pb-2 border-b-[1.5px]", accentColor, borderColor)}>
+            {children}
+        </h2>
+    )
+
     const renderSection = (sectionId: string) => {
         switch (sectionId) {
             case 'professionalSummary':
                 return professionalSummary?.summaryText ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Research Interests & Profile
-                        </h2>
-                        <p className="text-[11px] leading-relaxed text-neutral-700 font-serif">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Research Profile</SectionTitle>
+                        <p className="text-[13.5px] leading-[1.8] text-neutral-700 font-serif text-justify">
                             {professionalSummary.summaryText}
                         </p>
                     </section>
@@ -71,30 +75,29 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'education':
                 return education && education.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Education
-                        </h2>
-                        <div className="space-y-3">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Education</SectionTitle>
+                        <div className="space-y-6">
                             {education.map((edu, i) => (
                                 <div key={edu.id || i}>
-                                    <div className="flex justify-between items-baseline">
-                                        <h3 className="text-[12px] font-bold text-neutral-900 font-serif">
+                                    <div className="flex justify-between items-baseline mb-1">
+                                        <h3 className="text-[15px] font-bold text-neutral-900 font-serif">
                                             {edu.degree}{edu.major ? ` in ${edu.major}` : ''}{edu.fieldOfStudy ? ` — ${edu.fieldOfStudy}` : ''}
                                         </h3>
-                                        <span className="text-[10px] font-semibold text-neutral-500 ml-4 shrink-0">
+                                        <span className="text-[11px] font-bold text-neutral-500 ml-4 shrink-0 uppercase tracking-widest">
                                             {edu.startYear && `${edu.startYear} — `}{edu.endYear}
                                         </span>
                                     </div>
-                                    <p className={cn("text-[11px] font-semibold", accentColor)}>
+                                    <p className={cn("text-[13.5px] font-bold italic", accentColor)}>
                                         {edu.institutionName}
-                                        {edu.location && <span className="text-neutral-400 font-normal"> — {edu.location}</span>}
+                                        {edu.location && <span className="text-neutral-400 font-normal not-italic mx-2">|</span>}
+                                        {edu.location && <span className="font-normal not-italic text-neutral-500">{edu.location}</span>}
                                     </p>
-                                    {edu.gpa && <p className="text-[10px] text-neutral-500 mt-0.5">GPA: {edu.gpa}</p>}
-                                    {edu.achievements && <p className="text-[10px] text-neutral-600 mt-0.5 italic font-serif">{edu.achievements}</p>}
+                                    {edu.gpa && <p className="text-[11px] text-neutral-400 mt-1 uppercase tracking-tighter font-bold">GPA: <span className="text-neutral-600">{edu.gpa}</span></p>}
+                                    {edu.achievements && <p className="text-[13px] text-neutral-600 mt-2 italic font-serif leading-relaxed border-l-2 border-neutral-100 pl-4">{edu.achievements}</p>}
                                     {edu.coursework && (
-                                        <p className="text-[10px] text-neutral-500 mt-0.5">
-                                            <span className="font-semibold">Dissertation / Thesis: </span>{edu.coursework}
+                                        <p className="text-[12px] text-neutral-500 mt-2 font-serif">
+                                            <span className="font-bold text-neutral-700">Dissertation: </span>{edu.coursework}
                                         </p>
                                     )}
                                 </div>
@@ -105,53 +108,53 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'publications':
                 return publications && publications.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Selected Publications
-                        </h2>
-                        <ol className="space-y-1.5 list-decimal list-inside">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Selected Publications</SectionTitle>
+                        <div className="space-y-4">
                             {publications.map((pub, i) => (
-                                <li key={i} className="text-[11px] text-neutral-700 font-serif leading-relaxed">
-                                    <span className="font-bold text-neutral-900">{pub.title}</span>
-                                    {pub.platformOrPublisher && <span className="italic"> {pub.platformOrPublisher}</span>}
-                                    {pub.publicationYear && <span className="text-neutral-500"> ({pub.publicationYear})</span>}
-                                    {pub.url && <span className="text-neutral-400 text-[10px] ml-1">[{pub.url}]</span>}
-                                </li>
+                                <div key={i} className="text-[13.5px] text-neutral-700 font-serif leading-[1.7] flex gap-4">
+                                    <span className="text-neutral-300 font-bold tabular-nums">{(i + 1).toString().padStart(2, '0')}</span>
+                                    <div>
+                                        <span className="font-bold text-neutral-900 leading-snug block mb-0.5">{pub.title}</span>
+                                        <span className="italic text-neutral-600"> {pub.platformOrPublisher}</span>
+                                        {pub.publicationYear && <span className="text-neutral-400 font-bold"> · {pub.publicationYear}</span>}
+                                        {pub.url && <span className="text-neutral-300 text-[11px] ml-2 block font-sans tracking-tight">DOI / URL: {pub.url}</span>}
+                                    </div>
+                                </div>
                             ))}
-                        </ol>
+                        </div>
                     </section>
                 ) : null
 
             case 'workExperience':
                 return workExperience && workExperience.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Academic & Professional Experience
-                        </h2>
-                        <div className="space-y-3.5">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Academic Appointments</SectionTitle>
+                        <div className="space-y-7">
                             {workExperience.map((job, i) => (
                                 <div key={job.id || i}>
-                                    <div className="flex justify-between items-baseline">
-                                        <h3 className="text-[12px] font-bold text-neutral-900">{job.jobTitle}</h3>
-                                        <span className="text-[10px] font-semibold text-neutral-500 shrink-0 ml-4">
+                                    <div className="flex justify-between items-baseline mb-1">
+                                        <h3 className="text-[15px] font-bold text-neutral-900 font-serif">{job.jobTitle}</h3>
+                                        <span className="text-[11px] font-bold text-neutral-400 shrink-0 ml-4 uppercase tracking-widest">
                                             {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
                                         </span>
                                     </div>
-                                    <p className={cn("text-[11px] font-semibold", accentColor)}>
+                                    <p className={cn("text-[13.5px] font-bold", accentColor)}>
                                         {job.companyName}
-                                        {job.location && <span className="text-neutral-400 font-normal"> — {job.location}</span>}
+                                        {job.location && <span className="text-neutral-300 font-normal mx-2">|</span>}
+                                        {job.location && <span className="text-neutral-500 font-normal">{job.location}</span>}
                                     </p>
 
                                     {job.roleDescription && (
-                                        <p className="text-[10.5px] text-neutral-600 mt-1 font-serif italic">{job.roleDescription}</p>
+                                        <p className="text-[13px] text-neutral-600 mt-2 font-serif italic leading-relaxed">{job.roleDescription}</p>
                                     )}
 
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <ul className="mt-1 space-y-0.5">
+                                        <ul className="mt-3 space-y-2">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="flex items-start gap-2 text-[11px] text-neutral-700">
-                                                    <span className="text-neutral-400 mt-0.5 shrink-0">—</span>
-                                                    <span className="font-serif">{ach.achievementText}</span>
+                                                <li key={j} className="flex items-start gap-3 text-[13.5px] text-neutral-700 leading-relaxed">
+                                                    <span className="text-neutral-200 mt-2 shrink-0 font-bold text-lg leading-none">·</span>
+                                                    <span className="font-serif font-medium">{ach.achievementText}</span>
                                                 </li>
                                             ))}
                                         </ul>
@@ -164,28 +167,30 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'projects':
                 return projects && projects.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Research Projects & Grants
-                        </h2>
-                        <div className="space-y-2.5">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Research Grants & Projects</SectionTitle>
+                        <div className="space-y-6">
                             {projects.map((proj, i) => (
                                 <div key={i}>
-                                    <div className="flex justify-between items-baseline">
-                                        <h3 className="text-[12px] font-bold text-neutral-900">{proj.projectName}</h3>
+                                    <div className="flex justify-between items-baseline mb-1">
+                                        <h3 className="text-[15px] font-bold text-neutral-900 font-serif">{proj.projectName}</h3>
                                         {proj.startDate && (
-                                            <span className="text-[10px] text-neutral-400 shrink-0 ml-4">
+                                            <span className="text-[11px] font-bold text-neutral-400 shrink-0 ml-4 uppercase tracking-widest">
                                                 {proj.startDate}{proj.endDate ? ` — ${proj.endDate}` : ''}
                                             </span>
                                         )}
                                     </div>
-                                    {proj.role && <p className={cn("text-[10.5px]", accentColor)}>{proj.role}</p>}
-                                    {proj.description && <p className="text-[11px] text-neutral-600 mt-0.5 font-serif">{proj.description}</p>}
-                                    {proj.outcomes && <p className="text-[10px] text-neutral-500 mt-0.5 italic">Outcome: {proj.outcomes}</p>}
+                                    {proj.role && <p className={cn("text-[12px] font-bold uppercase tracking-wider", accentColor)}>{proj.role}</p>}
+                                    {proj.description && <p className="text-[13.5px] text-neutral-600 mt-2 font-serif leading-relaxed">{proj.description}</p>}
+                                    {proj.outcomes && <p className="text-[11px] text-neutral-400 mt-2 italic font-serif">Key Outcomes: <span className="text-neutral-500">{proj.outcomes}</span></p>}
                                     {proj.toolsUsed && proj.toolsUsed.length > 0 && (
-                                        <p className="text-[10px] text-neutral-400 mt-0.5">
-                                            Methods: {proj.toolsUsed.join(', ')}
-                                        </p>
+                                        <div className="flex flex-wrap gap-2 mt-2">
+                                            {proj.toolsUsed.map((tool, ti) => (
+                                                <span key={ti} className="text-[10px] font-black uppercase tracking-widest text-neutral-400 bg-neutral-50 px-2 py-0.5 rounded border border-neutral-100">
+                                                    {tool}
+                                                </span>
+                                            ))}
+                                        </div>
                                     )}
                                 </div>
                             ))}
@@ -195,16 +200,13 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'certifications':
                 return certifications && certifications.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Fellowships & Certifications
-                        </h2>
-                        <div className="space-y-1">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Professional Affiliations</SectionTitle>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
                             {certifications.map((cert, i) => (
-                                <div key={cert.id || i} className="text-[11px]">
-                                    <span className="font-bold text-neutral-900">{cert.certificationName}</span>
-                                    <span className="text-neutral-500"> — {cert.issuingOrganization}</span>
-                                    {cert.issueYear && <span className="text-neutral-400"> ({cert.issueYear})</span>}
+                                <div key={cert.id || i} className="text-[13px] border-b border-neutral-50 pb-2">
+                                    <span className="font-bold text-neutral-900 block leading-tight mb-1">{cert.certificationName}</span>
+                                    <span className="text-neutral-400 text-[10px] font-black uppercase tracking-widest">{cert.issuingOrganization} {cert.issueYear && `· ${cert.issueYear}`}</span>
                                 </div>
                             ))}
                         </div>
@@ -213,10 +215,8 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'skills':
                 return skills && skills.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Technical Proficiencies & Methodologies
-                        </h2>
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Methodologies & Proficiencies</SectionTitle>
                         {(() => {
                             const grouped = skills.reduce((acc, skill) => {
                                 const type = skill.skillType || 'professional'
@@ -226,34 +226,21 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                             }, {} as Record<string, typeof skills>)
 
                             const categoryLabels: Record<string, string> = {
-                                technical: 'Research Methods & Tools',
-                                professional: 'Core Expertise',
-                                tool: 'Software & Platforms',
-                                industry: 'Domains & Specializations'
-                            }
-
-                            if (Object.keys(grouped).length === 1) {
-                                return (
-                                    <div className="flex flex-wrap gap-x-2 gap-y-1 text-[11px]">
-                                        {skills.map((skill, index) => (
-                                            <React.Fragment key={skill.id || index}>
-                                                <span className="text-neutral-700 font-serif">{skill.skillName}</span>
-                                                {index < skills.length - 1 && <span className="text-neutral-300">•</span>}
-                                            </React.Fragment>
-                                        ))}
-                                    </div>
-                                )
+                                technical: 'Primary Research Methods',
+                                professional: 'Expertise Areas',
+                                tool: 'Laboratory & Computing Tools',
+                                industry: 'Academic Disciplines'
                             }
 
                             return (
-                                <div className="space-y-1.5">
+                                <div className="space-y-4">
                                     {Object.entries(grouped).map(([type, groupSkills]) => (
-                                        <div key={type} className="flex gap-2 text-[11px]">
-                                            <span className={cn("font-bold min-w-[150px] shrink-0", accentColor)}>
+                                        <div key={type} className="flex flex-col gap-1">
+                                            <span className={cn("text-[10px] font-black uppercase tracking-[0.2em]", accentColor)}>
                                                 {categoryLabels[type] || type}:
                                             </span>
-                                            <span className="text-neutral-700 font-serif">
-                                                {groupSkills.map(s => s.skillName).join(' · ')}
+                                            <span className="text-[13.5px] text-neutral-700 font-serif font-medium leading-relaxed">
+                                                {groupSkills.map(s => s.skillName).join('  ·  ')}
                                             </span>
                                         </div>
                                     ))}
@@ -265,17 +252,17 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'achievements':
                 return achievements && achievements.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Honors, Awards & Distinctions
-                        </h2>
-                        <div className="space-y-1">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Honors & Awards</SectionTitle>
+                        <div className="space-y-4">
                             {achievements.map((ach, i) => (
-                                <div key={i} className="text-[11px]">
-                                    <span className="font-bold text-neutral-900">{ach.achievementTitle}</span>
-                                    {ach.issuingBody && <span className="text-neutral-500"> — {ach.issuingBody}</span>}
-                                    {ach.year && <span className="text-neutral-400"> ({ach.year})</span>}
-                                    {ach.description && <p className="text-[10px] text-neutral-500 font-serif ml-3">{ach.description}</p>}
+                                <div key={i} className="text-[13.5px] border-l-4 border-neutral-50 pl-5 py-1">
+                                    <div className="flex justify-between items-baseline mb-1">
+                                        <span className="font-bold text-neutral-900">{ach.achievementTitle}</span>
+                                        {ach.year && <span className={cn("text-[11px] font-black uppercase tracking-widest", accentColor)}>{ach.year}</span>}
+                                    </div>
+                                    {ach.issuingBody && <span className="text-neutral-400 font-bold text-[10px] uppercase tracking-wider leading-none">{ach.issuingBody}</span>}
+                                    {ach.description && <p className="text-[12px] text-neutral-500 font-serif mt-1 italic">{ach.description}</p>}
                                 </div>
                             ))}
                         </div>
@@ -284,15 +271,13 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'languages':
                 return languages && languages.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Languages
-                        </h2>
-                        <div className="flex flex-wrap gap-x-6 gap-y-1 text-[11px]">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Languages</SectionTitle>
+                        <div className="flex flex-wrap gap-x-10 gap-y-2 text-[13.5px]">
                             {languages.map((lang, i) => (
                                 <span key={i} className="text-neutral-700 font-serif">
-                                    <span className="font-bold">{lang.languageName}</span>
-                                    <span className="text-neutral-400 ml-1">({lang.proficiencyLevel})</span>
+                                    <span className="font-bold text-neutral-900">{lang.languageName}</span>
+                                    <span className="text-neutral-400 ml-2 italic">— {lang.proficiencyLevel}</span>
                                 </span>
                             ))}
                         </div>
@@ -301,16 +286,16 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'professionalAffiliations':
                 return professionalAffiliations && professionalAffiliations.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Professional Societies & Memberships
-                        </h2>
-                        <div className="space-y-1">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Service & Societies</SectionTitle>
+                        <div className="space-y-3">
                             {professionalAffiliations.map((aff, i) => (
-                                <div key={i} className="text-[11px] font-serif">
-                                    <span className="font-bold text-neutral-900">{aff.organizationName}</span>
-                                    {aff.roleOrMembership && <span className="text-neutral-500"> — {aff.roleOrMembership}</span>}
-                                    {aff.yearsActive && <span className="text-neutral-400"> ({aff.yearsActive})</span>}
+                                <div key={i} className="text-[13.5px] font-serif border-b border-neutral-50 pb-2">
+                                    <div className="flex justify-between items-baseline">
+                                        <span className="font-bold text-neutral-900">{aff.organizationName}</span>
+                                        {aff.yearsActive && <span className="text-neutral-400 text-[11px] font-bold uppercase tracking-widest">{aff.yearsActive}</span>}
+                                    </div>
+                                    {aff.roleOrMembership && <span className="text-neutral-500 text-[12px] italic">— {aff.roleOrMembership}</span>}
                                 </div>
                             ))}
                         </div>
@@ -319,18 +304,17 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'volunteerExperience':
                 return volunteerExperience && volunteerExperience.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Service & Outreach
-                        </h2>
-                        <div className="space-y-1.5">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Community Engagement</SectionTitle>
+                        <div className="space-y-4">
                             {volunteerExperience.map((vol, i) => (
-                                <div key={i} className="flex justify-between items-baseline text-[11px]">
+                                <div key={i} className="flex justify-between items-baseline text-[13.5px] font-serif">
                                     <div>
                                         <span className="font-bold text-neutral-900">{vol.roleTitle}</span>
-                                        <span className="text-neutral-500"> — {vol.organizationName}</span>
+                                        <span className="text-neutral-400 font-normal mx-2">|</span>
+                                        <span className="text-neutral-500 font-medium">{vol.organizationName}</span>
                                     </div>
-                                    <span className="text-[10px] text-neutral-400 shrink-0 ml-4">
+                                    <span className="text-[11px] font-bold text-neutral-400 shrink-0 ml-4 uppercase tracking-widest">
                                         {vol.startDate} — {vol.endDate}
                                     </span>
                                 </div>
@@ -341,16 +325,15 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
             case 'references':
                 return references && references.length > 0 ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            References
-                        </h2>
-                        <div className="grid grid-cols-1 gap-4">
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>References</SectionTitle>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {references.map((ref, i) => (
-                                <div key={i} className="text-[11px] font-serif">
-                                    <p className="font-bold text-neutral-900">{ref.referenceName}</p>
-                                    {ref.role && <p className="text-neutral-600">{ref.role}{ref.organization ? `, ${ref.organization}` : ''}</p>}
-                                    {ref.contactDetails && <p className="text-neutral-400">{ref.contactDetails}</p>}
+                                <div key={i} className="text-[13.5px] font-serif bg-neutral-50/50 p-5 rounded-2xl border border-neutral-100">
+                                    <p className="font-bold text-neutral-900 text-base mb-1">{ref.referenceName}</p>
+                                    {ref.role && <p className="text-neutral-600 font-medium leading-tight mb-0.5">{ref.role}</p>}
+                                    {ref.organization && <p className="text-neutral-400 font-bold text-[11px] uppercase tracking-widest">{ref.organization}</p>}
+                                    {ref.contactDetails && <p className="text-neutral-400 font-medium italic mt-4 pt-4 border-t border-neutral-200">{ref.contactDetails}</p>}
                                 </div>
                             ))}
                         </div>
@@ -361,13 +344,11 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                 if (!additionalInfo) return null
                 const hasContent = additionalInfo.securityClearance || additionalInfo.workAuthorization || additionalInfo.availability || additionalInfo.otherInfo
                 return hasContent ? (
-                    <section key={sectionId} className="mb-5">
-                        <h2 className={cn("text-[12px] font-bold uppercase tracking-[0.2em] mb-2 pb-1 border-b", accentColor, borderColor)}>
-                            Additional Information
-                        </h2>
-                        <div className="text-[11px] text-neutral-700 font-serif space-y-0.5">
-                            {additionalInfo.workAuthorization && <p><span className="font-semibold">Work Authorization: </span>{additionalInfo.workAuthorization}</p>}
-                            {additionalInfo.availability && <p><span className="font-semibold">Availability: </span>{additionalInfo.availability}</p>}
+                    <section key={sectionId} className="mb-8">
+                        <SectionTitle>Notes</SectionTitle>
+                        <div className="text-[13.5px] text-neutral-600 font-serif space-y-1 bg-neutral-50 p-5 rounded-2xl italic">
+                            {additionalInfo.workAuthorization && <p><span className="font-bold not-italic text-neutral-800 mr-2">Work Authorization: </span>{additionalInfo.workAuthorization}</p>}
+                            {additionalInfo.availability && <p><span className="font-bold not-italic text-neutral-800 mr-2">Availability: </span>{additionalInfo.availability}</p>}
                             {additionalInfo.otherInfo && <p>{additionalInfo.otherInfo}</p>}
                         </div>
                     </section>
@@ -380,50 +361,51 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
 
     return (
         <div className={cn(
-            "w-full bg-white aspect-[210/297] text-neutral-900",
-            "font-sans",
+            "w-full bg-white text-neutral-900 font-serif leading-normal",
             className
-        )}>
+        )}
+        style={{ fontFamily: "'Lora', 'PT Serif', 'Georgia', serif" }}
+        >
             {/* Header — Scholarly elegance */}
-            <header className="mb-5 text-center">
-                <h1 className={cn("text-2xl font-serif font-bold tracking-wide uppercase mb-0.5", accentColor)}>
+            <header className="mb-10 text-center pt-8">
+                <h1 className={cn("text-[38px] font-serif font-black tracking-tight mb-2 leading-none", accentColor)}>
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
                 {personalInfo?.professionalTitle && (
-                    <p className="text-[12px] text-neutral-600 font-serif uppercase tracking-widest font-bold mb-2">
+                    <p className="text-[14px] text-neutral-500 font-serif uppercase tracking-[0.3em] font-bold mb-6">
                         {personalInfo.professionalTitle}
                     </p>
                 )}
 
                 {/* Thin rule */}
-                <div className={cn("h-px w-24 mx-auto mb-2.5", borderColor.replace('border-', 'bg-'))} />
+                <div className={cn("h-[1.5px] w-12 mx-auto mb-6", borderColor.replace('border-', 'bg-'))} />
 
                 {/* Contact Row */}
-                <div className="flex items-center justify-center gap-4 text-[10.5px] text-neutral-600 flex-wrap">
+                <div className="flex items-center justify-center gap-x-6 gap-y-2 text-[12px] text-neutral-500 font-bold uppercase tracking-wider flex-wrap">
                     {personalInfo?.email && (
                         <span>{personalInfo.email}</span>
                     )}
                     {personalInfo?.phone && (
-                        <span className="text-neutral-300">|</span>
+                        <span className="text-neutral-200">|</span>
                     )}
                     {personalInfo?.phone && (
                         <span>{personalInfo.phone}</span>
                     )}
                     {personalInfo?.websiteUrl && (
                         <>
-                            <span className="text-neutral-300">|</span>
-                            <span>{personalInfo.websiteUrl}</span>
+                            <span className="text-neutral-200">|</span>
+                            <span>{personalInfo.websiteUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
                         </>
                     )}
                     {personalInfo?.linkedinUrl && (
                         <>
-                            <span className="text-neutral-300">|</span>
-                            <span>{personalInfo.linkedinUrl}</span>
+                            <span className="text-neutral-200">|</span>
+                            <span>{personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
                         </>
                     )}
                     {(personalInfo?.city || personalInfo?.country) && (
                         <>
-                            <span className="text-neutral-300">|</span>
+                            <span className="text-neutral-200">|</span>
                             <span>{[personalInfo.city, personalInfo.country].filter(Boolean).join(', ')}</span>
                         </>
                     )}
@@ -431,7 +413,9 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
             </header>
 
             {/* Dynamic Content Sections */}
-            {sectionOrder.map(sectionId => renderSection(sectionId))}
+            <div className="pb-10">
+                {sectionOrder.map(sectionId => renderSection(sectionId))}
+            </div>
         </div>
     )
 }

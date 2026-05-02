@@ -25,43 +25,93 @@ export default function ATSScannerPage() {
     }
 
     const finishScan = React.useCallback(() => {
-        // Calculate a somewhat realistic score based on text content
-        let newScore = 45 // Base score
-        const foundIssues: { type: 'error' | 'warning' | 'success', text: string }[] = []
-
+        const foundIssues: { type: 'error' | 'warning' | 'success', text: string, category: string }[] = []
         const lowerText = text.toLowerCase()
         
-        // Check for metrics/numbers
-        if (/\d+/.test(text)) {
-            newScore += 15
-            foundIssues.push({ type: 'success', text: 'Quantifiable metrics detected.' })
-        } else {
-            foundIssues.push({ type: 'error', text: 'Missing numbers and metrics. ATS systems rank results-oriented bullets higher.' })
-        }
-
-        // Check for standard sections
-        const hasExperience = lowerText.includes('experience') || lowerText.includes('employment')
-        const hasEducation = lowerText.includes('education') || lowerText.includes('university')
+        // 1. Contact Information Check
+        const hasEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(text)
+        const hasPhone = /(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/.test(text)
+        const hasLinkedIn = /linkedin\.com\/in\/[a-zA-Z0-9_-]+/.test(lowerText)
         
-        if (hasExperience && hasEducation) {
-            newScore += 20
-            foundIssues.push({ type: 'success', text: 'Standard sections (Experience, Education) recognized.' })
+        if (hasEmail && hasPhone) {
+            foundIssues.push({ type: 'success', text: 'Contact information (Email, Phone) found.', category: 'Contact' })
         } else {
-            foundIssues.push({ type: 'error', text: 'Standard section headers missing or unreadable. The parser may fail to segment your history.' })
+            foundIssues.push({ type: 'error', text: 'Missing essential contact info (Email or Phone).', category: 'Contact' })
+        }
+        if (!hasLinkedIn) {
+            foundIssues.push({ type: 'warning', text: 'LinkedIn profile link not detected.', category: 'Contact' })
         }
 
-        // Penalty for very short text
-        if (text.length < 500) {
-            foundIssues.push({ type: 'warning', text: 'Resume is very short. May lack sufficient keywords to pass the screen.' })
-        } else {
-            newScore += 10
+        // 2. Section Hierarchy Check
+        const sections = {
+            summary: /summary|profile|objective/i.test(text),
+            experience: /experience|employment|work history/i.test(text),
+            education: /education|academic|university/i.test(text),
+            skills: /skills|technologies|competencies/i.test(text)
         }
 
-        // General warning about columns
-        foundIssues.push({ type: 'warning', text: 'Invisible formatting (like multi-column layouts or tables) cannot be verified via text paste. If your PDF uses columns, your actual score may drop by 40%.' })
+        if (sections.experience && sections.education) {
+            foundIssues.push({ type: 'success', text: 'Standard sections (Experience, Education) recognized.', category: 'Structure' })
+        } else {
+            foundIssues.push({ type: 'error', text: 'Critical sections missing. Ensure you have "Experience" and "Education" headers.', category: 'Structure' })
+        }
+        if (!sections.summary) {
+            foundIssues.push({ type: 'warning', text: 'Professional summary or profile section not found.', category: 'Structure' })
+        }
+        if (!sections.skills) {
+            foundIssues.push({ type: 'warning', text: 'Dedicated skills section not detected.', category: 'Structure' })
+        }
 
-        setScore(Math.min(newScore, 85)) // Cap it so there's always room for improvement
-        setIssues(foundIssues)
+        // 3. Experience Quality (Action Verbs & Metrics)
+        const actionVerbs = ['managed', 'led', 'developed', 'created', 'increased', 'decreased', 'implemented', 'designed', 'launched', 'negotiated', 'achieved', 'improved', 'automated', 'spearheaded', 'coordinated']
+        const foundVerbs = actionVerbs.filter(verb => lowerText.includes(verb))
+        
+        if (foundVerbs.length >= 5) {
+            foundIssues.push({ type: 'success', text: `Strong use of action verbs (${foundVerbs.length} detected).`, category: 'Content' })
+        } else if (foundVerbs.length > 0) {
+            foundIssues.push({ type: 'warning', text: 'Limited use of power verbs. Use more action-oriented language.', category: 'Content' })
+        } else {
+            foundIssues.push({ type: 'error', text: 'No strong action verbs detected. Start bullets with words like "Led", "Developed", or "Managed".', category: 'Content' })
+        }
+
+        const metricsDetected = (text.match(/\d+(%|\$|k|m|b|x)/gi) || []).length
+        if (metricsDetected >= 3) {
+            foundIssues.push({ type: 'success', text: 'Excellent use of quantifiable metrics.', category: 'Content' })
+        } else if (metricsDetected > 0) {
+            foundIssues.push({ type: 'warning', text: 'Include more numbers, percentages, or dollar amounts to show impact.', category: 'Content' })
+        } else {
+            foundIssues.push({ type: 'error', text: 'No quantifiable metrics found. Results-oriented resumes perform 40% better.', category: 'Content' })
+        }
+
+        // 4. Formatting & Length
+        if (text.length < 800) {
+            foundIssues.push({ type: 'warning', text: 'Resume is quite short. Consider adding more details about your achievements.', category: 'Formatting' })
+        } else if (text.length > 6000) {
+            foundIssues.push({ type: 'warning', text: 'Resume is very long. Ensure it is concise and relevant (1-2 pages).', category: 'Formatting' })
+        } else {
+            foundIssues.push({ type: 'success', text: 'Document length is within optimal range.', category: 'Formatting' })
+        }
+
+        const badChars = /[●■◆○]/.test(text)
+        if (badChars) {
+            foundIssues.push({ type: 'warning', text: 'Non-standard bullet points detected. Stick to standard circles or squares for best parsing.', category: 'Formatting' })
+        }
+
+        // Calculate final score
+        let newScore = 40 // Base
+        if (hasEmail) newScore += 5
+        if (hasPhone) newScore += 5
+        if (hasLinkedIn) newScore += 5
+        if (sections.experience) newScore += 10
+        if (sections.education) newScore += 10
+        if (sections.skills) newScore += 5
+        if (sections.summary) newScore += 5
+        if (foundVerbs.length >= 5) newScore += 10
+        if (metricsDetected >= 3) newScore += 10
+        if (text.length >= 800 && text.length <= 6000) newScore += 5
+
+        setScore(Math.min(newScore, 95))
+        setIssues(foundIssues as any)
         setStatus('results')
     }, [text])
 
@@ -223,7 +273,7 @@ export default function ATSScannerPage() {
                                     <div className="flex-1 w-full">
                                         <h3 className="text-xl font-black text-neutral-900 mb-6">Parsing Analysis Results</h3>
                                         <ul className="space-y-4">
-                                            {issues.map((issue, idx) => (
+                                            {issues.map((issue: any, idx) => (
                                                 <motion.li 
                                                     key={idx}
                                                     initial={{ opacity: 0, x: 20 }}
@@ -234,7 +284,14 @@ export default function ATSScannerPage() {
                                                     {issue.type === 'error' && <XCircle className="w-6 h-6 text-rose-500 flex-shrink-0" />}
                                                     {issue.type === 'warning' && <AlertTriangle className="w-6 h-6 text-amber-500 flex-shrink-0" />}
                                                     {issue.type === 'success' && <CheckCircle2 className="w-6 h-6 text-success-500 flex-shrink-0" />}
-                                                    <p className="text-neutral-700 font-medium text-sm pt-0.5">{issue.text}</p>
+                                                    <div className="flex-1">
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-neutral-200 text-neutral-600">
+                                                                {issue.category}
+                                                            </span>
+                                                        </div>
+                                                        <p className="text-neutral-700 font-medium text-sm">{issue.text}</p>
+                                                    </div>
                                                 </motion.li>
                                             ))}
                                         </ul>

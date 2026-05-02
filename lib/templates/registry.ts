@@ -24,20 +24,20 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 1. ATS PROFESSIONAL (Maximum ATS Compatibility) ---
     {
         id: 'ats-professional',
-        name: 'Professional Blue Accent',
-        description: 'Designed to pass through Applicant Tracking Systems with 99% success rate. Uses clean single-column layout, standard fonts, and zero graphics. Ideal when applying through online portals at Fortune 500 companies, government positions, or any role where your resume must first pass automated screening.',
+        name: 'Professional Elite',
+        description: 'Our flagship "Global Corporate" redesign. Features a stately, high-authority centered layout with wide-tracked uppercase titles and minimalist contact separators. Engineered for senior-level corporate roles where executive presence and institutional gravity are paramount. 100% ATS-compliant.',
         suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior', 'executive'],
-            jobTypes: ['corporate', 'technical'],
-            industries: ['General', 'Business', 'Tech', 'Finance', 'Legal', 'Healthcare']
+            careerLevels: ['mid', 'senior', 'executive'],
+            jobTypes: ['corporate'],
+            industries: ['Management', 'Finance', 'Operations', 'Business', 'Legal', 'Healthcare']
         },
         isPremium: true,
         colors: [
-            { id: 'standard', name: 'Standard Black', hex: '#000000' },
-            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
-            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
-            { id: 'blue', name: 'Professional Blue', hex: '#2563eb' },
-            { id: 'green', name: 'Forest Green', hex: '#065f46' }
+            { id: 'standard', name: 'Elite Black', hex: '#000000' },
+            { id: 'navy', name: 'Midnight Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Charcoal Gold', hex: '#374151' },
+            { id: 'blue', name: 'Corporate Blue', hex: '#2563eb' },
+            { id: 'slate', name: 'Slate Gray', hex: '#475569' }
         ]
     },
 
@@ -164,19 +164,19 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 8. ATS TECHNICAL ---
     {
         id: 'ats-technical',
-        name: 'ATS Dev-Console',
-        description: 'Built for developers who need ATS compatibility. Monospaced format highlights technical skills, programming languages, and GitHub repositories. Passes automated screening while speaking the language of tech recruiters. Essential for software engineering roles at major tech companies.',
+        name: 'Technical Terminal',
+        description: 'Redesigned with a "Terminal Elite" aesthetic for high-end engineering roles. Features code-inspired syntax, numbered headers [01], and bracketed skill metadata. Uses shell-style operators (=>) and terminal prompts ($) to deliver an authentic, technical document experience. Essential for senior developers and architects.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior'],
             jobTypes: ['technical'],
-            industries: ['Software', 'Engineering', 'AI']
+            industries: ['Software Engineering', 'System Architecture', 'DevOps', 'Data Science', 'AI']
         },
         isPremium: true,
         colors: [
-            { id: 'black', name: 'Standard Black', hex: '#000000' },
-            { id: 'green', name: 'Matrix Green', hex: '#064e3b' },
+            { id: 'black', name: 'Matrix Black', hex: '#000000' },
+            { id: 'green', name: 'Terminal Green', hex: '#064e3b' },
             { id: 'cyan', name: 'Cyber Cyan', hex: '#0891b2' },
-            { id: 'orange', name: 'Terminal Orange', hex: '#ea580c' },
+            { id: 'orange', name: 'Shell Orange', hex: '#ea580c' },
             { id: 'slate', name: 'Carbon Slate', hex: '#334155' }
         ]
     },
@@ -224,20 +224,20 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 11. ATS NEW GRAD ---
     {
         id: 'ats-graduate',
-        name: 'ATS New Grad',
-        description: 'Designed specifically for recent graduates entering competitive job markets. Education-first layout with dedicated sections for coursework, projects, and internships. ATS-optimized to help you land interviews even with limited work experience. Your launchpad to career success.',
+        name: 'Graduate Rising Star',
+        description: 'A fresh, approachable "Rising Star" redesign for recent graduates. Features an education-first hierarchy, card-inspired project sections, and sophisticated academic badges. Optimized to maximize the impact of research and internships for those entering elite career paths.',
         suitableFor: {
             careerLevels: ['student', 'entry'],
-            jobTypes: ['corporate', 'academic'],
-            industries: ['General', 'Education']
+            jobTypes: ['corporate', 'academic', 'technical'],
+            industries: ['Education', 'Tech', 'Business', 'Research']
         },
         isPremium: true,
         colors: [
-            { id: 'black', name: 'Standard Black', hex: '#000000' },
-            { id: 'maroon', name: 'Academic Maroon', hex: '#9f1239' },
-            { id: 'navy', name: 'University Navy', hex: '#1e3a8a' },
-            { id: 'green', name: 'Campus Green', hex: '#065f46' },
-            { id: 'charcoal', name: 'Gray Charcoal', hex: '#374151' }
+            { id: 'sky', name: 'Sky Blue', hex: '#0ea5e9' },
+            { id: 'indigo', name: 'Indigo', hex: '#6366f1' },
+            { id: 'emerald', name: 'Emerald', hex: '#10b981' },
+            { id: 'amber', name: 'Amber Gold', hex: '#f59e0b' },
+            { id: 'rose', name: 'Rose', hex: '#f43f5e' }
         ]
     },
 
@@ -323,19 +323,19 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 16. ATS CHRONOGRAPH ---
     {
         id: 'ats-chronograph',
-        name: 'Chronograph Timeline',
-        description: 'A structured timeline format where dates are rigidly aligned on the left margin and content flows on the right, separated by a thin vertical rule. Features an asymmetric header and monospaced accents. 100% ATS-compliant timeline layout.',
+        name: 'Chronograph Temporal',
+        description: 'A "Temporal Elite" redesign featuring an architectural timeline rule and bold, monospaced date markers. Engineered for professionals with extensive, progressive career histories. Delivers a sophisticated chronological narrative that anchors your experience in precision.',
         suitableFor: {
-            careerLevels: ['mid', 'senior'],
+            careerLevels: ['mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'technical'],
-            industries: ['Consulting', 'Finance', 'Project Management']
+            industries: ['Management', 'Finance', 'Consulting', 'Project Management', 'Engineering']
         },
         isPremium: true,
         colors: [
             { id: 'ink', name: 'Ink Black', hex: '#0a0a0a' },
-            { id: 'graphite', name: 'Graphite', hex: '#374151' },
-            { id: 'steel', name: 'Steel Blue', hex: '#1e40af' },
-            { id: 'oxblood', name: 'Oxblood', hex: '#7f1d1d' }
+            { id: 'slate', name: 'Slate Gray', hex: '#4b5563' },
+            { id: 'blue', name: 'Steel Blue', hex: '#1e40af' },
+            { id: 'emerald', name: 'Forest Green', hex: '#065f46' }
         ]
     },
 
@@ -380,19 +380,19 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 19. ATS EDITORIAL ---
     {
         id: 'ats-editorial',
-        name: 'Magazine Editorial',
-        description: 'Inspired by magazine layouts. Features a bold, oversized name as a visual anchor, body content in a refined serif typeface, and a pull-quote style summary. Dotted leader lines connect job titles to dates.',
+        name: 'Editorial Vogue',
+        description: 'A "Vogue Professional" redesign inspired by premium magazine layouts. Features a bold, oversized name as a visual anchor, refined dotted leaders, and a pull-quote style summary. Ideal for high-level executives and creative leaders who demand an authoritative presence.',
         suitableFor: {
-            careerLevels: ['mid', 'senior', 'executive'],
+            careerLevels: ['senior', 'executive'],
             jobTypes: ['corporate', 'creative'],
-            industries: ['Journalism', 'Publishing', 'Executive', 'Communications']
+            industries: ['Executive Leadership', 'Marketing', 'Communications', 'Journalism', 'Publishing']
         },
         isPremium: true,
         colors: [
-            { id: 'ink', name: 'Ink', hex: '#171717' },
-            { id: 'sepia', name: 'Sepia', hex: '#292524' },
-            { id: 'navy', name: 'Deep Navy', hex: '#0f172a' },
-            { id: 'burgundy', name: 'Burgundy', hex: '#4c0519' }
+            { id: 'black', name: 'Vogue Black', hex: '#171717' },
+            { id: 'sepia', name: 'Elite Sepia', hex: '#292524' },
+            { id: 'navy', name: 'Royal Navy', hex: '#0f172a' },
+            { id: 'burgundy', name: 'Deep Burgundy', hex: '#4c0519' }
         ]
     },
 

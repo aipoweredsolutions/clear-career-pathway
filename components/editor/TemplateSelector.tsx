@@ -11,7 +11,8 @@ import { Button } from '@/components/ui/Button'
 import { DownloadButtons } from '@/components/editor/DownloadButtons'
 import { TemplateMetadata, ResumeDocument, UserSubscription } from '@/lib/types/resume'
 import { hasPremiumAccess } from '@/lib/supabase/subscriptions'
-import { Lock } from 'lucide-react'
+import { Lock, Sparkles } from 'lucide-react'
+import { calculateTemplateMatchScore } from '@/lib/templates/matching'
 
 interface TemplateSelectorProps {
     currentTemplateId: string
@@ -250,20 +251,74 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
         )
     }
 
+    const recommendations = React.useMemo(() => {
+        if (!realData) return []
+        return templateRegistry
+            .map(t => ({ 
+                id: t.id, 
+                score: calculateTemplateMatchScore(t, realData),
+                template: t
+            }))
+            .sort((a, b) => b.score - a.score)
+    }, [realData])
+
+    const topMatches = recommendations.filter(r => r.score >= 6).slice(0, 2).map(r => r.id)
+    const magicMatch = recommendations.find(r => r.score >= 9 && r.id !== currentTemplateId)
+
     return (
-        <div className="grid grid-cols-2 gap-4 p-4">
-            {templateRegistry.map((template) => (
-                <button
-                    key={template.id}
-                    onClick={() => setPreviewTemplate(template)}
-                    className={cn(
-                        "relative group flex flex-col items-center p-3 rounded-xl border-2 transition-all hover:border-primary-400 hover:bg-white text-left overflow-hidden",
-                        currentTemplateId === template.id
-                            ? "border-primary-600 bg-primary-50/50 ring-2 ring-primary-100 shadow-sm"
-                            : "border-neutral-200 bg-neutral-50/50 shadow-sm"
-                    )}
-                >
-                    {/* Real Mini Preview */}
+        <div className="flex flex-col p-4 gap-6">
+            {/* Magic Recommendation Banner */}
+            {magicMatch && (
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-600 via-primary-600 to-violet-600 p-[1px] shadow-xl animate-in slide-in-from-top-4 duration-500">
+                    <div className="bg-white/95 backdrop-blur-md rounded-[15px] p-4 flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center shrink-0">
+                            <Sparkles className="w-6 h-6 text-primary-600 animate-pulse" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <h4 className="text-xs font-black text-neutral-900 uppercase tracking-widest mb-1">Architectural Fit</h4>
+                            <p className="text-[11px] text-neutral-500 leading-tight">
+                                <span className="font-bold text-primary-600">{magicMatch.template.name}</span> is a perfect match for your career level and industry.
+                            </p>
+                        </div>
+                        <Button 
+                            variant="primary" 
+                            size="sm" 
+                            onClick={() => onSelect(magicMatch.id)}
+                            className="h-8 text-[10px] font-black uppercase tracking-widest px-4"
+                        >
+                            Switch
+                        </Button>
+                    </div>
+                </div>
+            )}
+
+            <div className="grid grid-cols-2 gap-4">
+                {templateRegistry.map((template) => {
+                    const recommendation = recommendations.find(r => r.id === template.id)
+                    const score = recommendation?.score || 0
+                    const isRecommended = topMatches.includes(template.id)
+                    const matchPercentage = Math.min(100, Math.round((score / 10) * 100))
+                    
+                    return (
+                    <button
+                        key={template.id}
+                        onClick={() => setPreviewTemplate(template)}
+                        className={cn(
+                            "relative group flex flex-col items-center p-3 rounded-xl border-2 transition-all hover:border-primary-400 hover:bg-white text-left overflow-hidden",
+                            currentTemplateId === template.id
+                                ? "border-primary-600 bg-primary-50/50 ring-2 ring-primary-100 shadow-sm"
+                                : "border-neutral-200 bg-neutral-50/50 shadow-sm"
+                        )}
+                    >
+                        {/* Best Match Badge */}
+                        {isRecommended && (
+                            <div className="absolute top-0 left-0 z-20 bg-gradient-to-r from-primary-600 to-indigo-600 text-white text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-br-xl shadow-lg flex items-center gap-1.5 animate-in slide-in-from-left-4 duration-500">
+                                <Sparkles className="w-3 h-3" />
+                                Best Match
+                            </div>
+                        )}
+
+                        {/* Real Mini Preview */}
                     <div className="w-full aspect-[210/297] bg-white rounded-lg border border-neutral-200 mb-4 overflow-hidden shadow-sm group-hover:shadow-md transition-all relative">
                         {template.previewImage ? (
                             <div className="relative w-full h-[120%] -top-[10%]">
@@ -315,12 +370,23 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                                 )}
                             </div>
                         </div>
-                        <p className="text-xs text-neutral-500 line-clamp-1 italic">
-                            {template.suitableFor.industries?.slice(0, 2).join(', ')}
-                        </p>
+                        <div className="flex items-center justify-between gap-2 mt-1">
+                            <p className="text-[10px] text-neutral-400 font-medium truncate">
+                                {template.suitableFor.industries?.slice(0, 2).join(', ')}
+                            </p>
+                            {realData && (
+                                <span className={cn(
+                                    "text-[9px] font-black uppercase tracking-wider",
+                                    matchPercentage >= 80 ? "text-primary-600" : "text-neutral-300"
+                                )}>
+                                    {matchPercentage}% Match
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </button>
-            ))}
+            )})}
+            </div>
         </div>
     )
 }

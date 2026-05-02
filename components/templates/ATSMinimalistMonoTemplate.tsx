@@ -22,6 +22,7 @@ interface TemplateProps {
  *
  * Passes 100% of Applicant Tracking Systems.
  */
+
 export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
@@ -41,16 +42,15 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
         customSections
     } = data
 
-    // Hairline section divider with left-aligned label
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="mt-7 mb-2.5">
+        <div className="mt-12 mb-6">
             <h2 className={cn(
-                'text-[10px] font-black uppercase tracking-[0.4em] mb-1',
+                'text-[10px] font-black uppercase tracking-[0.5em] mb-2',
                 accentColor
             )}>
                 {title}
             </h2>
-            <div className="h-px bg-neutral-200" />
+            <div className="h-[0.5px] bg-neutral-900" />
         </div>
     )
 
@@ -60,93 +60,87 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
     if (personalInfo?.phone) contactParts.push(personalInfo.phone)
     const loc = personalInfo?.location || [personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')
     if (loc) contactParts.push(loc)
-    if (personalInfo?.linkedinUrl) contactParts.push(personalInfo.linkedinUrl)
-    if (personalInfo?.portfolioUrl) contactParts.push(personalInfo.portfolioUrl)
-    if (personalInfo?.websiteUrl) contactParts.push(personalInfo.websiteUrl)
-    if (personalInfo?.githubUrl) contactParts.push(personalInfo.githubUrl)
+    if (personalInfo?.linkedinUrl) contactParts.push(personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, ''))
 
     return (
         <div
-            className={cn('w-full bg-white text-neutral-800 leading-snug', className)}
+            className={cn('w-full bg-white text-neutral-900 leading-snug', className)}
             style={{ fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif" }}
         >
-            {/* ── HEADER ── */}
-            <header className="pt-8 pb-4">
-                {/* Oversized Name */}
+            {/* ── HEADER — THE ARCHITECT ── */}
+            <header className="pt-12 pb-8">
+                {/* Oversized Name — Extreme Weight */}
                 <h1 className={cn(
-                    'text-[36px] font-black leading-none tracking-tight mb-0.5',
+                    'text-[64px] font-black leading-[0.85] tracking-[-0.06em] mb-6 uppercase',
                     accentColor
                 )}>
                     {personalInfo?.fullName || 'YOUR NAME'}
                 </h1>
 
-                {/* Professional Title — light weight contrast */}
-                {personalInfo?.professionalTitle && (
-                    <p className="text-[13px] font-light text-neutral-400 tracking-wide mt-1">
-                        {personalInfo.professionalTitle}
-                    </p>
-                )}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                    {/* Professional Title — High tracking contrast */}
+                    {personalInfo?.professionalTitle && (
+                        <p className="text-[12px] font-bold text-neutral-400 uppercase tracking-[0.4em] leading-none">
+                            {personalInfo.professionalTitle}
+                        </p>
+                    )}
 
-                {/* Contact — dot separated, very small */}
-                {contactParts.length > 0 && (
-                    <p className="text-[10px] text-neutral-400 tracking-wider mt-3 leading-relaxed">
-                        {contactParts.join('  ·  ')}
-                    </p>
-                )}
+                    {/* Contact — minimal dot separated */}
+                    {contactParts.length > 0 && (
+                        <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-[0.15em] leading-none text-right">
+                            {contactParts.join('   ·   ')}
+                        </p>
+                    )}
+                </div>
 
-                {/* Thin divider */}
-                <div className="h-px bg-neutral-900 mt-4" />
+                {/* Main separation line */}
+                <div className="h-[2px] bg-neutral-900 mt-10" />
             </header>
 
             {/* ── BODY ── */}
-            <div className="pb-8">
+            <div className="pb-16">
 
                 {/* Summary */}
                 {professionalSummary?.summaryText && (
                     <section>
-                        <p className="text-[12px] text-neutral-600 leading-[1.8] mt-3">
+                        <p className="text-[15px] text-neutral-800 font-medium leading-[1.8] text-justify mt-4">
                             {professionalSummary.summaryText}
                         </p>
-                        {professionalSummary.valueProposition && (
-                            <p className="text-[11px] text-neutral-400 leading-[1.7] mt-1.5 italic">
-                                {professionalSummary.valueProposition}
-                            </p>
-                        )}
                     </section>
                 )}
 
                 {/* Work Experience */}
                 {workExperience && workExperience.length > 0 && (
                     <section>
-                        <SectionHeader title="Experience" />
-                        <div className="space-y-5">
+                        <SectionHeader title="Trajectory" />
+                        <div className="space-y-12">
                             {workExperience.map((job, i) => (
                                 <div key={i} className="break-inside-avoid">
-                                    {/* Job Title — bold, prominent */}
-                                    <h3 className={cn('text-[13px] font-bold', accentColor)}>
-                                        {job.jobTitle}
-                                    </h3>
-                                    {/* Company + Location + Dates on one line */}
-                                    <div className="flex justify-between items-baseline mt-0.5">
-                                        <span className="text-[11px] text-neutral-500 font-medium">
-                                            {job.companyName}{job.location && ` — ${job.location}`}
-                                        </span>
-                                        <span className="text-[10px] text-neutral-400 shrink-0 ml-4 tabular-nums">
-                                            {job.startDate}{job.startDate ? ' – ' : ''}{job.isCurrent ? 'Present' : job.endDate}
+                                    <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-2">
+                                        <div className="flex-1">
+                                            <h3 className={cn('text-[18px] font-black leading-tight uppercase tracking-tight', accentColor)}>
+                                                {job.jobTitle}
+                                            </h3>
+                                            <div className="text-[12px] font-black text-neutral-400 uppercase tracking-[0.2em] mt-1">
+                                                {job.companyName} <span className="text-neutral-200 mx-2">/</span> {job.location}
+                                            </div>
+                                        </div>
+                                        <span className="text-[11px] font-black text-neutral-300 uppercase tracking-[0.15em] mt-1.5">
+                                            {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
                                         </span>
                                     </div>
 
                                     {job.roleDescription && (
-                                        <p className="text-[11px] text-neutral-500 mt-1.5 leading-[1.7]">
+                                        <p className="text-[13.5px] text-neutral-600 font-medium leading-relaxed mb-6">
                                             {job.roleDescription}
                                         </p>
                                     )}
 
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <ul className="mt-1.5 space-y-0.5">
+                                        <ul className="space-y-3">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="text-[11px] text-neutral-600 flex gap-2 leading-[1.65]">
-                                                    <span className="shrink-0 text-neutral-300 font-light">—</span>
+                                                <li key={j} className="text-[13.5px] text-neutral-700 font-medium flex gap-6 leading-relaxed">
+                                                    <span className="shrink-0 text-neutral-200 font-black">—</span>
                                                     <span>{ach.achievementText}</span>
                                                 </li>
                                             ))}
@@ -162,12 +156,12 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                 {education && education.length > 0 && (
                     <section>
                         <SectionHeader title="Education" />
-                        <div className="space-y-2.5">
+                        <div className="space-y-3">
                             {education.map((edu, i) => (
                                 <div key={i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className={cn('text-[12px] font-bold', accentColor)}>
-                                            {edu.degree}{edu.major ? `, ${edu.major}` : ''}{edu.fieldOfStudy && !edu.major ? `, ${edu.fieldOfStudy}` : ''}
+                                            {edu.degree}{edu.major ? `, ${edu.major}` : ''}
                                         </h3>
                                         <span className="text-[10px] text-neutral-400 shrink-0 ml-4">{edu.endYear || edu.startYear}</span>
                                     </div>
@@ -175,84 +169,10 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                                         {edu.institutionName}{edu.location && ` — ${edu.location}`}
                                     </div>
                                     {edu.gpa && <div className="text-[10px] text-neutral-400 mt-0.5">GPA: {edu.gpa}</div>}
-                                    {edu.achievements && <div className="text-[10px] text-neutral-400 italic mt-0.5">{edu.achievements}</div>}
                                     {edu.coursework && (
-                                        <div className="text-[10px] text-neutral-400 mt-0.5">
-                                            <span className="font-semibold">Coursework:</span> {edu.coursework}
+                                        <div className="text-[10px] text-neutral-400 mt-0.5 leading-relaxed italic">
+                                            Major Coursework: {edu.coursework}
                                         </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
-
-                {/* Skills */}
-                {skills && skills.length > 0 && (
-                    <section>
-                        <SectionHeader title="Skills" />
-                        {(() => {
-                            const grouped = skills.reduce((acc, skill) => {
-                                const type = skill.skillType || 'professional'
-                                if (!acc[type]) acc[type] = []
-                                acc[type].push(skill)
-                                return acc
-                            }, {} as Record<string, typeof skills>)
-
-                            const labels: Record<string, string> = {
-                                technical: 'Technical',
-                                professional: 'Professional',
-                                tool: 'Tools',
-                                industry: 'Industry'
-                            }
-
-                            if (Object.keys(grouped).length === 1) {
-                                return (
-                                    <p className="text-[11px] text-neutral-600 leading-[1.8]">
-                                        {skills.map(s => s.skillName).join('  ·  ')}
-                                    </p>
-                                )
-                            }
-
-                            return (
-                                <div className="space-y-1">
-                                    {Object.entries(grouped).map(([type, list]) => (
-                                        <div key={type} className="text-[11px] text-neutral-600">
-                                            <span className="font-bold text-neutral-800">{labels[type] || type}:</span>{' '}
-                                            <span>{list.map(s => s.skillName).join(', ')}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )
-                        })()}
-                    </section>
-                )}
-
-                {/* Projects */}
-                {projects && projects.length > 0 && (
-                    <section>
-                        <SectionHeader title="Projects" />
-                        <div className="space-y-3">
-                            {projects.map((proj, i) => (
-                                <div key={i} className="break-inside-avoid">
-                                    <div className="flex justify-between items-baseline">
-                                        <h3 className={cn('text-[12px] font-bold', accentColor)}>{proj.projectName}</h3>
-                                        {(proj.startDate || proj.endDate) && (
-                                            <span className="text-[10px] text-neutral-400 shrink-0 ml-4">
-                                                {proj.startDate}{proj.endDate ? ` – ${proj.endDate}` : ''}
-                                            </span>
-                                        )}
-                                    </div>
-                                    {proj.role && <div className="text-[11px] text-neutral-500 italic">{proj.role}</div>}
-                                    {proj.clientOrOrganization && <div className="text-[10px] text-neutral-400">{proj.clientOrOrganization}</div>}
-                                    {proj.description && (
-                                        <p className="text-[11px] text-neutral-500 mt-0.5 leading-[1.65]">{proj.description}</p>
-                                    )}
-                                    {proj.outcomes && (
-                                        <p className="text-[10px] text-neutral-400 mt-0.5 italic">→ {proj.outcomes}</p>
-                                    )}
-                                    {proj.toolsUsed && proj.toolsUsed.length > 0 && (
-                                        <div className="text-[10px] text-neutral-400 mt-0.5">{proj.toolsUsed.join(' · ')}</div>
                                     )}
                                 </div>
                             ))}
@@ -264,7 +184,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                 {certifications && certifications.length > 0 && (
                     <section>
                         <SectionHeader title="Certifications" />
-                        <div className="space-y-1">
+                        <div className="space-y-1.5">
                             {certifications.map((cert, i) => (
                                 <div key={i} className="flex justify-between items-baseline">
                                     <div className="text-[11px]">
@@ -274,7 +194,38 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                                         )}
                                     </div>
                                     {(cert.issueDate || cert.issueYear) && (
-                                        <span className="text-[10px] text-neutral-400 shrink-0 ml-4">{cert.issueDate || cert.issueYear}</span>
+                                        <span className="text-[10px] text-neutral-400 shrink-0 ml-4 font-sans">{cert.issueDate || cert.issueYear}</span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Projects */}
+                {projects && projects.length > 0 && (
+                    <section>
+                        <SectionHeader title="Initiatives" />
+                        <div className="space-y-4">
+                            {projects.map((proj, i) => (
+                                <div key={i} className="break-inside-avoid">
+                                    <div className="flex justify-between items-baseline">
+                                        <h3 className={cn('text-[12px] font-bold', accentColor)}>{proj.projectName}</h3>
+                                        {(proj.startDate || proj.endDate) && (
+                                            <span className="text-[10px] text-neutral-400 shrink-0 ml-4">
+                                                {proj.startDate}{proj.endDate ? ` — ${proj.endDate}` : ''}
+                                            </span>
+                                        )}
+                                    </div>
+                                    {proj.description && (
+                                        <p className="text-[11px] text-neutral-600 mt-0.5 leading-relaxed">{proj.description}</p>
+                                    )}
+                                    {proj.toolsUsed && proj.toolsUsed.length > 0 && (
+                                        <div className="text-[10px] text-neutral-400 mt-1 flex gap-2">
+                                            {proj.toolsUsed.map((tool, j) => (
+                                                <span key={j}>— {tool}</span>
+                                            ))}
+                                        </div>
                                     )}
                                 </div>
                             ))}
