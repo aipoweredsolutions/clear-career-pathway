@@ -887,7 +887,6 @@ export const MOCK_TECHNICAL_DATA: ResumeDocument = {
     ]
 }
 
-
 export const MOCK_HOSPITALITY_DATA: ResumeDocument = {
     id: 'preview-hospitality',
     title: 'Hotel General Manager',
@@ -2014,7 +2013,7 @@ export const MOCK_ATS_MODERN_DATA: ResumeDocument = {
     templateId: 'ats-modern',
     personalInfo: {
         fullName: 'Alex Rivera',
-        professionalTitle: 'Senior UX/UI Designer & Product Strategist',
+        professionalTitle: 'Senior UX/UI Designer',
         email: 'alex.rivera@example.com',
         phone: '+1 (555) 234-5678',
         city: 'Portland',

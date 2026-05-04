@@ -8,24 +8,49 @@ export const ExperienceSection = ({ data, styles, templateId, index }: any) => {
 
     return (
         <Section title={getSectionTitle(templateId, 'workExperience', index)} styles={styles} templateId={templateId} index={index}>
-            {data.workExperience.map((exp: any, i: number) => (
-                <View key={i} style={styles.experienceItem} wrap={false}>
-                    <View style={styles.experienceHeader}>
-                        <Text style={styles.jobTitle}>{exp.jobTitle}</Text>
-                        <Text style={styles.date}>{exp.startDate} — {exp.isCurrent ? 'Present' : exp.endDate}</Text>
+            {data.workExperience.map((exp: any, i: number) => {
+                if (templateId.startsWith('ats-gold-standard')) {
+                    return (
+                        <View key={i} style={styles.experienceItem} wrap={false}>
+                            <View style={styles.experienceHeader}>
+                                <Text style={[styles.company, { fontSize: 13, color: '#171717' }]}>
+                                    {exp.companyName}
+                                    {exp.location ? <Text style={{ color: '#94a3b8', fontWeight: 'normal', fontStyle: 'italic' }}>  {exp.location}</Text> : ''}
+                                </Text>
+                                <Text style={styles.date}>{exp.startDate} — {exp.isCurrent ? 'Present' : exp.endDate}</Text>
+                            </View>
+                            <Text style={[styles.jobTitle, { fontSize: 10.5, fontStyle: 'italic', marginTop: 2, marginBottom: 6, opacity: 0.8 }]}>
+                                {exp.jobTitle}
+                            </Text>
+                            {exp.roleDescription && (
+                                <Text style={[styles.description, { marginBottom: 8 }]}>{exp.roleDescription}</Text>
+                            )}
+                            {exp.achievements?.map((ach: any, j: number) => (
+                                <BulletPoint key={j} text={ach.achievementText} styles={styles} />
+                            ))}
+                        </View>
+                    )
+                }
+
+                return (
+                    <View key={i} style={styles.experienceItem} wrap={false}>
+                        <View style={styles.experienceHeader}>
+                            <Text style={styles.jobTitle}>{exp.jobTitle}</Text>
+                            <Text style={styles.date}>{exp.startDate} — {exp.isCurrent ? 'Present' : exp.endDate}</Text>
+                        </View>
+                        <View style={styles.experienceHeader}>
+                            <Text style={styles.company}>{exp.companyName}</Text>
+                            <Text style={styles.location}>{exp.location}</Text>
+                        </View>
+                        {exp.roleDescription && (
+                            <Text style={styles.description}>{exp.roleDescription}</Text>
+                        )}
+                        {exp.achievements?.map((ach: any, j: number) => (
+                            <BulletPoint key={j} text={ach.achievementText} styles={styles} />
+                        ))}
                     </View>
-                    <View style={styles.experienceHeader}>
-                        <Text style={styles.company}>{exp.companyName}</Text>
-                        <Text style={styles.location}>{exp.location}</Text>
-                    </View>
-                    {exp.roleDescription && (
-                        <Text style={styles.description}>{exp.roleDescription}</Text>
-                    )}
-                    {exp.achievements?.map((ach: any, j: number) => (
-                        <BulletPoint key={j} text={ach.achievementText} styles={styles} />
-                    ))}
-                </View>
-            ))}
+                )
+            })}
         </Section>
     )
 }

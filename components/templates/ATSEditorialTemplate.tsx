@@ -34,7 +34,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
     const borderColorClass = accentColor.replace('text-', 'border-')
 
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="flex flex-col mb-10 mt-16">
+        <div className="flex flex-col mb-4 mt-6">
             <h2 className={cn(
                 'text-[10px] font-black uppercase tracking-[0.6em] mb-4',
                 accentColor
@@ -54,13 +54,13 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
 
     return (
         <div
-            className={cn('w-full bg-white text-neutral-800 leading-relaxed p-12', className)}
+            className={cn('w-full bg-white text-neutral-800 leading-snug p-10', className)}
             style={{ fontFamily: "'Lora', 'Georgia', serif" }}
         >
             {/* ── EDITORIAL MASTHEAD ── */}
-            <header className="mb-16">
-                <div className="flex flex-col md:flex-row justify-between items-end gap-10 pb-12 border-b-4 border-neutral-900">
-                    <h1 className="text-[64px] font-black leading-[0.8] tracking-tighter text-neutral-900 uppercase">
+            <header className="mb-6">
+                <div className="flex flex-col md:flex-row justify-between items-end gap-6 pb-4 border-b-2 border-neutral-900">
+                    <h1 className="text-[32px] font-black leading-[0.85] tracking-tighter text-neutral-900 uppercase">
                         {personalInfo?.fullName ? (
                             <>
                                 <span className="block">{personalInfo.fullName.split(' ')[0]}</span>
@@ -70,7 +70,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                     </h1>
                     <div className="md:text-right max-w-[300px]">
                         {personalInfo?.professionalTitle && (
-                            <p className="text-[14px] font-bold text-neutral-400 italic uppercase tracking-widest leading-relaxed">
+                            <p className="text-[11px] font-bold text-neutral-400 italic uppercase tracking-widest leading-relaxed">
                                 {personalInfo.professionalTitle}
                             </p>
                         )}
@@ -84,13 +84,13 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                 </div>
             </header>
 
-            <div className="pb-12">
+            <div>
                 {/* Pull-Quote Summary */}
                 {professionalSummary?.summaryText && (
-                    <section className="mb-20 mt-12 px-12">
+                    <section className="mb-6 px-4">
                         <div className="relative">
                             <span className={cn("absolute -top-10 -left-10 text-[120px] font-serif opacity-10 leading-none", accentColor)}>&ldquo;</span>
-                            <p className={cn("text-[20px] italic leading-[1.6] text-center font-medium", accentColor)}>
+                            <p className={cn("text-[12px] italic leading-relaxed font-medium", accentColor)}>
                                 {professionalSummary.summaryText}
                             </p>
                             <span className={cn("absolute -bottom-20 -right-10 text-[120px] font-serif opacity-10 leading-none", accentColor)}>&rdquo;</span>
@@ -102,11 +102,11 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                 {workExperience && workExperience.length > 0 && (
                     <section>
                         <SectionHeader title="The Portfolio" />
-                        <div className="space-y-12">
+                        <div className="space-y-5">
                             {workExperience.map((job, i) => (
                                 <div key={i}>
                                     <div className="flex items-baseline w-full mb-3">
-                                        <h3 className="text-[18px] font-black text-neutral-900 tracking-tight shrink-0">
+                                        <h3 className="text-[13px] font-black text-neutral-900 tracking-tight shrink-0">
                                             {job.jobTitle.toUpperCase()}
                                         </h3>
                                         <div className="flex-grow border-b border-dotted border-neutral-200 mx-6 relative top-[-4px]"></div>
@@ -115,14 +115,14 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                                         </span>
                                     </div>
                                     
-                                    <div className="text-[14px] font-bold text-neutral-400 italic mb-6">
+                                    <div className="text-[11px] font-bold text-neutral-400 italic mb-3">
                                         {job.companyName}{job.location && <span className="mx-3 opacity-30 font-normal">|</span>}{job.location}
                                     </div>
                                     
                                     {job.achievements && job.achievements.length > 0 && (
                                         <ul className="space-y-4 pl-4 border-l-2 border-neutral-50">
                                             {job.achievements.map((ach, j) => (
-                                                <li key={j} className="text-[14px] text-neutral-700 leading-relaxed font-medium">
+                                                <li key={j} className="text-[11px] text-neutral-700 leading-relaxed font-medium">
                                                     {ach.achievementText}
                                                 </li>
                                             ))}
@@ -138,11 +138,11 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                 {education && education.length > 0 && (
                     <section>
                         <SectionHeader title="Academic History" />
-                        <div className="space-y-8">
+                        <div className="space-y-3">
                             {education.map((edu, i) => (
                                 <div key={i}>
                                     <div className="flex items-baseline w-full mb-3">
-                                        <h3 className="text-[16px] font-black text-neutral-900 tracking-tight shrink-0">
+                                        <h3 className="text-[13px] font-black text-neutral-900 tracking-tight shrink-0">
                                             {edu.degree} {edu.major && `IN ${edu.major.toUpperCase()}`}
                                         </h3>
                                         <div className="flex-grow border-b border-dotted border-neutral-200 mx-6 relative top-[-4px]"></div>
@@ -150,7 +150,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                                             {edu.endYear}
                                         </span>
                                     </div>
-                                    <div className="text-[14px] font-bold text-neutral-400 italic">
+                                    <div className="text-[11px] font-bold text-neutral-400 italic">
                                         {edu.institutionName}{edu.location && <span className="mx-3 opacity-30 font-normal">|</span>}{edu.location}
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                 {skills && skills.length > 0 && (
                     <section>
                         <SectionHeader title="Expertise" />
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10 px-4">
+                        <div className="flex flex-col gap-y-3 px-4">
                             {Object.entries(skills.reduce((acc, s) => {
                                 const t = s.skillType || 'professional';
                                 if (!acc[t]) acc[t] = [];
@@ -174,7 +174,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                                     <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em]">
                                         {type}
                                     </div>
-                                    <p className="text-[15px] text-neutral-800 font-bold leading-relaxed italic">
+                                    <p className="text-[11px] text-neutral-800 font-bold leading-relaxed">
                                         {list.map(s => s.skillName).join('  ·  ')}
                                     </p>
                                 </div>

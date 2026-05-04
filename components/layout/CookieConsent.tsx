@@ -20,6 +20,11 @@ export function CookieConsent() {
         setShowCookieConsent(false)
     }
 
+    function acceptNecessary() {
+        localStorage.setItem('cookieConsent', 'necessary')
+        setShowCookieConsent(false)
+    }
+
     if (!showCookieConsent) return null
 
     return (
@@ -27,7 +32,7 @@ export function CookieConsent() {
             <div className="bg-white shadow-2xl rounded-2xl border border-neutral-200 p-6 flex flex-col gap-4 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 to-indigo-500" />
                 <button 
-                    onClick={acceptCookies}
+                    onClick={acceptNecessary}
                     className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-600 transition bg-neutral-50 rounded-full p-1.5 hover:bg-neutral-100"
                     aria-label="Close message"
                 >
@@ -36,29 +41,33 @@ export function CookieConsent() {
                 <div className="pr-8 space-y-3">
                     <div className="flex items-center gap-2">
                         <Cookie className="w-5 h-5 text-indigo-500" />
-                        <h3 className="text-lg font-bold text-neutral-900 font-serif">Cookie Consent</h3>
+                        <h3 className="text-lg font-bold text-neutral-900 font-serif">Cookie Preferences</h3>
                     </div>
                     <p className="text-sm text-neutral-600 leading-relaxed">
-                        We use essential cookies to ensure our platform functions correctly and to maintain your secure session. 
-                        We do not use tracking or advertising cookies.
-                        By continuing to use our site, you agree to our use of these essential cookies.
+                        We use essential cookies for security and authentication. You can choose to accept all cookies or only those necessary for the site to function.
+                        Read our <Link href="/cookies" className="text-indigo-600 hover:underline">Cookie Policy</Link> for details.
                     </p>
                 </div>
-                <div className="flex items-center gap-3 mt-1">
+                <div className="flex flex-col sm:flex-row items-center gap-3 mt-1">
                     <button
                         onClick={acceptCookies}
-                        className="bg-neutral-900 hover:bg-neutral-800 text-white text-sm font-bold px-6 py-2.5 rounded-xl transition shadow-md whitespace-nowrap"
+                        className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-800 text-white text-sm font-bold px-6 py-2.5 rounded-xl transition shadow-md whitespace-nowrap"
                     >
                         Accept All
                     </button>
-                    <Link
-                        href="/privacy"
-                        className="text-sm text-neutral-600 hover:text-neutral-900 font-medium px-4 py-2.5 transition rounded-xl hover:bg-neutral-100"
-                        onClick={() => setShowCookieConsent(false)}
+                    <button
+                        onClick={acceptNecessary}
+                        className="w-full sm:w-auto bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-700 text-sm font-bold px-6 py-2.5 rounded-xl transition whitespace-nowrap"
                     >
-                        Privacy Policy
-                    </Link>
+                        Necessary Only
+                    </button>
                 </div>
+                <Link
+                    href="/privacy"
+                    className="text-xs text-neutral-400 hover:text-neutral-600 text-center transition"
+                >
+                    Privacy Policy
+                </Link>
             </div>
         </div>
     )

@@ -127,7 +127,6 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         if (id.includes('-emerald')) accentColor = 'text-emerald-800'
         return { Component: ATSExecutiveTemplate, props: { accentColor } }
     }
-
     if (id.startsWith('ats-technical')) {
         let accentColor = 'text-neutral-900'
         if (id.includes('-green')) accentColor = 'text-emerald-700'

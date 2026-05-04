@@ -40,7 +40,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
 
     // Major station marker (Section Header)
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="relative mt-10 mb-6">
+        <div className="relative mt-5 mb-3">
             {/* Station Dot */}
             <div className={cn("absolute -left-[11px] top-1.5 w-5 h-5 rounded-full border-4 border-white", bgColorClass)} aria-hidden="true" />
             {/* Header Text */}
@@ -82,18 +82,18 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
         >
             <div className="pl-6">
                 {/* ── HEADER (Destination Board) ── */}
-                <header className="mb-12 relative">
-                    <div className={cn("border-4 p-6 sm:p-8 bg-neutral-50/50 relative z-10", borderColorClass)}>
-                        <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tight mb-2">
+                <header className="mb-6 relative">
+                    <div className={cn("border-2 p-4 sm:p-5 bg-neutral-50/50 relative z-10", borderColorClass)}>
+                        <h1 className="text-[28px] font-black uppercase tracking-tight mb-1">
                             {personalInfo?.fullName || 'YOUR NAME'}
                         </h1>
                         {personalInfo?.professionalTitle && (
-                            <p className={cn("text-base font-bold uppercase tracking-widest mb-6", textColorClass)}>
+                            <p className={cn("text-[11px] font-bold uppercase tracking-widest mb-3", textColorClass)}>
                                 {personalInfo.professionalTitle}
                             </p>
                         )}
                         
-                        <div className="text-[12px] font-medium text-neutral-600 tracking-wider flex flex-wrap gap-x-4 gap-y-2">
+                        <div className="text-[10px] font-medium text-neutral-600 tracking-wider flex flex-wrap gap-x-3 gap-y-1">
                             {contactLines.map((line, i) => (
                                 <React.Fragment key={i}>
                                     <span>{line}</span>
@@ -105,13 +105,13 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                 </header>
 
                 {/* ── BODY (The Route Line) ── */}
-                <div className={cn("relative border-l-4 ml-8 pl-8 pb-10", borderColorClass)}>
+                <div className={cn("relative border-l-2 ml-6 pl-6 pb-4", borderColorClass)}>
                     
                     {/* Professional Summary */}
                     {professionalSummary?.summaryText && (
                         <section className="relative">
                             <SectionHeader title="Profile" />
-                            <p className="text-[13px] text-neutral-700 leading-relaxed max-w-[90%] font-medium">
+                            <p className="text-[11px] text-neutral-700 leading-relaxed max-w-[90%] font-medium">
                                 {professionalSummary.summaryText}
                             </p>
                         </section>
@@ -121,21 +121,21 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                     {workExperience && workExperience.length > 0 && (
                         <section>
                             <SectionHeader title="Experience" />
-                            <div className="space-y-8">
+                            <div className="space-y-5">
                                 {workExperience.map((job, i) => (
                                     <div key={i} className="relative">
                                         <ItemMarker />
-                                        <h3 className="text-[15px] font-black text-neutral-900">
+                                        <h3 className="text-[13px] font-black text-neutral-900">
                                             {job.jobTitle}
                                         </h3>
-                                        <div className="text-[13px] font-bold text-neutral-600 mt-0.5 mb-2">
+                                        <div className="text-[11px] font-bold text-neutral-600 mt-0.5 mb-1">
                                             {job.companyName}
                                             {job.location && <span className="text-neutral-400 font-normal"> · {job.location}</span>}
                                             <span className="text-neutral-400 font-normal"> · {formatDateRange(job.startDate, job.endDate, job.isCurrent)}</span>
                                         </div>
                                         
                                         {job.roleDescription && (
-                                            <p className="text-[13px] text-neutral-700 mb-3 leading-relaxed max-w-[90%]">
+                                            <p className="text-[11px] text-neutral-700 mb-2 leading-relaxed max-w-[90%]">
                                                 {job.roleDescription}
                                             </p>
                                         )}
@@ -143,7 +143,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                                         {job.achievements && job.achievements.length > 0 && (
                                             <ul className="space-y-1.5 pl-2 max-w-[90%]">
                                                 {job.achievements.map((ach, j) => (
-                                                    <li key={j} className="text-[13px] text-neutral-700 flex gap-3 leading-relaxed">
+                                                    <li key={j} className="text-[11px] text-neutral-700 flex gap-3 leading-relaxed">
                                                         <span className={cn("shrink-0 font-bold", textColorClass)}>›</span>
                                                         <span>{ach.achievementText}</span>
                                                     </li>
@@ -160,7 +160,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                     {education && education.length > 0 && (
                         <section>
                             <SectionHeader title="Education" />
-                            <div className="space-y-6">
+                            <div className="space-y-3">
                                 {education.map((edu, i) => (
                                     <div key={i} className="relative">
                                         <ItemMarker />

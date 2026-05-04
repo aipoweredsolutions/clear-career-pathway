@@ -92,20 +92,70 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                 return
             }
 
-            // Dynamically import @react-pdf/renderer to generate the PDF
-            const { pdf } = await import('@react-pdf/renderer')
-            const { ResumePDF } = await import('@/lib/pdf/ResumePDF')
+            toast.info('Generating paginated PDF...', { id: 'pdf-gen' })
 
-            const isWatermarked = !subscription || (subscription.status !== 'active' && (subscription as any).downloadCredits <= 0)
-            console.log('[PDF Download] Generating PDF for template:', data.templateId)
-            const doc = <ResumePDF data={data} isWatermarked={isWatermarked} />
-            const asBlob = await pdf(doc).toBlob()
-            saveAs(asBlob, `${fileName}.pdf`)
-            console.log('[PDF Download] PDF generated successfully')
+            // Dynamically import html2pdf
+            const html2pdf = (await import('html2pdf.js')).default
 
+            const element = document.getElementById(previewElementId)
+            if (!element) {
+                toast.error('Could not find the resume preview element.')
+                return
+            }
+
+            // Temporarily reset transforms for accurate capture
+            const originalTransform = element.style.transform
+            element.style.transform = 'none'
+
+            const isA4 = data.formatting?.paperSize === 'a4'
+            const pdfFormat = isA4 ? 'a4' : 'letter'
+
+            const opt = {
+                margin: [0, 0, 0, 0], // Margins handled by template HTML
+                filename: `${fileName}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                },
+                jsPDF: { unit: 'mm', format: pdfFormat, orientation: 'portrait' },
+                // Intelligent page breaks to prevent cutting text in half
+                pagebreak: { 
+                    mode: ['css', 'legacy'],
+                    avoid: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', '.break-inside-avoid']
+                }
+            }
+
+            const pdfWorker = html2pdf().set(opt).from(element)
+            
+            await pdfWorker.toPdf().get('pdf').then((pdf: any) => {
+                const totalPages = pdf.internal.getNumberOfPages()
+                
+                // Add continuation header for multi-page resumes
+                for (let i = 2; i <= totalPages; i++) {
+                    pdf.setPage(i)
+                    
+                    // Add a subtle white background block at the top to clear space if needed
+                    pdf.setFillColor(255, 255, 255)
+                    pdf.rect(0, 0, pdf.internal.pageSize.getWidth(), 15, 'F')
+                    
+                    // Draw the continuation header
+                    pdf.setFontSize(9)
+                    pdf.setTextColor(150, 150, 150) // Subtle gray
+                    const name = data.personalInfo?.fullName || 'Resume'
+                    pdf.text(`${name} • Page ${i} (Continuation)`, 15, 10)
+                }
+            })
+            
+            await pdfWorker.save()
+
+            element.style.transform = originalTransform
+            toast.success('PDF downloaded successfully!', { id: 'pdf-gen' })
         } catch (error) {
             console.error('PDF generation failed:', error)
-            toast.error('Failed to generate PDF. Please try again.')
+            toast.error('Failed to generate PDF. Please try again.', { id: 'pdf-gen' })
         } finally {
             setDownloadingPdf(false)
         }

@@ -24,15 +24,7 @@ import { useDebounce } from '@/lib/hooks/use-debounce'
 import { toast } from 'sonner'
 import { getMockDataForTemplate } from '@/lib/utils/template-helpers'
 
-const PDFPreview = dynamic(() => import('@/components/pdf/PDFPreview').then(mod => mod.PDFPreview), {
-    ssr: false,
-    loading: () => (
-        <div className="flex flex-col items-center justify-center h-full w-full bg-neutral-800 rounded-lg gap-4">
-            <Loader2 className="w-8 h-8 text-primary-500 animate-spin" />
-            <p className="text-sm font-bold text-neutral-400 uppercase tracking-widest">Waking up PDF Engine...</p>
-        </div>
-    )
-})
+
 
 function EditorContent() {
     const params = useParams()
@@ -175,11 +167,11 @@ function EditorContent() {
     // Reset scale when maximizing/minimizing
     useEffect(() => {
         if (isMaximized) {
-            setScale(previewMode === 'split' ? 0.6 : 1)
+            setScale(1)
         } else {
-            setScale(previewMode === 'split' ? 0.45 : 0.85)
+            setScale(0.85)
         }
-    }, [isMaximized, previewMode])
+    }, [isMaximized])
 
     const handleMinimize = () => {
         setScale(prev => Math.max(0.4, prev - 0.1))
@@ -355,44 +347,6 @@ function EditorContent() {
                         Templates
                     </Button>
 
-                    <div className="flex bg-neutral-100 rounded-lg p-1 mr-2">
-                        <button
-                            onClick={() => setPreviewMode('html')}
-                            className={cn(
-                                "px-3 py-1.5 text-xs font-bold rounded-md transition-all flex items-center gap-1.5",
-                                previewMode === 'html'
-                                    ? "bg-white text-primary-600 shadow-sm ring-1 ring-neutral-200"
-                                    : "text-neutral-500 hover:text-neutral-700"
-                            )}
-                        >
-                            <LayoutTemplate className="w-3.5 h-3.5" />
-                            Live
-                        </button>
-                        <button
-                            onClick={() => setPreviewMode('split')}
-                            className={cn(
-                                "px-3 py-1.5 text-xs font-bold rounded-md transition-all flex items-center gap-1.5",
-                                previewMode === 'split'
-                                    ? "bg-white text-primary-600 shadow-sm ring-1 ring-neutral-200"
-                                    : "text-neutral-500 hover:text-neutral-700"
-                            )}
-                        >
-                            <Columns className="w-3.5 h-3.5" />
-                            Dual
-                        </button>
-                        <button
-                            onClick={() => setPreviewMode('pdf')}
-                            className={cn(
-                                "px-3 py-1.5 text-xs font-bold rounded-md transition-all flex items-center gap-1.5",
-                                previewMode === 'pdf'
-                                    ? "bg-white text-primary-600 shadow-sm ring-1 ring-neutral-200"
-                                    : "text-neutral-500 hover:text-neutral-700"
-                            )}
-                        >
-                            <Eye className="w-3.5 h-3.5" />
-                            PDF
-                        </button>
-                    </div>
 
                     <Button
                         variant={isMaximized ? "primary" : "outline"}
@@ -501,20 +455,18 @@ function EditorContent() {
                             even when the user is looking at the PDF preview.
                         */}
                         <div
-                            className={cn(
-                                "fixed left-[-9999px] top-[-9999px] transition-all duration-500",
-                                (previewMode === 'html' || previewMode === 'split') ? "relative left-auto top-auto" : ""
-                            )}
+                            className="transition-all duration-500 flex justify-center"
                             style={{
-                                transform: (previewMode === 'html' || previewMode === 'split') ? `scale(${scale})` : 'scale(1)',
+                                transform: `scale(${scale})`,
                                 transformOrigin: 'top center'
                             }}
                         >
                             <div
+                                id="resume-preview"
                                 className="shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-out bg-white relative"
                             >
                                 {/* Page Break Simulator Gaps */}
-                                <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
+                                <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden" data-html2canvas-ignore="true">
                                     {[1, 2, 3, 4].map((page) => {
                                         const height = data.formatting?.paperSize === 'a4' ? '297mm' : '11in'
                                         return (
@@ -544,33 +496,6 @@ function EditorContent() {
                                 />
                             </div>
                         </div>
-
-                        {(previewMode === 'pdf' || previewMode === 'split') && (
-                            <div className={cn(
-                                "flex flex-col transition-all duration-500",
-                                previewMode === 'split' ? "" : "w-full h-full max-w-5xl mx-auto"
-                            )}
-                                style={{
-                                    width: previewMode === 'split' ? (data.formatting?.paperSize === 'a4' ? '210mm' : '8.5in') : undefined,
-                                    height: previewMode === 'split' ? (data.formatting?.paperSize === 'a4' ? '297mm' : '11in') : undefined,
-                                    transform: previewMode === 'split' ? `scale(${scale})` : 'scale(1)',
-                                    transformOrigin: 'top center'
-                                }}
-                            >
-                                <PDFPreview
-                                    data={data}
-                                    subscription={subscription}
-                                    className="flex-1 w-full bg-neutral-900 rounded-lg shadow-2xl overflow-hidden min-h-[500px]"
-                                />
-
-                                {previewMode === 'pdf' && (
-                                    <div className="mt-4 p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-white text-center text-sm">
-                                        <p className="font-medium">PDF Preview accurately reflects how your resume will look when downloaded.</p>
-                                        <p className="text-white/60 text-xs mt-1">Multi-page support is automatically handled by the PDF engine.</p>
-                                    </div>
-                                )}
-                            </div>
-                        )}
                     </div>
                 </div>
 

@@ -40,7 +40,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
     const borderColorClass = accentColor.replace('text-', 'border-')
 
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="mt-16 mb-8">
+        <div className="mt-6 mb-3">
             <h2 className={cn(
                 'text-[10px] font-black uppercase tracking-[0.4em] mb-4',
                 accentColor
@@ -52,7 +52,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
     )
 
     const TimelineRow = ({ date, children }: { date: string; children: React.ReactNode }) => (
-        <div className="flex items-start gap-10 mb-10 group last:mb-0">
+        <div className="flex items-start gap-6 mb-5 group last:mb-0">
             <div className="w-[120px] shrink-0 pt-1 text-right">
                 <span className="text-[11px] font-black text-neutral-300 uppercase tracking-widest font-mono">
                     {date}
@@ -75,17 +75,17 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
 
     return (
         <div
-            className={cn('w-full bg-white text-neutral-800 leading-relaxed p-12', className)}
+            className={cn('w-full bg-white text-neutral-800 leading-snug p-10', className)}
             style={{ fontFamily: "'Inter', sans-serif" }}
         >
             {/* ── CHRONO HEADER ── */}
-            <header className="flex flex-col md:flex-row justify-between items-start gap-10 mb-16 pb-12 border-b-4 border-neutral-900">
+            <header className="flex flex-col md:flex-row justify-between items-start gap-6 mb-6 pb-4 border-b-2 border-neutral-900">
                 <div className="flex-1">
-                    <h1 className="text-[48px] font-black tracking-tighter leading-none mb-4 text-neutral-900 uppercase">
+                    <h1 className="text-[28px] font-black tracking-tighter leading-none mb-2 text-neutral-900 uppercase">
                         {personalInfo?.fullName || 'NAME.'}
                     </h1>
                     {personalInfo?.professionalTitle && (
-                        <p className={cn("text-[14px] font-bold uppercase tracking-[0.3em] opacity-60", accentColor)}>
+                        <p className={cn("text-[11px] font-bold uppercase tracking-[0.2em] opacity-60", accentColor)}>
                             {personalInfo.professionalTitle}
                         </p>
                     )}
@@ -99,15 +99,15 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                 </div>
             </header>
 
-            <div className="pb-12">
+            <div>
                 {/* Summary */}
                 {professionalSummary?.summaryText && (
-                    <section className="mb-16">
+                    <section className="mb-6">
                         <SectionHeader title="Executive Overview" />
-                        <div className="flex gap-10">
+                        <div className="flex gap-6">
                             <div className="w-[120px] shrink-0" />
                             <div className="w-px shrink-0 bg-transparent" />
-                            <p className="text-[14px] leading-relaxed text-neutral-600 font-medium text-justify italic">
+                            <p className="text-[11px] leading-relaxed text-neutral-600 font-medium italic">
                                 {`"${professionalSummary.summaryText}"`}
                             </p>
                         </div>
@@ -123,23 +123,23 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                                 key={i}
                                 date={job.startDate ? `${job.startDate.split(' ')[1] || job.startDate} — ${job.isCurrent ? 'NOW' : job.endDate.split(' ')[1] || job.endDate}` : ''}
                             >
-                                <h3 className="text-[18px] font-black text-neutral-900 tracking-tight leading-none mb-2">
+                                <h3 className="text-[13px] font-black text-neutral-900 tracking-tight leading-none mb-1">
                                     {job.jobTitle.toUpperCase()}
                                 </h3>
-                                <div className="text-[13px] font-bold text-neutral-400 uppercase tracking-widest mb-4">
+                                <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest mb-2">
                                     {job.companyName}
                                     {job.location && <span className="mx-3 opacity-30 font-normal">/</span>}
                                     {job.location}
                                 </div>
                                 {job.roleDescription && (
-                                    <p className="text-[13px] text-neutral-500 mb-6 leading-relaxed italic">
+                                    <p className="text-[11px] text-neutral-500 mb-3 leading-relaxed italic">
                                         {job.roleDescription}
                                     </p>
                                 )}
                                 {job.achievements && job.achievements.length > 0 && (
                                     <ul className="space-y-3">
                                         {job.achievements.map((ach, j) => (
-                                            <li key={j} className="text-[13px] text-neutral-700 flex gap-4 leading-relaxed font-medium">
+                                            <li key={j} className="text-[11px] text-neutral-700 flex gap-3 leading-relaxed font-medium">
                                                 <span className={cn("w-1 h-1 rounded-full mt-2.5 shrink-0", accentColor.replace('text-', 'bg-'))} />
                                                 <span>{ach.achievementText}</span>
                                             </li>
@@ -157,7 +157,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                         <SectionHeader title="Academic Timeline" />
                         {education.map((edu, i) => (
                             <TimelineRow key={i} date={edu.endYear?.toString() || 'PREV'}>
-                                <h3 className="text-[16px] font-black text-neutral-900 tracking-tight mb-2">
+                                <h3 className="text-[13px] font-black text-neutral-900 tracking-tight mb-1">
                                     {edu.degree.toUpperCase()}
                                     {edu.major && <span className="text-neutral-300 font-normal ml-3">/ {edu.major.toUpperCase()}</span>}
                                 </h3>
@@ -180,10 +180,10 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                 {skills && skills.length > 0 && (
                     <section>
                         <SectionHeader title="Core Inventory" />
-                        <div className="flex gap-10">
+                        <div className="flex gap-6">
                             <div className="w-[120px] shrink-0" />
                             <div className="w-px shrink-0 bg-neutral-100" />
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 flex-1 pl-10">
+                            <div className="flex flex-col gap-4 flex-1 pl-6">
                                 {Object.entries(skills.reduce((acc, s) => {
                                     const t = s.skillType || 'professional';
                                     if (!acc[t]) acc[t] = [];

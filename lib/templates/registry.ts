@@ -160,12 +160,11 @@ export const templateRegistry: TemplateMetadata[] = [
             { id: 'slate', name: 'Cool Slate', hex: '#334155' }
         ]
     },
-
     // --- 8. ATS TECHNICAL ---
     {
         id: 'ats-technical',
         name: 'Technical Terminal',
-        description: 'Redesigned with a "Terminal Elite" aesthetic for high-end engineering roles. Features code-inspired syntax, numbered headers [01], and bracketed skill metadata. Uses shell-style operators (=>) and terminal prompts ($) to deliver an authentic, technical document experience. Essential for senior developers and architects.',
+        description: 'Redesigned with a "Terminal Elite" aesthetic for high-end engineering roles. Features code-inspired syntax, numbered headers [01], and shell-style operators. Optimized for high information density and perfect ATS parsing. Essential for senior developers and architects.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior'],
             jobTypes: ['technical'],

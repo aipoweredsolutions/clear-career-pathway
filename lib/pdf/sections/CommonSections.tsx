@@ -36,11 +36,22 @@ export const Section = ({ title, styles, children, isFirst, templateId = '', ind
     if (templateId.startsWith('ats-gold-standard')) {
         return (
             <View style={[styles.section, isFirst && styles.sectionFirst]}>
-                <View style={{ marginTop: 15, marginBottom: 10 }}>
-                    <Text style={[styles.sectionTitle, { marginBottom: 4, paddingBottom: 0, borderBottomWidth: 0 }]}>{title}</Text>
-                    <View style={{ width: '100%', height: 1.5, backgroundColor: styles.sectionTitle.color || '#171717' }} />
+                <View style={{ marginTop: 22, marginBottom: 12 }}>
+                    <Text style={[styles.sectionTitle, { 
+                        fontSize: 10,
+                        letterSpacing: 3,
+                        marginBottom: 4, 
+                        paddingBottom: 0, 
+                        borderBottomWidth: 0 
+                    }]}>
+                        {title}
+                    </Text>
+                    <View style={{ width: '100%', height: 1.5, backgroundColor: styles.sectionTitle.color || '#171717', marginBottom: 1 }} />
+                    <View style={{ width: '100%', height: 0.5, backgroundColor: styles.sectionTitle.color || '#171717', opacity: 0.3 }} />
                 </View>
-                {children}
+                <View style={{ paddingLeft: 4, paddingRight: 4 }}>
+                    {children}
+                </View>
             </View>
         )
     }

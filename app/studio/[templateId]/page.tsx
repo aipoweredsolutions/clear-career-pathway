@@ -56,21 +56,27 @@ export default function TemplateStudioPage() {
     }
 
     const [isDownloading, setIsDownloading] = useState(false)
-    const [previewMode, setPreviewMode] = useState<'html' | 'pdf' | 'split'>('html')
 
     const handleDownloadSample = async () => {
         setIsDownloading(true)
         toast.info('Generating high-quality PDF sample...')
         
         try {
-            // Dynamically import PDF generator to preserve browser bundle size
-            const { pdf } = await import('@react-pdf/renderer')
-            const { ResumePDF } = await import('@/lib/pdf/ResumePDF')
-
-            const doc = <ResumePDF data={{...mockData, templateId: templateId}} isWatermarked={true} />
-            const asBlob = await pdf(doc).toBlob()
+            const html2pdf = (await import('html2pdf.js')).default
+            const element = document.getElementById('studio-preview')
             
-            saveAs(asBlob, `Clear_Career_Path_${displayName.replace(/\s+/g, '_')}_Sample.pdf`)
+            if (!element) throw new Error('Preview element not found')
+
+            const opt = {
+                margin: [0, 0, 0, 0],
+                filename: `Clear_Career_Path_${displayName.replace(/\s+/g, '_')}_Sample.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'] }
+            }
+
+            await html2pdf().set(opt).from(element).save()
             toast.success('Sample downloaded successfully')
         } catch (error) {
             console.error('Sample generation failed:', error)
@@ -103,46 +109,6 @@ export default function TemplateStudioPage() {
                                 {templateId}
                             </span>
                         </div>
-                    </div>
-
-                    {/* Preview Mode Toggle */}
-                    <div className="hidden md:flex bg-neutral-100 rounded-xl p-1 border border-neutral-200 shadow-inner">
-                        <button
-                            onClick={() => setPreviewMode('html')}
-                            className={cn(
-                                "flex items-center gap-2 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all",
-                                previewMode === 'html' 
-                                    ? "bg-white text-blue-600 shadow-sm ring-1 ring-neutral-200" 
-                                    : "text-neutral-500 hover:text-neutral-700"
-                            )}
-                        >
-                            <LayoutTemplate className="w-3.5 h-3.5" />
-                            Live
-                        </button>
-                        <button
-                            onClick={() => setPreviewMode('split')}
-                            className={cn(
-                                "flex items-center gap-2 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all",
-                                previewMode === 'split' 
-                                    ? "bg-white text-blue-600 shadow-sm ring-1 ring-neutral-200" 
-                                    : "text-neutral-500 hover:text-neutral-700"
-                            )}
-                        >
-                            <Columns className="w-3.5 h-3.5" />
-                            Dual
-                        </button>
-                        <button
-                            onClick={() => setPreviewMode('pdf')}
-                            className={cn(
-                                "flex items-center gap-2 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all",
-                                previewMode === 'pdf' 
-                                    ? "bg-white text-blue-600 shadow-sm ring-1 ring-neutral-200" 
-                                    : "text-neutral-500 hover:text-neutral-700"
-                            )}
-                        >
-                            <Eye className="w-3.5 h-3.5" />
-                            PDF
-                        </button>
                     </div>
 
                     <div className="flex items-center gap-3">
@@ -240,45 +206,19 @@ export default function TemplateStudioPage() {
                                     <div className="w-2.5 h-2.5 rounded-full bg-neutral-200" />
                                 </div>
                                 <div className="flex-1 text-center">
-                                    <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Premium Draft • {displayName}</span>
+                                    <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Live WYSIWYG Rendering • {displayName}</span>
                                 </div>
                             </div>
                             
                             {/* The Template Content */}
-                            <div className={cn(
-                                "bg-neutral-100 overflow-y-auto max-h-[85vh] p-4 sm:p-10 transition-all duration-500",
-                                previewMode === 'split' ? "flex flex-row items-start justify-center gap-8 lg:gap-12" : "flex w-full justify-center"
-                            )}>
-                                {(previewMode === 'html' || previewMode === 'split') && (
-                                    <div className="w-full max-w-[850px]" style={{ 
-                                        transform: previewMode === 'split' ? 'scale(0.5)' : 'scale(1)',
-                                        transformOrigin: 'top center',
-                                        flex: previewMode === 'split' ? '0 0 auto' : '1 1 auto'
-                                    }}>
-                                        <TemplateRenderer 
-                                            templateId={templateId} 
-                                            data={mockData} 
-                                            className="shadow-2xl rounded-sm border border-neutral-200 min-h-[1100px]"
-                                        />
-                                    </div>
-                                )}
-
-                                {(previewMode === 'pdf' || previewMode === 'split') && (
-                                    <div className={cn(
-                                        "transition-all duration-500",
-                                        previewMode === 'split' ? "w-[210mm]" : "w-full max-w-[850px]"
-                                    )} style={{ 
-                                        transform: previewMode === 'split' ? 'scale(0.5)' : 'scale(1)',
-                                        transformOrigin: 'top center',
-                                        flex: previewMode === 'split' ? '0 0 auto' : '1 1 auto',
-                                        height: previewMode === 'split' ? '297mm' : 'auto'
-                                    }}>
-                                        <PDFPreview 
-                                            data={mockData} 
-                                            className="h-full bg-neutral-900 rounded-lg shadow-2xl overflow-hidden min-h-[600px]"
-                                        />
-                                    </div>
-                                )}
+                            <div className="bg-neutral-100 overflow-y-auto max-h-[85vh] p-4 sm:p-10 transition-all duration-500 flex w-full justify-center">
+                                <div id="studio-preview" className="w-full max-w-[850px]">
+                                    <TemplateRenderer 
+                                        templateId={templateId} 
+                                        data={mockData} 
+                                        className="shadow-2xl rounded-sm min-h-[1100px] w-full"
+                                    />
+                                </div>
                             </div>
                         </div>
 

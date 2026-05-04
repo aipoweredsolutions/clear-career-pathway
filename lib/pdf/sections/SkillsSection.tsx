@@ -29,7 +29,18 @@ export const SkillsSection = ({ data, styles, templateId, index, isSidebar = fal
 
     return (
         <Section title={title} styles={styles} templateId={templateId} index={index}>
-            {groupEntries.length === 1 && groupEntries[0][0] === 'General' ? (
+            {templateId.startsWith('ats-gold-standard') ? (
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
+                    {groupEntries.map(([type, list]: [string, any], i: number) => (
+                        <View key={i} style={{ width: '45%', marginBottom: 12 }}>
+                            <Text style={{ fontSize: 7, fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }}>{type}</Text>
+                            <Text style={[styles.description, { fontSize: 10, fontStyle: 'italic', fontWeight: 'bold', color: '#1a1a1a', lineHeight: 1.4 }]}>
+                                {list.join('  •  ')}
+                            </Text>
+                        </View>
+                    ))}
+                </View>
+            ) : groupEntries.length === 1 && groupEntries[0][0] === 'General' ? (
                 <View style={styles.skillRow}>
                     {(groupEntries[0][1] as string[]).map((skill: string, i: number) => (
                         <SkillBadge key={i} text={skill} styles={styles} />

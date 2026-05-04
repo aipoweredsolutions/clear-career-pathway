@@ -106,14 +106,38 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                     </View>
                 </View>
             ) : templateId.startsWith('ats-gold-standard') ? (
-                <View style={[styles.header, { borderBottomWidth: 0, paddingBottom: 0, marginBottom: 15 }]}>
+                <View style={[styles.header, { borderBottomWidth: 0, paddingBottom: 0, marginBottom: 25, paddingTop: 5 }]}>
                     <View style={{ flex: 1, alignItems: 'center', width: '100%' }}>
-                        <Text style={[styles.name, { fontSize: 26, letterSpacing: 4, marginBottom: 4 }]}>{data.personalInfo?.fullName || 'Untitled'}</Text>
-                        <Text style={[styles.title, { fontSize: 10, letterSpacing: 3, marginBottom: 10, color: '#666666' }]}>
+                        <Text style={[styles.name, { 
+                            fontSize: 24, 
+                            letterSpacing: 2, 
+                            marginBottom: 4, 
+                            fontFamily: 'Playfair Display',
+                            textTransform: 'uppercase'
+                        }]}>
+                            {data.personalInfo?.fullName || 'Untitled'}
+                        </Text>
+                        <Text style={[styles.title, { 
+                            fontSize: 9, 
+                            letterSpacing: 2.5, 
+                            marginBottom: 15, 
+                            color: '#94a3b8',
+                            textTransform: 'uppercase'
+                        }]}>
                             {data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}
                         </Text>
-                        <View style={{ width: '100%', height: 1.5, backgroundColor: styles.sectionTitle.color || '#171717', marginBottom: 10 }} />
-                        <ContactInfo data={data} styles={styles} />
+                        <View style={{ 
+                            width: '90%', 
+                            borderTopWidth: 0.5, 
+                            borderBottomWidth: 0.5, 
+                            borderColor: '#e2e8f0', 
+                            paddingVertical: 10,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                            <ContactInfo data={data} styles={styles} separator="|" />
+                        </View>
                     </View>
                 </View>
             ) : (

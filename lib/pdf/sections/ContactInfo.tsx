@@ -1,8 +1,8 @@
 import React from 'react'
 import { Text, View } from '@react-pdf/renderer'
 
-export const ContactInfo = ({ data, styles, isSidebar = false }: any) => {
-    const { email, phone, location, city, country, websiteUrl, linkedinUrl, githubUrl } = data.personalInfo || {}
+export const ContactInfo = ({ data, styles, isSidebar = false, separator = null }: any) => {
+    const { email, phone, location, city, country, websiteUrl, linkedinUrl } = data.personalInfo || {}
     
     const displayLocation = location || [city, country].filter(Boolean).join(', ')
 
@@ -19,33 +19,26 @@ export const ContactInfo = ({ data, styles, isSidebar = false }: any) => {
         )
     }
 
+    const items = [
+        email,
+        phone,
+        displayLocation,
+        linkedinUrl ? linkedinUrl.replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//, '') : null,
+        websiteUrl ? websiteUrl.replace(/^https?:\/\//, '') : null
+    ].filter(Boolean)
+
     return (
         <View style={styles.contactInfo}>
-            {email && (
-                <View style={styles.contactItem}>
-                    <Text>{email}</Text>
-                </View>
-            )}
-            {phone && (
-                <View style={styles.contactItem}>
-                    <Text>{phone}</Text>
-                </View>
-            )}
-            {displayLocation && (
-                <View style={styles.contactItem}>
-                    <Text>{displayLocation}</Text>
-                </View>
-            )}
-            {linkedinUrl && (
-                <View style={styles.contactItem}>
-                    <Text>LinkedIn: {linkedinUrl.replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//, '')}</Text>
-                </View>
-            )}
-            {websiteUrl && (
-                <View style={styles.contactItem}>
-                    <Text>{websiteUrl.replace(/^https?:\/\//, '')}</Text>
-                </View>
-            )}
+            {items.map((item, i) => (
+                <React.Fragment key={i}>
+                    <View style={styles.contactItem}>
+                        <Text>{item}</Text>
+                    </View>
+                    {separator && i < items.length - 1 && (
+                        <Text style={{ opacity: 0.3, marginLeft: 8, marginRight: 8, fontSize: styles.contactInfo.fontSize + 2 }}>{separator}</Text>
+                    )}
+                </React.Fragment>
+            ))}
         </View>
     )
 }

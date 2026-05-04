@@ -29,7 +29,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-emer
     } = data
 
     const SectionHeader = ({ num, title }: { num: string; title: string }) => (
-        <div className="flex items-center gap-4 mb-8 mt-12">
+        <div className="flex items-center gap-3 mb-3 mt-6">
             <div className={cn("px-3 py-1 text-[11px] font-black text-white rounded-sm", bgColorClass)}>
                 {num}
             </div>
@@ -49,13 +49,13 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-emer
 
     return (
         <div className={cn(
-            "w-full bg-white text-neutral-900 font-mono text-[12px] leading-relaxed p-12",
+            "w-full bg-white text-neutral-900 font-mono text-[12px] leading-relaxed p-10",
             className
         )}
         style={{ fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}
         >
             {/* ── TERMINAL HEADER ── */}
-            <header className="mb-12 border-b-4 border-neutral-50 pb-12">
+            <header className="mb-6 border-b-2 border-neutral-50 pb-6">
                 <div className="flex justify-between items-start gap-10">
                     <div className="flex-1">
                         <h1 className="text-[42px] font-black tracking-tight leading-none mb-4 text-neutral-900">
@@ -77,7 +77,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-emer
                 </div>
             </header>
 
-            <div className="pb-12">
+            <div>
                 {/* Skills - Critical for Tech */}
                 {skills && skills.length > 0 && (
                     <section>
@@ -110,10 +110,10 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-emer
                 {workExperience && workExperience.length > 0 && (
                     <section>
                         <SectionHeader num="02" title="Runtime_History" />
-                        <div className="space-y-12 px-6">
+                        <div className="space-y-6 px-6">
                             {workExperience.map((job, i) => (
                                 <div key={i}>
-                                    <div className="flex justify-between items-baseline mb-4">
+                                    <div className="flex justify-between items-baseline mb-2">
                                         <div>
                                             <h3 className="text-[16px] font-black text-neutral-900 tracking-tight">
                                                 {job.jobTitle.toUpperCase()}
@@ -128,7 +128,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-emer
                                     </div>
 
                                     {job.roleDescription && (
-                                        <p className="text-[13px] text-neutral-500 mb-6 leading-relaxed italic border-l-2 border-neutral-100 pl-6">
+                                        <p className="text-[13px] text-neutral-500 mb-3 leading-relaxed italic border-l-2 border-neutral-100 pl-6">
                                             {`/* ${job.roleDescription} */`}
                                         </p>
                                     )}
@@ -136,7 +136,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-emer
                                     {job.achievements && job.achievements.length > 0 && (
                                         <ul className="space-y-3 pl-6">
                                             {job.achievements.map((a, j) => (
-                                                <li key={j} className="text-[13px] text-neutral-700 flex gap-4 leading-relaxed font-bold">
+                                                <li key={j} className="text-[12px] text-neutral-700 flex gap-4 leading-relaxed font-bold">
                                                     <span className={cn("shrink-0", accentColor)}>$</span>
                                                     <span>{a.achievementText}</span>
                                                 </li>
@@ -153,14 +153,14 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-emer
                 {projects && projects.length > 0 && (
                     <section>
                         <SectionHeader num="03" title="Active_Repos" />
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-6">
                             {projects.map((proj, i) => (
-                                <div key={i} className="p-8 border-2 border-neutral-50 rounded bg-neutral-50/20">
+                                <div key={i} className="p-5 border border-neutral-50 rounded bg-neutral-50/20">
                                     <div className="flex justify-between items-baseline mb-4">
                                         <h3 className="text-[14px] font-black text-neutral-900 uppercase tracking-tight">{proj.projectName}</h3>
                                         <span className={cn("text-[10px] font-black uppercase opacity-40", accentColor)}>{`::${proj.role}`}</span>
                                     </div>
-                                    <p className="text-[12px] text-neutral-600 leading-relaxed mb-6 italic">{proj.description}</p>
+                                    <p className="text-[11px] text-neutral-600 leading-relaxed mb-4 italic">{proj.description}</p>
                                     {proj.toolsUsed && (
                                         <div className="flex flex-wrap gap-2 pt-4 border-t border-neutral-100">
                                             {proj.toolsUsed.map((t, j) => (
@@ -178,7 +178,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-emer
                 {education && education.length > 0 && (
                     <section>
                         <SectionHeader num="04" title="Foundation_Layer" />
-                        <div className="space-y-8 px-6">
+                        <div className="space-y-4 px-6">
                             {education.map((edu, i) => (
                                 <div key={i} className="flex justify-between items-start">
                                     <div className="flex-1">
@@ -198,7 +198,7 @@ export function ATSTechnicalTemplate({ data, className, accentColor = 'text-emer
                 )}
 
                 {/* Footer Metadata */}
-                <div className="mt-20 pt-12 border-t-2 border-neutral-50 grid grid-cols-1 md:grid-cols-2 gap-16 px-6">
+                <div className="mt-10 pt-6 border-t border-neutral-50 grid grid-cols-1 md:grid-cols-2 gap-10 px-6">
                     {certifications && certifications.length > 0 && (
                         <section>
                             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-6">Verified_Credentials</h2>
