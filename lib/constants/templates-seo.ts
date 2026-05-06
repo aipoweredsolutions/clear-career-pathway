@@ -9,6 +9,7 @@ export interface TemplateSEO {
     bestFor: string;
     templateId: string;
     sampleDataKey: string;
+    previewImage?: string;
     faqs?: { q: string; a: string }[];
     exampleBullets?: string[];
 }
@@ -25,6 +26,7 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         bestFor: 'Software Engineers, Data Scientists, DevOps, and IT Professionals.',
         templateId: 'ats-metro-district',
         sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-professional-navy-preview.png',
         faqs: [
             { q: "Is this template suitable for entry-level developers?", a: "Yes, the single-column layout is perfect for highlighting internships and projects for junior engineers." },
             { q: "Can I include my GitHub profile?", a: "Absolutely. The header and experience sections are optimized for clickable, parsable links." }
@@ -45,6 +47,7 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         bestFor: 'Data Analysts, Cybersecurity Specialists, System Admins, and QA Engineers.',
         templateId: 'ats-technical-cyan',
         sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-technical-cyan-preview.png',
         faqs: [
             { q: "How should I list my technical skills?", a: "Use the categorized skill blocks to separate languages from tools and databases for better ATS extraction." }
         ],
@@ -64,6 +67,7 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         bestFor: 'Accountants, Lawyers, Business Managers, and Traditional Professionals.',
         templateId: 'ats-classic-left',
         sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-professional-navy-preview.png',
         faqs: [
             { q: "Is the left column ATS friendly?", a: "Yes. While it looks like a column, the underlying code is a linear vertical flow, which is the gold standard for ATS compatibility." }
         ],
@@ -83,6 +87,7 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         bestFor: 'Project Managers, Scrum Masters, Operations Leads, and Product Owners.',
         templateId: 'ats-timeline-emerald',
         sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-timeline-emerald-preview.png',
         exampleBullets: [
             "Led cross-functional teams of 15+ to deliver $2M projects on time and under budget.",
             "Reduced project cycle time by 20% using Agile methodologies."
@@ -98,7 +103,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'In service industries, rapid progression and multiple roles at the same company are common. This template parses stacked roles flawlessly.',
         bestFor: 'Customer Service Reps, Retail Leaders, and Support Specialists.',
         templateId: 'ats-hospitality-navy',
-        sampleDataKey: 'sales_executive'
+        sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-hospitality-navy-preview.png'
     },
     {
         slug: 'administrative-assistant-resume-template',
@@ -110,7 +116,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Administrative roles often go through high-volume screening. This layout uses predictable, standard headers that recruiters and software love.',
         bestFor: 'Administrative Assistants, Office Managers, and Executive Assistants.',
         templateId: 'ats-gold-standard-charcoal',
-        sampleDataKey: 'sales_executive'
+        sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-gold-standard-gold-preview.png'
     },
     {
         slug: 'teacher-resume-template',
@@ -122,7 +129,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Teacher hiring systems prioritize certification codes. This template places certifications in standard blocks for instant extraction.',
         bestFor: 'Teachers, Professors, and Educational Consultants.',
         templateId: 'ats-academia-charcoal',
-        sampleDataKey: 'education_expert'
+        sampleDataKey: 'education_expert',
+        previewImage: '/templates/ats-academia-navy-preview.png'
     },
     {
         slug: 'internship-resume-template',
@@ -134,7 +142,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'When you have limited experience, ATS systems can get confused. This template structures the Education and Projects sections to trigger standard parsing rules.',
         bestFor: 'Students, Recent Graduates, and Career Changers.',
         templateId: 'ats-graduate-navy',
-        sampleDataKey: 'graduate'
+        sampleDataKey: 'graduate',
+        previewImage: '/templates/ats-graduate-navy-preview.png'
     },
     {
         slug: 'sales-associate-resume-template',
@@ -146,7 +155,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Sales resumes need to show numbers. The Masthead template uses a prominent header for core competencies while keeping the experience section mathematically structured.',
         bestFor: 'Sales Associates, Account Executives, and Business Developers.',
         templateId: 'ats-masthead-prussian',
-        sampleDataKey: 'sales_executive'
+        sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-professional-navy-preview.png'
     },
     {
         slug: 'graphic-designer-resume-template',
@@ -158,7 +168,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Designers face the hardest challenge: making a beautiful resume that an ATS can actually read. The Bauhaus layout uses standard HTML flow with intelligent styling.',
         bestFor: 'Graphic Designers, UX/UI Designers, and Product Designers.',
         templateId: 'ats-bauhaus-cobalt',
-        sampleDataKey: 'graphic_designer'
+        sampleDataKey: 'graphic_designer',
+        previewImage: '/templates/ats-modern-blue-preview.png'
     },
     // Variations
     {
@@ -171,7 +182,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Features a skills-first layout to compensate for limited professional experience while maintaining perfect parsing.',
         bestFor: 'Junior Developers and Bootcamp Graduates.',
         templateId: 'ats-modern-blue',
-        sampleDataKey: 'software_engineer'
+        sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-modern-blue-preview.png'
     },
     {
         slug: 'senior-software-engineer-resume-template',
@@ -183,7 +195,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Senior roles require high information density. This template manages long experience sections without breaking the ATS parsing sequence.',
         bestFor: 'Senior Engineers, Tech Leads, and Engineering Managers.',
         templateId: 'ats-executive-gold',
-        sampleDataKey: 'software_engineer'
+        sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-executive-gold-preview.png'
     },
     {
         slug: 'no-experience-resume-template',
@@ -195,7 +208,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Focuses on the skills and education headers to ensure the resume isn\'t rejected for lack of "Experience" block keywords.',
         bestFor: 'Students, First-time job seekers, and Volunteers.',
         templateId: 'ats-minimal-black',
-        sampleDataKey: 'graduate'
+        sampleDataKey: 'graduate',
+        previewImage: '/templates/ats-minimal-black-preview.png'
     },
     {
         slug: 'ats-friendly-resume-template',
@@ -207,7 +221,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Engineered specifically for systems like Workday and Taleo. Uses standard headers and a flat hierarchy.',
         bestFor: 'Corporate applicants and High-volume job applications.',
         templateId: 'ats-professional-navy',
-        sampleDataKey: 'sales_executive'
+        sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-professional-navy-preview.png'
     },
     {
         slug: 'modern-resume-template-free',
@@ -219,6 +234,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Balances modern typography with a conservative structure, making it perfect for human recruiters and robot screeners alike.',
         bestFor: 'Modern professionals in Tech, Marketing, and Design.',
         templateId: 'ats-modern-violet',
+        sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-modern-violet-preview.png'
     },
     // Country-Specific (Programmatic SEO)
     {
@@ -231,7 +248,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Follows the standard Kenyan resume format expectations while ensuring full ATS readability.',
         bestFor: 'Job seekers in Kenya across all industries.',
         templateId: 'ats-professional-navy',
-        sampleDataKey: 'sales_executive'
+        sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-professional-navy-preview.png'
     },
     {
         slug: 'resume-format-in-kenya',
@@ -243,7 +261,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Strikes the right balance between modern aesthetics and the traditional CV structure preferred in Nairobi and across Kenya.',
         bestFor: 'Freshers and experienced professionals in Kenya.',
         templateId: 'ats-classic-left',
-        sampleDataKey: 'software_engineer'
+        sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-professional-navy-preview.png'
     },
     // Hidden Opportunities
     {
@@ -256,7 +275,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Uses system-safe fonts and standard margins to ensure flawless export.',
         bestFor: 'Users who need editable offline formats.',
         templateId: 'ats-minimal-black',
-        sampleDataKey: 'sales_executive'
+        sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-minimal-black-preview.png'
     },
     {
         slug: 'one-page-resume-template-free',
@@ -268,7 +288,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Forces conciseness and prioritizes recent achievements, which recruiters love.',
         bestFor: 'Recent graduates and professionals with less than 10 years of experience.',
         templateId: 'ats-modern-blue',
-        sampleDataKey: 'graduate'
+        sampleDataKey: 'graduate',
+        previewImage: '/templates/ats-modern-blue-preview.png'
     },
     {
         slug: 'clean-resume-template-ats',
@@ -280,7 +301,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'No tables, no graphics, no columns. Just pure, clean, parsable data.',
         bestFor: 'Anyone applying through Workday, Greenhouse, or Lever.',
         templateId: 'ats-technical-cyan',
-        sampleDataKey: 'software_engineer'
+        sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-technical-cyan-preview.png'
     },
     // Global Markets (Programmatic SEO)
     {
@@ -293,7 +315,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'UK CVs typically require more detail and a specific chronological structure. This template handles larger text blocks while maintaining ATS compatibility.',
         bestFor: 'Job seekers applying to roles in the United Kingdom.',
         templateId: 'ats-classic-left',
-        sampleDataKey: 'sales_executive'
+        sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-professional-navy-preview.png'
     },
     {
         slug: 'resume-format-india',
@@ -305,7 +328,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Designed to handle the high density of information typical in Indian resumes without triggering ATS clutter filters.',
         bestFor: 'Freshers and experienced professionals across India.',
         templateId: 'ats-technical-cyan',
-        sampleDataKey: 'software_engineer'
+        sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-technical-cyan-preview.png'
     },
     {
         slug: 'cv-format-dubai-uae',
@@ -317,7 +341,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'The UAE market values strong executive summaries and clear multinational experience mapping, which this layout emphasizes.',
         bestFor: 'Expatriates and local professionals applying in the UAE.',
         templateId: 'ats-executive-gold',
-        sampleDataKey: 'sales_executive'
+        sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-executive-gold-preview.png'
     },
     {
         slug: 'cv-format-south-africa',
@@ -329,7 +354,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Follows local conventions for education and reference listings while keeping the code structure machine-readable.',
         bestFor: 'Job seekers in South Africa.',
         templateId: 'ats-minimal-black',
-        sampleDataKey: 'graduate'
+        sampleDataKey: 'graduate',
+        previewImage: '/templates/ats-minimal-black-preview.png'
     },
     {
         slug: 'resume-format-australia',
@@ -341,7 +367,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Australian resumes often emphasize core competencies early. This template prioritizes a strong skills matrix.',
         bestFor: 'Professionals and tradespeople in Australia.',
         templateId: 'ats-modern-blue',
-        sampleDataKey: 'software_engineer'
+        sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-modern-blue-preview.png'
     },
     {
         slug: 'resume-format-canada',
@@ -353,7 +380,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Strict adherence to the North American chronological standard, eliminating parsing errors.',
         bestFor: 'Job seekers applying within Canada.',
         templateId: 'ats-professional-navy',
-        sampleDataKey: 'software_engineer'
+        sampleDataKey: 'software_engineer',
+        previewImage: '/templates/ats-professional-navy-preview.png'
     },
 
     // ─── Free Two-Column Designer Templates ──────────────────────────────────
@@ -367,7 +395,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Visually distinctive layout that impresses human recruiters and hiring managers at creative or modern tech companies.',
         bestFor: 'Professionals in tech, design, marketing, or sales applying to companies that prioritise design-forward candidates.',
         templateId: 'elegant-split-slate',
-        sampleDataKey: 'marketing_manager'
+        sampleDataKey: 'marketing_manager',
+        previewImage: '/templates/split-contrast-navy-preview.png'
     },
     {
         slug: 'prestige-resume-template',
@@ -379,7 +408,8 @@ export const SEO_TEMPLATES: TemplateSEO[] = [
         whyItWorks: 'Sophisticated design signals credibility. Ideal for roles where presentation and professionalism matter as much as content.',
         bestFor: 'Business professionals, consultants, lawyers, academics, and finance professionals seeking to make a strong first impression.',
         templateId: 'prestige-gold',
-        sampleDataKey: 'sales_executive'
+        sampleDataKey: 'sales_executive',
+        previewImage: '/templates/ats-professional-navy-preview.png'
     }
 ];
 

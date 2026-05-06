@@ -4,10 +4,12 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { User, Session } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { UserProfile } from '@/lib/types/user'
 
 interface AuthContextType {
     user: User | null
     session: Session | null
+    profile: UserProfile | null
     loading: boolean
     signOut: () => Promise<void>
 }
@@ -15,6 +17,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
     user: null,
     session: null,
+    profile: null,
     loading: true,
     signOut: async () => { },
 })
@@ -22,6 +25,7 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
     const [session, setSession] = useState<Session | null>(null)
+    const [profile, setProfile] = useState<UserProfile | null>(null)
     const [loading, setLoading] = useState(true)
     const router = useRouter()
 
@@ -34,19 +38,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 id: 'mock-user-id',
                 email: 'tester@example.com',
                 user_metadata: { full_name: 'Test Reviewer' },
-                app_metadata: {},
-                aud: 'authenticated',
-                created_at: new Date().toISOString()
             } as any)
-            setSession({
-                access_token: 'mock-token',
-                refresh_token: 'mock-refresh',
-                expires_in: 3600,
-                expires_at: Math.floor(Date.now() / 1000) + 3600,
-                user: { id: 'mock-user-id', email: 'tester@example.com' } as any
+            setProfile({
+                id: 'mock-user-id',
+                email: 'tester@example.com',
+                full_name: 'Test Reviewer',
+                subscription_tier: 'free',
+                billing_status: 'none'
             } as any)
             setLoading(false)
             return
+        }
+
+        const fetchProfile = async (userId: string) => {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single()
+            
+            if (!error && data) {
+                setProfile(data)
+            }
         }
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -54,9 +67,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 if (session) {
                     setUser(session.user)
                     setSession(session)
+                    await fetchProfile(session.user.id)
                 } else {
                     setUser(null)
                     setSession(null)
+                    setProfile(null)
                 }
                 setLoading(false)
             }
@@ -74,7 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, session, loading, signOut }}>
+        <AuthContext.Provider value={{ user, session, profile, loading, signOut }}>
             {children}
         </AuthContext.Provider>
     )

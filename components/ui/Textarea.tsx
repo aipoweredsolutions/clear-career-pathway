@@ -9,14 +9,28 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     ({ className, label, error, helperText, ...props }, ref) => {
+        const charCount = props.value ? String(props.value).length : 0
+        const showCount = (props as any).showCount
+        const maxLength = props.maxLength
+
         return (
-            <div className="w-full">
-                {label && (
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">
-                        {label}
-                        {props.required && <span className="text-danger-500 ml-1">*</span>}
-                    </label>
-                )}
+            <div className="w-full relative">
+                <div className="flex justify-between items-end mb-1">
+                    {label && (
+                        <label className="block text-sm font-medium text-neutral-700">
+                            {label}
+                            {props.required && <span className="text-danger-500 ml-1">*</span>}
+                        </label>
+                    )}
+                    {showCount && (
+                        <span className={cn(
+                            "text-[10px] font-black uppercase tracking-widest",
+                            maxLength && charCount >= maxLength ? "text-danger-500" : "text-neutral-400"
+                        )}>
+                            {charCount}{maxLength ? ` / ${maxLength}` : ''}
+                        </span>
+                    )}
+                </div>
                 <textarea
                     ref={ref}
                     className={cn(

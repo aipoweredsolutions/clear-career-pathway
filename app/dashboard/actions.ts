@@ -1,24 +1,14 @@
 'use server'
 
-import { createServerClient } from '@supabase/ssr'
+import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { fetchResume } from '@/app/editor/actions'
 
 export async function createResume(type: 'resume' | 'cover_letter' = 'resume') {
+    const supabase = await createClient()
     const cookieStore = await cookies()
-    const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-            cookies: {
-                get(name: string) {
-                    return cookieStore.get(name)?.value
-                },
-            },
-        }
-    )
 
     // 1. Session check with Developer Guest Mode/Bypass support
     const isMock = cookieStore.get('mock_session')?.value === 'true'
@@ -104,18 +94,7 @@ export async function createResume(type: 'resume' | 'cover_letter' = 'resume') {
 }
 
 export async function deleteResume(resumeId: string) {
-    const cookieStore = await cookies()
-    const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-            cookies: {
-                get(name: string) {
-                    return cookieStore.get(name)?.value
-                },
-            },
-        }
-    )
+    const supabase = await createClient()
 
     const { error } = await supabase
         .from('documents')
@@ -131,18 +110,8 @@ export async function deleteResume(resumeId: string) {
 }
 
 export async function duplicateResume(resumeId: string) {
+    const supabase = await createClient()
     const cookieStore = await cookies()
-    const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-            cookies: {
-                get(name: string) {
-                    return cookieStore.get(name)?.value
-                },
-            },
-        }
-    )
 
     // 1. Session check with Developer Guest Mode/Bypass support
     const isMock = cookieStore.get('mock_session')?.value === 'true'
@@ -298,4 +267,20 @@ export async function duplicateResume(resumeId: string) {
         console.error('Duplicate resume error:', error)
         return { success: false, error: error.message }
     }
+}
+
+export async function toggleResumeStatus(resumeId: string, currentStatus: boolean) {
+    const supabase = await createClient()
+
+    const { error } = await supabase
+        .from('documents')
+        .update({ is_published: !currentStatus })
+        .eq('id', resumeId)
+
+    if (error) {
+        console.error('Error toggling status:', error)
+        throw new Error('Failed to update status')
+    }
+
+    revalidatePath('/dashboard')
 }

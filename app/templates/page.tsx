@@ -249,7 +249,7 @@ export default function TemplatesGalleryPage() {
                             </div>
                             <h3 className="text-2xl font-bold text-white mb-2">No templates found</h3>
                             <p className="text-neutral-400 max-w-sm mx-auto mb-8">
-                                We couldn't find any layouts matching your criteria. Try a different search term or clear filters.
+                                We couldn&apos;t find any layouts matching your criteria. Try a different search term or clear filters.
                             </p>
                             <Button 
                                 variant="outline" 

@@ -174,6 +174,7 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
                 placeholder="e.g. Accomplished Software Engineer with 5+ years of experience..."
                 rows={6}
                 helperText="Briefly describe your professional background and key achievements."
+                {...({ showCount: true } as any)}
             />
         </div>
     )

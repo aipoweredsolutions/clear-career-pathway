@@ -93,7 +93,7 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-sky-6
                 <section className="mb-8 pl-4">
                     <p className="text-[13px] font-medium leading-relaxed text-neutral-600 border-l-[1.5px] pl-6 py-1 italic relative">
                         <span className={cn("absolute left-[-1.5px] top-0 w-[1.5px] h-full opacity-30", bgColorClass)} />
-                        "{professionalSummary.summaryText}"
+                        &quot;{professionalSummary.summaryText}&quot;
                     </p>
                 </section>
             )}

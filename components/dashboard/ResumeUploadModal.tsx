@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react'
 import {
     X, Upload, FileText, Check, AlertCircle, Loader2, Sparkles,
-    User, Briefcase, GraduationCap, List, ArrowRight, Save
+    User, Briefcase, GraduationCap, List, ArrowRight, Save, Linkedin
 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'

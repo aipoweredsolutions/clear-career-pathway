@@ -61,7 +61,7 @@ export function AIDemoSection() {
     }, [demos.length])
 
     return (
-        <section className="py-32 bg-neutral-900 overflow-hidden relative">
+        <section className="py-24 bg-neutral-900 overflow-hidden relative">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1),transparent_70%)]" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -147,25 +147,25 @@ export function AIDemoSection() {
 
 export function ComparisonSection() {
     const rows = [
-        { feature: "Professional Design", self: true, coach: true, other: "Generic" },
-        { feature: "AI Content Strategy", self: true, coach: "Extra $", other: false },
-        { feature: "ATS Optimization", self: true, coach: true, other: "Basic" },
-        { feature: "Unlimited Edits", self: true, coach: "No", other: "Extra $" },
-        { feature: "Instant Delivery", self: true, coach: "Weeks", other: true },
-        { feature: "Career Roadmap", self: true, coach: "No", other: false },
+        { feature: "Professional Design", self: true, coach: true, other: "Basic" },
+        { feature: "AI Career Storytelling", self: true, coach: "Extra $", other: "Limited" },
+        { feature: "100% ATS Parsing Guarantee", self: true, coach: true, other: "Unreliable" },
+        { feature: "Full PDF/Word Fidelity", self: true, coach: "N/A", other: "Glitches" },
+        { feature: "Unlimited Template Swaps", self: true, coach: "No", other: "Limited" },
+        { feature: "No Hidden Subscription Traps", self: true, coach: "N/A", other: "Aggressive" },
         { feature: "LinkedIn Optimization", self: true, coach: "Extra $", other: false },
-        { feature: "Application Tracker", self: true, coach: "Manual", other: "Basic" },
+        { feature: "Live Career Hub Tracker", self: true, coach: "Manual", other: "None" },
     ]
 
     return (
-        <section className="py-32 bg-white">
+        <section className="py-24 bg-white">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-20">
-                    <h2 className="text-4xl font-black text-neutral-900 mb-6 uppercase tracking-tighter">
-                        Why Clear Career Path?
+                <div className="text-center mb-12">
+                    <h2 className="text-4xl font-black text-neutral-900 mb-6 uppercase tracking-tighter italic">
+                        Outperform the Competition.
                     </h2>
-                    <p className="text-xl text-neutral-500 max-w-2xl mx-auto">
-                        We offer more than a career coach, at 1/20th of the price.
+                    <p className="text-xl text-neutral-500 max-w-2xl mx-auto font-medium">
+                        We offer 10x more strategic value than legacy resume builders at 1/20th of the cost.
                     </p>
                 </div>
 
@@ -174,12 +174,13 @@ export function ComparisonSection() {
                         <thead>
                             <tr className="bg-neutral-50">
                                 <th className="p-8 text-sm font-black uppercase tracking-widest text-neutral-400">Features</th>
-                                <th className="p-8 text-center">
+                                <th className="p-8 text-center relative">
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary-600 text-white text-[8px] font-black px-3 py-1 rounded-full shadow-xl tracking-[0.2em]">TOP CHOICE</div>
                                     <div className="mb-2 text-primary-600 font-black italic tracking-tighter text-xl">Clear Path</div>
                                     <div className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Our Service</div>
                                 </th>
                                 <th className="p-8 text-center text-sm font-black uppercase text-neutral-500 opacity-50">Career Coach</th>
-                                <th className="p-8 text-center text-sm font-black uppercase text-neutral-500 opacity-50">Other Apps</th>
+                                <th className="p-8 text-center text-sm font-black uppercase text-neutral-500 opacity-50">Legacy Builders</th>
                             </tr>
                         </thead>
                         <tbody>

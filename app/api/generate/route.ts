@@ -453,27 +453,41 @@ export async function POST(req: NextRequest) {
                 const sanitized = text.replace(/```json\n?|```/g, '').trim()
                 resultData = JSON.parse(sanitized)
             } catch (e) {
-                console.error('Gemini JSON Parse Error. Raw Text:', text)
-                throw new Error('AI returned invalid data format. Please try again.')
+                console.error('[GenerateAPI] Gemini JSON Parse Error. Raw Text:', text)
+                console.error('[GenerateAPI] Parse Exception:', e)
+                return NextResponse.json({ 
+                    error: 'AI returned malformed JSON. Our engineers have been notified.',
+                    debug: process.env.NODE_ENV === 'development' ? text : undefined
+                }, { status: 422 })
             }
         }
 
         // 7. Update Usage
-        await supabase
-            .from('user_usage')
-            .upsert({
-                user_id: user.id,
-                month_year: monthYear,
-                ai_count: currentCount + 1,
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'user_id, month_year' })
+        try {
+            const { error: usageError } = await supabase
+                .from('user_usage')
+                .upsert({
+                    user_id: user.id,
+                    month_year: monthYear,
+                    ai_count: (currentCount || 0) + 1,
+                    updated_at: new Date().toISOString()
+                }, { onConflict: 'user_id, month_year' })
+            
+            if (usageError) {
+                console.error('[GenerateAPI] Usage Update Error:', usageError)
+                // We don't throw here to avoid failing the whole request if just usage tracking fails
+            }
+        } catch (usageEx) {
+            console.error('[GenerateAPI] Usage Exception:', usageEx)
+        }
 
         return NextResponse.json({ data: resultData })
 
     } catch (error: any) {
-        console.error('AI Generation error:', error)
+        console.error('[GenerateAPI] Unhandled error:', error)
         return NextResponse.json({
-            error: error.message || 'Failed to generate content'
+            error: 'An internal server error occurred during AI generation.',
+            message: error.message || 'Unknown error'
         }, { status: 500 })
     }
 }

@@ -507,3 +507,24 @@ export async function incrementExportCount(documentId: string, format: string): 
     }
 }
 
+export async function completeOnboarding(): Promise<{ success: boolean, error?: string }> {
+    try {
+        const supabase = await getSupabase()
+        const { data } = await supabase.auth.getUser()
+        const user = data?.user
+        if (!user) return { success: false, error: 'User not authenticated' }
+
+        const { error } = await supabase
+            .from('profiles')
+            .update({ has_completed_onboarding: true })
+            .eq('id', user.id)
+
+        if (error) throw error
+
+        return { success: true }
+    } catch (err: any) {
+        console.error('[completeOnboarding] Error:', err)
+        return { success: false, error: err.message || 'Unknown error' }
+    }
+}
+

@@ -14,7 +14,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params
     const post = getPostBySlug(slug)
     if (!post) return { title: 'Post Not Found' }
-    return { title: post.title, description: post.excerpt }
+
+    const ogUrl = new URL(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.clearcareerpath.com'}/api/og`)
+    ogUrl.searchParams.set('title', post.title)
+    ogUrl.searchParams.set('description', post.excerpt)
+    ogUrl.searchParams.set('score', '99') // High score for social proof
+
+    return { 
+        title: post.title, 
+        description: post.excerpt,
+        openGraph: {
+            title: post.title,
+            description: post.excerpt,
+            images: [{ url: ogUrl.toString() }]
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.excerpt,
+            images: [ogUrl.toString()]
+        }
+    }
 }
 
 export async function generateStaticParams() {

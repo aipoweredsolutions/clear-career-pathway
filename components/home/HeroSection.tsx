@@ -6,7 +6,7 @@ import { HeroTemplateSlideshow } from './HeroTemplateSlideshow'
 
 export function HeroSection() {
     return (
-        <section className="relative min-[90vh] flex items-center overflow-hidden bg-neutral-950 pt-32 pb-40">
+        <section className="relative min-[90vh] flex items-center overflow-hidden bg-neutral-950 pt-16 pb-20">
             {/* Abstract Ambient Background */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary-900/40 blur-[120px] mix-blend-screen animate-float opacity-70 will-change-[transform,filter]" />

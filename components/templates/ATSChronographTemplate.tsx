@@ -121,7 +121,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                         {workExperience.map((job, i) => (
                             <TimelineRow
                                 key={i}
-                                date={job.startDate ? `${job.startDate.split(' ')[1] || job.startDate} — ${job.isCurrent ? 'NOW' : job.endDate.split(' ')[1] || job.endDate}` : ''}
+                                date={job.startDate ? `${job.startDate.split(' ')[1] || job.startDate} — ${job.isCurrent ? 'NOW' : (job.endDate?.split(' ')[1] || job.endDate || '')}` : ''}
                             >
                                 <h3 className="text-[13px] font-black text-neutral-900 tracking-tight leading-none mb-1">
                                     {job.jobTitle.toUpperCase()}

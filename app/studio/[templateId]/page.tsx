@@ -67,7 +67,7 @@ export default function TemplateStudioPage() {
             
             if (!element) throw new Error('Preview element not found')
 
-            const opt = {
+            const opt: any = {
                 margin: [0, 0, 0, 0],
                 filename: `Clear_Career_Path_${displayName.replace(/\s+/g, '_')}_Sample.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },

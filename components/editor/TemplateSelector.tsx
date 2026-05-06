@@ -9,16 +9,15 @@ import { templateRegistry } from '@/lib/templates/registry'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { Button } from '@/components/ui/Button'
 import { DownloadButtons } from '@/components/editor/DownloadButtons'
-import { TemplateMetadata, ResumeDocument, UserSubscription } from '@/lib/types/resume'
-import { hasPremiumAccess } from '@/lib/supabase/subscriptions'
+import { TemplateMetadata, ResumeDocument } from '@/lib/types/resume'
 import { Lock, Sparkles } from 'lucide-react'
 import { calculateTemplateMatchScore } from '@/lib/templates/matching'
+import { useAuth } from '@/components/auth/AuthProvider'
 
 interface TemplateSelectorProps {
     currentTemplateId: string
     onSelect: (templateId: string) => void
     realData?: ResumeDocument | null
-    subscription: UserSubscription | null
 }
 
 import { getMockDataForTemplate } from '@/lib/utils/template-helpers'
@@ -30,7 +29,8 @@ const getPreviewData = (templateId: string, realData?: ResumeDocument | null) =>
     return getMockDataForTemplate(templateId)
 }
 
-export function TemplateSelector({ currentTemplateId, onSelect, realData, subscription }: TemplateSelectorProps) {
+export function TemplateSelector({ currentTemplateId, onSelect, realData }: TemplateSelectorProps) {
+    const { profile } = useAuth()
     const [previewTemplate, setPreviewTemplate] = useState<TemplateMetadata | null>(null)
     const [paperSize, setPaperSize] = useState<'letter' | 'a4'>('a4')
     const [currentPage, setCurrentPage] = useState(0)
@@ -38,10 +38,18 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
     const [isMaximized, setIsMaximized] = useState(false)
     const contentRef = React.useRef<HTMLDivElement>(null)
 
+    const isPro = profile?.subscription_tier === 'pro' || profile?.subscription_tier === 'enterprise'
+
     const handleSelect = () => {
         if (previewTemplate) {
-            if (previewTemplate.isPremium && !hasPremiumAccess(subscription)) {
-                toast.error('This is a premium template. Please upgrade to use it.')
+            if (previewTemplate.isPremium && !isPro) {
+                toast.error('This is a premium template. Please upgrade to Pro to unlock it.', {
+                    description: 'Get access to our full library of ATS-optimized designs.',
+                    action: {
+                        label: 'Upgrade Now',
+                        onClick: () => window.location.href = '/pricing'
+                    }
+                })
                 return
             }
             onSelect(previewTemplate.id)
@@ -69,6 +77,30 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
         setCurrentPage(0) // Reset to first page
         return () => clearTimeout(timer)
     }, [previewTemplate, paperSize, realData])
+
+    const [activeCategory, setActiveCategory] = useState<'all' | 'ats' | 'creative' | 'academic' | 'executive'>('all')
+
+    const filteredTemplates = React.useMemo(() => {
+        return templateRegistry.filter(t => {
+            if (activeCategory === 'all') return true
+            if (activeCategory === 'ats') return t.id.startsWith('ats-') || t.id === 'classic-clean'
+            if (activeCategory === 'creative') return t.id === 'elegant-split' || t.id === 'prestige' || t.id.includes('bauhaus') || t.id.includes('masthead')
+            if (activeCategory === 'academic') return t.id.includes('academia') || t.id.includes('scholar')
+            if (activeCategory === 'executive') return t.id.includes('executive') || t.id.includes('elite') || t.id.includes('stately')
+            return true
+        })
+    }, [activeCategory])
+
+    const recommendations = React.useMemo(() => {
+        if (!realData) return []
+        return templateRegistry
+            .map(t => ({ 
+                id: t.id, 
+                score: calculateTemplateMatchScore(t, realData),
+                template: t
+            }))
+            .sort((a, b) => b.score - a.score)
+    }, [realData])
 
     if (previewTemplate) {
         return (
@@ -153,7 +185,6 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
 
                         <DownloadButtons 
                             data={getPreviewData(previewTemplate.id, realData)} 
-                            subscription={subscription} 
                             variant="toolbar" 
                             className="w-auto"
                         />
@@ -166,7 +197,7 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                             onClick={handleSelect}
                             className="shadow-sm text-xs py-1.5"
                         >
-                            {previewTemplate.isPremium && !hasPremiumAccess(subscription) ? (
+                            {previewTemplate.isPremium && !isPro ? (
                                 <span className="flex items-center gap-1.5">
                                     <Lock className="w-3 h-3" />
                                     Upgrade to Use
@@ -251,17 +282,6 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
         )
     }
 
-    const recommendations = React.useMemo(() => {
-        if (!realData) return []
-        return templateRegistry
-            .map(t => ({ 
-                id: t.id, 
-                score: calculateTemplateMatchScore(t, realData),
-                template: t
-            }))
-            .sort((a, b) => b.score - a.score)
-    }, [realData])
-
     const topMatches = recommendations.filter(r => r.score >= 6).slice(0, 2).map(r => r.id)
     const magicMatch = recommendations.find(r => r.score >= 9 && r.id !== currentTemplateId)
 
@@ -292,8 +312,26 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                 </div>
             )}
 
+            {/* Category Tabs */}
+            <div className="flex flex-wrap gap-1.5 p-1 bg-neutral-100 rounded-xl border border-neutral-200">
+                {(['all', 'ats', 'executive', 'creative', 'academic'] as const).map(cat => (
+                    <button
+                        key={cat}
+                        onClick={() => setActiveCategory(cat)}
+                        className={cn(
+                            "px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all flex-1",
+                            activeCategory === cat 
+                                ? "bg-white text-neutral-900 shadow-sm ring-1 ring-neutral-200" 
+                                : "text-neutral-500 hover:text-neutral-900 hover:bg-white/50"
+                        )}
+                    >
+                        {cat}
+                    </button>
+                ))}
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
-                {templateRegistry.map((template) => {
+                {filteredTemplates.map((template) => {
                     const recommendation = recommendations.find(r => r.id === template.id)
                     const score = recommendation?.score || 0
                     const isRecommended = topMatches.includes(template.id)
@@ -318,15 +356,15 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
                             </div>
                         )}
 
-                        {/* Real Mini Preview */}
-                    <div className="w-full aspect-[210/297] bg-white rounded-lg border border-neutral-200 mb-4 overflow-hidden shadow-sm group-hover:shadow-md transition-all relative">
+                    {/* Real Mini Preview */}
+                    <div className="w-full aspect-[210/297] bg-white rounded-lg border border-neutral-200 mb-3 overflow-hidden shadow-sm group-hover:shadow-md transition-all relative">
                         {template.previewImage ? (
-                            <div className="relative w-full h-[120%] -top-[10%]">
+                            <div className="relative w-full h-full">
                                 <NextImage
                                     src={template.previewImage}
                                     alt={template.name}
                                     fill
-                                    className="object-cover object-top"
+                                    className="object-cover object-top group-hover:scale-110 transition-transform duration-700"
                                     sizes="(max-width: 400px) 50vw, 20vw"
                                 />
                             </div>
@@ -339,15 +377,20 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData, subscr
 
                         {/* Active Indicator Over Preview */}
                         {currentTemplateId === template.id && (
-                            <div className="absolute top-2 right-2 bg-primary-600 text-white rounded-full p-1.5 shadow-lg z-10 animate-in zoom-in-50 duration-200">
-                                <Check className="w-4 h-4" />
+                            <div className="absolute inset-0 bg-primary-600/5 ring-2 ring-inset ring-primary-600 z-10 animate-in fade-in duration-300" />
+                        )}
+
+                        {/* Lock Overlay for Premium Templates */}
+                        {template.isPremium && !isPro && (
+                            <div className="absolute top-2 right-2 z-30 bg-white/90 backdrop-blur-sm p-1.5 rounded-lg shadow-sm border border-neutral-100 flex items-center justify-center">
+                                <Lock className="w-3 h-3 text-neutral-400" />
                             </div>
                         )}
 
                         {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-primary-600/0 group-hover:bg-primary-600/5 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div className="bg-white/90 backdrop-blur-sm text-primary-600 font-bold text-[10px] px-3 py-1.5 rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
-                                Click to Preview
+                        <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                            <div className="bg-white/95 backdrop-blur-md text-primary-600 font-black text-[9px] uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-2xl transform translate-y-2 group-hover:translate-y-0 transition-all border border-primary-100">
+                                {template.isPremium && !isPro ? "View Details" : "Quick Preview"}
                             </div>
                         </div>
                     </div>

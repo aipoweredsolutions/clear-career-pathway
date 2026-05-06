@@ -19,8 +19,8 @@ export default function robots(): MetadataRoute.Robots {
                 ],
             },
             {
-                userAgent: ['GPTBot', 'ChatGPT-User', 'CCBot', 'anthropic-ai', 'Claude-Web', 'Google-Extended'],
-                allow: ['/', '/blog/', '/templates/', '/resume-examples/', '/samples/'],
+                userAgent: ['GPTBot', 'ChatGPT-User', 'CCBot', 'anthropic-ai', 'Claude-Web', 'Google-Extended', 'PerplexityBot'],
+                allow: ['/', '/blog/', '/templates/', '/resume-examples/', '/samples/', '/ai-integrity'],
                 disallow: ['/api/', '/editor/'],
             }
         ],

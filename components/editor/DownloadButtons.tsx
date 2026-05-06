@@ -5,40 +5,50 @@ import { toast } from 'sonner'
 import { ResumeDocument } from '@/lib/types/resume'
 import { ResumeDOCX } from '@/lib/docx/ResumeDOCX'
 import { Button } from '@/components/ui/Button'
-import { Download, FileText, Loader2 } from 'lucide-react'
+import { Download, FileText, Loader2, Lock, Clipboard, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { resumeToPlainText } from '@/lib/utils/resume-to-text'
 
-import { saveAs } from 'file-saver'
-import { UserSubscription } from '@/lib/types/resume'
-import { canExportFormat, canDownloadTemplate } from '@/lib/supabase/subscriptions'
-import { incrementExportCount } from '@/app/editor/actions'
 import { useRouter } from 'next/navigation'
-import { Lock } from 'lucide-react'
+import { useAuth } from '@/components/auth/AuthProvider'
+import { incrementExportCount } from '@/app/editor/actions'
 
 interface DownloadButtonsProps {
     data: ResumeDocument
-    subscription: UserSubscription | null
     className?: string
     variant?: 'header' | 'toolbar' | 'standalone'
     previewElementId?: string
 }
 
-export function DownloadButtons({ data, subscription, className, variant = 'header', previewElementId = 'resume-preview' }: DownloadButtonsProps) {
+export function DownloadButtons({ data, className, variant = 'header', previewElementId = 'resume-preview' }: DownloadButtonsProps) {
+    const { profile } = useAuth()
     const router = useRouter()
+    
+    const isPro = profile?.subscription_tier === 'pro' || profile?.subscription_tier === 'enterprise'
     const [downloadingDocx, setDownloadingDocx] = useState(false)
     const [downloadingPdf, setDownloadingPdf] = useState(false)
-    const fileName = `${data.personalInfo?.fullName?.replace(/\s+/g, '_') || 'resume'}`
+    const [copied, setCopied] = useState(false)
+    const defaultFileName = data.personalInfo?.fullName?.replace(/\s+/g, '_') || 'resume'
+    const [customFileName, setCustomFileName] = useState(defaultFileName)
+    const isPremiumTemplate = !['ats-professional', 'ats-minimal', 'ats-gold-standard'].includes(data.templateId)
+
+    const copyToClipboard = async () => {
+        const text = resumeToPlainText(data)
+        try {
+            await navigator.clipboard.writeText(text)
+            setCopied(true)
+            toast.success('Resume copied as plain text!')
+            setTimeout(() => setCopied(false), 2000)
+        } catch (err) {
+            toast.error('Failed to copy text.')
+        }
+    }
 
     const handleDocxDownload = async () => {
-        if (!canDownloadTemplate(data.templateId, subscription)) {
-            toast.error('This premium template requires a Pro plan or single purchase.')
+        // Check if template is premium and user is NOT pro
+        if (isPremiumTemplate && !isPro) {
+            toast.error('This premium template requires a Pro plan.')
             router.push(`/pricing?template=${data.templateId}`)
-            return
-        }
-
-        if (!canExportFormat(subscription, 'docx')) {
-            toast.error('DOCX export requires a premium credit. Redirecting to plans...')
-            setTimeout(() => router.push('/pricing'), 1500)
             return
         }
 
@@ -56,7 +66,7 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
                 return
             }
 
-            await ResumeDOCX.download(data, `${fileName}.docx`)
+            await ResumeDOCX.download(data, `${customFileName || defaultFileName}.docx`)
         } catch (error) {
             console.error('DOCX download failed:', error)
             toast.error('Failed to download DOCX. Please try again.')
@@ -66,15 +76,9 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
     }
 
     const handlePdfDownload = async () => {
-        if (!canDownloadTemplate(data.templateId, subscription)) {
-            toast.error('This premium template requires a Pro plan or single purchase.')
+        if (isPremiumTemplate && !isPro) {
+            toast.error('This premium template requires a Pro plan.')
             router.push(`/pricing?template=${data.templateId}`)
-            return
-        }
-
-        if (!canExportFormat(subscription, 'pdf')) {
-            toast.error('Full PDF download requires a premium credit. Redirecting to plans...')
-            setTimeout(() => router.push('/pricing'), 1500)
             return
         }
 
@@ -110,9 +114,9 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
             const isA4 = data.formatting?.paperSize === 'a4'
             const pdfFormat = isA4 ? 'a4' : 'letter'
 
-            const opt = {
+            const opt: any = {
                 margin: [0, 0, 0, 0], // Margins handled by template HTML
-                filename: `${fileName}.pdf`,
+                filename: `${customFileName || defaultFileName}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2,
@@ -163,100 +167,142 @@ export function DownloadButtons({ data, subscription, className, variant = 'head
 
     if (variant === 'toolbar') {
         return (
-            <div className={cn('flex items-center gap-2', className)}>
-                {/* PDF Download */}
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handlePdfDownload}
-                    disabled={downloadingPdf}
-                    className="flex-1 text-xs font-bold py-2 border-neutral-200 hover:border-red-500 hover:bg-red-50 hover:text-red-700 transition-all duration-300 group"
-                >
-                    {downloadingPdf ? (
-                        <span className="flex items-center gap-2">
-                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                            Wait...
-                        </span>
-                    ) : (
-                        <div className="flex items-center gap-1.5">
-                            {(!canExportFormat(subscription, 'pdf') || !canDownloadTemplate(data.templateId, subscription)) && <Lock className="w-3 h-3 text-red-400 group-hover:text-red-500" />}
-                            <Download className="w-3.5 h-3.5" />
-                            PDF
-                        </div>
-                    )}
-                </Button>
+            <div className={cn('flex flex-col gap-3', className)}>
+                {/* Filename Input */}
+                <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-1">Filename</label>
+                    <input 
+                        type="text" 
+                        value={customFileName}
+                        onChange={(e) => setCustomFileName(e.target.value)}
+                        placeholder="e.g. John_Doe_Resume"
+                        className="w-full bg-white border border-neutral-200 rounded-xl px-3 py-2 text-xs font-bold text-neutral-900 outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all"
+                    />
+                </div>
 
-                {/* DOCX Download */}
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleDocxDownload}
-                    disabled={downloadingDocx}
-                    className="flex-1 text-xs font-bold py-2 border-neutral-200 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 group"
-                >
-                    {downloadingDocx ? (
-                        <span className="flex items-center gap-2">
-                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                            Wait...
-                        </span>
-                    ) : (
-                        <div className="flex items-center gap-1.5">
-                            {(!canExportFormat(subscription, 'docx') || !canDownloadTemplate(data.templateId, subscription)) && <Lock className="w-3 h-3 text-blue-400 group-hover:text-blue-500" />}
-                            <FileText className="w-3.5 h-3.5" />
-                            DOCX
-                        </div>
-                    )}
-                </Button>
+                <div className="flex items-center gap-2">
+                    {/* PDF Download */}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handlePdfDownload}
+                        disabled={downloadingPdf}
+                        className="flex-1 text-xs font-bold py-2 border-neutral-200 hover:border-red-500 hover:bg-red-50 hover:text-red-700 transition-all duration-300 group"
+                    >
+                        {downloadingPdf ? (
+                            <span className="flex items-center gap-2">
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                Wait...
+                            </span>
+                        ) : (
+                            <div className="flex items-center gap-1.5">
+                                {(!isPro && isPremiumTemplate) && <Lock className="w-3 h-3 text-red-400 group-hover:text-red-500" />}
+                                <Download className="w-3.5 h-3.5" />
+                                PDF
+                            </div>
+                        )}
+                    </Button>
+
+                    {/* DOCX Download */}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleDocxDownload}
+                        disabled={downloadingDocx}
+                        className="flex-1 text-xs font-bold py-2 border-neutral-200 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 group"
+                    >
+                        {downloadingDocx ? (
+                            <span className="flex items-center gap-2">
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                Wait...
+                            </span>
+                        ) : (
+                            <div className="flex items-center gap-1.5">
+                                {(!isPro && isPremiumTemplate) && <Lock className="w-3 h-3 text-blue-400 group-hover:text-blue-500" />}
+                                <FileText className="w-3.5 h-3.5" />
+                                DOCX
+                            </div>
+                        )}
+                    </Button>
+                </div>
             </div>
         )
     }
 
     // Header variant (default)
     return (
-        <div className={cn('flex items-center gap-3', className)}>
-            {/* DOCX Download */}
-            <Button
-                variant="outline"
-                size="sm"
-                onClick={handleDocxDownload}
-                disabled={downloadingDocx}
-                className="hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 group"
-            >
-                {downloadingDocx ? (
-                    <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Generating...
-                    </>
-                ) : (
-                    <div className="flex items-center">
-                        {!canExportFormat(subscription, 'docx') && <Lock className="w-3 h-3 mr-2 text-blue-400 group-hover:text-blue-600" />}
-                        <FileText className="w-4 h-4 mr-2" />
-                        Download DOCX
-                    </div>
-                )}
-            </Button>
+        <div className={cn('flex items-center gap-4', className)}>
+            {/* Filename Input */}
+            <div className="hidden md:flex flex-col gap-1">
+                <input 
+                    type="text" 
+                    value={customFileName}
+                    onChange={(e) => setCustomFileName(e.target.value)}
+                    placeholder="Filename..."
+                    className="w-32 lg:w-48 bg-neutral-50 border border-neutral-200 rounded-lg px-3 py-1.5 text-[11px] font-bold text-neutral-900 outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-right"
+                />
+            </div>
 
-            {/* PDF Download */}
-            <Button
-                variant="primary"
-                size="sm"
-                onClick={handlePdfDownload}
-                disabled={downloadingPdf}
-                className="shadow-lg shadow-primary-200 transition-all duration-300 group"
-            >
-                {downloadingPdf ? (
-                    <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Generating...
-                    </>
-                ) : (
-                    <div className="flex items-center">
-                        {(!canExportFormat(subscription, 'pdf') || !canDownloadTemplate(data.templateId, subscription)) && <Lock className="w-3 h-3 mr-2 text-white/70" />}
-                        <Download className="w-4 h-4 mr-2" />
-                        Download PDF
-                    </div>
-                )}
-            </Button>
+            <div className="flex items-center gap-2">
+                {/* DOCX Download */}
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleDocxDownload}
+                    disabled={downloadingDocx}
+                    className="hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all duration-300 group"
+                >
+                    {downloadingDocx ? (
+                        <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Generating...
+                        </>
+                    ) : (
+                        <div className="flex items-center">
+                            {!isPro && isPremiumTemplate && <Lock className="w-3 h-3 mr-2 text-blue-400 group-hover:text-blue-600" />}
+                            <FileText className="w-4 h-4 mr-2" />
+                            DOCX
+                        </div>
+                    )}
+                </Button>
+
+                {/* PDF Download */}
+                <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={handlePdfDownload}
+                    disabled={downloadingPdf}
+                    className="shadow-lg shadow-primary-200 transition-all duration-300 group"
+                >
+                    {downloadingPdf ? (
+                        <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Generating...
+                        </>
+                    ) : (
+                        <div className="flex items-center">
+                            {!isPro && isPremiumTemplate && <Lock className="w-3 h-3 mr-2 text-white/70" />}
+                            <Download className="w-4 h-4 mr-2" />
+                            PDF
+                        </div>
+                    )}
+                </Button>
+
+                {/* Copy Plain Text */}
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={copyToClipboard}
+                    className="text-neutral-500 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300"
+                    title="Copy as Plain Text (for application portals)"
+                >
+                    {copied ? (
+                        <Check className="w-4 h-4 text-green-500" />
+                    ) : (
+                        <Clipboard className="w-4 h-4" />
+                    )}
+                </Button>
+            </div>
         </div>
     )
 }

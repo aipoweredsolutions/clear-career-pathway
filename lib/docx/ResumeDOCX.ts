@@ -87,11 +87,11 @@ export class ResumeDOCX {
                             margins: { top: 400, bottom: 400, left: 300, right: 300 },
                             children: [
                                 new Paragraph({
-                                    children: [new TextRun({ text: data.personalInfo?.fullName || '', bold: true, size: 32, color: 'FFFFFF' })],
+                                    children: [new TextRun({ text: data.personalInfo?.fullName || '', bold: true, size: 60, color: 'FFFFFF' })],
                                     alignment: AlignmentType.CENTER,
                                 }),
                                 new Paragraph({
-                                    children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: 'FFFFFF', size: 18 })],
+                                    children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: 'FFFFFF', size: 16 })],
                                     alignment: AlignmentType.CENTER,
                                     spacing: { after: 400 },
                                 }),
@@ -347,7 +347,7 @@ export class ResumeDOCX {
                     text: text.toUpperCase(),
                     bold: true,
                     color: theme.primary,
-                    size: 24,
+                    size: 18,
                 })
             ],
             border: {
@@ -360,7 +360,7 @@ export class ResumeDOCX {
     private static standardSectionHeading(text: string, theme: DOCXTheme): Paragraph {
         return new Paragraph({
             children: [
-                new TextRun({ text: text.toUpperCase(), bold: true, color: theme.primary, size: 24 })
+                new TextRun({ text: text.toUpperCase(), bold: true, color: theme.primary, size: 18 })
             ],
             border: {
                 bottom: { color: theme.primary, space: 1, style: BorderStyle.SINGLE, size: 2 },

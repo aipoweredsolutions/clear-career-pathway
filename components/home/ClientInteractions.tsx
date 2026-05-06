@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useMemo, Suspense } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import NextImage from 'next/image'
 import { Filter, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { templateRegistry } from '@/lib/templates/registry'
@@ -106,9 +107,9 @@ export function TemplateGallery() {
     }, [])
 
     return (
-        <section id="templates" className="py-24 bg-neutral-50">
+        <section id="templates" className="py-20 bg-neutral-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
+                <div className="text-center mb-10">
                     <h2 className="text-3xl font-bold text-neutral-900 mb-4 font-serif">Curated Template Gallery</h2>
                     <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
                         Choose from our collection of unique, professionally designed layouts. Customize colors to match your personal brand.
@@ -136,8 +137,17 @@ export function TemplateGallery() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredTemplates.map((template) => (
                         <div key={template.id} className="group glass rounded-[2rem] overflow-hidden hover:shadow-[0_40px_100px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 border border-neutral-100 flex flex-col">
-                            <div className="relative bg-neutral-50 overflow-hidden cursor-pointer group/preview-box m-4 rounded-[1.5rem]" style={{ aspectRatio: '210/297' }} onClick={() => handlePreview(template.id)}>
-                                <TemplateThumbnail template={template} activeColorId={getActiveColor(template.id, template.colors || [])} className="pointer-events-none group-hover/preview-box:scale-105 transition-transform duration-700" />
+                            <div className="relative bg-neutral-100 overflow-hidden cursor-pointer group/preview-box m-4 rounded-[1.5rem]" style={{ aspectRatio: '210/297' }} onClick={() => handlePreview(template.id)}>
+                                {template.previewImage ? (
+                                    <NextImage 
+                                        src={template.previewImage}
+                                        alt={template.name}
+                                        fill
+                                        className="object-cover object-top group-hover/preview-box:scale-110 transition-transform duration-700"
+                                    />
+                                ) : (
+                                    <TemplateThumbnail template={template} activeColorId={getActiveColor(template.id, template.colors || [])} className="pointer-events-none group-hover/preview-box:scale-105 transition-transform duration-700" />
+                                )}
                                 <div className="absolute inset-0 bg-neutral-950/0 group-hover/preview-box:bg-neutral-950/40 transition-all duration-500 flex items-center justify-center opacity-0 group-hover/preview-box:opacity-100 z-10 pointer-events-none group-hover/preview-box:pointer-events-auto">
                                     <button onClick={(e) => { e.stopPropagation(); handlePreview(template.id) }} className="bg-white text-neutral-950 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl transform translate-y-8 group-hover/preview-box:translate-y-0 transition-all duration-500 hover:scale-110 active:scale-95">Quick Preview</button>
                                 </div>
@@ -212,7 +222,7 @@ export function FAQSection() {
     return (
         <div className="grid gap-6">
             {faqs.map((faq, i) => (
-                <div key={i} className={cn("group p-10 rounded-[2.5rem] border transition-all duration-500 cursor-pointer overflow-hidden relative", expandedFaq === i ? "border-primary-100 bg-primary-50/20 shadow-2xl shadow-primary-100/20" : "border-neutral-100 bg-white hover:border-neutral-200")} onClick={() => toggleFaq(i)}>
+                <div key={i} className={cn("group p-8 rounded-[2.5rem] border transition-all duration-500 cursor-pointer overflow-hidden relative", expandedFaq === i ? "border-primary-100 bg-primary-50/20 shadow-2xl shadow-primary-100/20" : "border-neutral-100 bg-white hover:border-neutral-200")} onClick={() => toggleFaq(i)}>
                     <h4 className="text-2xl font-black text-neutral-950 flex justify-between items-center tracking-tight">
                         {faq.q}
                         <span className={cn("w-10 h-10 rounded-full flex items-center justify-center border border-neutral-200 transition-all text-neutral-400", expandedFaq === i ? "rotate-45 bg-primary-600 text-white border-primary-600" : "group-hover:bg-neutral-50")}>+</span>

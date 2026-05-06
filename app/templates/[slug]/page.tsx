@@ -78,13 +78,39 @@ export default async function TemplateLandingPage({ params }: Props) {
             }
         }))
     } : null
+    const breadcrumbLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.clearcareerpath.com" },
+            { "@type": "ListItem", "position": 2, "name": "Resume Examples", "item": "https://www.clearcareerpath.com/resume-examples" },
+            { "@type": "ListItem", "position": 3, "name": template.title, "item": `https://www.clearcareerpath.com/templates/${template.slug}` }
+        ]
+    }
 
+    const imageLd = template.previewImage ? {
+        "@context": "https://schema.org",
+        "@type": "ImageObject",
+        "contentUrl": `https://www.clearcareerpath.com${template.previewImage}`,
+        "description": `Preview of the ${template.name} resume layout`,
+        "name": template.name
+    } : null
     return (
         <div className="min-h-screen bg-[#FDFDFD] pt-24 pb-20 overflow-hidden">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+            />
+            {imageLd && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(imageLd) }}
+                />
+            )}
             {faqLd && (
                 <script
                     type="application/ld+json"
@@ -109,7 +135,7 @@ export default async function TemplateLandingPage({ params }: Props) {
                             <p className="text-xl text-neutral-500 leading-relaxed mb-8 font-bold">
                                 {template.description}
                             </p>
-                            <Link href="/editor/setup">
+                            <Link href={`/editor/setup?template=${template.templateId}`}>
                                 <Button size="xl" className="font-black h-16 px-10 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform bg-primary-600 hover:bg-primary-700 text-white">
                                     Use This Template <ArrowRight className="w-6 h-6 ml-3" />
                                 </Button>
@@ -180,7 +206,7 @@ export default async function TemplateLandingPage({ params }: Props) {
                                 
                                 {/* Overlay CTA */}
                                 <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-neutral-900 via-neutral-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-12 pointer-events-none">
-                                    <Link href="/editor/setup" className="pointer-events-auto">
+                                    <Link href={`/editor/setup?template=${template.templateId}`} className="pointer-events-auto">
                                         <Button size="lg" variant="secondary" className="shadow-2xl font-black tracking-widest uppercase text-xs">
                                             Build With This Template
                                         </Button>

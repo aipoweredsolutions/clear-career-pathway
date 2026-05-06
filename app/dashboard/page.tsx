@@ -2,9 +2,10 @@ import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { redirect } from 'next/navigation'
 import { DashboardWorkspace } from '@/components/dashboard/DashboardWorkspace'
-import { createResume } from '@/app/dashboard/actions'
+import { DashboardHeaderActions } from '@/components/dashboard/DashboardHeaderActions'
+import { DashboardEmptyStateActions } from '@/components/dashboard/DashboardEmptyStateActions'
 import { fetchUserDocuments } from '@/lib/supabase/documents'
-import { FileText, Plus, Sparkles } from 'lucide-react'
+import { Sparkles, FileText } from 'lucide-react'
 
 export default async function DashboardPage() {
     const cookieStore = await cookies()
@@ -87,20 +88,8 @@ export default async function DashboardPage() {
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4">
-                        <form action={createResume.bind(null, 'resume')}>
-                            <button type="submit" className="group h-16 px-10 bg-white border-2 border-primary-100 text-primary-600 rounded-2xl hover:border-primary-600 transition-all flex items-center gap-3 font-black text-xs uppercase tracking-widest shadow-xl shadow-primary-900/5">
-                                <Plus className="w-5 h-5 transition-transform group-hover:rotate-90 group-hover:scale-110" />
-                                New Resume
-                            </button>
-                        </form>
-                        <form action={createResume.bind(null, 'cover_letter')}>
-                            <button type="submit" className="group h-16 px-10 bg-primary-600 text-white rounded-2xl hover:bg-primary-700 transition-all flex items-center gap-3 font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary-600/30">
-                                <FileText className="w-5 h-5 transition-transform group-hover:translate-y-[-2px]" />
-                                AI Cover Letter
-                            </button>
-                        </form>
-                    </div>
+                    <DashboardHeaderActions />
+
                 </div>
 
                 {fetchError && (
@@ -133,18 +122,8 @@ export default async function DashboardPage() {
                         <p className="text-xl text-neutral-500 mb-12 max-w-lg mx-auto font-bold leading-relaxed">
                             You haven&apos;t created any documents yet. Launch your high-performance career with our AI-powered workspace.
                         </p>
-                        <div className="flex flex-col sm:flex-row justify-center gap-6">
-                            <form action={createResume.bind(null, 'resume')}>
-                                <button className="h-16 px-10 bg-white border-2 border-neutral-200 text-neutral-900 rounded-2xl hover:border-primary-600 transition-all font-black text-xs uppercase tracking-widest shadow-xl">
-                                    Create First Resume
-                                </button>
-                            </form>
-                            <form action={createResume.bind(null, 'cover_letter')}>
-                                <button className="h-16 px-10 bg-primary-600 text-white rounded-2xl hover:bg-primary-700 transition-all font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary-600/30">
-                                    AI Cover Letter
-                                </button>
-                            </form>
-                        </div>
+                        <DashboardEmptyStateActions />
+
                     </div>
                 )}
             </div>

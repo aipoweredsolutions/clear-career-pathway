@@ -2,10 +2,12 @@
 
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
-import { FileText, MoreVertical, Trash2, Edit, Calendar, Plus, Copy } from 'lucide-react'
+import { FileText, MoreVertical, Trash2, Edit, Calendar, Plus, Copy, Globe, Shield } from 'lucide-react'
 import { ResumeDocument } from '@/lib/types/resume'
-import { deleteResume, createResume, duplicateResume } from '@/app/dashboard/actions'
+import { deleteResume, createResume, duplicateResume, toggleResumeStatus } from '@/app/dashboard/actions'
 import { UploadResumeCard } from './UploadResumeCard'
+import { toast } from 'sonner'
+import { cn } from '@/lib/utils'
 
 interface ResumeGridProps {
     resumes: ResumeDocument[]
@@ -57,6 +59,16 @@ export function ResumeGrid({ resumes }: ResumeGridProps) {
 
                     {/* Card Content */}
                     <div className="p-5 flex flex-col flex-1">
+                        <div className="flex justify-between items-start mb-1">
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className={cn(
+                                    "text-[9px] font-black uppercase tracking-[0.1em] px-1.5 py-0.5 rounded",
+                                    resume.isPublished ? "bg-green-100 text-green-700" : "bg-neutral-100 text-neutral-500"
+                                )}>
+                                    {resume.isPublished ? 'Published' : 'Draft'}
+                                </span>
+                            </div>
+                        </div>
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="font-semibold text-neutral-900 truncate pr-2" title={resume.title}>
                                 {resume.title || (resume.documentType === 'cover_letter' ? 'Untitled Cover Letter' : 'Untitled Resume')}
@@ -68,11 +80,41 @@ export function ResumeGrid({ resumes }: ResumeGridProps) {
                                 </button>
                             </form>
                             {/* Duplicate Button */}
-                            <form action={async (formData: FormData) => { await duplicateResume(resume.id || '') }}>
-                                <button type="submit" className="text-neutral-400 hover:text-primary-600 transition-colors p-1" title="Duplicate Resume">
-                                    <Copy className="w-4 h-4" />
-                                </button>
-                            </form>
+                            <button 
+                                onClick={async () => {
+                                    toast.promise(duplicateResume(resume.id || ''), {
+                                        loading: 'Duplicating document...',
+                                        success: (result) => {
+                                            if (result.success) return 'Document duplicated!'
+                                            throw new Error(result.error || 'Failed to duplicate')
+                                        },
+                                        error: (err) => err.message
+                                    })
+                                }}
+                                className="text-neutral-400 hover:text-primary-600 transition-colors p-1" 
+                                title="Duplicate Resume"
+                            >
+                                <Copy className="w-4 h-4" />
+                            </button>
+
+                            {/* Status Toggle */}
+                            <button 
+                                onClick={async () => {
+                                    const nextStatus = !resume.isPublished
+                                    toast.promise(toggleResumeStatus(resume.id || '', !!resume.isPublished), {
+                                        loading: 'Updating status...',
+                                        success: nextStatus ? 'Set to Published!' : 'Set to Draft!',
+                                        error: 'Failed to update status'
+                                    })
+                                }}
+                                className={cn(
+                                    "transition-colors p-1",
+                                    resume.isPublished ? "text-green-500 hover:text-green-700" : "text-neutral-400 hover:text-neutral-600"
+                                )}
+                                title={resume.isPublished ? 'Set to Draft' : 'Mark as Final/Published'}
+                            >
+                                {resume.isPublished ? <Globe className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
+                            </button>
                         </div>
 
                         <p className="text-sm text-neutral-500 mb-4 flex-1">

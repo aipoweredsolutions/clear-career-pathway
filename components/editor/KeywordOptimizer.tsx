@@ -11,6 +11,8 @@ import {
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 
+import { useAuth } from '@/components/auth/AuthProvider'
+
 interface KeywordAnalysis {
     matchScore: number
     strengths: string[]
@@ -30,6 +32,8 @@ interface KeywordOptimizerProps {
 }
 
 export function KeywordOptimizer({ data, onUpdate, isOpen, onClose }: KeywordOptimizerProps) {
+    const { profile } = useAuth()
+    const isPro = profile?.subscription_tier === 'pro' || profile?.subscription_tier === 'enterprise'
     const [jobDescription, setJobDescription] = useState('')
     const [analysis, setAnalysis] = useState<KeywordAnalysis | null>(null)
     const [loading, setLoading] = useState(false)
@@ -198,7 +202,19 @@ export function KeywordOptimizer({ data, onUpdate, isOpen, onClose }: KeywordOpt
                     className="w-full h-32 bg-white/5 border border-white/10 rounded-2xl p-4 text-sm text-white/80 placeholder-white/20 resize-none focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/30 transition-all duration-200 font-medium leading-relaxed"
                 />
                 <button
-                    onClick={handleAnalyze}
+                    onClick={() => {
+                        if (!isPro) {
+                            toast.error('The Keyword Scanner is a Pro feature.', {
+                                description: 'Upgrade to analyze job descriptions and optimize your resume.',
+                                action: {
+                                    label: 'Upgrade',
+                                    onClick: () => window.location.href = '/pricing'
+                                }
+                            })
+                            return
+                        }
+                        handleAnalyze()
+                    }}
                     disabled={loading || !jobDescription.trim()}
                     className={cn(
                         "mt-3 w-full flex items-center justify-center gap-2 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-300",
@@ -216,10 +232,33 @@ export function KeywordOptimizer({ data, onUpdate, isOpen, onClose }: KeywordOpt
                         <>
                             <Brain className="w-4 h-4" />
                             Analyze & Optimize
+                            {!isPro && <Sparkles className="w-3 h-3 ml-1 text-amber-400" />}
                         </>
                     )}
                 </button>
             </div>
+
+            {/* ── Pro Gate Overlay ── */}
+            {!isPro && !analysis && (
+                <div className="absolute inset-x-0 bottom-0 top-[260px] bg-[#0f0f12]/80 backdrop-blur-md z-50 flex flex-col items-center justify-center p-8 text-center border-t border-white/5">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center mb-6 shadow-xl shadow-amber-500/20 rotate-3">
+                        <Sparkles className="w-8 h-8 text-white" />
+                    </div>
+                    <h4 className="text-xl font-black text-white uppercase italic tracking-tight mb-2">Pro Keyword Scanner</h4>
+                    <p className="text-white/40 text-xs font-medium leading-relaxed mb-8 max-w-[280px]">
+                        Unlock our proprietary AI engine to match your resume against any job description with 99.9% accuracy.
+                    </p>
+                    <div className="space-y-3 w-full">
+                        <button 
+                            className="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 border-none font-black uppercase tracking-widest text-[10px] h-12 shadow-xl shadow-amber-500/10 rounded-xl transition-all"
+                            onClick={() => window.location.href = '/pricing'}
+                        >
+                            Upgrade to Unlock
+                        </button>
+                        <p className="text-[9px] font-bold text-white/20 uppercase tracking-[0.2em]">Unlimited AI Analysis • $12/mo</p>
+                    </div>
+                </div>
+            )}
 
             {/* ── Loading State ── */}
             {loading && (

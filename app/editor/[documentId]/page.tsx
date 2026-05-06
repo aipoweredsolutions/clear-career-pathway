@@ -18,11 +18,14 @@ import { ResumeCoach } from '@/components/editor/ResumeCoach'
 import { KeywordOptimizer } from '@/components/editor/KeywordOptimizer'
 import { AIAssistantOverlay } from '@/components/editor/AIAssistantOverlay'
 import dynamic from 'next/dynamic'
-import { fetchResume, saveResume, fetchSubscription } from '@/app/editor/actions'
+import { fetchResume, saveResume } from '@/app/editor/actions'
 import { UserSubscription } from '@/lib/types/resume'
 import { useDebounce } from '@/lib/hooks/use-debounce'
 import { toast } from 'sonner'
 import { getMockDataForTemplate } from '@/lib/utils/template-helpers'
+import { useAuth } from '@/components/auth/AuthProvider'
+import { OnboardingWizard } from '@/components/editor/OnboardingWizard'
+import { ResumeUploadModal } from '@/components/dashboard/ResumeUploadModal'
 
 
 
@@ -31,6 +34,7 @@ function EditorContent() {
     const searchParams = useSearchParams()
     const documentId = params.documentId as string
 
+    const { profile } = useAuth()
     const [data, setData] = useState<ResumeDocument | null>(null)
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
@@ -39,12 +43,20 @@ function EditorContent() {
     const [isMaximized, setIsMaximized] = useState(false)
     const [previewMode, setPreviewMode] = useState<'html' | 'pdf' | 'split'>('pdf')
     const [scale, setScale] = useState(0.85)
-    const [subscription, setSubscription] = useState<UserSubscription | null>(null)
     const [showCoach, setShowCoach] = useState(false)
     const [showKeywords, setShowKeywords] = useState(false)
     const [showAIAssistant, setShowAIAssistant] = useState(false)
     const [leftPanelWidth, setLeftPanelWidth] = useState(50) // Percentage
     const [isResizing, setIsResizing] = useState(false)
+    const [showOnboarding, setShowOnboarding] = useState(false)
+    const [showUploadModal, setShowUploadModal] = useState(false)
+
+    // Trigger onboarding for new users
+    useEffect(() => {
+        if (profile && profile.has_completed_onboarding === false) {
+            setShowOnboarding(true)
+        }
+    }, [profile])
 
     // Initial Fetch
     useEffect(() => {
@@ -103,16 +115,11 @@ function EditorContent() {
                     return
                 }
 
-                const [fetchedData, fetchedSub] = await Promise.all([
-                    fetchResume(documentId),
-                    fetchSubscription()
-                ])
+                const fetchedData = await fetchResume(documentId)
 
                 if (fetchedData) {
                     setData(fetchedData)
                 }
-
-                setSubscription(fetchedSub)
             } catch (error) {
                 console.error("Failed to load editor data", error)
             } finally {
@@ -341,10 +348,13 @@ function EditorContent() {
                         variant="outline"
                         size="sm"
                         onClick={() => setShowTemplates(!showTemplates)}
-                        className={showTemplates ? 'bg-neutral-100' : ''}
+                        className={cn(
+                            "transition-all duration-300 gap-2 border-neutral-300 font-bold",
+                            showTemplates ? "bg-neutral-900 text-white border-neutral-900 shadow-lg" : "hover:bg-neutral-100"
+                        )}
                     >
-                        <LayoutTemplate className="w-4 h-4 mr-2" />
-                        Templates
+                        <LayoutTemplate className={cn("w-4 h-4", showTemplates ? "text-primary-400" : "text-neutral-500")} />
+                        Switch Template
                     </Button>
 
 
@@ -374,7 +384,7 @@ function EditorContent() {
                         Save
                     </Button>
 
-                    <DownloadButtons data={data} subscription={subscription} />
+                    <DownloadButtons data={data} />
                 </div>
             </header>
 
@@ -435,7 +445,7 @@ function EditorContent() {
                     {/* Control Bar */}
                     <ResumeControlBar
                         data={data}
-                        subscription={subscription}
+                        subscription={null}
                         onUpdate={setData}
                         isMaximized={isMaximized}
                         onToggleMaximize={() => setIsMaximized(!isMaximized)}
@@ -515,7 +525,6 @@ function EditorContent() {
                             currentTemplateId={data.templateId}
                             onSelect={handleTemplateSelect}
                             realData={data}
-                            subscription={subscription}
                         />
                     </div>
                 )}
@@ -542,6 +551,29 @@ function EditorContent() {
                     onUpdate={setData}
                     isOpen={showAIAssistant}
                     onClose={() => setShowAIAssistant(false)}
+                />
+
+                {/* Onboarding Wizard */}
+                <OnboardingWizard 
+                    isOpen={showOnboarding}
+                    onClose={(onboardingData) => {
+                        setShowOnboarding(false)
+                        if (onboardingData?.personalInfo?.professionalTitle) {
+                            setData(prev => prev ? {
+                                ...prev,
+                                personalInfo: {
+                                    ...prev.personalInfo,
+                                    professionalTitle: onboardingData.personalInfo?.professionalTitle || prev.personalInfo?.professionalTitle
+                                } as any
+                            } : null)
+                        }
+                    }}
+                />
+
+                {/* Resume Upload Modal */}
+                <ResumeUploadModal 
+                    isOpen={showUploadModal}
+                    onClose={() => setShowUploadModal(false)}
                 />
             </div>
         </div>

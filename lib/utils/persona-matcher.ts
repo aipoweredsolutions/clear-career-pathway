@@ -90,7 +90,7 @@ export function getMockDataForTemplate(templateId: string): ResumeDocument {
     // Global name override for consistent branding across previews
     // EXCEPT for the Gold Standard which uses its own executive persona
     const finalName = id.includes('gold-standard') 
-        ? baseData.personalInfo.fullName 
+        ? baseData.personalInfo?.fullName || 'Your Name'
         : 'Alexandra Morgan'
 
     return {

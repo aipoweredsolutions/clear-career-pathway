@@ -131,7 +131,7 @@ export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, on
                 {/* Download buttons when maximized */}
                 {isMaximized && (
                     <>
-                        <DownloadButtons data={data} subscription={subscription} variant="toolbar" />
+                        <DownloadButtons data={data} variant="toolbar" />
                         <div className="h-6 w-px bg-neutral-200" />
                     </>
                 )}
