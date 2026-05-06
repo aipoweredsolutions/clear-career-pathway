@@ -47,6 +47,20 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
 
     return (
         <Page size="A4" style={[styles.page, { padding: 40 }]}>
+            {/* Repeating header for page 2+ */}
+            <View 
+                fixed 
+                style={styles.pageHeader}
+                render={({ pageNumber }) => (
+                    pageNumber > 1 ? (
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text style={styles.pageHeaderName}>{data.personalInfo?.fullName}</Text>
+                            <View style={styles.pageHeaderLine} />
+                        </View>
+                    ) : null
+                )} 
+            />
+
             {templateId.includes('technical') ? (
                 <View style={styles.terminalHeader}>
                     <View style={styles.terminalDots}>
@@ -138,6 +152,18 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                         }}>
                             <ContactInfo data={data} styles={styles} separator="|" />
                         </View>
+                    </View>
+                </View>
+            ) : templateId.startsWith('elite-london') ? (
+                <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 20 }]}>
+                    <Text style={[styles.name, { fontSize: 36, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 8 }]}>
+                        {data.personalInfo?.fullName || 'Untitled'}
+                    </Text>
+                    <Text style={[styles.title, { fontSize: 11, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 3, marginBottom: 15, color: '#64748b' }]}>
+                        {data.personalInfo?.professionalTitle || ''}
+                    </Text>
+                    <View style={{ width: '100%', borderTopWidth: 1.5, borderColor: '#171717', paddingTop: 8, paddingBottom: 8 }}>
+                        <ContactInfo data={data} styles={styles} separator="|" />
                     </View>
                 </View>
             ) : (

@@ -12,6 +12,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General', 'Business', 'Finance', 'Tech', 'Legal', 'Healthcare', 'Education']
         },
         isPremium: true,
+        previewImage: '/templates/ats-gold-standard-gold-preview.png',
         colors: [
             { id: 'gold', name: 'Gold Standard', hex: '#b8860b' },
             { id: 'black', name: 'Classic Black', hex: '#000000' },
@@ -32,6 +33,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Management', 'Finance', 'Operations', 'Business', 'Legal', 'Healthcare']
         },
         isPremium: true,
+        previewImage: '/templates/ats-professional-navy-preview.png',
         colors: [
             { id: 'standard', name: 'Elite Black', hex: '#000000' },
             { id: 'navy', name: 'Midnight Navy', hex: '#1e3a8a' },
@@ -52,6 +54,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General']
         },
         isPremium: true,
+        previewImage: '/templates/ats-minimal-black-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
@@ -72,6 +75,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Legal', 'Finance', 'Education']
         },
         isPremium: true,
+        previewImage: '/templates/ats-classic-navy-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -92,6 +96,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Management', 'C-Suite']
         },
         isPremium: true,
+        previewImage: '/templates/ats-executive-gold-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'gold', name: 'Premium Gold', hex: '#b45309' },
@@ -112,6 +117,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Tech', 'SaaS', 'Marketing']
         },
         isPremium: true,
+        previewImage: '/templates/ats-modern-blue-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'blue', name: 'Modern Blue', hex: '#2563eb' },
@@ -132,6 +138,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Finance', 'Consulting', 'Tech', 'Legal']
         },
         isPremium: true,
+        previewImage: '/templates/ats-timeline-emerald-preview.png',
         colors: [
             { id: 'black', name: 'Elite Black', hex: '#000000' },
             { id: 'navy', name: 'Midnight Navy', hex: '#0f172a' },
@@ -152,6 +159,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Hospitality', 'Tourism', 'Service', 'F&B', 'Events']
         },
         isPremium: true,
+        previewImage: '/templates/ats-hospitality-navy-preview.png',
         colors: [
             { id: 'black', name: 'Classic Black', hex: '#000000' },
             { id: 'navy', name: 'Resort Navy', hex: '#1e3a8a' },
@@ -171,6 +179,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Software Engineering', 'System Architecture', 'DevOps', 'Data Science', 'AI']
         },
         isPremium: true,
+        previewImage: '/templates/ats-technical-cyan-preview.png',
         colors: [
             { id: 'black', name: 'Matrix Black', hex: '#000000' },
             { id: 'green', name: 'Terminal Green', hex: '#064e3b' },
@@ -191,6 +200,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Healthcare', 'Nursing', 'Medical', 'Clinical']
         },
         isPremium: true,
+        previewImage: '/templates/ats-nursing-blue-preview.png',
         colors: [
             { id: 'standard', name: 'Clinical Teal', hex: '#0f766e' },
             { id: 'blue', name: 'Scrub Blue', hex: '#1e40af' },
@@ -211,6 +221,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Education', 'Research', 'Science', 'University']
         },
         isPremium: true,
+        previewImage: '/templates/ats-academia-navy-preview.png',
         colors: [
             { id: 'standard', name: 'Oxford Slate', hex: '#334155' },
             { id: 'navy', name: 'Academic Navy', hex: '#1e3a8a' },
@@ -231,6 +242,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Education', 'Tech', 'Business', 'Research']
         },
         isPremium: true,
+        previewImage: '/templates/ats-graduate-navy-preview.png',
         colors: [
             { id: 'sky', name: 'Sky Blue', hex: '#0ea5e9' },
             { id: 'indigo', name: 'Indigo', hex: '#6366f1' },
@@ -251,6 +263,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General', 'Business', 'Finance', 'Legal', 'Healthcare', 'Education']
         },
         isPremium: true,
+        previewImage: '/templates/classic-clean-black-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
@@ -453,6 +466,80 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
+    // --- 25. ATS STERLING (Two-Column Corporate) ---
+    {
+        id: 'ats-sterling',
+        name: 'Canyon Corporate',
+        description: 'A polished two-column corporate template inspired by Fortune 500 executive résumés. Features a bold header with professional title in small caps, a vertical divider separating main experience from a sidebar with contact details, education, and grouped core competencies. Ideal for operations directors, strategy leads, and senior management professionals.',
+        suitableFor: {
+            careerLevels: ['mid', 'senior', 'executive'],
+            jobTypes: ['corporate'],
+            industries: ['Operations', 'Management', 'Finance', 'Consulting', 'Strategy', 'Business']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'corporate', name: 'Corporate Blue', hex: '#1d4ed8' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'navy', name: 'Midnight Navy', hex: '#1e3a8a' },
+            { id: 'emerald', name: 'Deep Emerald', hex: '#047857' },
+            { id: 'slate', name: 'Cool Slate', hex: '#475569' }
+        ]
+    },
+
+    // --- 26. ELITE STERLING (Executive Single-Column) ---
+    {
+        id: 'elite-sterling',
+        name: 'Alpine Executive',
+        description: 'An ultra-premium executive template featuring a high-impact centered header, gray section accent bars, and sophisticated serif typography. This single-column layout is engineered for both visual excellence and 100% ATS readability, making it the gold standard for senior directors and C-suite leaders.',
+        suitableFor: {
+            careerLevels: ['senior', 'executive'],
+            jobTypes: ['corporate', 'management'],
+            industries: ['Operations', 'Executive Management', 'Finance', 'Tech Leadership', 'Strategy']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'executive', name: 'Executive Black', hex: '#171717' },
+            { id: 'midnight', name: 'Midnight Blue', hex: '#0f172a' },
+            { id: 'slate', name: 'Slate Gray', hex: '#334155' }
+        ]
+    },
+
+    // --- 27. ELITE HASKINS (Multipage Executive) ---
+    {
+        id: 'elite-haskins',
+        name: 'Kyoto Multipage',
+        description: 'A sophisticated multipage executive template with wide-tracked elegant serif headers and structured content flows. Features clean horizontal dividers, a grid-based skills matrix, and high information density without sacrificing visual breathing room. Perfect for established professionals with extensive experience.',
+        suitableFor: {
+            careerLevels: ['senior', 'executive', 'mid'],
+            jobTypes: ['corporate', 'management', 'academic'],
+            industries: ['Executive Leadership', 'Strategy', 'Consulting', 'Operations', 'Academic Research']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'professional', name: 'Professional Black', hex: '#111111' },
+            { id: 'navy', name: 'Executive Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Deep Charcoal', hex: '#374151' }
+        ]
+    },
+
+    // --- 28. ELITE PARKER (Modern Sans-Serif) ---
+    {
+        id: 'elite-parker',
+        name: 'Summit Modern',
+        description: 'A modern, minimalist powerhouse featuring ultra-wide tracked sans-serif headers and subtle line-based section dividers. Engineered for maximum ATS readability while providing a clean, architectural aesthetic. Ideal for tech leaders, modern corporate roles, and minimalist-leaning executives.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'technical', 'creative'],
+            industries: ['Tech', 'Marketing', 'Consulting', 'Business', 'Operations']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'modern', name: 'Modern Black', hex: '#18181b' },
+            { id: 'zinc', name: 'Cool Zinc', hex: '#52525b' },
+            { id: 'slate', name: 'Deep Slate', hex: '#334155' }
+        ]
+    },
+
     // --- 23. ELEGANT SPLIT (Two-Column, Free, Non-ATS) ---
     {
         id: 'elegant-split',
@@ -490,6 +577,23 @@ export const templateRegistry: TemplateMetadata[] = [
             { id: 'charcoal', name: 'Charcoal',        hex: '#374151' },
             { id: 'rose',     name: 'Burgundy Rose',   hex: '#9F1239' },
             { id: 'navy',     name: 'Oxford Navy',     hex: '#1e3a8a' }
+        ]
+    },
+    // --- 29. ELITE LONDON (Executive Multi-Page) ---
+    {
+        id: 'elite-london',
+        name: 'London Executive',
+        description: 'A premium, multi-page executive template inspired by elite corporate standards. Features bold all-caps headers, centered name with wide tracking, and optimized information density. Perfectly structured for professionals with extensive experience who require a multi-page layout with repeating headers.',
+        suitableFor: {
+            careerLevels: ['senior', 'executive', 'mid'],
+            jobTypes: ['corporate', 'management', 'academic'],
+            industries: ['Executive Leadership', 'Strategy', 'Consulting', 'Operations', 'Finance']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'london', name: 'London Ink', hex: '#111111' },
+            { id: 'navy', name: 'Regent Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Tower Charcoal', hex: '#374151' }
         ]
     }
 ]

@@ -30,7 +30,7 @@ export const createStyles = (templateId: string) => {
     if (isEtsyPremiumSerif) fontFamily = 'Playfair Display';
     else if (isStandardSerif) fontFamily = 'Lora';
     else if (id.includes('technical')) fontFamily = 'Courier';
-    else if (id.startsWith('ats-minimal') || id.startsWith('ats-modern')) fontFamily = 'Lato';
+    else if (id.startsWith('ats-minimal') || id.startsWith('ats-modern') || id.startsWith('elite-london')) fontFamily = 'Lato';
 
     const baseLineHeight = isEtsyPremiumSerif ? 1.45 : (isStandardSerif ? 1.35 : 1.3);
     const headingLetterSpacing = (isEtsyPremiumSerif || id.startsWith('minimal') || id.startsWith('cute') || id.startsWith('modern')) ? 1.5 : 1;
@@ -170,7 +170,7 @@ export const createStyles = (templateId: string) => {
             width: '100%',
         },
         name: {
-            fontSize: id.includes('minimal') || id.startsWith('ats-professional') || id.startsWith('classic') || id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-modern') ? 26 : 22,
+            fontSize: id.includes('minimal') || id.startsWith('ats-professional') || id.startsWith('classic') || id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-modern') ? 30 : 22,
             fontWeight: 'bold',
             color: colors.primary,
             marginBottom: id.startsWith('ats-modern') ? 10 : (id.startsWith('ats-professional') ? 2 : (id.includes('minimal') ? 4 : 6)),
@@ -178,7 +178,7 @@ export const createStyles = (templateId: string) => {
             letterSpacing: id.startsWith('classic') ? 1.5 : ((id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-gold-standard')) ? 2 : (id.startsWith('ats-executive') || id.startsWith('ats-modern') ? -0.5 : 0.5)),
         },
         title: {
-            fontSize: id.startsWith('ats-modern') ? 14 : 12,
+            fontSize: id.startsWith('ats-modern') ? 14 : 11,
             color: id.startsWith('ats-professional') ? colors.primary : colors.secondary,
             fontWeight: id.startsWith('ats-professional') ? 500 : 'bold',
             marginTop: id.startsWith('ats-modern') ? 4 : 0,
@@ -227,7 +227,7 @@ export const createStyles = (templateId: string) => {
             marginBottom: 0,
         },
         sectionTitle: {
-            fontSize: 11,
+            fontSize: 9,
             fontWeight: 'bold',
             color: colors.primary,
             textTransform: 'uppercase',
@@ -264,7 +264,7 @@ export const createStyles = (templateId: string) => {
             marginBottom: 2,
         },
         jobTitle: {
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 'bold',
             color: colors.primary,
             fontStyle: id.startsWith('ats-classic') ? 'italic' : 'normal',
@@ -335,6 +335,28 @@ export const createStyles = (templateId: string) => {
             fontSize: 8,
             color: '#94a3b8',
             opacity: 0.5,
+        },
+        pageHeader: {
+            position: 'absolute',
+            top: 20,
+            left: containerPaddingX,
+            right: containerPaddingX,
+            flexDirection: 'column',
+            alignItems: 'center',
+            zIndex: 100,
+        },
+        pageHeaderName: {
+            fontSize: 10,
+            fontWeight: 'bold',
+            color: colors.primary,
+            textTransform: 'uppercase',
+            letterSpacing: 1.5,
+            marginBottom: 4,
+        },
+        pageHeaderLine: {
+            height: 0.5,
+            width: '100%',
+            backgroundColor: '#e2e8f0',
         },
     })
 }

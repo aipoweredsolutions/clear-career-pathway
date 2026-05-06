@@ -44,10 +44,15 @@ const ATSEditorialTemplate = dynamic(() => import('./ATSEditorialTemplate').then
 const ATSGridlineTemplate = dynamic(() => import('./ATSGridlineTemplate').then(m => m.ATSGridlineTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSMetroTemplate = dynamic(() => import('./ATSMetroTemplate').then(m => m.ATSMetroTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSClassicLeftTemplate = dynamic(() => import('./ATSClassicLeftTemplate').then(m => m.ATSClassicLeftTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const ATSSterlingTemplate = dynamic(() => import('./ATSSterlingTemplate').then(m => m.ATSSterlingTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 
 // Non-ATS Elegant Two-Column Templates
 const ElegantSplitTemplate = dynamic(() => import('./ElegantSplitTemplate').then(m => m.ElegantSplitTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const PrestigeTemplate = dynamic(() => import('./PrestigeTemplate').then(m => m.PrestigeTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteSterlingTemplate = dynamic(() => import('./EliteSterlingTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteHaskinsTemplate = dynamic(() => import('./EliteHaskinsTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteParkerTemplate = dynamic(() => import('./EliteParkerTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteLondonTemplate = dynamic(() => import('./EliteLondonTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
 
 interface TemplateRendererProps {
     templateId: string
@@ -253,8 +258,45 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: ClassicCleanTemplate, props: { accentColor } }
     }
 
+    if (id.startsWith('ats-sterling')) {
+        let accentColor = 'text-blue-700'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-emerald')) accentColor = 'text-emerald-700'
+        if (id.includes('-slate')) accentColor = 'text-slate-600'
+        return { Component: ATSSterlingTemplate, props: { accentColor } }
+    }
+
     if (id.startsWith('ats-classic-left')) {
         return { Component: ATSClassicLeftTemplate, props: {} }
+    }
+
+    if (id.startsWith('elite-sterling')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-midnight')) accentColor = 'text-slate-900'
+        if (id.includes('-slate')) accentColor = 'text-slate-700'
+        return { Component: EliteSterlingTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('elite-haskins')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        return { Component: EliteHaskinsTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('elite-parker')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-zinc')) accentColor = 'text-zinc-600'
+        if (id.includes('-slate')) accentColor = 'text-slate-700'
+        return { Component: EliteParkerTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('elite-london')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        return { Component: EliteLondonTemplate, props: { accentColor } }
     }
 
     // --- Non-ATS Elegant Two-Column Templates ---
