@@ -40,6 +40,19 @@ export const SkillsSection = ({ data, styles, templateId, index, isSidebar = fal
                         </View>
                     ))}
                 </View>
+            ) : templateId.startsWith('elite-london') ? (
+                <View style={{ gap: 8 }}>
+                    {groupEntries.map(([type, list]: [string, any], i: number) => (
+                        <View key={i} style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                            <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#171717', width: 90, textTransform: 'capitalize' }}>{type}:</Text>
+                            <View style={{ flex: 1 }}>
+                                <Text style={{ fontSize: 10, color: '#525252', lineHeight: 1.5 }}>
+                                    {list.join(', ')}
+                                </Text>
+                            </View>
+                        </View>
+                    ))}
+                </View>
             ) : groupEntries.length === 1 && groupEntries[0][0] === 'General' ? (
                 <View style={styles.skillRow}>
                     {(groupEntries[0][1] as string[]).map((skill: string, i: number) => (

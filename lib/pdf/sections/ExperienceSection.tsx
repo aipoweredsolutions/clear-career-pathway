@@ -32,6 +32,31 @@ export const ExperienceSection = ({ data, styles, templateId, index }: any) => {
                     )
                 }
 
+                if (templateId.startsWith('elite-london')) {
+                    return (
+                        <View key={i} style={styles.experienceItem} wrap={false}>
+                            <View style={[styles.experienceHeader, { marginBottom: 4 }]}>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={[styles.jobTitle, { fontSize: 13, textTransform: 'none' }]}>
+                                        {exp.jobTitle}
+                                        <Text style={{ color: '#a3a3a3', fontWeight: 'normal', fontStyle: 'italic', fontSize: 10 }}>   {exp.startDate} — {exp.isCurrent ? 'Present' : exp.endDate}</Text>
+                                    </Text>
+                                </View>
+                                <Text style={[styles.company, { textAlign: 'right', fontSize: 11 }]}>
+                                    {exp.companyName}
+                                    {exp.location ? <Text style={{ color: '#a3a3a3', fontWeight: 'normal' }}> · {exp.location}</Text> : ''}
+                                </Text>
+                            </View>
+                            {exp.roleDescription && (
+                                <Text style={[styles.description, { fontStyle: 'italic', marginBottom: 4, color: '#525252' }]}>{exp.roleDescription}</Text>
+                            )}
+                            {exp.achievements?.map((ach: any, j: number) => (
+                                <BulletPoint key={j} text={ach.achievementText} styles={styles} />
+                            ))}
+                        </View>
+                    )
+                }
+
                 return (
                     <View key={i} style={styles.experienceItem} wrap={false}>
                         <View style={styles.experienceHeader}>

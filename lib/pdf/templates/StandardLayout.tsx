@@ -155,16 +155,15 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                     </View>
                 </View>
             ) : templateId.startsWith('elite-london') ? (
-                <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 20 }]}>
-                    <Text style={[styles.name, { fontSize: 36, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 8 }]}>
+                <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 25, alignItems: 'center', textAlign: 'center' }]}>
+                    <Text style={[styles.name, { fontSize: 34, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }]}>
                         {data.personalInfo?.fullName || 'Untitled'}
                     </Text>
-                    <Text style={[styles.title, { fontSize: 11, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 3, marginBottom: 15, color: '#64748b' }]}>
+                    <Text style={[styles.title, { fontSize: 10, fontWeight: 'medium', textTransform: 'uppercase', letterSpacing: 2.5, marginBottom: 12, color: '#737373' }]}>
                         {data.personalInfo?.professionalTitle || ''}
                     </Text>
-                    <View style={{ width: '100%', borderTopWidth: 1.5, borderColor: '#171717', paddingTop: 8, paddingBottom: 8 }}>
-                        <ContactInfo data={data} styles={styles} separator="|" />
-                    </View>
+                    <View style={{ width: '100%', height: 0.5, backgroundColor: '#171717', marginBottom: 10 }} />
+                    <ContactInfo data={data} styles={styles} separator="|" />
                 </View>
             ) : (
                 <View style={styles.header}>

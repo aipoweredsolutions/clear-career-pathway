@@ -29,6 +29,23 @@ export const EducationSection = ({ data, styles, templateId, index }: any) => {
                     )
                 }
 
+                if (templateId.startsWith('elite-london')) {
+                    return (
+                        <View key={i} style={styles.experienceItem} wrap={false}>
+                            <View style={styles.experienceHeader}>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={[styles.jobTitle, { fontSize: 12, textTransform: 'none' }]}>{edu.degree}</Text>
+                                    <Text style={[styles.company, { fontSize: 10, marginTop: 1, opacity: 0.8 }]}>{edu.institutionName}</Text>
+                                </View>
+                                <Text style={[styles.date, { textAlign: 'right', color: '#a3a3a3' }]}>
+                                    {[edu.startYear, edu.endYear].filter(Boolean).join(' — ')}
+                                </Text>
+                            </View>
+                            {edu.description && <Text style={[styles.description, { fontStyle: 'italic', marginTop: 2, color: '#737373' }]}>{edu.description}</Text>}
+                        </View>
+                    )
+                }
+
                 return (
                     <View key={i} style={styles.experienceItem} wrap={false}>
                         <View style={styles.experienceHeader}>
