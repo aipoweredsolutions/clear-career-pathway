@@ -68,7 +68,7 @@ export function resumeToPlainText(data: ResumeDocument): string {
             const degreeLine = [edu.degree, edu.fieldOfStudy].filter(Boolean).join(' in ')
             lines.push(`${edu.institutionName} - ${degreeLine}`)
             if (edu.location) lines.push(edu.location)
-            const dateLine = [edu.startDate, edu.endDate].filter(Boolean).join(' - ')
+            const dateLine = [edu.startYear?.toString(), edu.endYear?.toString()].filter(Boolean).join(' - ')
             if (dateLine) lines.push(dateLine)
             lines.push('')
         })
@@ -82,7 +82,7 @@ export function resumeToPlainText(data: ResumeDocument): string {
         data.projects.forEach(proj => {
             lines.push(proj.projectName)
             if (proj.description) lines.push(proj.description)
-            if (proj.url) lines.push(`URL: ${proj.url}`)
+            if (proj.projectUrl) lines.push(`URL: ${proj.projectUrl}`)
             lines.push('')
         })
     }

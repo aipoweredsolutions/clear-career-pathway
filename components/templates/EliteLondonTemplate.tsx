@@ -162,7 +162,7 @@ export function EliteLondonTemplate({ data, className, accentColor = 'text-neutr
                                     <div className="text-[12px]">
                                         <span className="font-bold text-neutral-800">{edu.degree}</span>
                                         <div className="text-neutral-600 mt-0.5">{edu.institutionName}</div>
-                                        {edu.description && <div className="text-[11px] text-neutral-500 mt-1 italic">{edu.description}</div>}
+                                        {edu.achievements && <div className="text-[11px] text-neutral-500 mt-1 italic">{edu.achievements}</div>}
                                     </div>
                                     <div className="text-[11px] font-bold text-neutral-400">
                                         {[edu.startYear, edu.endYear].filter(Boolean).join(' — ')}
@@ -218,11 +218,9 @@ export function EliteLondonTemplate({ data, className, accentColor = 'text-neutr
                                     <div className="text-neutral-500 italic text-[11px]">
                                         {ref.role}{ref.organization ? `, ${ref.organization}` : ''}
                                     </div>
-                                    {(ref.contactDetails || ref.email || ref.phone) && (
+                                    {ref.contactDetails && (
                                         <div className="text-neutral-400 text-[11px] flex gap-4">
-                                            {ref.email && <span>{ref.email}</span>}
-                                            {ref.phone && <span>{ref.phone}</span>}
-                                            {ref.contactDetails && !ref.email && !ref.phone && <span>{ref.contactDetails}</span>}
+                                            <span>{ref.contactDetails}</span>
                                         </div>
                                     )}
                                 </div>
