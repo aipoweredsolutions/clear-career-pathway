@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Check, Star, ArrowRight } from 'lucide-react'
+import { Check, Star, ArrowRight, Zap } from 'lucide-react'
 import { HeroTemplateSlideshow } from './HeroTemplateSlideshow'
 
 export function HeroSection() {
@@ -46,33 +46,15 @@ export function HeroSection() {
                                 <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
                             </Link>
                             <Link
-                                href="#templates"
-                                className="group inline-flex items-center justify-center px-8 py-5 text-lg font-bold rounded-2xl text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-md"
+                                href="/onboarding"
+                                className="group inline-flex items-center justify-center gap-3 px-8 py-5 text-lg font-bold rounded-2xl text-neutral-950 bg-white hover:bg-neutral-100 transition-all duration-300 shadow-xl shadow-white/5"
                             >
-                                View Templates
+                                <Zap className="w-5 h-5 text-primary-600 group-hover:scale-110 transition-transform" />
+                                Personalize My Path
                             </Link>
                         </div>
 
-                        <div className="mt-16 flex items-center gap-6">
-                            <div className="flex -space-x-4">
-                                {[1, 2, 3, 4, 5].map(i => (
-                                    <div key={i} className="w-12 h-12 rounded-full border-2 border-neutral-900 overflow-hidden relative grayscale hover:grayscale-0 hover:scale-110 hover:z-10 transition-all duration-300">
-                                        <Image src={`https://i.pravatar.cc/150?u=${i + 20}`} alt="User" fill className="object-cover" sizes="48px" loading="eager" />
-                                    </div>
-                                ))}
-                                <div className="w-12 h-12 rounded-full border-2 border-neutral-900 bg-primary-600 flex items-center justify-center text-white text-[10px] font-black z-10">
-                                    10K+
-                                </div>
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <div className="flex gap-1">
-                                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
-                                </div>
-                                <p className="text-xs font-bold text-neutral-400 tracking-wide">
-                                    Trusted by elite professionals
-                                </p>
-                            </div>
-                        </div>
+
                     </div>
 
                     {/* Visual Right Side - Template Slideshow */}

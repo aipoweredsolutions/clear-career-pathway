@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { BLOG_POSTS } from '@/lib/constants/blog-posts'
+import { getAllPosts } from '@/lib/utils/mdx'
 import { ArrowRight, BookOpen, Calendar } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 }
 
 export default function BlogIndexPage() {
+    const BLOG_POSTS = getAllPosts()
     return (
         <div className="min-h-screen bg-[#FDFDFD] pt-32 pb-20">
             <div className="max-w-7xl mx-auto px-6">

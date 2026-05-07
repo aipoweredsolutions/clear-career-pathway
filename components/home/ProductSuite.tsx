@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { 
     LayoutTemplate, 
     Target, 
-    Sparkles, 
+    Zap, 
     TrendingUp, 
     Linkedin, 
     ArrowRight,
@@ -56,7 +56,7 @@ const products = [
         title: "AI Interview Prep",
         description: "Personalized, high-stakes interview simulator. Get real-time response strategies based on your specific resume and target role.",
         link: "/career-hub?tab=interview_prep",
-        icon: Sparkles,
+        icon: Zap,
         color: "text-purple-600",
         bgColor: "bg-purple-50",
         badge: "Preparation"

@@ -90,6 +90,7 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         if (template.id === 'real-estate-pro') return MOCK_LUXE_TEMPLATE_DATA
         if (template.id === 'trades-pro') return MOCK_SERVICE_PRO_DATA
         if (template.id === 'international-cv') return MOCK_EXECUTIVE_TEMPLATE_DATA
+        if (template.id.startsWith('elite-')) return MOCK_EXECUTIVE_DATA
         if (template.id === 'revenue-leader') return MOCK_ATS_EXECUTIVE_DATA
         if (template.id === 'classic-clean') return MOCK_LEGAL_DATA
         if (template.id === 'elegant-split') return MOCK_ATS_MODERN_DATA
@@ -97,12 +98,13 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
         return MOCK_PREVIEW_DATA
     }
 
-    const [imageError, setImageError] = React.useState(template.id === 'ats-gold-standard')
+    const isEliteOrGold = template.id === 'ats-gold-standard' || template.id.startsWith('elite-')
+    const [imageError, setImageError] = React.useState(isEliteOrGold)
 
-    // Reset error state when template changes, or force it for gold standard
+    // Reset error state when template changes
     React.useEffect(() => {
-        setImageError(template.id === 'ats-gold-standard')
-    }, [template.id])
+        setImageError(isEliteOrGold)
+    }, [template.id, isEliteOrGold])
 
     // Construct the static image path
     // Format: /templates/[id]-[color]-preview.png
@@ -126,6 +128,7 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
                     template={template}
                     colorSuffix={activeColorId ? `-${activeColorId}` : ''}
                     data={getSampleData()}
+                    force={isEliteOrGold}
                 />
             )}
 
@@ -135,11 +138,13 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
     )
 }
 
-function LazyTemplatePreview({ template, colorSuffix, data }: { template: TemplateMetadata, colorSuffix: string, data: any }) {
-    const [isVisible, setIsVisible] = React.useState(false)
+function LazyTemplatePreview({ template, colorSuffix, data, force = false }: { template: TemplateMetadata, colorSuffix: string, data: any, force?: boolean }) {
+    const [isVisible, setIsVisible] = React.useState(force)
     const ref = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {
+        if (force) return
+
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
                 // Introduce a slight delay so scrolling isn't completely blocked immediately

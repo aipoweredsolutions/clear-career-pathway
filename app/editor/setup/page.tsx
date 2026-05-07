@@ -15,13 +15,14 @@ function EditorSetupContent() {
     const templateId = searchParams.get('template') || 'classic'
     const color = searchParams.get('color')
     const sampleId = searchParams.get('sample')
+    const type = searchParams.get('type')
 
-    // If user is already logged in, redirect to create a new resume
+    // If user is already logged in, redirect to create a new resume/cover letter
     React.useEffect(() => {
         if (user) {
-            router.push(`/editor/new?template=${templateId}${color ? `&color=${color}` : ''}${sampleId ? `&sample=${sampleId}` : ''}`)
+            router.push(`/editor/new?template=${templateId}${color ? `&color=${color}` : ''}${sampleId ? `&sample=${sampleId}` : ''}${type ? `&type=${type}` : ''}`)
         }
-    }, [user, router, templateId, color, sampleId])
+    }, [user, router, templateId, color, sampleId, type])
 
     return (
         <div className="min-h-screen bg-neutral-50 flex flex-col items-center justify-center p-4">
@@ -38,12 +39,12 @@ function EditorSetupContent() {
                     </p>
 
                     <div className="space-y-4 mt-auto">
-                        <Link href={`/auth/signup?template=${templateId}${color ? `&color=${color}` : ''}${sampleId ? `&sample=${sampleId}` : ''}`} className="block">
+                        <Link href={`/auth/signup?template=${templateId}${color ? `&color=${color}` : ''}${sampleId ? `&sample=${sampleId}` : ''}${type ? `&type=${type}` : ''}`} className="block">
                             <Button size="xl" className="w-full h-16 text-lg font-bold shadow-lg shadow-primary-200">
                                 Create Account <ArrowRight className="ml-2 w-5 h-5" />
                             </Button>
                         </Link>
-                        <Link href={`/auth/login?template=${templateId}${color ? `&color=${color}` : ''}${sampleId ? `&sample=${sampleId}` : ''}`} className="block">
+                        <Link href={`/auth/login?template=${templateId}${color ? `&color=${color}` : ''}${sampleId ? `&sample=${sampleId}` : ''}${type ? `&type=${type}` : ''}`} className="block">
                             <Button variant="ghost" size="xl" className="w-full h-16 text-lg font-bold text-neutral-600">
                                 Already have an account? Log In
                             </Button>
@@ -77,7 +78,7 @@ function EditorSetupContent() {
                     </p>
 
                     <div className="space-y-4 mt-auto relative z-10">
-                        <Link href={`/editor/new?template=${templateId}${color ? `&color=${color}` : ''}${sampleId ? `&sample=${sampleId}` : ''}&guest=true`} className="block">
+                        <Link href={`/editor/new?template=${templateId}${color ? `&color=${color}` : ''}${sampleId ? `&sample=${sampleId}` : ''}${type ? `&type=${type}` : ''}&guest=true`} className="block">
                             <Button variant="secondary" size="xl" className="w-full h-16 text-lg font-bold bg-white text-neutral-900 hover:bg-neutral-100 shadow-xl">
                                 Start as Guest <ArrowRight className="ml-2 w-5 h-5" />
                             </Button>

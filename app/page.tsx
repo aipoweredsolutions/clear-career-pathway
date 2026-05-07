@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import Link from 'next/link'
-import { FileText, Download, ArrowRight, Target, Zap, LayoutTemplate, ShieldCheck, Sparkles, Cpu } from 'lucide-react'
+import { FileText, Download, ArrowRight, Target, Zap, LayoutTemplate, ShieldCheck, Cpu } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { PRICING_TIERS } from '@/lib/config/pricing'
 import { HeroSection } from '@/components/home/HeroSection'
@@ -18,15 +18,8 @@ const AIDemoSection = dynamic(
     { loading: () => <div className="py-32 bg-neutral-900" /> }
 )
 
-const ComparisonSection = dynamic(
-    () => import('@/components/home/HomeEnhancements').then(m => ({ default: m.ComparisonSection })),
-    { loading: () => <div className="py-32 bg-white" /> }
-)
 
-const IndustryKitsSection = dynamic(
-    () => import('@/components/home/IndustryKitsSection').then(m => ({ default: m.IndustryKitsSection })),
-    { loading: () => <div className="py-24 bg-neutral-50" /> }
-)
+
 
 const TemplateGallery = dynamic(
     () => import('@/components/home/ClientInteractions').then(m => ({ default: m.TemplateGallery })),
@@ -112,7 +105,7 @@ export default function Home() {
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
                             { step: '01', title: 'Data Extraction', desc: 'Our machine-learning parser extracts your career history with 99.9% accuracy. No more manual entry.', icon: <ShieldCheck className="w-10 h-10 text-primary-600" />, color: 'bg-primary-50' },
-                            { step: '02', title: 'AI Enhancement', desc: 'Real-time optimization turns basic bullet points into achievement-driven statements.', icon: <Sparkles className="w-10 h-10 text-indigo-600" />, color: 'bg-indigo-50' },
+                            { step: '02', title: 'AI Enhancement', desc: 'Real-time optimization turns basic bullet points into achievement-driven statements.', icon: <Zap className="w-10 h-10 text-indigo-600" />, color: 'bg-indigo-50' },
                             { step: '03', title: 'ATS Distribution', desc: 'Export clean, machine-readable formats (PDF, DOCX) guaranteed to score 95+ on all major ATS.', icon: <Download className="w-10 h-10 text-emerald-600" />, color: 'bg-emerald-50' }
                         ].map((item, idx) => (
                             <div key={idx} className="group p-10 rounded-[2.5rem] bg-neutral-50 border border-neutral-100 hover:bg-white hover:shadow-2xl hover:border-primary-100 transition-all duration-500">
@@ -135,9 +128,8 @@ export default function Home() {
             <AIDemoSection />
 
 
-            <IndustryKitsSection />
 
-            <ComparisonSection />
+
 
             {/* Pricing Section */}
             <section id="pricing" className="py-24 bg-neutral-50 border-t border-neutral-200">
@@ -177,9 +169,9 @@ export default function Home() {
                                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-primary-200 to-white">Your Path?</span>
                             </h3>
                             <p className="text-neutral-200 mb-14 text-xl md:text-2xl max-w-2xl mx-auto font-medium leading-relaxed">
-                                Join 10,000+ top-tier professionals who have already claimed their seat at the table.
+                                Join the elite professionals who are already using the platform to claim their seat at the table.
                             </p>
-                            <Link href="/editor/setup" className="btn-premium btn-premium-primary !px-16 !py-8 text-xl group inline-flex shadow-2xl shadow-primary-900/40">
+                            <Link href="/onboarding" className="btn-premium btn-premium-primary !px-16 !py-8 text-xl group inline-flex shadow-2xl shadow-primary-900/40">
                                 Get Started for Free
                                 <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
                             </Link>

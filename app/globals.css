@@ -191,4 +191,13 @@
   .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-neutral-300 rounded-full hover:bg-neutral-400 transition-colors;
   }
+
+  /* No Scrollbar Utility */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }

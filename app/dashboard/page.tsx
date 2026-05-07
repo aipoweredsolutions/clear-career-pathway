@@ -5,7 +5,7 @@ import { DashboardWorkspace } from '@/components/dashboard/DashboardWorkspace'
 import { DashboardHeaderActions } from '@/components/dashboard/DashboardHeaderActions'
 import { DashboardEmptyStateActions } from '@/components/dashboard/DashboardEmptyStateActions'
 import { fetchUserDocuments } from '@/lib/supabase/documents'
-import { Sparkles, FileText } from 'lucide-react'
+import { Zap, FileText } from 'lucide-react'
 
 export default async function DashboardPage() {
     const cookieStore = await cookies()
@@ -42,18 +42,21 @@ export default async function DashboardPage() {
         redirect('/auth/login')
     }
 
-    // Fetch user's resumes and subscription
+    // Fetch user's resumes, subscription, and profile
     let resumes: any[] = []
     let fetchError = null
     let subscription: any = null
+    let profile: any = null
 
     try {
-        const [docs, sub] = await Promise.all([
+        const [docs, sub, prof] = await Promise.all([
             fetchUserDocuments(supabase, session.user.id),
-            import('@/lib/supabase/subscriptions').then(m => m.fetchUserSubscription(supabase, session.user.id))
+            import('@/lib/supabase/subscriptions').then(m => m.fetchUserSubscription(supabase, session.user.id)),
+            supabase.from('profiles').select('*').eq('id', session.user.id).single()
         ])
         resumes = docs
         subscription = sub
+        profile = prof.data
     } catch (error: any) {
         console.error('Error fetching dashboard data:', error)
         fetchError = error.message
@@ -61,6 +64,12 @@ export default async function DashboardPage() {
 
     const { hasPremiumAccess } = await import('@/lib/supabase/subscriptions')
     const isPro = hasPremiumAccess(subscription)
+
+    // Onboarding Check: If they have 0 resumes and haven't seen the onboarding, send them there.
+    const hasSeenOnboarding = cookieStore.get('ccp_onboarding_completed')?.value === 'true' || profile?.has_completed_onboarding
+    if (resumes.length === 0 && !hasSeenOnboarding && !isMock) {
+        redirect('/onboarding')
+    }
 
     return (
         <div className="min-h-screen bg-white pt-24 pb-20">
@@ -70,7 +79,7 @@ export default async function DashboardPage() {
                     <div className="space-y-4">
                         <div className="flex items-center gap-2">
                             <div className="flex items-center gap-2.5 px-3 py-1 rounded-full bg-primary-50 text-primary-600 text-[10px] font-black uppercase tracking-[0.25em] w-fit">
-                                <Sparkles className="w-3.5 h-3.5 fill-primary-600/20" />
+                                <Zap className="w-3.5 h-3.5 fill-primary-600/20" />
                                 Personal Dashboard
                             </div>
                             {isPro && (
@@ -84,7 +93,11 @@ export default async function DashboardPage() {
                             My <span className="text-primary-600">Space.</span>
                         </h1>
                         <p className="max-w-lg text-lg text-neutral-500 font-bold leading-relaxed">
-                            Manage all your high-impact job search documents in one secure workspace.
+                            {profile?.career_goal === 'build' ? 'Crafting your next high-impact resume.' :
+                             profile?.career_goal === 'scan' ? 'Optimizing your resume for ATS victory.' :
+                             profile?.career_goal === 'interview' ? 'Prepping for your breakthrough interview.' :
+                             profile?.career_goal === 'track' ? 'Managing your career growth pipeline.' :
+                             'Manage all your high-impact job search documents in one secure workspace.'}
                         </p>
                     </div>
 

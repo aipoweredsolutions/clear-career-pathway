@@ -66,7 +66,8 @@ function EditorContent() {
             try {
                 // Handle "new" document creation
                 if (documentId === 'new') {
-                    const templateId = searchParams.get('template') || 'classic'
+                    const docType = searchParams.get('type') as any || 'resume'
+                    const templateId = docType === 'cover_letter' ? 'cover-letter' : (searchParams.get('template') || 'classic')
                     const sampleId = searchParams.get('sample')
                     const isGuest = searchParams.get('guest') === 'true'
 
@@ -77,6 +78,7 @@ function EditorContent() {
                             if (savedData) {
                                 const parsed = JSON.parse(savedData)
                                 parsed.templateId = templateId // Update to requested template
+                                if (docType) parsed.documentType = docType
                                 setData(parsed)
                                 setLoading(false)
                                 return
@@ -92,7 +94,8 @@ function EditorContent() {
                     let baseData: ResumeDocument = {
                         ...mockTemplateData,
                         id: 'new',
-                        title: 'New Resume',
+                        title: docType === 'cover_letter' ? 'New Cover Letter' : 'New Resume',
+                        documentType: docType,
                         createdAt: new Date().toISOString(),
                         updatedAt: new Date().toISOString()
                     }

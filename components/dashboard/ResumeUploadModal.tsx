@@ -16,11 +16,12 @@ import { useRouter } from 'next/navigation'
 interface ResumeUploadModalProps {
     isOpen: boolean
     onClose: () => void
+    initialRawText?: string
 }
 
 type Step = 'upload' | 'review_text' | 'review_structured'
 
-export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
+export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUploadModalProps) {
     const [step, setStep] = useState<Step>('upload')
     const [file, setFile] = useState<File | null>(null)
     const [isUploading, setIsUploading] = useState(false)
@@ -32,6 +33,17 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
 
     const router = useRouter()
     const fileInputRef = useRef<HTMLInputElement>(null)
+
+    // Initialize with rawText if provided
+    React.useEffect(() => {
+        if (isOpen && initialRawText) {
+            setRawText(initialRawText)
+            setStep('review_text')
+        } else if (isOpen) {
+            setStep('upload')
+            setRawText('')
+        }
+    }, [isOpen, initialRawText])
 
     if (!isOpen) return null
 
@@ -116,6 +128,28 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
     const handleSaveAndOpen = async () => {
         setIsSaving(true)
         try {
+            const supabase = createBrowserClient(
+                process.env.NEXT_PUBLIC_SUPABASE_URL!,
+                process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+            )
+            const { data: { user } } = await supabase.auth.getUser()
+
+            if (!user) {
+                // For guests, store data in localStorage and redirect
+                const guestData = {
+                    ...structuredData,
+                    id: 'new',
+                    documentType: 'resume',
+                    title: 'Imported Resume',
+                    templateId: 'classic'
+                }
+                localStorage.setItem('guest_resume_data', JSON.stringify(guestData))
+                toast.success('Resume parsed successfully!')
+                router.push('/editor/new?guest=true')
+                onClose()
+                return
+            }
+
             const response = await fetch('/api/dashboard/import', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

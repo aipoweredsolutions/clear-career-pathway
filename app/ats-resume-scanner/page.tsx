@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/Button'
-import { FileText, ScanSearch, AlertTriangle, CheckCircle2, Loader2, ArrowRight, XCircle } from 'lucide-react'
+import { FileText, ScanSearch, AlertTriangle, CheckCircle2, Loader2, ArrowRight, XCircle, Upload } from 'lucide-react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ResumeUploadModal } from '@/components/dashboard/ResumeUploadModal'
 
 export default function ATSScannerPage() {
     const [text, setText] = useState('')
@@ -13,6 +14,39 @@ export default function ATSScannerPage() {
     const [currentStep, setCurrentStep] = useState('Initializing scanner...')
     const [score, setScore] = useState(0)
     const [issues, setIssues] = useState<{ type: 'error' | 'warning' | 'success', text: string }[]>([])
+    const [isUploading, setIsUploading] = useState(false)
+    const [showFixModal, setShowFixModal] = useState(false)
+    const fileInputRef = React.useRef<HTMLInputElement>(null)
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        setIsUploading(true)
+        try {
+            const formData = new FormData()
+            formData.append('file', file)
+
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+
+            const result = await response.json()
+            if (result.success && result.data?.rawText) {
+                setText(result.data.rawText)
+                // Optional: alert or auto-scan
+            } else {
+                alert(result.error || 'Failed to extract text from file.')
+            }
+        } catch (error) {
+            console.error('Upload failed:', error)
+            alert('Failed to upload and parse the file.')
+        } finally {
+            setIsUploading(false)
+            if (fileInputRef.current) fileInputRef.current.value = ''
+        }
+    }
 
     const startScan = () => {
         if (text.length < 50) {
@@ -175,9 +209,31 @@ export default function ATSScannerPage() {
                                 className="p-8 md:p-12 flex flex-col h-full"
                             >
                                 <div className="flex-1 mb-6">
-                                    <label htmlFor="resume-text" className="block text-sm font-bold text-neutral-700 mb-3 uppercase tracking-wider">
-                                        Paste your resume text here
-                                    </label>
+                                    <div className="flex items-center justify-between mb-3">
+                                        <label htmlFor="resume-text" className="block text-sm font-bold text-neutral-700 uppercase tracking-wider">
+                                            Paste your resume text here
+                                        </label>
+                                        <div className="flex items-center gap-4">
+                                            <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest">OR</span>
+                                            <input 
+                                                type="file" 
+                                                ref={fileInputRef} 
+                                                onChange={handleFileUpload} 
+                                                className="hidden" 
+                                                accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                            />
+                                            <Button 
+                                                variant="outline" 
+                                                size="sm" 
+                                                onClick={() => fileInputRef.current?.click()}
+                                                disabled={isUploading}
+                                                className="text-xs font-black uppercase tracking-widest text-primary-600 border-primary-200 hover:bg-primary-50"
+                                            >
+                                                {isUploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
+                                                Upload PDF/DOCX
+                                            </Button>
+                                        </div>
+                                    </div>
                                     <textarea
                                         id="resume-text"
                                         className="w-full h-64 p-6 bg-neutral-50 border-2 border-neutral-100 rounded-2xl focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all resize-none font-mono text-sm text-neutral-700"
@@ -306,16 +362,22 @@ export default function ATSScannerPage() {
                                         Rebuild your resume right now using our verified, 100% ATS-compliant layouts and AI content optimizer.
                                     </p>
                                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
-                                        <Link href="/editor/setup" className="w-full sm:w-auto">
-                                            <Button size="xl" className="w-full font-black tracking-widest uppercase text-sm bg-white text-primary-950 hover:bg-neutral-100">
-                                                Build ATS Resume Free
-                                            </Button>
-                                        </Link>
+                                        <Button 
+                                            size="xl" 
+                                            className="w-full sm:w-auto font-black tracking-widest uppercase text-sm bg-white text-primary-950 hover:bg-neutral-100"
+                                            onClick={() => setShowFixModal(true)}
+                                        >
+                                            One-Click Fix (AI Rebuild)
+                                        </Button>
                                         <Button 
                                             size="xl" 
                                             variant="ghost" 
                                             className="w-full sm:w-auto text-primary-200 hover:text-white hover:bg-white/10 font-bold"
-                                            onClick={() => setStatus('idle')}
+                                            onClick={() => {
+                                                setStatus('idle')
+                                                setText('')
+                                                setScore(0)
+                                            }}
                                         >
                                             Scan Another
                                         </Button>
@@ -327,6 +389,12 @@ export default function ATSScannerPage() {
                     
                 </div>
             </div>
+
+            <ResumeUploadModal 
+                isOpen={showFixModal}
+                onClose={() => setShowFixModal(false)}
+                initialRawText={text}
+            />
         </div>
     )
 }

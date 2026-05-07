@@ -22,6 +22,78 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
+    // --- 1. ELITE STERLING (Executive Single-Column) ---
+    {
+        id: 'elite-sterling',
+        name: 'Elite Sterling (Alpine)',
+        description: 'An ultra-premium executive template featuring a high-impact centered header, gray section accent bars, and sophisticated serif typography. This single-column layout is engineered for both visual excellence and 100% ATS readability, making it the gold standard for senior directors and C-suite leaders.',
+        suitableFor: {
+            careerLevels: ['senior', 'executive'],
+            jobTypes: ['corporate', 'management'],
+            industries: ['Operations', 'Executive Management', 'Finance', 'Tech Leadership', 'Strategy']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'executive', name: 'Executive Black', hex: '#171717' },
+            { id: 'midnight', name: 'Midnight Blue', hex: '#0f172a' },
+            { id: 'slate', name: 'Slate Gray', hex: '#334155' }
+        ]
+    },
+
+    // --- 2. ELITE LONDON (Executive Multi-Page) ---
+    {
+        id: 'elite-london',
+        name: 'Elite London Executive',
+        description: 'A premium, multi-page executive template inspired by elite corporate standards. Features bold all-caps headers, centered name with wide tracking, and optimized information density. Perfectly structured for professionals with extensive experience who require a multi-page layout with repeating headers.',
+        suitableFor: {
+            careerLevels: ['senior', 'executive', 'mid'],
+            jobTypes: ['corporate', 'management', 'academic'],
+            industries: ['Executive Leadership', 'Strategy', 'Consulting', 'Operations', 'Finance']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'london', name: 'London Ink', hex: '#111111' },
+            { id: 'navy', name: 'Regent Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Tower Charcoal', hex: '#374151' }
+        ]
+    },
+
+    // --- 3. ELITE HASKINS (Multipage Executive) ---
+    {
+        id: 'elite-haskins',
+        name: 'Elite Haskins (Kyoto)',
+        description: 'A sophisticated multipage executive template with wide-tracked elegant serif headers and structured content flows. Features clean horizontal dividers, a grid-based skills matrix, and high information density without sacrificing visual breathing room. Perfect for established professionals with extensive experience.',
+        suitableFor: {
+            careerLevels: ['senior', 'executive', 'mid'],
+            jobTypes: ['corporate', 'management', 'academic'],
+            industries: ['Executive Leadership', 'Strategy', 'Consulting', 'Operations', 'Academic Research']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'professional', name: 'Professional Black', hex: '#111111' },
+            { id: 'navy', name: 'Executive Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Deep Charcoal', hex: '#374151' }
+        ]
+    },
+
+    // --- 4. ELITE PARKER (Modern Sans-Serif) ---
+    {
+        id: 'elite-parker',
+        name: 'Elite Parker (Summit)',
+        description: 'A modern, minimalist powerhouse featuring ultra-wide tracked sans-serif headers and subtle line-based section dividers. Engineered for maximum ATS readability while providing a clean, architectural aesthetic. Ideal for tech leaders, modern corporate roles, and minimalist-leaning executives.',
+        suitableFor: {
+            careerLevels: ['entry', 'mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'technical', 'creative'],
+            industries: ['Tech', 'Marketing', 'Consulting', 'Business', 'Operations']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'modern', name: 'Modern Black', hex: '#18181b' },
+            { id: 'zinc', name: 'Cool Zinc', hex: '#52525b' },
+            { id: 'slate', name: 'Deep Slate', hex: '#334155' }
+        ]
+    },
+
     // --- 1. ATS PROFESSIONAL (Maximum ATS Compatibility) ---
     {
         id: 'ats-professional',
@@ -486,59 +558,8 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 26. ELITE STERLING (Executive Single-Column) ---
-    {
-        id: 'elite-sterling',
-        name: 'Alpine Executive',
-        description: 'An ultra-premium executive template featuring a high-impact centered header, gray section accent bars, and sophisticated serif typography. This single-column layout is engineered for both visual excellence and 100% ATS readability, making it the gold standard for senior directors and C-suite leaders.',
-        suitableFor: {
-            careerLevels: ['senior', 'executive'],
-            jobTypes: ['corporate', 'management'],
-            industries: ['Operations', 'Executive Management', 'Finance', 'Tech Leadership', 'Strategy']
-        },
-        isPremium: true,
-        colors: [
-            { id: 'executive', name: 'Executive Black', hex: '#171717' },
-            { id: 'midnight', name: 'Midnight Blue', hex: '#0f172a' },
-            { id: 'slate', name: 'Slate Gray', hex: '#334155' }
-        ]
-    },
 
-    // --- 27. ELITE HASKINS (Multipage Executive) ---
-    {
-        id: 'elite-haskins',
-        name: 'Kyoto Multipage',
-        description: 'A sophisticated multipage executive template with wide-tracked elegant serif headers and structured content flows. Features clean horizontal dividers, a grid-based skills matrix, and high information density without sacrificing visual breathing room. Perfect for established professionals with extensive experience.',
-        suitableFor: {
-            careerLevels: ['senior', 'executive', 'mid'],
-            jobTypes: ['corporate', 'management', 'academic'],
-            industries: ['Executive Leadership', 'Strategy', 'Consulting', 'Operations', 'Academic Research']
-        },
-        isPremium: true,
-        colors: [
-            { id: 'professional', name: 'Professional Black', hex: '#111111' },
-            { id: 'navy', name: 'Executive Navy', hex: '#1e3a8a' },
-            { id: 'charcoal', name: 'Deep Charcoal', hex: '#374151' }
-        ]
-    },
 
-    // --- 28. ELITE PARKER (Modern Sans-Serif) ---
-    {
-        id: 'elite-parker',
-        name: 'Summit Modern',
-        description: 'A modern, minimalist powerhouse featuring ultra-wide tracked sans-serif headers and subtle line-based section dividers. Engineered for maximum ATS readability while providing a clean, architectural aesthetic. Ideal for tech leaders, modern corporate roles, and minimalist-leaning executives.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior', 'executive'],
-            jobTypes: ['corporate', 'technical', 'creative'],
-            industries: ['Tech', 'Marketing', 'Consulting', 'Business', 'Operations']
-        },
-        isPremium: true,
-        colors: [
-            { id: 'modern', name: 'Modern Black', hex: '#18181b' },
-            { id: 'zinc', name: 'Cool Zinc', hex: '#52525b' },
-            { id: 'slate', name: 'Deep Slate', hex: '#334155' }
-        ]
-    },
 
     // --- 23. ELEGANT SPLIT (Two-Column, Free, Non-ATS) ---
     {
@@ -579,21 +600,4 @@ export const templateRegistry: TemplateMetadata[] = [
             { id: 'navy',     name: 'Oxford Navy',     hex: '#1e3a8a' }
         ]
     },
-    // --- 29. ELITE LONDON (Executive Multi-Page) ---
-    {
-        id: 'elite-london',
-        name: 'London Executive',
-        description: 'A premium, multi-page executive template inspired by elite corporate standards. Features bold all-caps headers, centered name with wide tracking, and optimized information density. Perfectly structured for professionals with extensive experience who require a multi-page layout with repeating headers.',
-        suitableFor: {
-            careerLevels: ['senior', 'executive', 'mid'],
-            jobTypes: ['corporate', 'management', 'academic'],
-            industries: ['Executive Leadership', 'Strategy', 'Consulting', 'Operations', 'Finance']
-        },
-        isPremium: true,
-        colors: [
-            { id: 'london', name: 'London Ink', hex: '#111111' },
-            { id: 'navy', name: 'Regent Navy', hex: '#1e3a8a' },
-            { id: 'charcoal', name: 'Tower Charcoal', hex: '#374151' }
-        ]
-    }
 ]

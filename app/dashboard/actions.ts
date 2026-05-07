@@ -77,7 +77,7 @@ export async function createResume(type: 'resume' | 'cover_letter' = 'resume') {
                 user_id: session.user.id,
                 title: type === 'cover_letter' ? 'Untitled Cover Letter' : 'Untitled Resume',
                 document_type: type,
-                template_id: 'classic',
+                template_id: type === 'cover_letter' ? 'cover-letter' : 'classic',
             })
             .select()
             .single()

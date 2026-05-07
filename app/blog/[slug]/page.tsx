@@ -1,10 +1,10 @@
 import React from 'react'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getPostBySlug, BLOG_POSTS } from '@/lib/constants/blog-posts'
-import { getTemplateBySlug } from '@/lib/constants/templates-seo'
+import { getPostBySlug, getAllPosts } from '@/lib/utils/mdx'
+import { MDXRemote } from 'next-mdx-remote/rsc'
 import Link from 'next/link'
-import { Calendar, User, ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react'
+import { Calendar, User, ArrowLeft, ArrowRight } from 'lucide-react'
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-    return BLOG_POSTS.map((p) => ({ slug: p.slug }))
+    return getAllPosts().map((p) => ({ slug: p.slug }))
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -46,10 +46,6 @@ export default async function BlogPostPage({ params }: Props) {
     const post = getPostBySlug(slug)
 
     if (!post) notFound()
-
-    const relatedTemplates = post.relatedTemplates
-        .map(slug => getTemplateBySlug(slug))
-        .filter(t => !!t)
 
     // Article Schema for AI SEO
     const articleLd = {
@@ -101,39 +97,17 @@ export default async function BlogPostPage({ params }: Props) {
                     </div>
                 </div>
 
-                {/* Main Content Area */}
                 <div 
                     className="prose prose-lg prose-neutral max-w-none 
                     prose-headings:text-neutral-950 prose-headings:font-black prose-headings:tracking-tight prose-headings:italic
                     prose-p:text-neutral-600 prose-p:font-medium prose-p:leading-relaxed
                     prose-strong:text-neutral-950 prose-strong:font-black
                     prose-li:text-neutral-600 prose-li:font-medium"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
-                />
-
-                {/* Related Templates Sidebar/Bottom Section */}
-                <div className="mt-24 pt-24 border-t border-neutral-100">
-                    <h2 className="text-3xl font-black text-neutral-950 mb-10 tracking-tight italic uppercase">Recommended Templates</h2>
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {relatedTemplates.map(template => (
-                            <Link 
-                                key={template.slug} 
-                                href={`/templates/${template.slug}`}
-                                className="group bg-neutral-50 p-8 rounded-[2.5rem] border border-neutral-100 hover:bg-white hover:shadow-2xl hover:border-primary-100 transition-all duration-500"
-                            >
-                                <div className="flex items-center gap-3 mb-6">
-                                    <ShieldCheck className="w-5 h-5 text-primary-600" />
-                                    <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest group-hover:text-primary-400 transition-colors">ATS-Compliant</span>
-                                </div>
-                                <h3 className="text-xl font-black text-neutral-950 mb-2 tracking-tight group-hover:text-primary-600 transition-colors">{template.title}</h3>
-                                <p className="text-neutral-500 text-xs font-medium mb-6 line-clamp-1">{template.description}</p>
-                                <div className="flex items-center gap-2 text-primary-600 font-black text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
-                                    Use This Template <ArrowRight className="w-3 h-3" />
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                >
+                    <MDXRemote source={post.content} />
                 </div>
+
+
 
             </article>
         </div>

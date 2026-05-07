@@ -4,6 +4,7 @@ import React, { useState, useCallback, useMemo, Suspense } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import NextImage from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Filter, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { templateRegistry } from '@/lib/templates/registry'
@@ -56,19 +57,19 @@ export function TemplateGallery() {
     const [templateColors, setTemplateColors] = useState<Record<string, string>>({})
     const [previewTemplateId, setPreviewTemplateId] = useState<string | null>(null)
 
-    const categories = ['All', 'Free', 'Essential', 'Modern Clean', 'Technical', 'Healthcare', 'Academic', 'Hospitality']
+    const categories = ['All', 'Executive Elite', 'Free', 'Essential', 'Modern Clean', 'Technical', 'Healthcare', 'Academic']
     const levels = ['All', 'Entry', 'Mid', 'Senior', 'Executive', 'Student']
 
     const filteredTemplates = useMemo(() => {
         const filtered = templateRegistry.filter(template => {
             const categoryMatch = selectedCategory === 'All' ||
+                (selectedCategory === 'Executive Elite' && (template.id.startsWith('elite-') || template.id === 'ats-gold-standard')) ||
                 (selectedCategory === 'Free' && !template.isPremium) ||
                 (selectedCategory === 'Essential' && ['ats-gold-standard', 'ats-professional', 'ats-minimal', 'ats-classic', 'ats-executive', 'ats-classic-left'].includes(template.id)) ||
                 (selectedCategory === 'Modern Clean' && ['ats-modern', 'ats-timeline', 'classic-clean'].includes(template.id)) ||
                 (selectedCategory === 'Technical' && template.id === 'ats-technical') ||
                 (selectedCategory === 'Healthcare' && ['ats-nursing', 'ats-standard-nursing'].includes(template.id)) ||
-                (selectedCategory === 'Academic' && template.id === 'ats-academia') ||
-                (selectedCategory === 'Hospitality' && template.id === 'ats-hospitality');
+                (selectedCategory === 'Academic' && template.id === 'ats-academia');
 
             const levelMatch = selectedLevel === 'All' ||
                 template.suitableFor.careerLevels.some(l => l.toLowerCase() === selectedLevel.toLowerCase());
@@ -76,17 +77,57 @@ export function TemplateGallery() {
             return categoryMatch && levelMatch
         })
 
-        // Sorting logic: Gold Standard first, then Free, then the rest
+        // Sorting logic: Elite ATS-Compliant first, then Premium, then Free
+        const eliteIds = [
+            'ats-gold-standard', 
+            'ats-professional', 
+            'elite-sterling', 
+            'elite-london', 
+            'elite-haskins', 
+            'elite-parker', 
+            'ats-timeline',
+            'ats-executive',
+            'ats-classic'
+        ]
+
         return filtered.sort((a, b) => {
-            if (a.id === 'ats-gold-standard') return -1
-            if (b.id === 'ats-gold-standard') return 1
-            
-            if (!a.isPremium && b.isPremium) return -1
-            if (a.isPremium && !b.isPremium) return 1
-            
+            const aEliteIndex = eliteIds.indexOf(a.id)
+            const bEliteIndex = eliteIds.indexOf(b.id)
+
+            // If both are elite, sort by their position in the eliteIds array
+            if (aEliteIndex !== -1 && bEliteIndex !== -1) return aEliteIndex - bEliteIndex
+            // If only A is elite, it comes first
+            if (aEliteIndex !== -1) return -1
+            // If only B is elite, it comes first
+            if (bEliteIndex !== -1) return 1
+
+            // Then sort by Premium status
+            if (a.isPremium && !b.isPremium) return -1
+            if (!a.isPremium && b.isPremium) return 1
+
             return 0
         })
     }, [selectedCategory, selectedLevel])
+
+    const sliderRef = React.useRef<HTMLDivElement>(null)
+    const isPausedRef = React.useRef(false)
+
+    // Auto-scroll effect for the slideshow
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            const container = sliderRef.current
+            if (container && !isPausedRef.current) {
+                const maxScroll = container.scrollWidth - container.clientWidth
+                if (container.scrollLeft >= maxScroll - 50) {
+                    container.scrollTo({ left: 0, behavior: 'smooth' })
+                } else {
+                    container.scrollBy({ left: 400, behavior: 'smooth' })
+                }
+            }
+        }, 5000)
+
+        return () => clearInterval(interval)
+    }, [])
 
     const handleColorSelect = useCallback((templateId: string, colorId: string) => {
         setTemplateColors(prev => ({ ...prev, [templateId]: colorId }))
@@ -134,54 +175,114 @@ export function TemplateGallery() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredTemplates.map((template) => (
-                        <div key={template.id} className="group glass rounded-[2rem] overflow-hidden hover:shadow-[0_40px_100px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 border border-neutral-100 flex flex-col">
-                            <div className="relative bg-neutral-100 overflow-hidden cursor-pointer group/preview-box m-4 rounded-[1.5rem]" style={{ aspectRatio: '210/297' }} onClick={() => handlePreview(template.id)}>
-                                {template.previewImage ? (
-                                    <NextImage 
-                                        src={template.previewImage}
-                                        alt={template.name}
-                                        fill
-                                        className="object-cover object-top group-hover/preview-box:scale-110 transition-transform duration-700"
-                                    />
-                                ) : (
-                                    <TemplateThumbnail template={template} activeColorId={getActiveColor(template.id, template.colors || [])} className="pointer-events-none group-hover/preview-box:scale-105 transition-transform duration-700" />
-                                )}
-                                <div className="absolute inset-0 bg-neutral-950/0 group-hover/preview-box:bg-neutral-950/40 transition-all duration-500 flex items-center justify-center opacity-0 group-hover/preview-box:opacity-100 z-10 pointer-events-none group-hover/preview-box:pointer-events-auto">
-                                    <button onClick={(e) => { e.stopPropagation(); handlePreview(template.id) }} className="bg-white text-neutral-950 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl transform translate-y-8 group-hover/preview-box:translate-y-0 transition-all duration-500 hover:scale-110 active:scale-95">Quick Preview</button>
-                                </div>
-                                {template.isPremium ? (
-                                    <div className="absolute top-6 right-6 bg-gradient-to-br from-amber-400 to-orange-500 text-white p-2.5 rounded-2xl shadow-xl z-10 animate-float" title="Premium Template">
-                                        <Star className="w-5 h-5 fill-white" />
+                <div 
+                    className="relative group/gallery min-h-[600px]"
+                    onMouseEnter={() => isPausedRef.current = true}
+                    onMouseLeave={() => isPausedRef.current = false}
+                >
+                    <div className="overflow-hidden py-12 px-4 -mx-4">
+                        <div 
+                            ref={sliderRef}
+                            className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory no-scrollbar scroll-smooth"
+                        >
+                            {filteredTemplates.map((template) => (
+                                <div 
+                                    key={template.id} 
+                                    className="snap-center shrink-0 w-[300px] md:w-[380px] group glass rounded-[2.5rem] overflow-hidden hover:shadow-[0_40px_100px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 border border-neutral-100 flex flex-col bg-white"
+                                >
+                                    <div 
+                                        className="relative bg-neutral-100 overflow-hidden cursor-pointer group/preview-box m-4 rounded-[1.75rem] shadow-inner" 
+                                        style={{ aspectRatio: '210/297' }} 
+                                        onClick={() => handlePreview(template.id)}
+                                    >
+                                        <TemplateThumbnail 
+                                            template={template} 
+                                            activeColorId={getActiveColor(template.id, template.colors || [])} 
+                                            className="group-hover/preview-box:scale-105 transition-transform duration-700" 
+                                        />
+                                        <div className="absolute inset-0 bg-neutral-950/0 group-hover/preview-box:bg-neutral-950/40 transition-all duration-500 flex items-center justify-center opacity-0 group-hover/preview-box:opacity-100 z-10 pointer-events-none group-hover/preview-box:pointer-events-auto">
+                                            <button 
+                                                onClick={(e) => { e.stopPropagation(); handlePreview(template.id) }} 
+                                                className="bg-white text-neutral-950 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl transform translate-y-8 group-hover/preview-box:translate-y-0 transition-all duration-500 hover:scale-110 active:scale-95"
+                                            >
+                                                Quick Preview
+                                            </button>
+                                        </div>
+                                        {template.isPremium ? (
+                                            <div className="absolute top-6 right-6 bg-gradient-to-br from-amber-400 to-orange-500 text-white p-2.5 rounded-2xl shadow-xl z-10 animate-float" title="Premium Template">
+                                                <Star className="w-5 h-5 fill-white" />
+                                            </div>
+                                        ) : (
+                                            <div className="absolute top-6 left-6 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-2xl shadow-xl z-10 animate-float" title="Free Template">
+                                                Free
+                                            </div>
+                                        )}
                                     </div>
-                                ) : (
-                                    <div className="absolute top-6 left-6 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-2xl shadow-xl z-10 animate-float" title="Free Template">
-                                        Free
-                                    </div>
-                                )}
-                            </div>
-                            <div className="p-8 pt-4 flex flex-col flex-1">
-                                <div className="flex justify-between items-start mb-4">
-                                    <h3 className="text-2xl font-black text-neutral-950 tracking-tight">{template.name}</h3>
-                                    <div className="flex gap-1.5 mt-1.5">
-                                        {template.colors && template.colors.slice(0, 4).map(color => (
-                                            <button key={color.id} onClick={(e) => { e.stopPropagation(); handleColorSelect(template.id, color.id) }} className={cn("w-5 h-5 rounded-lg border border-neutral-100 transition-all hover:scale-125", getActiveColor(template.id, template.colors!) === color.id ? "ring-2 ring-offset-2 ring-primary-500 scale-110" : "")} style={{ backgroundColor: color.hex }} />
-                                        ))}
-                                    </div>
-                                </div>
-                                <p className="text-sm text-neutral-500 leading-relaxed line-clamp-2 font-medium mb-6">{template.description}</p>
+                                    <div className="p-8 pt-4 flex flex-col flex-1">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <h3 className="text-2xl font-black text-neutral-950 tracking-tight">{template.name}</h3>
+                                            <div className="flex gap-1.5 mt-1.5">
+                                                {template.colors && template.colors.slice(0, 3).map(color => (
+                                                    <button 
+                                                        key={color.id} 
+                                                        onClick={(e) => { e.stopPropagation(); handleColorSelect(template.id, color.id) }} 
+                                                        className={cn("w-5 h-5 rounded-lg border border-neutral-100 transition-all hover:scale-125", getActiveColor(template.id, template.colors!) === color.id ? "ring-2 ring-offset-2 ring-primary-500 scale-110" : "")} 
+                                                        style={{ backgroundColor: color.hex }} 
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <p className="text-sm text-neutral-500 leading-relaxed line-clamp-2 font-medium mb-6">{template.description}</p>
 
-                                <div className="mt-auto flex flex-col gap-4">
-                                    <div className="flex flex-wrap gap-2">
-                                        {template.suitableFor.careerLevels.slice(0, 1).map(level => <span key={level} className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 bg-neutral-100 text-neutral-500 rounded-lg">{level}</span>)}
-                                        {template.suitableFor.jobTypes.slice(0, 1).map(type => <span key={type} className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 bg-primary-50 text-primary-600 rounded-lg border border-primary-100">{type}</span>)}
+                                        <div className="mt-auto flex flex-col gap-4">
+                                            <div className="flex flex-wrap gap-2">
+                                                {template.suitableFor.careerLevels.slice(0, 1).map(level => <span key={level} className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 bg-neutral-100 text-neutral-500 rounded-lg">{level}</span>)}
+                                                {template.suitableFor.jobTypes.slice(0, 1).map(type => <span key={type} className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 bg-primary-50 text-primary-600 rounded-lg border border-primary-100">{type}</span>)}
+                                            </div>
+                                            <Link 
+                                                href={`/editor/setup?template=${template.id}&color=${getActiveColor(template.id, template.colors || [])}`} 
+                                                onClick={() => handleUseTemplate(template.id)} 
+                                                className="block w-full text-center bg-neutral-950 text-white py-5 rounded-2xl hover:bg-neutral-800 transition-all duration-300 font-black text-sm uppercase tracking-widest shadow-xl shadow-neutral-900/10" 
+                                                prefetch={false}
+                                            >
+                                                Build With This
+                                            </Link>
+                                        </div>
                                     </div>
-                                    <Link href={`/editor/setup?template=${template.id}&color=${getActiveColor(template.id, template.colors || [])}`} onClick={() => handleUseTemplate(template.id)} className="block w-full text-center bg-neutral-950 text-white py-5 rounded-2xl hover:bg-neutral-800 transition-all duration-300 font-black text-sm uppercase tracking-widest shadow-xl shadow-neutral-900/10" prefetch={false}>Build With This</Link>
                                 </div>
-                            </div>
+                            ))}
+                            {filteredTemplates.length === 0 && (
+                                <div className="w-full py-20 text-center">
+                                    <p className="text-xl text-neutral-500 font-medium">No templates found for this combination of filters.</p>
+                                    <button onClick={() => { setSelectedCategory('All'); setSelectedLevel('All'); }} className="mt-4 text-primary-600 font-bold hover:underline">Reset Filters</button>
+                                </div>
+                            )}
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Navigation Arrows */}
+                    <div className="absolute top-1/2 -left-4 -translate-y-1/2 opacity-0 group-hover/gallery:opacity-100 transition-opacity hidden lg:block z-50">
+                        <button 
+                            className="w-16 h-16 rounded-full bg-white shadow-2xl border border-neutral-100 flex items-center justify-center text-neutral-900 hover:bg-neutral-50 transition-colors" 
+                            onClick={(e) => {
+                                e.preventDefault();
+                                sliderRef.current?.scrollBy({ left: -400, behavior: 'smooth' });
+                            }}
+                        >
+                            <svg className="w-6 h-6 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                    </div>
+                    <div className="absolute top-1/2 -right-4 -translate-y-1/2 opacity-0 group-hover/gallery:opacity-100 transition-opacity hidden lg:block z-50">
+                        <button 
+                            className="w-16 h-16 rounded-full bg-white shadow-2xl border border-neutral-100 flex items-center justify-center text-neutral-900 hover:bg-neutral-50 transition-colors" 
+                            onClick={(e) => {
+                                e.preventDefault();
+                                sliderRef.current?.scrollBy({ left: 400, behavior: 'smooth' });
+                            }}
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
 
