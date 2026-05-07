@@ -1,31 +1,53 @@
 'use client'
 
-import React, { useState, useEffect, useRef, Suspense } from 'react'
+import React, { useState, useEffect, useRef, useDeferredValue, Suspense } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ResumeDocument } from '@/lib/types/resume'
 import { ResumeForm } from '@/components/editor/ResumeForm'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
-import { TemplateSelector } from '@/components/editor/TemplateSelector'
 import { Button } from '@/components/ui/Button'
-import { DownloadButtons } from '@/components/editor/DownloadButtons'
 import { Save, ArrowLeft, LayoutTemplate, X, Loader2, Check, Maximize2, Minimize2, Eye, Sparkles, Target, Columns } from 'lucide-react'
 import Link from 'next/link'
-import { ATSScore } from '@/components/editor/ATSScore'
-import { ResumeControlBar } from '@/components/editor/ResumeControlBar'
 import { CoverLetterForm } from '@/components/editor/forms/CoverLetterForm'
-import { ResumeCoach } from '@/components/editor/ResumeCoach'
-import { KeywordOptimizer } from '@/components/editor/KeywordOptimizer'
-import { AIAssistantOverlay } from '@/components/editor/AIAssistantOverlay'
 import dynamic from 'next/dynamic'
+
+// Lazy-load all non-critical editor components
+const ResumeCoach = dynamic(() => import('@/components/editor/ResumeCoach').then(mod => mod.ResumeCoach), {
+    ssr: false,
+})
+const KeywordOptimizer = dynamic(() => import('@/components/editor/KeywordOptimizer').then(mod => mod.KeywordOptimizer), {
+    ssr: false,
+})
+const AIAssistantOverlay = dynamic(() => import('@/components/editor/AIAssistantOverlay').then(mod => mod.AIAssistantOverlay), {
+    ssr: false,
+})
+const ATSScore = dynamic(() => import('@/components/editor/ATSScore').then(mod => mod.ATSScore), {
+    ssr: false,
+    loading: () => <div className="w-24 h-9 bg-neutral-100 rounded-2xl animate-pulse" />,
+})
+const DownloadButtons = dynamic(() => import('@/components/editor/DownloadButtons').then(mod => mod.DownloadButtons), {
+    ssr: false,
+    loading: () => <div className="w-20 h-9 bg-neutral-100 rounded-lg animate-pulse" />,
+})
+const ResumeControlBar = dynamic(() => import('@/components/editor/ResumeControlBar').then(mod => mod.ResumeControlBar), {
+    ssr: false,
+})
+const TemplateSelector = dynamic(() => import('@/components/editor/TemplateSelector').then(mod => mod.TemplateSelector), {
+    ssr: false,
+})
+const OnboardingWizard = dynamic(() => import('@/components/editor/OnboardingWizard').then(mod => mod.OnboardingWizard), {
+    ssr: false,
+})
+const ResumeUploadModal = dynamic(() => import('@/components/dashboard/ResumeUploadModal').then(mod => mod.ResumeUploadModal), {
+    ssr: false,
+})
 import { fetchResume, saveResume } from '@/app/editor/actions'
 import { UserSubscription } from '@/lib/types/resume'
 import { useDebounce } from '@/lib/hooks/use-debounce'
 import { toast } from 'sonner'
 import { getMockDataForTemplate } from '@/lib/utils/template-helpers'
 import { useAuth } from '@/components/auth/AuthProvider'
-import { OnboardingWizard } from '@/components/editor/OnboardingWizard'
-import { ResumeUploadModal } from '@/components/dashboard/ResumeUploadModal'
 
 
 
@@ -43,6 +65,10 @@ function EditorContent() {
     const [isMaximized, setIsMaximized] = useState(false)
     const [previewMode, setPreviewMode] = useState<'html' | 'pdf' | 'split'>('pdf')
     const [scale, setScale] = useState(0.85)
+
+    // Deferred preview data: keeps form input snappy while preview renders in background
+    const deferredData = useDeferredValue(data)
+    const isPreviewStale = deferredData !== data
     const [showCoach, setShowCoach] = useState(false)
     const [showKeywords, setShowKeywords] = useState(false)
     const [showAIAssistant, setShowAIAssistant] = useState(false)
@@ -313,7 +339,7 @@ function EditorContent() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <ATSScore data={data} />
+                    <ATSScore data={deferredData || data} />
 
                     <Button
                         variant={showKeywords ? "primary" : "outline"}
@@ -460,7 +486,8 @@ function EditorContent() {
                     {/* Preview Area container with background pattern for premium feel */}
                     <div className={cn(
                         "flex-1 overflow-auto bg-[radial-gradient(#555_1px,transparent_1px)] [background-size:20px_20px] transition-all duration-300 p-12",
-                        previewMode === 'split' ? "flex flex-row items-start justify-center gap-4 lg:gap-12" : "flex justify-center"
+                        previewMode === 'split' ? "flex flex-row items-start justify-center gap-4 lg:gap-12" : "flex justify-center",
+                        isPreviewStale && "opacity-80"
                     )}>
                         {/* 
                             Off-screen container for HTML-to-PDF capture. 
@@ -500,11 +527,11 @@ function EditorContent() {
                                 </div>
 
                                 <TemplateRenderer
-                                    templateId={data.templateId}
-                                    data={data}
+                                    templateId={(deferredData || data).templateId}
+                                    data={deferredData || data}
                                     className={cn(
                                         "transition-all duration-300",
-                                        data.formatting?.paperSize === 'a4' ? 'w-[210mm] min-h-[297mm]' : 'w-[8.5in] min-h-[11in]'
+                                        (deferredData || data).formatting?.paperSize === 'a4' ? 'w-[210mm] min-h-[297mm]' : 'w-[8.5in] min-h-[11in]'
                                     )}
                                 />
                             </div>

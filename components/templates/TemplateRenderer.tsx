@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react'
 import dynamic from 'next/dynamic'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
@@ -49,10 +50,10 @@ const ATSSterlingTemplate = dynamic(() => import('./ATSSterlingTemplate').then(m
 // Non-ATS Elegant Two-Column Templates
 const ElegantSplitTemplate = dynamic(() => import('./ElegantSplitTemplate').then(m => m.ElegantSplitTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const PrestigeTemplate = dynamic(() => import('./PrestigeTemplate').then(m => m.PrestigeTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const EliteSterlingTemplate = dynamic(() => import('./EliteSterlingTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
-const EliteHaskinsTemplate = dynamic(() => import('./EliteHaskinsTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
-const EliteParkerTemplate = dynamic(() => import('./EliteParkerTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
-const EliteLondonTemplate = dynamic(() => import('./EliteLondonTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteSterlingTemplate = dynamic(() => import('./EliteSterlingTemplate').then(m => m.EliteSterlingTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteHaskinsTemplate = dynamic(() => import('./EliteHaskinsTemplate').then(m => m.EliteHaskinsTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteParkerTemplate = dynamic(() => import('./EliteParkerTemplate').then(m => m.EliteParkerTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteLondonTemplate = dynamic(() => import('./EliteLondonTemplate').then(m => m.EliteLondonTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 
 interface TemplateRendererProps {
     templateId: string
@@ -325,7 +326,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
     return { Component: ATSProfessionalTemplate, props: { accentColor: 'text-neutral-900' } }
 }
 
-export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ templateId, data, className }) => {
+export const TemplateRenderer: React.FC<TemplateRendererProps> = React.memo(({ templateId, data, className }) => {
     const { Component, props } = getTemplateConfig(templateId)
 
     if (!Component) {
@@ -337,7 +338,7 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ templateId, 
     }
 
     // Full-bleed templates have colored sidebars that must touch the page edge
-    const isFullBleed = templateId.startsWith('elegant-split')
+    const isFullBleed = templateId.startsWith('elegant-split') || templateId.startsWith('ats-sterling')
 
     return (
         <div className={cn(
@@ -348,4 +349,6 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ templateId, 
             <Component data={data} {...props} />
         </div>
     )
-}
+})
+
+TemplateRenderer.displayName = 'TemplateRenderer'

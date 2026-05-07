@@ -87,14 +87,10 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
             <div>
                 {/* Pull-Quote Summary */}
                 {professionalSummary?.summaryText && (
-                    <section className="mb-6 px-4">
-                        <div className="relative">
-                            <span className={cn("absolute -top-10 -left-10 text-[120px] font-serif opacity-10 leading-none", accentColor)}>&ldquo;</span>
-                            <p className={cn("text-[12px] italic leading-relaxed font-medium", accentColor)}>
-                                {professionalSummary.summaryText}
-                            </p>
-                            <span className={cn("absolute -bottom-20 -right-10 text-[120px] font-serif opacity-10 leading-none", accentColor)}>&rdquo;</span>
-                        </div>
+                    <section className="mb-6">
+                        <p className={cn("text-[12px] italic leading-relaxed font-medium px-4", accentColor)}>
+                            {professionalSummary.summaryText}
+                        </p>
                     </section>
                 )}
 

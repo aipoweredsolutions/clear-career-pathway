@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { X, Check, FileText, Globe, Download, Lock, Sparkles } from 'lucide-react'
+import { X, Check, FileText, Lock, Sparkles } from 'lucide-react'
 import { TemplateMetadata } from '@/lib/types/resume'
-import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import {
     MOCK_PREVIEW_DATA,
     MOCK_EXECUTIVE_DATA,
@@ -53,10 +52,6 @@ const PDFPreview = dynamic(() => import('./PDFPreview'), {
     )
 })
 
-const PDFUrlGenerator = dynamic(() => import('./PDFPreview').then(m => m.PDFUrlGenerator), {
-    ssr: false
-})
-
 
 interface TemplatePreviewDialogProps {
     isOpen: boolean
@@ -67,11 +62,8 @@ interface TemplatePreviewDialogProps {
 
 export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor }: TemplatePreviewDialogProps) {
     const { user } = useAuth()
-    const [viewMode, setViewMode] = useState<'web' | 'pdf'>('web')
     const [isMounted, setIsMounted] = useState(false)
     const [selectedColor, setSelectedColor] = useState<string>(initialColor || 'standard')
-    const [pdfUrl, setPdfUrl] = useState<string | null>(null)
-    const [generatePdfRequested, setGeneratePdfRequested] = useState(false)
 
     // Sync local color with prop when template changes or initialColor changes
     useEffect(() => {
@@ -83,12 +75,6 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
     useEffect(() => {
         setIsMounted(true)
     }, [])
-
-    // Reset generate state when template or color changes
-    useEffect(() => {
-        setPdfUrl(null)
-        setGeneratePdfRequested(false)
-    }, [selectedColor, template?.id])
 
     // Memoize data with the selected template ID to prevent infinite re-renders
     const previewData = React.useMemo(() => {
@@ -194,23 +180,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                     </div>
 
                     <div className="flex items-center gap-4">
-                        {/* View Switcher */}
-                        <div className="flex bg-neutral-100 p-1 rounded-xl mr-2">
-                            <button
-                                onClick={() => setViewMode('web')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${viewMode === 'web' ? 'bg-white text-neutral-900 shadow-sm' : 'text-neutral-500 hover:text-neutral-700'}`}
-                            >
-                                <Globe className="w-3.5 h-3.5" />
-                                Browser View
-                            </button>
-                            <button
-                                onClick={() => setViewMode('pdf')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${viewMode === 'pdf' ? 'bg-white text-neutral-900 shadow-sm' : 'text-neutral-500 hover:text-neutral-700'}`}
-                            >
-                                <FileText className="w-3.5 h-3.5" />
-                                PDF View
-                            </button>
-                        </div>
+
 
                         {user ? (
                             <Link href={`/editor/setup?template=${template.id}&color=${initialColor || 'standard'}`}>
@@ -239,50 +209,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                 <div className="flex-1 overflow-hidden flex bg-neutral-50">
                     {/* Sidebar Info */}
                     <div className="w-72 bg-white border-r border-neutral-100 p-8 overflow-y-auto hidden xl:block shadow-[1px_0_10px_rgba(0,0,0,0.02)]">
-                        <section className="mb-10">
-                            <h4 className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em] mb-4">Export Settings</h4>
-                            <div className="space-y-3">
-                                <div className="p-4 rounded-xl border border-neutral-100 bg-neutral-50/50">
-                                    <div className="flex items-center justify-between mb-1">
-                                        <span className="text-xs font-bold text-neutral-700">Format</span>
-                                        <span className="text-[10px] font-black text-primary-600 uppercase bg-primary-50 px-1.5 py-0.5 rounded">PDF v1.7</span>
-                                    </div>
-                                    <p className="text-[10px] text-neutral-500 leading-relaxed font-medium">Standard ATS-compliant document structure.</p>
-                                    
-                                    <div className="mt-4">
-                                        {pdfUrl ? (
-                                            <a 
-                                                href={pdfUrl} 
-                                                download={`Clear_Career_Path_${template.name.replace(/\s+/g, '_')}_Preview.pdf`}
-                                                className="flex items-center justify-center gap-2 p-3 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg shadow-neutral-200"
-                                            >
-                                                <Download className="w-4 h-4" />
-                                                Download Preview PDF
-                                            </a>
-                                        ) : (generatePdfRequested || viewMode === 'pdf') ? (
-                                            <div className="flex items-center gap-2 p-3 bg-neutral-100 rounded-lg text-neutral-400 border border-dashed border-neutral-200">
-                                                <div className="w-3 h-3 border-2 border-neutral-200 border-t-neutral-400 rounded-full animate-spin" />
-                                                <span className="text-[10px] font-bold uppercase tracking-wider">Generating PDF...</span>
-                                            </div>
-                                        ) : (
-                                            <button
-                                                onClick={() => setGeneratePdfRequested(true)}
-                                                className="w-full flex items-center justify-center gap-2 p-3 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
-                                            >
-                                                <Download className="w-4 h-4" />
-                                                Prepare PDF Download
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
 
-                                <div className="p-4 rounded-xl border border-neutral-100 bg-neutral-50/50">
-                                    <p className="text-[10px] text-neutral-500 leading-relaxed italic">
-                                        PDF generation uses standard formatting for this preview.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
 
                         <section className="mb-10">
                             <h4 className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em] mb-4">Suitability</h4>
@@ -324,34 +251,15 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
 
                     {/* Preview Canvas */}
                     <div className="flex-1 overflow-y-auto p-12 flex justify-center bg-neutral-200/30 bg-[radial-gradient(#d1d1d1_1px,transparent_1px)] [background-size:24px_24px]">
-                        {/* Only generate PDF URL when necessary to prevent severe lag during Web view */}
-                        {isMounted && (generatePdfRequested || viewMode === 'pdf') && (
-                            <PDFUrlGenerator
-                                data={previewData}
-                                onUrlUpdate={setPdfUrl}
-                            />
-                        )}
-
-                        {viewMode === 'web' ? (
-                            <div className="origin-top scale-[0.6] sm:scale-[0.8] lg:scale-[0.9] xl:scale-[1.0] transition-all duration-500">
-                                <TemplateRenderer
-                                    templateId={previewData.templateId}
+                        <div className="w-full h-full max-w-4xl">
+                            {isMounted && (
+                                <PDFPreview
                                     data={previewData}
-                                    className="w-[210mm] min-h-[297mm] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] ring-1 ring-neutral-200/50"
+                                    isAuthenticated={!!user}
+                                    templateName={template.name}
                                 />
-                            </div>
-                        ) : (
-                            <div className="w-full h-full max-w-4xl">
-                                {isMounted && (
-                                    <PDFPreview
-                                        data={previewData}
-                                        isAuthenticated={!!user}
-                                        templateName={template.name}
-                                        onUrlUpdate={setPdfUrl}
-                                    />
-                                )}
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

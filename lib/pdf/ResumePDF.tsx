@@ -24,10 +24,10 @@ export const ResumePDF = ({ data, isWatermarked = false }: ResumePDFProps) => {
 
     // Detect if template should use sidebar layout (Two-Column)
     const isSidebarLayout = 
-        templateId.startsWith('modern') || 
-        templateId.startsWith('professional') || 
-        templateId.startsWith('elegant') || 
+        templateId.startsWith('elegant-split') || 
         templateId.startsWith('prestige') ||
+        templateId.startsWith('ats-sterling') ||
+        templateId.startsWith('ats-classic-left') ||
         templateId.includes('sidebar')
 
     return (

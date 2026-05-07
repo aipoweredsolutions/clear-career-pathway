@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 import { ResumeDocument } from '@/lib/types/resume'
-import { ResumeDOCX } from '@/lib/docx/ResumeDOCX'
+// ResumeDOCX is dynamically imported inside the handleDocxDownload function
 import { Button } from '@/components/ui/Button'
 import { Download, FileText, Loader2, Lock, Clipboard, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -66,6 +66,7 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
                 return
             }
 
+            const { ResumeDOCX } = await import('@/lib/docx/ResumeDOCX')
             await ResumeDOCX.download(data, `${customFileName || defaultFileName}.docx`)
         } catch (error) {
             console.error('DOCX download failed:', error)

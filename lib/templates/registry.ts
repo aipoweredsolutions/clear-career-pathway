@@ -548,7 +548,7 @@ export const templateRegistry: TemplateMetadata[] = [
             jobTypes: ['corporate'],
             industries: ['Operations', 'Management', 'Finance', 'Consulting', 'Strategy', 'Business']
         },
-        isPremium: true,
+        isPremium: false,
         colors: [
             { id: 'corporate', name: 'Corporate Blue', hex: '#1d4ed8' },
             { id: 'charcoal', name: 'Charcoal', hex: '#374151' },

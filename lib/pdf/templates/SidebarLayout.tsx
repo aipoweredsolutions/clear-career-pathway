@@ -19,7 +19,8 @@ export const SidebarLayout = ({ data, styles, templateId, isWatermarked }: any) 
 
     return (
         <Page size="A4" style={styles.page}>
-            <View style={styles.container}>
+
+            <View style={[styles.container, templateId.startsWith('ats-sterling') ? { paddingTop: 0 } : {}]}>
                 {/* Sidebar */}
                 <View style={styles.sidebar} fixed>
                     {data.personalInfo?.photoUrl && (
@@ -58,9 +59,13 @@ export const SidebarLayout = ({ data, styles, templateId, isWatermarked }: any) 
                             <Text style={styles.title}>{data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}</Text>
                         </View>
                     ) : (
-                        <View style={styles.header}>
-                            <Text style={styles.name}>{data.personalInfo?.fullName || 'Untitled'}</Text>
-                            <Text style={styles.title}>{data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}</Text>
+                        <View style={templateId.startsWith('ats-sterling') ? { marginBottom: 20 } : styles.header}>
+                            <Text style={templateId.startsWith('ats-sterling') ? [styles.name, { fontSize: 32, fontFamily: 'Playfair Display' }] : styles.name}>
+                                {data.personalInfo?.fullName || 'Untitled'}
+                            </Text>
+                            <Text style={templateId.startsWith('ats-sterling') ? [styles.title, { fontSize: 9, color: '#64748b', textTransform: 'uppercase', letterSpacing: 2.0 }] : styles.title}>
+                                {data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}
+                            </Text>
                         </View>
                     )}
 

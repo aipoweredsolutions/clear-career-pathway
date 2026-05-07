@@ -157,20 +157,20 @@ export function TemplateGallery() {
                     </p>
                 </div>
 
-                <div className="mb-16 flex flex-col md:flex-row justify-center items-center gap-6 glass p-6 rounded-[2rem] border-white/50 max-w-5xl mx-auto sticky top-28 z-40 shadow-2xl shadow-neutral-200/50">
-                    <div className="flex items-center gap-3 text-neutral-400 font-black uppercase tracking-widest text-[10px]">
+                <div className="mb-16 flex flex-col xl:flex-row justify-center items-center gap-4 glass p-4 rounded-[2rem] border-white/50 max-w-7xl w-full mx-auto sticky top-28 z-40 shadow-2xl shadow-neutral-200/50">
+                    <div className="flex items-center gap-3 text-neutral-400 font-black uppercase tracking-widest text-[10px] shrink-0">
                         <Filter className="w-5 h-5 text-primary-500" />
-                        <span>Refine Gallery:</span>
+                        <span>Refine:</span>
                     </div>
-                    <div className="flex flex-wrap justify-center gap-2">
+                    <div className="flex flex-wrap justify-center gap-1.5">
                         {categories.map(cat => (
-                            <button key={cat} onClick={() => setSelectedCategory(cat)} className={cn("px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 border", selectedCategory === cat ? "bg-neutral-900 text-white border-neutral-900 shadow-xl scale-105" : "bg-white text-neutral-500 border-neutral-100 hover:border-neutral-200 hover:bg-neutral-50")}>{cat}</button>
+                            <button key={cat} onClick={() => setSelectedCategory(cat)} className={cn("px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 border", selectedCategory === cat ? "bg-neutral-900 text-white border-neutral-900 shadow-xl scale-105" : "bg-white text-neutral-500 border-neutral-100 hover:border-neutral-200 hover:bg-neutral-50")}>{cat}</button>
                         ))}
                     </div>
-                    <div className="h-8 w-px bg-neutral-100 hidden md:block" />
-                    <div className="flex flex-wrap justify-center gap-2">
+                    <div className="h-8 w-px bg-neutral-200 hidden xl:block" />
+                    <div className="flex flex-wrap justify-center gap-1.5">
                         {levels.map(lvl => (
-                            <button key={lvl} onClick={() => setSelectedLevel(lvl)} className={cn("px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 border", selectedLevel === lvl ? "bg-primary-600 text-white border-primary-600 shadow-xl scale-105" : "bg-white text-neutral-500 border-neutral-100 hover:border-neutral-200 hover:bg-neutral-50")}>{lvl}</button>
+                            <button key={lvl} onClick={() => setSelectedLevel(lvl)} className={cn("px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 border", selectedLevel === lvl ? "bg-primary-600 text-white border-primary-600 shadow-xl scale-105" : "bg-white text-neutral-500 border-neutral-100 hover:border-neutral-200 hover:bg-neutral-50")}>{lvl}</button>
                         ))}
                     </div>
                 </div>

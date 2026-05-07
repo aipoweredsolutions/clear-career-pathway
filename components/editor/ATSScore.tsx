@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import {
     AlertCircle, CheckCircle2, Trophy, ChevronDown, ChevronUp,
@@ -16,8 +16,26 @@ interface ATSScoreProps {
 export function ATSScore({ data, className }: ATSScoreProps) {
     const [isOpen, setIsOpen] = useState(false)
 
+    // Cache analysis to avoid recomputing when data reference changes but content hasn't
+    const lastDataHash = useRef<string>('')
+    const cachedAnalysis = useRef<ATSAnalysis | null>(null)
+
     const analysis = useMemo(() => {
-        return analyzeATS(data)
+        const hash = JSON.stringify({
+            pi: data.personalInfo?.fullName,
+            ps: data.professionalSummary?.summaryText?.length,
+            we: data.workExperience?.length,
+            wea: data.workExperience?.reduce((n, j) => n + (j.achievements?.length || 0), 0),
+            ed: data.education?.length,
+            sk: data.skills?.length,
+            ce: data.certifications?.length,
+        })
+        if (hash === lastDataHash.current && cachedAnalysis.current) {
+            return cachedAnalysis.current
+        }
+        lastDataHash.current = hash
+        cachedAnalysis.current = analyzeATS(data)
+        return cachedAnalysis.current
     }, [data])
 
     const getScoreColor = (score: number) => {

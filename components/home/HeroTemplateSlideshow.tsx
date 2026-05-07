@@ -75,6 +75,7 @@ export function HeroTemplateSlideshow() {
                     <TemplateThumbnail 
                         template={templateRegistry.find(t => t.id === FEATURED_TEMPLATES[(activeIndex + 1) % FEATURED_TEMPLATES.length].id)!}
                         activeColorId={FEATURED_TEMPLATES[(activeIndex + 1) % FEATURED_TEMPLATES.length].colorId}
+                        priority={true}
                     />
                     <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px] pointer-events-none z-20" />
                 </div>
@@ -83,6 +84,7 @@ export function HeroTemplateSlideshow() {
                     <TemplateThumbnail 
                         template={templateRegistry.find(t => t.id === FEATURED_TEMPLATES[(activeIndex + FEATURED_TEMPLATES.length - 1) % FEATURED_TEMPLATES.length].id)!}
                         activeColorId={FEATURED_TEMPLATES[(activeIndex + FEATURED_TEMPLATES.length - 1) % FEATURED_TEMPLATES.length].colorId}
+                        priority={true}
                     />
                     <div className="absolute inset-0 bg-indigo-900/20 backdrop-blur-[2px] pointer-events-none z-20" />
                 </div>
@@ -103,6 +105,7 @@ export function HeroTemplateSlideshow() {
                         <TemplateThumbnail 
                             template={templateRegistry.find(t => t.id === currentTemplate.id)!}
                             activeColorId={currentTemplate.colorId}
+                            priority={true}
                         />
                     </div>
 

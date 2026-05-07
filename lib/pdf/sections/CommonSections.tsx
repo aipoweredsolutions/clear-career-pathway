@@ -33,6 +33,29 @@ export const Section = ({ title, styles, children, isFirst, templateId = '', ind
         )
     }
 
+    if (templateId.startsWith('ats-editorial')) {
+        return (
+            <View style={[styles.section, isFirst && styles.sectionFirst]}>
+                <View style={{ marginTop: 24, marginBottom: 15 }}>
+                    <Text style={[styles.sectionTitle, { 
+                        fontSize: 8.5,
+                        letterSpacing: 4,
+                        marginBottom: 10, 
+                        paddingBottom: 0, 
+                        borderBottomWidth: 0,
+                        fontWeight: 900
+                    }]}>
+                        {title}
+                    </Text>
+                    <View style={{ width: '100%', height: 1, backgroundColor: '#f3f4f6' }} />
+                </View>
+                <View>
+                    {children}
+                </View>
+            </View>
+        )
+    }
+
     if (templateId.startsWith('ats-gold-standard')) {
         return (
             <View style={[styles.section, isFirst && styles.sectionFirst]}>
@@ -50,6 +73,30 @@ export const Section = ({ title, styles, children, isFirst, templateId = '', ind
                     <View style={{ width: '100%', height: 0.5, backgroundColor: styles.sectionTitle.color || '#171717', opacity: 0.3 }} />
                 </View>
                 <View style={{ paddingLeft: 4, paddingRight: 4 }}>
+                    {children}
+                </View>
+            </View>
+        )
+    }
+
+    if (templateId.startsWith('ats-masthead')) {
+        return (
+            <View style={[styles.section, isFirst && styles.sectionFirst]}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 18, marginBottom: 10 }}>
+                    <Text style={[styles.sectionTitle, { 
+                        fontSize: 8,
+                        letterSpacing: 2,
+                        marginBottom: 0, 
+                        paddingBottom: 0, 
+                        borderBottomWidth: 0,
+                        textTransform: 'lowercase',
+                        fontWeight: 'bold',
+                    }]}>
+                        {title}
+                    </Text>
+                    <View style={{ flex: 1, borderBottomWidth: 1, borderBottomColor: '#d4d4d4', borderStyle: 'dashed', marginTop: 2 }} />
+                </View>
+                <View>
                     {children}
                 </View>
             </View>

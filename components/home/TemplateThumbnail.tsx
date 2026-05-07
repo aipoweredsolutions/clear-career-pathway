@@ -42,9 +42,10 @@ interface TemplateThumbnailProps {
     template: TemplateMetadata
     activeColorId?: string
     className?: string
+    priority?: boolean
 }
 
-export function TemplateThumbnail({ template, activeColorId, className }: TemplateThumbnailProps) {
+export function TemplateThumbnail({ template, activeColorId, className, priority = false }: TemplateThumbnailProps) {
     // Get appropriate sample data based on template type
     const getSampleData = () => {
         // ... (rest of the sample data logic remains the same)
@@ -107,9 +108,9 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
     }, [template.id, isEliteOrGold])
 
     // Construct the static image path
-    // Format: /templates/[id]-[color]-preview.png
+    // Prioritize the preview image from the registry if available, otherwise construct it
     const colorId = activeColorId || (template.colors && template.colors[0]?.id) || 'standard'
-    const staticImagePath = `/templates/${template.id}-${colorId}-preview.png`
+    const staticImagePath = template.previewImage || `/templates/${template.id}-${colorId}-preview.png`
 
     return (
         <div className={cn("relative w-full h-full bg-neutral-100 overflow-hidden", className)}>
@@ -119,6 +120,8 @@ export function TemplateThumbnail({ template, activeColorId, className }: Templa
                         src={staticImagePath}
                         alt={template.name}
                         fill
+                        priority={priority}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover object-top"
                         onError={() => setImageError(true)}
                     />

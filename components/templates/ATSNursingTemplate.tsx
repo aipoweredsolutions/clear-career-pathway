@@ -394,9 +394,6 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
         )}>
             {/* Header - Medical Professional Style */}
             <header className="mb-5">
-                {/* Top accent bar */}
-                <div className={cn("h-1.5 w-full mb-5", bgAccent.replace('bg-', 'bg-'), borderColor.replace('border-', 'bg-'))} />
-
                 <div className="text-center">
                     <h1 className={cn("text-2xl font-black uppercase tracking-[0.2em] mb-1", accentColor)}>
                         {personalInfo?.fullName || 'Your Name'}

@@ -12,6 +12,15 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
         case 'professionalSummary':
             if (!data.professionalSummary?.summaryText) return null
             const title = getSectionTitle(templateId, 'professionalSummary', index)
+            if (templateId.startsWith('ats-editorial')) {
+                return (
+                    <Section title={title} styles={styles} isFirst={index === 0} templateId={templateId} index={index}>
+                        <Text style={[styles.description, { fontSize: 11, fontStyle: 'italic', lineHeight: 1.6, paddingHorizontal: 15 }]}>
+                            {data.professionalSummary.summaryText}
+                        </Text>
+                    </Section>
+                )
+            }
             if (templateId.startsWith('ats-executive')) {
                 return (
                     <Section title={title} styles={styles} isFirst={index === 0} templateId={templateId} index={index}>

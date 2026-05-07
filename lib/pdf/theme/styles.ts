@@ -8,15 +8,15 @@ export const createStyles = (templateId: string) => {
 
     const isATS = id.startsWith('ats-')
     const isSidebarLayout = 
-        id.startsWith('modern') || 
-        id.startsWith('professional') || 
-        id.startsWith('elegant') || 
+        id.startsWith('elegant-split') || 
         id.startsWith('prestige') ||
+        id.startsWith('ats-sterling') ||
+        id.startsWith('ats-classic-left') ||
         id.includes('sidebar')
         
     const hasSidebar = isSidebarLayout
     const hasColumns = isSidebarLayout
-    const sidebarOnRight = id.includes('right') || id.startsWith('elegant') || id.startsWith('modern')
+    const sidebarOnRight = id.includes('right') || id.startsWith('elegant-split') || id.startsWith('ats-sterling')
     const sidebarOnLeft = hasSidebar && !sidebarOnRight
     
     // Increased margins for ATS templates for better scanner readability

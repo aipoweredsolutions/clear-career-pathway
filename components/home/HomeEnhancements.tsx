@@ -67,9 +67,9 @@ export function AIDemoSection() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid lg:grid-cols-2 gap-20 items-center">
                     <div>
-                        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-primary-300 text-xs font-black uppercase tracking-[0.2em] mb-8 w-max shadow-[0_0_30px_rgba(79,70,229,0.2)] backdrop-blur-md">
+                        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-primary-300 text-xs font-black uppercase tracking-[0.2em] mb-8 w-max shadow-[0_0_30px_rgba(14,165,233,0.2)] backdrop-blur-md">
                             <Star className="w-4 h-4 text-primary-400" />
-                            <span>The New Standard of Excellence</span>
+                            <span>AI-Powered Intelligence</span>
                         </div>
                         <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-[1.1]">
                             Stop writing. <br />

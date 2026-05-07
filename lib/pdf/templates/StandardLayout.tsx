@@ -154,6 +154,58 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                         </View>
                     </View>
                 </View>
+            ) : templateId.startsWith('ats-editorial') ? (
+                <View style={[styles.header, { borderBottomWidth: 2, borderBottomColor: '#171717', paddingBottom: 15, marginBottom: 20 }]}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'flex-end' }}>
+                        <View>
+                            {(() => {
+                                const name = data.personalInfo?.fullName || 'NAME'
+                                const parts = name.split(' ')
+                                return (
+                                    <View>
+                                        <Text style={[styles.name, { fontSize: 32, lineHeight: 0.85, marginBottom: 0, fontWeight: 900, textTransform: 'uppercase' }]}>
+                                            {parts[0]}
+                                        </Text>
+                                        <Text style={[styles.name, { fontSize: 32, lineHeight: 0.85, marginBottom: 0, fontWeight: 900, textTransform: 'uppercase' }]}>
+                                            {parts.slice(1).join(' ')}.
+                                        </Text>
+                                    </View>
+                                )
+                            })()}
+                        </View>
+                        <View style={{ maxWidth: 200, textAlign: 'right' }}>
+                            <Text style={[styles.title, { fontSize: 11, fontStyle: 'italic', color: '#a3a3a3', textTransform: 'uppercase', letterSpacing: 2 }]}>
+                                {data.personalInfo?.professionalTitle || ''}
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+            ) : templateId.startsWith('ats-masthead') ? (
+                <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 30, alignItems: 'center' }]}>
+                    <View style={{ width: '100%', height: 2, backgroundColor: '#171717', marginBottom: 15 }} />
+                    <Text style={[styles.name, { fontSize: 24, letterSpacing: 8, fontWeight: 300, textTransform: 'uppercase', marginBottom: 6 }]}>
+                        {data.personalInfo?.fullName || 'Your Name'}
+                    </Text>
+                    <Text style={[styles.title, { fontSize: 11, letterSpacing: 3, fontStyle: 'italic', color: '#737373', marginBottom: 15 }]}>
+                        {data.personalInfo?.professionalTitle || ''}
+                    </Text>
+                    <View style={{ width: '100%', height: 2, backgroundColor: '#171717', marginBottom: 15 }} />
+                    <ContactInfo data={data} styles={styles} separator="·" />
+                </View>
+            ) : templateId.startsWith('ats-metro') ? (
+                <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#171717', padding: 20, borderRadius: 4 }]}>
+                    <View>
+                        <Text style={[styles.name, { fontSize: 24, color: '#ffffff', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }]}>
+                            {data.personalInfo?.fullName || 'Your Name'}
+                        </Text>
+                        <Text style={[styles.title, { fontSize: 10, color: '#a3a3a3', textTransform: 'uppercase', letterSpacing: 2 }]}>
+                            {data.personalInfo?.professionalTitle || ''}
+                        </Text>
+                    </View>
+                    <View style={{ alignItems: 'flex-end' }}>
+                        <ContactInfo data={data} styles={styles} />
+                    </View>
+                </View>
             ) : templateId.startsWith('elite-london') ? (
                 <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 25, alignItems: 'center', textAlign: 'center' }]}>
                     <Text style={[styles.name, { fontSize: 34, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }]}>
