@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useState, useEffect, useCallback, Suspense } from 'react'
-import { FileText } from 'lucide-react'
-import { mockHeroResume } from '@/lib/config/mock-resume'
 import { cn } from '@/lib/utils'
 import dynamic from 'next/dynamic'
 import { templateRegistry } from '@/lib/templates/registry'
@@ -14,145 +12,145 @@ const TemplatePreviewDialog = dynamic(
 )
 
 const FEATURED_TEMPLATES = [
-    { id: 'prestige', name: 'Prestige Design', colorId: 'gold' },
-    { id: 'elegant-split', name: 'Elegant Split', colorId: 'slate' },
-    { id: 'ats-classic-left', name: 'Executive Left', colorId: 'navy' },
-    { id: 'ats-gold-standard', name: 'ATS Gold Standard', colorId: 'black' },
+    { id: 'prestige',           name: 'Prestige',        tag: 'Executive',   colorId: 'gold'  },
+    { id: 'elegant-split',      name: 'Elegant Split',   tag: 'Creative',    colorId: 'slate' },
+    { id: 'ats-classic-left',   name: 'Executive Left',  tag: 'Corporate',   colorId: 'navy'  },
+    { id: 'ats-gold-standard',  name: 'Gold Standard',   tag: 'ATS Pro',     colorId: 'black' },
+    { id: 'ats-modern',         name: 'Modern',          tag: 'Minimal',     colorId: 'slate' },
+    { id: 'elite-sterling',     name: 'Elite Sterling',  tag: 'Premium',     colorId: 'midnight' },
 ]
 
-const SLIDE_DURATION = 5000 // 5 seconds per slide
+const SLIDE_DURATION = 3500
 
 export function HeroTemplateSlideshow() {
     const [activeIndex, setActiveIndex] = useState(0)
-    const [isTransitioning, setIsTransitioning] = useState(false)
+    const [prev, setPrev] = useState<number | null>(null)
     const [previewId, setPreviewId] = useState<string | null>(null)
     const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
 
-    // Transition to next slide
-    const advanceSlide = useCallback(() => {
-        setIsTransitioning(true)
-        setTimeout(() => {
-            setActiveIndex(prev => (prev + 1) % FEATURED_TEMPLATES.length)
-            setTimeout(() => setIsTransitioning(false), 100)
-        }, 500)
+    const advance = useCallback(() => {
+        setActiveIndex(cur => {
+            setPrev(cur)
+            return (cur + 1) % FEATURED_TEMPLATES.length
+        })
     }, [])
 
-    // Start/restart the auto-advance timer
     const startTimer = useCallback(() => {
         if (intervalRef.current) clearInterval(intervalRef.current)
-        intervalRef.current = setInterval(advanceSlide, SLIDE_DURATION)
-    }, [advanceSlide])
+        intervalRef.current = setInterval(advance, SLIDE_DURATION)
+    }, [advance])
 
-    // Auto-advance slides on mount
     useEffect(() => {
         startTimer()
-        return () => {
-            if (intervalRef.current) clearInterval(intervalRef.current)
-        }
+        return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
     }, [startTimer])
 
-    const goToSlide = useCallback((index: number) => {
-        if (index === activeIndex || isTransitioning) return
-        setIsTransitioning(true)
-        setTimeout(() => {
-            setActiveIndex(index)
-            setTimeout(() => setIsTransitioning(false), 100)
-        }, 500)
-        // Reset the timer so it doesn't immediately advance after manual click
+    const goTo = useCallback((i: number) => {
+        if (i === activeIndex) return
+        setPrev(activeIndex)
+        setActiveIndex(i)
         startTimer()
-    }, [activeIndex, isTransitioning, startTimer])
+    }, [activeIndex, startTimer])
 
-    const currentTemplate = FEATURED_TEMPLATES[activeIndex]
+    const current = FEATURED_TEMPLATES[activeIndex]
+    const nextIdx = (activeIndex + 1) % FEATURED_TEMPLATES.length
+    const prevIdx = (activeIndex + FEATURED_TEMPLATES.length - 1) % FEATURED_TEMPLATES.length
 
     return (
         <>
-            <div className="relative w-full max-w-[420px] aspect-[21/29.7] animate-float">
-                {/* Back Glow */}
-                <div className="absolute inset-0 bg-primary-500/30 blur-[100px] rounded-full" />
+            <div className="relative w-full max-w-[380px]" style={{ aspectRatio: '21/29.7' }}>
 
-                {/* Back Card 1 (Next Template) */}
-                <div className="absolute inset-0 -right-8 -top-8 rounded-2xl border border-white/10 rotate-6 scale-95 opacity-50 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-0 transition-all duration-500 pointer-events-none">
-                    <TemplateThumbnail 
-                        template={templateRegistry.find(t => t.id === FEATURED_TEMPLATES[(activeIndex + 1) % FEATURED_TEMPLATES.length].id)!}
-                        activeColorId={FEATURED_TEMPLATES[(activeIndex + 1) % FEATURED_TEMPLATES.length].colorId}
-                        priority={true}
+                {/* Ambient glow */}
+                <div className="absolute inset-[-20%] bg-violet-500/20 blur-[80px] rounded-full pointer-events-none" />
+
+                {/* Back card — previous */}
+                <div className="absolute inset-0 -left-10 top-4 rounded-xl overflow-hidden shadow-2xl z-0 pointer-events-none"
+                    style={{ transform: 'rotate(-4deg) scale(0.92)', opacity: 0.4 }}>
+                    <TemplateThumbnail
+                        template={templateRegistry.find(t => t.id === FEATURED_TEMPLATES[prevIdx].id)!}
+                        activeColorId={FEATURED_TEMPLATES[prevIdx].colorId}
+                        priority={false}
                     />
-                    <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px] pointer-events-none z-20" />
-                </div>
-                {/* Back Card 2 (Previous Template) */}
-                <div className="absolute inset-0 -left-8 -bottom-8 rounded-2xl border border-indigo-500/20 -rotate-3 scale-95 opacity-70 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-0 transition-all duration-500 pointer-events-none">
-                    <TemplateThumbnail 
-                        template={templateRegistry.find(t => t.id === FEATURED_TEMPLATES[(activeIndex + FEATURED_TEMPLATES.length - 1) % FEATURED_TEMPLATES.length].id)!}
-                        activeColorId={FEATURED_TEMPLATES[(activeIndex + FEATURED_TEMPLATES.length - 1) % FEATURED_TEMPLATES.length].colorId}
-                        priority={true}
-                    />
-                    <div className="absolute inset-0 bg-indigo-900/20 backdrop-blur-[2px] pointer-events-none z-20" />
                 </div>
 
-                {/* Main Card */}
+                {/* Back card — next */}
+                <div className="absolute inset-0 -right-10 top-4 rounded-xl overflow-hidden shadow-2xl z-0 pointer-events-none"
+                    style={{ transform: 'rotate(4deg) scale(0.92)', opacity: 0.4 }}>
+                    <TemplateThumbnail
+                        template={templateRegistry.find(t => t.id === FEATURED_TEMPLATES[nextIdx].id)!}
+                        activeColorId={FEATURED_TEMPLATES[nextIdx].colorId}
+                        priority={false}
+                    />
+                </div>
+
+                {/* Main card */}
                 <div
-                    className="relative z-10 w-full h-full bg-white rounded-2xl shadow-[0_30px_100px_rgba(0,0,0,0.5)] border border-white/20 overflow-hidden cursor-pointer group transition-transform duration-700 hover:rotate-2 hover:scale-105"
-                    onClick={() => setPreviewId(currentTemplate.id)}
+                    className="relative z-10 w-full h-full rounded-2xl overflow-hidden cursor-pointer group"
+                    style={{ boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.08)' }}
+                    onClick={() => setPreviewId(current.id)}
                 >
-                    {/* Hover shimmer overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 pointer-events-none" />
-
-                    {/* Optimized Image based Slide */}
-                    <div className={cn(
-                        "absolute inset-0 bg-white z-10 transition-all duration-500 ease-in-out",
-                        isTransitioning ? "opacity-0 scale-[0.96]" : "opacity-100 scale-100"
-                    )}>
-                        <TemplateThumbnail 
-                            template={templateRegistry.find(t => t.id === currentTemplate.id)!}
-                            activeColorId={currentTemplate.colorId}
-                            priority={true}
-                        />
-                    </div>
-
-                    {/* Glass Overlay Card */}
-                    <div className="absolute inset-x-6 bottom-6 p-6 bg-neutral-900/80 backdrop-blur-2xl rounded-2xl border border-white/10 group-hover:translate-y-[-8px] transition-transform duration-500 flex items-center gap-4 z-30">
-                        <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-xl">
-                            <FileText className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                            <p className="text-[10px] font-black text-primary-400 uppercase tracking-widest mb-0.5">Featured Design</p>
-                            <h4 className={cn(
-                                "text-lg font-black text-white transition-all duration-400",
-                                isTransitioning ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
-                            )}>{currentTemplate.name}</h4>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Slide indicator dots */}
-                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2 z-40">
-                    {FEATURED_TEMPLATES.map((template, idx) => (
-                        <button
-                            key={template.id}
-                            onClick={() => goToSlide(idx)}
-                            className={cn(
-                                "relative h-2 rounded-full transition-all duration-500 group/dot",
-                                idx === activeIndex
-                                    ? "w-8 bg-primary-500 shadow-[0_0_12px_rgba(79,70,229,0.6)]"
-                                    : "w-2 bg-white/30 hover:bg-white/60"
-                            )}
-                            aria-label={`View ${template.name}`}
-                        >
-                            {/* Progress bar on active dot */}
-                            {idx === activeIndex && (
-                                <div
-                                    className="absolute inset-0 rounded-full bg-white/40 origin-left"
-                                    style={{
-                                        animation: `slideProgress ${SLIDE_DURATION}ms linear`,
-                                    }}
+                    {/* Template slides — stack with CSS animation */}
+                    {FEATURED_TEMPLATES.map((tpl, i) => {
+                        const isActive = i === activeIndex
+                        const isPrev  = i === prev
+                        return (
+                            <div
+                                key={tpl.id}
+                                className="absolute inset-0"
+                                style={{
+                                    opacity:   isActive ? 1 : 0,
+                                    transform: isActive ? 'scale(1)' : isPrev ? 'scale(1.04)' : 'scale(0.96)',
+                                    transition: 'opacity 600ms ease, transform 600ms ease',
+                                    zIndex: isActive ? 2 : 1,
+                                }}
+                            >
+                                <TemplateThumbnail
+                                    template={templateRegistry.find(t => t.id === tpl.id)!}
+                                    activeColorId={tpl.colorId}
+                                    priority={i === 0}
                                 />
-                            )}
-                        </button>
-                    ))}
+                            </div>
+                        )
+                    })}
+
+                    {/* Hover shimmer */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 pointer-events-none" />
+
+                    {/* Bottom info bar */}
+                    <div className="absolute inset-x-0 bottom-0 z-20 p-5 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                        <div className="flex items-end justify-between">
+                            <div>
+                                <span className="text-[9px] font-black uppercase tracking-[0.25em] text-violet-400 block mb-1">
+                                    {current.tag}
+                                </span>
+                                <h4 className="text-lg font-black text-white leading-none transition-all duration-400">
+                                    {current.name}
+                                </h4>
+                            </div>
+                            <div className="text-[10px] font-black uppercase tracking-widest text-white/30 group-hover:text-white/60 transition-colors">
+                                Preview →
+                            </div>
+                        </div>
+
+                        {/* Progress dots */}
+                        <div className="flex items-center gap-1.5 mt-4">
+                            {FEATURED_TEMPLATES.map((_, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={e => { e.stopPropagation(); goTo(idx) }}
+                                    className={cn(
+                                        'h-1 rounded-full transition-all duration-500',
+                                        idx === activeIndex
+                                            ? 'w-6 bg-white'
+                                            : 'w-1.5 bg-white/30 hover:bg-white/50'
+                                    )}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {/* Preview Dialog */}
             {previewId && (
                 <Suspense fallback={null}>
                     <TemplatePreviewDialog

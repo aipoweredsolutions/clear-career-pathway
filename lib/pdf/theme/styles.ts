@@ -23,7 +23,7 @@ export const createStyles = (templateId: string) => {
     const containerPaddingX = isATS ? 54 : 30
     const containerPaddingY = isATS ? 45 : 20
     
-    const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal');
+    const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('ats-sterling');
     const isStandardSerif = id.startsWith('ats-academia') || id.startsWith('ats-classic') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
     
     let fontFamily = 'Inter';

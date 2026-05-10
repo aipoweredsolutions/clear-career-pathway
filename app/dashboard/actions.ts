@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { fetchResume } from '@/app/editor/actions'
 
-export async function createResume(type: 'resume' | 'cover_letter' = 'resume') {
+export async function createResume(type: 'resume' | 'cover_letter' | 'references' = 'resume') {
     const supabase = await createClient()
     const cookieStore = await cookies()
 
@@ -75,9 +75,9 @@ export async function createResume(type: 'resume' | 'cover_letter' = 'resume') {
             .from('documents')
             .insert({
                 user_id: session.user.id,
-                title: type === 'cover_letter' ? 'Untitled Cover Letter' : 'Untitled Resume',
+                title: type === 'cover_letter' ? 'Untitled Cover Letter' : type === 'references' ? 'Untitled Reference Page' : 'Untitled Resume',
                 document_type: type,
-                template_id: type === 'cover_letter' ? 'cover-letter' : 'classic',
+                template_id: (type === 'cover_letter' || type === 'references') ? 'ats-professional' : 'classic',
             })
             .select()
             .single()

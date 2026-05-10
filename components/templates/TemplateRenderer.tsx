@@ -34,6 +34,7 @@ const ATSAcademiaTemplate = dynamic(() => import('./ATSAcademiaTemplate').then(m
 const ATSExecutiveCVTemplate = dynamic(() => import('./ATSExecutiveCVTemplate').then(m => m.ATSExecutiveCVTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSMinimalistMonoTemplate = dynamic(() => import('./ATSMinimalistMonoTemplate').then(m => m.ATSMinimalistMonoTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSRoyalScholarTemplate = dynamic(() => import('./ATSRoyalScholarTemplate').then(m => m.ATSRoyalScholarTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const ATSAcademiaCVTemplate = dynamic(() => import('./ATSAcademiaCVTemplate').then(m => m.ATSAcademiaCVTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ClassicCleanTemplate = dynamic(() => import('./ClassicCleanTemplate').then(m => m.ClassicCleanTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const CoverLetterTemplate = dynamic(() => import('./CoverLetterTemplate').then(m => m.CoverLetterTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 
@@ -88,6 +89,15 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: ATSRoyalScholarTemplate, props: { accentColor } }
     }
 
+    if (id.startsWith('ats-academia-cv')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-maroon')) accentColor = 'text-red-900'
+        if (id.includes('-forest')) accentColor = 'text-emerald-900'
+        return { Component: ATSAcademiaCVTemplate, props: { accentColor } }
+    }
+
     // --- 2. Standard ATS Series ---
     if (id.startsWith('ats-gold-standard')) {
         let accentColor = 'text-amber-800'
@@ -105,6 +115,10 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         if (id.includes('-green')) accentColor = 'text-emerald-800'
         return { Component: ATSProfessionalTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('ats-classic-left')) {
+        return { Component: ATSClassicLeftTemplate, props: {} }
     }
 
     if (id.startsWith('ats-classic')) {
@@ -268,10 +282,6 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: ATSSterlingTemplate, props: { accentColor } }
     }
 
-    if (id.startsWith('ats-classic-left')) {
-        return { Component: ATSClassicLeftTemplate, props: {} }
-    }
-
     if (id.startsWith('elite-sterling')) {
         let accentColor = 'text-neutral-900'
         if (id.includes('-midnight')) accentColor = 'text-slate-900'
@@ -337,13 +347,23 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = React.memo(({ t
         )
     }
 
-    // Full-bleed templates have colored sidebars that must touch the page edge
-    const isFullBleed = templateId.startsWith('elegant-split') || templateId.startsWith('ats-sterling')
+    // Full-bleed: sidebars or edge-to-edge decorative borders that must touch the page edge
+    const isFullBleed =
+        templateId.startsWith('elegant-split') ||
+        templateId.startsWith('ats-sterling') ||
+        templateId.startsWith('ats-royal-scholar')
+
+    // Self-padded: templates with their own p-10/p-12 — wrapper padding creates double-padding vs thumbnail
+    const isSelfPadded =
+        templateId.startsWith('ats-bauhaus') ||
+        templateId.startsWith('ats-chronograph') ||
+        templateId.startsWith('ats-classic-left') ||
+        templateId.startsWith('ats-editorial')
 
     return (
         <div className={cn(
             "template-container bg-white",
-            isFullBleed ? "p-0" : "px-8 py-10 sm:px-12 sm:py-14",
+            (isFullBleed || isSelfPadded) ? "p-0" : "px-8 py-10 sm:px-12 sm:py-14",
             className
         )}>
             <Component data={data} {...props} />

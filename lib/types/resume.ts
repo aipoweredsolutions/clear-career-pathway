@@ -3,7 +3,7 @@
 
 export type CareerLevel = 'student' | 'entry' | 'mid' | 'senior' | 'executive'
 export type JobType = 'corporate' | 'creative' | 'technical' | 'academic' | 'freelance' | 'service' | 'management'
-export type DocumentType = 'resume' | 'cv' | 'cover_letter' | 'career_blog'
+export type DocumentType = 'resume' | 'cv' | 'cover_letter' | 'career_blog' | 'references'
 export type SkillType = 'technical' | 'professional' | 'tool' | 'industry'
 export type ProficiencyLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert'
 export type LanguageProficiency = 'basic' | 'intermediate' | 'fluent' | 'native'

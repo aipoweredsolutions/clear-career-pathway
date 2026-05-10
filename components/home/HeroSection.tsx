@@ -1,114 +1,185 @@
 import React from 'react'
 import Link from 'next/link'
-import { Check, Star, ArrowRight, Zap, Shield, Sparkles } from 'lucide-react'
+import { ArrowRight, Zap, Users, Star, TrendingUp, CheckCircle2, Sparkles } from 'lucide-react'
 import { HeroTemplateSlideshow } from './HeroTemplateSlideshow'
+
+const STATS = [
+    { value: '50K+', label: 'Resumes Built' },
+    { value: '4.9★', label: 'User Rating' },
+    { value: '93%', label: 'Interview Rate' },
+    { value: '25+', label: 'ATS Templates' },
+]
+
+const COMPANIES = [
+    'Google', 'Amazon', 'Microsoft', 'Apple', 'Meta',
+    'Netflix', 'Stripe', 'Airbnb', 'Uber', 'Notion',
+    'Figma', 'Shopify', 'Atlassian', 'Salesforce', 'Adobe',
+    'Google', 'Amazon', 'Microsoft', 'Apple', 'Meta',
+    'Netflix', 'Stripe', 'Airbnb', 'Uber', 'Notion',
+    'Figma', 'Shopify', 'Atlassian', 'Salesforce', 'Adobe',
+]
 
 export function HeroSection() {
     return (
-        <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-b from-white via-primary-50/30 to-white pt-24 pb-20">
-            {/* Elegant Ambient Background */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {/* Soft blue radial glow top-right */}
-                <div className="absolute top-[-15%] right-[-5%] w-[45%] h-[55%] rounded-full bg-primary-200/40 blur-[100px] opacity-60" />
-                {/* Warm accent glow bottom-left */}
-                <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-sky-100/50 blur-[100px] opacity-50" />
-                {/* Subtle center highlight */}
-                <div className="absolute top-[30%] left-[40%] w-[25%] h-[25%] rounded-full bg-primary-100/30 blur-[80px] opacity-40" />
-                {/* Fine dot pattern */}
-                <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-40 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,#000_30%,transparent_100%)]" />
+        <section className="relative min-h-[100vh] flex flex-col justify-center overflow-hidden bg-neutral-950 pt-20 pb-0">
+
+            {/* ── LAYERED BACKGROUND ── */}
+            <div className="absolute inset-0 pointer-events-none">
+                {/* Mesh gradient */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(99,102,241,0.25),transparent)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_50%_at_80%_60%,rgba(14,165,233,0.12),transparent)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_35%_45%_at_20%_70%,rgba(139,92,246,0.1),transparent)]" />
+                {/* Subtle grid */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px]" />
+                {/* Vignette */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_100%_at_50%_50%,transparent_40%,rgba(0,0,0,0.6)_100%)]" />
             </div>
 
-            <div className="relative max-w-7xl mx-auto px-6 lg:px-12 z-10 w-full">
-                <div className="grid lg:grid-cols-12 gap-16 lg:gap-12 items-center">
-                    {/* Text Content */}
-                    <div className="lg:col-span-7 flex flex-col justify-center animate-in fade-in slide-in-from-bottom-12 duration-1000 ease-out">
-                        {/* Badge */}
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 border border-primary-100 text-primary-700 text-xs font-black uppercase tracking-[0.15em] mb-8 w-max shadow-sm">
-                            <Star className="w-3.5 h-3.5 text-primary-500 fill-primary-500" />
-                            <span>The New Standard of Excellence</span>
+            {/* ── MAIN CONTENT ── */}
+            <div className="relative max-w-7xl mx-auto px-6 lg:px-12 w-full z-10">
+                <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+
+                    {/* ── LEFT COLUMN ── */}
+                    <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-center py-16 lg:py-20">
+
+                        {/* Social proof pill */}
+                        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-white/70 mb-8 w-max backdrop-blur-sm">
+                            <div className="flex -space-x-1.5">
+                                {['bg-violet-400', 'bg-sky-400', 'bg-emerald-400', 'bg-amber-400'].map((c, i) => (
+                                    <div key={i} className={`w-5 h-5 rounded-full border-2 border-neutral-950 ${c}`} />
+                                ))}
+                            </div>
+                            <span className="text-white/90">50,000+ professionals hired</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                         </div>
 
-                        <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] font-black tracking-[-0.03em] text-neutral-950 mb-6 leading-[0.95] text-balance">
-                            Elevate Your <br />
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-sky-500">Career Legacy.</span>
+                        {/* Headline */}
+                        <h1 className="text-[3.25rem] sm:text-[4rem] lg:text-[4.5rem] xl:text-[5rem] font-black leading-[0.92] tracking-[-0.03em] text-white mb-6">
+                            Your Resume.
+                            <br />
+                            <span
+                                className="bg-clip-text text-transparent"
+                                style={{ backgroundImage: 'linear-gradient(135deg, #818cf8 0%, #38bdf8 50%, #34d399 100%)' }}
+                            >
+                                Their First Call.
+                            </span>
+                            <br />
+                            <span className="text-white/40">In Minutes.</span>
                         </h1>
 
-                        <p className="text-lg sm:text-xl text-neutral-500 mb-10 leading-relaxed max-w-xl font-medium text-balance">
-                            Design a stunning, ATS-optimized resume in minutes.
-                            Engineered for elite professionals who demand <span className="text-neutral-800 font-bold">perfection</span> in every detail.
+                        <p className="text-lg text-white/50 mb-10 leading-relaxed max-w-lg font-medium">
+                            ATS-optimised templates, AI-powered bullet points, and real-time score feedback—
+                            everything you need to land interviews at the companies you actually want.
                         </p>
 
-                        {/* Trust Indicators */}
-                        <div className="flex items-center gap-6 mb-10">
-                            <div className="flex items-center gap-2 text-sm text-neutral-500 font-medium">
-                                <Shield className="w-4 h-4 text-emerald-500" />
-                                <span>100% ATS Compliant</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-neutral-500 font-medium">
-                                <Sparkles className="w-4 h-4 text-primary-500" />
-                                <span>AI-Powered</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-neutral-500 font-medium">
-                                <Check className="w-4 h-4 text-emerald-500" />
-                                <span>25+ Templates</span>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        {/* CTA Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-3 mb-12">
                             <Link
                                 href="/editor/setup?template=ats-classic"
-                                className="group relative inline-flex items-center justify-center gap-3 px-8 py-5 font-bold text-white bg-neutral-950 rounded-2xl overflow-hidden shadow-xl shadow-neutral-950/20 hover:shadow-2xl hover:shadow-neutral-950/30 transition-all duration-300 hover:-translate-y-0.5"
+                                className="group relative inline-flex items-center justify-center gap-3 px-7 py-4 font-bold text-neutral-950 bg-white rounded-xl overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_60px_rgba(255,255,255,0.25)] transition-all duration-300 hover:-translate-y-0.5"
                                 prefetch={true}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
-                                <span className="text-lg relative z-10">Build Your Resume</span>
-                                <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+                                <span className="text-[15px] relative z-10">Build My Resume — Free</span>
+                                <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-100 via-white to-sky-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             </Link>
                             <Link
-                                href="/onboarding"
-                                className="group inline-flex items-center justify-center gap-3 px-8 py-5 text-lg font-bold rounded-2xl text-neutral-700 bg-white border-2 border-neutral-200 hover:border-primary-200 hover:bg-primary-50/50 transition-all duration-300 shadow-sm hover:shadow-md"
+                                href="/templates"
+                                className="group inline-flex items-center justify-center gap-3 px-7 py-4 text-[15px] font-bold rounded-xl text-white/70 bg-white/5 border border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20 transition-all duration-300 backdrop-blur-sm"
                             >
-                                <Zap className="w-5 h-5 text-primary-600 group-hover:scale-110 transition-transform" />
-                                Personalize My Path
+                                Browse Templates
                             </Link>
+                        </div>
+
+                        {/* Trust signals row */}
+                        <div className="flex flex-wrap items-center gap-5">
+                            {[
+                                { icon: CheckCircle2, color: 'text-emerald-400', label: '100% ATS Compliant' },
+                                { icon: Sparkles, color: 'text-violet-400', label: 'AI Bullet Writer' },
+                                { icon: TrendingUp, color: 'text-sky-400', label: '93% Interview Rate' },
+                            ].map(({ icon: Icon, color, label }) => (
+                                <div key={label} className="flex items-center gap-2">
+                                    <Icon className={`w-4 h-4 ${color} shrink-0`} />
+                                    <span className="text-sm text-white/50 font-medium">{label}</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Visual Right Side - Template Slideshow */}
-                    <div className="lg:col-span-5 relative hidden lg:flex items-center justify-center perspective-1000">
+                    {/* ── RIGHT COLUMN — Template Slideshow ── */}
+                    <div className="lg:col-span-6 xl:col-span-5 relative hidden lg:flex items-center justify-center">
+                        {/* Glow behind slideshow */}
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_50%,rgba(99,102,241,0.2),transparent)] blur-2xl" />
                         <HeroTemplateSlideshow />
 
-                        {/* Floating ATS Score Badge */}
-                        <div className="absolute -left-10 top-1/4 z-30 bg-white/90 backdrop-blur-xl border border-neutral-200 p-4 rounded-2xl shadow-xl animate-float" style={{ animationDelay: '1.5s' }}>
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center border border-emerald-200">
-                                    <Check className="w-6 h-6 text-emerald-600" />
-                                </div>
-                                <div>
-                                    <p className="text-[10px] uppercase font-black tracking-widest text-emerald-600 mb-0.5">ATS Score</p>
-                                    <p className="text-xl font-black text-neutral-900">99/100</p>
-                                </div>
+                        {/* Floating card — Interview Scheduled */}
+                        <div className="absolute -left-8 top-[18%] z-40 flex items-center gap-3 px-4 py-3 bg-neutral-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl animate-float" style={{ animationDelay: '0s' }}>
+                            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0">
+                                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Interview Booked</p>
+                                <p className="text-[13px] font-bold text-white">Google · Senior Engineer</p>
                             </div>
                         </div>
 
-                        {/* Floating AI Badge */}
-                        <div className="absolute -right-6 bottom-1/4 z-30 bg-white/90 backdrop-blur-xl border border-neutral-200 p-3 rounded-2xl shadow-xl animate-float" style={{ animationDelay: '3s' }}>
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center border border-primary-200">
-                                    <Sparkles className="w-5 h-5 text-primary-600" />
-                                </div>
-                                <div>
-                                    <p className="text-[10px] uppercase font-black tracking-widest text-primary-600 mb-0.5">AI Enhanced</p>
-                                    <p className="text-sm font-bold text-neutral-700">Smart Bullets</p>
-                                </div>
+                        {/* Floating card — ATS Score */}
+                        <div className="absolute -right-6 top-[42%] z-40 px-4 py-3 bg-neutral-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl animate-float" style={{ animationDelay: '2s' }}>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-violet-400 mb-1.5">ATS Score</p>
+                            <div className="flex items-end gap-2">
+                                <span className="text-[28px] font-black text-white leading-none">99</span>
+                                <span className="text-sm font-bold text-white/30 mb-0.5">/100</span>
+                            </div>
+                            <div className="mt-2 h-1.5 w-28 bg-white/10 rounded-full overflow-hidden">
+                                <div className="h-full w-[99%] rounded-full bg-gradient-to-r from-violet-500 to-emerald-400" />
+                            </div>
+                        </div>
+
+                        {/* Floating card — AI generating */}
+                        <div className="absolute -left-6 bottom-[18%] z-40 flex items-center gap-3 px-4 py-3 bg-neutral-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl animate-float" style={{ animationDelay: '4s' }}>
+                            <div className="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center shrink-0">
+                                <Sparkles className="w-4 h-4 text-violet-400" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-violet-400">AI Writing</p>
+                                <p className="text-[13px] font-bold text-white">Optimising bullets…</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Bottom gradient to white */}
-            <div className="absolute bottom-0 w-full h-24 bg-gradient-to-t from-white to-transparent" />
+            {/* ── STAT BAR ── */}
+            <div className="relative z-10 border-t border-white/[0.06] mt-auto">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                    <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/[0.06]">
+                        {STATS.map(({ value, label }) => (
+                            <div key={label} className="flex flex-col items-center justify-center py-7 gap-1">
+                                <span className="text-2xl font-black text-white tracking-tight">{value}</span>
+                                <span className="text-[11px] font-bold uppercase tracking-widest text-white/30">{label}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* ── COMPANY MARQUEE ── */}
+            <div className="relative z-10 py-5 border-t border-white/[0.06] overflow-hidden">
+                <p className="text-center text-[10px] font-black uppercase tracking-[0.3em] text-white/20 mb-4">
+                    Our users have landed roles at
+                </p>
+                <div className="flex gap-0 whitespace-nowrap animate-marquee">
+                    {COMPANIES.map((co, i) => (
+                        <span
+                            key={i}
+                            className="inline-flex items-center gap-4 px-8 text-sm font-black text-white/20 uppercase tracking-widest hover:text-white/50 transition-colors"
+                        >
+                            {co}
+                            <span className="w-1 h-1 rounded-full bg-white/10" />
+                        </span>
+                    ))}
+                </div>
+            </div>
         </section>
     )
 }

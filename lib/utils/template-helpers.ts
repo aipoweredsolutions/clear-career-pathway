@@ -23,7 +23,7 @@ export const getMockDataForTemplate = (templateId: string): ResumeDocument => {
     else if (templateId === 'cruise-excellence') {
         mockData = MOCK_PERSONAS.cruise
     }
-    else if (templateId === 'academic') {
+    else if (templateId === 'academic' || templateId.startsWith('ats-academia-cv')) {
         mockData = MOCK_PERSONAS.academic
     }
 

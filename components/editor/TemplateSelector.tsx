@@ -38,6 +38,31 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData }: Temp
     const [isMaximized, setIsMaximized] = useState(false)
     const contentRef = React.useRef<HTMLDivElement>(null)
 
+    // Hover-to-maximize preview state
+    const [hoverTemplate, setHoverTemplate] = useState<TemplateMetadata | null>(null)
+    const hoverTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+    const hoverCardRef = React.useRef<HTMLButtonElement | null>(null)
+
+    const handleHoverEnter = React.useCallback((template: TemplateMetadata, el: HTMLButtonElement) => {
+        if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current)
+        hoverCardRef.current = el
+        hoverTimerRef.current = setTimeout(() => {
+            setHoverTemplate(template)
+        }, 400) // 400ms delay to avoid accidental triggers
+    }, [])
+
+    const handleHoverLeave = React.useCallback(() => {
+        if (hoverTimerRef.current) {
+            clearTimeout(hoverTimerRef.current)
+            hoverTimerRef.current = null
+        }
+    }, [])
+
+    const dismissHoverPreview = React.useCallback(() => {
+        setHoverTemplate(null)
+        hoverCardRef.current = null
+    }, [])
+
     const isPro = profile?.subscription_tier === 'pro' || profile?.subscription_tier === 'enterprise'
 
     const handleSelect = () => {
@@ -341,6 +366,8 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData }: Temp
                     <button
                         key={template.id}
                         onClick={() => setPreviewTemplate(template)}
+                        onMouseEnter={(e) => handleHoverEnter(template, e.currentTarget)}
+                        onMouseLeave={handleHoverLeave}
                         className={cn(
                             "relative group flex flex-col items-center p-3 rounded-xl border-2 transition-all hover:border-primary-400 hover:bg-white text-left overflow-hidden",
                             currentTemplateId === template.id
@@ -357,7 +384,7 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData }: Temp
                         )}
 
                     {/* Real Mini Preview */}
-                    <div className="w-full aspect-[210/297] bg-white rounded-lg border border-neutral-200 mb-3 overflow-hidden shadow-sm group-hover:shadow-md transition-all relative">
+                    <div className="w-full aspect-[210/297] bg-white rounded-lg border border-neutral-200 mb-3 overflow-hidden shadow-sm group-hover:shadow-md group-hover:scale-[1.03] transition-all duration-500 relative">
                         {template.previewImage ? (
                             <div className="relative w-full h-full">
                                 <NextImage
@@ -430,6 +457,97 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData }: Temp
                 </button>
             )})}
             </div>
+
+            {/* ═══ Hover-to-Maximize Preview Overlay ═══ */}
+            {hoverTemplate && (
+                <div 
+                    className="fixed inset-0 z-[200] flex items-center justify-center animate-in fade-in duration-200"
+                    onClick={dismissHoverPreview}
+                >
+                    {/* Backdrop */}
+                    <div className="absolute inset-0 bg-neutral-950/60 backdrop-blur-sm" />
+
+                    {/* Preview Card */}
+                    <div 
+                        className="relative z-10 flex flex-col items-center animate-in zoom-in-95 duration-300"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Info Bar */}
+                        <div className="bg-white/95 backdrop-blur-xl rounded-t-2xl px-6 py-3 flex items-center justify-between w-[520px] border border-neutral-200 border-b-0 shadow-lg">
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center">
+                                    <File className="w-4 h-4 text-primary-600" />
+                                </div>
+                                <div>
+                                    <h3 className="text-sm font-bold text-neutral-900 leading-tight">{hoverTemplate.name}</h3>
+                                    <p className="text-[10px] text-neutral-400 font-medium">
+                                        {hoverTemplate.suitableFor.industries?.slice(0, 3).join(' · ')}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                {hoverTemplate.isPremium && (
+                                    <span className="text-[9px] bg-amber-50 text-amber-600 px-2 py-1 rounded-md font-black uppercase tracking-widest border border-amber-200">Pro</span>
+                                )}
+                                <button 
+                                    onClick={dismissHoverPreview}
+                                    className="p-1.5 hover:bg-neutral-100 rounded-full transition-colors"
+                                >
+                                    <X className="w-4 h-4 text-neutral-400" />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Full-Size Template Preview */}
+                        <div className="w-[520px] h-[720px] bg-white overflow-hidden shadow-2xl border border-neutral-200 rounded-b-2xl relative">
+                            <div className="origin-top-left absolute top-0 left-0 scale-[0.65] w-[210mm] min-h-[297mm]">
+                                <TemplateRenderer
+                                    templateId={hoverTemplate.id}
+                                    data={getPreviewData(hoverTemplate.id, realData)}
+                                    className="w-[210mm] min-h-[297mm] bg-white"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Action Bar */}
+                        <div className="flex items-center gap-3 mt-4">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                    dismissHoverPreview()
+                                    setPreviewTemplate(hoverTemplate)
+                                }}
+                                className="rounded-xl bg-white/90 backdrop-blur-md border-white/40 text-neutral-700 hover:bg-white shadow-lg text-xs font-bold gap-2"
+                            >
+                                <Maximize2 className="w-3.5 h-3.5" />
+                                Full Preview
+                            </Button>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                onClick={() => {
+                                    if (hoverTemplate.isPremium && !isPro) {
+                                        toast.error('This is a premium template. Please upgrade to Pro.', {
+                                            action: {
+                                                label: 'Upgrade',
+                                                onClick: () => window.location.href = '/pricing'
+                                            }
+                                        })
+                                        return
+                                    }
+                                    onSelect(hoverTemplate.id)
+                                    dismissHoverPreview()
+                                }}
+                                className="rounded-xl shadow-lg text-xs font-bold gap-2"
+                            >
+                                <Check className="w-3.5 h-3.5" />
+                                Use This Template
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

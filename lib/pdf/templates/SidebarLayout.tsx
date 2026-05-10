@@ -60,10 +60,10 @@ export const SidebarLayout = ({ data, styles, templateId, isWatermarked }: any) 
                         </View>
                     ) : (
                         <View style={templateId.startsWith('ats-sterling') ? { marginBottom: 20 } : styles.header}>
-                            <Text style={templateId.startsWith('ats-sterling') ? [styles.name, { fontSize: 32, fontFamily: 'Playfair Display' }] : styles.name}>
+                            <Text style={templateId.startsWith('ats-sterling') ? [styles.name, { fontSize: 36, fontFamily: 'Playfair Display' }] : styles.name}>
                                 {data.personalInfo?.fullName || 'Untitled'}
                             </Text>
-                            <Text style={templateId.startsWith('ats-sterling') ? [styles.title, { fontSize: 9, color: '#64748b', textTransform: 'uppercase', letterSpacing: 2.0 }] : styles.title}>
+                            <Text style={templateId.startsWith('ats-sterling') ? [styles.title, { fontSize: 11, color: '#64748b', textTransform: 'uppercase', letterSpacing: 2.5, marginTop: 4 }] : styles.title}>
                                 {data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}
                             </Text>
                         </View>

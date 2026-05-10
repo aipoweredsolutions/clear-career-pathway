@@ -1234,6 +1234,62 @@ export const MOCK_ACADEMIC_DATA: ResumeDocument = {
                 { text: 'Burroughs Wellcome Fund Career Award, 2023' }
             ]
         }
+    ],
+    references: [
+        {
+            referenceName: 'Dr. Helena Marchetti',
+            role: 'Professor of Computational Genomics',
+            organization: 'Global Institute of Biosciences',
+            contactDetails: 'h.marchetti@biosciences.edu | (555) 321-7890'
+        },
+        {
+            referenceName: 'Dr. James Whitfield',
+            role: 'Director, Center for Molecular Innovation',
+            organization: 'National Research Consortium',
+            contactDetails: 'j.whitfield@nrc-research.org | (555) 654-3210'
+        },
+        {
+            referenceName: 'Prof. Sarah Lindström',
+            role: 'Chair, Department of Genetics',
+            organization: 'Pacific Academy of Sciences',
+            contactDetails: 's.lindstrom@pacificsci.edu | (555) 987-1234'
+        }
+    ],
+    professionalAffiliations: [
+        {
+            organizationName: 'American Society for Molecular Biology (ASMB)',
+            roleOrMembership: 'Fellow',
+            yearsActive: '2018 – Present'
+        },
+        {
+            organizationName: 'International Genomics Consortium (IGC)',
+            roleOrMembership: 'Member',
+            yearsActive: '2019 – Present'
+        },
+        {
+            organizationName: 'National Academy of Biological Sciences',
+            roleOrMembership: 'Associate',
+            yearsActive: '2015 – 2020'
+        }
+    ],
+    volunteerExperience: [
+        {
+            roleTitle: 'Peer Reviewer',
+            organizationName: 'Journal of Molecular Research (JMR). Actively reviewed over 20 academic papers focusing on gene editing methodologies, epigenetic inheritance, and bioinformatics.',
+            startDate: '2021',
+            endDate: 'Present'
+        },
+        {
+            roleTitle: 'Graduate Admissions Committee',
+            organizationName: 'Department of Biology, Cambridge University. Evaluated over 200 doctoral applications annually and participated in interview panels.',
+            startDate: '2020',
+            endDate: '2022'
+        }
+    ],
+    languages: [
+        { languageName: 'English', proficiencyLevel: 'native' },
+        { languageName: 'Spanish', proficiencyLevel: 'fluent' },
+        { languageName: 'French', proficiencyLevel: 'intermediate' }
     ]
 }
 

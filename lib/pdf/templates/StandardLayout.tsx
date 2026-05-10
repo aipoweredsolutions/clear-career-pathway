@@ -99,19 +99,41 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                         <ContactInfo data={data} styles={styles} />
                     </View>
                 </View>
-            ) : templateId.includes('chronograph') ? (
-                <View style={[styles.header, { alignItems: 'flex-start', textAlign: 'left', borderBottomWidth: 0 }]}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'flex-end', borderBottomWidth: 3, borderBottomColor: '#171717', paddingBottom: 10 }}>
-                        <View>
-                            <Text style={[styles.name, { fontSize: 32, marginBottom: 0 }]}>{data.personalInfo?.fullName || 'Untitled'}</Text>
-                            <Text style={[styles.title, { fontSize: 11, marginTop: 4, letterSpacing: 3 }]}>{data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}</Text>
-                        </View>
-                        <View style={{ alignItems: 'flex-end' }}>
-                            <ContactInfo data={data} styles={styles} />
-                        </View>
+            ) : templateId.startsWith('ats-academia-cv') ? (
+                <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 20, alignItems: 'center', textAlign: 'center' }]}>
+                    <Text style={[styles.name, { fontSize: 24, fontWeight: 'bold', marginBottom: 4 }]}>
+                        {data.personalInfo?.fullName || 'Your Name'}
+                    </Text>
+                    <Text style={[styles.title, { fontSize: 11, letterSpacing: 1, color: '#737373', marginBottom: 12 }]}>
+                        {data.personalInfo?.professionalTitle || ''}
+                    </Text>
+                    <View style={{ width: '100%', height: 0.5, backgroundColor: '#d4d4d4', marginBottom: 10 }} />
+                    <ContactInfo data={data} styles={styles} separator=" · " />
+                </View>
+            ) : templateId.startsWith('ats-modern') ? (
+                <View style={[styles.header, { borderBottomWidth: 2, borderBottomColor: '#f3f4f6', pb: 15, mb: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }]}>
+                    <View style={{ flex: 1 }}>
+                        <Text style={[styles.name, { fontSize: 36, fontWeight: 900, letterSpacing: -1, marginBottom: 4, lineHeight: 1 }]}>
+                            {data.personalInfo?.fullName || 'Your Name'}
+                        </Text>
+                        <Text style={[styles.title, { fontSize: 11, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 2, color: styles.name.color || '#171717', opacity: 0.8 }]}>
+                            {data.personalInfo?.professionalTitle || ''}
+                        </Text>
+                    </View>
+                    <View style={{ alignItems: 'flex-end', gap: 2 }}>
+                        <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#171717' }}>
+                            {[data.personalInfo?.city, data.personalInfo?.country].filter(Boolean).join(', ')}
+                        </Text>
+                        <Text style={{ fontSize: 9, color: '#737373' }}>{data.personalInfo?.email}</Text>
+                        <Text style={{ fontSize: 9, color: '#737373' }}>{data.personalInfo?.phone}</Text>
+                        {data.personalInfo?.linkedinUrl && (
+                            <Text style={{ fontSize: 8, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 1, color: styles.name.color || '#171717', marginTop: 2 }}>
+                                {data.personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}
+                            </Text>
+                        )}
                     </View>
                 </View>
-            ) : templateId.startsWith('ats-executive') ? (
+            ) : templateId.includes('chronograph') ? (
                 <View style={[styles.header, { borderBottomWidth: 4, borderBottomColor: styles.name.color || '#171717', paddingBottom: 15, marginBottom: 20 }]}>
                     <Text style={[styles.name, { fontSize: 32, marginBottom: 6, letterSpacing: -0.5, textTransform: 'uppercase' }]}>{data.personalInfo?.fullName || 'Untitled'}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
@@ -214,7 +236,7 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                     <Text style={[styles.title, { fontSize: 10, fontWeight: 'medium', textTransform: 'uppercase', letterSpacing: 2.5, marginBottom: 12, color: '#737373' }]}>
                         {data.personalInfo?.professionalTitle || ''}
                     </Text>
-                    <View style={{ width: '100%', height: 0.5, backgroundColor: '#171717', marginBottom: 10 }} />
+                    <View style={{ width: '100%', height: 1, backgroundColor: '#171717', marginBottom: 10 }} />
                     <ContactInfo data={data} styles={styles} separator="|" />
                 </View>
             ) : (

@@ -5,6 +5,7 @@ import { useParams, useSearchParams } from 'next/navigation'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { MOCK_PREVIEW_DATA } from '@/lib/constants/mock-data'
 import { CAREER_SAMPLES } from '@/lib/constants/career-samples'
+import { getSampleDataForTemplate } from '@/lib/utils/template-sample-data'
 
 function PreviewContent() {
     const params = useParams()
@@ -17,13 +18,7 @@ function PreviewContent() {
 
     // Choose sample data based on template type
     const getData = () => {
-        if (templateId.startsWith('ats')) return CAREER_SAMPLES.sales_executive
-        if (templateId === 'technical') return CAREER_SAMPLES.software_engineer
-        if (templateId === 'modern' || templateId === 'startup') return CAREER_SAMPLES.marketing_manager
-        if (templateId === 'cute') return CAREER_SAMPLES.graphic_designer
-        if (templateId === 'graduate') return CAREER_SAMPLES.graduate
-        if (templateId === 'academic') return CAREER_SAMPLES.education_expert
-        return MOCK_PREVIEW_DATA
+        return getSampleDataForTemplate(templateId)
     }
 
     return (

@@ -87,6 +87,43 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                     ))}
                 </div>
             </header>
+            {/* --- DOCUMENT TYPE OVERRIDES --- */}
+            {data.documentType === 'cover_letter' ? (
+                <div className="px-8 sm:px-12 pb-12 pt-8">
+                    <div className="mb-8 space-y-1 text-[13px] text-neutral-800">
+                        <p className="font-bold text-neutral-400 mb-6">{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        {data.coverLetter?.recipientName && <p className="font-bold">{data.coverLetter.recipientName}</p>}
+                        {data.coverLetter?.recipientTitle && <p className="text-neutral-600">{data.coverLetter.recipientTitle}</p>}
+                        {data.coverLetter?.companyName && <p className="font-bold">{data.coverLetter.companyName}</p>}
+                    </div>
+                    <div className="mb-6"><p className="text-[13px] text-neutral-800">Dear {data.coverLetter?.recipientName || 'Hiring Manager'},</p></div>
+                    <div className="prose prose-neutral max-w-none mb-12">
+                        {data.coverLetter?.content?.split('\n').map((para, i) => (
+                            <p key={i} className="text-[13px] leading-relaxed mb-4 text-justify text-neutral-800">{para}</p>
+                        )) || <p className="text-neutral-400 italic text-[13px]">Your cover letter will appear here...</p>}
+                    </div>
+                    <div className="space-y-4 text-neutral-800">
+                        <p className="text-[13px]">Sincerely,</p>
+                        <p className="font-bold text-[13px]">{data.personalInfo?.fullName}</p>
+                    </div>
+                </div>
+            ) : data.documentType === 'references' ? (
+                <div className="px-8 sm:px-12 pb-12 pt-8">
+                    <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        {data.references?.map((ref, i) => (
+                            <div key={i} className="flex flex-col gap-1">
+                                <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
+                                <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
+                                {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
+                                {ref.availabilityStatement && <span className="text-[11px] text-neutral-400 italic mt-1">{ref.availabilityStatement}</span>}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                <>
+
 
             {/* ── BODY ── */}
             <div>
@@ -147,11 +184,41 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                     </section>
                 )}
 
+                {/* Projects */}
+                {projects && projects.length > 0 && (
+                    <section>
+                        <SectionHeader title="Key Projects" />
+                        <div className="space-y-5 px-4">
+                            {projects.map((proj, i) => (
+                                <div key={i}>
+                                    <div className="flex justify-between items-baseline mb-2">
+                                        <h3 className="text-[13px] font-bold text-neutral-900 tracking-tight">
+                                            {proj.projectName}
+                                            {proj.role && <span className="font-normal text-neutral-400 ml-4 italic">{proj.role}</span>}
+                                        </h3>
+                                        <span className="text-[12px] font-black text-neutral-300 uppercase tracking-widest">
+                                            {proj.startDate} {proj.endDate && `— ${proj.endDate}`}
+                                        </span>
+                                    </div>
+                                    <p className="text-[11px] text-neutral-600 leading-relaxed font-medium mb-2">
+                                        {proj.description}
+                                    </p>
+                                    {proj.toolsUsed && proj.toolsUsed.length > 0 && (
+                                        <div className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
+                                            Technologies: {proj.toolsUsed.join(' • ')}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
                 {/* Education */}
                 {education && education.length > 0 && (
                     <section>
                         <SectionHeader title="Education" />
-                        <div className="space-y-3 px-4">
+                        <div className="space-y-4 px-4">
                             {education.map((edu, i) => (
                                 <div key={i}>
                                     <div className="flex justify-between items-baseline mb-2">
@@ -168,7 +235,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                                         {edu.location}
                                     </div>
                                     {edu.gpa && (
-                                        <div className="text-[12px] text-neutral-400 mt-2 font-black uppercase tracking-widest">Cumulative GPA: {edu.gpa}</div>
+                                        <div className="text-[11px] text-neutral-400 mt-2 font-black uppercase tracking-widest">Cumulative GPA: {edu.gpa}</div>
                                     )}
                                 </div>
                             ))}
@@ -180,14 +247,14 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                 {skills && skills.length > 0 && (
                     <section>
                         <SectionHeader title="Expertise" />
-                        <div className="flex flex-col gap-y-3 px-4">
+                        <div className="flex flex-col gap-y-4 px-4">
                             {Object.entries(skills.reduce((acc, s) => {
                                 const t = s.skillType || 'professional';
                                 if (!acc[t]) acc[t] = [];
                                 acc[t].push(s);
                                 return acc;
                             }, {} as Record<string, typeof skills>)).map(([type, list]) => (
-                                <div key={type} className="flex flex-col gap-3">
+                                <div key={type} className="flex flex-col gap-2">
                                     <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.2em]">{type}</div>
                                     <p className="text-[11px] font-bold text-neutral-800 leading-relaxed">
                                         {list.map(s => s.skillName).join('  •  ')}
@@ -198,30 +265,34 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                     </section>
                 )}
 
-                {/* Languages & Affiliations */}
-                {(languages?.length || professionalAffiliations?.length) ? (
-                    <div className="flex flex-col gap-5 mt-6 pt-4 border-t border-neutral-50 px-4">
-                        {languages && languages.length > 0 && (
+                {/* Certifications & Publications */}
+                {(certifications?.length || publications?.length) ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-4 mt-6">
+                        {certifications && certifications.length > 0 && (
                             <section>
-                                <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-6">Languages</h2>
+                                <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Certifications</h2>
                                 <div className="space-y-3">
-                                    {languages.map((l, i) => (
-                                        <div key={i} className="text-[13px] font-bold text-neutral-700">
-                                            {l.languageName} <span className="text-neutral-300 mx-2 italic font-medium">[{l.proficiencyLevel}]</span>
+                                    {certifications.map((cert, i) => (
+                                        <div key={i}>
+                                            <div className="text-[12px] font-bold text-neutral-800 leading-tight">{cert.certificationName}</div>
+                                            <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mt-1">
+                                                {cert.issuingOrganization} {cert.issueYear && `• ${cert.issueYear}`}
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
                             </section>
                         )}
-                        
-                        {professionalAffiliations && professionalAffiliations.length > 0 && (
+                        {publications && publications.length > 0 && (
                             <section>
-                                <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-6">Affiliations</h2>
-                                <div className="space-y-4">
-                                    {professionalAffiliations.map((aff, i) => (
-                                        <div key={i} className="text-[12px] font-bold text-neutral-600 leading-tight">
-                                            <div className="text-neutral-800 uppercase tracking-tight">{aff.organizationName}</div>
-                                            <div className="italic opacity-60 mt-1">{aff.roleOrMembership}</div>
+                                <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Publications</h2>
+                                <div className="space-y-3">
+                                    {publications.map((pub, i) => (
+                                        <div key={i}>
+                                            <div className="text-[12px] font-bold text-neutral-800 leading-tight">{pub.title}</div>
+                                            <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mt-1">
+                                                {pub.platformOrPublisher} {pub.publicationYear && `• ${pub.publicationYear}`}
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -229,7 +300,101 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                         )}
                     </div>
                 ) : null}
+
+                {/* Languages & Volunteer */}
+                {(languages?.length || volunteerExperience?.length) ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-4 mt-10">
+                        {languages && languages.length > 0 && (
+                            <section>
+                                <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Languages</h2>
+                                <div className="space-y-2">
+                                    {languages.map((l, i) => (
+                                        <div key={i} className="text-[12px] font-bold text-neutral-800">
+                                            {l.languageName} <span className="text-neutral-300 mx-2 italic font-medium">[{l.proficiencyLevel}]</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                        {volunteerExperience && volunteerExperience.length > 0 && (
+                            <section>
+                                <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Volunteer</h2>
+                                <div className="space-y-3">
+                                    {volunteerExperience.map((vol, i) => (
+                                        <div key={i}>
+                                            <div className="text-[12px] font-bold text-neutral-800 leading-tight">{vol.roleTitle}</div>
+                                            <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mt-1">
+                                                {vol.organizationName}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                    </div>
+                ) : null}
+
+                {/* Affiliations & References */}
+                {(professionalAffiliations?.length || references?.length) ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-4 mt-10 border-t border-neutral-50 pt-8">
+                        {professionalAffiliations && professionalAffiliations.length > 0 && (
+                            <section>
+                                <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Affiliations</h2>
+                                <div className="space-y-3">
+                                    {professionalAffiliations.map((aff, i) => (
+                                        <div key={i}>
+                                            <div className="text-[12px] font-bold text-neutral-800 leading-tight">{aff.organizationName}</div>
+                                            <div className="text-[10px] italic opacity-60 mt-1">{aff.roleOrMembership}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                        {references && references.length > 0 && (
+                            <section>
+                                <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">References</h2>
+                                <div className="space-y-3">
+                                    {references.map((ref, i) => (
+                                        <div key={i}>
+                                            <div className="text-[12px] font-bold text-neutral-800 leading-tight">{ref.referenceName || ref.name}</div>
+                                            <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mt-1">
+                                                {ref.organization || ref.company} • {ref.role || ref.title}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                    </div>
+                ) : null}
+
+                {/* Custom Sections */}
+                {customSections && customSections.length > 0 && (
+                    <div className="px-4 mt-10 space-y-8">
+                        {customSections.map((section, i) => (
+                            <section key={i}>
+                                <SectionHeader title={section.title} />
+                                <div className="text-[12px] text-neutral-700 leading-relaxed font-medium">
+                                    {section.content}
+                                    {section.items && section.items.length > 0 && (
+                                        <ul className="mt-3 space-y-2">
+                                            {section.items.map((item, j) => (
+                                                <li key={j} className="flex gap-4">
+                                                    <span className={cn("shrink-0 w-1.5 h-1.5 rounded-full mt-2", borderColorClass.replace('border-', 'bg-'), "opacity-20")} />
+                                                    <span>{item.text}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
+                            </section>
+                        ))}
+                    </div>
+                )}
             </div>
-        </div>
+        
+                </>
+            )}
+            </div>
     )
 }

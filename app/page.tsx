@@ -53,9 +53,9 @@ const HOME_FAQS = [
 ]
 
 const HOW_TO_STEPS = [
-    { name: "Build Your Foundation", text: "Import your old resume or start fresh. Our parser handles the data so you can focus on the strategy.", url: "https://www.clearcareerpath.com/editor/setup" },
-    { name: "Command Professional Narrative", text: "Transform passive lists of tasks into high-impact achievements that command recruiter attention.", url: "https://www.clearcareerpath.com/editor/setup" },
-    { name: "Claim Your Seat at the Table", text: "Choose from 25+ premium, ATS-compliant designs and download in seconds to start winning interviews.", url: "https://www.clearcareerpath.com/editor/setup" }
+    { name: "Build Your Foundation", text: "Import your old resume or start fresh. Our parser handles the data so you can focus on the strategy.", url: "/editor/setup" },
+    { name: "Command Professional Narrative", text: "Transform passive lists of tasks into high-impact achievements that command recruiter attention.", url: "/editor/setup" },
+    { name: "Claim Your Seat at the Table", text: "Choose from 25+ premium, ATS-compliant designs and download in seconds to start winning interviews.", url: "/editor/setup" }
 ]
 
 export default function Home() {

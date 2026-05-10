@@ -32,6 +32,13 @@ export function DashboardHeaderActions() {
                 </button>
             </form>
 
+            <form action={createResume.bind(null, 'references')}>
+                <button type="submit" className="group h-16 px-8 bg-neutral-900 text-white rounded-2xl hover:bg-neutral-800 transition-all flex items-center gap-3 font-black text-xs uppercase tracking-widest shadow-xl shadow-neutral-900/20">
+                    <FileText className="w-5 h-5 transition-transform group-hover:translate-y-[-2px]" />
+                    References
+                </button>
+            </form>
+
             <ResumeUploadModal 
                 isOpen={isUploadModalOpen} 
                 onClose={() => setIsUploadModalOpen(false)} 

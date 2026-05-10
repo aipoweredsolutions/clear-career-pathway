@@ -171,7 +171,7 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
         { id: 'custom', label: 'Custom' },
     ];
 
-    const CORE_TABS = ['personal', 'summary', 'experience', 'education', 'skills'];
+    const CORE_TABS = data.documentType === 'references' ? ['personal', 'references'] : ['personal', 'summary', 'experience', 'education', 'skills'];
 
     const [tabs, setTabs] = useState<{id: string, label: string}[]>([]);
 

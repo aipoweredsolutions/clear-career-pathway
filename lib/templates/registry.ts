@@ -600,4 +600,24 @@ export const templateRegistry: TemplateMetadata[] = [
             { id: 'navy',     name: 'Oxford Navy',     hex: '#1e3a8a' }
         ]
     },
+
+    // --- 25. ATS ACADEMIA CV (Distinguished Scholar) ---
+    {
+        id: 'ats-academia-cv',
+        name: 'Distinguished Scholar CV',
+        description: 'A prestigious academic curriculum vitae designed for professors, researchers, and postdoctoral scholars. Features bold serif headers, dissertation highlight boxes, citation-formatted publications, professional memberships with dates, and structured academic references. Optimized for research institutions, tenure-track applications, and fellowship submissions.',
+        suitableFor: {
+            careerLevels: ['mid', 'senior', 'executive'],
+            jobTypes: ['academic', 'technical', 'corporate'],
+            industries: ['Academia', 'Research', 'Education', 'Science', 'Healthcare', 'Policy']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'black', name: 'Classic Black', hex: '#171717' },
+            { id: 'navy', name: 'Oxford Navy', hex: '#1e3a8a' },
+            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
+            { id: 'maroon', name: 'Academic Maroon', hex: '#7f1d1d' },
+            { id: 'forest', name: 'Forest Green', hex: '#064e3b' }
+        ]
+    },
 ]

@@ -156,7 +156,7 @@ const PRODUCT_TOOLS = [
     {
         name: 'Cover Letter Pro',
         description: 'Draft highly-tailored cover letters instantly.',
-        href: '/editor/setup?type=cover_letter',
+        href: '/editor/setup?documentType=cover_letter',
         icon: PenTool,
         color: 'text-emerald-600',
         bg: 'bg-emerald-50'
@@ -164,7 +164,7 @@ const PRODUCT_TOOLS = [
     {
         name: 'Keyword Matcher',
         description: 'Analyze job postings to beat ATS filters.',
-        href: '/career-hub',
+        href: '/career-hub?tab=skills_gap',
         icon: Search,
         color: 'text-amber-600',
         bg: 'bg-amber-50'
@@ -205,9 +205,9 @@ const SERVICE_ITEMS = [
         bg: 'bg-amber-50'
     },
     {
-        name: 'LinkedIn Optimization',
+        name: 'LinkedIn Brand Optimizer',
         description: 'Optimize your profile for recruiter discoverability.',
-        href: '/career-hub',
+        href: '/career-hub?tab=linkedin_optimizer',
         icon: Zap,
         color: 'text-sky-600',
         bg: 'bg-sky-50'
@@ -361,7 +361,7 @@ export function Navbar() {
         pathname === '/templates' ||
         pathname === '/samples' ||
         pathname.startsWith('/studio') ||
-        pathname === '/' // home has template gallery section
+        pathname.startsWith('/templates/')
 
     return (
         <nav

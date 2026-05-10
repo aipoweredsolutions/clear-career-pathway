@@ -5,52 +5,16 @@ import { createPortal } from 'react-dom'
 import { X, Check, FileText, Lock, Sparkles } from 'lucide-react'
 import { TemplateMetadata } from '@/lib/types/resume'
 import {
-    MOCK_PREVIEW_DATA,
-    MOCK_EXECUTIVE_DATA,
-    MOCK_GRADUATE_DATA,
-    MOCK_NURSE_EXPERIENCED_DATA,
-    MOCK_TECHNICAL_DATA,
-    MOCK_HOSPITALITY_DATA,
-    MOCK_CRUISE_DATA,
-    MOCK_ACADEMIC_DATA,
-    MOCK_CORPORATE_DATA,
-    MOCK_LEGAL_DATA,
-    MOCK_FASHION_DATA,
-    MOCK_ATS_PROFESSIONAL_DATA,
-    MOCK_ATS_MINIMAL_DATA,
-    MOCK_ATS_EXECUTIVE_DATA,
-    MOCK_ATS_MODERN_DATA,
-    MOCK_ATS_GRADUATE_DATA,
-    MOCK_ATS_TIMELINE_DATA,
-    MOCK_SERVICE_PRO_DATA,
-    MOCK_TECHNICAL_TEMPLATE_DATA,
-    MOCK_EXECUTIVE_TEMPLATE_DATA,
-    MOCK_CREATIVE_TEMPLATE_DATA,
-    MOCK_PROFESSIONAL_TEMPLATE_DATA,
-    MOCK_LUXE_TEMPLATE_DATA,
-    MOCK_STARTUP_TEMPLATE_DATA,
-    MOCK_ARTISAN_TEMPLATE_DATA,
-    MOCK_SPLIT_CONTRAST_DATA,
-    MOCK_COMPACT_TEMPLATE_DATA,
-    MOCK_GRADUATE_TEMPLATE_DATA,
-    MOCK_CUTE_TEMPLATE_DATA
+    MOCK_EXECUTIVE_DATA
 } from '@/lib/constants/mock-data'
+import { getSampleDataForTemplate } from '@/lib/utils/template-sample-data'
 import { Button } from '@/components/ui/Button'
 import Link from 'next/link'
 import { useAuth } from '@/components/auth/AuthProvider'
 import dynamic from 'next/dynamic'
 import { cn } from '@/lib/utils'
 
-// Dynamically import PDF components with SSR disabled
-const PDFPreview = dynamic(() => import('./PDFPreview'), {
-    ssr: false,
-    loading: () => (
-        <div className="flex flex-col items-center justify-center h-full w-full bg-white rounded-lg border border-neutral-200 gap-4">
-            <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
-            <p className="text-sm font-bold text-neutral-400 uppercase tracking-widest">Preparing PDF Engine...</p>
-        </div>
-    )
-})
+import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 
 
 interface TemplatePreviewDialogProps {
@@ -64,6 +28,8 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
     const { user } = useAuth()
     const [isMounted, setIsMounted] = useState(false)
     const [selectedColor, setSelectedColor] = useState<string>(initialColor || 'standard')
+    const [numPages, setNumPages] = useState(1)
+    const measureRef = React.useRef<HTMLDivElement>(null)
 
     // Sync local color with prop when template changes or initialColor changes
     useEffect(() => {
@@ -87,54 +53,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             : template.id
 
         // Diversify content based on template personality
-        let baseData = MOCK_PREVIEW_DATA
-
-        // ATS templates - use dedicated ATS mock data
-        if (template.id.startsWith('ats-')) {
-            if (template.id.includes('nursing')) baseData = MOCK_NURSE_EXPERIENCED_DATA
-            else if (template.id.includes('professional')) baseData = MOCK_ATS_PROFESSIONAL_DATA
-            else if (template.id.includes('technical')) baseData = MOCK_TECHNICAL_DATA
-            else if (template.id.includes('standard')) baseData = MOCK_CORPORATE_DATA
-            else if (template.id.includes('classic')) baseData = MOCK_LEGAL_DATA
-            else if (template.id.includes('executive')) baseData = MOCK_ATS_EXECUTIVE_DATA
-            else if (template.id.includes('graduate')) baseData = MOCK_ATS_GRADUATE_DATA
-            else if (template.id.includes('modern')) baseData = MOCK_ATS_MODERN_DATA
-            else if (template.id.includes('mini')) baseData = MOCK_ATS_MINIMAL_DATA
-            else if (template.id.includes('timeline')) baseData = MOCK_ATS_TIMELINE_DATA
-            else if (template.id.includes('hospitality')) baseData = MOCK_HOSPITALITY_DATA
-            else if (template.id.includes('academia')) baseData = MOCK_ACADEMIC_DATA
-            else baseData = MOCK_CORPORATE_DATA
-        } else {
-            // Visual templates - use dedicated template mock data
-            if (template.id.includes('nursing')) baseData = MOCK_NURSE_EXPERIENCED_DATA
-            else if (template.id === 'technical') baseData = MOCK_TECHNICAL_TEMPLATE_DATA
-            else if (template.id === 'executive') baseData = MOCK_EXECUTIVE_TEMPLATE_DATA
-            else if (template.id === 'creative') baseData = MOCK_CREATIVE_TEMPLATE_DATA
-            else if (template.id === 'professional') baseData = MOCK_PROFESSIONAL_TEMPLATE_DATA
-            else if (template.id === 'luxe') baseData = MOCK_LUXE_TEMPLATE_DATA
-            else if (template.id === 'startup' || template.id === 'startups') baseData = MOCK_STARTUP_TEMPLATE_DATA
-            else if (template.id === 'artisan') baseData = MOCK_ARTISAN_TEMPLATE_DATA
-            else if (template.id === 'split-contrast') baseData = MOCK_SPLIT_CONTRAST_DATA
-            else if (template.id === 'compact') baseData = MOCK_COMPACT_TEMPLATE_DATA
-            else if (template.id === 'graduate') baseData = MOCK_GRADUATE_TEMPLATE_DATA
-            else if (template.id === 'minimal') baseData = MOCK_ATS_MINIMAL_DATA
-            else if (template.id === 'cute') baseData = MOCK_CUTE_TEMPLATE_DATA
-            else if (template.id === 'modern') baseData = MOCK_CORPORATE_DATA
-            else if (template.id === 'classic') baseData = MOCK_LEGAL_DATA
-            else if (template.id === 'chic') baseData = MOCK_FASHION_DATA
-            else if (template.id === 'academic') baseData = MOCK_ACADEMIC_DATA
-            // Industry-specific templates
-            else if (template.id === 'hospitality-elite') baseData = MOCK_HOSPITALITY_DATA
-            else if (template.id === 'cruise-excellence') baseData = MOCK_CRUISE_DATA
-            else if (template.id === 'service-pro') baseData = MOCK_SERVICE_PRO_DATA
-            else if (template.id === 'legal-expert') baseData = MOCK_LEGAL_DATA
-            else if (template.id === 'military-transition') baseData = MOCK_ATS_EXECUTIVE_DATA
-            else if (template.id === 'real-estate-pro') baseData = MOCK_LUXE_TEMPLATE_DATA
-            else if (template.id === 'trades-pro') baseData = MOCK_SERVICE_PRO_DATA
-            else if (template.id === 'international-cv') baseData = MOCK_EXECUTIVE_TEMPLATE_DATA
-            else if (template.id === 'revenue-leader') baseData = MOCK_ATS_EXECUTIVE_DATA
-            else if (template.id === 'classic-clean') baseData = MOCK_LEGAL_DATA
-        }
+        let baseData = getSampleDataForTemplate(effectiveTemplateId)
 
         return {
             ...baseData,
@@ -145,6 +64,20 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             }
         }
     }, [template, selectedColor])
+
+    // Measure the template height to calculate how many A4 pages it spans
+    useEffect(() => {
+        if (measureRef.current) {
+            // Wait a tick for fonts/layout to settle
+            setTimeout(() => {
+                if (measureRef.current) {
+                    const heightPx = measureRef.current.scrollHeight
+                    const visiblePageHeightPx = 273 * 3.7795275591 // 273mm visible content per page (12mm margins)
+                    setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
+                }
+            }, 100)
+        }
+    }, [previewData, isMounted])
 
     if (!template || !isMounted) return null
 
@@ -249,15 +182,32 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                         )}
                     </div>
 
-                    {/* Preview Canvas */}
                     <div className="flex-1 overflow-y-auto p-12 flex justify-center bg-neutral-200/30 bg-[radial-gradient(#d1d1d1_1px,transparent_1px)] [background-size:24px_24px]">
-                        <div className="w-full h-full max-w-4xl">
+                        <div className="w-full flex justify-center pb-20">
                             {isMounted && (
-                                <PDFPreview
-                                    data={previewData}
-                                    isAuthenticated={!!user}
-                                    templateName={template.name}
-                                />
+                                <div className="flex flex-col gap-12 transform scale-[0.5] sm:scale-[0.7] md:scale-[0.85] lg:scale-100 origin-top">
+                                    
+                                    {/* Hidden Measurement Container */}
+                                    <div className="absolute top-0 left-0 w-[210mm] opacity-0 pointer-events-none z-[-1]" aria-hidden="true">
+                                        <div ref={measureRef}>
+                                            <TemplateRenderer templateId={previewData.templateId} data={previewData} />
+                                        </div>
+                                    </div>
+
+                                    {/* Paginated Render */}
+                                    {Array.from({ length: numPages }).map((_, i) => (
+                                        <div key={i} className="bg-white shadow-2xl shrink-0 w-[210mm] h-[297mm] relative ring-1 ring-neutral-900/5 flex flex-col items-center justify-center">
+                                            <div className="relative w-full h-[273mm] overflow-hidden">
+                                                <div className="absolute top-0 left-0 w-full" style={{ transform: `translateY(-${i * 273}mm)` }}>
+                                                    <TemplateRenderer
+                                                        templateId={previewData.templateId}
+                                                        data={previewData}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             )}
                         </div>
                     </div>

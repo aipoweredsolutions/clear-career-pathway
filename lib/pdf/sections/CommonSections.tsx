@@ -79,6 +79,128 @@ export const Section = ({ title, styles, children, isFirst, templateId = '', ind
         )
     }
 
+    if (templateId.startsWith('ats-academia-cv')) {
+        return (
+            <View style={[styles.section, isFirst && styles.sectionFirst]}>
+                <View style={{ marginTop: 22, marginBottom: 10 }}>
+                    <Text style={[styles.sectionTitle, { 
+                        fontSize: 11,
+                        letterSpacing: 1.5,
+                        marginBottom: 6, 
+                        paddingBottom: 6, 
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#a3a3a3',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase'
+                    }]}>
+                        {title}
+                    </Text>
+                </View>
+                <View>
+                    {children}
+                </View>
+            </View>
+        )
+    }
+
+    if (templateId.startsWith('ats-modern')) {
+        return (
+            <View style={[styles.section, isFirst && styles.sectionFirst]}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 18, marginBottom: 10 }}>
+                    <View style={{ width: 3.5, height: 16, backgroundColor: styles.sectionTitle.color || '#171717', borderRadius: 2 }} />
+                    <Text style={[styles.sectionTitle, { 
+                         fontSize: 9,
+                         letterSpacing: 2,
+                         marginBottom: 0, 
+                         paddingBottom: 0, 
+                         borderBottomWidth: 0,
+                         fontWeight: 900,
+                         textTransform: 'uppercase'
+                    }]}>
+                        {title}
+                    </Text>
+                    <View style={{ flex: 1, height: 1, backgroundColor: '#f9fafb', marginLeft: 4 }} />
+                </View>
+                <View style={{ paddingLeft: 10 }}>
+                    {children}
+                </View>
+            </View>
+        )
+    }
+
+    if (templateId.startsWith('ats-sterling')) {
+        return (
+            <View style={[styles.section, isFirst && styles.sectionFirst]}>
+                <View style={{ marginTop: 24, marginBottom: 12 }}>
+                    <Text style={[styles.sectionTitle, { 
+                        fontSize: 14,
+                        fontFamily: 'Playfair Display',
+                        marginBottom: 4, 
+                        paddingBottom: 0, 
+                        borderBottomWidth: 0,
+                        fontWeight: 'bold',
+                        color: '#1e293b'
+                    }]}>
+                        {title}
+                    </Text>
+                    <View style={{ width: '100%', height: 1, backgroundColor: '#f1f5f9' }} />
+                </View>
+                <View>
+                    {children}
+                </View>
+            </View>
+        )
+    }
+
+    if (templateId.startsWith('elite-london')) {
+        return (
+            <View style={[styles.section, isFirst && styles.sectionFirst]}>
+                <View style={{ marginTop: 24, marginBottom: 12 }}>
+                    <Text style={[styles.sectionTitle, { 
+                        fontSize: 10,
+                        letterSpacing: 3,
+                        marginBottom: 4, 
+                        paddingBottom: 0, 
+                        borderBottomWidth: 0,
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase'
+                    }]}>
+                        {title}
+                    </Text>
+                    <View style={{ width: '100%', height: 1, backgroundColor: '#e5e7eb' }} />
+                </View>
+                <View>
+                    {children}
+                </View>
+            </View>
+        )
+    }
+
+    if (templateId.startsWith('elite-parker')) {
+        return (
+            <View style={[styles.section, isFirst && styles.sectionFirst]}>
+                <View style={{ marginTop: 24, marginBottom: 15 }}>
+                    <View style={{ width: '100%', height: 1, backgroundColor: '#f3f4f6', marginBottom: 12 }} />
+                    <Text style={[styles.sectionTitle, { 
+                        fontSize: 9,
+                        letterSpacing: 4,
+                        marginBottom: 0, 
+                        paddingBottom: 0, 
+                        borderBottomWidth: 0,
+                        fontWeight: 'medium',
+                        textTransform: 'uppercase',
+                        color: '#737373'
+                    }]}>
+                        {title}
+                    </Text>
+                </View>
+                <View>
+                    {children}
+                </View>
+            </View>
+        )
+    }
+
     if (templateId.startsWith('ats-masthead')) {
         return (
             <View style={[styles.section, isFirst && styles.sectionFirst]}>

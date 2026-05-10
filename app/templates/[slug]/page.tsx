@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
-import { CAREER_SAMPLES } from '@/lib/constants/career-samples'
+import { getSampleDataForTemplate } from '@/lib/utils/template-sample-data'
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -45,7 +45,8 @@ export default async function TemplateLandingPage({ params }: Props) {
     }
 
     // Get the sample data based on the template config
-    const sampleData = (CAREER_SAMPLES as any)[template.sampleDataKey] || CAREER_SAMPLES.software_engineer
+    // Use the same data resolution as the gallery thumbnail to ensure visual consistency
+    const sampleData = getSampleDataForTemplate(template.templateId)
 
     // Structured Data for AI SEO
     const jsonLd = {

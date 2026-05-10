@@ -336,7 +336,46 @@ export async function POST(req: NextRequest) {
                         "description": "string",
                         "toolsUsed": "string"
                     }
-                ]
+                ],
+                "publications": [
+                    {
+                        "title": "string",
+                        "platformOrPublisher": "string",
+                        "publicationYear": "number",
+                        "url": "string"
+                    }
+                ],
+                "volunteerExperience": [
+                    {
+                        "roleTitle": "string",
+                        "organizationName": "string",
+                        "startDate": "string",
+                        "endDate": "string",
+                        "contributions": "string"
+                    }
+                ],
+                "professionalAffiliations": [
+                    {
+                        "organizationName": "string",
+                        "roleOrMembership": "string",
+                        "yearsActive": "string"
+                    }
+                ],
+                "references": [
+                    {
+                        "referenceName": "string",
+                        "role": "string",
+                        "organization": "string",
+                        "contactDetails": "string"
+                    }
+                ],
+                "additionalInfo": {
+                    "securityClearance": "string",
+                    "workAuthorization": "string",
+                    "willingToRelocate": "boolean",
+                    "availability": "string",
+                    "otherInfo": "string"
+                }
             }
 
             Rules:

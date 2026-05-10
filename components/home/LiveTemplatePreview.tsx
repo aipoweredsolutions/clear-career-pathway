@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
-import { CAREER_SAMPLES } from '@/lib/constants/career-samples'
+import { getSampleDataForTemplate } from '@/lib/utils/template-sample-data'
 import { Skeleton } from '@/components/ui/Skeleton'
 
 interface Props {
@@ -33,7 +33,7 @@ export function LiveTemplatePreview({ templateId, sampleDataKey, title }: Props)
         return () => observer.disconnect()
     }, [])
 
-    const sampleData = (CAREER_SAMPLES as any)[sampleDataKey] || CAREER_SAMPLES.software_engineer
+    const sampleData = getSampleDataForTemplate(templateId)
 
     return (
         <div ref={containerRef} className="relative w-full h-full overflow-hidden flex items-start justify-center bg-white">
@@ -42,7 +42,7 @@ export function LiveTemplatePreview({ templateId, sampleDataKey, title }: Props)
                     <TemplateRenderer 
                         templateId={templateId} 
                         data={sampleData} 
-                        className="mx-auto" 
+                        className="w-[210mm] min-h-[297mm] mx-auto" 
                     />
                 </div>
             ) : (

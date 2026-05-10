@@ -103,6 +103,43 @@ export function ATSGridlineTemplate({ data, className, accentColor = 'text-blue-
                         ))}
                     </div>
                 </header>
+            {/* --- DOCUMENT TYPE OVERRIDES --- */}
+            {data.documentType === 'cover_letter' ? (
+                <div className="px-8 sm:px-12 pb-12 pt-8">
+                    <div className="mb-8 space-y-1 text-[13px] text-neutral-800">
+                        <p className="font-bold text-neutral-400 mb-6">{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        {data.coverLetter?.recipientName && <p className="font-bold">{data.coverLetter.recipientName}</p>}
+                        {data.coverLetter?.recipientTitle && <p className="text-neutral-600">{data.coverLetter.recipientTitle}</p>}
+                        {data.coverLetter?.companyName && <p className="font-bold">{data.coverLetter.companyName}</p>}
+                    </div>
+                    <div className="mb-6"><p className="text-[13px] text-neutral-800">Dear {data.coverLetter?.recipientName || 'Hiring Manager'},</p></div>
+                    <div className="prose prose-neutral max-w-none mb-12">
+                        {data.coverLetter?.content?.split('\n').map((para, i) => (
+                            <p key={i} className="text-[13px] leading-relaxed mb-4 text-justify text-neutral-800">{para}</p>
+                        )) || <p className="text-neutral-400 italic text-[13px]">Your cover letter will appear here...</p>}
+                    </div>
+                    <div className="space-y-4 text-neutral-800">
+                        <p className="text-[13px]">Sincerely,</p>
+                        <p className="font-bold text-[13px]">{data.personalInfo?.fullName}</p>
+                    </div>
+                </div>
+            ) : data.documentType === 'references' ? (
+                <div className="px-8 sm:px-12 pb-12 pt-8">
+                    <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        {data.references?.map((ref, i) => (
+                            <div key={i} className="flex flex-col gap-1">
+                                <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
+                                <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
+                                {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
+                                {ref.availabilityStatement && <span className="text-[11px] text-neutral-400 italic mt-1">{ref.availabilityStatement}</span>}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                <>
+
 
                 {/* ── BODY ── */}
                 <div>
@@ -297,6 +334,8 @@ export function ATSGridlineTemplate({ data, className, accentColor = 'text-blue-
                     ): null}
 
                 </div>
+                </>
+            )}
             </div>
         </div>
     )

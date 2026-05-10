@@ -76,6 +76,22 @@ function EditorContent() {
     const [isResizing, setIsResizing] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
     const [showUploadModal, setShowUploadModal] = useState(false)
+    const [numPages, setNumPages] = useState(1)
+    const measureRef = useRef<HTMLDivElement>(null)
+
+    // Measure height for visual pagination
+    useEffect(() => {
+        if (measureRef.current) {
+            setTimeout(() => {
+                if (measureRef.current) {
+                    const heightPx = measureRef.current.scrollHeight
+                    const isA4 = (deferredData || data)?.formatting?.paperSize === 'a4'
+                    const visiblePageHeightPx = (isA4 ? 273 : (10 * 25.4)) * 3.7795275591 // 273mm or 10in
+                    setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
+                }
+            }, 300)
+        }
+    }, [deferredData, data])
 
     // Trigger onboarding for new users
     useEffect(() => {
@@ -93,7 +109,7 @@ function EditorContent() {
                 // Handle "new" document creation
                 if (documentId === 'new') {
                     const docType = searchParams.get('type') as any || 'resume'
-                    const templateId = docType === 'cover_letter' ? 'cover-letter' : (searchParams.get('template') || 'classic')
+                    const templateId = searchParams.get('template') || 'ats-professional'
                     const sampleId = searchParams.get('sample')
                     const isGuest = searchParams.get('guest') === 'true'
 
@@ -120,7 +136,7 @@ function EditorContent() {
                     let baseData: ResumeDocument = {
                         ...mockTemplateData,
                         id: 'new',
-                        title: docType === 'cover_letter' ? 'New Cover Letter' : 'New Resume',
+                        title: docType === 'cover_letter' ? 'New Cover Letter' : docType === 'references' ? 'New Reference Page' : 'New Resume',
                         documentType: docType,
                         createdAt: new Date().toISOString(),
                         updatedAt: new Date().toISOString()
@@ -492,49 +508,57 @@ function EditorContent() {
                         {/* 
                             Off-screen container for HTML-to-PDF capture. 
                             This ensures that the #resume-preview element is always in the DOM
-                            even when the user is looking at the PDF preview.
+                            and is a single continuous element for html2canvas to properly paginate using CSS break rules.
                         */}
+                        <div className="absolute -left-[9999px] -top-[9999px] opacity-0" aria-hidden="true">
+                            <div
+                                id="resume-preview"
+                                className="bg-white"
+                                ref={measureRef}
+                            >
+                                <TemplateRenderer
+                                    templateId={(deferredData || data).templateId}
+                                    data={deferredData || data}
+                                    className={(deferredData || data).formatting?.paperSize === 'a4' ? 'w-[210mm] min-h-[297mm]' : 'w-[8.5in] min-h-[11in]'}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Visible Paginated Preview */}
                         <div
-                            className="transition-all duration-500 flex justify-center"
+                            className="transition-all duration-500 flex flex-col gap-12 items-center"
                             style={{
                                 transform: `scale(${scale})`,
                                 transformOrigin: 'top center'
                             }}
                         >
-                            <div
-                                id="resume-preview"
-                                className="shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-out bg-white relative"
-                            >
-                                {/* Page Break Simulator Gaps */}
-                                <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden" data-html2canvas-ignore="true">
-                                    {[1, 2, 3, 4].map((page) => {
-                                        const height = data.formatting?.paperSize === 'a4' ? '297mm' : '11in'
-                                        return (
-                                            <div
-                                                key={page}
-                                                className="absolute w-full flex flex-col items-center justify-center bg-neutral-200/90 shadow-[inset_0_4px_6px_-1px_rgba(0,0,0,0.1),inset_0_-4px_6px_-1px_rgba(0,0,0,0.1)] backdrop-blur-[2px]"
-                                                style={{ 
-                                                    top: `calc(${page} * ${height} - 12px)`, // offset by half the gap size
-                                                    height: '24px' // size of the visual page gap
-                                                }}
-                                            >
-                                                <div className="bg-neutral-800 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em] shadow-md border border-white/10">
-                                                    Page Break — Page {page + 1}
-                                                </div>
+                            {Array.from({ length: numPages }).map((_, i) => {
+                                const isA4 = (deferredData || data).formatting?.paperSize === 'a4'
+                                return (
+                                    <div 
+                                        key={i} 
+                                        className={cn(
+                                            "bg-white shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] relative ring-1 ring-neutral-900/5 flex flex-col items-center justify-center",
+                                            isA4 ? 'w-[210mm] h-[297mm]' : 'w-[8.5in] h-[11in]'
+                                        )}
+                                    >
+                                        <div 
+                                            className="relative w-full overflow-hidden"
+                                            style={{ height: isA4 ? '273mm' : '10in' }}
+                                        >
+                                            <div className="absolute top-0 left-0 w-full" style={{ 
+                                                transform: `translateY(-${i * (isA4 ? 273 : 10)}${isA4 ? 'mm' : 'in'})` 
+                                            }}>
+                                                <TemplateRenderer
+                                                    templateId={(deferredData || data).templateId}
+                                                    data={deferredData || data}
+                                                    className={isA4 ? 'w-[210mm]' : 'w-[8.5in]'}
+                                                />
                                             </div>
-                                        )
-                                    })}
-                                </div>
-
-                                <TemplateRenderer
-                                    templateId={(deferredData || data).templateId}
-                                    data={deferredData || data}
-                                    className={cn(
-                                        "transition-all duration-300",
-                                        (deferredData || data).formatting?.paperSize === 'a4' ? 'w-[210mm] min-h-[297mm]' : 'w-[8.5in] min-h-[11in]'
-                                    )}
-                                />
-                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
                         </div>
                     </div>
                 </div>

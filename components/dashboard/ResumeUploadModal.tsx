@@ -145,7 +145,7 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUpl
                 }
                 localStorage.setItem('guest_resume_data', JSON.stringify(guestData))
                 toast.success('Resume parsed successfully!')
-                router.push('/editor/new?guest=true')
+                router.push('/editor/setup?guest=true')
                 onClose()
                 return
             }
