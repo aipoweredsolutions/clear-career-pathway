@@ -30,24 +30,30 @@ export default function BlogIndexPage() {
     const [featured, ...rest] = BLOG_POSTS
 
     return (
-        <div className="min-h-screen bg-[#FDFDFD] pt-28 pb-24">
-            <div className="max-w-6xl mx-auto px-6">
-
-                {/* ── Page Header ── */}
-                <header className="mb-14">
-                    <div className="flex items-center gap-3 mb-4">
+        <div className="min-h-screen bg-[#FDFDFD] pb-24">
+            {/* ── CINEMATIC HEADER ── */}
+            <header className="relative pt-32 pb-20 bg-neutral-950 overflow-hidden mb-20">
+                {/* Background effects */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(79,70,229,0.15),transparent)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px]" />
+                
+                <div className="relative max-w-6xl mx-auto px-6 z-10">
+                    <div className="flex items-center gap-3 mb-8">
                         <span className="h-px w-8 bg-primary-500" />
-                        <span className="text-primary-600 text-[10px] font-black uppercase tracking-[0.2em]">
-                            Resources &amp; Insights
+                        <span className="text-primary-400 text-[10px] font-black uppercase tracking-[0.3em]">
+                            Career Intelligence
                         </span>
                     </div>
-                    <h1 className="text-3xl md:text-5xl font-black text-neutral-900 tracking-tight leading-[1.05] mb-5">
-                        Career <span className="text-primary-600">Insights.</span>
+                    <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.05] italic mb-6">
+                        Expert <span className="text-primary-500">Insights.</span>
                     </h1>
-                    <p className="text-base md:text-lg text-neutral-500 max-w-xl leading-relaxed font-medium">
-                        Master professional storytelling, ATS compliance, and job‑search strategy — so you land the role you deserve.
+                    <p className="text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed font-medium">
+                        Master the art of professional storytelling, ATS compliance, and high-impact job search strategy.
                     </p>
-                </header>
+                </div>
+            </header>
+
+            <div className="max-w-6xl mx-auto px-6">
 
                 {/* ── Divider ── */}
                 <div className="h-px bg-neutral-100 mb-12" />
