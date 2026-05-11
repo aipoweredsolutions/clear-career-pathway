@@ -158,7 +158,7 @@ export default function ResumeExamplesPage() {
                             <strong className="text-neutral-800">ATS keywords</strong>, a four-part{' '}
                             <strong className="text-neutral-800">how-to writing guide</strong>, and{' '}
                             <strong className="text-neutral-800">example achievement bullets</strong> for that role.
-                            Hit <strong className="text-neutral-800">"Use This Template"</strong> to open it in the editor
+                            Hit <strong className="text-neutral-800">{"\"Use This Template\""}</strong> to open it in the editor
                             pre-filled with industry content, then swap in your own details and download.
                         </p>
                         <p>

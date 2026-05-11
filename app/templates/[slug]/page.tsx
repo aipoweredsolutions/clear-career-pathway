@@ -297,7 +297,7 @@ export default async function TemplateLandingPage({ params }: Props) {
                                     {template.exampleBullets.map((bullet, idx) => (
                                         <div key={idx} className="flex gap-3 p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
                                             <span className="text-primary-400 font-black shrink-0 mt-0.5">›</span>
-                                            <p className="text-neutral-700 font-medium text-[14px] leading-relaxed italic">"{bullet}"</p>
+                                            <p className="text-neutral-700 font-medium text-[14px] leading-relaxed italic">{"\""}{bullet}{"\""}</p>
                                         </div>
                                     ))}
                                 </div>

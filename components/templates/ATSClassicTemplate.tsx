@@ -223,7 +223,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                                         {(edu.gpa || edu.achievements) && (
                                             <div className="flex flex-wrap gap-x-6 gap-y-1 mt-2 text-[11px] font-bold text-neutral-400 uppercase tracking-tight">
                                                 {edu.gpa && <div>GPA: <span className="text-neutral-600">{edu.gpa}</span></div>}
-                                                {edu.achievements && <div className="italic font-serif normal-case tracking-normal opacity-70">"{edu.achievements}"</div>}
+                                                {edu.achievements && <div className="italic font-serif normal-case tracking-normal opacity-70">{"\""}{edu.achievements}{"\""}</div>}
                                             </div>
                                         )}
                                     </div>
