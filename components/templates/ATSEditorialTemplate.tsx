@@ -2,19 +2,19 @@ import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
 
-interface TemplateProps {
+export interface TemplateProps {
     data: ResumeDocument
     className?: string
     accentColor?: string
 }
 
 /**
- * ATS Editorial Template
- *
- * Inspired by magazine editorial layouts. Bold oversized name as visual anchor,
- * serif typeface, dotted leader lines connecting titles to dates.
- *
- * 100% ATS-compliant single-column layout.
+ * ATS Editorial Template - Elite Overhaul
+ * 
+ * "Editorial Elegance" design.
+ * High-end magazine layout inspired by the Economist and New York Times.
+ * Uses a unique three-column header and a balanced single-column body.
+ * 100% ATS-compliant, focused on readability and sophistication.
  */
 export function ATSEditorialTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
@@ -26,255 +26,156 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
         projects,
         certifications,
         achievements,
-        publications,
-        volunteerExperience,
+        customSections,
         languages,
-        professionalAffiliations,
-        references,
-        customSections
+        references
     } = data
 
-    const borderColorClass = accentColor.replace('text-', 'border-')
+    const borderColorClass = accentColor.replace('text-', 'border-').split(' ')[0]
+    const bgColorClass = accentColor.replace('text-', 'bg-').split(' ')[0]
 
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="flex flex-col mb-4 mt-6">
-            <h2 className={cn('text-[10px] font-black uppercase tracking-[0.6em] mb-4', accentColor)}>
+        <div className="flex flex-col mb-8 mt-14 break-inside-avoid group">
+            <div className={cn("w-12 h-1 mb-4", bgColorClass)} />
+            <h2 className={cn("text-[14px] font-black uppercase tracking-[0.4em] mb-2", accentColor)}>
                 {title}
             </h2>
-            <div className="h-px w-full bg-neutral-100" />
+            <div className="h-[2px] w-full bg-neutral-950" />
         </div>
     )
-
-    // Dotted leader row: title .......... date (the editorial signature element)
-    const LeaderRow = ({ title, sub, date, children }: { title: string; sub?: string; date?: string; children?: React.ReactNode }) => (
-        <div className="mb-5 last:mb-0 break-inside-avoid">
-            <div className="flex items-baseline w-full mb-1">
-                <h3 className="text-[13px] font-black text-neutral-900 tracking-tight shrink-0">
-                    {title}
-                </h3>
-                {date && (
-                    <>
-                        <div className="flex-grow border-b border-dotted border-neutral-200 mx-6 relative top-[-4px]" />
-                        <span className="text-[11px] font-black text-neutral-300 shrink-0 font-sans tracking-widest uppercase">
-                            {date}
-                        </span>
-                    </>
-                )}
-            </div>
-            {sub && (
-                <div className="text-[11px] font-bold text-neutral-400 italic mb-2">{sub}</div>
-            )}
-            {children}
-        </div>
-    )
-
-    const contactParts: string[] = []
-    if (personalInfo?.phone) contactParts.push(personalInfo.phone)
-    if (personalInfo?.email) contactParts.push(personalInfo.email)
-    const loc = personalInfo?.location || [personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')
-    if (loc) contactParts.push(loc)
-    if (personalInfo?.linkedinUrl) contactParts.push(personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, ''))
 
     return (
-        <div
-            className={cn('w-full bg-white text-neutral-800 leading-snug p-10', className)}
-            style={{ fontFamily: "'Lora', 'Georgia', serif" }}
+        <div 
+            className={cn("w-full bg-white text-neutral-950 font-sans leading-relaxed p-14 md:p-20", className)}
+            style={{ fontFamily: "'Inter', 'Georgia', serif" }}
         >
             {/* ── EDITORIAL MASTHEAD ── */}
-            <header className="mb-6">
-                <div className="flex flex-col md:flex-row justify-between items-end gap-6 pb-4 border-b-2 border-neutral-900">
-                    <h1 className="text-[32px] font-black leading-[0.85] tracking-tighter text-neutral-900 uppercase">
-                        {personalInfo?.fullName ? (
-                            <>
-                                <span className="block">{personalInfo.fullName.split(' ')[0]}</span>
-                                <span className={cn('block', accentColor)}>{personalInfo.fullName.split(' ').slice(1).join(' ')}.</span>
-                            </>
-                        ) : 'NAME.'}
-                    </h1>
-                    <div className="md:text-right max-w-[300px]">
-                        {personalInfo?.professionalTitle && (
-                            <p className="text-[11px] font-bold text-neutral-400 italic uppercase tracking-widest leading-relaxed">
-                                {personalInfo.professionalTitle}
-                            </p>
+            <header className="mb-20 border-b-8 border-neutral-950 pb-16">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
+                    <div className="md:col-span-8">
+                        <h1 className="text-[72px] font-black tracking-[-0.04em] leading-[0.8] mb-6 uppercase text-neutral-950">
+                            {personalInfo?.fullName || 'EDITORIAL LEAD'}
+                        </h1>
+                        <div className={cn("text-[13px] font-black uppercase tracking-[0.5em] italic opacity-40", accentColor)}>
+                            {personalInfo?.professionalTitle || 'Subject Matter Expert'}
+                        </div>
+                    </div>
+                    <div className="md:col-span-4 flex flex-col gap-2 text-[11px] font-bold uppercase tracking-widest text-neutral-400 text-left md:text-right">
+                        <div className="pb-2 border-b border-neutral-100">{personalInfo?.email}</div>
+                        <div className="pb-2 border-b border-neutral-100">{personalInfo?.phone}</div>
+                        <div>{[personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</div>
+                        {personalInfo?.linkedinUrl && (
+                            <div className={cn("mt-4 font-black tracking-[0.3em]", accentColor)}>
+                                {personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}
+                            </div>
                         )}
                     </div>
-                </div>
-                <div className="flex flex-wrap justify-between items-center py-6 text-[10px] font-sans font-black uppercase tracking-[0.3em] text-neutral-400">
-                    {contactParts.map((part, i) => (
-                        <span key={i}>{part}</span>
-                    ))}
                 </div>
             </header>
 
             {/* DOCUMENT TYPE OVERRIDES */}
             {data.documentType === 'cover_letter' ? (
-                <div className="px-8 sm:px-12 pb-12 pt-8">
-                    <div className="mb-8 space-y-1 text-[13px] text-neutral-800">
-                        <p className="font-bold text-neutral-400 mb-6">{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        {data.coverLetter?.recipientName && <p className="font-bold">{data.coverLetter.recipientName}</p>}
-                        {data.coverLetter?.recipientTitle && <p className="text-neutral-600">{data.coverLetter.recipientTitle}</p>}
-                        {data.coverLetter?.companyName && <p className="font-bold">{data.coverLetter.companyName}</p>}
+                <div className="max-w-2xl mx-auto py-10">
+                    <div className="mb-16">
+                        <div className="text-neutral-300 font-black uppercase tracking-[0.5em] text-[10px] mb-12">Correspondence // {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                        <div className="space-y-1">
+                            {data.coverLetter?.recipientName && <p className="text-[20px] font-black tracking-tight">{data.coverLetter.recipientName}</p>}
+                            {data.coverLetter?.recipientTitle && <p className="text-neutral-400 font-bold uppercase tracking-widest text-[11px]">{data.coverLetter.recipientTitle}</p>}
+                            {data.coverLetter?.companyName && <p className="font-bold text-neutral-600">{data.coverLetter.companyName}</p>}
+                        </div>
                     </div>
-                    <div className="mb-6"><p className="text-[13px] text-neutral-800">Dear {data.coverLetter?.recipientName || 'Hiring Manager'},</p></div>
-                    <div className="prose prose-neutral max-w-none mb-12">
+
+                    <div className="prose prose-neutral max-w-none mb-20">
+                        <p className="text-[16px] font-black italic mb-8">Dear {data.coverLetter?.recipientName || 'Hiring Lead'},</p>
                         {data.coverLetter?.content?.split('\n').map((para, i) => (
-                            <p key={i} className="text-[13px] leading-relaxed mb-4 text-justify text-neutral-800">{para}</p>
-                        )) || <p className="text-neutral-400 italic text-[13px]">Your cover letter will appear here...</p>}
+                            <p key={i} className="text-[16px] leading-[2] mb-8 text-justify text-neutral-800 font-medium first-letter:text-5xl first-letter:font-black first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:leading-none">
+                                {para}
+                            </p>
+                        )) || <p className="text-neutral-300 italic text-[16px]">Drafting in progress...</p>}
                     </div>
-                    <div className="space-y-4 text-neutral-800">
-                        <p className="text-[13px]">Sincerely,</p>
-                        <p className="font-bold text-[13px]">{data.personalInfo?.fullName}</p>
+
+                    <div className="pt-16 border-t-4 border-neutral-950 flex flex-col items-start gap-4">
+                        <p className="text-[11px] font-black uppercase tracking-[0.5em] text-neutral-300">Faithfully,</p>
+                        <p className={cn("text-[32px] font-black tracking-tighter uppercase", accentColor)}>{data.personalInfo?.fullName}</p>
                     </div>
                 </div>
             ) : data.documentType === 'references' ? (
-                <div className="px-8 sm:px-12 pb-12 pt-8">
-                    <h2 className={cn('text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2', accentColor)}>Professional References</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="space-y-16">
+                    <SectionHeader title="Editorial Endorsements" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
-                                <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
-                                <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
-                                {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
-                                {ref.availabilityStatement && <span className="text-[11px] text-neutral-400 italic mt-1">{ref.availabilityStatement}</span>}
+                            <div key={i} className="break-inside-avoid group border-l-8 border-neutral-50 pl-10 py-4 transition-colors hover:border-neutral-950">
+                                <span className="font-black text-neutral-950 text-[24px] tracking-tight mb-2 block">{ref.referenceName || ref.name}</span>
+                                <div className={cn("text-[12px] font-black uppercase tracking-[0.3em] mb-4 opacity-40", accentColor)}>
+                                    {ref.role || ref.title}
+                                </div>
+                                <div className="text-[16px] text-neutral-600 font-bold italic mb-6">
+                                    {ref.organization || ref.company}
+                                </div>
+                                <div className="text-[13px] text-neutral-400 font-black border-t border-neutral-50 pt-4 uppercase tracking-widest">
+                                    {ref.contactDetails || ref.contactInfo}
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
             ) : (
-                <div>
-                    {/* Pull-Quote Summary */}
+                <div className="space-y-20">
+                    {/* Summary */}
                     {professionalSummary?.summaryText && (
-                        <section className="mb-6">
-                            <p className={cn('text-[12px] italic leading-relaxed font-medium px-4', accentColor)}>
-                                {professionalSummary.summaryText}
-                            </p>
+                        <section>
+                            <div className="flex gap-12 items-start">
+                                <div className={cn("w-2 h-16 shrink-0", bgColorClass)} />
+                                <p className="text-[18px] leading-[2.1] text-neutral-800 font-medium italic text-justify">
+                                    {professionalSummary.summaryText}
+                                </p>
+                            </div>
                         </section>
                     )}
 
                     {/* Experience */}
                     {workExperience && workExperience.length > 0 && (
                         <section>
-                            <SectionHeader title="The Portfolio" />
-                            <div className="space-y-5">
+                            <SectionHeader title="Career Narrative" />
+                            <div className="space-y-24">
                                 {workExperience.map((job, i) => (
-                                    <LeaderRow
-                                        key={i}
-                                        title={job.jobTitle.toUpperCase()}
-                                        sub={`${job.companyName}${job.location ? '  |  ' + job.location : ''}`}
-                                        date={`${job.startDate} — ${job.isCurrent ? 'Present' : job.endDate}`}
-                                    >
+                                    <div key={i} className="break-inside-avoid group">
+                                        <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline mb-8 gap-8 border-b-2 border-neutral-50 pb-4">
+                                            <div className="flex-1">
+                                                <h3 className="text-[28px] font-black text-neutral-950 tracking-tight leading-none mb-3 group-hover:translate-x-2 transition-transform">
+                                                    {job.jobTitle}
+                                                </h3>
+                                                <div className={cn("text-[14px] font-black uppercase tracking-[0.3em] opacity-40", accentColor)}>
+                                                    {job.companyName}
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col items-start md:items-end gap-1">
+                                                <div className="text-[12px] font-black text-neutral-950 uppercase tracking-widest bg-neutral-950 text-white px-3 py-1">
+                                                    {job.startDate} — {job.isCurrent ? 'PRESENT' : job.endDate}
+                                                </div>
+                                                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-300">
+                                                    {job.location}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {job.roleDescription && (
+                                            <p className="text-[16px] text-neutral-500 mb-10 leading-relaxed font-bold italic max-w-4xl">
+                                                {job.roleDescription}
+                                            </p>
+                                        )}
+
                                         {job.achievements && job.achievements.length > 0 && (
-                                            <ul className="space-y-4 pl-4 border-l-2 border-neutral-50">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
                                                 {job.achievements.map((ach, j) => (
-                                                    <li key={j} className="text-[11px] text-neutral-700 leading-relaxed font-medium">
-                                                        {ach.achievementText}
-                                                    </li>
+                                                    <div key={j} className="text-[15.5px] text-neutral-800 leading-relaxed flex gap-6 font-medium">
+                                                        <span className={cn("shrink-0 font-black", accentColor)}>—</span>
+                                                        <span>{ach.achievementText}</span>
+                                                    </div>
                                                 ))}
-                                            </ul>
+                                            </div>
                                         )}
-                                    </LeaderRow>
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Projects */}
-                    {projects && projects.length > 0 && (
-                        <section>
-                            <SectionHeader title="Selected Works" />
-                            <div className="space-y-4">
-                                {projects.map((proj, i) => (
-                                    <LeaderRow
-                                        key={i}
-                                        title={proj.projectName.toUpperCase()}
-                                        sub={proj.role}
-                                        date={proj.startDate ? proj.startDate.split(' ')[1] || proj.startDate : undefined}
-                                    >
-                                        {proj.description && (
-                                            <p className="text-[11px] text-neutral-700 leading-relaxed font-medium pl-4 border-l-2 border-neutral-50">
-                                                {proj.description}
-                                            </p>
-                                        )}
-                                        {proj.toolsUsed && proj.toolsUsed.length > 0 && (
-                                            <p className="text-[10px] text-neutral-400 uppercase tracking-widest mt-1">
-                                                {proj.toolsUsed.join('  ·  ')}
-                                            </p>
-                                        )}
-                                    </LeaderRow>
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Education */}
-                    {education && education.length > 0 && (
-                        <section>
-                            <SectionHeader title="Academic History" />
-                            <div className="space-y-3">
-                                {education.map((edu, i) => (
-                                    <LeaderRow
-                                        key={i}
-                                        title={`${edu.degree}${edu.major ? ` IN ${edu.major.toUpperCase()}` : ''}`}
-                                        sub={`${edu.institutionName}${edu.location ? '  |  ' + edu.location : ''}`}
-                                        date={edu.endYear?.toString()}
-                                    />
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Certifications */}
-                    {certifications && certifications.length > 0 && (
-                        <section>
-                            <SectionHeader title="Credentials" />
-                            <div className="space-y-3">
-                                {certifications.map((cert, i) => (
-                                    <LeaderRow
-                                        key={i}
-                                        title={cert.certificationName.toUpperCase()}
-                                        sub={cert.issuingOrganization}
-                                        date={cert.issueYear?.toString()}
-                                    />
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Volunteer */}
-                    {volunteerExperience && volunteerExperience.length > 0 && (
-                        <section>
-                            <SectionHeader title="Community" />
-                            <div className="space-y-4">
-                                {volunteerExperience.map((vol, i) => (
-                                    <LeaderRow
-                                        key={i}
-                                        title={vol.roleTitle.toUpperCase()}
-                                        sub={vol.organizationName}
-                                        date={vol.startDate ? vol.startDate.split(' ')[1] || vol.startDate : undefined}
-                                    >
-                                        {vol.description && (
-                                            <p className="text-[11px] text-neutral-700 leading-relaxed font-medium pl-4 border-l-2 border-neutral-50">
-                                                {vol.description}
-                                            </p>
-                                        )}
-                                    </LeaderRow>
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Publications */}
-                    {publications && publications.length > 0 && (
-                        <section>
-                            <SectionHeader title="Publications" />
-                            <div className="space-y-3">
-                                {publications.map((pub, i) => (
-                                    <LeaderRow
-                                        key={i}
-                                        title={pub.title.toUpperCase()}
-                                        sub={pub.journalOrPublisher}
-                                        date={pub.year?.toString()}
-                                    />
+                                    </div>
                                 ))}
                             </div>
                         </section>
@@ -283,68 +184,72 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                     {/* Skills */}
                     {skills && skills.length > 0 && (
                         <section>
-                            <SectionHeader title="Expertise" />
-                            <div className="flex flex-col gap-y-3 px-4">
-                                {Object.entries(skills.reduce((acc, s) => {
-                                    const t = s.skillType || 'professional'
-                                    if (!acc[t]) acc[t] = []
-                                    acc[t].push(s)
-                                    return acc
-                                }, {} as Record<string, typeof skills>)).map(([type, list]) => (
-                                    <div key={type} className="flex flex-col gap-2 break-inside-avoid">
-                                        <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em]">
-                                            {type}
+                            <SectionHeader title="Expertise Portfolio" />
+                            <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+                                {(() => {
+                                    const grouped = skills.reduce((acc, skill) => {
+                                        const type = skill.skillType || 'professional'
+                                        if (!acc[type]) acc[type] = []
+                                        acc[type].push(skill)
+                                        return acc
+                                    }, {} as Record<string, typeof skills>)
+
+                                    return Object.entries(grouped).map(([type, list]) => (
+                                        <div key={type} className="md:col-span-6 break-inside-avoid bg-neutral-50/50 p-10 rounded-2xl border border-neutral-100">
+                                            <div className={cn("text-[10px] font-black uppercase tracking-[0.5em] mb-10 opacity-30", accentColor)}>
+                                                {type}
+                                            </div>
+                                            <div className="flex flex-wrap gap-x-10 gap-y-6">
+                                                {list.map((s, i) => (
+                                                    <div key={i} className="text-[15px] text-neutral-950 font-black tracking-tight border-b-2 border-neutral-200 pb-1">
+                                                        {s.skillName}
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
-                                        <p className="text-[11px] text-neutral-800 font-bold leading-relaxed">
-                                            {list.map(s => s.skillName).join('  ·  ')}
-                                        </p>
+                                    ))
+                                })()}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Education */}
+                    {education && education.length > 0 && (
+                        <section>
+                            <SectionHeader title="Academic Credentials" />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                                {education.map((edu, i) => (
+                                    <div key={i} className="break-inside-avoid group">
+                                        <div className="flex items-center gap-6 mb-4">
+                                            <div className="text-[13px] font-black text-neutral-200 tabular-nums uppercase tracking-[0.4em]">
+                                                {edu.endYear}
+                                            </div>
+                                            <div className={cn("h-px flex-1 bg-neutral-100 group-hover:bg-neutral-950 transition-colors", bgColorClass)} />
+                                        </div>
+                                        <h3 className="text-[20px] font-black uppercase text-neutral-950 tracking-tight leading-none mb-3">
+                                            {edu.degree}
+                                        </h3>
+                                        <div className={cn("text-[12px] font-black uppercase tracking-[0.3em] opacity-40 italic", accentColor)}>
+                                            {edu.institutionName} // {edu.location}
+                                        </div>
+                                        {edu.gpa && (
+                                            <div className="mt-4 text-[11px] font-black text-neutral-300 uppercase tracking-widest border-t border-neutral-50 pt-2">DISTINCTION: {edu.gpa}</div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
                         </section>
                     )}
 
-                    {/* Languages */}
-                    {languages && languages.length > 0 && (
-                        <section>
-                            <SectionHeader title="Languages" />
-                            <p className="text-[11px] text-neutral-800 font-bold px-4">
-                                {languages.map(l => `${l.languageName}${l.proficiencyLevel ? ` (${l.proficiencyLevel})` : ''}`).join('  ·  ')}
-                            </p>
-                        </section>
-                    )}
-
-                    {/* Affiliations */}
-                    {professionalAffiliations && professionalAffiliations.length > 0 && (
-                        <section>
-                            <SectionHeader title="Affiliations" />
-                            <div className="flex flex-col gap-1.5 px-4">
-                                {professionalAffiliations.map((aff, i) => (
-                                    <div key={i} className="text-[11px] text-neutral-700 font-medium break-inside-avoid">
-                                        <span className="font-black text-neutral-900">{aff.organizationName}</span>
-                                        {aff.role && <span className="text-neutral-400 italic ml-2">— {aff.role}</span>}
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Custom Sections */}
-                    {customSections && customSections.map((section, i) => (
-                        <section key={i} className="break-inside-avoid">
-                            <SectionHeader title={section.title} />
-                            {section.content && (
-                                <p className="text-[11px] text-neutral-700 leading-relaxed font-medium px-4">{section.content}</p>
-                            )}
-                            {section.items && section.items.length > 0 && (
-                                <div className="space-y-2 px-4">
-                                    {section.items.map((item, j) => (
-                                        <LeaderRow key={j} title={item.text} date={item.date} />
-                                    ))}
-                                </div>
-                            )}
-                        </section>
-                    ))}
+                    {/* Final Editorial Footer */}
+                    <footer className="mt-32 pt-20 border-t-8 border-neutral-950 flex flex-col md:flex-row justify-between items-center gap-12">
+                        <div className="text-[11px] font-black text-neutral-200 uppercase tracking-[0.8em]">Editorial Collective</div>
+                        <div className="flex gap-2">
+                            {[1, 2, 3, 4, 5].map(i => (
+                                <div key={i} className={cn("w-10 h-10", i % 2 === 0 ? "bg-neutral-950" : bgColorClass, i === 5 && "opacity-10")} />
+                            ))}
+                        </div>
+                    </footer>
                 </div>
             )}
         </div>

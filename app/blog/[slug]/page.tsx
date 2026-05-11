@@ -110,36 +110,21 @@ export default async function BlogPostPage({ params }: Props) {
             />
             
             <article className="max-w-4xl mx-auto px-6 mt-20">
-
-                <div 
-                    className="prose prose-neutral max-w-2xl mx-auto
-                    prose-headings:text-neutral-950 prose-headings:font-black prose-headings:tracking-tighter prose-headings:italic
-                    prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-20 prose-h2:mb-10 prose-h2:leading-tight
-                    prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-12 prose-h3:mb-6
-                    prose-p:text-neutral-600 prose-p:text-[18px] prose-p:leading-[1.8] prose-p:mb-10 prose-p:font-medium
-                    prose-strong:text-neutral-900 prose-strong:font-black
-                    prose-li:text-neutral-600 prose-li:font-medium prose-li:mb-6 prose-li:text-[17px]
-                    prose-ul:list-none prose-ul:pl-0
-                    prose-blockquote:border-l-0 prose-blockquote:bg-neutral-50 prose-blockquote:py-12 prose-blockquote:px-12 prose-blockquote:rounded-[2rem] prose-blockquote:italic prose-blockquote:text-neutral-800 prose-blockquote:text-2xl prose-blockquote:font-black prose-blockquote:tracking-tight prose-blockquote:leading-snug prose-blockquote:my-16"
+                <div
+                    className={cn(
+                        "prose prose-neutral max-w-2xl mx-auto",
+                        "prose-headings:text-neutral-950 prose-headings:font-black prose-headings:tracking-tighter prose-headings:italic",
+                        "prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-20 prose-h2:mb-10 prose-h2:leading-tight",
+                        "prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-12 prose-h3:mb-6",
+                        "prose-p:text-neutral-600 prose-p:text-[18px] prose-p:leading-[1.8] prose-p:mb-10 prose-p:font-medium",
+                        "prose-strong:text-neutral-900 prose-strong:font-black",
+                        "prose-li:text-neutral-600 prose-li:font-medium prose-li:mb-6 prose-li:text-[17px]",
+                        "prose-ul:list-none prose-ul:pl-0",
+                        "prose-blockquote:border-l-0 prose-blockquote:bg-neutral-50 prose-blockquote:py-12 prose-blockquote:px-12 prose-blockquote:rounded-[2rem] prose-blockquote:italic prose-blockquote:text-neutral-800 prose-blockquote:text-2xl prose-blockquote:font-black prose-blockquote:tracking-tight prose-blockquote:leading-snug prose-blockquote:my-16"
+                    )}
                 >
-                    <style jsx global>{`
-                        .prose ul li {
-                            position: relative;
-                            padding-left: 2rem;
-                        }
-                        .prose ul li::before {
-                            content: "—";
-                            position: absolute;
-                            left: 0;
-                            color: #e5e5e5;
-                            font-weight: 900;
-                        }
-                    `}</style>
                     <MDXRemote source={post.content} />
                 </div>
-
-
-
             </article>
         </div>
     )
