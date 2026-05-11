@@ -5,12 +5,12 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
     label?: string
     error?: string
     helperText?: string
+    showCount?: boolean
 }
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-    ({ className, label, error, helperText, ...props }, ref) => {
+    ({ className, label, error, helperText, showCount, ...props }, ref) => {
         const charCount = props.value ? String(props.value).length : 0
-        const showCount = (props as any).showCount
         const maxLength = props.maxLength
 
         return (

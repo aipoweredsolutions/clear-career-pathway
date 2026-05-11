@@ -163,7 +163,7 @@ export function ExperienceForm({ data, onChange }: ExperienceFormProps) {
                             onChange={(e) => updateExperience(index, 'roleDescription', e.target.value)}
                             placeholder="Briefly describe your role and responsibilities..."
                             rows={3}
-                            {...({ showCount: true } as any)}
+                            showCount={true}
                         />
                     </div>
 
