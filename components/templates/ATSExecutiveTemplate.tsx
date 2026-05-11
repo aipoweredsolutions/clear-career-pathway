@@ -88,7 +88,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -149,7 +149,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                         <SectionTitle>Career Trajectory</SectionTitle>
                         <div className="space-y-5">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="relative pl-10 border-l-[3px] border-neutral-100">
+                                <div key={i} className="break-inside-avoid relative pl-10 border-l-[3px] border-neutral-100">
                                     <div className={cn("absolute top-1.5 -left-[9px] w-4 h-4 rounded-full border-[3px] border-white ring-2 ring-neutral-100", bgColorClass)} />
                                     
                                     <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-2">
@@ -190,7 +190,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                         <SectionTitle>Key Strategic Initiatives</SectionTitle>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {projects.map((proj, i) => (
-                                <div key={i} className="bg-neutral-50 p-5 rounded-xl border-[1.5px] border-neutral-100 group hover:border-neutral-200 transition-colors">
+                                <div key={i} className="break-inside-avoid bg-neutral-50 p-5 rounded-xl border-[1.5px] border-neutral-100 group hover:border-neutral-200 transition-colors">
                                     <div className="flex justify-between items-start mb-4">
                                         <h3 className="text-[13px] font-black uppercase tracking-wider">{proj.projectName}</h3>
                                         <div className={cn("text-[10px] font-black uppercase tracking-widest px-2 py-1 bg-white rounded border border-neutral-200", accentColor)}>{proj.role}</div>
@@ -209,7 +209,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                             <SectionTitle>Academic Background</SectionTitle>
                             <div className="space-y-4">
                                 {education.map((edu, i) => (
-                                    <div key={i}>
+                                    <div key={i} className="break-inside-avoid">
                                         <div className="text-[13px] font-black text-neutral-900 uppercase leading-tight mb-1">{edu.degree}</div>
                                         <div className="text-[13px] font-bold text-neutral-500 italic mb-1">{edu.institutionName}</div>
                                         <div className="text-[11px] font-black text-neutral-400 uppercase tracking-widest">{edu.endYear}</div>
@@ -226,7 +226,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                                 <SectionTitle>Certifications</SectionTitle>
                                 <div className="space-y-4">
                                     {certifications.map((c, i) => (
-                                        <div key={i} className="flex flex-col gap-0.5">
+                                        <div key={i} className="break-inside-avoid flex flex-col gap-0.5">
                                             <div className="text-[13px] font-bold text-neutral-800">{c.certificationName}</div>
                                             <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">{c.issuingOrganization}</div>
                                         </div>
@@ -256,7 +256,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
 
                 {/* Custom Sections */}
                 {customSections && customSections.map((s, i) => (
-                    <section key={i}>
+                    <section key={i} className="break-inside-avoid">
                         <SectionTitle>{s.title}</SectionTitle>
                         {s.content && <p className="text-[14px] text-neutral-700 leading-relaxed font-medium mb-4">{s.content}</p>}
                         {s.items && (

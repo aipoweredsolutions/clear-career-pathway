@@ -129,7 +129,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                     <SidebarSection title="Certifications">
                         <div className="space-y-3">
                             {certifications.map((c, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <div className="text-[10px] font-bold text-white leading-snug break-words">{c.certificationName}</div>
                                     {c.issuingOrganization && (
                                         <div className="text-[9px] text-white/60">{c.issuingOrganization}{c.issueYear ? ` · ${c.issueYear}` : ''}</div>
@@ -174,7 +174,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                     <MainSection title="Experience">
                         <div className="space-y-6">
                             {workExperience.map((job, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-0.5">
                                         <h3 className="text-[13px] font-bold text-neutral-900 leading-tight">{job.jobTitle}</h3>
                                         <span className="text-[9px] text-neutral-400 font-medium shrink-0 ml-2">
@@ -208,7 +208,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                     <MainSection title="Projects">
                         <div className="space-y-4">
                             {projects.map((p, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-0.5">
                                         <h3 className="text-[12px] font-bold text-neutral-900">{p.projectName}</h3>
                                         {p.role && <span className="text-[9px] text-neutral-400 italic">{p.role}</span>}
@@ -230,7 +230,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                     <MainSection title="Education">
                         <div className="space-y-4">
                             {education.map((edu, i) => (
-                                <div key={i} className="flex justify-between items-start">
+                                <div key={i} className="break-inside-avoid flex justify-between items-start">
                                     <div>
                                         <div className="text-[12px] font-bold text-neutral-900 leading-tight">
                                             {edu.degree}{edu.major || edu.fieldOfStudy ? ` in ${edu.major || edu.fieldOfStudy}` : ''}
@@ -247,7 +247,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
 
                 {/* Custom Sections */}
                 {customSections && customSections.map((s, i) => (
-                    <MainSection key={i} title={s.title}>
+                    <MainSection key={i} title={s.title} className="break-inside-avoid">
                         {s.content && <p className="text-[10px] text-neutral-600 leading-relaxed mb-2">{s.content}</p>}
                         {s.items && s.items.length > 0 && (
                             <ul className="space-y-1">

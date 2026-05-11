@@ -2,8 +2,9 @@ import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { Button } from '@/components/ui/Button'
 import { DownloadButtons } from '@/components/editor/DownloadButtons'
-import { Minimize2, Maximize2, Type, MoveHorizontal, File, Minus, Square, X } from 'lucide-react'
+import { Minimize2, Maximize2, Type, MoveHorizontal, File, Minus, Square, X, Palette } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { templateRegistry } from '@/lib/templates/registry'
 
 import { UserSubscription } from '@/lib/types/resume'
 
@@ -28,6 +29,9 @@ export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, on
             }
         })
     }
+
+    const currentTemplate = templateRegistry.find(t => t.id === data.templateId)
+    const templateColors = currentTemplate?.colors || []
 
     return (
         <div className="bg-white border-b border-neutral-200 px-4 py-2 flex items-center justify-between gap-4 sticky top-0 z-20 shadow-sm">
@@ -124,6 +128,34 @@ export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, on
                         </button>
                     </div>
                 </div>
+
+                {/* Theme Colors */}
+                {templateColors.length > 0 && (
+                    <div className="flex items-center gap-2 pl-4 border-l border-neutral-200">
+                        <Palette className="w-4 h-4 text-neutral-400" />
+                        <div className="flex bg-neutral-100 rounded-full p-1 gap-1.5 items-center">
+                            {templateColors.map((color, index) => {
+                                const isValidColor = templateColors.some(c => c.id === data.formatting?.themeColor)
+                                const activeColorId = isValidColor ? data.formatting?.themeColor : templateColors[0].id
+                                const isSelected = activeColorId === color.id
+                                return (
+                                    <button
+                                        key={color.id}
+                                        onClick={() => updateFormatting('themeColor', color.id)}
+                                        className={cn(
+                                            "w-4 h-4 rounded-full border-2 transition-all cursor-pointer",
+                                            isSelected
+                                                ? "border-primary-500 scale-125 shadow-sm ring-2 ring-primary-100 ring-offset-1"
+                                                : "border-transparent hover:scale-110"
+                                        )}
+                                        style={{ backgroundColor: color.hex }}
+                                        title={color.name}
+                                    />
+                                )
+                            })}
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Right Side Controls */}

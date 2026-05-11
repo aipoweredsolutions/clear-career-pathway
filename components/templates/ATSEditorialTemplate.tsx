@@ -47,7 +47,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
 
     // Dotted leader row: title .......... date (the editorial signature element)
     const LeaderRow = ({ title, sub, date, children }: { title: string; sub?: string; date?: string; children?: React.ReactNode }) => (
-        <div className="mb-5 last:mb-0">
+        <div className="mb-5 last:mb-0 break-inside-avoid">
             <div className="flex items-baseline w-full mb-1">
                 <h3 className="text-[13px] font-black text-neutral-900 tracking-tight shrink-0">
                     {title}
@@ -291,7 +291,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                                     acc[t].push(s)
                                     return acc
                                 }, {} as Record<string, typeof skills>)).map(([type, list]) => (
-                                    <div key={type} className="flex flex-col gap-2">
+                                    <div key={type} className="flex flex-col gap-2 break-inside-avoid">
                                         <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em]">
                                             {type}
                                         </div>
@@ -320,7 +320,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                             <SectionHeader title="Affiliations" />
                             <div className="flex flex-col gap-1.5 px-4">
                                 {professionalAffiliations.map((aff, i) => (
-                                    <div key={i} className="text-[11px] text-neutral-700 font-medium">
+                                    <div key={i} className="text-[11px] text-neutral-700 font-medium break-inside-avoid">
                                         <span className="font-black text-neutral-900">{aff.organizationName}</span>
                                         {aff.role && <span className="text-neutral-400 italic ml-2">— {aff.role}</span>}
                                     </div>
@@ -331,7 +331,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
 
                     {/* Custom Sections */}
                     {customSections && customSections.map((section, i) => (
-                        <section key={i}>
+                        <section key={i} className="break-inside-avoid">
                             <SectionHeader title={section.title} />
                             {section.content && (
                                 <p className="text-[11px] text-neutral-700 leading-relaxed font-medium px-4">{section.content}</p>

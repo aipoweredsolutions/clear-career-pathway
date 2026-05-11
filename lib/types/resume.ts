@@ -230,6 +230,7 @@ export interface ResumeDocument {
         lineHeight?: 'tight' | 'normal' | 'relaxed'
         margin?: 'narrow' | 'normal' | 'wide'
         paperSize?: 'letter' | 'a4'
+        themeColor?: string
     }
     sectionOrder?: string[]
 

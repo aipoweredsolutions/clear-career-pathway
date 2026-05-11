@@ -70,7 +70,6 @@ export default function OnboardingPage() {
             
             if (goal === 'build') router.push('/templates')
             else if (goal === 'scan') router.push('/ats-resume-scanner')
-            else if (goal === 'interview') router.push('/career-hub?tab=interview_prep')
             else router.push('/dashboard')
         } catch (error) {
             console.error('Failed to complete onboarding:', error)
@@ -213,7 +212,6 @@ export default function OnboardingPage() {
                                 {[
                                     { id: 'build', icon: FileText, title: 'Build a Resume', desc: 'Create an ATS-optimized resume from scratch with AI.', color: 'from-blue-500 to-cyan-500' },
                                     { id: 'scan', icon: ScanLine, title: 'Scan & Score', desc: 'Audit your existing resume against target jobs.', color: 'from-purple-500 to-pink-500' },
-                                    { id: 'interview', icon: Target, title: 'Ace Interviews', desc: 'Master your pitch with AI-powered mock sessions.', color: 'from-orange-500 to-amber-500' },
                                     { id: 'track', icon: Briefcase, title: 'Job Tracking', desc: 'Manage your entire application pipeline effortlessly.', color: 'from-emerald-500 to-teal-500' }
                                 ].map((item) => (
                                     <motion.button

@@ -8,6 +8,12 @@ interface TemplateProps {
     accentColor?: string
 }
 
+/**
+ * ATS Hospitality Template - Boutique Elite Overhaul
+ * 
+ * Designed for high-end service professionals (Luxury Hotels, Fine Dining, Estate Management).
+ * Combines rigorous ATS structural integrity with a 'boutique branding' aesthetic.
+ */
 export function ATSHospitalityTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
@@ -24,241 +30,269 @@ export function ATSHospitalityTemplate({ data, className, accentColor = 'text-ne
         professionalAffiliations
     } = data
 
-    // Hospitality-specific ATS format focuses heavily on experience, cross-functional skills, certs (like ServSafe), and languages.
-    // It's a clean, text-based single-column layout.
+    const SectionHeader = ({ title }: { title: string }) => (
+        <div className="flex items-center gap-4 mb-4 mt-8 first:mt-0 break-inside-avoid">
+            <h2 className={cn("text-[11px] font-black uppercase tracking-[0.4em] shrink-0", accentColor)}>
+                {title}
+            </h2>
+            <div className="flex-1 h-[1px] bg-neutral-100" />
+        </div>
+    )
 
     return (
-        <div className={cn("w-full bg-white text-neutral-950 font-sans leading-relaxed flex flex-col", className)}>
-            {/* Header: Pure ATS */}
-            <header className="flex flex-col items-center justify-center text-center border-b-2 pb-4 mb-6 border-neutral-300">
-                <h1 className="text-3xl font-black uppercase tracking-widest text-neutral-900 mb-1">
-                    {personalInfo?.fullName || 'Untitled'}
-                </h1>
-                {personalInfo?.professionalTitle && (
-                    <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-600 mb-3">
-                        {personalInfo.professionalTitle}
-                    </div>
-                )}
-
-                <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-neutral-600 font-medium">
-                    {personalInfo?.email && <span>{personalInfo.email}</span>}
-                    {personalInfo?.phone && <span>• {personalInfo.phone}</span>}
-                    {(personalInfo?.city || personalInfo?.country) && (
-                        <span>• {[personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</span>
+        <div 
+            className={cn(
+                "w-full bg-white text-neutral-900 font-sans leading-relaxed p-12 md:p-16",
+                className
+            )}
+            style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
+        >
+            {/* ── BOUTIQUE HEADER ── */}
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pb-8 mb-10 border-b border-neutral-100">
+                <div className="flex-1">
+                    <h1 className="text-[36px] font-black tracking-[-0.03em] leading-none mb-3 text-neutral-900">
+                        {personalInfo?.fullName || 'Guest Name'}
+                    </h1>
+                    {personalInfo?.professionalTitle && (
+                        <div className={cn("text-[13px] font-black uppercase tracking-[0.3em] opacity-50", accentColor)}>
+                            {personalInfo.professionalTitle}
+                        </div>
                     )}
-                    {personalInfo?.linkedinUrl && <span>• {personalInfo.linkedinUrl}</span>}
+                </div>
+
+                <div className="shrink-0 text-left md:text-right space-y-1">
+                    <div className="text-[12px] font-bold text-neutral-800">
+                        {[personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}
+                    </div>
+                    {personalInfo?.email && <div className="text-[11px] font-medium text-neutral-400 tracking-tight">{personalInfo.email}</div>}
+                    {personalInfo?.phone && <div className="text-[11px] font-medium text-neutral-400 tracking-tight">{personalInfo.phone}</div>}
+                    {personalInfo?.linkedinUrl && (
+                        <div className={cn("text-[10px] font-black uppercase tracking-widest mt-2", accentColor)}>
+                            {personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}
+                        </div>
+                    )}
                 </div>
             </header>
+
             {/* --- DOCUMENT TYPE OVERRIDES --- */}
             {data.documentType === 'cover_letter' ? (
-                <div className="px-8 sm:px-12 pb-12 pt-8">
-                    <div className="mb-8 space-y-1 text-[13px] text-neutral-800">
-                        <p className="font-bold text-neutral-400 mb-6">{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        {data.coverLetter?.recipientName && <p className="font-bold">{data.coverLetter.recipientName}</p>}
-                        {data.coverLetter?.recipientTitle && <p className="text-neutral-600">{data.coverLetter.recipientTitle}</p>}
-                        {data.coverLetter?.companyName && <p className="font-bold">{data.coverLetter.companyName}</p>}
+                <div className="max-w-2xl mx-auto">
+                    <div className="mb-10 space-y-1 text-[14px] text-neutral-800">
+                        <p className="font-bold text-neutral-300 mb-8 font-mono">{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        {data.coverLetter?.recipientName && <p className="font-black text-neutral-900">{data.coverLetter.recipientName}</p>}
+                        {data.coverLetter?.recipientTitle && <p className="text-neutral-500 font-bold uppercase tracking-widest text-[11px] mt-1">{data.coverLetter.recipientTitle}</p>}
+                        {data.coverLetter?.companyName && <p className="font-black text-neutral-700">{data.coverLetter.companyName}</p>}
                     </div>
-                    <div className="mb-6"><p className="text-[13px] text-neutral-800">Dear {data.coverLetter?.recipientName || 'Hiring Manager'},</p></div>
+                    
+                    <div className="mb-8">
+                        <p className="text-[14px] font-black text-neutral-900 italic">
+                            Dear {data.coverLetter?.recipientName || 'General Manager'},
+                        </p>
+                    </div>
+
                     <div className="prose prose-neutral max-w-none mb-12">
                         {data.coverLetter?.content?.split('\n').map((para, i) => (
-                            <p key={i} className="text-[13px] leading-relaxed mb-4 text-justify text-neutral-800">{para}</p>
-                        )) || <p className="text-neutral-400 italic text-[13px]">Your cover letter will appear here...</p>}
+                            <p key={i} className="text-[14px] leading-[1.8] mb-6 text-justify text-neutral-700 font-medium">
+                                {para}
+                            </p>
+                        )) || <p className="text-neutral-300 italic text-[14px]">Your cover letter will appear here...</p>}
                     </div>
-                    <div className="space-y-4 text-neutral-800">
-                        <p className="text-[13px]">Sincerely,</p>
-                        <p className="font-bold text-[13px]">{data.personalInfo?.fullName}</p>
+
+                    <div className="space-y-6 text-neutral-800 pt-8 border-t border-neutral-50">
+                        <div>
+                            <p className="text-[14px] mb-2 font-bold uppercase tracking-widest text-neutral-300">Cordially,</p>
+                            <p className={cn("text-[20px] font-black tracking-tight", accentColor)}>{data.personalInfo?.fullName}</p>
+                        </div>
                     </div>
                 </div>
             ) : data.documentType === 'references' ? (
-                <div className="px-8 sm:px-12 pb-12 pt-8">
-                    <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
+                <div className="space-y-8">
+                    <SectionHeader title="Industry References" />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
-                                <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
-                                <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
-                                {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
-                                {ref.availabilityStatement && <span className="text-[11px] text-neutral-400 italic mt-1">{ref.availabilityStatement}</span>}
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1 p-6 bg-neutral-50/50 rounded-xl border border-neutral-100">
+                                <span className="font-black text-neutral-900 text-[14px]">{ref.referenceName || ref.name}</span>
+                                <div className={cn("text-[11px] font-black uppercase tracking-[0.2em] mb-2", accentColor)}>
+                                    {ref.role || ref.title}
+                                </div>
+                                <div className="text-[12px] text-neutral-500 font-medium italic">
+                                    {ref.organization || ref.company}
+                                </div>
+                                {(ref.contactDetails || ref.contactInfo) && (
+                                    <div className="text-[11px] text-neutral-400 font-bold mt-4 pt-4 border-t border-neutral-100">
+                                        {ref.contactDetails || ref.contactInfo}
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
                 </div>
             ) : (
-                <>
+                <div className="flex flex-col gap-10">
+                    {/* Professional Profile */}
+                    {professionalSummary?.summaryText && (
+                        <section>
+                            <SectionHeader title="Executive Profile" />
+                            <p className="text-[13px] leading-[1.8] text-neutral-700 font-medium text-justify">
+                                {professionalSummary.summaryText}
+                            </p>
+                        </section>
+                    )}
 
-
-            <div className="flex flex-col gap-6">
-                {/* Executive Summary */}
-                {professionalSummary?.summaryText && (
-                    <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.3em] border-b border-neutral-300 pb-1 mb-3", accentColor)}>
-                            Professional Profile
-                        </h2>
-                        <p className="text-[13px] leading-relaxed text-justify text-neutral-800">
-                            {professionalSummary.summaryText}
-                        </p>
-                    </section>
-                )}
-
-                {/* Core Competencies (Skills & Languages usually critical in hospitality) */}
-                {(skills && skills.length > 0 || languages && languages.length > 0) && (
-                    <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.3em] border-b border-neutral-300 pb-1 mb-3", accentColor)}>
-                            Core Competencies & Languages
-                        </h2>
-                        <div className="grid grid-cols-1 gap-4 text-[13px]">
-                            {skills && skills.length > 0 && (
-                                <div>
-                                    <span className="font-bold">Skills: </span>
-                                    <span>{skills.map(s => s.skillName).join(', ')}</span>
+                    {/* Expertise Row (Skills & Languages) */}
+                    {(skills?.length || languages?.length) ? (
+                        <section>
+                            <SectionHeader title="Core Expertise" />
+                            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mt-4">
+                                <div className="md:col-span-8 flex flex-wrap gap-x-6 gap-y-3">
+                                    {skills?.map((s, i) => (
+                                        <div key={i} className="flex items-center gap-3">
+                                            <div className={cn("w-1 h-1 rounded-full", accentColor.replace('text-', 'bg-').split(' ')[0])} />
+                                            <span className="text-[12px] font-black text-neutral-800 uppercase tracking-tight">{s.skillName}</span>
+                                        </div>
+                                    ))}
                                 </div>
-                            )}
-                            {languages && languages.length > 0 && (
-                                <div>
-                                    <span className="font-bold">Languages: </span>
-                                    <span>{languages.map(l => `${l.languageName} (${l.proficiencyLevel})`).join(', ')}</span>
-                                </div>
-                            )}
-                        </div>
-                    </section>
-                )}
-
-                {/* Professional Experience */}
-                {workExperience && workExperience.length > 0 && (
-                    <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.3em] border-b border-neutral-300 pb-1 mb-4", accentColor)}>
-                            Hospitality Experience
-                        </h2>
-                        <div className="flex flex-col gap-5">
-                            {workExperience.map((job, i) => (
-                                <div key={i} className="flex flex-col">
-                                    <div className="flex justify-between items-baseline mb-0.5">
-                                        <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-wide">
-                                            {job.jobTitle}
-                                        </h3>
-                                        <span className="text-[12px] font-bold text-neutral-500 tabular-nums uppercase">
-                                            {job.startDate} – {job.isCurrent ? 'Present' : job.endDate}
-                                        </span>
+                                {languages && (
+                                    <div className="md:col-span-4 pl-0 md:pl-8 border-l-0 md:border-l border-neutral-50 space-y-2">
+                                        <div className="text-[9px] font-black text-neutral-300 uppercase tracking-[0.3em] mb-2">Linguistic Skills</div>
+                                        {languages.map((l, i) => (
+                                            <div key={i} className="flex justify-between items-baseline text-[11px]">
+                                                <span className="font-bold text-neutral-700">{l.languageName}</span>
+                                                <span className="text-neutral-400 italic text-[10px]">{l.proficiencyLevel}</span>
+                                            </div>
+                                        ))}
                                     </div>
-                                    <div className="text-[13px] italic text-neutral-700 mb-2">
-                                        {job.companyName}{job.location ? `, ${job.location}` : ''}
+                                )}
+                            </div>
+                        </section>
+                    ) : null}
+
+                    {/* Professional Experience */}
+                    {workExperience && workExperience.length > 0 && (
+                        <section>
+                            <SectionHeader title="Service History" />
+                            <div className="flex flex-col gap-12 mt-6">
+                                {workExperience.map((job, i) => (
+                                    <div key={i} className="break-inside-avoid group">
+                                        <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline mb-4 gap-2">
+                                            <div className="flex-1">
+                                                <h3 className="text-[16px] font-black text-neutral-900 tracking-tight leading-none mb-2 group-hover:translate-x-1 transition-transform duration-300">
+                                                    {job.jobTitle}
+                                                </h3>
+                                                <div className={cn("text-[12px] font-black uppercase tracking-[0.2em] opacity-60", accentColor)}>
+                                                    {job.companyName}
+                                                    {job.location && <span className="text-neutral-200 font-normal mx-3 opacity-40">/</span>}
+                                                    {job.location}
+                                                </div>
+                                            </div>
+                                            <div className="text-[11px] font-black text-neutral-300 uppercase tracking-[0.25em] shrink-0 tabular-nums">
+                                                {job.startDate} — {job.isCurrent ? 'Present' : job.endDate}
+                                            </div>
+                                        </div>
+
+                                        {job.roleDescription && (
+                                            <p className="text-[13px] text-neutral-500 mb-4 leading-relaxed font-medium italic opacity-80 border-l-2 border-neutral-50 pl-6">
+                                                {job.roleDescription}
+                                            </p>
+                                        )}
+
+                                        {job.achievements && job.achievements.length > 0 && (
+                                            <ul className="grid grid-cols-1 gap-y-3 pl-6">
+                                                {job.achievements.map((ach, j) => (
+                                                    <li key={j} className="text-[13px] text-neutral-700 leading-snug flex gap-4 font-medium">
+                                                        <span className={cn("w-1 h-1 rounded-full mt-2 shrink-0 opacity-30", accentColor.replace('text-', 'bg-').split(' ')[0])} />
+                                                        <span>{ach.achievementText}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
                                     </div>
-                                    {job.roleDescription && (
-                                        <p className="text-[13px] text-neutral-800 leading-snug mb-2">
-                                            {job.roleDescription}
-                                        </p>
-                                    )}
-                                    {job.achievements && job.achievements.length > 0 && (
-                                        <ul className="list-outside list-disc pl-4 space-y-1">
-                                            {job.achievements.map((ach, j) => (
-                                                <li key={j} className="text-[13px] text-neutral-800 leading-snug">
-                                                    {ach.achievementText}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
+                                ))}
+                            </div>
+                        </section>
+                    )}
 
-                {/* Licensure & Certifications (Very important for Hospitality) */}
-                {certifications && certifications.length > 0 && (
-                    <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.3em] border-b border-neutral-300 pb-1 mb-3", accentColor)}>
-                            Licensure & Certifications
-                        </h2>
-                        <div className="flex flex-col gap-2">
-                            {certifications.map((cert, i) => (
-                                <div key={i} className="flex justify-between items-baseline text-[13px]">
-                                    <div>
-                                        <span className="font-bold">{cert.certificationName}</span>
-                                        <span className="text-neutral-600"> — {cert.issuingOrganization}</span>
+                    {/* Certifications (Luxury Hospitality often values specialized certs) */}
+                    {certifications && certifications.length > 0 && (
+                        <section>
+                            <SectionHeader title="Licensure & Credentials" />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 mt-4">
+                                {certifications.map((cert, i) => (
+                                    <div key={i} className="break-inside-avoid flex justify-between items-center p-4 bg-neutral-50/30 rounded-lg border border-neutral-50">
+                                        <div>
+                                            <div className="text-[12px] font-black text-neutral-800 tracking-tight leading-none mb-1">{cert.certificationName}</div>
+                                            <div className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest">{cert.issuingOrganization}</div>
+                                        </div>
+                                        {cert.issueYear && <span className="text-[11px] font-black text-neutral-200 tabular-nums">{cert.issueYear}</span>}
                                     </div>
-                                    {cert.issueYear && <span className="text-[12px] text-neutral-500">{cert.issueYear}</span>}
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
+                                ))}
+                            </div>
+                        </section>
+                    )}
 
-                {/* Education */}
-                {education && education.length > 0 && (
-                    <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.3em] border-b border-neutral-300 pb-1 mb-3", accentColor)}>
-                            Education
-                        </h2>
-                        <div className="flex flex-col gap-3">
-                            {education.map((edu, i) => (
-                                <div key={i} className="flex justify-between items-start text-[13px]">
-                                    <div>
-                                        <div className="font-bold uppercase tracking-wide">{edu.institutionName}</div>
-                                        <div className="text-neutral-700">{edu.degree}{edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ''}</div>
-                                        {edu.achievements && <div className="text-neutral-600 italic mt-0.5">{edu.achievements}</div>}
+                    {/* Academic Foundation */}
+                    {education && education.length > 0 && (
+                        <section>
+                            <SectionHeader title="Academic Foundation" />
+                            <div className="flex flex-col gap-6 mt-4">
+                                {education.map((edu, i) => (
+                                    <div key={i} className="break-inside-avoid flex justify-between items-start gap-8">
+                                        <div className="flex-1">
+                                            <div className="text-[14px] font-black text-neutral-900 tracking-tight leading-tight mb-1">
+                                                {edu.degree}
+                                            </div>
+                                            <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest italic">{edu.institutionName}</div>
+                                            {edu.achievements && <div className="text-[10px] text-neutral-300 mt-2 font-medium leading-relaxed">{edu.achievements}</div>}
+                                        </div>
+                                        <div className="text-right shrink-0">
+                                            <div className={cn("text-[12px] font-black tabular-nums", accentColor)}>{edu.endYear}</div>
+                                            {edu.gpa && <div className="text-[10px] font-bold text-neutral-200 mt-1 uppercase tracking-widest">{`GPA ${edu.gpa}`}</div>}
+                                        </div>
                                     </div>
-                                    <span className="text-[12px] text-neutral-500 font-bold ml-4 shrink-0">
-                                        {edu.endYear}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
+                                ))}
+                            </div>
+                        </section>
+                    )}
 
-                {/* Recognition & Awards */}
-                {achievements && achievements.length > 0 && (
-                    <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.3em] border-b border-neutral-300 pb-1 mb-3", accentColor)}>
-                            Recognition & Awards
-                        </h2>
-                        <ul className="list-outside list-disc pl-4 space-y-1.5">
-                            {achievements.map((ach, i) => (
-                                <li key={i} className="text-[13px] text-neutral-800">
-                                    <span className="font-bold">{ach.achievementTitle}</span>
-                                    {ach.issuingBody ? ` — ${ach.issuingBody}` : ''}
-                                    {ach.year ? ` (${ach.year})` : ''}
-                                    {ach.description ? `: ${ach.description}` : ''}
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                )}
+                    {/* Honors & Affiliations */}
+                    {(achievements?.length || professionalAffiliations?.length) ? (
+                        <section>
+                            <SectionHeader title="Honors & Service" />
+                            <div className="space-y-4 mt-4">
+                                {achievements?.map((ach, i) => (
+                                    <div key={i} className="text-[12px] flex items-center gap-4">
+                                        <span className="text-[10px] font-black text-neutral-300 shrink-0 w-16 uppercase tracking-widest">{ach.year || 'Award'}</span>
+                                        <span className="font-bold text-neutral-800">{ach.achievementTitle}</span>
+                                        {ach.issuingBody && <span className="text-neutral-400 italic">— {ach.issuingBody}</span>}
+                                    </div>
+                                ))}
+                                {professionalAffiliations?.map((aff, i) => (
+                                    <div key={i} className="text-[12px] flex items-center gap-4">
+                                        <span className="text-[10px] font-black text-neutral-300 shrink-0 w-16 uppercase tracking-widest">Member</span>
+                                        <span className="font-bold text-neutral-800">{aff.organizationName}</span>
+                                        {aff.roleOrMembership && <span className="text-neutral-400 italic">— {aff.roleOrMembership}</span>}
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    ) : null}
 
-                {/* Additional / Professional Affiliations */}
-                {professionalAffiliations && professionalAffiliations.length > 0 && (
-                    <section>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.3em] border-b border-neutral-300 pb-1 mb-3", accentColor)}>
-                            Professional Affiliations
-                        </h2>
-                        <ul className="list-outside list-disc pl-4 space-y-1">
-                            {professionalAffiliations.map((aff, i) => (
-                                <li key={i} className="text-[13px] text-neutral-800">
-                                    <span className="font-bold">{aff.organizationName}</span>
-                                    {aff.roleOrMembership ? ` — ${aff.roleOrMembership}` : ''}
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                )}
-
-                {/* Custom Sections */}
-                {customSections?.map((sec, idx) => (
-                    <section key={idx}>
-                        <h2 className={cn("text-xs font-bold uppercase tracking-[0.3em] border-b border-neutral-300 pb-1 mb-3", accentColor)}>
-                            {sec.title}
-                        </h2>
-                        <ul className="list-outside list-disc pl-4 space-y-1 text-[13px] text-neutral-800">
-                            {sec.items?.map((item, j) => (
-                                <li key={j}>{item.text}</li>
-                            ))}
-                        </ul>
-                    </section>
-                ))}
-            </div>
-        
-                </>
+                    {/* Custom Sections */}
+                    {customSections?.map((sec, idx) => (
+                        <section key={idx} className="break-inside-avoid">
+                            <SectionHeader title={sec.title} />
+                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pl-6">
+                                {sec.items?.map((item, j) => (
+                                    <li key={j} className="text-[13px] text-neutral-700 flex gap-4">
+                                        <span className="text-neutral-200 mt-2 shrink-0 font-bold">•</span>
+                                        <span className="font-medium">{item.text}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    ))}
+                </div>
             )}
-            </div>
+        </div>
     )
 }

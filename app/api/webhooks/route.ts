@@ -26,7 +26,12 @@ function verifyPaddleSignature(signature: string, body: string, secret: string) 
 
 function getTierFromPriceId(priceId: string) {
     const tier = PRICING_TIERS.find(t => t.paddlePriceId === priceId)
-    return tier ? tier.name.toLowerCase().replace(/\s+/g, '_') : 'free'
+    if (!tier) return 'free'
+    
+    const name = tier.name.toLowerCase()
+    if (name.includes('pro')) return 'pro_monthly'
+    if (name.includes('single')) return 'single_export'
+    return 'free'
 }
 
 export async function POST(req: NextRequest) {
@@ -57,6 +62,8 @@ export async function POST(req: NextRequest) {
                 }
 
                 const tierName = getTierFromPriceId(priceId)
+                // Simplify tier name for frontend consistency ('pro_monthly' or 'single_export' -> 'pro')
+                const simpleTier = (tierName === 'pro_monthly' || tierName === 'single_export') ? 'pro' : 'free'
 
                 // Resolve tier name to UUID
                 const { data: tierData } = await supabase
@@ -70,6 +77,7 @@ export async function POST(req: NextRequest) {
                     break
                 }
 
+                // Update user_subscriptions
                 await supabase
                     .from('user_subscriptions')
                     .upsert({
@@ -81,6 +89,16 @@ export async function POST(req: NextRequest) {
                         tier_id: tierData.id,
                         updated_at: new Date().toISOString()
                     }, { onConflict: 'user_id' })
+
+                // SYNC TO PROFILE (Fix Inconsistency)
+                await supabase
+                    .from('profiles')
+                    .update({ 
+                        subscription_tier: simpleTier,
+                        billing_status: data.status === 'active' ? 'active' : 'canceled'
+                    })
+                    .eq('id', userId)
+
                 break
             }
 
@@ -95,7 +113,7 @@ export async function POST(req: NextRequest) {
                 const isSubscription = data.subscription_id !== null
 
                 if (!isSubscription) {
-                    if (tierName === 'single_download') {
+                    if (tierName === 'single_export') {
                         // Add 1 credit
                         const { data: profile } = await supabase.from('profiles').select('download_credits').eq('id', userId).single()
                         const credits = (profile?.download_credits || 0) + 1
@@ -126,19 +144,43 @@ export async function POST(req: NextRequest) {
                                 updated_at: new Date().toISOString()
                                 // One-time purchases don't have periods or subscription IDs
                             }, { onConflict: 'user_id' })
+                        
+                        // SYNC TO PROFILE
+                        const simpleTier = (tierName === 'pro_monthly' || tierName === 'single_export') ? 'pro' : 'free'
+                        await supabase
+                            .from('profiles')
+                            .update({ 
+                                subscription_tier: simpleTier,
+                                billing_status: 'active'
+                            })
+                            .eq('id', userId)
                     }
                 }
                 break
             }
 
             case 'subscription.canceled': {
-                await supabase
+                // Update user_subscriptions
+                const { data: subData } = await supabase
                     .from('user_subscriptions')
                     .update({
                         status: 'canceled',
                         updated_at: new Date().toISOString()
                     })
                     .eq('paddle_subscription_id', data.id)
+                    .select('user_id')
+                    .single()
+                
+                // SYNC TO PROFILE
+                if (subData?.user_id) {
+                    await supabase
+                        .from('profiles')
+                        .update({ 
+                            subscription_tier: 'free',
+                            billing_status: 'canceled'
+                        })
+                        .eq('id', subData.user_id)
+                }
                 break
             }
         }

@@ -26,15 +26,6 @@ const products = [
         badge: "Core Product"
     },
     {
-        title: "Career Mapper",
-        description: "Map out your professional growth with a strategic 5-year roadmap. Identify exact skills and milestones needed for your dream role.",
-        link: "/career-hub",
-        icon: TrendingUp,
-        color: "text-indigo-600",
-        bgColor: "bg-indigo-50",
-        badge: "Strategic"
-    },
-    {
         title: "ATS Resume Scanner",
         description: "Clinical keyword matching engine. Scan job postings to identify critical skill gaps and optimize your resume to beat the filters.",
         link: "/ats-resume-scanner",
@@ -42,33 +33,6 @@ const products = [
         color: "text-amber-600",
         bgColor: "bg-amber-50",
         badge: "Optimizer"
-    },
-    {
-        title: "LinkedIn Branding",
-        description: "Convert your resume into a high-impact LinkedIn profile that attracts elite recruiters and headhunters automatically.",
-        link: "/career-hub?tab=linkedin_optimizer",
-        icon: Linkedin,
-        color: "text-emerald-600",
-        bgColor: "bg-emerald-50",
-        badge: "Visibility"
-    },
-    {
-        title: "AI Interview Prep",
-        description: "Personalized, high-stakes interview simulator. Get real-time response strategies based on your specific resume and target role.",
-        link: "/career-hub?tab=interview_prep",
-        icon: Zap,
-        color: "text-purple-600",
-        bgColor: "bg-purple-50",
-        badge: "Preparation"
-    },
-    {
-        title: "Career Intelligence Hub",
-        description: "Deep-dive into industry-specific strategies, interview guides, and high-performance career resources.",
-        link: "/career-hub",
-        icon: ShieldCheck,
-        color: "text-rose-600",
-        bgColor: "bg-rose-50",
-        badge: "Intelligence"
     }
 ]
 

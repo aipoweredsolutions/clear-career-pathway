@@ -104,51 +104,7 @@ export default function RootLayout({
         <html lang="en" className={cn(inter.variable, lora.variable, playfair.variable, lato.variable)}>
             <body className="min-h-screen bg-white">
                 <AuthProvider>
-                    <script
-                        type="application/ld+json"
-                        dangerouslySetInnerHTML={{
-                            __html: JSON.stringify([
-                                {
-                                    "@context": "https://schema.org",
-                                    "@type": "SoftwareApplication",
-                                    "name": "Clear Career Path",
-                                    "operatingSystem": "Web",
-                                    "applicationCategory": "BusinessApplication",
-                                    "offers": {
-                                        "@type": "Offer",
-                                        "price": "0",
-                                        "priceCurrency": "USD"
-                                    },
-                                    "description": "AI-powered ATS-compliant resume builder and CV generator. Create professional resumes optimized for applicant tracking systems.",
-                                    "featureList": [
-                                        "ATS Resume Templates",
-                                        "AI Resume Enhancer",
-                                        "Cover Letter Generator",
-                                        "Career Document Management",
-                                        "LinkedIn Profile Optimization",
-                                        "Interview Preparation Coach"
-                                    ],
-                                    "aggregateRating": {
-                                        "@type": "AggregateRating",
-                                        "ratingValue": "4.9",
-                                        "ratingCount": "1250"
-                                    }
-                                },
-                                {
-                                    "@context": "https://schema.org",
-                                    "@type": "Organization",
-                                    "name": "Clear Career Path",
-                                    "url": "https://www.clearcareerpath.com",
-                                    "logo": "https://www.clearcareerpath.com/logo.png",
-                                    "sameAs": [
-                                        "https://twitter.com/ClearCareerPath",
-                                        "https://www.linkedin.com/company/clear-career-path"
-                                    ],
-                                    "description": "Clear Career Path is a leading AI-powered career platform dedicated to helping professionals land their dream roles through ATS-optimized documents and AI coaching."
-                                }
-                            ])
-                        }}
-                    />
+
                     <Navbar />
                     <main className="min-h-[80vh]">
                         {children}

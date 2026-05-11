@@ -123,7 +123,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                         <h2 className={cn('text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2', accentColor)}>Professional References</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                             {data.references?.map((ref, i) => (
-                                <div key={i} className="flex flex-col gap-1">
+                                <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                     <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                     <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                     {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -153,7 +153,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                                     <SectionHeader title="Experience" />
                                     <div className="space-y-5">
                                         {workExperience.map((job, i) => (
-                                            <div key={i} className="relative">
+                                            <div key={i} className="break-inside-avoid relative">
                                                 <ItemMarker />
                                                 <h3 className="text-[13px] font-black text-neutral-900">{job.jobTitle}</h3>
                                                 <div className="text-[11px] font-bold text-neutral-600 mt-0.5 mb-1">
@@ -186,7 +186,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                                     <SectionHeader title="Projects" />
                                     <div className="space-y-4">
                                         {projects.map((proj, i) => (
-                                            <div key={i} className="relative">
+                                            <div key={i} className="break-inside-avoid relative">
                                                 <ItemMarker />
                                                 <h3 className="text-[13px] font-black text-neutral-900">{proj.projectName}</h3>
                                                 {proj.role && (
@@ -212,7 +212,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                                     <SectionHeader title="Education" />
                                     <div className="space-y-3">
                                         {education.map((edu, i) => (
-                                            <div key={i} className="relative">
+                                            <div key={i} className="break-inside-avoid relative">
                                                 <ItemMarker />
                                                 <h3 className="text-[14px] font-black text-neutral-900">
                                                     {edu.degree} {edu.major && `in ${edu.major}`}
@@ -236,7 +236,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                                     <SectionHeader title="Certifications" />
                                     <div className="space-y-2">
                                         {certifications.map((cert, i) => (
-                                            <div key={i} className="relative">
+                                            <div key={i} className="break-inside-avoid relative">
                                                 <ItemMarker />
                                                 <h3 className="text-[13px] font-black text-neutral-900">{cert.certificationName}</h3>
                                                 <div className="text-[11px] text-neutral-500 font-medium">
@@ -255,15 +255,15 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                                     <SectionHeader title="Volunteer" />
                                     <div className="space-y-4">
                                         {volunteerExperience.map((vol, i) => (
-                                            <div key={i} className="relative">
+                                            <div key={i} className="break-inside-avoid relative">
                                                 <ItemMarker />
                                                 <h3 className="text-[13px] font-black text-neutral-900">{vol.roleTitle}</h3>
                                                 <div className="text-[11px] font-bold text-neutral-600 mt-0.5">
                                                     {vol.organizationName}
                                                     {vol.startDate && <span className="text-neutral-400 font-normal"> · {formatDateRange(vol.startDate, vol.endDate)}</span>}
                                                 </div>
-                                                {vol.description && (
-                                                    <p className="text-[11px] text-neutral-700 mt-1 leading-relaxed max-w-[90%]">{vol.description}</p>
+                                                {vol.contributions && (
+                                                    <p className="text-[11px] text-neutral-700 mt-1 leading-relaxed max-w-[90%]">{vol.contributions}</p>
                                                 )}
                                             </div>
                                         ))}
@@ -277,12 +277,12 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                                     <SectionHeader title="Publications" />
                                     <div className="space-y-2">
                                         {publications.map((pub, i) => (
-                                            <div key={i} className="relative">
+                                            <div key={i} className="break-inside-avoid relative">
                                                 <ItemMarker />
                                                 <h3 className="text-[13px] font-black text-neutral-900">{pub.title}</h3>
                                                 <div className="text-[11px] text-neutral-500 font-medium">
-                                                    {pub.journalOrPublisher}
-                                                    {pub.year && <span className="ml-2">· {pub.year}</span>}
+                                                    {pub.platformOrPublisher}
+                                                    {pub.publicationYear && <span className="ml-2">· {pub.publicationYear}</span>}
                                                 </div>
                                             </div>
                                         ))}
@@ -339,9 +339,9 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                                         <ItemMarker />
                                         <div className="space-y-1 max-w-[90%]">
                                             {professionalAffiliations.map((aff, i) => (
-                                                <div key={i} className="text-[12px] text-neutral-700">
+                                                <div key={i} className="break-inside-avoid text-[12px] text-neutral-700">
                                                     <span className="font-bold">{aff.organizationName}</span>
-                                                    {aff.role && <span className="text-neutral-400 font-normal"> · {aff.role}</span>}
+                                                    {aff.roleOrMembership && <span className="text-neutral-400 font-normal"> · {aff.roleOrMembership}</span>}
                                                 </div>
                                             ))}
                                         </div>
@@ -351,7 +351,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
 
                             {/* Custom Sections */}
                             {customSections && customSections.map((section, i) => (
-                                <section key={i}>
+                                <section key={i} className="break-inside-avoid">
                                     <SectionHeader title={section.title} />
                                     {section.content && (
                                         <p className="text-[11px] text-neutral-700 leading-relaxed max-w-[90%] font-medium">{section.content}</p>
@@ -368,6 +368,30 @@ export function ATSMetroTemplate({ data, className, accentColor = 'bg-red-700 te
                                     )}
                                 </section>
                             ))}
+                            
+                            {/* References */}
+                            {references && references.length > 0 && (
+                                <section className="relative">
+                                    <SectionHeader title="Network" />
+                                    <div className="space-y-6">
+                                        {references.map((ref, i) => (
+                                            <div key={i} className="break-inside-avoid relative">
+                                                <ItemMarker />
+                                                <h3 className="text-[13px] font-black text-neutral-900">{ref.referenceName || ref.name}</h3>
+                                                <div className="text-[11px] font-bold text-neutral-600 mt-0.5">
+                                                    {ref.role || ref.title}
+                                                    {(ref.organization || ref.company) && <span className="text-neutral-400 font-normal"> · {ref.organization || ref.company}</span>}
+                                                </div>
+                                                {(ref.contactDetails || ref.contactInfo) && (
+                                                    <div className="text-[10px] font-medium text-neutral-500 mt-1">
+                                                        {ref.contactDetails || ref.contactInfo}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
 
                             {/* End Terminal Marker */}
                             <div className={cn('absolute -bottom-1 -left-[14px] w-6 h-6 rounded-full border-[6px] border-white z-10', bgColorClass)} aria-hidden="true" />

@@ -127,7 +127,7 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                             <SidebarTitle>Education</SidebarTitle>
                             <div className="space-y-5">
                                 {education.map((edu, i) => (
-                                    <div key={i}>
+                                    <div key={i} className="break-inside-avoid">
                                         <h3 className="text-[12px] font-bold text-slate-800 leading-tight mb-1">
                                             {edu.degree}{edu.major ? `\n${edu.major}` : ''}
                                         </h3>
@@ -223,7 +223,7 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -253,7 +253,7 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                             <MainTitle>Professional Experience</MainTitle>
                             <div className="space-y-6">
                                 {workExperience.map((job, i) => (
-                                    <div key={i}>
+                                    <div key={i} className="break-inside-avoid">
                                         {/* Row 1: Title and Dates */}
                                         <div className="flex justify-between items-baseline mb-0.5">
                                             <h3 className="text-[13px] font-bold text-slate-900">
@@ -306,7 +306,7 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                             <MainTitle>Key Projects</MainTitle>
                             <div className="space-y-5">
                                 {projects.map((proj, i) => (
-                                    <div key={i}>
+                                    <div key={i} className="break-inside-avoid">
                                         <div className="flex justify-between items-baseline mb-1">
                                             <h3 className="text-[13px] font-bold text-slate-900">{proj.projectName}</h3>
                                             {proj.role && <span className="text-[11px] italic text-slate-500">{proj.role}</span>}
@@ -326,7 +326,7 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                             <MainTitle>Certifications</MainTitle>
                             <div className="space-y-3">
                                 {certifications.map((c, i) => (
-                                    <div key={i} className="flex justify-between items-baseline">
+                                    <div key={i} className="break-inside-avoid flex justify-between items-baseline">
                                         <h3 className="text-[12px] font-bold text-slate-800">{c.certificationName}</h3>
                                         <span className="text-[11px] text-slate-500">
                                             {c.issuingOrganization}{c.issueYear ? ` • ${c.issueYear}` : ''}
@@ -356,7 +356,7 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
 
                     {/* Custom Sections */}
                     {customSections && customSections.map((s, i) => (
-                        <section key={i}>
+                        <section key={i} className="break-inside-avoid">
                             <MainTitle>{s.title}</MainTitle>
                             {s.content && <p className="text-[11.5px] text-slate-600 leading-relaxed mb-2">{s.content}</p>}
                             {s.items && (

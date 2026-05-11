@@ -137,7 +137,7 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -168,7 +168,7 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                         <SectionHeader title="experience" />
                         <div className="space-y-6">
                             {workExperience.map((job, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <h3 className={cn('text-[14px] font-bold', accentColor)}>
                                         {job.jobTitle}
                                     </h3>
@@ -208,7 +208,7 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                         <SectionHeader title="education" />
                         <div className="space-y-5">
                             {education.map((edu, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <h3 className={cn('text-[14px] font-bold', accentColor)}>
                                         {edu.degree}
                                         {edu.major ? ` in ${edu.major}` : ''}
@@ -242,7 +242,7 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                         <SectionHeader title="projects" />
                         <div className="space-y-5">
                             {projects.map((proj, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <h3 className={cn('text-[14px] font-bold', accentColor)}>
                                         {proj.projectName}
                                     </h3>
@@ -311,7 +311,7 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                                 <SectionHeader title="certifications" />
                                 <div className="space-y-2">
                                     {certifications.map((cert, i) => (
-                                        <div key={i} className="text-[12.5px]">
+                                        <div key={i} className="break-inside-avoid text-[12.5px]">
                                             <span className="font-semibold text-neutral-900">{cert.certificationName}</span>
                                             {cert.issuingOrganization && (
                                                 <span className="text-neutral-600">  ·  {cert.issuingOrganization}</span>

@@ -128,7 +128,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                     <h2 className={cn('text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2', accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -159,7 +159,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                                 <TimelineRow
                                     key={i}
                                     date={job.startDate ? `${job.startDate.split(' ')[1] || job.startDate} — ${job.isCurrent ? 'NOW' : (job.endDate?.split(' ')[1] || job.endDate || '')}` : ''}
-                                >
+                                 className="break-inside-avoid">
                                     <h3 className="text-[13px] font-black text-neutral-900 tracking-tight leading-none mb-1">
                                         {job.jobTitle.toUpperCase()}
                                     </h3>
@@ -193,7 +193,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                         <section>
                             <SectionHeader title="Projects" />
                             {projects.map((proj, i) => (
-                                <TimelineRow key={i} date={proj.startDate ? proj.startDate.split(' ')[1] || proj.startDate : 'PROJECT'}>
+                                <TimelineRow key={i} date={proj.startDate ? proj.startDate.split(' ')[1] || proj.startDate : 'PROJECT'} className="break-inside-avoid">
                                     <h3 className="text-[13px] font-black text-neutral-900 tracking-tight leading-none mb-1">
                                         {proj.projectName.toUpperCase()}
                                     </h3>
@@ -220,7 +220,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                         <section>
                             <SectionHeader title="Academic Timeline" />
                             {education.map((edu, i) => (
-                                <TimelineRow key={i} date={edu.endYear?.toString() || 'PREV'}>
+                                <TimelineRow key={i} date={edu.endYear?.toString() || 'PREV'} className="break-inside-avoid">
                                     <h3 className="text-[13px] font-black text-neutral-900 tracking-tight mb-1">
                                         {edu.degree.toUpperCase()}
                                         {edu.major && <span className="text-neutral-300 font-normal ml-3">/ {edu.major.toUpperCase()}</span>}
@@ -245,7 +245,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                         <section>
                             <SectionHeader title="Certifications" />
                             {certifications.map((cert, i) => (
-                                <TimelineRow key={i} date={cert.issueYear?.toString() || 'CERT'}>
+                                <TimelineRow key={i} date={cert.issueYear?.toString() || 'CERT'} className="break-inside-avoid">
                                     <h3 className="text-[13px] font-black text-neutral-900 tracking-tight leading-none mb-1">
                                         {cert.certificationName.toUpperCase()}
                                     </h3>
@@ -264,15 +264,15 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                         <section>
                             <SectionHeader title="Volunteer Work" />
                             {volunteerExperience.map((vol, i) => (
-                                <TimelineRow key={i} date={vol.startDate ? vol.startDate.split(' ')[1] || vol.startDate : 'VOL'}>
+                                <TimelineRow key={i} date={vol.startDate ? vol.startDate.split(' ')[1] || vol.startDate : 'VOL'} className="break-inside-avoid">
                                     <h3 className="text-[13px] font-black text-neutral-900 tracking-tight leading-none mb-1">
                                         {vol.roleTitle.toUpperCase()}
                                     </h3>
                                     <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest mb-2">
                                         {vol.organizationName}
                                     </div>
-                                    {vol.description && (
-                                        <p className="text-[11px] text-neutral-600 leading-relaxed">{vol.description}</p>
+                                    {vol.contributions && (
+                                        <p className="text-[11px] text-neutral-600 leading-relaxed">{vol.contributions}</p>
                                     )}
                                 </TimelineRow>
                             ))}
@@ -284,13 +284,13 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                         <section>
                             <SectionHeader title="Publications" />
                             {publications.map((pub, i) => (
-                                <TimelineRow key={i} date={pub.year?.toString() || 'PUB'}>
+                                <TimelineRow key={i} date={pub.publicationYear?.toString() || 'PUB'} className="break-inside-avoid">
                                     <h3 className="text-[13px] font-black text-neutral-900 tracking-tight leading-none mb-1">
                                         {pub.title.toUpperCase()}
                                     </h3>
-                                    {pub.journalOrPublisher && (
+                                    {pub.platformOrPublisher && (
                                         <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest">
-                                            {pub.journalOrPublisher}
+                                            {pub.platformOrPublisher}
                                         </div>
                                     )}
                                 </TimelineRow>
@@ -354,9 +354,9 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                             <FlatRow>
                                 <div className="flex flex-col gap-1.5">
                                     {professionalAffiliations.map((aff, i) => (
-                                        <div key={i} className="text-[11px] text-neutral-700">
+                                        <div key={i} className="break-inside-avoid text-[11px] text-neutral-700">
                                             <span className="font-black text-neutral-900">{aff.organizationName}</span>
-                                            {aff.role && <span className="text-neutral-400 font-normal ml-2">— {aff.role}</span>}
+                                            {aff.roleOrMembership && <span className="text-neutral-400 font-normal ml-2">— {aff.roleOrMembership}</span>}
                                         </div>
                                     ))}
                                 </div>
@@ -366,7 +366,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
 
                     {/* Custom Sections */}
                     {customSections && customSections.map((section, i) => (
-                        <section key={i}>
+                        <section key={i} className="break-inside-avoid">
                             <SectionHeader title={section.title} />
                             {section.content && (
                                 <FlatRow>
@@ -374,12 +374,38 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-ne
                                 </FlatRow>
                             )}
                             {section.items && section.items.map((item, j) => (
-                                <TimelineRow key={j} date={item.date || '—'}>
+                                <TimelineRow key={j} date={'—'}>
                                     <p className="text-[11px] text-neutral-700 leading-relaxed font-medium">{item.text}</p>
                                 </TimelineRow>
                             ))}
                         </section>
                     ))}
+
+                    {/* References */}
+                    {references && references.length > 0 && (
+                        <section>
+                            <SectionHeader title="References" />
+                            <div className="space-y-6">
+                                {references.map((ref, i) => (
+                                    <TimelineRow key={i} date="REF" className="break-inside-avoid">
+                                        <h3 className="text-[13px] font-black text-neutral-900 tracking-tight mb-1">
+                                            {ref.referenceName || ref.name}
+                                        </h3>
+                                        <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest">
+                                            {ref.role || ref.title}
+                                            {(ref.organization || ref.company) && <span className="mx-3 opacity-30 font-normal">/</span>}
+                                            {ref.organization || ref.company}
+                                        </div>
+                                        {(ref.contactDetails || ref.contactInfo) && (
+                                            <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.2em] mt-3">
+                                                {ref.contactDetails || ref.contactInfo}
+                                            </div>
+                                        )}
+                                    </TimelineRow>
+                                ))}
+                            </div>
+                        </section>
+                    )}
                 </div>
             )}
         </div>

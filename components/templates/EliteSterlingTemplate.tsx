@@ -121,7 +121,7 @@ export function EliteSterlingTemplate({ data, className, accentColor = 'text-neu
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -155,7 +155,7 @@ export function EliteSterlingTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader>Professional Experience</SectionHeader>
                         <div className="space-y-8 px-2">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="relative">
+                                <div key={i} className="break-inside-avoid relative">
                                     {/* Job Title + Date row */}
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-[14.5px] font-serif font-bold text-neutral-900 leading-tight">
@@ -223,7 +223,7 @@ export function EliteSterlingTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader>Education</SectionHeader>
                         <div className="space-y-6 px-2">
                             {education.map((edu, i) => (
-                                <div key={i} className="flex justify-between items-start">
+                                <div key={i} className="break-inside-avoid flex justify-between items-start">
                                     <div>
                                         <h3 className="text-[13px] font-serif font-bold text-neutral-900 leading-tight">
                                             {edu.degree}{edu.major ? ` in ${edu.major}` : ''}
@@ -250,7 +250,7 @@ export function EliteSterlingTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader>Professional References</SectionHeader>
                         <div className="grid grid-cols-2 gap-8 px-2">
                             {references.map((ref, i) => (
-                                <div key={i} className="space-y-1">
+                                <div key={i} className="break-inside-avoid space-y-1">
                                     <h3 className="text-[13px] font-serif font-bold text-neutral-900 leading-tight">
                                         {ref.referenceName || ref.name}
                                     </h3>
@@ -272,7 +272,7 @@ export function EliteSterlingTemplate({ data, className, accentColor = 'text-neu
 
                 {/* Custom Sections */}
                 {customSections && customSections.map((s, i) => (
-                    <section key={i}>
+                    <section key={i} className="break-inside-avoid">
                         <SectionHeader>{s.title}</SectionHeader>
                         <div className="px-2">
                             {s.content && <p className="text-[12px] text-neutral-700 leading-relaxed mb-3">{s.content}</p>}

@@ -109,7 +109,7 @@ export default async function PricingPage() {
                                 What export formats are available?
                             </h3>
                             <p className="text-neutral-700 leading-relaxed">
-                                Free tier includes a watermarked PDF. Pro Monthly includes clean PDF, DOCX, Markdown, and HTML formats—all text-based and ATS-compliant.
+                                Free tier includes a standard PDF. Pro Monthly includes clean PDF and DOCX formats—all text-based and ATS-compliant.
                             </p>
                         </div>
                         <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-100">

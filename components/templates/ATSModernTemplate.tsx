@@ -93,7 +93,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -123,7 +123,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
                         <SectionHeader title="Experience" />
                         <div className="space-y-4 px-4">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="relative group">
+                                <div key={i} className="break-inside-avoid relative group">
                                     <div className="flex justify-between items-baseline mb-3 gap-4">
                                         <div className="flex-1">
                                             <h3 className="text-[16px] font-black text-neutral-900 tracking-tight leading-tight group-hover:translate-x-1 transition-transform">{job.jobTitle}</h3>
@@ -197,7 +197,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
                         <SectionHeader title="Education" />
                         <div className="space-y-2 px-4">
                             {education.map((edu, i) => (
-                                <div key={i} className="flex justify-between items-baseline gap-4">
+                                <div key={i} className="break-inside-avoid flex justify-between items-baseline gap-4">
                                     <div className="flex-1">
                                         <div className="text-[13px] font-black text-neutral-900 tracking-tight leading-tight">
                                             {edu.degree}
@@ -218,7 +218,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
                         <SectionHeader title="Key Projects" />
                         <div className="flex flex-col gap-3 px-4">
                             {projects.map((proj, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-[13px] font-black text-neutral-900 tracking-tight">{proj.projectName}</h3>
                                         <span className={cn("text-[10px] font-black uppercase tracking-widest opacity-40", accentColor)}>{proj.role}</span>
@@ -236,7 +236,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
                         <SectionHeader title="Certifications" />
                         <div className="space-y-3 px-4">
                             {certifications.map((c, i) => (
-                                <div key={i} className="flex flex-col">
+                                <div key={i} className="break-inside-avoid flex flex-col">
                                     <div className="text-[12px] font-black text-neutral-900 leading-tight">{c.certificationName}</div>
                                     <div className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mt-0.5">
                                         {c.issuingOrganization}

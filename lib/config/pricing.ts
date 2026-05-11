@@ -11,7 +11,7 @@ export const PRICING_TIERS = [
             '1 Job Resume Version'
         ],
         limitations: [
-            'No DOCX or Markdown Export',
+            'No DOCX Export',
             'No AI Bullet Tailoring',
             'No Cover Letter Generator',
             'Premium Templates Restricted'
@@ -36,7 +36,7 @@ export const PRICING_TIERS = [
             'Limited AI Tailoring'
         ],
         cta: 'Buy Single Export',
-        ctaLink: '/auth/signup?tier=single',
+        ctaLink: '/auth/signup?tier=single_export',
         highlighted: false,
         paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_SINGLE_PRICE_ID
     },
@@ -55,7 +55,7 @@ export const PRICING_TIERS = [
         ],
         limitations: [],
         cta: 'Upgrade to Pro',
-        ctaLink: '/auth/signup?tier=pro',
+        ctaLink: '/auth/signup?tier=pro_monthly',
         highlighted: true,
         badge: 'Most Popular',
         paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_POWER_PRICE_ID

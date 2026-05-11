@@ -131,7 +131,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -164,7 +164,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                         <SectionHeader title="Chronology" sectionId="experience" />
                         <div className="space-y-12 pl-20">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="relative">
+                                <div key={i} className="break-inside-avoid relative">
                                     <div className="flex justify-between items-baseline mb-4">
                                         <h3 className="text-[18px] font-black uppercase text-neutral-900 tracking-tight">
                                             {job.jobTitle}
@@ -205,7 +205,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                         <SectionHeader title="Academic" sectionId="education" />
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pl-20">
                             {education.map((edu, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <h3 className="text-[15px] font-black uppercase text-neutral-900 mb-1">
                                         {edu.degree}
                                     </h3>
@@ -237,7 +237,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                                 return (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                         {Object.entries(grouped).map(([type, list]) => (
-                                            <div key={type}>
+                                            <div key={type} className="break-inside-avoid">
                                                 <div className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">
                                                     {type}
                                                 </div>
@@ -260,13 +260,96 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                     </section>
                 )}
 
+                {/* Projects */}
+                {projects && projects.length > 0 && (
+                    <section>
+                        <SectionHeader title="Initiatives" sectionId="projects" />
+                        <div className="space-y-10 pl-20">
+                            {projects.map((proj, i) => (
+                                <div key={i} className="break-inside-avoid">
+                                    <h3 className="text-[15px] font-black uppercase text-neutral-900 mb-1">
+                                        {proj.projectName}
+                                    </h3>
+                                    {proj.role && (
+                                        <div className={cn("text-[12px] font-black uppercase tracking-widest mb-2", textColorClass)}>
+                                            {proj.role}
+                                        </div>
+                                    )}
+                                    {proj.description && (
+                                        <p className="text-[14px] font-medium text-neutral-600 mb-4 leading-relaxed">
+                                            {proj.description}
+                                        </p>
+                                    )}
+                                    {proj.toolsUsed && proj.toolsUsed.length > 0 && (
+                                        <div className="flex flex-wrap gap-2">
+                                            {proj.toolsUsed.map((tool, ti) => (
+                                                <span key={ti} className="text-[10px] font-black uppercase tracking-widest bg-neutral-100 px-2 py-1">
+                                                    {tool}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Awards & Certs */}
+                {(certifications?.length || achievements?.length) && (
+                    <section>
+                        <SectionHeader title="Distinction" sectionId="awards" />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pl-20">
+                            {certifications?.map((cert, i) => (
+                                <div key={`cert-${i}`} className="break-inside-avoid">
+                                    <h3 className="text-[14px] font-black uppercase text-neutral-900 mb-1">
+                                        {cert.certificationName}
+                                    </h3>
+                                    <div className={cn("text-[11px] font-black uppercase tracking-widest", textColorClass)}>
+                                        {cert.issuingOrganization} <span className="text-neutral-200 mx-1">/</span> {cert.issueYear}
+                                    </div>
+                                </div>
+                            ))}
+                            {achievements?.map((ach, i) => (
+                                <div key={`ach-${i}`} className="break-inside-avoid">
+                                    <h3 className="text-[14px] font-black uppercase text-neutral-900 mb-1">
+                                        {ach.achievementTitle}
+                                    </h3>
+                                    <div className={cn("text-[11px] font-black uppercase tracking-widest", textColorClass)}>
+                                        {ach.issuingBody} <span className="text-neutral-200 mx-1">/</span> {ach.year}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Publications */}
+                {publications && publications.length > 0 && (
+                    <section>
+                        <SectionHeader title="Manifesto" sectionId="publications" />
+                        <div className="space-y-6 pl-20">
+                            {publications.map((pub, i) => (
+                                <div key={i} className="break-inside-avoid">
+                                    <h3 className="text-[14px] font-black uppercase text-neutral-900 mb-1">
+                                        {pub.title}
+                                    </h3>
+                                    <div className={cn("text-[11px] font-black uppercase tracking-widest", textColorClass)}>
+                                        {pub.platformOrPublisher} <span className="text-neutral-200 mx-1">/</span> {pub.publicationYear}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
                 {/* Languages */}
                 {languages && languages.length > 0 && (
                     <section>
                         <SectionHeader title="Lexicon" sectionId="languages" />
                         <div className="pl-20 flex flex-wrap gap-12">
                             {languages.map((l, i) => (
-                                <div key={i} className="flex flex-col gap-1">
+                                <div key={i} className="flex flex-col gap-1 break-inside-avoid">
                                     <span className="text-[15px] font-black uppercase tracking-tight">{l.languageName}</span>
                                     <span className={cn("text-[10px] font-black uppercase tracking-[0.2em]", textColorClass)}>{l.proficiencyLevel}</span>
                                 </div>
@@ -274,6 +357,46 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                         </div>
                     </section>
                 )}
+
+                {/* References */}
+                {references && references.length > 0 && (
+                    <section>
+                        <SectionHeader title="Network" sectionId="references" />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pl-20">
+                            {references.map((ref, i) => (
+                                <div key={i} className="break-inside-avoid flex flex-col gap-1">
+                                    <span className="text-[14px] font-black uppercase text-neutral-900">{ref.referenceName || ref.name}</span>
+                                    <span className={cn("text-[10px] font-black uppercase tracking-widest", textColorClass)}>{ref.role || ref.title}</span>
+                                    <span className="text-[11px] text-neutral-400 font-medium">{ref.contactDetails || ref.contactInfo}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Custom Sections */}
+                {customSections && customSections.length > 0 && customSections.map((section, si) => (
+                    <section key={`custom-${si}`} className="break-inside-avoid">
+                        <SectionHeader title={section.title} sectionId={`custom-${si}`} />
+                        <div className="pl-20">
+                            {section.content && (
+                                <p className="text-[14px] font-medium text-neutral-600 mb-6 leading-relaxed">
+                                    {section.content}
+                                </p>
+                            )}
+                            {section.items && section.items.length > 0 && (
+                                <ul className="space-y-3">
+                                    {section.items.map((item, ii) => (
+                                        <li key={ii} className="text-[14px] text-neutral-700 flex gap-4 leading-relaxed group">
+                                            <span className={cn("shrink-0 w-2 h-2 mt-2", bgColorClass, "opacity-20 group-hover:opacity-100 transition-opacity")} />
+                                            <span className="font-medium">{item.text}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    </section>
+                ))}
                 
                 {/* Final Geometric element */}
                 <div className="mt-24 pl-20 flex items-center gap-8">

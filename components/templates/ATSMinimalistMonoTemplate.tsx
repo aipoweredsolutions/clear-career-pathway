@@ -121,7 +121,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -223,7 +223,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Certifications" />
                         <div className="space-y-1.5">
                             {certifications.map((cert, i) => (
-                                <div key={i} className="flex justify-between items-baseline">
+                                <div key={i} className="break-inside-avoid flex justify-between items-baseline">
                                     <div className="text-[11px]">
                                         <span className="font-bold text-neutral-800">{cert.certificationName}</span>
                                         {cert.issuingOrganization && (
@@ -299,7 +299,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Publications" />
                         <div className="space-y-1">
                             {publications.map((pub, i) => (
-                                <div key={i} className="text-[11px] text-neutral-600">
+                                <div key={i} className="break-inside-avoid text-[11px] text-neutral-600">
                                     <span className="font-bold">&quot;{pub.title}&quot;</span>
                                     {pub.platformOrPublisher && <span className="text-neutral-500"> — {pub.platformOrPublisher}</span>}
                                     {pub.publicationYear && <span className="text-neutral-400"> ({pub.publicationYear})</span>}
@@ -338,7 +338,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Affiliations" />
                         <div className="space-y-1">
                             {professionalAffiliations.map((aff, i) => (
-                                <div key={i} className="flex justify-between items-baseline">
+                                <div key={i} className="break-inside-avoid flex justify-between items-baseline">
                                     <div className="text-[11px]">
                                         <span className="font-bold text-neutral-800">{aff.organizationName}</span>
                                         {aff.roleOrMembership && <span className="text-neutral-500"> — {aff.roleOrMembership}</span>}
@@ -426,7 +426,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
 
                 {/* Custom Sections */}
                 {customSections && customSections.length > 0 && customSections.map((section, si) => (
-                    <section key={si}>
+                    <section key={si} className="break-inside-avoid">
                         <SectionHeader title={section.title} />
                         {section.content && (
                             <p className="text-[11px] text-neutral-600 leading-[1.7] mb-1.5">{section.content}</p>

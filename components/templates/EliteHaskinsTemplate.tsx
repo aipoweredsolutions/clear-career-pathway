@@ -105,7 +105,7 @@ export function EliteHaskinsTemplate({ data, className, accentColor = 'text-neut
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -139,7 +139,7 @@ export function EliteHaskinsTemplate({ data, className, accentColor = 'text-neut
                         <SectionHeader>Work Experience</SectionHeader>
                         <div className="space-y-8">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="page-break-inside-avoid">
+                                <div key={i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-2">
                                         <div className="text-[13px]">
                                             <span className="font-bold text-neutral-900">{job.jobTitle}</span>
@@ -174,7 +174,7 @@ export function EliteHaskinsTemplate({ data, className, accentColor = 'text-neut
                         <SectionHeader>Education & Certification</SectionHeader>
                         <div className="space-y-4">
                             {education.map((edu, i) => (
-                                <div key={i} className="flex justify-between items-start">
+                                <div key={i} className="break-inside-avoid flex justify-between items-start">
                                     <div className="text-[12px]">
                                         <span className="font-bold text-neutral-800">{edu.degree}</span>
                                         <span className="text-neutral-400 mx-2">|</span>
@@ -187,7 +187,7 @@ export function EliteHaskinsTemplate({ data, className, accentColor = 'text-neut
                                 </div>
                             ))}
                             {certifications?.map((cert, i) => (
-                                <div key={i} className="flex justify-between items-start">
+                                <div key={i} className="break-inside-avoid flex justify-between items-start">
                                     <div className="text-[12px]">
                                         <span className="font-bold text-neutral-800">{cert.certificationName}</span>
                                         <span className="text-neutral-400 mx-2">|</span>
@@ -264,7 +264,7 @@ export function EliteHaskinsTemplate({ data, className, accentColor = 'text-neut
                         <SectionHeader>Professional References</SectionHeader>
                         <div className="grid grid-cols-2 gap-8">
                             {references.map((ref, i) => (
-                                <div key={i} className="text-[12px] space-y-1">
+                                <div key={i} className="break-inside-avoid text-[12px] space-y-1">
                                     <div className="font-bold text-neutral-800">{ref.referenceName || ref.name}</div>
                                     <div className="text-neutral-500 font-medium uppercase tracking-wider text-[10px]">
                                         {ref.role}{ref.organization ? `, ${ref.organization}` : ''}

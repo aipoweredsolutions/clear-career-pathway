@@ -133,11 +133,7 @@ export function AIDemoSection() {
                             </div>
                         </div>
 
-                        {/* Floating Stats */}
-                        <div className="absolute -bottom-10 -left-10 bg-white p-6 rounded-3xl shadow-2xl hidden md:block border border-neutral-100">
-                            <p className="text-3xl font-black text-primary-600">99%</p>
-                            <p className="text-xs font-bold text-neutral-500 uppercase tracking-widest">ATS Reliability</p>
-                        </div>
+                        {/* AI Writing Animation is sufficient here */}
                     </div>
                 </div>
             </div>
@@ -154,7 +150,7 @@ export function ComparisonSection() {
         { feature: "Unlimited Template Swaps", self: true, coach: "No", other: "Limited" },
         { feature: "No Hidden Subscription Traps", self: true, coach: "N/A", other: "Aggressive" },
         { feature: "LinkedIn Optimization", self: true, coach: "Extra $", other: false },
-        { feature: "Live Career Hub Tracker", self: true, coach: "Manual", other: "None" },
+
     ]
 
     return (

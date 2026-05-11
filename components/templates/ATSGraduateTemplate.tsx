@@ -112,7 +112,7 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-sky-6
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -142,7 +142,7 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-sky-6
                         <SectionHeader title="Academic Foundation" />
                         <div className="space-y-4 px-2">
                             {education.map((edu, i) => (
-                                <div key={i} className={cn("group relative pl-5 border-l-2", borderColorClass.replace('border-', 'border-opacity-30 border-'))}>
+                                <div key={i} className={cn('break-inside-avoid', "group relative pl-5 border-l-2", borderColorClass.replace('border-', 'border-opacity-30 border-'))}>
                                     <div className={cn("absolute -left-[5px] top-1.5 w-2 h-2 rounded-full", bgColorClass)} />
                                     
                                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-baseline mb-1">
@@ -190,7 +190,7 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-sky-6
                         <SectionHeader title="Major Initiatives" />
                         <div className="space-y-3 px-4">
                             {projects.map((proj, i) => (
-                                <div key={i} className="py-2 border-b border-neutral-50 last:border-0">
+                                <div key={i} className="break-inside-avoid py-2 border-b border-neutral-50 last:border-0">
                                     <div className="flex justify-between items-baseline mb-4">
                                         <h3 className="text-[12px] font-black text-neutral-900 uppercase tracking-tight">{proj.projectName}</h3>
                                         <span className={cn("text-[10px] font-black uppercase tracking-widest opacity-40", accentColor)}>{proj.role}</span>
@@ -248,7 +248,7 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-sky-6
                         <SectionHeader title="Professional Exposure" />
                         <div className="space-y-5 px-4">
                             {workExperience.map((job, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-4">
                                         <div>
                                             <h3 className="text-[13px] font-black text-neutral-900 tracking-tight leading-none mb-1">{job.jobTitle}</h3>

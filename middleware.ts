@@ -60,7 +60,6 @@ export async function middleware(request: NextRequest) {
     const isProtectedRoute = 
         request.nextUrl.pathname.startsWith('/dashboard') || 
         (request.nextUrl.pathname.startsWith('/editor') && !request.nextUrl.pathname.startsWith('/editor/setup') && !request.nextUrl.pathname.startsWith('/editor/new')) ||
-        request.nextUrl.pathname.startsWith('/career-hub') ||
         request.nextUrl.pathname.startsWith('/account')
 
     const isAuthRoute = request.nextUrl.pathname.startsWith('/auth')

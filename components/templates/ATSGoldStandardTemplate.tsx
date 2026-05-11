@@ -112,7 +112,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -144,7 +144,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                         <SectionHeader title="Experience" />
                         <div className="space-y-5 px-4">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="group">
+                                <div key={i} className="break-inside-avoid group">
                                     <div className="flex justify-between items-start mb-3 gap-6">
                                         <div className="flex-1">
                                             <h3 className="text-[13px] font-bold text-neutral-900 tracking-tight leading-tight">
@@ -190,7 +190,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                         <SectionHeader title="Key Projects" />
                         <div className="space-y-5 px-4">
                             {projects.map((proj, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-2">
                                         <h3 className="text-[13px] font-bold text-neutral-900 tracking-tight">
                                             {proj.projectName}
@@ -220,7 +220,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                         <SectionHeader title="Education" />
                         <div className="space-y-4 px-4">
                             {education.map((edu, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-2">
                                         <h3 className="text-[13px] font-bold text-neutral-900 tracking-tight">
                                             {edu.degree}{edu.major && ` in ${edu.major}`}
@@ -254,7 +254,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                                 acc[t].push(s);
                                 return acc;
                             }, {} as Record<string, typeof skills>)).map(([type, list]) => (
-                                <div key={type} className="flex flex-col gap-2">
+                                <div key={type} className="break-inside-avoid flex flex-col gap-2">
                                     <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.2em]">{type}</div>
                                     <p className="text-[11px] font-bold text-neutral-800 leading-relaxed">
                                         {list.map(s => s.skillName).join('  •  ')}
@@ -273,7 +273,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                                 <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Certifications</h2>
                                 <div className="space-y-3">
                                     {certifications.map((cert, i) => (
-                                        <div key={i}>
+                                        <div key={i} className="break-inside-avoid">
                                             <div className="text-[12px] font-bold text-neutral-800 leading-tight">{cert.certificationName}</div>
                                             <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mt-1">
                                                 {cert.issuingOrganization} {cert.issueYear && `• ${cert.issueYear}`}
@@ -288,7 +288,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                                 <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Publications</h2>
                                 <div className="space-y-3">
                                     {publications.map((pub, i) => (
-                                        <div key={i}>
+                                        <div key={i} className="break-inside-avoid">
                                             <div className="text-[12px] font-bold text-neutral-800 leading-tight">{pub.title}</div>
                                             <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mt-1">
                                                 {pub.platformOrPublisher} {pub.publicationYear && `• ${pub.publicationYear}`}
@@ -309,7 +309,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                                 <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Languages</h2>
                                 <div className="space-y-2">
                                     {languages.map((l, i) => (
-                                        <div key={i} className="text-[12px] font-bold text-neutral-800">
+                                        <div key={i} className="break-inside-avoid text-[12px] font-bold text-neutral-800">
                                             {l.languageName} <span className="text-neutral-300 mx-2 italic font-medium">[{l.proficiencyLevel}]</span>
                                         </div>
                                     ))}
@@ -321,7 +321,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                                 <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Volunteer</h2>
                                 <div className="space-y-3">
                                     {volunteerExperience.map((vol, i) => (
-                                        <div key={i}>
+                                        <div key={i} className="break-inside-avoid">
                                             <div className="text-[12px] font-bold text-neutral-800 leading-tight">{vol.roleTitle}</div>
                                             <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mt-1">
                                                 {vol.organizationName}
@@ -342,7 +342,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                                 <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">Affiliations</h2>
                                 <div className="space-y-3">
                                     {professionalAffiliations.map((aff, i) => (
-                                        <div key={i}>
+                                        <div key={i} className="break-inside-avoid">
                                             <div className="text-[12px] font-bold text-neutral-800 leading-tight">{aff.organizationName}</div>
                                             <div className="text-[10px] italic opacity-60 mt-1">{aff.roleOrMembership}</div>
                                         </div>
@@ -355,7 +355,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                                 <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-neutral-300 mb-4">References</h2>
                                 <div className="space-y-3">
                                     {references.map((ref, i) => (
-                                        <div key={i}>
+                                        <div key={i} className="break-inside-avoid">
                                             <div className="text-[12px] font-bold text-neutral-800 leading-tight">{ref.referenceName || ref.name}</div>
                                             <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mt-1">
                                                 {ref.organization || ref.company} • {ref.role || ref.title}
@@ -372,7 +372,7 @@ export function ATSGoldStandardTemplate({ data, className, accentColor = 'text-a
                 {customSections && customSections.length > 0 && (
                     <div className="px-4 mt-10 space-y-8">
                         {customSections.map((section, i) => (
-                            <section key={i}>
+                            <section key={i} className="break-inside-avoid">
                                 <SectionHeader title={section.title} />
                                 <div className="text-[12px] text-neutral-700 leading-relaxed font-medium">
                                     {section.content}

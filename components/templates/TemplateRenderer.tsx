@@ -337,7 +337,8 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 }
 
 export const TemplateRenderer: React.FC<TemplateRendererProps> = React.memo(({ templateId, data, className }) => {
-    const { Component, props } = getTemplateConfig(templateId)
+    const effectiveTemplateId = data.formatting?.themeColor ? `${templateId}-${data.formatting.themeColor}` : templateId
+    const { Component, props } = getTemplateConfig(effectiveTemplateId)
 
     if (!Component) {
         return (

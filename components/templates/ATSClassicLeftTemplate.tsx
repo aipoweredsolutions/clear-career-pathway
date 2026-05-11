@@ -92,7 +92,7 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", '')}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -132,7 +132,7 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
                         </h2>
                         <div className="flex flex-col gap-6" style={{ paddingLeft: `calc(${leftColumnWidth} + ${gap})` }}>
                             {education.map((edu, idx) => (
-                                <div key={edu.id || idx} className="relative">
+                                <div key={edu.id || idx} className="break-inside-avoid relative">
                                     <div 
                                         className="absolute top-[2px] text-[11px] text-neutral-500 font-sans tracking-wide"
                                         style={{ left: `calc(-1 * (${leftColumnWidth} + ${gap}))`, width: leftColumnWidth }}
@@ -171,7 +171,7 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
                         </h2>
                         <div className="flex flex-col gap-6" style={{ paddingLeft: `calc(${leftColumnWidth} + ${gap})` }}>
                             {workExperience.map((job, idx) => (
-                                <div key={job.id || idx} className="relative">
+                                <div key={job.id || idx} className="break-inside-avoid relative">
                                     <div 
                                         className="absolute top-[2px] text-[11px] text-neutral-500 font-sans tracking-wide"
                                         style={{ left: `calc(-1 * (${leftColumnWidth} + ${gap}))`, width: leftColumnWidth }}
@@ -253,7 +253,7 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
 
                 {/* CUSTOM SECTIONS (Hobbies, etc) */}
                 {customSections && customSections.length > 0 && customSections.map((section, idx) => (
-                    <section key={section.id || idx} className="border-t border-neutral-300 pt-6">
+                    <section key={section.id || idx} className="break-inside-avoid border-t border-neutral-300 pt-6">
                         <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 mb-6 font-sans">
                             {section.title}
                         </h2>

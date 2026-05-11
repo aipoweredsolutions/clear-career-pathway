@@ -79,7 +79,7 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                         <SectionTitle>Education</SectionTitle>
                         <div className="space-y-6">
                             {education.map((edu, i) => (
-                                <div key={edu.id || i}>
+                                <div key={edu.id || i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-[15px] font-bold text-neutral-900 font-serif">
                                             {edu.degree}{edu.major ? ` in ${edu.major}` : ''}{edu.fieldOfStudy ? ` — ${edu.fieldOfStudy}` : ''}
@@ -112,7 +112,7 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                         <SectionTitle>Selected Publications</SectionTitle>
                         <div className="space-y-4">
                             {publications.map((pub, i) => (
-                                <div key={i} className="text-[13.5px] text-neutral-700 font-serif leading-[1.7] flex gap-4">
+                                <div key={i} className="break-inside-avoid text-[13.5px] text-neutral-700 font-serif leading-[1.7] flex gap-4">
                                     <span className="text-neutral-300 font-bold tabular-nums">{(i + 1).toString().padStart(2, '0')}</span>
                                     <div>
                                         <span className="font-bold text-neutral-900 leading-snug block mb-0.5">{pub.title}</span>
@@ -132,7 +132,7 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                         <SectionTitle>Academic Appointments</SectionTitle>
                         <div className="space-y-7">
                             {workExperience.map((job, i) => (
-                                <div key={job.id || i}>
+                                <div key={job.id || i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-[15px] font-bold text-neutral-900 font-serif">{job.jobTitle}</h3>
                                         <span className="text-[11px] font-bold text-neutral-400 shrink-0 ml-4 uppercase tracking-widest">
@@ -171,7 +171,7 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                         <SectionTitle>Research Grants & Projects</SectionTitle>
                         <div className="space-y-6">
                             {projects.map((proj, i) => (
-                                <div key={i}>
+                                <div key={i} className="break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-[15px] font-bold text-neutral-900 font-serif">{proj.projectName}</h3>
                                         {proj.startDate && (
@@ -204,7 +204,7 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                         <SectionTitle>Professional Affiliations</SectionTitle>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
                             {certifications.map((cert, i) => (
-                                <div key={cert.id || i} className="text-[13px] border-b border-neutral-50 pb-2">
+                                <div key={cert.id || i} className="break-inside-avoid text-[13px] border-b border-neutral-50 pb-2">
                                     <span className="font-bold text-neutral-900 block leading-tight mb-1">{cert.certificationName}</span>
                                     <span className="text-neutral-400 text-[10px] font-black uppercase tracking-widest">{cert.issuingOrganization} {cert.issueYear && `· ${cert.issueYear}`}</span>
                                 </div>
@@ -290,7 +290,7 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                         <SectionTitle>Service & Societies</SectionTitle>
                         <div className="space-y-3">
                             {professionalAffiliations.map((aff, i) => (
-                                <div key={i} className="text-[13.5px] font-serif border-b border-neutral-50 pb-2">
+                                <div key={i} className="break-inside-avoid text-[13.5px] font-serif border-b border-neutral-50 pb-2">
                                     <div className="flex justify-between items-baseline">
                                         <span className="font-bold text-neutral-900">{aff.organizationName}</span>
                                         {aff.yearsActive && <span className="text-neutral-400 text-[11px] font-bold uppercase tracking-widest">{aff.yearsActive}</span>}
@@ -308,7 +308,7 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                         <SectionTitle>Community Engagement</SectionTitle>
                         <div className="space-y-4">
                             {volunteerExperience.map((vol, i) => (
-                                <div key={i} className="flex justify-between items-baseline text-[13.5px] font-serif">
+                                <div key={i} className="break-inside-avoid flex justify-between items-baseline text-[13.5px] font-serif">
                                     <div>
                                         <span className="font-bold text-neutral-900">{vol.roleTitle}</span>
                                         <span className="text-neutral-400 font-normal mx-2">|</span>
@@ -329,7 +329,7 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                         <SectionTitle>References</SectionTitle>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {references.map((ref, i) => (
-                                <div key={i} className="text-[13.5px] font-serif bg-neutral-50/50 p-5 rounded-2xl border border-neutral-100">
+                                <div key={i} className="break-inside-avoid text-[13.5px] font-serif bg-neutral-50/50 p-5 rounded-2xl border border-neutral-100">
                                     <p className="font-bold text-neutral-900 text-base mb-1">{ref.referenceName}</p>
                                     {ref.role && <p className="text-neutral-600 font-medium leading-tight mb-0.5">{ref.role}</p>}
                                     {ref.organization && <p className="text-neutral-400 font-bold text-[11px] uppercase tracking-widest">{ref.organization}</p>}
@@ -436,7 +436,7 @@ export function ATSAcademiaTemplate({ data, className, accentColor = 'text-slate
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}

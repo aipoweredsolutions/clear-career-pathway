@@ -197,7 +197,7 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                             <LeftLabel>Certifications</LeftLabel>
                             <div className="space-y-2.5">
                                 {certifications.map((c, i) => (
-                                    <div key={i}>
+                                    <div key={i} className="break-inside-avoid">
                                         <div className="text-[10px] font-semibold text-neutral-800 leading-snug">{c.certificationName}</div>
                                         <div className="text-[9px] italic text-neutral-400">
                                             {c.issuingOrganization}{c.issueYear ? ` · ${c.issueYear}` : ''}
@@ -231,7 +231,7 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                             <LeftLabel>Volunteering</LeftLabel>
                             <div className="space-y-3">
                                 {volunteerExperience.map((v, i) => (
-                                    <div key={i}>
+                                    <div key={i} className="break-inside-avoid">
                                         <div className="text-[10px] font-bold text-neutral-800">{v.roleTitle}</div>
                                         <div className="text-[9px] italic text-neutral-400">{v.organizationName}</div>
                                         {v.contributions && (
@@ -252,7 +252,7 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                         <RightSection title="Work Experience">
                             <div className="space-y-5">
                                 {workExperience.map((job, i) => (
-                                    <div key={i}>
+                                    <div key={i} className="break-inside-avoid">
                                         <div className="flex justify-between items-baseline">
                                             <h3 className="text-[12px] font-bold text-neutral-900">{job.jobTitle}</h3>
                                             <span className="text-[9px] text-neutral-400 shrink-0 ml-2">
@@ -286,7 +286,7 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                         <RightSection title="Projects">
                             <div className="space-y-4">
                                 {projects.map((p, i) => (
-                                    <div key={i}>
+                                    <div key={i} className="break-inside-avoid">
                                         <div className="flex justify-between items-baseline">
                                             <h3 className="text-[11px] font-bold text-neutral-900">{p.projectName}</h3>
                                             {p.role && <span className="text-[9px] italic text-neutral-400">{p.role}</span>}
@@ -307,7 +307,7 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                         <RightSection title="Education">
                             <div className="space-y-4">
                                 {education.map((edu, i) => (
-                                    <div key={i} className="flex justify-between items-start">
+                                    <div key={i} className="break-inside-avoid flex justify-between items-start">
                                         <div>
                                             <div className="text-[11px] font-bold text-neutral-900 leading-snug">
                                                 {edu.degree}{edu.major || edu.fieldOfStudy ? ` in ${edu.major || edu.fieldOfStudy}` : ''}
@@ -327,7 +327,7 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
 
                     {/* Custom Sections */}
                     {customSections && customSections.map((s, i) => (
-                        <RightSection key={i} title={s.title}>
+                        <RightSection key={i} title={s.title} className="break-inside-avoid">
                             {s.content && <p className="text-[10px] text-neutral-600 leading-relaxed mb-2">{s.content}</p>}
                             {s.items && s.items.length > 0 && (
                                 <ul className="space-y-1">

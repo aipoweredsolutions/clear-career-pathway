@@ -109,9 +109,9 @@ export default function Home() {
 
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
-                            { step: '01', title: 'Data Extraction', desc: 'Our machine-learning parser extracts your career history with 99.9% accuracy. No more manual entry.', icon: <ShieldCheck className="w-10 h-10 text-primary-600" />, color: 'bg-primary-50' },
+                            { step: '01', title: 'Data Extraction', desc: 'Our machine-learning parser extracts your career history instantly. No more tedious manual entry.', icon: <ShieldCheck className="w-10 h-10 text-primary-600" />, color: 'bg-primary-50' },
                             { step: '02', title: 'AI Enhancement', desc: 'Real-time optimization turns basic bullet points into achievement-driven statements.', icon: <Zap className="w-10 h-10 text-indigo-600" />, color: 'bg-indigo-50' },
-                            { step: '03', title: 'ATS Distribution', desc: 'Export clean, machine-readable formats (PDF, DOCX) guaranteed to score 95+ on all major ATS.', icon: <Download className="w-10 h-10 text-emerald-600" />, color: 'bg-emerald-50' }
+                            { step: '03', title: 'ATS Distribution', desc: 'Export clean, machine-readable formats (PDF, DOCX) optimized for all major Applicant Tracking Systems.', icon: <Download className="w-10 h-10 text-emerald-600" />, color: 'bg-emerald-50' }
                         ].map((item, idx) => (
                             <div key={idx} className="group p-10 rounded-[2.5rem] bg-neutral-50 border border-neutral-100 hover:bg-white hover:shadow-2xl hover:border-primary-100 transition-all duration-500">
                                 <div className="flex items-center justify-between mb-10">

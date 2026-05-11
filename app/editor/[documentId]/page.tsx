@@ -7,15 +7,12 @@ import { ResumeDocument } from '@/lib/types/resume'
 import { ResumeForm } from '@/components/editor/ResumeForm'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { Button } from '@/components/ui/Button'
-import { Save, ArrowLeft, LayoutTemplate, X, Loader2, Check, Maximize2, Minimize2, Eye, Sparkles, Target, Columns } from 'lucide-react'
+import { Save, ArrowLeft, LayoutTemplate, X, Loader2, Check, Maximize2, Minimize2, Eye, Sparkles, Target, Columns, Lock } from 'lucide-react'
 import Link from 'next/link'
 import { CoverLetterForm } from '@/components/editor/forms/CoverLetterForm'
 import dynamic from 'next/dynamic'
 
-// Lazy-load all non-critical editor components
-const ResumeCoach = dynamic(() => import('@/components/editor/ResumeCoach').then(mod => mod.ResumeCoach), {
-    ssr: false,
-})
+
 const KeywordOptimizer = dynamic(() => import('@/components/editor/KeywordOptimizer').then(mod => mod.KeywordOptimizer), {
     ssr: false,
 })
@@ -69,7 +66,6 @@ function EditorContent() {
     // Deferred preview data: keeps form input snappy while preview renders in background
     const deferredData = useDeferredValue(data)
     const isPreviewStale = deferredData !== data
-    const [showCoach, setShowCoach] = useState(false)
     const [showKeywords, setShowKeywords] = useState(false)
     const [showAIAssistant, setShowAIAssistant] = useState(false)
     const [leftPanelWidth, setLeftPanelWidth] = useState(50) // Percentage
@@ -79,18 +75,22 @@ function EditorContent() {
     const [numPages, setNumPages] = useState(1)
     const measureRef = useRef<HTMLDivElement>(null)
 
-    // Measure height for visual pagination
+    // Measure height dynamically for visual pagination using ResizeObserver
     useEffect(() => {
-        if (measureRef.current) {
-            setTimeout(() => {
-                if (measureRef.current) {
-                    const heightPx = measureRef.current.scrollHeight
-                    const isA4 = (deferredData || data)?.formatting?.paperSize === 'a4'
-                    const visiblePageHeightPx = (isA4 ? 273 : (10 * 25.4)) * 3.7795275591 // 273mm or 10in
-                    setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
-                }
-            }, 300)
-        }
+        if (!measureRef.current) return
+
+        const observer = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                const heightPx = entry.target.scrollHeight
+                const isA4 = (deferredData || data)?.formatting?.paperSize === 'a4'
+                const visiblePageHeightPx = (isA4 ? 287 : (10.6 * 25.4)) * 3.7795275591 // 287mm or 10.6in (5mm margins)
+                setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
+            }
+        })
+
+        observer.observe(measureRef.current)
+
+        return () => observer.disconnect()
     }, [deferredData, data])
 
     // Trigger onboarding for new users
@@ -298,7 +298,11 @@ function EditorContent() {
 
     const handleTemplateSelect = (templateId: string) => {
         if (data) {
-            setData({ ...data, templateId })
+            setData({ 
+                ...data, 
+                templateId,
+                formatting: data.formatting ? { ...data.formatting, themeColor: undefined } : undefined
+            })
         }
     }
 
@@ -360,31 +364,41 @@ function EditorContent() {
                     <Button
                         variant={showKeywords ? "primary" : "outline"}
                         size="sm"
-                        onClick={() => { setShowKeywords(!showKeywords); if (showCoach) setShowCoach(false) }}
+                        onClick={() => { setShowKeywords(!showKeywords); }}
                         className={cn("transition-all duration-300 gap-2", showKeywords && "ring-2 ring-violet-500 shadow-lg shadow-violet-500/20 bg-violet-600 hover:bg-violet-700 border-violet-600")}
                     >
                         <Target className={cn("w-4 h-4", showKeywords ? "text-white" : "text-violet-600")} />
                         Keywords
                     </Button>
 
-                    <Button
-                        variant={showCoach ? "primary" : "outline"}
-                        size="sm"
-                        onClick={() => { setShowCoach(!showCoach); if (showKeywords) setShowKeywords(false) }}
-                        className={cn("transition-all duration-300 gap-2", showCoach && "ring-2 ring-primary-500 shadow-lg shadow-primary-500/20")}
-                    >
-                        <Sparkles className={cn("w-4 h-4", showCoach ? "text-white" : "text-primary-500")} />
-                        Coach
-                    </Button>
+
 
                     <Button
                         variant="primary"
                         size="sm"
-                        onClick={() => setShowAIAssistant(true)}
+                        onClick={() => {
+                            const isPro = profile?.subscription_tier === 'pro' || profile?.subscription_tier === 'enterprise'
+                            if (!isPro) {
+                                toast.error('Magic Optimize is a Pro feature.', {
+                                    description: 'Upgrade to unlock AI-powered resume optimization.',
+                                    action: {
+                                        label: 'Upgrade',
+                                        onClick: () => window.location.href = '/pricing'
+                                    }
+                                })
+                                return
+                            }
+                            setShowAIAssistant(true)
+                        }}
                         className="bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white font-black uppercase tracking-widest text-[10px] h-9 px-4 shadow-lg shadow-primary-500/20 border-none group"
                     >
                         <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
                         Magic Optimize
+                        {!(profile?.subscription_tier === 'pro' || profile?.subscription_tier === 'enterprise') && (
+                            <div className="ml-1.5 p-0.5 bg-white/20 rounded-md">
+                                <Lock className="w-2.5 h-2.5" />
+                            </div>
+                        )}
                     </Button>
 
                     <div className="h-6 w-px bg-neutral-300 mx-1" />
@@ -544,10 +558,10 @@ function EditorContent() {
                                     >
                                         <div 
                                             className="relative w-full overflow-hidden"
-                                            style={{ height: isA4 ? '273mm' : '10in' }}
+                                            style={{ height: isA4 ? '287mm' : '10.6in' }}
                                         >
                                             <div className="absolute top-0 left-0 w-full" style={{ 
-                                                transform: `translateY(-${i * (isA4 ? 273 : 10)}${isA4 ? 'mm' : 'in'})` 
+                                                transform: `translateY(-${i * (isA4 ? 287 : 10.6)}${isA4 ? 'mm' : 'in'})` 
                                             }}>
                                                 <TemplateRenderer
                                                     templateId={(deferredData || data).templateId}
@@ -583,13 +597,7 @@ function EditorContent() {
                     </div>
                 )}
 
-                {/* AI Resume Coach Sidebar */}
-                <ResumeCoach
-                    data={data}
-                    onUpdate={setData}
-                    isOpen={showCoach}
-                    onClose={() => setShowCoach(false)}
-                />
+
 
                 {/* Keyword Optimizer Sidebar */}
                 <KeywordOptimizer

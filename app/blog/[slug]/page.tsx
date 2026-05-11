@@ -82,27 +82,29 @@ export default async function BlogPostPage({ params }: Props) {
                     </div>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-black text-neutral-950 mb-8 tracking-tighter leading-tight italic">
+                <h1 className="text-3xl md:text-4xl font-black text-neutral-900 mb-8 tracking-tight leading-[1.2]">
                     {post.title}
                 </h1>
 
-                <div className="flex items-center gap-6 border-b border-neutral-100 pb-12 mb-12">
-                    <div className="flex items-center gap-2 text-neutral-400 text-xs font-black uppercase tracking-widest">
-                        <Calendar className="w-4 h-4" />
+                <div className="flex items-center gap-6 border-b border-neutral-100 pb-10 mb-10">
+                    <div className="flex items-center gap-2 text-neutral-400 text-[10px] font-black uppercase tracking-[0.2em]">
+                        <Calendar className="w-3.5 h-3.5" />
                         {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                     </div>
-                    <div className="flex items-center gap-2 text-neutral-400 text-xs font-black uppercase tracking-widest">
-                        <User className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-neutral-400 text-[10px] font-black uppercase tracking-[0.2em]">
+                        <User className="w-3.5 h-3.5" />
                         By Clarity Team
                     </div>
                 </div>
 
                 <div 
                     className="prose prose-lg prose-neutral max-w-none 
-                    prose-headings:text-neutral-950 prose-headings:font-black prose-headings:tracking-tight prose-headings:italic
-                    prose-p:text-neutral-600 prose-p:font-medium prose-p:leading-relaxed
-                    prose-strong:text-neutral-950 prose-strong:font-black
-                    prose-li:text-neutral-600 prose-li:font-medium"
+                    prose-headings:text-neutral-900 prose-headings:font-extrabold prose-headings:tracking-tight
+                    prose-h2:text-xl md:prose-h2:text-2xl prose-h2:mt-16 prose-h2:mb-8
+                    prose-p:text-neutral-600 prose-p:text-[17px] prose-p:leading-[1.8] prose-p:mb-8
+                    prose-strong:text-neutral-900 prose-strong:font-bold
+                    prose-li:text-neutral-600 prose-li:font-medium prose-li:mb-4
+                    prose-blockquote:border-l-4 prose-blockquote:border-primary-500 prose-blockquote:bg-neutral-50 prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:rounded-r-xl prose-blockquote:italic prose-blockquote:text-neutral-700"
                 >
                     <MDXRemote source={post.content} />
                 </div>

@@ -3,22 +3,6 @@ import Link from 'next/link'
 import { ArrowRight, Zap, Users, Star, TrendingUp, CheckCircle2, Sparkles } from 'lucide-react'
 import { HeroTemplateSlideshow } from './HeroTemplateSlideshow'
 
-const STATS = [
-    { value: '50K+', label: 'Resumes Built' },
-    { value: '4.9★', label: 'User Rating' },
-    { value: '93%', label: 'Interview Rate' },
-    { value: '25+', label: 'ATS Templates' },
-]
-
-const COMPANIES = [
-    'Google', 'Amazon', 'Microsoft', 'Apple', 'Meta',
-    'Netflix', 'Stripe', 'Airbnb', 'Uber', 'Notion',
-    'Figma', 'Shopify', 'Atlassian', 'Salesforce', 'Adobe',
-    'Google', 'Amazon', 'Microsoft', 'Apple', 'Meta',
-    'Netflix', 'Stripe', 'Airbnb', 'Uber', 'Notion',
-    'Figma', 'Shopify', 'Atlassian', 'Salesforce', 'Adobe',
-]
-
 export function HeroSection() {
     return (
         <section className="relative min-h-[100vh] flex flex-col justify-center overflow-hidden bg-neutral-950 pt-20 pb-0">
@@ -49,7 +33,7 @@ export function HeroSection() {
                                     <div key={i} className={`w-5 h-5 rounded-full border-2 border-neutral-950 ${c}`} />
                                 ))}
                             </div>
-                            <span className="text-white/90">50,000+ professionals hired</span>
+                            <span className="text-white/90">Trusted by professionals globally</span>
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                         </div>
 
@@ -96,7 +80,7 @@ export function HeroSection() {
                             {[
                                 { icon: CheckCircle2, color: 'text-emerald-400', label: '100% ATS Compliant' },
                                 { icon: Sparkles, color: 'text-violet-400', label: 'AI Bullet Writer' },
-                                { icon: TrendingUp, color: 'text-sky-400', label: '93% Interview Rate' },
+                                { icon: TrendingUp, color: 'text-sky-400', label: 'Real-time Scoring' },
                             ].map(({ icon: Icon, color, label }) => (
                                 <div key={label} className="flex items-center gap-2">
                                     <Icon className={`w-4 h-4 ${color} shrink-0`} />
@@ -111,17 +95,6 @@ export function HeroSection() {
                         {/* Glow behind slideshow */}
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_50%,rgba(99,102,241,0.2),transparent)] blur-2xl" />
                         <HeroTemplateSlideshow />
-
-                        {/* Floating card — Interview Scheduled */}
-                        <div className="absolute -left-8 top-[18%] z-40 flex items-center gap-3 px-4 py-3 bg-neutral-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl animate-float" style={{ animationDelay: '0s' }}>
-                            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0">
-                                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                            </div>
-                            <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Interview Booked</p>
-                                <p className="text-[13px] font-bold text-white">Google · Senior Engineer</p>
-                            </div>
-                        </div>
 
                         {/* Floating card — ATS Score */}
                         <div className="absolute -right-6 top-[42%] z-40 px-4 py-3 bg-neutral-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl animate-float" style={{ animationDelay: '2s' }}>
@@ -146,38 +119,6 @@ export function HeroSection() {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            {/* ── STAT BAR ── */}
-            <div className="relative z-10 border-t border-white/[0.06] mt-auto">
-                <div className="max-w-7xl mx-auto px-6 lg:px-12">
-                    <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/[0.06]">
-                        {STATS.map(({ value, label }) => (
-                            <div key={label} className="flex flex-col items-center justify-center py-7 gap-1">
-                                <span className="text-2xl font-black text-white tracking-tight">{value}</span>
-                                <span className="text-[11px] font-bold uppercase tracking-widest text-white/30">{label}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* ── COMPANY MARQUEE ── */}
-            <div className="relative z-10 py-5 border-t border-white/[0.06] overflow-hidden">
-                <p className="text-center text-[10px] font-black uppercase tracking-[0.3em] text-white/20 mb-4">
-                    Our users have landed roles at
-                </p>
-                <div className="flex gap-0 whitespace-nowrap animate-marquee">
-                    {COMPANIES.map((co, i) => (
-                        <span
-                            key={i}
-                            className="inline-flex items-center gap-4 px-8 text-sm font-black text-white/20 uppercase tracking-widest hover:text-white/50 transition-colors"
-                        >
-                            {co}
-                            <span className="w-1 h-1 rounded-full bg-white/10" />
-                        </span>
-                    ))}
                 </div>
             </div>
         </section>

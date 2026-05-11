@@ -511,7 +511,6 @@ export function AccountShell({ user, subscription, usage, documentCount, downloa
                 <div className="grid sm:grid-cols-3 gap-4">
                     {[
                         { label: 'Go to Dashboard', href: '/dashboard', icon: FileText, desc: 'Manage your resumes' },
-                        { label: 'Career Hub', href: '/career-hub', icon: Sparkles, desc: 'AI career tools' },
                         { label: 'View Pricing', href: '/pricing', icon: Star, desc: 'Upgrade your plan' },
                     ].map(item => (
                         <Link key={item.href} href={item.href}

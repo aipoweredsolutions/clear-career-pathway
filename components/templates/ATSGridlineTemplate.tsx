@@ -128,7 +128,7 @@ export function ATSGridlineTemplate({ data, className, accentColor = 'text-blue-
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="flex flex-col gap-1">
+                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -157,7 +157,7 @@ export function ATSGridlineTemplate({ data, className, accentColor = 'text-blue-
                         <SectionBlock title="Experience">
                             <div className="space-y-6">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className="border-l-2 pl-4 py-1 border-neutral-100">
+                                    <div key={i} className="break-inside-avoid border-l-2 pl-4 py-1 border-neutral-100">
                                         <div className="flex justify-between items-baseline mb-1">
                                             <h3 className="text-[14px] font-bold text-neutral-900">
                                                 {job.jobTitle}
@@ -197,7 +197,7 @@ export function ATSGridlineTemplate({ data, className, accentColor = 'text-blue-
                         <SectionBlock title="Education">
                             <div className="grid grid-cols-1 gap-4">
                                 {education.map((edu, i) => (
-                                    <div key={i} className="border border-neutral-100 rounded p-3 bg-neutral-50/50">
+                                    <div key={i} className="break-inside-avoid border border-neutral-100 rounded p-3 bg-neutral-50/50">
                                         <div className="flex justify-between items-baseline mb-1">
                                             <h3 className="text-[13px] font-bold text-neutral-900">
                                                 {edu.degree} {edu.major && `· ${edu.major}`}
@@ -223,7 +223,7 @@ export function ATSGridlineTemplate({ data, className, accentColor = 'text-blue-
                         <SectionBlock title="Projects">
                             <div className="space-y-4">
                                 {projects.map((proj, i) => (
-                                    <div key={i} className="border-l-2 pl-4 py-1 border-neutral-100">
+                                    <div key={i} className="break-inside-avoid border-l-2 pl-4 py-1 border-neutral-100">
                                         <div className="flex justify-between items-baseline mb-1">
                                             <h3 className="text-[13px] font-bold text-neutral-900">
                                                 {proj.projectName}
@@ -300,7 +300,7 @@ export function ATSGridlineTemplate({ data, className, accentColor = 'text-blue-
                         <SectionBlock title="Validation">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {certifications && certifications.map((cert, i) => (
-                                    <div key={`cert-${i}`} className="border border-neutral-100 rounded p-3 bg-neutral-50/50">
+                                    <div key={`cert-${i}`} className="break-inside-avoid border border-neutral-100 rounded p-3 bg-neutral-50/50">
                                         <h3 className="text-[12px] font-bold text-neutral-900 mb-1">
                                             {cert.certificationName}
                                         </h3>

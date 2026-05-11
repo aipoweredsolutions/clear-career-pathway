@@ -15,36 +15,73 @@ import {
 } from 'docx'
 import { ResumeDocument } from '@/lib/types/resume'
 import { saveAs } from 'file-saver'
+import { templateRegistry } from '@/lib/templates/registry'
 
 interface DOCXTheme {
     primary: string
     secondary: string
     accent: string
     hasSidebar: boolean
+    font: string
+    isCentered: boolean
 }
 
 export class ResumeDOCX {
-    private static getTheme(templateId: string = ''): DOCXTheme {
-        const id = templateId.toLowerCase()
-        const hasSidebar = id.startsWith('modern') || id.startsWith('professional') || id.startsWith('technical') || id.startsWith('startup') || id.startsWith('cute')
+    private static getTheme(data: ResumeDocument): DOCXTheme {
+        const id = (data.templateId || '').toLowerCase()
+        const hasSidebar = 
+            id.startsWith('elegant-split') || 
+            id.startsWith('prestige') ||
+            id.startsWith('ats-sterling') ||
+            id.startsWith('ats-classic-left') ||
+            id.includes('sidebar')
 
-        if (id.includes('teal')) return { primary: '134E4A', secondary: '14B8A6', accent: '134E4A', hasSidebar }
-        if (id.includes('slate')) return { primary: '0F172A', secondary: '64748B', accent: '0F172A', hasSidebar }
-        if (id.includes('navy')) return { primary: '0F172A', secondary: '334155', accent: '0F172A', hasSidebar }
-        if (id.includes('gold')) return { primary: '92400E', secondary: 'D97706', accent: '92400E', hasSidebar }
+        const isCentered = id.startsWith('classic') ||
+            id.startsWith('ats-professional') ||
+            id.startsWith('ats-classic') ||
+            id.startsWith('ats-hospitality') ||
+            id.startsWith('ats-nursing') ||
+            id.startsWith('ats-academia') ||
+            id.startsWith('ats-gold-standard')
+
+        let primaryHex = '111827';
+        const template = templateRegistry.find(t => t.id === id);
+        if (template && template.colors && template.colors.length > 0) {
+            const colorOption = template.colors.find(c => c.id === data.formatting?.themeColor) || template.colors[0];
+            if (colorOption) {
+                primaryHex = colorOption.hex.replace('#', '');
+            }
+        }
+
+        let font = 'Arial';
+        const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('ats-sterling');
+        const isStandardSerif = id.startsWith('ats-academia') || id.startsWith('ats-classic') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
+        if (isEtsyPremiumSerif || isStandardSerif) font = 'Georgia';
+        else if (id.includes('technical')) font = 'Courier New';
 
         return {
-            primary: '111827',
+            primary: primaryHex,
             secondary: '4B5563',
-            accent: '3B82F6',
-            hasSidebar
+            accent: primaryHex,
+            hasSidebar,
+            font,
+            isCentered
         }
     }
 
     static async download(data: ResumeDocument, filename: string = 'resume.docx') {
-        const theme = this.getTheme(data.templateId)
+        const theme = this.getTheme(data)
 
         const doc = new Document({
+            styles: {
+                default: {
+                    document: {
+                        run: {
+                            font: theme.font,
+                        },
+                    },
+                },
+            },
             sections: [{
                 properties: {
                     page: {
@@ -224,19 +261,21 @@ export class ResumeDOCX {
     }
 
     private static createStandardLayout(data: ResumeDocument, theme: DOCXTheme): any[] {
+        const align = theme.isCentered ? AlignmentType.CENTER : AlignmentType.LEFT;
+        
         return [
             new Paragraph({
                 text: data.personalInfo?.fullName || '',
                 heading: HeadingLevel.TITLE,
-                alignment: AlignmentType.CENTER,
+                alignment: align,
             }),
             new Paragraph({
                 text: data.personalInfo?.professionalTitle || '',
-                alignment: AlignmentType.CENTER,
+                alignment: align,
                 spacing: { before: 100, after: 200 },
             }),
             new Paragraph({
-                alignment: AlignmentType.CENTER,
+                alignment: align,
                 spacing: { after: 400 },
                 children: [
                     new TextRun({ text: [

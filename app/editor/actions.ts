@@ -431,7 +431,7 @@ export async function incrementExportCount(documentId: string, format: string): 
 
         const tier = sub?.tier as any
         const tierName = tier?.name || 'free'
-        const isPremium = tierName === 'premium' || tierName === 'pro' || tierName === 'power' || tierName === 'lifetime_pro' || tierName === 'pro_monthly'
+        const isPremium = tierName === 'pro_monthly' || tierName === 'premium' || tierName === 'power' || tierName === 'lifetime_pro'
         const exportLimit = tier?.max_exports_per_month ?? 1
 
         let paymentMethod = 'subscription'

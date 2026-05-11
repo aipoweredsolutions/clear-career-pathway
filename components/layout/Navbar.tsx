@@ -160,34 +160,10 @@ const PRODUCT_TOOLS = [
         icon: PenTool,
         color: 'text-emerald-600',
         bg: 'bg-emerald-50'
-    },
-    {
-        name: 'Keyword Matcher',
-        description: 'Analyze job postings to beat ATS filters.',
-        href: '/career-hub?tab=skills_gap',
-        icon: Search,
-        color: 'text-amber-600',
-        bg: 'bg-amber-50'
-    },
-    {
-        name: 'Job Tracker',
-        description: 'A unified dashboard for all your applications.',
-        href: '/dashboard',
-        icon: Target,
-        color: 'text-indigo-600',
-        bg: 'bg-indigo-50'
     }
 ]
 
 const SERVICE_ITEMS = [
-    {
-        name: 'AI Resume Coach',
-        description: 'Real-time personalized feedback on your professional story.',
-        href: '/career-hub?tab=skills_gap',
-        icon: Rocket,
-        color: 'text-purple-600',
-        bg: 'bg-purple-50'
-    },
     {
         name: 'Career Resources',
         description: 'Guides, interview tips, and industry insights.',
@@ -203,14 +179,6 @@ const SERVICE_ITEMS = [
         icon: ScanSearch,
         color: 'text-amber-600',
         bg: 'bg-amber-50'
-    },
-    {
-        name: 'LinkedIn Brand Optimizer',
-        description: 'Optimize your profile for recruiter discoverability.',
-        href: '/career-hub?tab=linkedin_optimizer',
-        icon: Zap,
-        color: 'text-sky-600',
-        bg: 'bg-sky-50'
     }
 ]
 
@@ -283,12 +251,6 @@ function ServicesMegaMenu({ onClose }: { onClose: () => void }) {
                         </div>
                     </Link>
                 ))}
-            </div>
-            <div className="px-5 py-3 bg-gradient-to-r from-neutral-950 to-neutral-900 flex items-center justify-between">
-                <p className="text-sm font-bold text-white">Need personalized help?</p>
-                <Link href="/career-hub" onClick={onClose} className="text-xs font-black text-primary-400 hover:text-primary-300 inline-flex items-center gap-1 uppercase tracking-widest">
-                    Career Studio <ArrowRight className="w-3 h-3" />
-                </Link>
             </div>
         </div>
     )
@@ -525,19 +487,6 @@ export function Navbar() {
                                             Active Dashboard
                                         </Link>
                                         <Link
-                                            href="/career-hub"
-                                            className={cn(
-                                                'flex items-center gap-3 px-5 py-3 text-sm font-medium transition-all',
-                                                pathname.startsWith('/career-hub')
-                                                    ? 'bg-primary-50 text-primary-700 font-bold'
-                                                    : 'text-neutral-700 hover:bg-primary-50 hover:text-primary-700'
-                                            )}
-                                            onClick={() => setIsUserDropdownOpen(false)}
-                                        >
-                                            <Target className="w-4 h-4" />
-                                            Career Studio
-                                        </Link>
-                                        <Link
                                             href="/account"
                                             className={cn(
                                                 'flex items-center gap-3 px-5 py-3 text-sm font-medium transition-all',
@@ -713,17 +662,6 @@ export function Navbar() {
                             >
                                 <LayoutDashboard className="w-5 h-5 text-primary-500" />
                                 Dashboard
-                            </Link>
-                            <Link
-                                href="/career-hub"
-                                className={cn(
-                                    'text-lg font-bold px-2 py-1 flex items-center gap-3',
-                                    pathname.startsWith('/career-hub') ? 'text-primary-600' : 'text-neutral-900'
-                                )}
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                <Target className="w-5 h-5 text-primary-500" />
-                                Career Studio
                             </Link>
                             <Link
                                 href="/account"

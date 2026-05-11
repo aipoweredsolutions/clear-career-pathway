@@ -65,19 +65,23 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
         }
     }, [template, selectedColor])
 
-    // Measure the template height to calculate how many A4 pages it spans
+    // Measure the template height dynamically to calculate how many A4 pages it spans
     useEffect(() => {
-        if (measureRef.current) {
-            // Wait a tick for fonts/layout to settle
-            setTimeout(() => {
-                if (measureRef.current) {
-                    const heightPx = measureRef.current.scrollHeight
-                    const visiblePageHeightPx = 273 * 3.7795275591 // 273mm visible content per page (12mm margins)
-                    setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
-                }
-            }, 100)
-        }
-    }, [previewData, isMounted])
+        if (!measureRef.current) return
+
+        const observer = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                // Use scrollHeight to capture the full overflowing content height if any
+                const heightPx = entry.target.scrollHeight
+                const visiblePageHeightPx = 287 * 3.7795275591 // 287mm visible content per page (5mm margins)
+                setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
+            }
+        })
+
+        observer.observe(measureRef.current)
+
+        return () => observer.disconnect()
+    }, [isMounted, previewData])
 
     if (!template || !isMounted) return null
 
@@ -197,8 +201,8 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                                     {/* Paginated Render */}
                                     {Array.from({ length: numPages }).map((_, i) => (
                                         <div key={i} className="bg-white shadow-2xl shrink-0 w-[210mm] h-[297mm] relative ring-1 ring-neutral-900/5 flex flex-col items-center justify-center">
-                                            <div className="relative w-full h-[273mm] overflow-hidden">
-                                                <div className="absolute top-0 left-0 w-full" style={{ transform: `translateY(-${i * 273}mm)` }}>
+                                            <div className="relative w-full h-[287mm] overflow-hidden">
+                                                <div className="absolute top-0 left-0 w-full" style={{ transform: `translateY(-${i * 287}mm)` }}>
                                                     <TemplateRenderer
                                                         templateId={previewData.templateId}
                                                         data={previewData}
