@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const ogUrl = new URL(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.clearcareerpath.com'}/api/og`)
     ogUrl.searchParams.set('title', post.title)
     ogUrl.searchParams.set('description', post.excerpt)
-    ogUrl.searchParams.set('score', '99') // High score for social proof
+    ogUrl.searchParams.set('score', 'Premium') // Quality label instead of fabricated score
 
     return { 
         title: post.title, 

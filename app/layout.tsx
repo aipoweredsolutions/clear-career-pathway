@@ -71,7 +71,7 @@ export const metadata: Metadata = {
         title: 'Clear Career Path | AI-Powered ATS Resume Builder',
         description: 'Build an ATS-compliant resume in minutes. Our AI resume builder creates professional, recruiter-approved CVs guaranteed to pass Applicant Tracking Systems.',
         creator: '@ClearCareerPath',
-        images: ['https://www.clearcareerpath.com/api/og?title=Build%20a%20Resume%20That%20Recruiters%20Love&description=AI-Powered%20ATS-Series%20Templates%20with%2099.9%25%20Parsing%20Accuracy&score=98'],
+        images: ['https://www.clearcareerpath.com/api/og?title=Build%20a%20Resume%20That%20Recruiters%20Love&description=AI-Powered%20ATS-Series%20Templates%20for%20Modern%20Professionals'],
     },
     robots: {
         index: true,

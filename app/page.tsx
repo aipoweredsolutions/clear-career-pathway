@@ -58,6 +58,13 @@ const HOW_TO_STEPS = [
     { name: "Claim Your Seat at the Table", text: "Choose from 25+ premium, ATS-compliant designs and download in seconds to start winning interviews.", url: "/editor/setup" }
 ]
 
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'ATS Resume Builder | Create Your Professional Resume Online',
+    description: 'Use our AI-powered ATS resume builder to create a professional CV in minutes. 25+ premium templates designed to pass Applicant Tracking Systems and land interviews.',
+}
+
 export default function Home() {
     const faqSchema = generateFAQSchema(HOME_FAQS)
     const howToSchema = generateHowToSchema(
