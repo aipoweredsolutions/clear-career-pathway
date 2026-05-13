@@ -24,7 +24,6 @@ Objective: Ensure all resume templates are fully ATS compliant by following the 
 - [x] ATSChronographTemplate.tsx
 - [x] ATSMastheadTemplate.tsx
 - [x] ATSBauhausTemplate.tsx
-- [x] ATSEditorialTemplate.tsx (Restored & Verified)
 - [x] ATSGridlineTemplate.tsx
 - [x] ATSMetroTemplate.tsx
 - [x] ATSClassicLeftTemplate.tsx
