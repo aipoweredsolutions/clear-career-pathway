@@ -35,7 +35,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
     const bgColorClass = accentColor.replace('text-', 'bg-').split(' ')[0]
 
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="flex flex-col mb-8 mt-14 break-inside-avoid group">
+        <div className="flex flex-col mb-8 mt-14  group">
             <div className={cn("w-12 h-1 mb-4", bgColorClass)} />
             <h2 className={cn("text-[14px] font-black uppercase tracking-[0.4em] mb-2", accentColor)}>
                 {title}
@@ -53,7 +53,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
             <header className="mb-20 border-b-8 border-neutral-950 pb-16">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
                     <div className="md:col-span-8">
-                        <h1 className="text-[72px] font-black tracking-[-0.04em] leading-[0.8] mb-6 uppercase text-neutral-950">
+                        <h1 className="text-[56px] font-black tracking-[-0.04em] leading-[0.85] mb-6 uppercase text-neutral-950">
                             {personalInfo?.fullName || 'EDITORIAL LEAD'}
                         </h1>
                         <div className={cn("text-[13px] font-black uppercase tracking-[0.5em] italic opacity-40", accentColor)}>
@@ -65,7 +65,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                         <div className="pb-2 border-b border-neutral-100">{personalInfo?.phone}</div>
                         <div>{[personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</div>
                         {personalInfo?.linkedinUrl && (
-                            <div className={cn("mt-4 font-black tracking-[0.3em]", accentColor)}>
+                            <div className={cn("mt-4 font-black tracking-wider break-all", accentColor)}>
                                 {personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}
                             </div>
                         )}
@@ -77,7 +77,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
             {data.documentType === 'cover_letter' ? (
                 <div className="max-w-2xl mx-auto py-10">
                     <div className="mb-16">
-                        <div className="text-neutral-300 font-black uppercase tracking-[0.5em] text-[10px] mb-12">Correspondence // {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                        <div className="text-neutral-300 font-black uppercase tracking-[0.5em] text-[10px] mb-12">Correspondence {'//'} {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
                         <div className="space-y-1">
                             {data.coverLetter?.recipientName && <p className="text-[20px] font-black tracking-tight">{data.coverLetter.recipientName}</p>}
                             {data.coverLetter?.recipientTitle && <p className="text-neutral-400 font-bold uppercase tracking-widest text-[11px]">{data.coverLetter.recipientTitle}</p>}
@@ -104,7 +104,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                     <SectionHeader title="Editorial Endorsements" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid group border-l-8 border-neutral-50 pl-10 py-4 transition-colors hover:border-neutral-950">
+                            <div key={i} className=" group border-l-8 border-neutral-50 pl-10 py-4 transition-colors hover:border-neutral-950">
                                 <span className="font-black text-neutral-950 text-[24px] tracking-tight mb-2 block">{ref.referenceName || ref.name}</span>
                                 <div className={cn("text-[12px] font-black uppercase tracking-[0.3em] mb-4 opacity-40", accentColor)}>
                                     {ref.role || ref.title}
@@ -139,7 +139,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                             <SectionHeader title="Career Narrative" />
                             <div className="space-y-24">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className="break-inside-avoid group">
+                                    <div key={i} className=" group">
                                         <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline mb-8 gap-8 border-b-2 border-neutral-50 pb-4">
                                             <div className="flex-1">
                                                 <h3 className="text-[28px] font-black text-neutral-950 tracking-tight leading-none mb-3 group-hover:translate-x-2 transition-transform">
@@ -195,7 +195,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                                     }, {} as Record<string, typeof skills>)
 
                                     return Object.entries(grouped).map(([type, list]) => (
-                                        <div key={type} className="md:col-span-6 break-inside-avoid bg-neutral-50/50 p-10 rounded-2xl border border-neutral-100">
+                                        <div key={type} className="md:col-span-6  bg-neutral-50/50 p-10 rounded-2xl border border-neutral-100">
                                             <div className={cn("text-[10px] font-black uppercase tracking-[0.5em] mb-10 opacity-30", accentColor)}>
                                                 {type}
                                             </div>
@@ -219,7 +219,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                             <SectionHeader title="Academic Credentials" />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                                 {education.map((edu, i) => (
-                                    <div key={i} className="break-inside-avoid group">
+                                    <div key={i} className=" group">
                                         <div className="flex items-center gap-6 mb-4">
                                             <div className="text-[13px] font-black text-neutral-200 tabular-nums uppercase tracking-[0.4em]">
                                                 {edu.endYear}
@@ -230,7 +230,7 @@ export function ATSEditorialTemplate({ data, className, accentColor = 'text-neut
                                             {edu.degree}
                                         </h3>
                                         <div className={cn("text-[12px] font-black uppercase tracking-[0.3em] opacity-40 italic", accentColor)}>
-                                            {edu.institutionName} // {edu.location}
+                                            {edu.institutionName} {'//'} {edu.location}
                                         </div>
                                         {edu.gpa && (
                                             <div className="mt-4 text-[11px] font-black text-neutral-300 uppercase tracking-widest border-t border-neutral-50 pt-2">DISTINCTION: {edu.gpa}</div>

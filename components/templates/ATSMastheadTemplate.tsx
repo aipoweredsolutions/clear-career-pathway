@@ -37,11 +37,11 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
 
     const borderColorClass = accentColor.replace('text-', 'border-')
 
-    // Section header: lowercase, small, with dashed line extending to right edge
+    // Section header: capitalized, small, with dashed line extending to right edge
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="flex items-center gap-4 mt-8 mb-4">
+        <div className="flex items-center gap-4 mt-5 mb-3">
             <h2 className={cn(
-                'text-[10px] font-black lowercase tracking-[0.2em] shrink-0',
+                'text-[10px] font-black capitalize tracking-[0.2em] shrink-0',
                 accentColor
             )}>
                 {title}
@@ -88,10 +88,10 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
         >
             {/* ── HEADER ── */}
             <header className="mb-6">
-                <hr className={cn('border-t-2 mb-8', borderColorClass)} />
+                <hr className={cn('border-t-2 mb-6', borderColorClass)} />
                 
-                <div className="text-center mb-6">
-                    <h1 className={cn('text-[26px] font-light tracking-[0.5em] uppercase leading-none mb-3', accentColor)}>
+                <div className="text-center mb-5">
+                    <h1 className={cn('text-[26px] font-light tracking-[0.5em] uppercase leading-none mb-3 whitespace-nowrap truncate', accentColor)}>
                         {personalInfo?.fullName || 'YOUR NAME'}
                     </h1>
                     {personalInfo?.professionalTitle && (
@@ -103,14 +103,28 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
 
                 <div className="text-center text-[11px] font-medium text-neutral-600 tracking-wide space-y-1">
                     {contactLines1.length > 0 && (
-                        <div>{contactLines1.join('  ·  ')}</div>
+                        <div className="flex items-center justify-center gap-2 flex-wrap">
+                            {contactLines1.map((item, i) => (
+                                <span key={i} className="flex items-center gap-2">
+                                    {i > 0 && <span className="text-neutral-300">·</span>}
+                                    <span>{item}</span>
+                                </span>
+                            ))}
+                        </div>
                     )}
                     {contactLines2.length > 0 && (
-                        <div>{contactLines2.join('  ·  ')}</div>
+                        <div className="flex items-center justify-center gap-2 flex-wrap">
+                            {contactLines2.map((item, i) => (
+                                <span key={i} className="flex items-center gap-2">
+                                    {i > 0 && <span className="text-neutral-300">·</span>}
+                                    <span>{item}</span>
+                                </span>
+                            ))}
+                        </div>
                     )}
                 </div>
 
-                <hr className={cn('border-t-2 mt-8', borderColorClass)} />
+                <hr className={cn('border-t-2 mt-6', borderColorClass)} />
             </header>
             {/* --- DOCUMENT TYPE OVERRIDES --- */}
             {data.documentType === 'cover_letter' ? (
@@ -137,7 +151,7 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
+                            <div key={i} className=" flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -166,15 +180,15 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                 {workExperience && workExperience.length > 0 && (
                     <section>
                         <SectionHeader title="experience" />
-                        <div className="space-y-6">
+                        <div className="space-y-4">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <h3 className={cn('text-[14px] font-bold', accentColor)}>
                                         {job.jobTitle}
                                     </h3>
-                                    <div className="text-[12.5px] font-semibold text-neutral-700">
-                                        {job.companyName}
-                                        {job.location && <span className="font-normal text-neutral-500">  ·  {job.location}</span>}
+                                    <div className="text-[12.5px] font-semibold text-neutral-700 flex items-baseline gap-2">
+                                        <span>{job.companyName}</span>
+                                        {job.location && <><span className="font-normal text-neutral-300">·</span><span className="font-normal text-neutral-500">{job.location}</span></>}
                                     </div>
                                     <div className="text-[11px] text-neutral-400 mb-2 font-medium">
                                         {formatDateRange(job.startDate, job.endDate, job.isCurrent)}
@@ -206,18 +220,17 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                 {education && education.length > 0 && (
                     <section>
                         <SectionHeader title="education" />
-                        <div className="space-y-5">
+                        <div className="space-y-4">
                             {education.map((edu, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <h3 className={cn('text-[14px] font-bold', accentColor)}>
                                         {edu.degree}
                                         {edu.major ? ` in ${edu.major}` : ''}
                                         {edu.fieldOfStudy && !edu.major ? ` in ${edu.fieldOfStudy}` : ''}
                                     </h3>
-                                    <div className="text-[12.5px] font-semibold text-neutral-700">
-                                        {edu.institutionName}
-                                        {edu.location && `, ${edu.location}`}
-                                        {(edu.endYear || edu.startYear) && <span className="font-normal text-neutral-500">  ·  {edu.endYear || edu.startYear}</span>}
+                                    <div className="text-[12.5px] font-semibold text-neutral-700 flex items-baseline gap-2">
+                                        <span>{edu.institutionName}{edu.location && `, ${edu.location}`}</span>
+                                        {(edu.endYear || edu.startYear) && <><span className="font-normal text-neutral-300">·</span><span className="font-normal text-neutral-500">{edu.endYear || edu.startYear}</span></>}
                                     </div>
                                     {edu.gpa && (
                                         <div className="text-[11px] text-neutral-500 mt-1">GPA: {edu.gpa}</div>
@@ -240,16 +253,16 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                 {projects && projects.length > 0 && (
                     <section>
                         <SectionHeader title="projects" />
-                        <div className="space-y-5">
+                        <div className="space-y-4">
                             {projects.map((proj, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <h3 className={cn('text-[14px] font-bold', accentColor)}>
                                         {proj.projectName}
                                     </h3>
                                     {proj.role && (
-                                        <div className="text-[12.5px] font-semibold text-neutral-700">
-                                            {proj.role}
-                                            {proj.startDate && <span className="font-normal text-neutral-500">  ·  {formatDateRange(proj.startDate, proj.endDate, false)}</span>}
+                                        <div className="text-[12.5px] font-semibold text-neutral-700 flex items-baseline gap-2">
+                                            <span>{proj.role}</span>
+                                            {proj.startDate && <><span className="font-normal text-neutral-300">·</span><span className="font-normal text-neutral-500">{formatDateRange(proj.startDate, proj.endDate, false)}</span></>}
                                         </div>
                                     )}
                                     {proj.description && (
@@ -282,8 +295,13 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
 
                             if (Object.keys(grouped).length === 1) {
                                 return (
-                                    <p className="text-[12.5px] text-neutral-700 leading-relaxed">
-                                        {skills.map(s => s.skillName).join('  ·  ')}
+                                    <p className="text-[12.5px] text-neutral-700 leading-relaxed flex flex-wrap items-center gap-1.5">
+                                        {skills.map((s, i) => (
+                                            <span key={i} className="flex items-center gap-1.5">
+                                                {i > 0 && <span className="text-neutral-300">·</span>}
+                                                <span>{s.skillName}</span>
+                                            </span>
+                                        ))}
                                     </p>
                                 )
                             }
@@ -293,7 +311,7 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                                     {Object.entries(grouped).map(([type, list]) => (
                                         <div key={type} className="text-[12.5px] text-neutral-700">
                                             <span className="font-semibold capitalize">{type}: </span>
-                                            <span>{list.map(s => s.skillName).join('  ·  ')}</span>
+                                            <span className="inline-flex flex-wrap items-center gap-1.5">{list.map((s, i) => (<span key={i} className="flex items-center gap-1.5">{i > 0 && <span className="text-neutral-300">·</span>}<span>{s.skillName}</span></span>))}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -311,13 +329,13 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                                 <SectionHeader title="certifications" />
                                 <div className="space-y-2">
                                     {certifications.map((cert, i) => (
-                                        <div key={i} className="break-inside-avoid text-[12.5px]">
+                                        <div key={i} className="text-[12.5px] flex items-baseline gap-2 flex-wrap">
                                             <span className="font-semibold text-neutral-900">{cert.certificationName}</span>
                                             {cert.issuingOrganization && (
-                                                <span className="text-neutral-600">  ·  {cert.issuingOrganization}</span>
+                                                <><span className="text-neutral-300">·</span><span className="text-neutral-600">{cert.issuingOrganization}</span></>
                                             )}
                                             {(cert.issueYear || cert.issueDate) && (
-                                                <span className="text-neutral-400 font-medium">  ·  {cert.issueYear || cert.issueDate}</span>
+                                                <><span className="text-neutral-300">·</span><span className="text-neutral-400 font-medium">{cert.issueYear || cert.issueDate}</span></>
                                             )}
                                         </div>
                                     ))}
@@ -332,13 +350,13 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                                 <div className="space-y-3">
                                     {achievements.map((ach, i) => (
                                         <div key={i}>
-                                            <div className="text-[12.5px]">
+                                            <div className="text-[12.5px] flex items-baseline gap-2 flex-wrap">
                                                 <span className="font-semibold text-neutral-900">{ach.achievementTitle}</span>
                                                 {ach.issuingBody && (
-                                                    <span className="text-neutral-600">  ·  {ach.issuingBody}</span>
+                                                    <><span className="text-neutral-300">·</span><span className="text-neutral-600">{ach.issuingBody}</span></>
                                                 )}
                                                 {ach.year && (
-                                                    <span className="text-neutral-400 font-medium">  ·  {ach.year}</span>
+                                                    <><span className="text-neutral-300">·</span><span className="text-neutral-400 font-medium">{ach.year}</span></>
                                                 )}
                                             </div>
                                             {ach.description && (
@@ -354,15 +372,14 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                         {languages && languages.length > 0 && (
                             <section>
                                 <SectionHeader title="languages" />
-                                <p className="text-[12.5px] text-neutral-700">
+                                <div className="text-[12.5px] text-neutral-700 flex flex-wrap items-center gap-2">
                                     {languages.map((l, i) => (
-                                        <span key={i}>
-                                            {l.languageName}
-                                            {l.proficiencyLevel ? ` (${l.proficiencyLevel})` : ''}
-                                            {i < languages.length - 1 ? '  ·  ' : ''}
+                                        <span key={i} className="flex items-center gap-2">
+                                            {i > 0 && <span className="text-neutral-300">·</span>}
+                                            <span>{l.languageName}{l.proficiencyLevel ? ` (${l.proficiencyLevel})` : ''}</span>
                                         </span>
                                     ))}
-                                </p>
+                                </div>
                             </section>
                         )}
                     </div>

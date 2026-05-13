@@ -352,7 +352,7 @@ export const MOCK_DATA_SCIENTIST_DATA: ResumeDocument = {
     id: 'preview-ds',
     title: 'Lead Data Scientist Resume',
     documentType: 'resume',
-    templateId: 'ats-technical',
+    templateId: 'ats-modern',
     personalInfo: {
         fullName: 'Dr. Alex Rivera',
         professionalTitle: 'Lead Data Scientist | Machine Learning & Analytics',

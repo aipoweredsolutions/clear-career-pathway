@@ -39,7 +39,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
     }
 
     const SidebarSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-        <div className="mb-7">
+        <div className="mb-5">
             <div className={cn('text-[9px] font-black uppercase tracking-[0.25em] mb-3 pb-1.5 border-b border-white/20', theme.accent)}>
                 {title}
             </div>
@@ -48,8 +48,8 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
     )
 
     const MainSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-        <div className="mb-7">
-            <div className="flex items-center gap-3 mb-4">
+        <div className="mb-5">
+            <div className="flex items-center gap-3 mb-3">
                 <h2 className="text-[10px] font-black uppercase tracking-[0.25em] text-neutral-500 whitespace-nowrap">{title}</h2>
                 <div className="flex-1 h-px bg-neutral-200" />
             </div>
@@ -58,12 +58,12 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
     )
 
     return (
-        <div className="w-full bg-white flex min-h-full overflow-hidden" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+        <div className="w-full bg-white flex min-h-[1120px] overflow-hidden" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
             {/* ═══ LEFT SIDEBAR ═══ */}
-            <div className={cn('w-[30%] shrink-0 pl-6 pr-5 pt-10 pb-8 flex flex-col overflow-hidden', theme.sidebar)}>
+            <div className={cn('w-[30%] shrink-0 pl-6 pr-5 pt-8 pb-8 flex flex-col', theme.sidebar)}>
                 {/* Name & Title */}
-                <div className="mb-8 pb-6 border-b border-white/20">
-                    <h1 className="text-[20px] font-bold text-white leading-tight mb-2 break-words">
+                <div className="mb-6 pb-4 border-b border-white/20">
+                    <h1 className="text-[20px] font-bold text-white leading-tight mb-1 break-words whitespace-nowrap truncate">
                         {personalInfo?.fullName || 'Your Name'}
                     </h1>
                     {personalInfo?.professionalTitle && (
@@ -129,7 +129,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                     <SidebarSection title="Certifications">
                         <div className="space-y-3">
                             {certifications.map((c, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="text-[10px] font-bold text-white leading-snug break-words">{c.certificationName}</div>
                                     {c.issuingOrganization && (
                                         <div className="text-[9px] text-white/60">{c.issuingOrganization}{c.issueYear ? ` · ${c.issueYear}` : ''}</div>
@@ -158,7 +158,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
             </div>
 
             {/* ═══ RIGHT MAIN COLUMN ═══ */}
-            <div className="flex-1 min-w-0 pl-8 pr-10 pt-10 pb-8 overflow-hidden" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+            <div className="flex-1 min-w-0 pl-8 pr-10 pt-8 pb-8" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
 
                 {/* Summary */}
                 {professionalSummary?.summaryText && (
@@ -172,9 +172,9 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                 {/* Work Experience */}
                 {workExperience && workExperience.length > 0 && (
                     <MainSection title="Experience">
-                        <div className="space-y-6">
+                        <div className="space-y-4">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline mb-0.5">
                                         <h3 className="text-[13px] font-bold text-neutral-900 leading-tight">{job.jobTitle}</h3>
                                         <span className="text-[9px] text-neutral-400 font-medium shrink-0 ml-2">
@@ -208,7 +208,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                     <MainSection title="Projects">
                         <div className="space-y-4">
                             {projects.map((p, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline mb-0.5">
                                         <h3 className="text-[12px] font-bold text-neutral-900">{p.projectName}</h3>
                                         {p.role && <span className="text-[9px] text-neutral-400 italic">{p.role}</span>}
@@ -230,7 +230,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
                     <MainSection title="Education">
                         <div className="space-y-4">
                             {education.map((edu, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-start">
+                                <div key={i} className=" flex justify-between items-start">
                                     <div>
                                         <div className="text-[12px] font-bold text-neutral-900 leading-tight">
                                             {edu.degree}{edu.major || edu.fieldOfStudy ? ` in ${edu.major || edu.fieldOfStudy}` : ''}
@@ -247,7 +247,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
 
                 {/* Custom Sections */}
                 {customSections && customSections.map((s, i) => (
-                    <MainSection key={i} title={s.title} className="break-inside-avoid">
+                    <MainSection key={i} title={s.title} className="">
                         {s.content && <p className="text-[10px] text-neutral-600 leading-relaxed mb-2">{s.content}</p>}
                         {s.items && s.items.length > 0 && (
                             <ul className="space-y-1">

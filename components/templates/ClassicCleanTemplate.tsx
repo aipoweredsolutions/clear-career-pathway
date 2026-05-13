@@ -32,7 +32,7 @@ export function ClassicCleanTemplate({ data, className, accentColor = 'text-neut
     } = data
 
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="mt-10 mb-5 break-inside-avoid">
+        <div className="mt-10 mb-5 ">
             <div className="flex items-center gap-6">
                 <h2 className={cn('text-[11px] font-black uppercase tracking-[0.4em] shrink-0', accentColor)}>
                     {title}
@@ -58,13 +58,13 @@ export function ClassicCleanTemplate({ data, className, accentColor = 'text-neut
             style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
         >
             {/* ── MINIMALIST HEADER ── */}
-            <header className="text-center mb-16">
-                <h1 className="text-[32px] font-black tracking-[-0.02em] text-neutral-900 leading-none mb-4">
+            <header className="text-center mb-8">
+                <h1 className="text-[32px] font-black tracking-[-0.02em] text-neutral-900 leading-none mb-2">
                     {personalInfo?.fullName || 'Untitled'}
                 </h1>
                 
                 {personalInfo?.professionalTitle && (
-                    <p className={cn("text-[12px] font-bold uppercase tracking-[0.3em] mb-8 opacity-40", accentColor)}>
+                    <p className={cn("text-[12px] font-bold uppercase tracking-[0.3em] mb-4 opacity-40", accentColor)}>
                         {personalInfo.professionalTitle}
                     </p>
                 )}
@@ -117,7 +117,7 @@ export function ClassicCleanTemplate({ data, className, accentColor = 'text-neut
                     <SectionHeader title="Professional References" />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-12 px-4">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-2 group">
+                            <div key={i} className=" flex flex-col gap-2 group">
                                 <span className="font-black text-neutral-900 text-[16px] group-hover:text-neutral-500 transition-colors">{ref.referenceName || ref.name}</span>
                                 <div className="text-[12px] text-neutral-400 font-bold uppercase tracking-widest italic mb-2">
                                     {ref.role || ref.title}
@@ -151,7 +151,7 @@ export function ClassicCleanTemplate({ data, className, accentColor = 'text-neut
                             <SectionHeader title="Experience" />
                             <div className="flex flex-col gap-12 px-4 mt-2">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className="break-inside-avoid group">
+                                    <div key={i} className=" group">
                                         <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline mb-5 gap-4">
                                             <div className="flex-1">
                                                 <h3 className="text-[18px] font-black text-neutral-900 tracking-tight leading-none mb-2">
@@ -196,7 +196,7 @@ export function ClassicCleanTemplate({ data, className, accentColor = 'text-neut
                             <SectionHeader title="Projects" />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 px-4">
                                 {projects.map((proj, i) => (
-                                    <div key={i} className="break-inside-avoid">
+                                    <div key={i} className="">
                                         <div className="flex justify-between items-baseline mb-3">
                                             <h3 className="text-[15px] font-black text-neutral-900 tracking-tight uppercase">
                                                 {proj.projectName}
@@ -231,7 +231,7 @@ export function ClassicCleanTemplate({ data, className, accentColor = 'text-neut
                             <SectionHeader title="Education" />
                             <div className="flex flex-col gap-10 px-4 mt-2">
                                 {education.map((edu, i) => (
-                                    <div key={i} className="break-inside-avoid flex flex-col md:flex-row justify-between items-start md:items-baseline gap-4">
+                                    <div key={i} className=" flex flex-col md:flex-row justify-between items-start md:items-baseline gap-4">
                                         <div className="flex-1">
                                             <h3 className="text-[16px] font-black text-neutral-900 tracking-tight leading-none mb-2">
                                                 {edu.degree}
@@ -299,7 +299,7 @@ export function ClassicCleanTemplate({ data, className, accentColor = 'text-neut
 
                     {/* Custom Sections */}
                     {customSections && customSections.length > 0 && customSections.map((section, si) => (
-                        <section key={si} className="break-inside-avoid">
+                        <section key={si} className="">
                             <SectionHeader title={section.title} />
                             <div className="px-4">
                                 {section.content && <p className="text-[14px] text-neutral-700 leading-relaxed mb-6 font-medium italic">{section.content}</p>}

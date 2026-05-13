@@ -279,6 +279,20 @@ export const MOCK_PREVIEW_DATA: ResumeDocument = {
             organization: 'TechFlow Solutions',
             contactDetails: 'james.w@techflow.example.com',
             availabilityStatement: 'Available upon request'
+        },
+        {
+            referenceName: 'Sarah Jenkins',
+            role: 'Design Director',
+            organization: 'Creative Pulse Agency',
+            contactDetails: 's.jenkins@creativepulse.com',
+            availabilityStatement: 'Available upon request'
+        },
+        {
+            referenceName: 'Michael Chang',
+            role: 'Senior Engineer',
+            organization: 'TechFlow Solutions',
+            contactDetails: 'm.chang@techflow.example.com',
+            availabilityStatement: 'Available upon request'
         }
     ],
     customSections: [
@@ -403,6 +417,29 @@ export const MOCK_EXECUTIVE_DATA: ResumeDocument = {
                 { text: 'Board Director at AlphaStart (Series A AI Startup)' },
                 { text: 'Advisory Board Member at TechForGood Non-profit' }
             ]
+        }
+    ],
+    references: [
+        {
+            referenceName: 'Dr. Evelyn Carter',
+            role: 'CEO',
+            organization: 'Quantum Systems',
+            contactDetails: 'evelyn.carter@quantum.com',
+            availabilityStatement: 'Available upon request'
+        },
+        {
+            referenceName: 'Robert Vance',
+            role: 'VP of Engineering',
+            organization: 'Nebula Cloud',
+            contactDetails: 'robert.vance@nebula.com',
+            availabilityStatement: 'Available upon request'
+        },
+        {
+            referenceName: 'Anita Patel',
+            role: 'Chief Data Officer',
+            organization: 'Quantum Systems',
+            contactDetails: 'anita.patel@quantum.com',
+            availabilityStatement: 'Available upon request'
         }
     ]
 }
@@ -782,7 +819,7 @@ export const MOCK_TECHNICAL_DATA: ResumeDocument = {
     id: 'preview-tech',
     title: 'Senior DevOps Engineer',
     documentType: 'resume',
-    templateId: 'ats-technical',
+    templateId: 'ats-modern',
     personalInfo: {
         fullName: 'David Kim',
         professionalTitle: 'Senior DevOps Engineer',

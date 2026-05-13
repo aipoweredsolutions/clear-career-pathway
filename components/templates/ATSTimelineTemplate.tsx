@@ -82,7 +82,7 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
+                            <div key={i} className=" flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -118,7 +118,7 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
 
                         <div className="space-y-4">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="break-inside-avoid relative pl-8">
+                                <div key={i} className=" relative pl-8">
                                     {/* Timeline Dot */}
                                     <div className={cn("absolute left-0 top-1 w-[7px] h-[7px] rounded-full border-[1.5px] bg-white", borderColorClass)} />
 
@@ -178,7 +178,7 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                         <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-2", accentColor)}>Education</h2>
                         <div className="space-y-1.5">
                             {education.map((edu, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-baseline gap-4">
+                                <div key={i} className=" flex justify-between items-baseline gap-4">
                                     <div className="flex-1">
                                         <span className="text-[12px] font-bold text-neutral-900">{edu.degree}</span>
                                         {edu.fieldOfStudy && <span className="text-[11px] text-neutral-500"> — {edu.fieldOfStudy}</span>}
@@ -197,7 +197,7 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                         <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-2", accentColor)}>Certifications</h2>
                         <div className="space-y-1">
                             {certifications.map((cert, i) => (
-                                <div key={i} className="break-inside-avoid text-[11px]">
+                                <div key={i} className=" text-[11px]">
                                     <span className="font-bold text-neutral-800">{cert.certificationName}</span>
                                     <span className="text-neutral-400 ml-1">· {cert.issuingOrganization}</span>
                                     {(cert.issueYear || cert.issueDate) && (
@@ -215,7 +215,7 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                         <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-2", accentColor)}>Key Projects</h2>
                         <div className="space-y-2">
                             {projects.map((proj, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline gap-4">
                                         <h3 className="text-[12px] font-bold text-neutral-900">{proj.projectName}</h3>
                                         {proj.role && <span className="text-[10px] font-medium text-neutral-400 shrink-0">{proj.role}</span>}

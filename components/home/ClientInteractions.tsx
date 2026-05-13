@@ -57,17 +57,16 @@ export function TemplateGallery() {
     const [templateColors, setTemplateColors] = useState<Record<string, string>>({})
     const [previewTemplateId, setPreviewTemplateId] = useState<string | null>(null)
 
-    const categories = ['All', 'Executive Elite', 'Free', 'Essential', 'Modern Clean', 'Technical', 'Healthcare', 'Academic']
+    const categories = ['All', 'Executive Elite', 'Free', 'Essential', 'Modern Clean', 'Healthcare', 'Academic']
     const levels = ['All', 'Entry', 'Mid', 'Senior', 'Executive', 'Student']
 
     const filteredTemplates = useMemo(() => {
         const filtered = templateRegistry.filter(template => {
             const categoryMatch = selectedCategory === 'All' ||
-                (selectedCategory === 'Executive Elite' && (template.id.startsWith('elite-') || template.id === 'ats-gold-standard')) ||
+                (selectedCategory === 'Executive Elite' && (template.id.startsWith('elite-'))) ||
                 (selectedCategory === 'Free' && !template.isPremium) ||
-                (selectedCategory === 'Essential' && ['ats-gold-standard', 'ats-professional', 'ats-minimal', 'ats-classic', 'ats-executive', 'ats-classic-left'].includes(template.id)) ||
+                (selectedCategory === 'Essential' && ['ats-professional', 'ats-minimal', 'ats-classic', 'ats-executive', 'ats-classic-left'].includes(template.id)) ||
                 (selectedCategory === 'Modern Clean' && ['ats-modern', 'ats-timeline', 'classic-clean'].includes(template.id)) ||
-                (selectedCategory === 'Technical' && template.id === 'ats-technical') ||
                 (selectedCategory === 'Healthcare' && ['ats-nursing', 'ats-standard-nursing'].includes(template.id)) ||
                 (selectedCategory === 'Academic' && template.id === 'ats-academia');
 
@@ -79,7 +78,8 @@ export function TemplateGallery() {
 
         // Sorting logic: Elite ATS-Compliant first, then Premium, then Free
         const eliteIds = [
-            'ats-gold-standard', 
+            'ats-cornerstone',
+            'ats-meridian',
             'ats-professional', 
             'elite-sterling', 
             'elite-london', 

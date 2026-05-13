@@ -24,7 +24,7 @@ export const createStyles = (templateId: string) => {
     const containerPaddingY = isATS ? 45 : 20
     
     const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('ats-sterling');
-    const isStandardSerif = id.startsWith('ats-academia') || id.startsWith('ats-classic') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
+    const isStandardSerif = id.startsWith('ats-academia') || id.startsWith('ats-classic') || id.startsWith('ats-cornerstone') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
     
     let fontFamily = 'Inter';
     if (isEtsyPremiumSerif) fontFamily = 'Playfair Display';
@@ -174,7 +174,7 @@ export const createStyles = (templateId: string) => {
             fontWeight: 'bold',
             color: colors.primary,
             marginBottom: id.startsWith('ats-modern') ? 10 : (id.startsWith('ats-professional') ? 2 : (id.includes('minimal') ? 4 : 6)),
-            textTransform: (id.includes('minimal') || id.startsWith('ats-executive') || id.startsWith('classic') || id.startsWith('ats-gold-standard') || id.startsWith('ats-timeline') || id.startsWith('ats-nursing') || id.startsWith('ats-metro') || id.startsWith('ats-masthead') || id.startsWith('ats-hospitality') || id.startsWith('ats-gridline') || id.startsWith('ats-classic') || id.startsWith('ats-chronograph') || id.startsWith('ats-bauhaus') || id.startsWith('ats-academia') || id === 'cover-letter') ? 'uppercase' : 'none',
+            textTransform: (id.includes('minimal') || id.startsWith('ats-executive') || id.startsWith('classic') || id.startsWith('ats-gold-standard') || id.startsWith('ats-timeline') || id.startsWith('ats-nursing') || id.startsWith('ats-metro') || id.startsWith('ats-masthead') || id.startsWith('ats-cornerstone') || id.startsWith('ats-hospitality') || id.startsWith('ats-gridline') || id.startsWith('ats-classic') || id.startsWith('ats-chronograph') || id.startsWith('ats-bauhaus') || id.startsWith('ats-academia') || id === 'cover-letter') ? 'uppercase' : 'none',
             letterSpacing: id.startsWith('classic') ? 1.5 : ((id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-gold-standard')) ? 2 : (id.startsWith('ats-executive') || id.startsWith('ats-modern') ? -0.5 : 0.5)),
         },
         title: {

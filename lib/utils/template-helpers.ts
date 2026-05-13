@@ -14,9 +14,6 @@ export const getMockDataForTemplate = (templateId: string): ResumeDocument => {
     if (templateId === 'ats-gold-standard') {
         mockData = MOCK_PERSONAS.ats_gold
     }
-    else if (templateId === 'ats-technical' || templateId === 'technical') {
-        mockData = MOCK_PERSONAS.technical
-    }
     else if (templateId === 'hospitality-elite' || templateId === 'service-pro') {
         mockData = MOCK_PERSONAS.hospitality
     }

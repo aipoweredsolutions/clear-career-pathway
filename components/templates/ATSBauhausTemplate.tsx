@@ -39,7 +39,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
     const borderColorClass = `border-${baseColor}`
 
     const SectionHeader = ({ title, num }: { title: string, num: string }) => (
-        <div className="flex items-end gap-6 mb-10 mt-16 group break-inside-avoid">
+        <div className="flex items-end gap-6 mb-10 mt-16 group ">
             <div className={cn(
                 "w-16 h-16 flex items-center justify-center text-white font-black text-2xl shrink-0 transition-all group-hover:-translate-y-1 group-hover:shadow-[8px_8px_0_0_rgba(0,0,0,0.05)]",
                 bgColorClass
@@ -145,7 +145,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                     <SectionHeader title="Verification Network" num="01" />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-3 group">
+                            <div key={i} className=" flex flex-col gap-3 group">
                                 <span className="font-black text-neutral-950 text-[22px] tracking-tight group-hover:translate-x-2 transition-transform">{ref.referenceName || ref.name}</span>
                                 <div className={cn("text-[12px] font-black uppercase tracking-[0.3em] mb-4", textColorClass)}>
                                     {ref.role || ref.title}
@@ -182,7 +182,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                             <SectionHeader title="Career Chronology" num="02" />
                             <div className="space-y-16 ml-24">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className="break-inside-avoid relative group">
+                                    <div key={i} className=" relative group">
                                         <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline mb-6 gap-6">
                                             <div className="flex-1">
                                                 <h3 className="text-[24px] font-black uppercase text-neutral-950 tracking-tight leading-none mb-3 group-hover:translate-x-2 transition-transform">
@@ -235,7 +235,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                                     return (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                                             {Object.entries(grouped).map(([type, list]) => (
-                                                <div key={type} className="break-inside-avoid">
+                                                <div key={type} className="">
                                                     <div className="text-[11px] font-black uppercase tracking-[0.5em] text-neutral-300 mb-8">
                                                         {type}
                                                     </div>
@@ -264,7 +264,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                             <SectionHeader title="Academic Base" num="04" />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 ml-24">
                                 {education.map((edu, i) => (
-                                    <div key={i} className="break-inside-avoid group">
+                                    <div key={i} className=" group">
                                         <h3 className="text-[18px] font-black uppercase text-neutral-950 mb-3 tracking-tight group-hover:translate-x-1 transition-transform">
                                             {edu.degree}
                                         </h3>
@@ -288,7 +288,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                                 {projects && projects.length > 0 && (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                                         {projects.map((proj, i) => (
-                                            <div key={i} className="break-inside-avoid">
+                                            <div key={i} className="">
                                                 <h4 className="text-[16px] font-black uppercase text-neutral-900 mb-2">{proj.projectName}</h4>
                                                 <p className="text-[14px] text-neutral-500 font-medium italic mb-4">{proj.description}</p>
                                                 {proj.toolsUsed && (

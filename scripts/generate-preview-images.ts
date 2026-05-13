@@ -18,7 +18,6 @@ export const MISSING_PREVIEWS = [
     { id: 'ats-classic', name: 'ATS Classic Serif', path: '/public/templates/ats-classic-preview.png' },
     { id: 'ats-minimal', name: 'ATS Ultra-Minimal', path: '/public/templates/ats-minimal-preview.png' },
     { id: 'ats-executive', name: 'ATS Executive Bold', path: '/public/templates/ats-executive-preview.png' },
-    { id: 'ats-technical', name: 'ATS Dev-Console', path: '/public/templates/ats-technical-preview.png' },
     { id: 'ats-modern', name: 'ATS Modern Clean', path: '/public/templates/ats-modern-preview.png' },
     { id: 'ats-graduate', name: 'ATS New Grad', path: '/public/templates/ats-graduate-preview.png' },
     { id: 'ats-standard', name: 'ATS Pro-Standard', path: '/public/templates/ats-standard-preview.png' },

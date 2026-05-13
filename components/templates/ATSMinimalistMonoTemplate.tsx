@@ -85,11 +85,15 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         </p>
                     )}
 
-                    {/* Contact — minimal dot separated */}
                     {contactParts.length > 0 && (
-                        <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-[0.15em] leading-none text-right">
-                            {contactParts.join('   ·   ')}
-                        </p>
+                        <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-[0.15em] leading-none text-right flex items-center gap-2 flex-wrap justify-end">
+                            {contactParts.map((part, i) => (
+                                <span key={i} className="flex items-center gap-2">
+                                    {i > 0 && <span className="text-neutral-200">·</span>}
+                                    <span>{part}</span>
+                                </span>
+                            ))}
+                        </div>
                     )}
                 </div>
 
@@ -121,7 +125,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
+                            <div key={i} className=" flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -152,7 +156,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Trajectory" />
                         <div className="space-y-12">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-2">
                                         <div className="flex-1">
                                             <h3 className={cn('text-[18px] font-black leading-tight uppercase tracking-tight', accentColor)}>
@@ -195,7 +199,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Education" />
                         <div className="space-y-3">
                             {education.map((edu, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className={cn('text-[12px] font-bold', accentColor)}>
                                             {edu.degree}{edu.major ? `, ${edu.major}` : ''}
@@ -223,7 +227,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Certifications" />
                         <div className="space-y-1.5">
                             {certifications.map((cert, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-baseline">
+                                <div key={i} className=" flex justify-between items-baseline">
                                     <div className="text-[11px]">
                                         <span className="font-bold text-neutral-800">{cert.certificationName}</span>
                                         {cert.issuingOrganization && (
@@ -245,7 +249,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Initiatives" />
                         <div className="space-y-4">
                             {projects.map((proj, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className={cn('text-[12px] font-bold', accentColor)}>{proj.projectName}</h3>
                                         {(proj.startDate || proj.endDate) && (
@@ -276,7 +280,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Awards" />
                         <div className="space-y-1.5">
                             {achievements.map((ach, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <div className="text-[11px]">
                                             <span className="font-bold text-neutral-800">{ach.achievementTitle}</span>
@@ -299,7 +303,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Publications" />
                         <div className="space-y-1">
                             {publications.map((pub, i) => (
-                                <div key={i} className="break-inside-avoid text-[11px] text-neutral-600">
+                                <div key={i} className=" text-[11px] text-neutral-600">
                                     <span className="font-bold">&quot;{pub.title}&quot;</span>
                                     {pub.platformOrPublisher && <span className="text-neutral-500"> — {pub.platformOrPublisher}</span>}
                                     {pub.publicationYear && <span className="text-neutral-400"> ({pub.publicationYear})</span>}
@@ -315,7 +319,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Volunteering" />
                         <div className="space-y-2.5">
                             {volunteerExperience.map((vol, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className="text-[12px] font-bold text-neutral-800">{vol.roleTitle}</h3>
                                         <span className="text-[10px] text-neutral-400 shrink-0 ml-4">
@@ -338,7 +342,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Affiliations" />
                         <div className="space-y-1">
                             {professionalAffiliations.map((aff, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-baseline">
+                                <div key={i} className=" flex justify-between items-baseline">
                                     <div className="text-[11px]">
                                         <span className="font-bold text-neutral-800">{aff.organizationName}</span>
                                         {aff.roleOrMembership && <span className="text-neutral-500"> — {aff.roleOrMembership}</span>}
@@ -356,14 +360,14 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                 {languages && languages.length > 0 && (
                     <section>
                         <SectionHeader title="Languages" />
-                        <p className="text-[11px] text-neutral-600">
+                        <div className="text-[11px] text-neutral-600 flex flex-wrap items-center gap-2">
                             {languages.map((l, i) => (
-                                <span key={i}>
-                                    {l.languageName}{l.proficiencyLevel ? ` (${l.proficiencyLevel})` : ''}
-                                    {i < languages.length - 1 ? '  ·  ' : ''}
+                                <span key={i} className="flex items-center gap-2">
+                                    {i > 0 && <span className="text-neutral-300">·</span>}
+                                    <span>{l.languageName}{l.proficiencyLevel ? ` (${l.proficiencyLevel})` : ''}</span>
                                 </span>
                             ))}
-                        </p>
+                        </div>
                     </section>
                 )}
 
@@ -399,13 +403,33 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                     </section>
                 )}
 
+                {/* Custom Sections */}
+                {customSections && customSections.length > 0 && customSections.map((section, si) => (
+                    <section key={si} className="">
+                        <SectionHeader title={section.title} />
+                        {section.content && (
+                            <p className="text-[11px] text-neutral-600 leading-[1.7] mb-1.5">{section.content}</p>
+                        )}
+                        {section.items && section.items.length > 0 && (
+                            <ul className="space-y-0.5">
+                                {section.items.map((item, ii) => (
+                                    <li key={ii} className="text-[11px] text-neutral-600 flex gap-2 leading-[1.6]">
+                                        <span className="shrink-0 text-neutral-300">—</span>
+                                        <span>{item.text}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
+                ))}
+
                 {/* References */}
                 {references && references.length > 0 && (
                     <section>
                         <SectionHeader title="References" />
                         <div className="space-y-2.5">
                             {references.map((ref, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="text-[11px] font-bold text-neutral-800">
                                         {ref.referenceName || ref.name}
                                     </div>
@@ -423,26 +447,6 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         </div>
                     </section>
                 )}
-
-                {/* Custom Sections */}
-                {customSections && customSections.length > 0 && customSections.map((section, si) => (
-                    <section key={si} className="break-inside-avoid">
-                        <SectionHeader title={section.title} />
-                        {section.content && (
-                            <p className="text-[11px] text-neutral-600 leading-[1.7] mb-1.5">{section.content}</p>
-                        )}
-                        {section.items && section.items.length > 0 && (
-                            <ul className="space-y-0.5">
-                                {section.items.map((item, ii) => (
-                                    <li key={ii} className="text-[11px] text-neutral-600 flex gap-2 leading-[1.6]">
-                                        <span className="shrink-0 text-neutral-300">—</span>
-                                        <span>{item.text}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </section>
-                ))}
             </div>
         
                 </>

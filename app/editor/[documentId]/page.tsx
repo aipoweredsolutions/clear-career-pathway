@@ -540,7 +540,7 @@ function EditorContent() {
 
                         {/* Visible Paginated Preview */}
                         <div
-                            className="transition-all duration-500 flex flex-col gap-12 items-center"
+                            className="transition-all duration-500 flex flex-col gap-4 items-center"
                             style={{
                                 transform: `scale(${scale})`,
                                 transformOrigin: 'top center'

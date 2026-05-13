@@ -92,7 +92,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader title="Education" />
                         <div className="space-y-7">
                             {education.map((edu, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     {/* Degree + Dates */}
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-[13px] font-bold text-neutral-900"
@@ -137,7 +137,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader title="Academic Appointments" />
                         <div className="space-y-7">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     {/* Title + Dates */}
                                     <div className="flex justify-between items-baseline mb-0.5">
                                         <h3 className="text-[13px] font-bold text-neutral-900"
@@ -187,7 +187,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader title="Publications & Presentations" />
                         <div className="space-y-4 border-l-[3px] border-neutral-100 pl-5">
                             {publications.map((pub, i) => (
-                                <div key={i} className="text-[12px] text-neutral-700 leading-relaxed break-inside-avoid"
+                                <div key={i} className="text-[12px] text-neutral-700 leading-relaxed "
                                      style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
                                     <span className="italic">{pub.title}</span>
                                     {pub.platformOrPublisher && (
@@ -231,8 +231,8 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                                               style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
                                             {labels[type] || type}:
                                         </span>
-                                        <span className="text-neutral-600" style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
-                                            {list.map(s => s.skillName).join('  ·  ')}
+                                        <span className="text-neutral-600 inline-flex flex-wrap items-center gap-1.5" style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
+                                            {list.map((s, i) => (<span key={i} className="flex items-center gap-1.5">{i > 0 && <span className="text-neutral-300">·</span>}<span>{s.skillName}</span></span>))}
                                         </span>
                                     </div>
                                 ))
@@ -247,7 +247,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader title="Professional Memberships" />
                         <div className="space-y-2.5">
                             {professionalAffiliations.map((aff, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-baseline">
+                                <div key={i} className=" flex justify-between items-baseline">
                                     <span className="text-[12px] text-neutral-800" style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
                                         {aff.organizationName}
                                         {aff.roleOrMembership && <span className="text-neutral-500"> — {aff.roleOrMembership}</span>}
@@ -267,7 +267,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader title="Service & Outreach" />
                         <div className="space-y-5">
                             {volunteerExperience.map((vol, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline mb-0.5">
                                         <h3 className="text-[13px] font-bold text-neutral-900"
                                             style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
@@ -299,7 +299,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader title="Honors & Awards" />
                         <div className="space-y-2.5">
                             {achievements.map((ach, i) => (
-                                <div key={i} className="flex justify-between items-baseline break-inside-avoid">
+                                <div key={i} className="flex justify-between items-baseline ">
                                     <div className="text-[12px]" style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
                                         <span className="font-bold text-neutral-900">{ach.achievementTitle}</span>
                                         {ach.issuingBody && <span className="text-neutral-500"> — {ach.issuingBody}</span>}
@@ -317,7 +317,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader title="Certifications & Training" />
                         <div className="space-y-2">
                             {certifications.map((cert, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-baseline">
+                                <div key={i} className=" flex justify-between items-baseline">
                                     <div className="text-[12px]" style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
                                         <span className="font-bold text-neutral-900">{cert.certificationName}</span>
                                         <span className="text-neutral-500"> — {cert.issuingOrganization}</span>
@@ -337,7 +337,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader title="Funded Research & Grants" />
                         <div className="space-y-5">
                             {projects.map((proj, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline mb-0.5">
                                         <h3 className="text-[13px] font-bold text-neutral-900"
                                             style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
@@ -390,7 +390,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                         <SectionHeader title="References" />
                         <div className="space-y-5">
                             {references.map((ref, i) => (
-                                <div key={i} className="break-inside-avoid"
+                                <div key={i} className=""
                                      style={{ fontFamily: "'Georgia', 'Lora', serif" }}>
                                     <p className="text-[13px] font-bold text-neutral-900 mb-0.5">
                                         {ref.referenceName || ref.name}
@@ -499,7 +499,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
+                            <div key={i} className=" flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -518,7 +518,7 @@ export function ATSAcademiaCVTemplate({ data, className, accentColor = 'text-neu
 
                 {/* Custom Sections */}
                 {customSections && customSections.length > 0 && customSections.map((section, si) => (
-                    <section key={`custom-${si}`} className="break-inside-avoid">
+                    <section key={`custom-${si}`} className="">
                         <SectionHeader title={section.title} />
                         {section.content && (
                             <p className="text-[12px] text-neutral-700 leading-[1.7] text-justify mb-2"

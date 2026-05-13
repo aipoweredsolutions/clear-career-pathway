@@ -19,7 +19,6 @@ export function getMockDataForTemplate(templateId: string): ResumeDocument {
         if (id.startsWith('ats-classic')) return MOCK_CORE.MOCK_LEGAL_DATA
         if (id.startsWith('ats-minimal')) return MOCK_CORE.MOCK_ATS_MINIMAL_DATA
         if (id.startsWith('ats-executive')) return MOCK_CORE.MOCK_ATS_EXECUTIVE_DATA
-        if (id.startsWith('ats-technical')) return MOCK_ADDITIONAL.MOCK_DATA_SCIENTIST_DATA
         if (id.startsWith('ats-modern')) return MOCK_CORE.MOCK_ATS_MODERN_DATA
         if (id.startsWith('ats-graduate')) return MOCK_CORE.MOCK_ATS_GRADUATE_DATA
         if (id.startsWith('ats-nursing')) return MOCK_CORE.MOCK_NURSE_EXPERIENCED_DATA

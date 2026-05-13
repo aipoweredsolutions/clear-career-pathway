@@ -9,7 +9,6 @@ export const getTemplateColors = (templateId: string) => {
         if (id.includes('blue')) return { primary: '#2563eb', secondary: '#3b82f6', text: '#1a1a1a', border: '#2563eb' }
         if (id.includes('green') || id.includes('matrix') || id.includes('campus')) return { primary: '#064e3b', secondary: '#10b981', text: '#1a1a1a', border: '#065f46' }
         if (id.includes('gold')) return { primary: '#92400e', secondary: '#d97706', text: '#1a1a1a', border: '#b45309' }
-        if (id.startsWith('ats-gold-standard')) return { primary: '#78350f', secondary: '#92400e', text: '#1a1a1a', border: '#78350f' }
         if (id.includes('cyan')) return { primary: '#0891b2', secondary: '#22d3ee', text: '#1a1a1a', border: '#0891b2' }
         if (id.includes('orange')) return { primary: '#ea580c', secondary: '#fb923c', text: '#1a1a1a', border: '#ea580c' }
         if (id.includes('violet')) return { primary: '#7c3aed', secondary: '#8b5cf6', text: '#1a1a1a', border: '#7c3aed' }
@@ -21,7 +20,6 @@ export const getTemplateColors = (templateId: string) => {
         if (id.startsWith('ats-classic')) return { primary: '#1a1a1a', secondary: '#4b5563', text: '#1a1a1a', border: '#374151' }
         if (id.startsWith('ats-minimal')) return { primary: '#000000', secondary: '#9ca3af', text: '#1a1a1a', border: '#e5e7eb' }
         if (id.startsWith('ats-executive')) return { primary: '#111827', secondary: '#b45309', text: '#1a1a1a', border: '#111827' }
-        if (id.startsWith('ats-technical')) return { primary: '#000000', secondary: '#064e3b', text: '#1a1a1a', border: '#171717' }
         if (id.startsWith('ats-modern')) return { primary: '#111827', secondary: '#2563eb', text: '#1a1a1a', border: '#e5e7eb' }
         if (id.startsWith('ats-graduate')) return { primary: '#1e3a8a', secondary: '#9f1239', text: '#1a1a1a', border: '#1e3a8a' }
         if (id.startsWith('ats-nursing')) return { primary: '#0f766e', secondary: '#14b8a6', text: '#1a1a1a', border: '#0f766e' }

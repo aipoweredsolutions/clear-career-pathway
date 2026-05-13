@@ -16,7 +16,6 @@ import { ClassicCleanTemplate } from '../components/templates/ClassicCleanTempla
 import { ATSClassicTemplate } from '../components/templates/ATSClassicTemplate'
 import { ATSProfessionalTemplate } from '../components/templates/ATSProfessionalTemplate'
 import { ATSModernTemplate } from '../components/templates/ATSModernTemplate'
-import { ATSTechnicalTemplate } from '../components/templates/ATSTechnicalTemplate'
 import { ATSAcademiaTemplate } from '../components/templates/ATSAcademiaTemplate'
 import { ATSExecutiveTemplate } from '../components/templates/ATSExecutiveTemplate'
 import { ATSGraduateTemplate } from '../components/templates/ATSGraduateTemplate'
@@ -31,7 +30,6 @@ const templateComponents: Record<string, any> = {
     'ats-classic': ATSClassicTemplate,
     'ats-professional': ATSProfessionalTemplate,
     'ats-modern': ATSModernTemplate,
-    'ats-technical': ATSTechnicalTemplate,
     'ats-academia': ATSAcademiaTemplate,
     'ats-executive': ATSExecutiveTemplate,
     'ats-graduate': ATSGraduateTemplate,
@@ -66,7 +64,6 @@ function getAccentColor(templateId: string, colorId: string = 'standard'): strin
         'ats-classic': 'text-blue-800',
         'ats-professional': 'text-neutral-900',
         'ats-standard': 'text-neutral-900',
-        'ats-technical': 'text-neutral-900',
     }
 
     return defaultColors[templateId] || 'text-blue-800'

@@ -85,7 +85,7 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                         </h2>
                         <div className="grid grid-cols-1 gap-2">
                             {certifications.map((cert, i) => (
-                                <div key={cert.id || i} className="break-inside-avoid flex items-start gap-2">
+                                <div key={cert.id || i} className=" flex items-start gap-2">
                                     <span className={cn("text-[10px] mt-0.5", accentColor)}>✦</span>
                                     <div>
                                         <span className="text-[11px] font-bold text-neutral-900">{cert.certificationName}</span>
@@ -160,7 +160,7 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                         </h2>
                         <div className="space-y-4">
                             {workExperience.map((job, i) => (
-                                <div key={job.id || i} className="break-inside-avoid">
+                                <div key={job.id || i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className="text-[12px] font-bold text-neutral-900">{job.jobTitle}</h3>
                                         <span className="text-[10px] font-semibold text-neutral-500 shrink-0 ml-4">
@@ -202,7 +202,7 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                         </h2>
                         <div className="space-y-2.5">
                             {education.map((edu, i) => (
-                                <div key={edu.id || i} className="break-inside-avoid">
+                                <div key={edu.id || i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className="text-[12px] font-bold text-neutral-900">
                                             {edu.degree}{edu.major ? `, ${edu.major}` : ''}{edu.fieldOfStudy ? ` — ${edu.fieldOfStudy}` : ''}
@@ -254,7 +254,7 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                         </h2>
                         <div className="space-y-1.5">
                             {volunteerExperience.map((vol, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-baseline text-[11px]">
+                                <div key={i} className=" flex justify-between items-baseline text-[11px]">
                                     <div>
                                         <span className="font-bold text-neutral-900">{vol.roleTitle}</span>
                                         <span className={cn("ml-1", accentColor)}> — {vol.organizationName}</span>
@@ -293,7 +293,7 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                         </h2>
                         <div className="space-y-1">
                             {professionalAffiliations.map((aff, i) => (
-                                <div key={i} className="break-inside-avoid text-[11px]">
+                                <div key={i} className=" text-[11px]">
                                     <span className="font-bold text-neutral-900">{aff.organizationName}</span>
                                     {aff.roleOrMembership && <span className="text-neutral-500"> — {aff.roleOrMembership}</span>}
                                 </div>
@@ -310,7 +310,7 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                         </h2>
                         <div className="space-y-2.5">
                             {projects.map((proj, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className="text-[12px] font-bold text-neutral-900">{proj.projectName}</h3>
                                         {proj.startDate && (
@@ -335,7 +335,7 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                         </h2>
                         <div className="space-y-1.5">
                             {publications.map((pub, i) => (
-                                <div key={i} className="break-inside-avoid text-[11px]">
+                                <div key={i} className=" text-[11px]">
                                     <span className="font-bold text-neutral-900">{pub.title}</span>
                                     {pub.platformOrPublisher && <span className="text-neutral-500 italic"> — {pub.platformOrPublisher}</span>}
                                     {pub.publicationYear && <span className="text-neutral-400"> ({pub.publicationYear})</span>}
@@ -353,7 +353,7 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                         </h2>
                         <div className="grid grid-cols-1 gap-4">
                             {references.map((ref, i) => (
-                                <div key={i} className="break-inside-avoid text-[11px]">
+                                <div key={i} className=" text-[11px]">
                                     <p className="font-bold text-neutral-900">{ref.referenceName}</p>
                                     {ref.role && <p className="text-neutral-600">{ref.role}{ref.organization ? `, ${ref.organization}` : ''}</p>}
                                     {ref.contactDetails && <p className="text-neutral-400">{ref.contactDetails}</p>}
@@ -455,7 +455,7 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
+                            <div key={i} className=" flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}

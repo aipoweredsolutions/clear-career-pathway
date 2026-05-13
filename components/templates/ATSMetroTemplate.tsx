@@ -37,7 +37,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'text-blue-600
     const borderColorClass = accentColor.replace('text-', 'border-').split(' ')[0]
 
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="relative mt-12 mb-8 group break-inside-avoid">
+        <div className="relative mt-12 mb-8 group ">
             {/* The "Station" Node */}
             <div className={cn(
                 "absolute -left-[35px] top-1.5 w-6 h-6 rounded-full border-[5px] border-white z-20 shadow-sm transition-transform group-hover:scale-110",
@@ -137,7 +137,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'text-blue-600
                     <SectionHeader title="Industry Connections" />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-2 p-8 bg-neutral-50/50 rounded-2xl border border-neutral-100">
+                            <div key={i} className=" flex flex-col gap-2 p-8 bg-neutral-50/50 rounded-2xl border border-neutral-100">
                                 <span className="font-black text-neutral-900 text-[18px] tracking-tight">{ref.referenceName || ref.name}</span>
                                 <div className={cn("text-[12px] font-black uppercase tracking-[0.25em] mb-4 opacity-50", accentColor)}>
                                     {ref.role || ref.title}
@@ -175,7 +175,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'text-blue-600
                             <SectionHeader title="Professional Route" />
                             <div className="space-y-16">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className="break-inside-avoid relative group">
+                                    <div key={i} className=" relative group">
                                         <ItemMarker />
                                         <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline mb-4 gap-4">
                                             <div className="flex-1">
@@ -253,7 +253,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'text-blue-600
                             <SectionHeader title="Academic Terminal" />
                             <div className="space-y-10">
                                 {education.map((edu, i) => (
-                                    <div key={i} className="break-inside-avoid relative">
+                                    <div key={i} className=" relative">
                                         <ItemMarker />
                                         <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline gap-6">
                                             <div className="flex-1">
@@ -285,7 +285,7 @@ export function ATSMetroTemplate({ data, className, accentColor = 'text-blue-600
                                 {projects && projects.length > 0 && (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                         {projects.map((proj, i) => (
-                                            <div key={i} className="break-inside-avoid flex flex-col gap-2 p-6 bg-neutral-50/30 rounded-xl">
+                                            <div key={i} className=" flex flex-col gap-2 p-6 bg-neutral-50/30 rounded-xl">
                                                 <h4 className="text-[14px] font-black uppercase text-neutral-900">{proj.projectName}</h4>
                                                 <p className="text-[12px] text-neutral-500 italic font-medium">{proj.description}</p>
                                             </div>

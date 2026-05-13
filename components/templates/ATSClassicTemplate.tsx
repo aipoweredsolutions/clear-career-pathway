@@ -37,7 +37,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
     const borderColorClass = accentColor.replace('text-', 'border-')
 
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="relative mb-4 mt-8 first:mt-0 group break-inside-avoid">
+        <div className="relative mb-4 mt-8 first:mt-0 group ">
             <h2 className={cn(
                 "text-[13px] font-black uppercase tracking-[0.2em] mb-1.5",
                 accentColor
@@ -127,7 +127,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                     <SectionHeader title="Professional References" />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-2 p-6 bg-neutral-50/50 rounded-sm border border-neutral-100">
+                            <div key={i} className=" flex flex-col gap-2 p-6 bg-neutral-50/50 rounded-sm border border-neutral-100">
                                 <span className="font-black text-neutral-900 text-[15px]">{ref.referenceName || ref.name}</span>
                                 <div className="text-[13px] text-neutral-500 font-bold uppercase tracking-wider italic">
                                     {ref.role || ref.title}
@@ -161,7 +161,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                             <SectionHeader title="Professional Experience" />
                             <div className="space-y-10 mt-6">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className="break-inside-avoid group">
+                                    <div key={i} className=" group">
                                         <div className="flex justify-between items-start mb-3 gap-6">
                                             <div className="flex-1">
                                                 <h3 className="text-[16px] font-black text-neutral-900 tracking-tight leading-none mb-1.5 group-hover:translate-x-1 transition-transform duration-300">
@@ -206,7 +206,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                             <SectionHeader title="Education" />
                             <div className="space-y-6 mt-6">
                                 {education.map((edu, i) => (
-                                    <div key={i} className="break-inside-avoid">
+                                    <div key={i} className="">
                                         <div className="flex justify-between items-baseline mb-1.5 gap-6">
                                             <h3 className="text-[15px] font-black text-neutral-900 tracking-tight leading-none">
                                                 {edu.degree}{edu.major ? `, ${edu.major}` : ''}
@@ -238,7 +238,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                             <SectionHeader title="Selected Projects" />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mt-6">
                                 {projects.map((proj, i) => (
-                                    <div key={i} className="break-inside-avoid group">
+                                    <div key={i} className=" group">
                                         <div className="flex justify-between items-baseline mb-2">
                                             <h3 className="text-[14px] font-black text-neutral-900 tracking-tight uppercase group-hover:text-neutral-600 transition-colors">
                                                 {proj.projectName}
@@ -324,19 +324,9 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                         </section>
                     ) : null}
 
-                    {/* References */}
-                    {references && references.length > 0 && (
-                        <section>
-                            <SectionHeader title="References" />
-                            <div className="mt-4">
-                                <p className="text-[13px] text-neutral-400 font-bold uppercase tracking-widest italic">Professional references available upon request.</p>
-                            </div>
-                        </section>
-                    )}
-
                     {/* Custom Sections */}
                     {customSections && customSections.map((section, i) => (
-                        <section key={i} className="break-inside-avoid">
+                        <section key={i} className="">
                             <SectionHeader title={section.title} />
                             <div className="px-6">
                                 {section.content && <p className="text-[13px] text-neutral-700 leading-relaxed mb-4">{section.content}</p>}
@@ -353,6 +343,16 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                             </div>
                         </section>
                     ))}
+
+                    {/* References */}
+                    {references && references.length > 0 && (
+                        <section>
+                            <SectionHeader title="References" />
+                            <div className="mt-4">
+                                <p className="text-[13px] text-neutral-400 font-bold uppercase tracking-widest italic">Professional references available upon request.</p>
+                            </div>
+                        </section>
+                    )}
                 </div>
             )}
         </div>

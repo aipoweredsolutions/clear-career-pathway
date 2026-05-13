@@ -46,7 +46,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
 
     // Section header with ornamental prefix dash
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="mt-10 mb-5">
+        <div className="mt-8 mb-4">
             <h2 className={cn(
                 'text-[13.5px] font-black uppercase tracking-[0.3em]',
                 accentColor
@@ -80,10 +80,10 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
             </div>
 
             {/* ═══ HEADER ═══ */}
-            <header className="text-center pt-10 pb-8 px-12">
+            <header className="text-center pt-8 pb-6 px-10">
                 {/* Name — small-caps style, large */}
                 <h1 className={cn(
-                    'text-[36px] font-bold tracking-[0.25em] leading-tight mb-2',
+                    'text-[36px] font-bold tracking-[0.25em] leading-tight mb-2 whitespace-nowrap truncate',
                     accentColor
                 )} style={{ fontVariant: 'small-caps' }}>
                     {personalInfo?.fullName || 'Your Name'}
@@ -98,9 +98,14 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
 
                 {/* Contact — dot separated */}
                 {contactParts.length > 0 && (
-                    <p className="text-[11px] text-neutral-500 tracking-[0.1em] font-bold uppercase leading-relaxed font-sans">
-                        {contactParts.join('  ·  ')}
-                    </p>
+                    <div className="text-[11px] text-neutral-500 tracking-[0.1em] font-bold uppercase leading-relaxed font-sans flex items-center justify-center gap-2 flex-wrap">
+                        {contactParts.map((part, i) => (
+                            <span key={i} className="flex items-center gap-2">
+                                {i > 0 && <span className="text-neutral-300">·</span>}
+                                <span>{part}</span>
+                            </span>
+                        ))}
+                    </div>
                 )}
             </header>
             {/* --- DOCUMENT TYPE OVERRIDES --- */}
@@ -128,7 +133,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
+                            <div key={i} className=" flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -142,7 +147,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
 
 
             {/* ═══ BODY ═══ */}
-            <div className="px-12 pb-12">
+            <div className="px-10 pb-10">
 
                 {/* Professional Summary */}
                 {professionalSummary?.summaryText && (
@@ -162,7 +167,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                         <SectionHeader title="Academic Credentials" />
                         <div className="space-y-8">
                             {education.map((edu, i) => (
-                                <div key={i} className="break-inside-avoid border-l-4 border-neutral-50 pl-8">
+                                <div key={i} className=" border-l-4 border-neutral-50 pl-8">
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className={cn('text-[16px] font-bold font-serif', accentColor)}>
                                             {edu.degree}
@@ -191,9 +196,9 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                 {workExperience && workExperience.length > 0 && (
                     <section>
                         <SectionHeader title="Career History" />
-                        <div className="space-y-10">
+                        <div className="space-y-7">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="break-inside-avoid border-l-4 border-neutral-50 pl-8">
+                                <div key={i} className=" border-l-4 border-neutral-50 pl-8">
                                     {/* Job Title — prominent */}
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className={cn('text-[17px] font-bold font-serif', accentColor)}>
@@ -236,7 +241,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                         <SectionHeader title="Scholarly Publications" />
                         <div className="space-y-4">
                             {publications.map((pub, i) => (
-                                <div key={i} className="text-[14px] text-neutral-700 break-inside-avoid border-l-4 border-neutral-50 pl-8 leading-relaxed">
+                                <div key={i} className="text-[14px] text-neutral-700  border-l-4 border-neutral-50 pl-8 leading-relaxed">
                                     <span className="italic font-serif">&quot;{pub.title}&quot;</span>
                                     {pub.platformOrPublisher && <span className="font-bold text-neutral-900 block mt-1"> — {pub.platformOrPublisher}</span>}
                                     {pub.publicationYear && <span className="text-[11px] font-black text-neutral-400 uppercase tracking-widest block mt-0.5">{pub.publicationYear}</span>}
@@ -271,7 +276,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                                         {Object.entries(grouped).map(([type, list]) => (
                                             <div key={type} className="flex flex-col gap-1.5">
                                                 <span className={cn('text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400')}>{labels[type] || type}</span>
-                                                <span className="text-[14px] font-bold text-neutral-700 font-serif leading-relaxed">{list.map(s => s.skillName).join('  ·  ')}</span>
+                                                <span className="text-[14px] font-bold text-neutral-700 font-serif leading-relaxed inline-flex flex-wrap items-center gap-1.5">{list.map((s, i) => (<span key={i} className="flex items-center gap-1.5">{i > 0 && <span className="text-neutral-300">·</span>}<span>{s.skillName}</span></span>))}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -287,7 +292,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                         <SectionHeader title="Research & Initiatives" />
                         <div className="space-y-8">
                             {projects.map((proj, i) => (
-                                <div key={i} className="break-inside-avoid border-l-4 border-neutral-50 pl-8">
+                                <div key={i} className=" border-l-4 border-neutral-50 pl-8">
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className={cn('text-[15px] font-bold font-serif', accentColor)}>{proj.projectName}</h3>
                                         {(proj.startDate || proj.endDate) && (
@@ -312,7 +317,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                         <SectionHeader title="Certifications & Licensure" />
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 border-l-4 border-neutral-50 pl-8">
                             {certifications.map((cert, i) => (
-                                <div key={i} className="break-inside-avoid flex flex-col gap-0.5">
+                                <div key={i} className=" flex flex-col gap-0.5">
                                     <div className="text-[14px] font-bold text-neutral-900 leading-tight">
                                         {cert.certificationName}
                                     </div>
@@ -331,7 +336,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                         <SectionHeader title="Honors & Awards" />
                         <div className="space-y-2">
                             {achievements.map((ach, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <div className="text-[12px]">
                                             <span className="font-bold text-neutral-900">{ach.achievementTitle}</span>
@@ -354,7 +359,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                         <SectionHeader title="Service & Engagement" />
                         <div className="space-y-3">
                             {volunteerExperience.map((vol, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className="text-[12px] font-bold text-neutral-900">{vol.roleTitle}</h3>
                                         <span className="text-[11px] text-neutral-500 shrink-0 ml-4 font-sans">
@@ -377,7 +382,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                         <SectionHeader title="Professional Memberships" />
                         <div className="space-y-1.5">
                             {professionalAffiliations.map((aff, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-baseline">
+                                <div key={i} className=" flex justify-between items-baseline">
                                     <div className="text-[12px]">
                                         <span className="font-bold text-neutral-900">{aff.organizationName}</span>
                                         {aff.roleOrMembership && <span className="text-neutral-600"> — {aff.roleOrMembership}</span>}
@@ -395,14 +400,14 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                 {languages && languages.length > 0 && (
                     <section>
                         <SectionHeader title="Languages" />
-                        <p className="text-[12px] text-neutral-700 tracking-wide">
+                        <div className="text-[12px] text-neutral-700 tracking-wide flex flex-wrap items-center gap-2">
                             {languages.map((l, i) => (
-                                <span key={i}>
-                                    {l.languageName}{l.proficiencyLevel ? ` (${l.proficiencyLevel})` : ''}
-                                    {i < languages.length - 1 ? '  |  ' : ''}
+                                <span key={i} className="flex items-center gap-2">
+                                    {i > 0 && <span className="text-neutral-300">|</span>}
+                                    <span>{l.languageName}{l.proficiencyLevel ? ` (${l.proficiencyLevel})` : ''}</span>
                                 </span>
                             ))}
-                        </p>
+                        </div>
                     </section>
                 )}
 
@@ -438,13 +443,33 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                     </section>
                 )}
 
+                {/* Custom Sections */}
+                {customSections && customSections.length > 0 && customSections.map((section, si) => (
+                    <section key={si} className="">
+                        <SectionHeader title={section.title} />
+                        {section.content && (
+                            <p className="text-[12px] text-neutral-700 leading-[1.7] text-justify mb-2">{section.content}</p>
+                        )}
+                        {section.items && section.items.length > 0 && (
+                            <ul className="space-y-1 pl-4">
+                                {section.items.map((item, ii) => (
+                                    <li key={ii} className="text-[12px] text-neutral-700 flex gap-2 leading-[1.6]">
+                                        <span className="shrink-0 mt-0.5">•</span>
+                                        <span>{item.text}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
+                ))}
+
                 {/* References */}
                 {references && references.length > 0 && (
                     <section>
                         <SectionHeader title="References" />
                         <div className="space-y-3">
                             {references.map((ref, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="text-[12px] font-bold text-neutral-900">
                                         {ref.referenceName || ref.name}
                                     </div>
@@ -462,26 +487,6 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
                         </div>
                     </section>
                 )}
-
-                {/* Custom Sections */}
-                {customSections && customSections.length > 0 && customSections.map((section, si) => (
-                    <section key={si} className="break-inside-avoid">
-                        <SectionHeader title={section.title} />
-                        {section.content && (
-                            <p className="text-[12px] text-neutral-700 leading-[1.7] text-justify mb-2">{section.content}</p>
-                        )}
-                        {section.items && section.items.length > 0 && (
-                            <ul className="space-y-1 pl-4">
-                                {section.items.map((item, ii) => (
-                                    <li key={ii} className="text-[12px] text-neutral-700 flex gap-2 leading-[1.6]">
-                                        <span className="shrink-0 mt-0.5">•</span>
-                                        <span>{item.text}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </section>
-                ))}
             </div>
 
             {/* ═══ FRAME BOTTOM BORDER ═══ */}

@@ -98,7 +98,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
+                            <div key={i} className=" flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -127,7 +127,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                         <SectionHeader title="Experience" />
                         <div className="space-y-5">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="break-inside-avoid group">
+                                <div key={i} className=" group">
                                     <div className="flex justify-between items-start mb-2 gap-4">
                                         <div className="flex-1">
                                             <h3 className="text-[13px] font-black text-neutral-900 tracking-tight leading-tight">{job.jobTitle}</h3>
@@ -166,7 +166,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                         <SectionHeader title="Projects" />
                         <div className="space-y-3">
                             {projects.map((proj, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline mb-2">
                                         <h3 className="text-[12px] font-black text-neutral-900 uppercase tracking-wider">{proj.projectName}</h3>
                                         <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">{proj.role}</span>
@@ -213,7 +213,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                         <SectionHeader title="Education" />
                         <div className="space-y-2">
                             {education.map((edu, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-[12px] font-black text-neutral-900 uppercase tracking-tight leading-tight">{edu.degree}</h3>
                                         <span className="text-[11px] font-black text-neutral-300 uppercase tracking-widest">{edu.endYear}</span>
@@ -232,7 +232,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                             <h2 className="text-[10px] font-black uppercase tracking-[0.25em] text-neutral-300 mb-4">Certifications</h2>
                             <div className="space-y-3">
                                 {certifications.map((c, i) => (
-                                    <div key={i} className="break-inside-avoid text-[11.5px] font-bold text-neutral-600 leading-tight">
+                                    <div key={i} className=" text-[11.5px] font-bold text-neutral-600 leading-tight">
                                         {c.certificationName}
                                     </div>
                                 ))}
@@ -258,7 +258,7 @@ export function ATSMinimalTemplate({ data, className, accentColor = 'text-neutra
                             <h2 className="text-[10px] font-black uppercase tracking-[0.25em] text-neutral-300 mb-4">References</h2>
                             <div className="space-y-4">
                                 {references.map((ref, i) => (
-                                    <div key={i} className="break-inside-avoid text-[11px] text-neutral-500 font-bold leading-tight">
+                                    <div key={i} className=" text-[11px] text-neutral-500 font-bold leading-tight">
                                         <div className="text-neutral-800">{ref.referenceName}</div>
                                         <div className="italic font-medium">{ref.role}</div>
                                     </div>

@@ -36,7 +36,6 @@ const TEMPLATE_CATEGORIES = [
         templates: [
             { name: 'Modern Professional', id: 'ats-modern' },
             { name: 'ATS Timeline Pro', id: 'ats-timeline' },
-            { name: 'ATS Dev-Console', id: 'ats-technical' },
             { name: 'Classic Clean', id: 'classic-clean' },
         ]
     },
@@ -163,24 +162,6 @@ const PRODUCT_TOOLS = [
     }
 ]
 
-const SERVICE_ITEMS = [
-    {
-        name: 'Career Resources',
-        description: 'Guides, interview tips, and industry insights.',
-        href: '/blog',
-        icon: GraduationCap,
-        color: 'text-blue-600',
-        bg: 'bg-blue-50'
-    },
-    {
-        name: 'ATS Compliance Test',
-        description: 'Instant clinical analysis of your resume text.',
-        href: '/ats-resume-scanner',
-        icon: ScanSearch,
-        color: 'text-amber-600',
-        bg: 'bg-amber-50'
-    }
-]
 
 function ProductsMegaMenu({ onClose }: { onClose: () => void }) {
     return (
@@ -223,38 +204,6 @@ function ProductsMegaMenu({ onClose }: { onClose: () => void }) {
     )
 }
 
-function ServicesMegaMenu({ onClose }: { onClose: () => void }) {
-    return (
-        <div className="absolute top-full left-0 mt-3 w-[400px] bg-white rounded-2xl shadow-2xl border border-neutral-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
-            <div className="px-5 py-3 border-b border-neutral-100 bg-neutral-50/80">
-                <p className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Elite Services</p>
-                <p className="text-sm font-bold text-neutral-700 mt-0.5">Accelerate your career strategy</p>
-            </div>
-            <div className="p-3">
-                {SERVICE_ITEMS.map((service) => (
-                    <Link
-                        key={service.name}
-                        href={service.href}
-                        onClick={onClose}
-                        className="flex items-center gap-4 p-4 rounded-xl hover:bg-neutral-50 hover:shadow-sm transition-all group"
-                    >
-                        <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110', service.bg)}>
-                            <service.icon className={cn('w-5 h-5', service.color)} />
-                        </div>
-                        <div>
-                            <p className="text-[13px] font-black text-neutral-900 group-hover:text-primary-600 transition-colors uppercase tracking-tight">
-                                {service.name}
-                            </p>
-                            <p className="text-[11px] text-neutral-500 font-medium mt-0.5">
-                                {service.description}
-                            </p>
-                        </div>
-                    </Link>
-                ))}
-            </div>
-        </div>
-    )
-}
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
@@ -265,13 +214,11 @@ export function Navbar() {
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false)
     const [isTemplateMenuOpen, setIsTemplateMenuOpen] = useState(false)
     const [isToolsMenuOpen, setIsToolsMenuOpen] = useState(false)
-    const [isServicesMenuOpen, setIsServicesMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
 
     const userDropdownRef = useRef<HTMLDivElement>(null)
     const templateMenuRef = useRef<HTMLDivElement>(null)
     const toolsMenuRef = useRef<HTMLDivElement>(null)
-    const servicesMenuRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 10)
@@ -291,9 +238,6 @@ export function Navbar() {
             if (toolsMenuRef.current && !toolsMenuRef.current.contains(event.target as Node)) {
                 setIsToolsMenuOpen(false)
             }
-            if (servicesMenuRef.current && !servicesMenuRef.current.contains(event.target as Node)) {
-                setIsServicesMenuOpen(false)
-            }
         }
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -305,7 +249,6 @@ export function Navbar() {
         setIsUserDropdownOpen(false)
         setIsTemplateMenuOpen(false)
         setIsToolsMenuOpen(false)
-        setIsServicesMenuOpen(false)
     }, [pathname])
 
     const staticNavLinks = [
@@ -387,7 +330,6 @@ export function Navbar() {
                                     onClick={() => {
                                         setIsToolsMenuOpen(v => !v)
                                         setIsTemplateMenuOpen(false)
-                                        setIsServicesMenuOpen(false)
                                     }}
                                     className={cn(
                                         'flex items-center gap-1 text-sm font-semibold transition-all hover:text-primary-600 relative py-1',
@@ -408,32 +350,6 @@ export function Navbar() {
                                 )}
                             </div>
 
-                            {/* Services — dropdown trigger */}
-                            <div className="relative" ref={servicesMenuRef}>
-                                <button
-                                    onClick={() => {
-                                        setIsServicesMenuOpen(v => !v)
-                                        setIsTemplateMenuOpen(false)
-                                        setIsToolsMenuOpen(false)
-                                    }}
-                                    className={cn(
-                                        'flex items-center gap-1 text-sm font-semibold transition-all hover:text-primary-600 relative py-1',
-                                        isServicesMenuOpen ? 'text-primary-600' : 'text-neutral-600'
-                                    )}
-                                    aria-expanded={isServicesMenuOpen}
-                                    aria-haspopup="true"
-                                >
-                                    Services
-                                    <ChevronDown className={cn(
-                                        'w-3.5 h-3.5 transition-transform duration-200',
-                                        isServicesMenuOpen && 'rotate-180'
-                                    )} />
-                                </button>
-
-                                {isServicesMenuOpen && (
-                                    <ServicesMegaMenu onClose={() => setIsServicesMenuOpen(false)} />
-                                )}
-                            </div>
 
                             {/* Static nav links */}
                             {staticNavLinks.map((link) => (
@@ -611,27 +527,6 @@ export function Navbar() {
                         ))}
                     </div>
 
-                    <div className="h-px bg-neutral-100" />
-
-                    <p className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em] px-2">Services</p>
-                    <div className="flex flex-col gap-1 px-2">
-                        {SERVICE_ITEMS.map(service => (
-                            <Link
-                                key={service.name}
-                                href={service.href}
-                                onClick={() => setIsMenuOpen(false)}
-                                className="flex items-center gap-3 p-3 rounded-xl hover:bg-neutral-50"
-                            >
-                                <div className={cn('w-9 h-9 rounded-lg flex items-center justify-center', service.bg)}>
-                                    <service.icon className={cn('w-5 h-5', service.color)} />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-sm font-bold text-neutral-900 leading-none">{service.name}</span>
-                                    <span className="text-[10px] text-neutral-500 mt-1">{service.description}</span>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
 
                     <div className="h-px bg-neutral-100" />
 

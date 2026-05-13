@@ -57,11 +57,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
 
         return {
             ...baseData,
-            templateId: effectiveTemplateId,
-            personalInfo: {
-                ...baseData.personalInfo,
-                fullName: 'Alexandra Morgan'
-            }
+            templateId: effectiveTemplateId
         }
     }, [template, selectedColor])
 
@@ -189,7 +185,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                     <div className="flex-1 overflow-y-auto p-12 flex justify-center bg-neutral-200/30 bg-[radial-gradient(#d1d1d1_1px,transparent_1px)] [background-size:24px_24px]">
                         <div className="w-full flex justify-center pb-20">
                             {isMounted && (
-                                <div className="flex flex-col gap-12 transform scale-[0.5] sm:scale-[0.7] md:scale-[0.85] lg:scale-100 origin-top">
+                                <div className="flex flex-col gap-4 transform scale-[0.5] sm:scale-[0.7] md:scale-[0.85] lg:scale-100 origin-top">
                                     
                                     {/* Hidden Measurement Container */}
                                     <div className="absolute top-0 left-0 w-[210mm] opacity-0 pointer-events-none z-[-1]" aria-hidden="true">

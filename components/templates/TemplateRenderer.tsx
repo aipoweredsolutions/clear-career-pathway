@@ -19,12 +19,10 @@ const TemplateLoading = () => (
 )
 
 // Dynamic imports for ATS-compliant templates
-const ATSGoldStandardTemplate = dynamic(() => import('./ATSGoldStandardTemplate').then(m => m.ATSGoldStandardTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSProfessionalTemplate = dynamic(() => import('./ATSProfessionalTemplate').then(m => m.ATSProfessionalTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSClassicTemplate = dynamic(() => import('./ATSClassicTemplate').then(m => m.ATSClassicTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSMinimalTemplate = dynamic(() => import('./ATSMinimalTemplate').then(m => m.ATSMinimalTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSExecutiveTemplate = dynamic(() => import('./ATSExecutiveTemplate').then(m => m.ATSExecutiveTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const ATSTechnicalTemplate = dynamic(() => import('./ATSTechnicalTemplate').then(m => m.ATSTechnicalTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSModernTemplate = dynamic(() => import('./ATSModernTemplate').then(m => m.ATSModernTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSGraduateTemplate = dynamic(() => import('./ATSGraduateTemplate').then(m => m.ATSGraduateTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSTimelineTemplate = dynamic(() => import('./ATSTimelineTemplate').then(m => m.ATSTimelineTemplate), { ssr: false, loading: () => <TemplateLoading /> })
@@ -42,11 +40,14 @@ const CoverLetterTemplate = dynamic(() => import('./CoverLetterTemplate').then(m
 const ATSChronographTemplate = dynamic(() => import('./ATSChronographTemplate').then(m => m.ATSChronographTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSMastheadTemplate = dynamic(() => import('./ATSMastheadTemplate').then(m => m.ATSMastheadTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSBauhausTemplate = dynamic(() => import('./ATSBauhausTemplate').then(m => m.ATSBauhausTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const ATSEditorialTemplate = dynamic(() => import('./ATSEditorialTemplate').then(m => m.ATSEditorialTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+// Removed: Editorial Vogue template
+// const ATSEditorialTemplate = dynamic(() => import('./ATSEditorialTemplate').then(m => m.ATSEditorialTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSGridlineTemplate = dynamic(() => import('./ATSGridlineTemplate').then(m => m.ATSGridlineTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSMetroTemplate = dynamic(() => import('./ATSMetroTemplate').then(m => m.ATSMetroTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSClassicLeftTemplate = dynamic(() => import('./ATSClassicLeftTemplate').then(m => m.ATSClassicLeftTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSSterlingTemplate = dynamic(() => import('./ATSSterlingTemplate').then(m => m.ATSSterlingTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const ATSCornerstoneTemplate = dynamic(() => import('./ATSCornerstoneTemplate').then(m => m.ATSCornerstoneTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const ATSMeridianTemplate = dynamic(() => import('./ATSMeridianTemplate').then(m => m.ATSMeridianTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 
 // Non-ATS Elegant Two-Column Templates
 const ElegantSplitTemplate = dynamic(() => import('./ElegantSplitTemplate').then(m => m.ElegantSplitTemplate), { ssr: false, loading: () => <TemplateLoading /> })
@@ -99,17 +100,10 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
     }
 
     // --- 2. Standard ATS Series ---
-    if (id.startsWith('ats-gold-standard')) {
-        let accentColor = 'text-amber-800'
-        if (id.includes('-black')) accentColor = 'text-neutral-900'
-        if (id.includes('-navy')) accentColor = 'text-blue-900'
-        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
-        if (id.includes('-slate')) accentColor = 'text-slate-600'
-        return { Component: ATSGoldStandardTemplate, props: { accentColor } }
-    }
 
     if (id.startsWith('ats-professional')) {
         let accentColor = 'text-neutral-900'
+        if (id.includes('-black')) accentColor = 'text-neutral-950'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-blue')) accentColor = 'text-blue-600'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
@@ -123,6 +117,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-classic')) {
         let accentColor = 'text-neutral-900'
+        if (id.includes('-black')) accentColor = 'text-black'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         if (id.includes('-slate')) accentColor = 'text-slate-600'
@@ -132,6 +127,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-minimal')) {
         let accentColor = 'text-neutral-900'
+        if (id.includes('-black')) accentColor = 'text-black'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-slate')) accentColor = 'text-slate-600'
@@ -141,23 +137,17 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-executive')) {
         let accentColor = 'text-neutral-900'
+        if (id.includes('-black')) accentColor = 'text-black'
         if (id.includes('-gold')) accentColor = 'text-amber-700'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         if (id.includes('-emerald')) accentColor = 'text-emerald-800'
         return { Component: ATSExecutiveTemplate, props: { accentColor } }
     }
-    if (id.startsWith('ats-technical')) {
-        let accentColor = 'text-neutral-900'
-        if (id.includes('-green')) accentColor = 'text-emerald-700'
-        if (id.includes('-cyan')) accentColor = 'text-cyan-700'
-        if (id.includes('-orange')) accentColor = 'text-orange-600'
-        if (id.includes('-slate')) accentColor = 'text-slate-600'
-        return { Component: ATSTechnicalTemplate, props: { accentColor } }
-    }
 
     if (id.startsWith('ats-modern')) {
         let accentColor = 'text-neutral-900'
+        if (id.includes('-black')) accentColor = 'text-black'
         if (id.includes('-blue')) accentColor = 'text-blue-600'
         if (id.includes('-violet')) accentColor = 'text-violet-600'
         if (id.includes('-teal')) accentColor = 'text-teal-600'
@@ -167,6 +157,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-graduate')) {
         let accentColor = 'text-blue-900'
+        if (id.includes('-black')) accentColor = 'text-neutral-900'
         if (id.includes('-maroon')) accentColor = 'text-rose-900'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-green')) accentColor = 'text-green-800'
@@ -176,6 +167,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-hospitality')) {
         let accentColor = 'text-neutral-900'
+        if (id.includes('-black')) accentColor = 'text-black'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         if (id.includes('-slate')) accentColor = 'text-slate-700'
@@ -185,6 +177,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-nursing')) {
         let accentColor = 'text-teal-800'
+        if (id.includes('-black')) accentColor = 'text-neutral-900'
         if (id.includes('-blue')) accentColor = 'text-blue-800'
         if (id.includes('-emerald')) accentColor = 'text-emerald-800'
         if (id.includes('-rose')) accentColor = 'text-rose-800'
@@ -194,6 +187,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-academia')) {
         let accentColor = 'text-slate-900'
+        if (id.includes('-black')) accentColor = 'text-neutral-950'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-maroon')) accentColor = 'text-red-900'
         if (id.includes('-emerald')) accentColor = 'text-emerald-900'
@@ -214,6 +208,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
     // --- New Layouts ---
     if (id.startsWith('ats-chronograph')) {
         let accentColor = 'text-neutral-950'
+        if (id.includes('-black')) accentColor = 'text-black'
         if (id.includes('-graphite')) accentColor = 'text-gray-700'
         if (id.includes('-steel')) accentColor = 'text-blue-800'
         if (id.includes('-oxblood')) accentColor = 'text-red-900'
@@ -222,6 +217,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-masthead')) {
         let accentColor = 'text-neutral-800'
+        if (id.includes('-black')) accentColor = 'text-neutral-950'
         if (id.includes('-slate')) accentColor = 'text-stone-700'
         if (id.includes('-prussian')) accentColor = 'text-blue-950'
         if (id.includes('-espresso')) accentColor = 'text-amber-950'
@@ -230,22 +226,18 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-bauhaus')) {
         let accentColor = 'bg-red-600 text-red-600'
+        if (id.includes('-black')) accentColor = 'bg-neutral-950 text-neutral-950'
         if (id.includes('-cobalt')) accentColor = 'bg-blue-700 text-blue-700'
         if (id.includes('-onyx')) accentColor = 'bg-neutral-900 text-neutral-900'
         if (id.includes('-brass')) accentColor = 'bg-yellow-700 text-yellow-700'
         return { Component: ATSBauhausTemplate, props: { accentColor } }
     }
 
-    if (id.startsWith('ats-editorial')) {
-        let accentColor = 'text-neutral-900'
-        if (id.includes('-sepia')) accentColor = 'text-stone-800'
-        if (id.includes('-navy')) accentColor = 'text-slate-900'
-        if (id.includes('-burgundy')) accentColor = 'text-rose-950'
-        return { Component: ATSEditorialTemplate, props: { accentColor } }
-    }
+    // Editorial Vogue removed — falls through to default
 
     if (id.startsWith('ats-gridline')) {
         let accentColor = 'text-blue-800'
+        if (id.includes('-black')) accentColor = 'text-neutral-950'
         if (id.includes('-carbon')) accentColor = 'text-neutral-800'
         if (id.includes('-emerald')) accentColor = 'text-emerald-800'
         if (id.includes('-copper')) accentColor = 'text-orange-800'
@@ -254,6 +246,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-metro')) {
         let accentColor = 'bg-red-700 text-red-700' // Central
+        if (id.includes('-black')) accentColor = 'bg-neutral-950 text-neutral-950'
         if (id.includes('-district')) accentColor = 'bg-emerald-700 text-emerald-700'
         if (id.includes('-victoria')) accentColor = 'bg-blue-700 text-blue-700'
         if (id.includes('-metropolitan')) accentColor = 'bg-purple-800 text-purple-800'
@@ -275,11 +268,32 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 
     if (id.startsWith('ats-sterling')) {
         let accentColor = 'text-blue-700'
+        if (id.includes('-black')) accentColor = 'text-neutral-950'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-emerald')) accentColor = 'text-emerald-700'
         if (id.includes('-slate')) accentColor = 'text-slate-600'
         return { Component: ATSSterlingTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('ats-cornerstone')) {
+        let accentColor = 'text-amber-900'
+        if (id.includes('-black')) accentColor = 'text-neutral-950'
+        if (id.includes('-charcoal')) accentColor = 'text-stone-700'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-burgundy')) accentColor = 'text-rose-900'
+        if (id.includes('-forest')) accentColor = 'text-emerald-900'
+        return { Component: ATSCornerstoneTemplate, props: { accentColor } }
+    }
+
+    if (id.startsWith('ats-meridian')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-black')) accentColor = 'text-neutral-950'
+        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-slate')) accentColor = 'text-slate-700'
+        if (id.includes('-emerald')) accentColor = 'text-emerald-900'
+        return { Component: ATSMeridianTemplate, props: { accentColor } }
     }
 
     if (id.startsWith('elite-sterling')) {
@@ -359,7 +373,7 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = React.memo(({ t
         templateId.startsWith('ats-bauhaus') ||
         templateId.startsWith('ats-chronograph') ||
         templateId.startsWith('ats-classic-left') ||
-        templateId.startsWith('ats-editorial')
+        templateId.startsWith('ats-meridian')
 
     return (
         <div className={cn(

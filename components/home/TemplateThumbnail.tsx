@@ -23,7 +23,7 @@ export function TemplateThumbnail({ template, activeColorId, className, priority
         return getSampleDataForTemplate(template.id)
     }
 
-    const isEliteOrGold = template.id === 'ats-gold-standard' || template.id.startsWith('elite-')
+    const isEliteOrGold = template.id === 'ats-gold-standard' || template.id.startsWith('elite-') || template.id === 'ats-nursing'
     const [imageError, setImageError] = React.useState(isEliteOrGold)
 
     // Reset error state when template changes

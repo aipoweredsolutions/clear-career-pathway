@@ -214,6 +214,17 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                     <View style={{ width: '100%', height: 2, backgroundColor: '#171717', marginBottom: 15 }} />
                     <ContactInfo data={data} styles={styles} separator="·" />
                 </View>
+            ) : templateId.startsWith('ats-cornerstone') ? (
+                <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 25, alignItems: 'center', textAlign: 'center' }]}>
+                    <Text style={[styles.name, { fontSize: 24, letterSpacing: 6, fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 4 }]}>
+                        {data.personalInfo?.fullName || 'Your Name'}
+                    </Text>
+                    <Text style={[styles.title, { fontSize: 10, letterSpacing: 3, fontWeight: 'bold', color: '#78716c', textTransform: 'uppercase', marginBottom: 12 }]}>
+                        {data.personalInfo?.professionalTitle || ''}
+                    </Text>
+                    <ContactInfo data={data} styles={styles} separator="|" />
+                    <View style={{ width: '100%', height: 2, backgroundColor: styles.name.color || '#78350f', opacity: 0.4, marginTop: 12 }} />
+                </View>
             ) : templateId.startsWith('ats-metro') ? (
                 <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#171717', padding: 20, borderRadius: 4 }]}>
                     <View>

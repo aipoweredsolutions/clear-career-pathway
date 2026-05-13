@@ -1,26 +1,6 @@
 import { TemplateMetadata } from '../types/resume'
 
 export const templateRegistry: TemplateMetadata[] = [
-    // --- 0. ATS GOLD STANDARD (The Definitive ATS Template) ---
-    {
-        id: 'ats-gold-standard',
-        name: 'ATS Gold Standard',
-        description: 'The definitive ATS-compliant résumé. Centered header with elegantly spaced typography, clean single-column layout, and warm gold accents. Passes 100% of Applicant Tracking Systems with maximum recruiter readability. The gold standard for professional résumés across all industries.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior', 'executive'],
-            jobTypes: ['corporate', 'technical', 'academic'],
-            industries: ['General', 'Business', 'Finance', 'Tech', 'Legal', 'Healthcare', 'Education']
-        },
-        isPremium: true,
-        previewImage: '/templates/ats-gold-standard-gold-preview.png',
-        colors: [
-            { id: 'gold', name: 'Gold Standard', hex: '#b8860b' },
-            { id: 'black', name: 'Classic Black', hex: '#000000' },
-            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
-            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
-            { id: 'slate', name: 'Slate', hex: '#475569' }
-        ]
-    },
 
     // --- 1. ELITE STERLING (Executive Single-Column) ---
     {
@@ -34,7 +14,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
-            { id: 'executive', name: 'Executive Black', hex: '#171717' },
+            { id: 'black', name: 'Executive Black', hex: '#000000' },
             { id: 'midnight', name: 'Midnight Blue', hex: '#0f172a' },
             { id: 'slate', name: 'Slate Gray', hex: '#334155' }
         ]
@@ -52,7 +32,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
-            { id: 'london', name: 'London Ink', hex: '#111111' },
+            { id: 'black', name: 'London Black', hex: '#000000' },
             { id: 'navy', name: 'Regent Navy', hex: '#1e3a8a' },
             { id: 'charcoal', name: 'Tower Charcoal', hex: '#374151' }
         ]
@@ -70,7 +50,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
-            { id: 'professional', name: 'Professional Black', hex: '#111111' },
+            { id: 'black', name: 'Professional Black', hex: '#000000' },
             { id: 'navy', name: 'Executive Navy', hex: '#1e3a8a' },
             { id: 'charcoal', name: 'Deep Charcoal', hex: '#374151' }
         ]
@@ -88,7 +68,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
-            { id: 'modern', name: 'Modern Black', hex: '#18181b' },
+            { id: 'black', name: 'Modern Black', hex: '#000000' },
             { id: 'zinc', name: 'Cool Zinc', hex: '#52525b' },
             { id: 'slate', name: 'Deep Slate', hex: '#334155' }
         ]
@@ -107,7 +87,7 @@ export const templateRegistry: TemplateMetadata[] = [
         isPremium: true,
         previewImage: '/templates/ats-professional-navy-preview.png',
         colors: [
-            { id: 'standard', name: 'Elite Black', hex: '#000000' },
+            { id: 'black', name: 'Elite Black', hex: '#000000' },
             { id: 'navy', name: 'Midnight Navy', hex: '#1e3a8a' },
             { id: 'charcoal', name: 'Charcoal Gold', hex: '#374151' },
             { id: 'blue', name: 'Corporate Blue', hex: '#2563eb' },
@@ -240,27 +220,6 @@ export const templateRegistry: TemplateMetadata[] = [
             { id: 'slate', name: 'Cool Slate', hex: '#334155' }
         ]
     },
-    // --- 8. ATS TECHNICAL ---
-    {
-        id: 'ats-technical',
-        name: 'Technical Terminal',
-        description: 'Redesigned with a "Terminal Elite" aesthetic for high-end engineering roles. Features code-inspired syntax, numbered headers [01], and shell-style operators. Optimized for high information density and perfect ATS parsing. Essential for senior developers and architects.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior'],
-            jobTypes: ['technical'],
-            industries: ['Software Engineering', 'System Architecture', 'DevOps', 'Data Science', 'AI']
-        },
-        isPremium: true,
-        previewImage: '/templates/ats-technical-cyan-preview.png',
-        colors: [
-            { id: 'black', name: 'Matrix Black', hex: '#000000' },
-            { id: 'green', name: 'Terminal Green', hex: '#064e3b' },
-            { id: 'cyan', name: 'Cyber Cyan', hex: '#0891b2' },
-            { id: 'orange', name: 'Shell Orange', hex: '#ea580c' },
-            { id: 'slate', name: 'Carbon Slate', hex: '#334155' }
-        ]
-    },
-
     // --- 9. ATS NURSING RN ---
     {
         id: 'ats-nursing',
@@ -274,7 +233,7 @@ export const templateRegistry: TemplateMetadata[] = [
         isPremium: true,
         previewImage: '/templates/ats-nursing-blue-preview.png',
         colors: [
-            { id: 'standard', name: 'Clinical Teal', hex: '#0f766e' },
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'blue', name: 'Scrub Blue', hex: '#1e40af' },
             { id: 'emerald', name: 'Medical Green', hex: '#065f46' },
             { id: 'rose', name: 'Heart Rose', hex: '#be123c' },
@@ -295,7 +254,7 @@ export const templateRegistry: TemplateMetadata[] = [
         isPremium: true,
         previewImage: '/templates/ats-academia-navy-preview.png',
         colors: [
-            { id: 'standard', name: 'Oxford Slate', hex: '#334155' },
+            { id: 'black', name: 'Oxford Black', hex: '#000000' },
             { id: 'navy', name: 'Academic Navy', hex: '#1e3a8a' },
             { id: 'maroon', name: 'Scholar Maroon', hex: '#7f1d1d' },
             { id: 'emerald', name: 'Ivy Green', hex: '#064e3b' },
@@ -316,6 +275,7 @@ export const templateRegistry: TemplateMetadata[] = [
         isPremium: true,
         previewImage: '/templates/ats-graduate-navy-preview.png',
         colors: [
+            { id: 'black', name: 'Standard Black', hex: '#000000' },
             { id: 'sky', name: 'Sky Blue', hex: '#0ea5e9' },
             { id: 'indigo', name: 'Indigo', hex: '#6366f1' },
             { id: 'emerald', name: 'Emerald', hex: '#10b981' },
@@ -358,7 +318,6 @@ export const templateRegistry: TemplateMetadata[] = [
         isPremium: true,
         previewImage: '/templates/ats-executive-navy-preview.png',
         colors: [
-            { id: 'standard', name: 'Executive Slate', hex: '#334155' },
             { id: 'black', name: 'Ebony Black', hex: '#000000' },
             { id: 'navy', name: 'Midnight Navy', hex: '#0f172a' },
             { id: 'emerald', name: 'Deep Emerald', hex: '#064e3b' },
@@ -398,8 +357,8 @@ export const templateRegistry: TemplateMetadata[] = [
         isPremium: true,
         previewImage: '/templates/ats-academia-navy-preview.png',
         colors: [
-            { id: 'standard', name: 'Oxford Blue', hex: '#1e3a8a' },
             { id: 'black', name: 'Scholastic Black', hex: '#000000' },
+            { id: 'navy', name: 'Oxford Blue', hex: '#1e3a8a' },
             { id: 'burgundy', name: 'Cambridge Burgundy', hex: '#7f1d1d' },
             { id: 'forest', name: 'Ivy Forest', hex: '#064e3b' }
         ]
@@ -416,7 +375,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
-            { id: 'ink', name: 'Ink Black', hex: '#0a0a0a' },
+            { id: 'black', name: 'Ink Black', hex: '#000000' },
             { id: 'slate', name: 'Slate Gray', hex: '#4b5563' },
             { id: 'blue', name: 'Steel Blue', hex: '#1e40af' },
             { id: 'emerald', name: 'Forest Green', hex: '#065f46' }
@@ -435,10 +394,52 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Classic Black', hex: '#000000' },
             { id: 'charcoal', name: 'Charcoal', hex: '#262626' },
             { id: 'slate', name: 'Warm Slate', hex: '#44403c' },
             { id: 'prussian', name: 'Prussian Blue', hex: '#172554' },
             { id: 'espresso', name: 'Espresso', hex: '#451a03' }
+        ]
+    },
+
+    // --- 18b. ATS CORNERSTONE ---
+    {
+        id: 'ats-cornerstone',
+        name: 'Cornerstone Executive',
+        description: 'A refined, executive-grade template inspired by elite financial institutions and FTSE-100 board presentations. Features centered serif typography with generous letter-spacing, warm copper accent rules, pipe-separated contact rows, and an italic serif professional summary. Engineered for CFOs, MDs, and senior corporate leaders who demand institutional authority with perfect ATS compliance.',
+        suitableFor: {
+            careerLevels: ['senior', 'executive'],
+            jobTypes: ['corporate', 'management'],
+            industries: ['Finance', 'Investment Banking', 'Legal', 'Consulting', 'Executive Management']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'copper', name: 'Heritage Copper', hex: '#78350f' },
+            { id: 'black', name: 'Institutional Black', hex: '#0c0a09' },
+            { id: 'charcoal', name: 'Boardroom Charcoal', hex: '#44403c' },
+            { id: 'navy', name: 'Fiduciary Navy', hex: '#1e3a8a' },
+            { id: 'burgundy', name: 'Claret Burgundy', hex: '#881337' },
+            { id: 'forest', name: 'Sovereign Green', hex: '#064e3b' }
+        ]
+    },
+
+    // --- 18c. ATS MERIDIAN ---
+    {
+        id: 'ats-meridian',
+        name: 'Meridian Professional',
+        description: 'A bold, modern two-column resume featuring a dramatic split-weight header with the first name in heavy black type and the last name in ultralight. Left sidebar holds icon-based contact details, education, skills, and languages. Right main column features an italic serif summary and work experience with timeline circle markers. Perfectly suited for product managers, tech leaders, and modern professionals.',
+        suitableFor: {
+            careerLevels: ['mid', 'senior', 'executive'],
+            jobTypes: ['corporate', 'technical', 'creative'],
+            industries: ['Tech', 'Product Management', 'Fintech', 'SaaS', 'Consulting', 'Marketing']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'black', name: 'Precision Black', hex: '#171717' },
+            { id: 'charcoal', name: 'Modern Charcoal', hex: '#374151' },
+            { id: 'navy', name: 'Digital Navy', hex: '#1e3a8a' },
+            { id: 'slate', name: 'Cool Slate', hex: '#334155' },
+            { id: 'emerald', name: 'Innovation Green', hex: '#064e3b' }
         ]
     },
 
@@ -454,6 +455,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Bauhaus Black', hex: '#000000' },
             { id: 'vermillion', name: 'Vermillion', hex: '#dc2626' },
             { id: 'cobalt', name: 'Cobalt', hex: '#1d4ed8' },
             { id: 'onyx', name: 'Onyx', hex: '#171717' },
@@ -461,24 +463,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 19. ATS EDITORIAL ---
-    {
-        id: 'ats-editorial',
-        name: 'Editorial Vogue',
-        description: 'A "Vogue Professional" redesign inspired by premium magazine layouts. Features a bold, oversized name as a visual anchor, refined dotted leaders, and a pull-quote style summary. Ideal for high-level executives and creative leaders who demand an authoritative presence.',
-        suitableFor: {
-            careerLevels: ['senior', 'executive'],
-            jobTypes: ['corporate', 'creative'],
-            industries: ['Executive Leadership', 'Marketing', 'Communications', 'Journalism', 'Publishing']
-        },
-        isPremium: true,
-        colors: [
-            { id: 'black', name: 'Vogue Black', hex: '#171717' },
-            { id: 'sepia', name: 'Elite Sepia', hex: '#292524' },
-            { id: 'navy', name: 'Royal Navy', hex: '#0f172a' },
-            { id: 'burgundy', name: 'Deep Burgundy', hex: '#4c0519' }
-        ]
-    },
+    // --- 19. ATS EDITORIAL (Removed) ---
 
     // --- 20. ATS GRIDLINE ---
     {
@@ -492,6 +477,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Carbon Black', hex: '#000000' },
             { id: 'blueprint', name: 'Blueprint', hex: '#1e40af' },
             { id: 'carbon', name: 'Carbon', hex: '#262626' },
             { id: 'emerald', name: 'Emerald', hex: '#065f46' },
@@ -511,6 +497,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: true,
         colors: [
+            { id: 'black', name: 'Midnight Black', hex: '#000000' },
             { id: 'central', name: 'Central Line', hex: '#b91c1c' },
             { id: 'district', name: 'District Line', hex: '#047857' },
             { id: 'victoria', name: 'Victoria Line', hex: '#1d4ed8' },
@@ -550,6 +537,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: false,
         colors: [
+            { id: 'black', name: 'Corporate Black', hex: '#000000' },
             { id: 'corporate', name: 'Corporate Blue', hex: '#1d4ed8' },
             { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
             { id: 'navy', name: 'Midnight Navy', hex: '#1e3a8a' },
@@ -573,6 +561,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: false,
         colors: [
+            { id: 'black', name: 'Classic Black', hex: '#000000' },
             { id: 'slate',    name: 'Midnight Slate', hex: '#0f172a' },
             { id: 'navy',     name: 'Deep Navy',       hex: '#1e3a8a' },
             { id: 'forest',   name: 'Forest Green',    hex: '#064e3b' },
@@ -593,6 +582,7 @@ export const templateRegistry: TemplateMetadata[] = [
         },
         isPremium: false,
         colors: [
+            { id: 'black',    name: 'Classic Black', hex: '#000000' },
             { id: 'gold',     name: 'Classic Gold',    hex: '#C9A84C' },
             { id: 'teal',     name: 'Sophisticated Teal', hex: '#0F766E' },
             { id: 'charcoal', name: 'Charcoal',        hex: '#374151' },

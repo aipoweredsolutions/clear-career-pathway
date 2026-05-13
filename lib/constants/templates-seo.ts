@@ -64,10 +64,10 @@ export const SEO_TEMPLATES: SeoTemplate[] = [
     },
     {
         slug: 'data-scientist-resume-example',
-        templateId: 'ats-technical',
+        templateId: 'ats-modern',
         industry: 'Technology',
         title: 'Data Scientist Resume Example',
-        name: 'ATS Technical',
+        name: 'ATS Modern',
         description: 'Free data scientist resume example 2025. ATS-ready template with Python, ML, and statistical modelling keywords. Used by analysts at Google, Meta, and top-tier startups.',
         sampleDataKey: 'data-scientist',
         atsScore: 98,
@@ -95,7 +95,7 @@ export const SEO_TEMPLATES: SeoTemplate[] = [
     },
     {
         slug: 'product-manager-resume-example',
-        templateId: 'ats-gold-standard',
+        templateId: 'ats-professional',
         industry: 'Technology',
         title: 'Product Manager Resume Example',
         name: 'ATS Gold Standard',
@@ -155,10 +155,10 @@ export const SEO_TEMPLATES: SeoTemplate[] = [
     },
     {
         slug: 'devops-engineer-resume-example',
-        templateId: 'ats-technical',
+        templateId: 'ats-modern',
         industry: 'Technology',
         title: 'DevOps Engineer Resume Example',
-        name: 'ATS Technical',
+        name: 'ATS Modern',
         description: 'Free DevOps engineer resume example 2025. Kubernetes, Terraform, CI/CD, and cloud infrastructure keywords. ATS-compliant template ready to customise and download.',
         sampleDataKey: 'devops-engineer',
         atsScore: 99,
@@ -370,7 +370,7 @@ export const SEO_TEMPLATES: SeoTemplate[] = [
     },
     {
         slug: 'accountant-resume-example',
-        templateId: 'ats-gold-standard',
+        templateId: 'ats-professional',
         industry: 'Finance',
         title: 'Accountant Resume Example',
         name: 'ATS Gold Standard',
@@ -712,7 +712,7 @@ export const SEO_TEMPLATES: SeoTemplate[] = [
     // ── OPERATIONS ────────────────────────────────────────────────────────────
     {
         slug: 'project-manager-resume-example',
-        templateId: 'ats-gold-standard',
+        templateId: 'ats-professional',
         industry: 'Operations',
         title: 'Project Manager Resume Example',
         name: 'ATS Gold Standard',

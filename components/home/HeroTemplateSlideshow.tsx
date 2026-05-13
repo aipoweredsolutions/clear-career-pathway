@@ -12,10 +12,11 @@ const TemplatePreviewDialog = dynamic(
 )
 
 const FEATURED_TEMPLATES = [
+    { id: 'ats-cornerstone',    name: 'Cornerstone',     tag: 'Executive',   colorId: 'copper' },
+    { id: 'ats-meridian',       name: 'Meridian',        tag: 'Modern',      colorId: 'black'  },
     { id: 'prestige',           name: 'Prestige',        tag: 'Executive',   colorId: 'gold'  },
     { id: 'elegant-split',      name: 'Elegant Split',   tag: 'Creative',    colorId: 'slate' },
     { id: 'ats-classic-left',   name: 'Executive Left',  tag: 'Corporate',   colorId: 'navy'  },
-    { id: 'ats-gold-standard',  name: 'Gold Standard',   tag: 'ATS Pro',     colorId: 'black' },
     { id: 'ats-modern',         name: 'Modern',          tag: 'Minimal',     colorId: 'slate' },
     { id: 'elite-sterling',     name: 'Elite Sterling',  tag: 'Premium',     colorId: 'midnight' },
 ]
@@ -61,7 +62,7 @@ export function HeroTemplateSlideshow() {
             <div className="relative w-full max-w-[380px]" style={{ aspectRatio: '21/29.7' }}>
 
                 {/* Ambient glow */}
-                <div className="absolute inset-[-20%] bg-violet-500/20 blur-[80px] rounded-full pointer-events-none" />
+                <div className="absolute inset-[-20%] bg-blue-500/20 blur-[80px] rounded-full pointer-events-none" />
 
                 {/* Back card — previous */}
                 <div className="absolute inset-0 -left-10 top-4 rounded-xl overflow-hidden shadow-2xl z-0 pointer-events-none"
@@ -120,7 +121,7 @@ export function HeroTemplateSlideshow() {
                     <div className="absolute inset-x-0 bottom-0 z-20 p-5 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
                         <div className="flex items-end justify-between">
                             <div>
-                                <span className="text-[9px] font-black uppercase tracking-[0.25em] text-violet-400 block mb-1">
+                                <span className="text-[9px] font-black uppercase tracking-[0.25em] text-blue-400 block mb-1">
                                     {current.tag}
                                 </span>
                                 <h4 className="text-lg font-black text-white leading-none transition-all duration-400">

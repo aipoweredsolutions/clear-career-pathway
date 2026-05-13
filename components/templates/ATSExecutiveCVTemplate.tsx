@@ -94,9 +94,14 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
 
                 {/* Contact — dot separated */}
                 {contactParts.length > 0 && (
-                    <p className="text-[11.5px] text-neutral-500 tracking-[0.15em] font-bold uppercase leading-relaxed font-sans">
-                        {contactParts.join('   ·   ')}
-                    </p>
+                    <div className="text-[11.5px] text-neutral-500 tracking-[0.15em] font-bold uppercase leading-relaxed font-sans flex items-center justify-center gap-3 flex-wrap">
+                        {contactParts.map((part, i) => (
+                            <span key={i} className="flex items-center gap-3">
+                                {i > 0 && <span className="text-neutral-300">·</span>}
+                                <span>{part}</span>
+                            </span>
+                        ))}
+                    </div>
                 )}
             </header>
             {/* --- DOCUMENT TYPE OVERRIDES --- */}
@@ -124,7 +129,7 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                     <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
-                            <div key={i} className="break-inside-avoid flex flex-col gap-1">
+                            <div key={i} className=" flex flex-col gap-1">
                                 <span className="font-bold text-neutral-900 text-[13px]">{ref.referenceName || ref.name}</span>
                                 <span className="text-[12px] text-neutral-600 italic">{ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}</span>
                                 {(ref.contactDetails || ref.contactInfo) && <span className="text-[12px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>}
@@ -156,7 +161,7 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                         <SectionHeader title="Professional History" />
                         <div className="space-y-12">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="break-inside-avoid border-l-4 border-neutral-50 pl-10">
+                                <div key={i} className=" border-l-4 border-neutral-50 pl-10">
                                     {/* Company + Dates */}
                                     <div className="flex justify-between items-baseline mb-2">
                                         <h3 className="text-[17px] font-black text-neutral-900 uppercase tracking-widest">
@@ -227,8 +232,8 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                                         {Object.entries(grouped).map(([type, list]) => (
                                             <div key={type} className="flex flex-col gap-2">
                                                 <span className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">{labels[type] || type}</span>
-                                                <span className="text-[14.5px] font-bold text-neutral-800 font-serif leading-relaxed">
-                                                    {list.map(s => s.skillName).join('  ·  ')}
+                                                <span className="text-[14.5px] font-bold text-neutral-800 font-serif leading-relaxed inline-flex flex-wrap items-center gap-1.5">
+                                                    {list.map((s, i) => (<span key={i} className="flex items-center gap-1.5">{i > 0 && <span className="text-neutral-300">·</span>}<span>{s.skillName}</span></span>))}
                                                 </span>
                                             </div>
                                         ))}
@@ -245,7 +250,7 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                         <SectionHeader title="Strategic Initiatives" />
                         <div className="space-y-8 border-l-4 border-neutral-50 pl-10">
                             {projects.map((proj, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className="text-[13px] font-bold text-neutral-900">{proj.projectName}</h3>
                                         {(proj.startDate || proj.endDate) && (
@@ -279,7 +284,7 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                         <SectionHeader title="Certifications & Credentials" />
                         <div className="space-y-1.5">
                             {certifications.map((cert, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-baseline">
+                                <div key={i} className=" flex justify-between items-baseline">
                                     <div className="text-[12px]">
                                         <span className="font-bold text-neutral-900">{cert.certificationName}</span>
                                         {cert.issuingOrganization && (
@@ -301,7 +306,7 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                         <SectionHeader title="Awards & Distinctions" />
                         <div className="space-y-2">
                             {achievements.map((ach, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <div className="text-[12px]">
                                             <span className="font-bold text-neutral-900">{ach.achievementTitle}</span>
@@ -324,7 +329,7 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                         <SectionHeader title="Publications & Thought Leadership" />
                         <div className="space-y-1.5">
                             {publications.map((pub, i) => (
-                                <div key={i} className="break-inside-avoid text-[12px] text-neutral-700">
+                                <div key={i} className=" text-[12px] text-neutral-700">
                                     <span className="font-bold italic">&quot;{pub.title}&quot;</span>
                                     {pub.platformOrPublisher && <span> — {pub.platformOrPublisher}</span>}
                                     {pub.publicationYear && <span className="text-neutral-500"> ({pub.publicationYear})</span>}
@@ -340,7 +345,7 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                         <SectionHeader title="Board & Community Service" />
                         <div className="space-y-3">
                             {volunteerExperience.map((vol, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="flex justify-between items-baseline">
                                         <h3 className="text-[13px] font-bold text-neutral-900">{vol.roleTitle}</h3>
                                         <span className="text-[11px] text-neutral-500 shrink-0 ml-4 font-sans">
@@ -363,7 +368,7 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                         <SectionHeader title="Professional Affiliations" />
                         <div className="space-y-1.5">
                             {professionalAffiliations.map((aff, i) => (
-                                <div key={i} className="break-inside-avoid flex justify-between items-baseline">
+                                <div key={i} className=" flex justify-between items-baseline">
                                     <div className="text-[12px]">
                                         <span className="font-bold text-neutral-900">{aff.organizationName}</span>
                                         {aff.roleOrMembership && <span className="text-neutral-600"> — {aff.roleOrMembership}</span>}
@@ -381,14 +386,14 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                 {languages && languages.length > 0 && (
                     <section>
                         <SectionHeader title="Languages" />
-                        <p className="text-[12px] text-neutral-700 tracking-wide text-center">
+                        <div className="text-[12px] text-neutral-700 tracking-wide text-center flex items-center justify-center gap-3 flex-wrap">
                             {languages.map((l, i) => (
-                                <span key={i}>
-                                    {l.languageName}{l.proficiencyLevel ? ` (${l.proficiencyLevel})` : ''}
-                                    {i < languages.length - 1 ? '   ·   ' : ''}
+                                <span key={i} className="flex items-center gap-3">
+                                    {i > 0 && <span className="text-neutral-300">·</span>}
+                                    <span>{l.languageName}{l.proficiencyLevel ? ` (${l.proficiencyLevel})` : ''}</span>
                                 </span>
                             ))}
-                        </p>
+                        </div>
                     </section>
                 )}
 
@@ -424,13 +429,33 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                     </section>
                 )}
 
+                {/* Custom Sections */}
+                {customSections && customSections.length > 0 && customSections.map((section, si) => (
+                    <section key={si} className="">
+                        <SectionHeader title={section.title} />
+                        {section.content && (
+                            <p className="text-[12px] text-neutral-700 leading-[1.7] text-justify mb-2">{section.content}</p>
+                        )}
+                        {section.items && section.items.length > 0 && (
+                            <ul className="space-y-1 pl-4">
+                                {section.items.map((item, ii) => (
+                                    <li key={ii} className="text-[12px] text-neutral-700 flex gap-2 leading-[1.6]">
+                                        <span className="shrink-0 mt-0.5">▪</span>
+                                        <span>{item.text}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
+                ))}
+
                 {/* References */}
                 {references && references.length > 0 && (
                     <section>
                         <SectionHeader title="Professional References" />
                         <div className="space-y-3">
                             {references.map((ref, i) => (
-                                <div key={i} className="break-inside-avoid">
+                                <div key={i} className="">
                                     <div className="text-[12px] font-bold text-neutral-900">
                                         {ref.referenceName || ref.name}
                                     </div>
@@ -448,26 +473,6 @@ export function ATSExecutiveCVTemplate({ data, className, accentColor = 'text-sl
                         </div>
                     </section>
                 )}
-
-                {/* Custom Sections */}
-                {customSections && customSections.length > 0 && customSections.map((section, si) => (
-                    <section key={si} className="break-inside-avoid">
-                        <SectionHeader title={section.title} />
-                        {section.content && (
-                            <p className="text-[12px] text-neutral-700 leading-[1.7] text-justify mb-2">{section.content}</p>
-                        )}
-                        {section.items && section.items.length > 0 && (
-                            <ul className="space-y-1 pl-4">
-                                {section.items.map((item, ii) => (
-                                    <li key={ii} className="text-[12px] text-neutral-700 flex gap-2 leading-[1.6]">
-                                        <span className="shrink-0 mt-0.5">▪</span>
-                                        <span>{item.text}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </section>
-                ))}
             </div>
         
                 </>
