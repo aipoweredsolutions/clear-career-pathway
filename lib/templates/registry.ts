@@ -463,7 +463,24 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 19. ATS EDITORIAL (Removed) ---
+    // --- 19. ATS EDITORIAL (Elite Overhaul) ---
+    {
+        id: 'ats-editorial',
+        name: 'Editorial Elegance',
+        description: 'A high-end magazine-inspired layout featuring a dramatic three-column header and refined typography. Designed for senior leaders, marketing executives, and creative directors who want their resume to read like a premier publication while maintaining 100% ATS readability.',
+        suitableFor: {
+            careerLevels: ['senior', 'executive'],
+            jobTypes: ['corporate', 'creative', 'management'],
+            industries: ['Marketing', 'Communications', 'Media', 'Executive Leadership', 'Strategy']
+        },
+        isPremium: true,
+        colors: [
+            { id: 'black', name: 'Ink Black', hex: '#000000' },
+            { id: 'slate', name: 'Editorial Slate', hex: '#334155' },
+            { id: 'navy', name: 'Gazette Navy', hex: '#1e3a8a' },
+            { id: 'burgundy', name: 'Bordeaux', hex: '#7f1d1d' }
+        ]
+    },
 
     // --- 20. ATS GRIDLINE ---
     {

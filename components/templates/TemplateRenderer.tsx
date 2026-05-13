@@ -1,4 +1,4 @@
-"use client"
+"use client" 
 
 import React from 'react'
 import dynamic from 'next/dynamic'
@@ -40,8 +40,7 @@ const CoverLetterTemplate = dynamic(() => import('./CoverLetterTemplate').then(m
 const ATSChronographTemplate = dynamic(() => import('./ATSChronographTemplate').then(m => m.ATSChronographTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSMastheadTemplate = dynamic(() => import('./ATSMastheadTemplate').then(m => m.ATSMastheadTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSBauhausTemplate = dynamic(() => import('./ATSBauhausTemplate').then(m => m.ATSBauhausTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-// Removed: Editorial Vogue template
-// const ATSEditorialTemplate = dynamic(() => import('./ATSEditorialTemplate').then(m => m.ATSEditorialTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const ATSEditorialTemplate = dynamic(() => import('./ATSEditorialTemplate').then(m => m.ATSEditorialTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSGridlineTemplate = dynamic(() => import('./ATSGridlineTemplate').then(m => m.ATSGridlineTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSMetroTemplate = dynamic(() => import('./ATSMetroTemplate').then(m => m.ATSMetroTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSClassicLeftTemplate = dynamic(() => import('./ATSClassicLeftTemplate').then(m => m.ATSClassicLeftTemplate), { ssr: false, loading: () => <TemplateLoading /> })
@@ -233,7 +232,14 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: ATSBauhausTemplate, props: { accentColor } }
     }
 
-    // Editorial Vogue removed — falls through to default
+    if (id.startsWith('ats-editorial')) {
+        let accentColor = 'text-neutral-900'
+        if (id.includes('-black')) accentColor = 'text-black'
+        if (id.includes('-slate')) accentColor = 'text-slate-700'
+        if (id.includes('-navy')) accentColor = 'text-blue-900'
+        if (id.includes('-burgundy')) accentColor = 'text-rose-900'
+        return { Component: ATSEditorialTemplate, props: { accentColor } }
+    }
 
     if (id.startsWith('ats-gridline')) {
         let accentColor = 'text-blue-800'

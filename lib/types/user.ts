@@ -5,6 +5,7 @@ export interface UserProfile {
     email: string;
     full_name: string | null;
     avatar_url: string | null;
+    role: 'admin' | 'user';
     subscription_tier: SubscriptionTier;
     stripe_customer_id: string | null;
     billing_status: 'active' | 'past_due' | 'canceled' | 'none';

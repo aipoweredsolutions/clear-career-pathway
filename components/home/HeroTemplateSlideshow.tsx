@@ -17,7 +17,7 @@ const FEATURED_TEMPLATES = [
     { id: 'prestige',           name: 'Prestige',        tag: 'Executive',   colorId: 'gold'  },
     { id: 'elegant-split',      name: 'Elegant Split',   tag: 'Creative',    colorId: 'slate' },
     { id: 'ats-classic-left',   name: 'Executive Left',  tag: 'Corporate',   colorId: 'navy'  },
-    { id: 'ats-modern',         name: 'Modern',          tag: 'Minimal',     colorId: 'slate' },
+    { id: 'ats-editorial',      name: 'Editorial',       tag: 'Elite',       colorId: 'black'  },
     { id: 'elite-sterling',     name: 'Elite Sterling',  tag: 'Premium',     colorId: 'midnight' },
 ]
 

@@ -8,32 +8,41 @@ Objective: Ensure all resume templates are fully ATS compliant by following the 
 - [x] Clean DOM structure for text extractors
 
 ## Templates for Refactoring (Multi-column detected)
-*(All templates successfully refactored)*
+*(All templates successfully refactored or decommissioned)*
 
 ## Templates Already Compliant (Verified)
-- [x] ChicTemplate.tsx
-- [x] CreativeTemplate.tsx
-- [x] ArtisanTemplate.tsx
-- [x] CompactTemplate.tsx
-- [x] InternationalCVTemplate.tsx
-- [x] MilitaryTransitionTemplate.tsx
-- [x] RealEstateProTemplate.tsx
-- [x] SplitContrastTemplate.tsx
-- [x] StartupTemplate.tsx
-- [x] TechnicalTemplate.tsx
-- [x] TradesProTemplate.tsx
 - [x] ATSProfessionalTemplate.tsx
 - [x] ATSModernTemplate.tsx
 - [x] ATSMinimalTemplate.tsx
 - [x] ATSClassicTemplate.tsx
 - [x] ATSExecutiveTemplate.tsx
 - [x] ATSGraduateTemplate.tsx
-- [x] ATSTechnicalTemplate.tsx
 - [x] ATSTimelineTemplate.tsx
 - [x] ATSAcademiaTemplate.tsx
 - [x] ATSNursingTemplate.tsx
 - [x] ATSHospitalityTemplate.tsx
-- [x] ATSGoldStandardTemplate.tsx
+- [x] ATSChronographTemplate.tsx
+- [x] ATSMastheadTemplate.tsx
+- [x] ATSBauhausTemplate.tsx
+- [x] ATSEditorialTemplate.tsx (Restored & Verified)
+- [x] ATSGridlineTemplate.tsx
+- [x] ATSMetroTemplate.tsx
+- [x] ATSClassicLeftTemplate.tsx
+- [x] ATSSterlingTemplate.tsx
+- [x] ATSCornerstoneTemplate.tsx
+- [x] ATSMeridianTemplate.tsx
+- [x] ATSExecutiveCVTemplate.tsx
+- [x] ATSMinimalistMonoTemplate.tsx
+- [x] ATSRoyalScholarTemplate.tsx
+- [x] ATSAcademiaCVTemplate.tsx
+
+## Elite (Long-Form) Premium Templates
+- [x] EliteSterlingTemplate.tsx
+- [x] EliteHaskinsTemplate.tsx
+- [x] EliteParkerTemplate.tsx
+- [x] EliteLondonTemplate.tsx
+- [x] PrestigeTemplate.tsx
+- [x] ElegantSplitTemplate.tsx (Two-column, Non-ATS for specific use cases)
 
 ## Secondary Templates
 *(All obsolete and non-compliant secondary templates have been officially removed from the repository to guarantee a 100% ATS-compliant library.)*

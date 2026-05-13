@@ -19,7 +19,7 @@ export function getPostSlugs() {
     if (!fs.existsSync(contentDir)) {
         return []
     }
-    return fs.readdirSync(contentDir)
+    return fs.readdirSync(contentDir).filter(file => file.endsWith('.mdx'))
 }
 
 export function getPostBySlug(slug: string): MDXPost {

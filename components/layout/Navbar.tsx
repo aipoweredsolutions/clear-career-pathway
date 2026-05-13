@@ -402,6 +402,16 @@ export function Navbar() {
                                             <LayoutDashboard className="w-4 h-4" />
                                             Active Dashboard
                                         </Link>
+                                        {(user.email === 'tester@example.com' || profile?.role === 'admin') && (
+                                            <Link
+                                                href="/admin"
+                                                className="flex items-center gap-3 px-5 py-3 text-sm font-bold text-primary-600 hover:bg-primary-50 transition-all"
+                                                onClick={() => setIsUserDropdownOpen(false)}
+                                            >
+                                                <Shield className="w-4 h-4" />
+                                                Admin Portal
+                                            </Link>
+                                        )}
                                         <Link
                                             href="/account"
                                             className={cn(

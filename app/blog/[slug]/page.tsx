@@ -5,6 +5,7 @@ import { getPostBySlug, getAllPosts } from '@/lib/utils/mdx'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import Link from 'next/link'
 import { Calendar, User, ArrowLeft, ArrowRight, Clock } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface Props {
     params: Promise<{ slug: string }>
