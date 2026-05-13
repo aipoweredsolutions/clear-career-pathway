@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { ProfessionalSummary, ResumeDocument } from '@/lib/types/resume'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
-import { Sparkles, Loader2 } from 'lucide-react'
+import { Sparkles, Loader2, List } from 'lucide-react'
 import { toast } from 'sonner'
 
 interface SummaryFormProps {
@@ -167,15 +167,40 @@ export function SummaryForm({ data, fullResumeData, onChange }: SummaryFormProps
                 </div>
             </div>
 
-            <Textarea
-                label="Professional Summary"
-                value={data.summaryText || ''}
-                onChange={(e) => handleChange('summaryText', e.target.value)}
-                placeholder="e.g. Accomplished Software Engineer with 5+ years of experience..."
-                rows={6}
-                helperText="Briefly describe your professional background and key achievements."
-                showCount={true}
-            />
+            <div className="relative">
+                <div className="flex justify-between items-center mb-1">
+                    <label className="block text-sm font-medium text-neutral-700">Professional Summary</label>
+                    <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                            const current = data.summaryText || ''
+                            const lines = current.split('\n')
+                            const bulleted = lines.map(line => {
+                                const trimmed = line.trim()
+                                if (trimmed && !trimmed.startsWith('•') && !trimmed.startsWith('-')) {
+                                    return `• ${trimmed}`
+                                }
+                                return line
+                            }).join('\n')
+                            handleChange('summaryText', bulleted)
+                        }}
+                        className="text-neutral-500 h-7 text-xs"
+                    >
+                        <List className="w-3 h-3 mr-1.5" />
+                        Add Bullets
+                    </Button>
+                </div>
+                <Textarea
+                    value={data.summaryText || ''}
+                    onChange={(e) => handleChange('summaryText', e.target.value)}
+                    placeholder="e.g. Accomplished Software Engineer with 5+ years of experience..."
+                    rows={6}
+                    helperText="Briefly describe your professional background and key achievements."
+                    showCount={true}
+                />
+            </div>
         </div>
     )
 }

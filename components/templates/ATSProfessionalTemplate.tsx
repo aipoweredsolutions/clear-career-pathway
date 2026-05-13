@@ -60,7 +60,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                         {personalInfo?.fullName?.split(' ')[0] || 'ELITE'}
                     </div>
                     <div className={cn("inline-block px-4 py-1 text-[10px] font-black uppercase tracking-[0.4em] mb-6 bg-neutral-950 text-white shadow-lg")}>
-                        Professional Dossier // {new Date().getFullYear()}
+                        Professional Dossier {" // "} {new Date().getFullYear()}
                     </div>
                     <h1 className="text-[48px] font-black tracking-[-0.07em] leading-none mb-4 text-neutral-950 uppercase whitespace-nowrap truncate">
                         {personalInfo?.fullName || 'Professional'}
@@ -95,7 +95,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
             {data.documentType === 'cover_letter' ? (
                 <div className="max-w-3xl">
                     <div className="mb-10 space-y-2 text-[15px]">
-                        <div className="text-neutral-300 font-black uppercase tracking-[0.4em] text-[11px] mb-8">Serial // {Math.random().toString(36).substring(7).toUpperCase()}</div>
+                        <div className="text-neutral-300 font-black uppercase tracking-[0.4em] text-[11px] mb-8">Serial {" // "} {Math.random().toString(36).substring(7).toUpperCase()}</div>
                         {data.coverLetter?.recipientName && <p className="font-black text-neutral-950 text-[18px] tracking-tight">{data.coverLetter.recipientName}</p>}
                         {data.coverLetter?.recipientTitle && <p className="text-neutral-400 font-black uppercase tracking-widest text-[12px]">{data.coverLetter.recipientTitle}</p>}
                         {data.coverLetter?.companyName && <p className="font-black text-neutral-700 italic border-l-4 border-neutral-100 pl-4">{data.coverLetter.companyName}</p>}
@@ -143,7 +143,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                     {professionalSummary?.summaryText && (
                         <section className="grid grid-cols-1 md:grid-cols-12 gap-8">
                             <div className="md:col-span-4 flex flex-col gap-2">
-                                <h2 className={cn("text-[12px] font-black uppercase tracking-[0.5em] text-neutral-200", accentColor)}>Executive // Synopsis</h2>
+                                <h2 className={cn("text-[12px] font-black uppercase tracking-[0.5em] text-neutral-200", accentColor)}>Executive {" // "} Synopsis</h2>
                                 <div className="h-px w-12 bg-neutral-100" />
                             </div>
                             <div className="md:col-span-8">
@@ -212,7 +212,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-12">
                         {/* Skills Matrix */}
                         <div className="md:col-span-12">
-                            <SectionHeader title="Competency // Matrix" />
+                            <SectionHeader title={"Competency // Matrix"} />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 mt-4 px-2">
                                 {skills && Object.entries(skills.reduce((acc, s) => {
                                     const t = s.skillType || 'professional';
@@ -254,7 +254,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                                                 {edu.degree}
                                             </h4>
                                             <div className={cn("text-[11px] font-black uppercase tracking-[0.2em] opacity-40", accentColor)}>
-                                                {edu.institutionName} // {edu.location}
+                                                {edu.institutionName} {" // "} {edu.location}
                                             </div>
                                         </div>
                                     ))}
@@ -297,7 +297,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                     <footer className="pt-16 flex justify-between items-end gap-10">
                         <div className="space-y-2">
                             <div className={cn("h-4 w-40", bgColorClass)} />
-                            <div className="text-[10px] font-black text-neutral-200 uppercase tracking-[0.6em]">Corporate // Elite // Protocol</div>
+                            <div className="text-[10px] font-black text-neutral-200 uppercase tracking-[0.6em]">Corporate {" // "} Elite {" // "} Protocol</div>
                         </div>
                         <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.3em] tabular-nums">
                             Checksum: {Math.random().toString(36).substring(2, 12).toUpperCase()}

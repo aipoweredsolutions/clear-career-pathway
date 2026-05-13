@@ -63,6 +63,7 @@ export interface WorkExperience {
     roleDescription?: string
     achievements?: WorkAchievement[]
     displayOrder?: number
+    forcePageBreak?: boolean
 }
 
 export interface Project {
@@ -78,6 +79,7 @@ export interface Project {
     startDate?: string
     endDate?: string
     displayOrder?: number
+    forcePageBreak?: boolean
 }
 
 export interface Education {
@@ -94,6 +96,7 @@ export interface Education {
     achievements?: string
     coursework?: string
     displayOrder?: number
+    forcePageBreak?: boolean
 }
 
 export interface Certification {
@@ -107,6 +110,7 @@ export interface Certification {
     credentialId?: string
     credentialUrl?: string
     displayOrder?: number
+    forcePageBreak?: boolean
 }
 
 export interface Achievement {
@@ -118,6 +122,7 @@ export interface Achievement {
     date?: string // Added for compatibility
     description?: string
     displayOrder?: number
+    forcePageBreak?: boolean
 }
 
 export interface Publication {
@@ -139,6 +144,7 @@ export interface VolunteerExperience {
     endDate?: string
     contributions?: string
     displayOrder?: number
+    forcePageBreak?: boolean
 }
 
 export interface Language {

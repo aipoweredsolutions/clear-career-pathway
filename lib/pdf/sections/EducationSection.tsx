@@ -11,7 +11,7 @@ export const EducationSection = ({ data, styles, templateId, index }: any) => {
             {data.education.map((edu: any, i: number) => {
                 if (templateId.startsWith('ats-gold-standard')) {
                     return (
-                        <View key={i} style={styles.experienceItem} wrap={false}>
+                        <View key={i} style={styles.experienceItem} wrap={false} break={edu.forcePageBreak}>
                             <View style={styles.experienceHeader}>
                                 <Text style={[styles.jobTitle, { fontSize: 12, color: '#171717' }]}>
                                     {edu.degree}{edu.fieldOfStudy || edu.major ? `, ${edu.fieldOfStudy || edu.major}` : ''}
@@ -31,7 +31,7 @@ export const EducationSection = ({ data, styles, templateId, index }: any) => {
 
                 if (templateId.startsWith('elite-london')) {
                     return (
-                        <View key={i} style={styles.experienceItem} wrap={false}>
+                        <View key={i} style={styles.experienceItem} wrap={false} break={edu.forcePageBreak}>
                             <View style={styles.experienceHeader}>
                                 <View style={{ flex: 1 }}>
                                     <Text style={[styles.jobTitle, { fontSize: 12, textTransform: 'none' }]}>{edu.degree}</Text>
@@ -47,7 +47,7 @@ export const EducationSection = ({ data, styles, templateId, index }: any) => {
                 }
 
                 return (
-                    <View key={i} style={styles.experienceItem} wrap={false}>
+                    <View key={i} style={styles.experienceItem} wrap={false} break={edu.forcePageBreak}>
                         <View style={styles.experienceHeader}>
                             <Text style={styles.jobTitle}>{edu.degree}{edu.fieldOfStudy || edu.major ? `, ${edu.fieldOfStudy || edu.major}` : ''}</Text>
                             <Text style={styles.date}>{edu.startYear ? `${edu.startYear} — ` : ''}{edu.endYear || 'Present'}</Text>

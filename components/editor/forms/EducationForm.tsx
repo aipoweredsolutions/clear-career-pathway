@@ -4,7 +4,7 @@ import React from 'react'
 import { Education } from '@/lib/types/resume'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, MoveDown } from 'lucide-react'
 
 interface EducationFormProps {
     data: Education[]
@@ -38,12 +38,25 @@ export function EducationForm({ data, onChange }: EducationFormProps) {
         <div className="space-y-6">
             {data.map((edu, index) => (
                 <div key={edu.id || index} className="border border-neutral-200 rounded-xl p-6 bg-neutral-50 relative group">
-                    <button
-                        onClick={() => removeEducation(index)}
-                        className="absolute top-4 right-4 text-neutral-400 hover:text-danger-500 transition-colors"
-                    >
-                        <Trash2 className="w-5 h-5" />
-                    </button>
+                    <div className="absolute top-4 right-4 flex gap-2">
+                        <button
+                            onClick={() => updateEducation(index, 'forcePageBreak', !edu.forcePageBreak)}
+                            className={`p-1.5 rounded-lg border transition-all ${
+                                edu.forcePageBreak 
+                                    ? 'bg-amber-100 border-amber-200 text-amber-700 shadow-sm' 
+                                    : 'bg-white border-neutral-200 text-neutral-400 hover:text-neutral-600'
+                            }`}
+                            title={edu.forcePageBreak ? "Starts on next page" : "Start on next page"}
+                        >
+                            <MoveDown className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => removeEducation(index)}
+                            className="p-1.5 rounded-lg border border-neutral-200 bg-white text-neutral-400 hover:text-danger-500 transition-all"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </button>
+                    </div>
 
                     <div className="space-y-4">
                         <Input

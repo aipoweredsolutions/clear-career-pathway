@@ -48,7 +48,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                     <div className="flex-1">
                         <div className={cn("inline-block px-3 py-1 text-[9px] font-black uppercase tracking-[0.4em] mb-4 bg-neutral-900 text-white")}>
-                            Certified Professional // {new Date().getFullYear()}
+                            Certified Professional {" // "} {new Date().getFullYear()}
                         </div>
                         <h1 className="text-[32px] font-black tracking-[-0.04em] leading-none mb-2 uppercase text-neutral-950 whitespace-nowrap truncate">
                             {personalInfo?.fullName || 'MODERN ELITE'}
@@ -78,7 +78,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
             {data.documentType === 'cover_letter' ? (
                 <div className="max-w-2xl">
                     <div className="mb-8 space-y-1 text-[14px]">
-                        <p className="text-neutral-300 font-black uppercase tracking-widest text-[10px] mb-6 italic">Date // {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        <p className="text-neutral-300 font-black uppercase tracking-widest text-[10px] mb-6 italic">Date {" // "} {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                         {data.coverLetter?.recipientName && <p className="font-black text-neutral-950 text-[16px]">{data.coverLetter.recipientName}</p>}
                         {data.coverLetter?.recipientTitle && <p className="text-neutral-400 font-black uppercase tracking-[0.2em] text-[11px]">{data.coverLetter.recipientTitle}</p>}
                         {data.coverLetter?.companyName && <p className="font-black text-neutral-700">{data.coverLetter.companyName}</p>}
@@ -267,7 +267,7 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
             {/* Footer Terminal */}
             <footer className="mt-16 flex justify-between items-end opacity-20 group-hover:opacity-100 transition-opacity">
                 <div className="text-[9px] font-black uppercase tracking-[0.5em] text-neutral-400">
-                    Modern Elite // Revision {Math.floor(Math.random() * 1000)}
+                    Modern Elite {" // "} Revision {Math.floor(Math.random() * 1000)}
                 </div>
                 <div className={cn("h-1 w-16", bgColorClass)} />
             </footer>

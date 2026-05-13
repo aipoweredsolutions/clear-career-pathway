@@ -58,7 +58,7 @@ export const RenderSection = ({ sectionId, data, styles, templateId, index }: an
             return (
                 <Section title={getSectionTitle(templateId, 'projects', index)} styles={styles} templateId={templateId} index={index}>
                     {data.projects.map((project: any, i: number) => (
-                        <View key={i} style={styles.experienceItem} wrap={false}>
+                        <View key={i} style={styles.experienceItem} wrap={false} break={project.forcePageBreak}>
                             <View style={styles.experienceHeader}>
                                 <Text style={styles.jobTitle}>{project.projectName}</Text>
                                 <Text style={styles.date}>{project.startDate ? `${project.startDate} — ` : ''}{project.endDate || 'Present'}</Text>

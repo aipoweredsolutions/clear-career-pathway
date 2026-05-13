@@ -11,7 +11,7 @@ export const ExperienceSection = ({ data, styles, templateId, index }: any) => {
             {data.workExperience.map((exp: any, i: number) => {
                 if (templateId.startsWith('ats-gold-standard')) {
                     return (
-                        <View key={i} style={styles.experienceItem} wrap={false}>
+                        <View key={i} style={styles.experienceItem} wrap={false} break={exp.forcePageBreak}>
                             <View style={styles.experienceHeader}>
                                 <Text style={[styles.company, { fontSize: 13, color: '#171717' }]}>
                                     {exp.companyName}
@@ -34,7 +34,7 @@ export const ExperienceSection = ({ data, styles, templateId, index }: any) => {
 
                 if (templateId.startsWith('elite-london')) {
                     return (
-                        <View key={i} style={styles.experienceItem} wrap={false}>
+                        <View key={i} style={styles.experienceItem} wrap={false} break={exp.forcePageBreak}>
                             <View style={[styles.experienceHeader, { marginBottom: 4 }]}>
                                 <View style={{ flex: 1 }}>
                                     <Text style={[styles.jobTitle, { fontSize: 13, textTransform: 'none' }]}>
@@ -58,7 +58,7 @@ export const ExperienceSection = ({ data, styles, templateId, index }: any) => {
                 }
 
                 return (
-                    <View key={i} style={styles.experienceItem} wrap={false}>
+                    <View key={i} style={styles.experienceItem} wrap={false} break={exp.forcePageBreak}>
                         <View style={styles.experienceHeader}>
                             <Text style={styles.jobTitle}>{exp.jobTitle}</Text>
                             <Text style={styles.date}>{exp.startDate} — {exp.isCurrent ? 'Present' : exp.endDate}</Text>

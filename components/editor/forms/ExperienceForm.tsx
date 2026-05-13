@@ -5,7 +5,7 @@ import { WorkExperience, WorkAchievement } from '@/lib/types/resume'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
-import { Plus, Trash2, GripVertical, Sparkles, Zap, Brain } from 'lucide-react'
+import { Plus, Trash2, GripVertical, Sparkles, Zap, Brain, MoveDown, Type, List } from 'lucide-react'
 import { toast } from 'sonner'
 
 interface ExperienceFormProps {
@@ -68,12 +68,25 @@ export function ExperienceForm({ data, onChange }: ExperienceFormProps) {
         <div className="space-y-8">
             {data.map((exp, index) => (
                 <div key={exp.id || index} className="border border-neutral-200 rounded-xl p-6 bg-neutral-50 relative group">
-                    <button
-                        onClick={() => removeExperience(index)}
-                        className="absolute top-4 right-4 text-neutral-400 hover:text-danger-500 transition-colors"
-                    >
-                        <Trash2 className="w-5 h-5" />
-                    </button>
+                    <div className="absolute top-4 right-4 flex gap-2">
+                        <button
+                            onClick={() => updateExperience(index, 'forcePageBreak', !exp.forcePageBreak)}
+                            className={`p-1.5 rounded-lg border transition-all ${
+                                exp.forcePageBreak 
+                                    ? 'bg-amber-100 border-amber-200 text-amber-700 shadow-sm' 
+                                    : 'bg-white border-neutral-200 text-neutral-400 hover:text-neutral-600'
+                            }`}
+                            title={exp.forcePageBreak ? "Starts on next page" : "Start on next page"}
+                        >
+                            <MoveDown className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => removeExperience(index)}
+                            className="p-1.5 rounded-lg border border-neutral-200 bg-white text-neutral-400 hover:text-danger-500 transition-all"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </button>
+                    </div>
 
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <Input
@@ -132,31 +145,54 @@ export function ExperienceForm({ data, onChange }: ExperienceFormProps) {
                     <div className="mb-4">
                         <div className="flex justify-between items-center mb-1">
                             <label className="block text-sm font-medium text-neutral-700">Role Description</label>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                onClick={async () => {
-                                    if (!exp.roleDescription) return
-                                    const response = await fetch('/api/generate', {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({
-                                            type: 'improve_experience',
-                                            currentContent: exp.roleDescription
+                            <div className="flex gap-2">
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                        const current = exp.roleDescription || ''
+                                        const lines = current.split('\n')
+                                        const bulleted = lines.map(line => {
+                                            const trimmed = line.trim()
+                                            if (trimmed && !trimmed.startsWith('•') && !trimmed.startsWith('-')) {
+                                                return `• ${trimmed}`
+                                            }
+                                            return line
+                                        }).join('\n')
+                                        updateExperience(index, 'roleDescription', bulleted)
+                                    }}
+                                    className="text-neutral-500 h-7 text-xs"
+                                >
+                                    <List className="w-3 h-3 mr-1.5" />
+                                    Add Bullets
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={async () => {
+                                        if (!exp.roleDescription) return
+                                        const response = await fetch('/api/generate', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                type: 'improve_experience',
+                                                currentContent: exp.roleDescription
+                                            })
                                         })
-                                    })
-                                    const result = await response.json()
-                                    if (result.data?.suggestion) {
-                                        updateExperience(index, 'roleDescription', result.data.suggestion)
-                                    }
-                                }}
-                                className="text-primary-600 h-7 text-xs"
-                                disabled={!exp.roleDescription || exp.roleDescription.length < 10}
-                            >
-                                <Sparkles className="w-3 h-3 mr-1.5" />
-                                Improve with AI
-                            </Button>
+                                        const result = await response.json()
+                                        if (result.data?.suggestion) {
+                                            updateExperience(index, 'roleDescription', result.data.suggestion)
+                                        }
+                                    }}
+                                    className="text-primary-600 h-7 text-xs"
+                                    disabled={!exp.roleDescription || exp.roleDescription.length < 10}
+                                >
+                                    <Sparkles className="w-3 h-3 mr-1.5" />
+                                    Improve with AI
+                                </Button>
+                            </div>
                         </div>
                         <Textarea
                             value={exp.roleDescription || ''}
