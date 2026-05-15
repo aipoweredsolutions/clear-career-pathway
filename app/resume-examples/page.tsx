@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { SEO_TEMPLATES, INDUSTRY_DESCRIPTIONS } from '@/lib/constants/templates-seo'
 import { Briefcase, ArrowRight, Star, ShieldCheck, Zap, CheckCircle2, Tag } from 'lucide-react'
-import { LiveTemplatePreview } from '@/components/home/LiveTemplatePreview'
 
 // ── METADATA ────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
@@ -219,48 +218,56 @@ export default function ResumeExamplesPage() {
                                     )}
                                 </div>
 
-                                {/* Template Cards */}
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                                {/* Template List */}
+                                <div className="flex flex-col gap-3">
                                     {templates.map(template => (
                                         <Link
                                             key={template.slug}
                                             href={`/templates/${template.slug}`}
-                                            className="group bg-white p-3 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:border-primary-200 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                                            className="group bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-md hover:border-primary-200 transition-all duration-300 flex flex-col md:flex-row md:items-center gap-4 md:gap-6 relative overflow-hidden"
                                             aria-label={`View ${template.title}`}
                                         >
-                                            {/* Preview thumbnail */}
-                                            <div className="aspect-[3/4] bg-white rounded-xl mb-3 overflow-hidden relative border border-neutral-100 group-hover:border-primary-300 transition-all shadow-sm">
-                                                <LiveTemplatePreview
-                                                    templateId={template.templateId}
-                                                    sampleDataKey={template.sampleDataKey}
-                                                    title={template.title}
-                                                />
-                                                <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/5 transition-colors" />
-                                                <div className="absolute inset-0 flex items-center justify-center">
-                                                    <div className="bg-white/95 backdrop-blur-md text-primary-600 font-black text-[8px] uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all border border-primary-100">
-                                                        View Example
-                                                    </div>
+                                            {/* Left: Title & Description */}
+                                            <div className="flex-1 min-w-0 z-10">
+                                                <div className="flex flex-wrap items-center gap-3 mb-1.5">
+                                                    <h3 className="text-[17px] font-black text-neutral-950 tracking-tight group-hover:text-primary-600 transition-colors">
+                                                        {template.title.replace('ATS Resume Template for ', '').replace(' Resume Example', ' Resume')}
+                                                    </h3>
+                                                    <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest border border-emerald-100">
+                                                        <ShieldCheck className="w-3 h-3" /> ATS {template.atsScore}%
+                                                    </span>
+                                                    <span className="inline-flex items-center gap-1 bg-neutral-50 text-neutral-500 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest border border-neutral-200">
+                                                        {template.name}
+                                                    </span>
                                                 </div>
+                                                <p className="text-[13px] font-medium text-neutral-500 line-clamp-1">
+                                                    {template.description}
+                                                </p>
                                             </div>
 
-                                            {/* Card info */}
-                                            <div className="flex-1">
-                                                <h3 className="text-[11px] font-black text-neutral-950 tracking-tight leading-tight group-hover:text-primary-600 transition-colors line-clamp-2 mb-1">
-                                                    {template.title.replace('ATS Resume Template for ', '').replace(' Resume Example', ' Resume')}
-                                                </h3>
-                                                <div className="text-[8px] text-neutral-400 font-black uppercase tracking-widest mb-2">
-                                                    {template.name}
-                                                </div>
-                                                {/* Top 3 keywords as chips */}
-                                                <div className="flex flex-wrap gap-1">
-                                                    {template.keySkills.slice(0, 2).map(skill => (
-                                                        <span key={skill} className="inline-flex items-center gap-0.5 text-[8px] font-bold text-neutral-400 bg-neutral-50 border border-neutral-100 px-1.5 py-0.5 rounded-full">
-                                                            <Tag className="w-1.5 h-1.5" />
+                                            {/* Middle: Key Skills */}
+                                            <div className="flex items-center gap-2 shrink-0 md:w-[35%] lg:w-[40%] z-10">
+                                                <div className="flex flex-wrap gap-1.5 w-full">
+                                                    {template.keySkills.slice(0, 4).map(skill => (
+                                                        <span key={skill} className="whitespace-nowrap inline-flex items-center text-[10px] font-bold text-neutral-600 bg-neutral-50 border border-neutral-200 px-2 py-1 rounded-md transition-colors group-hover:bg-white group-hover:border-primary-100">
                                                             {skill}
                                                         </span>
                                                     ))}
+                                                    {template.keySkills.length > 4 && (
+                                                        <span className="whitespace-nowrap inline-flex items-center text-[10px] font-bold text-neutral-400 px-1 py-1">
+                                                            +{template.keySkills.length - 4} more
+                                                        </span>
+                                                    )}
                                                 </div>
                                             </div>
+
+                                            {/* Right: Arrow */}
+                                            <div className="hidden md:flex items-center justify-end shrink-0 w-8 text-neutral-300 group-hover:text-primary-600 transition-colors transform group-hover:translate-x-1 z-10">
+                                                <ArrowRight className="w-5 h-5" />
+                                            </div>
+
+                                            {/* Background hover effect */}
+                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-primary-50/30 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                                         </Link>
                                     ))}
                                 </div>

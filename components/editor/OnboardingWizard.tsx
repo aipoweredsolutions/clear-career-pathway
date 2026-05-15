@@ -25,7 +25,7 @@ import { completeOnboarding } from '@/app/editor/actions'
 
 interface OnboardingWizardProps {
     isOpen: boolean
-    onClose: (data?: Partial<ResumeDocument>) => void
+    onClose: (data?: Partial<ResumeDocument>, source?: 'upload' | 'scratch' | null) => void
 }
 
 const steps = [
@@ -65,7 +65,7 @@ export function OnboardingWizard({ isOpen, onClose }: OnboardingWizardProps) {
             onClose({
                 personalInfo: { professionalTitle: role } as any,
                 // We could pass more data here to pre-populate
-            })
+            }, source)
         } catch (error) {
             console.error('Failed to complete onboarding', error)
         } finally {

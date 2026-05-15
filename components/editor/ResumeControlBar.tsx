@@ -129,7 +129,7 @@ export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, on
                     </div>
                 </div>
 
-                {/* Theme Colors */}
+                {/* Theme Colors (Legacy) */}
                 {templateColors.length > 0 && (
                     <div className="flex items-center gap-2 pl-4 border-l border-neutral-200">
                         <Palette className="w-4 h-4 text-neutral-400" />
@@ -156,6 +156,39 @@ export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, on
                         </div>
                     </div>
                 )}
+
+                {/* Accent Colors (Global Override) */}
+                <div className="flex items-center gap-2 pl-4 border-l border-neutral-200">
+                    <span className="text-xs font-medium text-neutral-500">Accent:</span>
+                    <div className="flex bg-neutral-100 rounded-full p-1 gap-1.5 items-center">
+                        {[
+                            { id: 'text-neutral-900', hex: '#171717', name: 'Classic Onyx' },
+                            { id: 'text-blue-900', hex: '#1e3a8a', name: 'Royal Navy' },
+                            { id: 'text-blue-700', hex: '#1d4ed8', name: 'Regent Blue' },
+                            { id: 'text-slate-700', hex: '#334155', name: 'Slate Reserve' },
+                            { id: 'text-emerald-800', hex: '#064e3b', name: 'Forest Deep' },
+                            { id: 'text-teal-700', hex: '#0f766e', name: 'Teal Authority' },
+                            { id: 'text-rose-800', hex: '#9f1239', name: 'Burgundy Heritage' },
+                            { id: 'text-amber-700', hex: '#b45309', name: 'Bronze Executive' }
+                        ].map((color) => {
+                            const isSelected = data.formatting?.accentColor === color.id
+                            return (
+                                <button
+                                    key={color.id}
+                                    onClick={() => updateFormatting('accentColor', color.id)}
+                                    className={cn(
+                                        "w-4 h-4 rounded-full border-2 transition-all cursor-pointer",
+                                        isSelected
+                                            ? "border-primary-500 scale-125 shadow-sm ring-2 ring-primary-100 ring-offset-1"
+                                            : "border-transparent hover:scale-110"
+                                    )}
+                                    style={{ backgroundColor: color.hex }}
+                                    title={color.name}
+                                />
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
 
             {/* Right Side Controls */}

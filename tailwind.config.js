@@ -162,7 +162,13 @@ module.exports = {
                 return null;
             }
         })(),
+        (() => {
+            try {
+                return require('@tailwindcss/typography');
+            } catch (e) {
+                console.warn('@tailwindcss/typography not found.');
+                return null;
+            }
+        })(),
     ].filter(Boolean),
-
-
 }

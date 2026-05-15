@@ -4,7 +4,7 @@ import React from 'react'
 import { CustomSection, CustomSectionItem } from '@/lib/types/resume'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
-import { Plus, Trash2, GripVertical, FileText, List } from 'lucide-react'
+import { Plus, Trash2, GripVertical, FileText, List, MoveDown } from 'lucide-react'
 import { Textarea } from '@/components/ui/Textarea'
 
 interface CustomSectionsFormProps {
@@ -74,12 +74,25 @@ export function CustomSectionsForm({ data = [], onChange }: CustomSectionsFormPr
 
             {data.map((section, sIndex) => (
                 <div key={section.id || sIndex} className="border border-neutral-200 rounded-2xl p-6 bg-white shadow-sm relative group">
-                    <button
-                        onClick={() => removeSection(sIndex)}
-                        className="absolute top-4 right-4 text-neutral-400 hover:text-danger-500 transition-colors bg-neutral-50 p-1.5 rounded-lg"
-                    >
-                        <Trash2 className="w-5 h-5" />
-                    </button>
+                    <div className="absolute top-4 right-4 flex gap-2">
+                        <button
+                            onClick={() => updateSection(sIndex, 'forcePageBreak', !section.forcePageBreak)}
+                            className={`p-1.5 rounded-lg border transition-all ${
+                                section.forcePageBreak 
+                                    ? 'bg-amber-100 border-amber-200 text-amber-700 shadow-sm' 
+                                    : 'bg-neutral-50 border-neutral-200 text-neutral-400 hover:text-neutral-600'
+                            }`}
+                            title={section.forcePageBreak ? "Starts on next page" : "Start on next page"}
+                        >
+                            <MoveDown className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => removeSection(sIndex)}
+                            className="text-neutral-400 hover:text-danger-500 transition-colors bg-neutral-50 p-1.5 rounded-lg border border-neutral-200"
+                        >
+                            <Trash2 className="w-5 h-5" />
+                        </button>
+                    </div>
 
                     <div className="space-y-6">
                         <Input

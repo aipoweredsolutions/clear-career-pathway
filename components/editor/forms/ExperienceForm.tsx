@@ -109,6 +109,8 @@ export function ExperienceForm({ data, onChange }: ExperienceFormProps) {
                             type="date"
                             value={exp.startDate}
                             onChange={(e) => updateExperience(index, 'startDate', e.target.value)}
+                            min="1950-01-01"
+                            max="2050-12-31"
                         />
                         <div className="flex flex-col">
                             <label className="block text-sm font-medium text-neutral-700 mb-1">End Date</label>
@@ -119,6 +121,8 @@ export function ExperienceForm({ data, onChange }: ExperienceFormProps) {
                                     onChange={(e) => updateExperience(index, 'endDate', e.target.value)}
                                     disabled={exp.isCurrent}
                                     className="flex-1"
+                                    min="1950-01-01"
+                                    max="2050-12-31"
                                 />
                                 <label className="flex items-center gap-2 text-sm text-neutral-600">
                                     <input

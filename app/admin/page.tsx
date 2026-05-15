@@ -8,7 +8,8 @@ import {
     ArrowDownRight,
     Activity,
     Clock,
-    CheckCircle2
+    CheckCircle2,
+    Shield
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 

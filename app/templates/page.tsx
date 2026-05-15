@@ -149,14 +149,14 @@ export default function TemplatesGalleryPage() {
                                     className="group relative"
                                 >
                                     {/* Glass Card Container */}
-                                    <div className="relative rounded-[2.5rem] bg-white border border-neutral-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-700 group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] group-hover:-translate-y-3 flex flex-col h-full">
+                                    <div className="relative rounded-[2.5rem] bg-white border border-neutral-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-700 group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] group-hover:-translate-y-5 flex flex-col h-full">
                                         
                                         {/* Template Preview with Hover Logic */}
                                         <div className="aspect-[210/297] relative bg-neutral-100 overflow-hidden cursor-pointer" onClick={() => window.location.href = `/editor/setup?template=${template.id}&color=${activeColor}`}>
                                             <TemplateThumbnail 
                                                 template={template}
                                                 activeColorId={activeColor}
-                                                className="w-full h-full object-cover origin-top transition-transform duration-1000 group-hover:scale-105"
+                                                className="w-full h-full object-cover origin-top transition-transform duration-700 group-hover:scale-110"
                                             />
                                             
                                             {/* Top Accents */}
@@ -174,10 +174,10 @@ export default function TemplatesGalleryPage() {
                                             </div>
 
                                             {/* Hover Overlay */}
-                                            <div className="absolute inset-0 bg-neutral-950/0 group-hover:bg-neutral-950/40 transition-all duration-500 flex items-center justify-center backdrop-blur-0 group-hover:backdrop-blur-sm opacity-0 group-hover:opacity-100">
+                                            <div className="absolute inset-0 transition-all duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
                                                 <Link 
                                                     href={`/editor/setup?template=${template.id}&color=${activeColor}`}
-                                                    className="px-10 py-5 bg-white text-neutral-950 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-110 active:scale-95 transition-all flex items-center gap-2"
+                                                    className="px-10 py-5 bg-white text-neutral-950 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-[0_20px_50px_rgba(0,0,0,0.25)] border border-neutral-200 hover:scale-110 active:scale-95 transition-all flex items-center gap-2 pointer-events-auto"
                                                 >
                                                     Build With This
                                                     <ArrowRight className="w-4 h-4" />

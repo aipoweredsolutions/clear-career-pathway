@@ -82,12 +82,16 @@ export function ProjectsForm({ data = [], onChange }: ProjectsFormProps) {
                             type="month"
                             value={project.startDate || ''}
                             onChange={(e) => updateProject(index, 'startDate', e.target.value)}
+                            min="1950-01"
+                            max="2050-12"
                         />
                         <Input
                             label="End Date"
                             type="month"
                             value={project.endDate || ''}
                             onChange={(e) => updateProject(index, 'endDate', e.target.value)}
+                            min="1950-01"
+                            max="2050-12"
                         />
                     </div>
 

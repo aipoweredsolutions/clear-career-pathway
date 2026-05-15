@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 
 interface TemplatePreviewProps {
     templateId: string
-    sampleDataKey?: string  // kept for API compatibility but overridden by getSampleDataForTemplate
+    sampleDataKey?: string
     scale?: number
     className?: string
 }
@@ -17,14 +17,14 @@ interface TemplatePreviewProps {
 export const TemplatePreview: React.FC<TemplatePreviewProps> = ({
     templateId,
     sampleDataKey,
-    scale = 0.35, // Increased default scale
+    scale = 0.35,
     className
 }) => {
     // A4 aspect ratio base dimensions (800 × 1131 ≈ A4 at 96dpi)
     const baseWidth  = 800
     const baseHeight = 1131
 
-    const data = getSampleDataForTemplate(templateId)
+    const data = getSampleDataForTemplate(templateId, sampleDataKey)
 
     return (
         <div
@@ -42,9 +42,6 @@ export const TemplatePreview: React.FC<TemplatePreviewProps> = ({
                     width:     `${baseWidth}px`,
                     height:    `${baseHeight}px`,
                     transform: `scale(${scale})`,
-                    // Center the scaled preview if it's smaller than the container
-                    // Actually, for a gallery we want it to cover. 
-                    // But TemplateRenderer is fixed size.
                 }}
             >
                 <TemplateRenderer

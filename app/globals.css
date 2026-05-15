@@ -196,8 +196,15 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+  }
+
+  /* Force Page Break with visual spacing */
+  .force-page-break {
+    break-before: page;
+    padding-top: 4.5rem; /* Equivalent to approximately 3 lines of space */
   }
 }

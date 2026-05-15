@@ -17,11 +17,12 @@ interface ResumeUploadModalProps {
     isOpen: boolean
     onClose: () => void
     initialRawText?: string
+    onImport?: (data: any) => void
 }
 
 type Step = 'upload' | 'review_text' | 'review_structured'
 
-export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUploadModalProps) {
+export function ResumeUploadModal({ isOpen, onClose, initialRawText, onImport }: ResumeUploadModalProps) {
     const [step, setStep] = useState<Step>('upload')
     const [file, setFile] = useState<File | null>(null)
     const [isUploading, setIsUploading] = useState(false)
@@ -30,6 +31,8 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUpl
     const [isParsing, setIsParsing] = useState(false)
     const [isSaving, setIsSaving] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(0)
+    const [importMethod, setImportMethod] = useState<'upload' | 'linkedin'>('upload')
+    const [linkedinUrl, setLinkedinUrl] = useState('')
 
     const router = useRouter()
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -97,6 +100,70 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUpl
         }
     }
 
+    const handleLinkedinImport = async () => {
+        if (!linkedinUrl || !linkedinUrl.includes('linkedin.com/in/')) {
+            toast.error('Please enter a valid LinkedIn profile URL (e.g. https://www.linkedin.com/in/username)')
+            return
+        }
+        
+        setIsUploading(true)
+        setUploadProgress(10)
+
+        try {
+            setUploadProgress(40)
+            const response = await fetch('/api/import/linkedin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: linkedinUrl })
+            })
+
+            const result = await response.json()
+            setUploadProgress(80)
+
+            if (result.success) {
+                setRawText(result.data.rawText)
+                setStep('review_text')
+                setUploadProgress(100)
+                toast.success('LinkedIn profile imported successfully!')
+            } else {
+                toast.error(result.error || 'Failed to import LinkedIn profile')
+            }
+        } catch (error) {
+            console.error('LinkedIn import error:', error)
+            toast.error('An error occurred during LinkedIn import')
+        } finally {
+            setIsUploading(false)
+            setUploadProgress(0)
+        }
+    }
+
+    const transformAIResponse = (data: any) => {
+        if (!data) return data;
+
+        const transformed = { ...data };
+
+        // 1. Transform Work Experience achievements from strings to objects
+        if (transformed.workExperience && Array.isArray(transformed.workExperience)) {
+            transformed.workExperience = transformed.workExperience.map((exp: any) => ({
+                ...exp,
+                achievements: Array.isArray(exp.achievements) 
+                    ? exp.achievements.map((ach: any) => 
+                        typeof ach === 'string' ? { achievementText: ach } : ach
+                    )
+                    : []
+            }));
+        }
+
+        // 2. Transform Skills from strings to objects
+        if (transformed.skills && Array.isArray(transformed.skills)) {
+            transformed.skills = transformed.skills.map((s: any) => 
+                typeof s === 'string' ? { skillName: s, skillType: 'professional' } : s
+            );
+        }
+
+        return transformed;
+    };
+
     const handleConvertToSections = async () => {
         setIsParsing(true)
         try {
@@ -111,7 +178,8 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUpl
 
             const result = await response.json()
             if (result.data) {
-                setStructuredData(result.data)
+                const normalizedData = transformAIResponse(result.data);
+                setStructuredData(normalizedData)
                 setStep('review_structured')
                 toast.success('AI has structured your resume!')
             } else {
@@ -128,6 +196,14 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUpl
     const handleSaveAndOpen = async () => {
         setIsSaving(true)
         try {
+            if (onImport) {
+                // If onImport is provided, we just pass the structured data back
+                // instead of creating a new document in the database.
+                onImport(structuredData)
+                onClose()
+                return
+            }
+
             const supabase = createBrowserClient(
                 process.env.NEXT_PUBLIC_SUPABASE_URL!,
                 process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -141,7 +217,7 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUpl
                     id: 'new',
                     documentType: 'resume',
                     title: 'Imported Resume',
-                    templateId: 'classic'
+                    templateId: 'ats-professional'
                 }
                 localStorage.setItem('guest_resume_data', JSON.stringify(guestData))
                 toast.success('Resume parsed successfully!')
@@ -174,56 +250,122 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUpl
 
     const renderUploadStep = () => (
         <div className="flex flex-col items-center justify-center py-12">
-            <div
-                className={`w-full max-w-md p-10 border-2 border-dashed rounded-3xl transition-all flex flex-col items-center text-center cursor-pointer
-                    ${file ? 'border-primary-500 bg-primary-50' : 'border-neutral-200 hover:border-primary-400 hover:bg-neutral-50'}`}
-                onClick={() => fileInputRef.current?.click()}
-            >
-                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg
-                    ${file ? 'bg-primary-600 text-white' : 'bg-neutral-100 text-neutral-400'}`}>
-                    {isUploading ? <Loader2 className="w-10 h-10 animate-spin" /> : <Upload className="w-10 h-10" />}
-                </div>
-                <h4 className="text-xl font-bold text-neutral-900 mb-2">
-                    {file ? file.name : 'Upload Your Resume'}
-                </h4>
-                <p className="text-neutral-500 text-sm mb-6">
-                    Support PDF and DOCX formats (Max 10MB)
-                </p>
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    className="hidden"
-                    accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                />
+            <div className="flex bg-neutral-100 p-1 rounded-2xl mb-8 w-full max-w-md">
+                <button
+                    onClick={() => setImportMethod('upload')}
+                    className={`flex-1 px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${importMethod === 'upload' ? 'bg-white shadow-sm text-neutral-900' : 'text-neutral-500 hover:text-neutral-700'}`}
+                >
+                    Upload Document
+                </button>
+                <button
+                    onClick={() => setImportMethod('linkedin')}
+                    className={`flex-1 px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${importMethod === 'linkedin' ? 'bg-[#0A66C2] shadow-sm text-white' : 'text-neutral-500 hover:text-neutral-700'}`}
+                >
+                    <Linkedin className="w-4 h-4" />
+                    LinkedIn Import
+                </button>
+            </div>
 
-                {isUploading && (
-                    <div className="w-full bg-neutral-100 rounded-full h-2 mt-4 overflow-hidden">
-                        <div
-                            className="bg-primary-600 h-full transition-all duration-300"
-                            style={{ width: `${uploadProgress}%` }}
-                        />
+            {importMethod === 'upload' ? (
+                <div
+                    className={`w-full max-w-md p-10 border-2 border-dashed rounded-3xl transition-all flex flex-col items-center text-center cursor-pointer
+                        ${file ? 'border-primary-500 bg-primary-50' : 'border-neutral-200 hover:border-primary-400 hover:bg-neutral-50'}`}
+                    onClick={() => fileInputRef.current?.click()}
+                >
+                    <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg
+                        ${file ? 'bg-primary-600 text-white' : 'bg-neutral-100 text-neutral-400'}`}>
+                        {isUploading ? <Loader2 className="w-10 h-10 animate-spin" /> : <Upload className="w-10 h-10" />}
                     </div>
-                )}
-            </div>
-
-            <div className="mt-8 flex items-center gap-4 text-sm text-neutral-400 font-medium">
-                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-500" /> PDF Support</span>
-                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-500" /> DOCX Support</span>
-                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-500" /> AI Parsing</span>
-            </div>
-
-            <div className="mt-12 bg-blue-50 border border-blue-100 p-6 rounded-3xl flex items-start gap-4 max-w-md">
-                <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0 text-white shadow-lg shadow-blue-200">
-                    <Linkedin className="w-5 h-5" />
-                </div>
-                <div>
-                    <p className="text-sm font-black text-blue-900 mb-1">Pro Tip: Import from LinkedIn</p>
-                    <p className="text-xs text-blue-700 font-medium leading-relaxed">
-                        Download your LinkedIn profile as a PDF and upload it here. Our AI will perfectly structure your entire profile into a premium resume.
+                    <h4 className="text-xl font-bold text-neutral-900 mb-2">
+                        {file ? file.name : 'Upload Your Resume'}
+                    </h4>
+                    <p className="text-neutral-500 text-sm mb-6">
+                        Support PDF and DOCX formats (Max 10MB)
                     </p>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        className="hidden"
+                        accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    />
+
+                    {isUploading && (
+                        <div className="w-full bg-neutral-100 rounded-full h-2 mt-4 overflow-hidden">
+                            <div
+                                className="bg-primary-600 h-full transition-all duration-300"
+                                style={{ width: `${uploadProgress}%` }}
+                            />
+                        </div>
+                    )}
                 </div>
-            </div>
+            ) : (
+                <div className="w-full max-w-md p-8 border border-neutral-200 bg-white rounded-3xl shadow-sm flex flex-col items-center">
+                    <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                        <Linkedin className="w-8 h-8" />
+                    </div>
+                    <h4 className="text-xl font-bold text-neutral-900 mb-2">
+                        Import from LinkedIn
+                    </h4>
+                    <p className="text-neutral-500 text-sm text-center mb-6">
+                        Paste your public LinkedIn profile URL and our AI will structure it into a professional resume.
+                    </p>
+                    
+                    <div className="w-full space-y-4">
+                        <Input 
+                            placeholder="https://www.linkedin.com/in/username" 
+                            value={linkedinUrl}
+                            onChange={(e) => setLinkedinUrl(e.target.value)}
+                            disabled={isUploading}
+                        />
+                        <Button 
+                            className="w-full bg-[#0A66C2] hover:bg-[#004182] text-white font-bold h-12"
+                            onClick={handleLinkedinImport}
+                            disabled={isUploading || !linkedinUrl}
+                        >
+                            {isUploading ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                                    Importing Profile...
+                                </>
+                            ) : (
+                                'Import Profile'
+                            )}
+                        </Button>
+                    </div>
+
+                    {isUploading && (
+                        <div className="w-full bg-neutral-100 rounded-full h-2 mt-6 overflow-hidden">
+                            <div
+                                className="bg-[#0A66C2] h-full transition-all duration-300"
+                                style={{ width: `${uploadProgress}%` }}
+                            />
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {importMethod === 'upload' && (
+                <>
+                    <div className="mt-8 flex items-center gap-4 text-sm text-neutral-400 font-medium">
+                        <span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-500" /> PDF Support</span>
+                        <span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-500" /> DOCX Support</span>
+                        <span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-500" /> AI Parsing</span>
+                    </div>
+
+                    <div className="mt-12 bg-blue-50 border border-blue-100 p-6 rounded-3xl flex items-start gap-4 max-w-md">
+                        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0 text-white shadow-lg shadow-blue-200">
+                            <Linkedin className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-black text-blue-900 mb-1">Pro Tip: Import from LinkedIn</p>
+                            <p className="text-xs text-blue-700 font-medium leading-relaxed">
+                                Don't have a resume ready? Switch to the LinkedIn tab above to instantly generate a resume directly from your profile.
+                            </p>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     )
 
@@ -394,13 +536,13 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUpl
                                 {exp.achievements && exp.achievements.length > 0 && (
                                     <div className="space-y-2">
                                         <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Achievements</p>
-                                        {exp.achievements.map((ach: string, aIdx: number) => (
+                                        {exp.achievements.map((ach: any, aIdx: number) => (
                                             <Input
                                                 key={aIdx}
-                                                value={ach}
+                                                value={ach.achievementText || ''}
                                                 onChange={(e) => {
                                                     const newWork = [...structuredData.workExperience]
-                                                    newWork[idx].achievements[aIdx] = e.target.value
+                                                    newWork[idx].achievements[aIdx].achievementText = e.target.value
                                                     setStructuredData({ ...structuredData, workExperience: newWork })
                                                 }}
                                                 className="bg-white"
@@ -454,8 +596,13 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText }: ResumeUpl
                     <Textarea
                         label="Top Skills (comma separated)"
                         rows={6}
-                        value={Array.isArray(structuredData?.skills) ? structuredData.skills.join(', ') : (structuredData?.skills || '')}
-                        onChange={(e) => setStructuredData({ ...structuredData, skills: e.target.value.split(',').map((s: string) => s.trim()) })}
+                        value={Array.isArray(structuredData?.skills) 
+                            ? structuredData.skills.map((s: any) => typeof s === 'string' ? s : s.skillName).join(', ') 
+                            : (structuredData?.skills || '')}
+                        onChange={(e) => setStructuredData({ 
+                            ...structuredData, 
+                            skills: e.target.value.split(',').map((s: string) => ({ skillName: s.trim(), skillType: 'professional' })) 
+                        })}
                     />
                 </Card>
 

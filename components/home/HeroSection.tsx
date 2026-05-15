@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { ArrowRight, Zap, Users, Star, TrendingUp, CheckCircle2, Sparkles } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Sparkles, TrendingUp, Shield, FileText, Zap } from 'lucide-react'
 import { HeroTemplateSlideshow } from './HeroTemplateSlideshow'
 
 export function HeroSection() {
@@ -9,14 +9,16 @@ export function HeroSection() {
 
             {/* ── LAYERED BACKGROUND ── */}
             <div className="absolute inset-0 pointer-events-none">
-                {/* Mesh gradient */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(59,130,246,0.25),transparent)]" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_50%_at_80%_60%,rgba(14,165,233,0.12),transparent)]" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_35%_45%_at_20%_70%,rgba(16,185,129,0.1),transparent)]" />
-                {/* Subtle grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px]" />
-                {/* Vignette */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_100%_at_50%_50%,transparent_40%,rgba(0,0,0,0.6)_100%)]" />
+                {/* Deep solid color wash — no gradients, just layered solids */}
+                <div className="absolute top-0 left-0 w-full h-[60%] bg-neutral-950" />
+                <div className="absolute bottom-0 left-0 w-full h-[50%] bg-[#0a0f1a]" />
+                {/* Subtle grid overlay for texture */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
+                {/* Solid accent glow — emerald */}
+                <div className="absolute top-[-200px] right-[-100px] w-[600px] h-[600px] rounded-full bg-emerald-500/[0.07] blur-[120px]" />
+                <div className="absolute bottom-[-150px] left-[-100px] w-[500px] h-[500px] rounded-full bg-primary-500/[0.05] blur-[100px]" />
+                {/* Top edge line */}
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/[0.04]" />
             </div>
 
             {/* ── MAIN CONTENT ── */}
@@ -26,46 +28,34 @@ export function HeroSection() {
                     {/* ── LEFT COLUMN ── */}
                     <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-center py-16 lg:py-20">
 
-                        {/* Social proof pill */}
-                        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-white/70 mb-8 w-max backdrop-blur-sm">
-                            <div className="flex -space-x-1.5">
-                                {['bg-blue-400', 'bg-sky-400', 'bg-emerald-400', 'bg-amber-400'].map((c, i) => (
-                                    <div key={i} className={`w-5 h-5 rounded-full border-2 border-neutral-950 ${c}`} />
-                                ))}
-                            </div>
-                            <span className="text-white/90">Trusted by professionals globally</span>
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        {/* Status badge */}
+                        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-400 mb-8 w-max">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                            <span>Trusted by 50,000+ professionals</span>
                         </div>
 
-                        {/* Headline */}
-                        <h1 className="text-[3.25rem] sm:text-[4rem] lg:text-[4.5rem] xl:text-[5rem] font-black leading-[0.92] tracking-[-0.03em] text-white mb-6">
-                            Your Resume.
-                            <br />
-                            <span
-                                className="bg-clip-text text-transparent"
-                                style={{ backgroundImage: 'linear-gradient(135deg, #3b82f6 0%, #0ea5e9 50%, #10b981 100%)' }}
-                            >
-                                Their First Call.
-                            </span>
-                            <br />
-                            <span className="text-white/40">In Minutes.</span>
+                        {/* ── HEADLINE — Solid, no gradients ── */}
+                        <h1 className="text-[3.25rem] sm:text-[4rem] lg:text-[4.5rem] xl:text-[5.5rem] font-black leading-[0.92] tracking-[-0.03em] mb-7">
+                            <span className="text-white block">Built to Get</span>
+                            <span className="text-white block">You <span className="text-emerald-400">Hired.</span></span>
                         </h1>
 
-                        <p className="text-lg text-white/50 mb-10 leading-relaxed max-w-lg font-medium">
-                            ATS-optimised templates, AI-powered bullet points, and real-time score feedback—
-                            everything you need to land interviews at the companies you actually want.
+                        {/* Subheadline — sharp and direct */}
+                        <p className="text-lg sm:text-xl text-neutral-400 mb-10 leading-relaxed max-w-lg font-medium">
+                            Stop getting filtered out. Our ATS-optimised resumes, AI bullet writer, and real-time
+                            scoring engine are built for one thing — <span className="text-white font-semibold">landing you the interview.</span>
                         </p>
 
                         {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-3 mb-12">
+                        <div className="flex flex-col sm:flex-row gap-3 mb-14">
                             <Link
                                 href="/editor/setup?template=ats-classic"
-                                className="group relative inline-flex items-center justify-center gap-3 px-7 py-4 font-bold text-neutral-950 bg-white rounded-xl overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_60px_rgba(255,255,255,0.25)] transition-all duration-300 hover:-translate-y-0.5"
+                                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4.5 font-bold text-neutral-950 bg-emerald-400 rounded-xl overflow-hidden shadow-[0_0_40px_rgba(52,211,153,0.2)] hover:shadow-[0_0_60px_rgba(52,211,153,0.35)] transition-all duration-300 hover:-translate-y-0.5"
                                 prefetch={true}
                             >
-                                <span className="text-[15px] relative z-10">Build My Resume — Free</span>
+                                <span className="text-[15px] font-extrabold relative z-10">Start Building — It&apos;s Free</span>
                                 <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-blue-100 via-white to-sky-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute inset-0 bg-emerald-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             </Link>
                             <Link
                                 href="/templates"
@@ -75,16 +65,21 @@ export function HeroSection() {
                             </Link>
                         </div>
 
-                        {/* Trust signals row */}
-                        <div className="flex flex-wrap items-center gap-5">
+                        {/* Stat row — solid numbers, no fluff */}
+                        <div className="flex items-center gap-6 sm:gap-8 flex-wrap">
                             {[
-                                { icon: CheckCircle2, color: 'text-emerald-400', label: '100% ATS Compliant' },
-                                { icon: Sparkles, color: 'text-blue-400', label: 'AI Bullet Writer' },
-                                { icon: TrendingUp, color: 'text-sky-400', label: 'Real-time Scoring' },
-                            ].map(({ icon: Icon, color, label }) => (
-                                <div key={label} className="flex items-center gap-2">
-                                    <Icon className={`w-4 h-4 ${color} shrink-0`} />
-                                    <span className="text-sm text-white/50 font-medium">{label}</span>
+                                { value: '99%', label: 'ATS Pass Rate', icon: Shield, color: 'text-emerald-400' },
+                                { value: '3 min', label: 'Avg. Build Time', icon: Zap, color: 'text-primary-400' },
+                                { value: '25+', label: 'Elite Templates', icon: FileText, color: 'text-amber-400' },
+                            ].map(({ value, label, icon: Icon, color }) => (
+                                <div key={label} className="flex items-center gap-3">
+                                    <div className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                                        <Icon className={`w-4 h-4 ${color} shrink-0`} />
+                                    </div>
+                                    <div>
+                                        <span className={`text-lg font-black ${color} block leading-tight`}>{value}</span>
+                                        <span className="text-[11px] text-neutral-500 font-semibold uppercase tracking-wider">{label}</span>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -92,35 +87,38 @@ export function HeroSection() {
 
                     {/* ── RIGHT COLUMN — Template Slideshow ── */}
                     <div className="lg:col-span-6 xl:col-span-5 relative hidden lg:flex items-center justify-center">
-                        {/* Glow behind slideshow */}
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_50%,rgba(59,130,246,0.2),transparent)] blur-2xl" />
+                        {/* Solid glow behind slideshow */}
+                        <div className="absolute inset-0 bg-emerald-500/[0.08] blur-[80px] rounded-full pointer-events-none" />
                         <HeroTemplateSlideshow />
 
                         {/* Floating card — ATS Score */}
-                        <div className="absolute -right-6 top-[42%] z-40 px-4 py-3 bg-neutral-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl animate-float" style={{ animationDelay: '2s' }}>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-blue-400 mb-1.5">ATS Score</p>
+                        <div className="absolute -right-6 top-[42%] z-40 px-4 py-3 bg-neutral-900/95 border border-emerald-500/20 rounded-2xl shadow-2xl backdrop-blur-xl animate-float" style={{ animationDelay: '2s' }}>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-1.5">ATS Score</p>
                             <div className="flex items-end gap-2">
                                 <span className="text-[28px] font-black text-white leading-none">99</span>
                                 <span className="text-sm font-bold text-white/30 mb-0.5">/100</span>
                             </div>
                             <div className="mt-2 h-1.5 w-28 bg-white/10 rounded-full overflow-hidden">
-                                <div className="h-full w-[99%] rounded-full bg-gradient-to-r from-blue-500 to-emerald-400" />
+                                <div className="h-full w-[99%] rounded-full bg-emerald-400" />
                             </div>
                         </div>
 
                         {/* Floating card — AI generating */}
-                        <div className="absolute -left-6 bottom-[18%] z-40 flex items-center gap-3 px-4 py-3 bg-neutral-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl animate-float" style={{ animationDelay: '4s' }}>
-                            <div className="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center shrink-0">
-                                <Sparkles className="w-4 h-4 text-blue-400" />
+                        <div className="absolute -left-6 bottom-[18%] z-40 flex items-center gap-3 px-4 py-3 bg-neutral-900/95 border border-primary-500/20 rounded-2xl shadow-2xl backdrop-blur-xl animate-float" style={{ animationDelay: '4s' }}>
+                            <div className="w-9 h-9 rounded-xl bg-primary-500/20 border border-primary-500/30 flex items-center justify-center shrink-0">
+                                <Sparkles className="w-4 h-4 text-primary-400" />
                             </div>
                             <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-blue-400">AI Writing</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-primary-400">AI Writing</p>
                                 <p className="text-[13px] font-bold text-white">Optimising bullets…</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* ── BOTTOM EDGE — solid divider ── */}
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/[0.06]" />
         </section>
     )
 }

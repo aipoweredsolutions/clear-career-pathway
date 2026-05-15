@@ -26,7 +26,9 @@ export function ATSGridlineTemplate({ data, className, accentColor = 'text-blue-
         skills,
         projects,
         certifications,
-        achievements
+        achievements,
+        customSections,
+        references
     } = data
 
     // Handle full tailwind text-color classes
@@ -332,6 +334,46 @@ export function ATSGridlineTemplate({ data, className, accentColor = 'text-blue-
                             </div>
                         </SectionBlock>
                     ): null}
+                    
+                    {/* Custom Sections */}
+                    {customSections && customSections.length > 0 && customSections.map((section, si) => (
+                        <div key={`custom-${si}`} className={cn(section.forcePageBreak && "force-page-break")}>
+                            <SectionBlock title={section.title}>
+                                {section.content && (
+                                    <p className="text-[12px] text-neutral-700 leading-relaxed mb-4">{section.content}</p>
+                                )}
+                                {section.items && section.items.length > 0 && (
+                                    <ul className="space-y-1.5">
+                                        {section.items.map((item, ii) => (
+                                            <li key={ii} className="text-[12px] text-neutral-700 flex gap-3 leading-relaxed">
+                                                <span className="shrink-0 text-[10px] mt-1">○</span>
+                                                <span>{item.text}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </SectionBlock>
+                        </div>
+                    ))}
+
+                    {/* References */}
+                    {references && references.length > 0 && (
+                        <SectionBlock title="References">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {references.map((ref, i) => (
+                                    <div key={i} className="flex flex-col gap-0.5">
+                                        <span className="font-bold text-neutral-900 text-[12px]">{ref.referenceName || ref.name}</span>
+                                        <span className="text-[11px] text-neutral-600 italic">
+                                            {ref.role || ref.title}{(ref.organization || ref.company) ? `, ${ref.organization || ref.company}` : ''}
+                                        </span>
+                                        {(ref.contactDetails || ref.contactInfo) && (
+                                            <span className="text-[11px] text-neutral-500 mt-1">{ref.contactDetails || ref.contactInfo}</span>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </SectionBlock>
+                    )}
 
                 </div>
                 </>

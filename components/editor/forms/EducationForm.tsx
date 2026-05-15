@@ -95,6 +95,8 @@ export function EducationForm({ data, onChange }: EducationFormProps) {
                                 value={edu.startYear?.toString() || ''}
                                 onChange={(e) => updateEducation(index, 'startYear', e.target.value ? parseInt(e.target.value) : undefined)}
                                 placeholder="2019"
+                                min={1950}
+                                max={2050}
                             />
                             <Input
                                 label="Graduation Year"
@@ -102,6 +104,8 @@ export function EducationForm({ data, onChange }: EducationFormProps) {
                                 value={edu.endYear?.toString() || ''}
                                 onChange={(e) => updateEducation(index, 'endYear', e.target.value ? parseInt(e.target.value) : undefined)}
                                 placeholder="2023"
+                                min={1950}
+                                max={2050}
                             />
                             <Input
                                 label="GPA"

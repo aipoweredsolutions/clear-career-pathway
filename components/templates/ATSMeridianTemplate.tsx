@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
@@ -20,7 +22,7 @@ interface TemplateProps {
  * ATS-compliant: linear DOM order, semantic headings, no absolute
  * positioning, clean text rendering.
  */
-export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
+export default function ATSMeridianTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -39,8 +41,8 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
         customSections
     } = data
 
-    const borderColorClass = accentColor.replace('text-', 'border-')
-    const bgColorClass = accentColor.replace('text-', 'bg-')
+    const borderColorClass = accentColor.replace('text-', 'border-').split(' ')[0]
+    const bgColorClass = accentColor.replace('text-', 'bg-').split(' ')[0]
 
     // Split name
     const nameParts = (personalInfo?.fullName || 'YOUR NAME').split(' ')

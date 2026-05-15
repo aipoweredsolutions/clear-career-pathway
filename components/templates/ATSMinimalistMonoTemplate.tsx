@@ -156,7 +156,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Trajectory" />
                         <div className="space-y-12">
                             {workExperience.map((job, i) => (
-                                <div key={i} className="">
+                                <div key={i} className={cn(job.forcePageBreak && "force-page-break")}>
                                     <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-2">
                                         <div className="flex-1">
                                             <h3 className={cn('text-[18px] font-black leading-tight uppercase tracking-tight', accentColor)}>
@@ -199,7 +199,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Education" />
                         <div className="space-y-3">
                             {education.map((edu, i) => (
-                                <div key={i} className="">
+                                <div key={i} className={cn(edu.forcePageBreak && "force-page-break")}>
                                     <div className="flex justify-between items-baseline">
                                         <h3 className={cn('text-[12px] font-bold', accentColor)}>
                                             {edu.degree}{edu.major ? `, ${edu.major}` : ''}
@@ -227,7 +227,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Certifications" />
                         <div className="space-y-1.5">
                             {certifications.map((cert, i) => (
-                                <div key={i} className=" flex justify-between items-baseline">
+                                <div key={i} className={cn("flex justify-between items-baseline", cert.forcePageBreak && "force-page-break")}>
                                     <div className="text-[11px]">
                                         <span className="font-bold text-neutral-800">{cert.certificationName}</span>
                                         {cert.issuingOrganization && (
@@ -249,7 +249,7 @@ export function ATSMinimalistMonoTemplate({ data, className, accentColor = 'text
                         <SectionHeader title="Initiatives" />
                         <div className="space-y-4">
                             {projects.map((proj, i) => (
-                                <div key={i} className="">
+                                <div key={i} className={cn(proj.forcePageBreak && "force-page-break")}>
                                     <div className="flex justify-between items-baseline">
                                         <h3 className={cn('text-[12px] font-bold', accentColor)}>{proj.projectName}</h3>
                                         {(proj.startDate || proj.endDate) && (

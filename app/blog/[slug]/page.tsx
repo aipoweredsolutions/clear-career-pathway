@@ -119,8 +119,9 @@ export default async function BlogPostPage({ params }: Props) {
                         "prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-12 prose-h3:mb-6",
                         "prose-p:text-neutral-600 prose-p:text-[18px] prose-p:leading-[1.8] prose-p:mb-10 prose-p:font-medium",
                         "prose-strong:text-neutral-900 prose-strong:font-black",
-                        "prose-li:text-neutral-600 prose-li:font-medium prose-li:mb-6 prose-li:text-[17px]",
-                        "prose-ul:list-none prose-ul:pl-0",
+                        "prose-li:text-neutral-600 prose-li:font-medium prose-li:mb-2 prose-li:text-[18px] prose-li:marker:text-primary-500",
+                        "prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-10",
+                        "prose-ol:list-decimal prose-ol:pl-6 prose-ol:mb-10",
                         "prose-blockquote:border-l-0 prose-blockquote:bg-neutral-50 prose-blockquote:py-12 prose-blockquote:px-12 prose-blockquote:rounded-[2rem] prose-blockquote:italic prose-blockquote:text-neutral-800 prose-blockquote:text-2xl prose-blockquote:font-black prose-blockquote:tracking-tight prose-blockquote:leading-snug prose-blockquote:my-16"
                     )}
                 >

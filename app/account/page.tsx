@@ -52,6 +52,13 @@ export default async function AccountPage() {
         .order('created_at', { ascending: false })
         .limit(10)
 
+    // Fetch payment history
+    const { data: paymentHistory } = await supabase
+        .from('payment_history')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
     // Fetch Paddle management URLs if subscription exists
     let managementUrls = null
     if (subscription?.paddle_subscription_id) {
@@ -89,6 +96,7 @@ export default async function AccountPage() {
             }}
             documentCount={documentCount ?? 0}
             downloadHistory={downloadHistory ?? []}
+            paymentHistory={paymentHistory ?? []}
             managementUrls={managementUrls}
         />
     )

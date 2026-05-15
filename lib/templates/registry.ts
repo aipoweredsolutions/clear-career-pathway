@@ -5,8 +5,8 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 1. ELITE STERLING (Executive Single-Column) ---
     {
         id: 'elite-sterling',
-        name: 'Elite Sterling (Alpine)',
-        description: 'An ultra-premium executive template featuring a high-impact centered header, gray section accent bars, and sophisticated serif typography. This single-column layout is engineered for both visual excellence and 100% ATS readability, making it the gold standard for senior directors and C-suite leaders.',
+        name: 'Elite Alpine',
+        description: 'A premium, high-density executive layout with a sophisticated left-aligned header and subtle vertical rules. This single-column layout is engineered for both visual excellence and 100% ATS readability, making it the gold standard for senior directors and C-suite leaders.',
         suitableFor: {
             careerLevels: ['senior', 'executive'],
             jobTypes: ['corporate', 'management'],
@@ -41,8 +41,8 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 3. ELITE HASKINS (Multipage Executive) ---
     {
         id: 'elite-haskins',
-        name: 'Elite Haskins (Kyoto)',
-        description: 'A sophisticated multipage executive template with wide-tracked elegant serif headers and structured content flows. Features clean horizontal dividers, a grid-based skills matrix, and high information density without sacrificing visual breathing room. Perfect for established professionals with extensive experience.',
+        name: 'Elite Kyoto',
+        description: 'A minimalist, zen-inspired executive layout with generous white space and clean typography. Features clean horizontal dividers, a grid-based skills matrix, and high information density without sacrificing visual breathing room. Perfect for established professionals with extensive experience.',
         suitableFor: {
             careerLevels: ['senior', 'executive', 'mid'],
             jobTypes: ['corporate', 'management', 'academic'],
@@ -59,8 +59,8 @@ export const templateRegistry: TemplateMetadata[] = [
     // --- 4. ELITE PARKER (Modern Sans-Serif) ---
     {
         id: 'elite-parker',
-        name: 'Elite Parker (Summit)',
-        description: 'A modern, minimalist powerhouse featuring ultra-wide tracked sans-serif headers and subtle line-based section dividers. Engineered for maximum ATS readability while providing a clean, architectural aesthetic. Ideal for tech leaders, modern corporate roles, and minimalist-leaning executives.',
+        name: 'Elite Summit',
+        description: 'A bold, modern executive layout with high-contrast headers and a structured, professional feel. Engineered for maximum ATS readability while providing a clean, architectural aesthetic. Ideal for tech leaders, modern corporate roles, and minimalist-leaning executives.',
         suitableFor: {
             careerLevels: ['entry', 'mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'technical', 'creative'],
@@ -95,26 +95,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 2. ATS ULTRA-MINIMAL ---
-    {
-        id: 'ats-minimal',
-        name: 'Elegant Minimal',
-        description: 'The ultimate in simplicity and ATS compatibility. Maximum whitespace and zero decorative elements ensure perfect parsing by any system, old or new. When you absolutely must pass automated screening, this is your safest choice. Works for any industry or career level.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior'],
-            jobTypes: ['corporate', 'creative'],
-            industries: ['General']
-        },
-        isPremium: true,
-        previewImage: '/templates/ats-minimal-black-preview.png',
-        colors: [
-            { id: 'black', name: 'Standard Black', hex: '#000000' },
-            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
-            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
-            { id: 'slate', name: 'Slate Gray', hex: '#475569' },
-            { id: 'teal', name: 'Muted Teal', hex: '#0d9488' }
-        ]
-    },
+
 
     // --- 3. ATS CLASSIC SERIF ---
     {
@@ -284,26 +265,7 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 12. CLASSIC CLEAN ---
-    {
-        id: 'classic-clean',
-        name: 'Classic Clean',
-        description: 'The timeless, no-frills single-column résumé with centered name, pipe-separated contact info, and ruled section headers. Built for maximum ATS compatibility and recruiter readability. Ideal for professionals in any industry who want a clean, traditional, and universally accepted format.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior', 'executive'],
-            jobTypes: ['corporate', 'academic', 'technical'],
-            industries: ['General', 'Business', 'Finance', 'Legal', 'Healthcare', 'Education']
-        },
-        isPremium: true,
-        previewImage: '/templates/classic-clean-black-preview.png',
-        colors: [
-            { id: 'black', name: 'Standard Black', hex: '#000000' },
-            { id: 'navy', name: 'Navy', hex: '#1e3a8a' },
-            { id: 'charcoal', name: 'Charcoal', hex: '#374151' },
-            { id: 'maroon', name: 'Deep Maroon', hex: '#7f1d1d' },
-            { id: 'slate', name: 'Slate Gray', hex: '#475569' }
-        ]
-    },
+
 
     // --- 13. ATS EXECUTIVE CV (Optimized for long histories) ---
     {
@@ -316,7 +278,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['C-Suite', 'Management', 'Legal', 'Consulting', 'Academic']
         },
         isPremium: true,
-        previewImage: '/templates/ats-executive-navy-preview.png',
         colors: [
             { id: 'black', name: 'Ebony Black', hex: '#000000' },
             { id: 'navy', name: 'Midnight Navy', hex: '#0f172a' },
@@ -336,7 +297,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Tech', 'Design', 'Media', 'Marketing']
         },
         isPremium: true,
-        previewImage: '/templates/ats-minimal-black-preview.png',
         colors: [
             { id: 'black', name: 'Deep Black', hex: '#000000' },
             { id: 'slate', name: 'Cool Slate', hex: '#334155' },
@@ -355,7 +315,6 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Law', 'Academia', 'Consulting', 'Research']
         },
         isPremium: true,
-        previewImage: '/templates/ats-academia-navy-preview.png',
         colors: [
             { id: 'black', name: 'Scholastic Black', hex: '#000000' },
             { id: 'navy', name: 'Oxford Blue', hex: '#1e3a8a' },
@@ -486,26 +445,8 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 21. ATS METRO ---
-    {
-        id: 'ats-metro',
-        name: 'Metro Transit',
-        description: 'Inspired by transit maps and wayfinding systems. A continuous colored vertical line runs down the page, with "station" dots at each major section. The header uses a destination board aesthetic.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior'],
-            jobTypes: ['corporate', 'technical', 'service'],
-            industries: ['Operations', 'Logistics', 'Supply Chain', 'Urban Planning']
-        },
-        isPremium: true,
-        colors: [
-            { id: 'black', name: 'Midnight Black', hex: '#000000' },
-            { id: 'central', name: 'Central Line', hex: '#b91c1c' },
-            { id: 'district', name: 'District Line', hex: '#047857' },
-            { id: 'victoria', name: 'Victoria Line', hex: '#1d4ed8' },
-            { id: 'metropolitan', name: 'Metropolitan', hex: '#6b21a8' },
-            { id: 'onyx', name: 'Onyx', hex: '#171717' }
-        ]
-    },
+    // --- 21. ATS METRO (Removed) ---
+
     // --- 22. ATS CLASSIC LEFT ---
     {
         id: 'ats-classic-left',

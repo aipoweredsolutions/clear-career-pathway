@@ -37,7 +37,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
     const borderColorClass = accentColor.replace('text-', 'border-')
 
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="relative mb-4 mt-8 first:mt-0 group ">
+        <div className="relative mb-3 mt-6 first:mt-0 group ">
             <h2 className={cn(
                 "text-[13px] font-black uppercase tracking-[0.2em] mb-1.5",
                 accentColor
@@ -51,13 +51,13 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
     return (
         <div 
             className={cn(
-                "w-full bg-white text-neutral-900 font-serif leading-relaxed p-12 md:p-16",
+                "w-full bg-white text-neutral-900 font-serif leading-relaxed",
                 className
             )}
             style={{ fontFamily: "'Lora', 'PT Serif', 'Georgia', serif" }}
         >
             {/* ── SOPHISTICATED HEADER ── */}
-            <header className="text-center mb-10">
+            <header className="text-center mb-6">
                 <h1 className={cn("text-[42px] font-black tracking-[-0.02em] leading-[1.1] mb-3", accentColor)}>
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
@@ -144,7 +144,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                     </div>
                 </div>
             ) : (
-                <div className="space-y-10">
+                <div className="space-y-7">
                     {/* Summary */}
                     {professionalSummary?.summaryText && (
                         <section>
@@ -159,7 +159,7 @@ export function ATSClassicTemplate({ data, className, accentColor = 'text-neutra
                     {workExperience && workExperience.length > 0 && (
                         <section>
                             <SectionHeader title="Professional Experience" />
-                            <div className="space-y-10 mt-6">
+                            <div className="space-y-6 mt-4">
                                 {workExperience.map((job, i) => (
                                     <div key={i} className=" group">
                                         <div className="flex justify-between items-start mb-3 gap-6">

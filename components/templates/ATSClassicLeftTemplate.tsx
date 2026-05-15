@@ -57,12 +57,7 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
                             <span>{personalInfo.email}</span>
                         </>
                     )}
-                    {personalInfo?.linkedinUrl && (
-                        <>
-                            <span className="text-neutral-300">•</span>
-                            <span>{personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
-                        </>
-                    )}
+
                     {personalInfo?.websiteUrl && (
                         <>
                             <span className="text-neutral-300">•</span>
@@ -106,18 +101,17 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
                     </div>
                 </div>
             ) : (
-                <>
-
-
-            <div className="flex flex-col gap-4">
+                            <div className="flex flex-col gap-6">
 
                 {/* PROFILE SECTION */}
                 {(professionalSummary?.summaryText || professionalSummary?.headline) && (
-                    <section className="border-t border-neutral-300 pt-4">
-                        <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 mb-4 font-sans" style={{ width: leftColumnWidth }}>
-                            Profile
-                        </h2>
-                        <div style={{ paddingLeft: `calc(${leftColumnWidth} + ${gap})`, marginTop: '-34px' }}>
+                    <section className="border-t border-neutral-300 pt-4 flex">
+                        <div className="shrink-0" style={{ width: leftColumnWidth }}>
+                            <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 font-sans mt-[2px]">
+                                Profile
+                            </h2>
+                        </div>
+                        <div className="flex-1" style={{ paddingLeft: gap }}>
                             {professionalSummary.headline && (
                                 <p className="font-bold mb-2 text-sm text-neutral-800">{professionalSummary.headline}</p>
                             )}
@@ -130,37 +124,31 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
 
                 {/* EDUCATION SECTION */}
                 {education && education.length > 0 && (
-                    <section className="border-t border-neutral-300 pt-4">
-                        <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 mb-4 font-sans">
-                            Education
-                        </h2>
-                        <div className="flex flex-col gap-6" style={{ paddingLeft: `calc(${leftColumnWidth} + ${gap})` }}>
+                    <section className="border-t border-neutral-300 pt-4 flex">
+                        <div className="shrink-0" style={{ width: leftColumnWidth }}>
+                            <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 font-sans mt-[2px]">
+                                Education
+                            </h2>
+                        </div>
+                        <div className="flex-1 flex flex-col gap-6" style={{ paddingLeft: gap }}>
                             {education.map((edu, idx) => (
-                                <div key={edu.id || idx} className=" relative">
-                                    <div 
-                                        className="absolute top-[2px] text-[11px] text-neutral-500 font-sans tracking-wide"
-                                        style={{ left: `calc(-1 * (${leftColumnWidth} + ${gap}))`, width: leftColumnWidth }}
-                                    >
-                                        {edu.startYear} - {edu.endYear || 'Present'}
+                                <div key={edu.id || idx}>
+                                    <div className="flex justify-between items-baseline mb-1">
+                                        <h3 className="text-[15px] font-bold text-neutral-900">
+                                            {edu.degree}{edu.major ? `, ${edu.major}` : ''}
+                                        </h3>
+                                        <span className="text-[11px] text-neutral-500 font-sans text-right">
+                                            {edu.startYear} - {edu.endYear || 'Present'}
+                                            {formatLocation(edu.location) && ` | ${formatLocation(edu.location)}`}
+                                        </span>
                                     </div>
-                                    
-                                    <div>
-                                        <div className="flex justify-between items-baseline mb-1">
-                                            <h3 className="text-[15px] font-bold text-neutral-900">
-                                                {edu.degree}{edu.major ? `, ${edu.major}` : ''}
-                                            </h3>
-                                            <span className="text-[11px] text-neutral-500 font-sans">
-                                                {formatLocation(edu.location)}
-                                            </span>
+                                    <p className="text-[13px] text-neutral-800 mb-1">{edu.institutionName}</p>
+                                    {(edu.gpa || edu.achievements) && (
+                                        <div className="text-[12px] text-neutral-600 mt-2 space-y-1">
+                                            {edu.gpa && <p>GPA: {edu.gpa}</p>}
+                                            {edu.achievements && <p className="whitespace-pre-wrap">{edu.achievements}</p>}
                                         </div>
-                                        <p className="text-[13px] text-neutral-800 mb-1">{edu.institutionName}</p>
-                                        {(edu.gpa || edu.achievements) && (
-                                            <div className="text-[12px] text-neutral-600 mt-2 space-y-1">
-                                                {edu.gpa && <p>GPA: {edu.gpa}</p>}
-                                                {edu.achievements && <p className="whitespace-pre-wrap">{edu.achievements}</p>}
-                                            </div>
-                                        )}
-                                    </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -169,46 +157,40 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
 
                 {/* EXPERIENCE SECTION */}
                 {workExperience && workExperience.length > 0 && (
-                    <section className="border-t border-neutral-300 pt-4">
-                        <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 mb-4 font-sans">
-                            Experience
-                        </h2>
-                        <div className="flex flex-col gap-6" style={{ paddingLeft: `calc(${leftColumnWidth} + ${gap})` }}>
+                    <section className="border-t border-neutral-300 pt-4 flex">
+                        <div className="shrink-0" style={{ width: leftColumnWidth }}>
+                            <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 font-sans mt-[2px]">
+                                Experience
+                            </h2>
+                        </div>
+                        <div className="flex-1 flex flex-col gap-6" style={{ paddingLeft: gap }}>
                             {workExperience.map((job, idx) => (
-                                <div key={job.id || idx} className=" relative">
-                                    <div 
-                                        className="absolute top-[2px] text-[11px] text-neutral-500 font-sans tracking-wide"
-                                        style={{ left: `calc(-1 * (${leftColumnWidth} + ${gap}))`, width: leftColumnWidth }}
-                                    >
-                                        {job.startDate} - {job.isCurrent ? 'Present' : job.endDate}
+                                <div key={job.id || idx}>
+                                    <div className="flex justify-between items-baseline mb-2">
+                                        <h3 className="text-[15px] font-bold text-neutral-900">
+                                            {job.jobTitle}, {job.companyName}
+                                        </h3>
+                                        <span className="text-[11px] text-neutral-500 font-sans text-right">
+                                            {job.startDate} - {job.isCurrent ? 'Present' : job.endDate}
+                                            {job.location && ` | ${job.location}`}
+                                        </span>
                                     </div>
                                     
-                                    <div>
-                                        <div className="flex justify-between items-baseline mb-2">
-                                            <h3 className="text-[15px] font-bold text-neutral-900">
-                                                {job.jobTitle}, {job.companyName}
-                                            </h3>
-                                            <span className="text-[11px] text-neutral-500 font-sans">
-                                                {job.location}
-                                            </span>
+                                    {job.roleDescription && (
+                                        <div className="text-[13px] leading-relaxed text-neutral-700 mb-2 whitespace-pre-wrap italic">
+                                            {job.roleDescription}
                                         </div>
-                                        
-                                        {job.roleDescription && (
-                                            <div className="text-[13px] leading-relaxed text-neutral-700 mb-2 whitespace-pre-wrap italic">
-                                                {job.roleDescription}
-                                            </div>
-                                        )}
+                                    )}
 
-                                        {job.achievements && job.achievements.length > 0 && (
-                                            <ul className="list-disc list-outside ml-4 text-[13px] leading-relaxed text-neutral-700 space-y-1">
-                                                {job.achievements.map((ach, i) => (
-                                                    <li key={ach.id || i} className="pl-1">
-                                                        {ach.achievementText}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        )}
-                                    </div>
+                                    {job.achievements && job.achievements.length > 0 && (
+                                        <ul className="list-disc list-outside ml-4 text-[13px] leading-relaxed text-neutral-700 space-y-1">
+                                            {job.achievements.map((ach, i) => (
+                                                <li key={ach.id || i} className="pl-1">
+                                                    {ach.achievementText}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -217,32 +199,43 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
 
                 {/* SKILLS SECTION */}
                 {skills && skills.length > 0 && (
-                    <section className="border-t border-neutral-300 pt-4">
-                        <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 mb-4 font-sans">
-                            Skills
-                        </h2>
-                        <div className="flex flex-col gap-3" style={{ paddingLeft: `calc(${leftColumnWidth} + ${gap})` }}>
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-3">
-                                {skills.map((skill, idx) => (
-                                    <div key={skill.id || idx} className="flex justify-between items-baseline border-b border-neutral-100 pb-1">
-                                        <span className="text-[13px] text-neutral-900 font-bold">{skill.skillName}</span>
-                                        {skill.proficiencyLevel && (
-                                            <span className="text-[11px] text-neutral-500 font-sans">{skill.proficiencyLevel}</span>
-                                        )}
+                    <section className="border-t border-neutral-300 pt-4 flex">
+                        <div className="shrink-0" style={{ width: leftColumnWidth }}>
+                            <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 font-sans mt-[2px]">
+                                Skills
+                            </h2>
+                        </div>
+                        <div className="flex-1 flex flex-col gap-4" style={{ paddingLeft: gap }}>
+                            {(() => {
+                                const grouped = skills.reduce((acc, skill) => {
+                                    const type = skill.skillType || 'Professional'
+                                    if (!acc[type]) acc[type] = []
+                                    acc[type].push(skill)
+                                    return acc
+                                }, {} as Record<string, typeof skills>)
+
+                                return Object.entries(grouped).map(([type, list]) => (
+                                    <div key={type}>
+                                        <h3 className="text-[12px] font-bold text-neutral-900 mb-1 capitalize">{type}</h3>
+                                        <div className="text-[13px] text-neutral-700 leading-relaxed">
+                                            {list.map(s => s.skillName).join(' • ')}
+                                        </div>
                                     </div>
-                                ))}
-                            </div>
+                                ))
+                            })()}
                         </div>
                     </section>
                 )}
 
                 {/* LANGUAGES SECTION */}
                 {languages && languages.length > 0 && (
-                    <section className="border-t border-neutral-300 pt-4">
-                        <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 mb-4 font-sans">
-                            Languages
-                        </h2>
-                        <div className="flex flex-col gap-3" style={{ paddingLeft: `calc(${leftColumnWidth} + ${gap})` }}>
+                    <section className="border-t border-neutral-300 pt-4 flex">
+                        <div className="shrink-0" style={{ width: leftColumnWidth }}>
+                            <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 font-sans mt-[2px]">
+                                Languages
+                            </h2>
+                        </div>
+                        <div className="flex-1" style={{ paddingLeft: gap }}>
                             <div className="grid grid-cols-2 gap-x-8 gap-y-3">
                                 {languages.map((lang, idx) => (
                                     <div key={lang.id || idx} className="flex justify-between items-baseline border-b border-neutral-100 pb-1">
@@ -257,11 +250,13 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
 
                 {/* CUSTOM SECTIONS (Hobbies, etc) */}
                 {customSections && customSections.length > 0 && customSections.map((section, idx) => (
-                    <section key={section.id || idx} className=" border-t border-neutral-300 pt-4">
-                        <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 mb-4 font-sans">
-                            {section.title}
-                        </h2>
-                        <div style={{ paddingLeft: `calc(${leftColumnWidth} + ${gap})` }}>
+                    <section key={section.id || idx} className="border-t border-neutral-300 pt-4 flex">
+                        <div className="shrink-0" style={{ width: leftColumnWidth }}>
+                            <h2 className="uppercase tracking-widest font-bold text-[11px] text-neutral-900 font-sans mt-[2px]">
+                                {section.title}
+                            </h2>
+                        </div>
+                        <div className="flex-1" style={{ paddingLeft: gap }}>
                             {section.content && (
                                 <div className="text-[13px] leading-relaxed text-neutral-700 whitespace-pre-wrap mb-4">
                                     {section.content}
@@ -282,9 +277,7 @@ export function ATSClassicLeftTemplate({ data }: TemplateProps) {
                 ))}
 
             </div>
-        
-                </>
             )}
-            </div>
+        </div>
     )
 }

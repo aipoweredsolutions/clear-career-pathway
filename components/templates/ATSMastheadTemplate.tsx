@@ -41,7 +41,7 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
     const SectionHeader = ({ title }: { title: string }) => (
         <div className="flex items-center gap-4 mt-5 mb-3">
             <h2 className={cn(
-                'text-[10px] font-black capitalize tracking-[0.2em] shrink-0',
+                'text-[14px] font-black capitalize tracking-[0.2em] shrink-0',
                 accentColor
             )}>
                 {title}
@@ -148,7 +148,7 @@ export function ATSMastheadTemplate({ data, className, accentColor = 'text-neutr
                 </div>
             ) : data.documentType === 'references' ? (
                 <div className="px-8 sm:px-12 pb-12 pt-8">
-                    <h2 className={cn("text-sm font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
+                    <h2 className={cn("text-base font-black uppercase tracking-widest mb-6 border-b border-neutral-200 pb-2", accentColor)}>Professional References</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {data.references?.map((ref, i) => (
                             <div key={i} className=" flex flex-col gap-1">

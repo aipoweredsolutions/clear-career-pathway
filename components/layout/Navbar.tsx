@@ -423,7 +423,7 @@ export function Navbar() {
                                             onClick={() => setIsUserDropdownOpen(false)}
                                         >
                                             <User className="w-4 h-4" />
-                                            My Account
+                                            Account Settings
                                         </Link>
                                         <Link
                                             href="/account?tab=billing"

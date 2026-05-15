@@ -49,12 +49,22 @@ interface DownloadRecord {
     document: { title: string } | null
 }
 
+interface PaymentRecord {
+    id: string
+    amount: number
+    currency: string
+    status: string
+    created_at: string
+    paddle_transaction_id: string | null
+}
+
 interface AccountShellProps {
     user: AccountUser
     subscription: Subscription | null
     usage: Usage
     documentCount: number
     downloadHistory: DownloadRecord[]
+    paymentHistory: PaymentRecord[]
     managementUrls?: { cancelUrl: string; updateUrl: string } | null
 }
 
@@ -341,9 +351,14 @@ function DeleteAccountDialog({ onClose, onConfirmed }: { onClose: () => void; on
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function AccountShell({ user, subscription, usage, documentCount, downloadHistory, managementUrls }: AccountShellProps) {
+export function AccountShell({ user, subscription, usage, documentCount, downloadHistory, paymentHistory, managementUrls }: AccountShellProps) {
     const { signOut } = useAuth()
-    const [activeTab, setActiveTab] = useState<Tab>('overview')
+    const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
+    const initialTab = (searchParams?.get('tab') as Tab) || 'overview'
+    
+    const [activeTab, setActiveTab] = useState<Tab>(
+        TABS.some(t => t.id === initialTab) ? initialTab : 'overview'
+    )
     const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
     // ── Per-form pending state ─────────────────────────────────────────────
@@ -788,6 +803,56 @@ export function AccountShell({ user, subscription, usage, documentCount, downloa
                         </div>
                     </div>
                 )}
+
+                {/* Billing History Table */}
+                <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+                    <div className="p-6 border-b border-neutral-100">
+                        <SectionHeading>Billing History</SectionHeading>
+                    </div>
+                    {paymentHistory.length > 0 ? (
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left text-sm">
+                                <thead className="bg-neutral-50 text-neutral-500 font-bold uppercase tracking-widest text-[10px]">
+                                    <tr>
+                                        <th className="px-6 py-3">Date</th>
+                                        <th className="px-6 py-3">Transaction</th>
+                                        <th className="px-6 py-3">Amount</th>
+                                        <th className="px-6 py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-neutral-100">
+                                    {paymentHistory.map((item) => (
+                                        <tr key={item.id} className="hover:bg-neutral-50/50 transition">
+                                            <td className="px-6 py-4 text-neutral-600 font-medium">
+                                                {new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                            </td>
+                                            <td className="px-6 py-4 font-mono text-[10px] text-neutral-400">
+                                                {item.paddle_transaction_id || 'ID N/A'}
+                                            </td>
+                                            <td className="px-6 py-4 text-neutral-900 font-bold uppercase tracking-tight">
+                                                {new Intl.NumberFormat('en-US', { style: 'currency', currency: item.currency }).format(item.amount)}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={cn(
+                                                    'px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest',
+                                                    item.status === 'succeeded' ? 'bg-emerald-100 text-emerald-700' :
+                                                    item.status === 'failed' ? 'bg-red-100 text-red-700' : 'bg-neutral-100 text-neutral-500'
+                                                )}>
+                                                    {item.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="p-12 text-center">
+                            <Clock className="w-10 h-10 text-neutral-200 mx-auto mb-3" />
+                            <p className="text-neutral-400 font-medium">No billing history found.</p>
+                        </div>
+                    )}
+                </div>
             </div>
         ),
 

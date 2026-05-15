@@ -68,12 +68,16 @@ export function VolunteerForm({ data = [], onChange }: VolunteerFormProps) {
                             type="month"
                             value={vol.startDate || ''}
                             onChange={(e) => updateVol(index, 'startDate', e.target.value)}
+                            min="1950-01"
+                            max="2050-12"
                         />
                         <Input
                             label="End Date"
                             type="month"
                             value={vol.endDate || ''}
                             onChange={(e) => updateVol(index, 'endDate', e.target.value)}
+                            min="1950-01"
+                            max="2050-12"
                         />
                     </div>
 

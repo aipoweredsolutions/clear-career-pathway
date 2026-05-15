@@ -44,7 +44,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 email: 'tester@example.com',
                 full_name: 'Test Reviewer',
                 subscription_tier: 'free',
-                billing_status: 'none'
+                billing_status: 'none',
+                download_credits: 1
             } as any)
             setLoading(false)
             return

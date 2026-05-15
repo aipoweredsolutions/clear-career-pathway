@@ -39,6 +39,9 @@ const OnboardingWizard = dynamic(() => import('@/components/editor/OnboardingWiz
 const ResumeUploadModal = dynamic(() => import('@/components/dashboard/ResumeUploadModal').then(mod => mod.ResumeUploadModal), {
     ssr: false,
 })
+const CreditCount = dynamic(() => import('@/components/editor/CreditCount').then(mod => mod.CreditCount), {
+    ssr: false,
+})
 import { fetchResume, saveResume } from '@/app/editor/actions'
 import { UserSubscription } from '@/lib/types/resume'
 import { useDebounce } from '@/lib/hooks/use-debounce'
@@ -360,6 +363,7 @@ function EditorContent() {
 
                 <div className="flex items-center gap-3">
                     <ATSScore data={deferredData || data} />
+                    <CreditCount className="ml-2" />
 
                     <Button
                         variant={showKeywords ? "primary" : "outline"}
@@ -618,7 +622,7 @@ function EditorContent() {
                 {/* Onboarding Wizard */}
                 <OnboardingWizard 
                     isOpen={showOnboarding}
-                    onClose={(onboardingData) => {
+                    onClose={(onboardingData, source) => {
                         setShowOnboarding(false)
                         if (onboardingData?.personalInfo?.professionalTitle) {
                             setData(prev => prev ? {
@@ -629,6 +633,9 @@ function EditorContent() {
                                 } as any
                             } : null)
                         }
+                        if (source === 'upload') {
+                            setShowUploadModal(true)
+                        }
                     }}
                 />
 
@@ -636,6 +643,20 @@ function EditorContent() {
                 <ResumeUploadModal 
                     isOpen={showUploadModal}
                     onClose={() => setShowUploadModal(false)}
+                    onImport={(importedData) => {
+                        if (data) {
+                            setData({
+                                ...data,
+                                ...importedData,
+                                id: data.id,
+                                documentType: data.documentType,
+                                templateId: data.templateId,
+                                formatting: data.formatting,
+                                sectionOrder: data.sectionOrder
+                            })
+                            toast.success('Resume imported and AI-structured!')
+                        }
+                    }}
                 />
             </div>
         </div>

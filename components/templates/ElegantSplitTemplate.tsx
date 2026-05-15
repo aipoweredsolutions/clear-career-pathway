@@ -13,6 +13,8 @@ const THEMES: Record<string, { sidebar: string; accent: string; pill: string; do
     burgundy: { sidebar: 'bg-rose-950',    accent: 'text-rose-300',   pill: 'bg-rose-900',    dot: 'bg-rose-400' },
     gold:     { sidebar: 'bg-amber-950',   accent: 'text-amber-300',  pill: 'bg-amber-800',   dot: 'bg-amber-400' },
     navy:     { sidebar: 'bg-blue-950',    accent: 'text-blue-300',   pill: 'bg-blue-900',    dot: 'bg-blue-400' },
+    black:    { sidebar: 'bg-neutral-950', accent: 'text-neutral-300',pill: 'bg-neutral-800', dot: 'bg-neutral-400' },
+    charcoal: { sidebar: 'bg-neutral-800', accent: 'text-neutral-200',pill: 'bg-neutral-700', dot: 'bg-neutral-300' },
 }
 
 export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplateProps) {
@@ -58,7 +60,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
     )
 
     return (
-        <div className="w-full bg-white flex min-h-[1120px] overflow-hidden" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+        <div className="w-full h-full bg-white flex min-h-[1123px] overflow-hidden" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
             {/* ═══ LEFT SIDEBAR ═══ */}
             <div className={cn('w-[30%] shrink-0 pl-6 pr-5 pt-8 pb-8 flex flex-col', theme.sidebar)}>
                 {/* Name & Title */}

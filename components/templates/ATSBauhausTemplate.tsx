@@ -182,7 +182,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                             <SectionHeader title="Career Chronology" num="02" />
                             <div className="space-y-16 ml-24">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className=" relative group">
+                                    <div key={i} className={cn("relative group", job.forcePageBreak && "force-page-break")}>
                                         <div className="flex flex-col md:flex-row justify-between items-start md:items-baseline mb-6 gap-6">
                                             <div className="flex-1">
                                                 <h3 className="text-[24px] font-black uppercase text-neutral-950 tracking-tight leading-none mb-3 group-hover:translate-x-2 transition-transform">
@@ -264,7 +264,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                             <SectionHeader title="Academic Base" num="04" />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 ml-24">
                                 {education.map((edu, i) => (
-                                    <div key={i} className=" group">
+                                    <div key={i} className={cn("group", edu.forcePageBreak && "force-page-break")}>
                                         <h3 className="text-[18px] font-black uppercase text-neutral-950 mb-3 tracking-tight group-hover:translate-x-1 transition-transform">
                                             {edu.degree}
                                         </h3>
@@ -288,7 +288,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                                 {projects && projects.length > 0 && (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                                         {projects.map((proj, i) => (
-                                            <div key={i} className="">
+                                            <div key={i} className={cn(proj.forcePageBreak && "force-page-break")}>
                                                 <h4 className="text-[16px] font-black uppercase text-neutral-900 mb-2">{proj.projectName}</h4>
                                                 <p className="text-[14px] text-neutral-500 font-medium italic mb-4">{proj.description}</p>
                                                 {proj.toolsUsed && (
@@ -308,7 +308,7 @@ export function ATSBauhausTemplate({ data, className, accentColor = 'bg-red-600 
                                         <div className="space-y-6">
                                             <div className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-200">Credentials</div>
                                             {certifications.map((c, i) => (
-                                                <div key={i} className="border-l-4 border-neutral-100 pl-6 py-2">
+                                                <div key={i} className={cn("border-l-4 border-neutral-100 pl-6 py-2", c.forcePageBreak && "force-page-break")}>
                                                     <div className="text-[14px] font-black text-neutral-900">{c.certificationName}</div>
                                                     <div className={cn("text-[11px] font-black uppercase tracking-widest mt-1", textColorClass)}>{c.issuingOrganization}</div>
                                                 </div>

@@ -12,7 +12,7 @@ interface TemplateProps {
 }
 
 /**
- * ALPINE EXECUTIVE TEMPLATE
+ * ELITE ALPINE TEMPLATE
  * Inspired by high-end executive layouts with centered headers, gray section bars,
  * and elegant serif typography. Single-column design for maximum ATS readability.
  */

@@ -3721,6 +3721,16 @@ export const MOCK_CUTE_TEMPLATE_DATA: ResumeDocument = {
     ]
 }
 
+// --- 23. Cornerstone Executive Persona ---
+export const MOCK_CORNERSTONE_DATA: ResumeDocument = {
+    ...MOCK_PREVIEW_DATA,
+    id: 'preview-cornerstone',
+    personalInfo: {
+        ...MOCK_PREVIEW_DATA.personalInfo,
+        portfolioUrl: undefined // Remove Behance link
+    }
+}
+
 export const MOCK_PERSONAS = {
     creative: MOCK_CREATIVE_TEMPLATE_DATA, // Updated
     executive: MOCK_EXECUTIVE_TEMPLATE_DATA, // Updated
@@ -3751,5 +3761,6 @@ export const MOCK_PERSONAS = {
     cute: MOCK_CUTE_TEMPLATE_DATA,
     ats_nursing: MOCK_NURSE_EXPERIENCED_DATA,
     ats_academia: MOCK_ACADEMIC_DATA,
-    ats_gold: MOCK_ATS_GOLD_DATA
+    ats_gold: MOCK_ATS_GOLD_DATA,
+    'ats-cornerstone': MOCK_CORNERSTONE_DATA
 }

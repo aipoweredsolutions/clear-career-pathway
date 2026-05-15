@@ -62,6 +62,8 @@ export function TemplateGallery() {
 
     const filteredTemplates = useMemo(() => {
         const filtered = templateRegistry.filter(template => {
+            if (template.id === 'ats-professional') return false; // Remove Professional Elite
+
             const categoryMatch = selectedCategory === 'All' ||
                 (selectedCategory === 'Executive Elite' && (template.id.startsWith('elite-'))) ||
                 (selectedCategory === 'Free' && !template.isPremium) ||
@@ -80,7 +82,6 @@ export function TemplateGallery() {
         const eliteIds = [
             'ats-cornerstone',
             'ats-meridian',
-            'ats-professional', 
             'elite-sterling', 
             'elite-london', 
             'elite-haskins', 

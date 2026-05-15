@@ -146,7 +146,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-em
                             <SectionHeader title="Chronology // Timeline" />
                             <div className="space-y-8">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className="grid grid-cols-1 md:grid-cols-12 gap-10  group">
+                                    <div key={i} className={cn("grid grid-cols-1 md:grid-cols-12 gap-10 group", job.forcePageBreak && "force-page-break")}>
                                         {/* Temporal Meta */}
                                         <div className="md:col-span-4 flex flex-col items-start md:items-end gap-2">
                                             <div className="text-[12px] font-black text-neutral-950 tabular-nums uppercase tracking-widest bg-neutral-950 text-white px-3 py-1">
@@ -243,7 +243,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-em
                             <SectionHeader title="Academic // History" />
                             <div className="space-y-12">
                                 {education.map((edu, i) => (
-                                    <div key={i} className="grid grid-cols-1 md:grid-cols-12 gap-10  group">
+                                    <div key={i} className={cn("grid grid-cols-1 md:grid-cols-12 gap-10 group", edu.forcePageBreak && "force-page-break")}>
                                         <div className="md:col-span-4 flex flex-col items-start md:items-end">
                                             <div className="text-[12px] font-black text-neutral-950 tabular-nums tracking-widest border-2 border-neutral-950 px-3 py-1">
                                                 {edu.endYear}
@@ -278,7 +278,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-em
                                     {projects && projects.length > 0 && (
                                         <div className="space-y-10">
                                             {projects.map((proj, i) => (
-                                                <div key={i} className="">
+                                                <div key={i} className={cn(proj.forcePageBreak && "force-page-break")}>
                                                     <h4 className="text-[14px] font-black uppercase text-neutral-900 tracking-widest mb-3">{proj.projectName}</h4>
                                                     <p className="text-[13px] text-neutral-500 font-medium leading-relaxed">{proj.description}</p>
                                                 </div>
@@ -291,7 +291,7 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-em
                                             <div className="space-y-4">
                                                 <div className="text-[10px] font-black text-neutral-300 uppercase tracking-widest">Credentials</div>
                                                 {certifications.map((c, i) => (
-                                                    <div key={i} className="group">
+                                                    <div key={i} className={cn("group", c.forcePageBreak && "force-page-break")}>
                                                         <div className="text-[13px] font-black text-neutral-950 leading-tight group-hover:text-primary-600 transition-colors">{c.certificationName}</div>
                                                         <div className={cn("text-[10px] font-black uppercase tracking-widest mt-1 opacity-40", accentColor)}>{c.issuingOrganization}</div>
                                                     </div>

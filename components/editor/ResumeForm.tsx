@@ -19,7 +19,8 @@ import { AffiliationsForm } from '@/components/editor/forms/AffiliationsForm'
 import { ReferencesForm } from '@/components/editor/forms/ReferencesForm'
 import { AdditionalInfoForm } from '@/components/editor/forms/AdditionalInfoForm'
 import { CustomSectionsForm } from '@/components/editor/forms/CustomSectionsForm'
-import { UploadDialog } from '@/components/upload/UploadDialog'
+import { StyleForm } from '@/components/editor/forms/StyleForm'
+import { ResumeUploadModal } from '@/components/dashboard/ResumeUploadModal'
 import { Button } from '@/components/ui/Button'
 import { Upload, Loader2 } from 'lucide-react'
 
@@ -42,118 +43,8 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
         })
     }
 
-    const handleUploadSuccess = async (result: any) => {
-        const { sections, contactInfo } = result
-
-        if (!sections) {
-            toast.error('Could not identify sections in the file')
-            return
-        }
-
-        // Map heuristic result to our schema
-        const newDoc: ResumeDocument = {
-            ...data,
-            personalInfo: {
-                ...data.personalInfo,
-                fullName: contactInfo?.fullName || data.personalInfo?.fullName || '',
-                email: contactInfo?.email || data.personalInfo?.email || '',
-                phone: contactInfo?.phone || data.personalInfo?.phone || '',
-                linkedinUrl: contactInfo?.websites?.find((w: string) => w.includes('linkedin.com')) || data.personalInfo?.linkedinUrl || '',
-                websiteUrl: contactInfo?.websites?.find((w: string) => !w.includes('linkedin.com') && !w.includes('github.com')) || data.personalInfo?.websiteUrl || '',
-                githubUrl: contactInfo?.websites?.find((w: string) => w.includes('github.com')) || data.personalInfo?.githubUrl || '',
-            },
-            professionalSummary: {
-                ...data.professionalSummary,
-                summaryText: sections.summary || data.professionalSummary?.summaryText || ''
-            },
-            workExperience: sections.experience ? [
-                {
-                    id: crypto.randomUUID(),
-                    jobTitle: 'Imported Experience',
-                    companyName: 'Draft',
-                    startDate: new Date().toISOString().split('T')[0],
-                    roleDescription: sections.experience,
-                    achievements: []
-                }
-            ] : data.workExperience,
-            education: sections.education ? [
-                {
-                    id: crypto.randomUUID(),
-                    institutionName: 'Imported Education',
-                    degree: 'Draft',
-                    fieldOfStudy: sections.education,
-                }
-            ] : data.education,
-            skills: sections.skills ? sections.skills.split('\n').filter((s: string) => s.trim().length > 0).map((s: string) => ({
-                id: crypto.randomUUID(),
-                skillName: s.trim()
-            })) : data.skills,
-            projects: sections.projects ? [
-                {
-                    id: crypto.randomUUID(),
-                    projectName: 'Imported Projects',
-                    description: sections.projects
-                }
-            ] : data.projects,
-            certifications: sections.certifications ? [
-                {
-                    id: crypto.randomUUID(),
-                    certificationName: 'Imported Certification',
-                    issuingOrganization: 'Draft',
-                    credentialId: sections.certifications
-                }
-            ] : data.certifications,
-            languages: sections.languages ? sections.languages.split('\n').filter((s: string) => s.trim().length > 0).map((s: string) => ({
-                id: crypto.randomUUID(),
-                languageName: s.trim(),
-                proficiencyLevel: 'fluent'
-            })) : data.languages,
-            achievements: sections.awards ? [
-                {
-                    id: crypto.randomUUID(),
-                    achievementTitle: 'Imported Awards',
-                    description: sections.awards
-                }
-            ] : data.achievements,
-            volunteerExperience: sections.volunteer ? [
-                {
-                    id: crypto.randomUUID(),
-                    roleTitle: 'Imported Volunteer Work',
-                    organizationName: 'Draft',
-                    contributions: sections.volunteer
-                }
-            ] : data.volunteerExperience,
-            publications: sections.publications ? [
-                {
-                    id: crypto.randomUUID(),
-                    title: 'Imported Publications',
-                    platformOrPublisher: 'Draft',
-                    url: sections.publications
-                }
-            ] : data.publications,
-            professionalAffiliations: sections.affiliations ? [
-                {
-                    id: crypto.randomUUID(),
-                    organizationName: 'Imported Affiliation',
-                    roleOrMembership: sections.affiliations
-                }
-            ] : data.professionalAffiliations,
-            references: sections.references ? [
-                {
-                    id: crypto.randomUUID(),
-                    referenceName: 'Imported Reference',
-                    availabilityStatement: sections.references
-                }
-            ] : data.references,
-        }
-
-        onChange(newDoc)
-        setShowUpload(false)
-        setIsAnalyzing(false)
-        toast.success('Resume imported! Review and enhance each section with Gemini.')
-    }
-
     const ALL_TABS = [
+        { id: 'design', label: 'Design' },
         { id: 'personal', label: 'Personal' },
         { id: 'summary', label: 'Summary' },
         { id: 'experience', label: 'Experience' },
@@ -171,14 +62,20 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
         { id: 'custom', label: 'Custom' },
     ];
 
-    const CORE_TABS = data.documentType === 'references' ? ['personal', 'references'] : ['personal', 'summary', 'experience', 'education', 'skills'];
+    const CORE_TABS = data.documentType === 'references' ? ['design', 'personal', 'references'] : ['design', 'personal', 'summary', 'experience', 'education', 'skills'];
 
     const [tabs, setTabs] = useState<{id: string, label: string}[]>([]);
 
     // Sync tabs with document sectionOrder or initialize with defaults
     React.useEffect(() => {
         if (data.sectionOrder && data.sectionOrder.length > 0) {
-            const orderedTabs = data.sectionOrder
+            // Ensure 'design' is always present even if not in sectionOrder (backwards compat)
+            const currentOrder = [...data.sectionOrder]
+            if (!currentOrder.includes('design')) {
+                currentOrder.unshift('design')
+            }
+            
+            const orderedTabs = currentOrder
                 .map(id => ALL_TABS.find(t => t.id === id))
                 .filter(Boolean) as { id: string, label: string }[];
             setTabs(orderedTabs);
@@ -342,6 +239,15 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
                                     <h2 className="text-xl font-bold text-neutral-900 mb-6">{tab.label}</h2>
                                 )}
                                 
+                                {tab.id === 'design' && (
+                                    <div className="space-y-6">
+                                        <div className="flex items-center justify-between">
+                                            <h2 className="text-xl font-bold text-neutral-900">Document Design</h2>
+                                        </div>
+                                        <StyleForm data={data} onChange={onChange} />
+                                    </div>
+                                )}
+
                                 {tab.id === 'personal' && (
                                     <div className="space-y-6">
                                         <div className="flex items-center justify-between">
@@ -432,10 +338,22 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
         </div>
     </div>
 
-            <UploadDialog
+            <ResumeUploadModal
                 isOpen={showUpload}
                 onClose={() => setShowUpload(false)}
-                onUpload={handleUploadSuccess}
+                onImport={(importedData) => {
+                    onChange({
+                        ...data,
+                        ...importedData,
+                        id: data.id,
+                        documentType: data.documentType,
+                        templateId: data.templateId,
+                        formatting: data.formatting,
+                        sectionOrder: data.sectionOrder
+                    })
+                    setShowUpload(false)
+                    toast.success('Resume imported and AI-structured!')
+                }}
             />
 
             {/* Analyzing Overlay */}

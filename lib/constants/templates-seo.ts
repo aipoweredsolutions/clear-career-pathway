@@ -432,7 +432,7 @@ export const SEO_TEMPLATES: SeoTemplate[] = [
     },
     {
         slug: 'digital-marketing-specialist-resume-example',
-        templateId: 'ats-metro',
+        templateId: 'ats-modern',
         industry: 'Marketing',
         title: 'Digital Marketing Specialist Resume Example',
         name: 'ATS Metro',

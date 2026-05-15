@@ -12,7 +12,11 @@ export async function POST(req: NextRequest) {
         const supabase = await createClient()
         const { data: { user } } = await supabase.auth.getUser()
 
-        if (!user) {
+        const body = await req.json()
+        const { type, content, currentContent, userProfile, jobDescription } = body
+
+        // 1b. Selective Authorization: Allow guests to use the parser, but protect other AI features
+        if (!user && type !== 'parse_resume_from_text') {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
@@ -70,9 +74,7 @@ export async function POST(req: NextRequest) {
             }, { status: 403 })
         }
 
-        // 4. Parse Request
-        const body = await req.json()
-        const { type, content, currentContent, userProfile, jobDescription } = body
+        // 4. Parse Request (Moved to top)
         const targetContent = content || currentContent // Handle different field names from frontend
         const resumeData = userProfile?.resumeContent || body.resumeContent || ''
 

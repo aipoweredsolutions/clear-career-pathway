@@ -23,7 +23,11 @@ export function TemplateThumbnail({ template, activeColorId, className, priority
         return getSampleDataForTemplate(template.id)
     }
 
-    const isEliteOrGold = template.id === 'ats-gold-standard' || template.id.startsWith('elite-') || template.id === 'ats-nursing'
+    const isEliteOrGold = 
+        template.id === 'ats-gold-standard' || 
+        template.id.startsWith('elite-') || 
+        template.id === 'ats-nursing' ||
+        template.id === 'ats-professional'
     const [imageError, setImageError] = React.useState(isEliteOrGold)
 
     // Reset error state when template changes
@@ -31,33 +35,14 @@ export function TemplateThumbnail({ template, activeColorId, className, priority
         setImageError(isEliteOrGold)
     }, [template.id, isEliteOrGold])
 
-    // Construct the static image path
-    // Prioritize the preview image from the registry if available, otherwise construct it
-    const colorId = activeColorId || (template.colors && template.colors[0]?.id) || 'standard'
-    const staticImagePath = template.previewImage || `/templates/${template.id}-${colorId}-preview.png`
-
     return (
         <div className={cn("relative w-full h-full bg-neutral-100 overflow-hidden", className)}>
-            {!imageError ? (
-                <div className="relative w-full h-full">
-                    <NextImage
-                        src={staticImagePath}
-                        alt={template.name}
-                        fill
-                        priority={priority}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover object-top"
-                        onError={() => setImageError(true)}
-                    />
-                </div>
-            ) : (
-                <LazyTemplatePreview
-                    template={template}
-                    colorSuffix={activeColorId ? `-${activeColorId}` : ''}
-                    data={getSampleData()}
-                    force={isEliteOrGold}
-                />
-            )}
+            <LazyTemplatePreview
+                template={template}
+                colorSuffix={activeColorId ? `-${activeColorId}` : ''}
+                data={getSampleData()}
+                force={isEliteOrGold} // Still force render the top ones immediately for hero
+            />
 
             {/* Subtle overlay to indicate it's a preview */}
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-black/5" />

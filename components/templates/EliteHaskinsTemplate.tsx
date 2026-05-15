@@ -11,7 +11,7 @@ interface TemplateProps {
 }
 
 /**
- * KYOTO MULTIPAGE TEMPLATE
+ * ELITE KYOTO TEMPLATE
  * A sophisticated multipage-ready executive template.
  * Features ultra-clean typography, wide-tracked headers, and a structured grid for skills.
  * Inspired by high-end professional CVs.

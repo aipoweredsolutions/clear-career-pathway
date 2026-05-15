@@ -445,7 +445,7 @@ export function ATSRoyalScholarTemplate({ data, className, accentColor = 'text-b
 
                 {/* Custom Sections */}
                 {customSections && customSections.length > 0 && customSections.map((section, si) => (
-                    <section key={si} className="">
+                    <section key={si} className={cn(section.forcePageBreak && "force-page-break")}>
                         <SectionHeader title={section.title} />
                         {section.content && (
                             <p className="text-[12px] text-neutral-700 leading-[1.7] text-justify mb-2">{section.content}</p>

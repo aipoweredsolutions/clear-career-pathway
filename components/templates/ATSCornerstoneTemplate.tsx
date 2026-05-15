@@ -42,20 +42,14 @@ export function ATSCornerstoneTemplate({ data, className, accentColor = 'text-am
         customSections
     } = data
 
-    const borderColorClass = accentColor.replace('text-', 'border-')
-    const bgColorClass = accentColor.replace('text-', 'bg-')
-
     // Section header: uppercase, wide-tracked, accent-colored, with double underline
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="mt-8 mb-4">
-            <h2 className={cn(
-                'text-[14px] font-bold uppercase tracking-[0.3em] mb-2',
-                accentColor
-            )} style={{ fontFamily: "'Georgia', 'Lora', 'Times New Roman', serif" }}>
+        <div className={cn("mt-8 mb-4", accentColor)}>
+            <h2 className="text-[14px] font-bold uppercase tracking-[0.3em] mb-2" style={{ fontFamily: "'Georgia', 'Lora', 'Times New Roman', serif" }}>
                 {title}
             </h2>
-            <div className={cn('h-[2px] w-full mb-[2px]', bgColorClass)} />
-            <div className={cn('h-[1px] w-full opacity-60', bgColorClass)} />
+            <div className="h-[2px] w-full mb-[2px] bg-current" />
+            <div className="h-[1px] w-full opacity-60 bg-current" />
         </div>
     )
 

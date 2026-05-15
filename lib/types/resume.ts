@@ -133,6 +133,7 @@ export interface Publication {
     publicationYear?: number
     url?: string
     displayOrder?: number
+    forcePageBreak?: boolean
 }
 
 export interface VolunteerExperience {
@@ -215,6 +216,7 @@ export interface CustomSection {
     items?: CustomSectionItem[]
     content?: string
     displayOrder?: number
+    forcePageBreak?: boolean
 }
 
 export interface ResumeDocument {
@@ -237,6 +239,7 @@ export interface ResumeDocument {
         margin?: 'narrow' | 'normal' | 'wide'
         paperSize?: 'letter' | 'a4'
         themeColor?: string
+        accentColor?: string
     }
     sectionOrder?: string[]
 

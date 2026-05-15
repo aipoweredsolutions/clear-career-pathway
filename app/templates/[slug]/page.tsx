@@ -5,7 +5,7 @@ import { getTemplateBySlug, SEO_TEMPLATES } from '@/lib/constants/templates-seo'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { CheckCircle2, ShieldCheck, ArrowRight, Tag, BookOpen, Briefcase, Wrench, Layout } from 'lucide-react'
-import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
+import { ScrollableDevicePreview } from '@/components/home/ScrollableDevicePreview'
 import { getSampleDataForTemplate } from '@/lib/utils/template-sample-data'
 
 interface Props {
@@ -69,7 +69,7 @@ export default async function TemplateLandingPage({ params }: Props) {
     const template = getTemplateBySlug(slug)
     if (!template) notFound()
 
-    const sampleData = getSampleDataForTemplate(template.templateId)
+    const sampleData = getSampleDataForTemplate(template.templateId, template.sampleDataKey)
 
     // Related templates (use relatedSlugs — not all templates)
     const relatedTemplates = SEO_TEMPLATES.filter(
@@ -166,7 +166,7 @@ export default async function TemplateLandingPage({ params }: Props) {
     ]
 
     return (
-        <div className="min-h-screen bg-[#FDFDFD] pt-24 pb-20 overflow-hidden">
+        <div className="min-h-screen bg-[#FDFDFD] pt-24 pb-20 overflow-x-hidden">
             {/* Structured Data */}
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
@@ -185,11 +185,9 @@ export default async function TemplateLandingPage({ params }: Props) {
                     <span className="text-neutral-600">{template.title}</span>
                 </nav>
 
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-
-                    {/* ── LEFT COLUMN ── */}
-                    <div className="space-y-10">
-
+                <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+                    {/* ── LEFT COLUMN (Editorial Flow) ── */}
+                    <div className="lg:col-span-7 space-y-16 pb-12">
                         {/* Hero */}
                         <div className="relative">
                             <div className="absolute -top-32 -left-32 w-64 h-64 bg-primary-100/50 rounded-full blur-[80px] pointer-events-none" />
@@ -215,121 +213,111 @@ export default async function TemplateLandingPage({ params }: Props) {
                                     </div>
                                 ))}
                             </div>
-                            <Link href={`/editor/setup?template=${template.templateId}`}>
-                                <Button size="xl" className="font-black h-16 px-10 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform bg-primary-600 hover:bg-primary-700 text-white">
+                            <Link href={`/editor/setup?template=${template.templateId}`} className="inline-block lg:hidden w-full mb-8">
+                                <Button size="xl" className="w-full font-black h-16 text-lg rounded-2xl shadow-xl bg-primary-600 hover:bg-primary-700 text-white">
                                     Use This Template <ArrowRight className="w-6 h-6 ml-3" />
                                 </Button>
                             </Link>
                         </div>
 
-                        {/* Why It Works */}
-                        <div className="bg-white p-8 rounded-3xl shadow-xl shadow-neutral-200/20 border border-neutral-100">
-                            <h2 className="text-xl font-black text-neutral-950 mb-3 tracking-tight">Why This Template Works for {template.industry} Roles</h2>
-                            <p className="text-neutral-600 leading-relaxed text-[15px] font-medium">{template.whyItWorks}</p>
-                            <p className="text-neutral-600 leading-relaxed text-[15px] font-medium mt-3">{template.bestFor}</p>
-                            <ul className="mt-5 space-y-3">
+                        {/* Why It Works (Inline Editorial) */}
+                        <section>
+                            <h2 className="text-2xl font-black text-neutral-950 mb-4 tracking-tight">Why This Format Works</h2>
+                            <p className="text-neutral-600 leading-relaxed text-[16px] font-medium mb-4">{template.whyItWorks}</p>
+                            <p className="text-neutral-600 leading-relaxed text-[16px] font-medium mb-6">{template.bestFor}</p>
+                            
+                            <div className="grid sm:grid-cols-2 gap-4">
                                 {['Strict Single-Column Layout', 'Standard Web-Safe Fonts', 'Machine-Readable Headings', 'No Tables or Text Boxes'].map(item => (
-                                    <li key={item} className="flex items-center gap-3">
-                                        <div className="bg-success-50 p-1.5 rounded-full border border-success-100">
-                                            <CheckCircle2 className="w-4 h-4 text-success-600 shrink-0" />
+                                    <div key={item} className="flex items-center gap-3 bg-white p-3 rounded-xl border border-neutral-100 shadow-sm">
+                                        <div className="bg-success-50 p-1 rounded-full border border-success-100 shrink-0">
+                                            <CheckCircle2 className="w-4 h-4 text-success-600" />
                                         </div>
-                                        <span className="text-neutral-700 font-bold text-sm">{item}</span>
-                                    </li>
+                                        <span className="text-neutral-700 font-bold text-[13px]">{item}</span>
+                                    </div>
                                 ))}
-                            </ul>
-                        </div>
+                            </div>
+                        </section>
 
-                        {/* ── HOW TO WRITE — UNIQUE PER TEMPLATE ── */}
-                        <div className="bg-white p-8 rounded-3xl shadow-xl shadow-neutral-200/20 border border-neutral-100">
-                            <h2 className="text-2xl font-black text-neutral-950 mb-6 tracking-tight">
+                        <div className="h-px bg-neutral-200 w-full" />
+
+                        {/* ── HOW TO WRITE (Vertical Timeline) ── */}
+                        <section>
+                            <h2 className="text-3xl font-black text-neutral-950 mb-8 tracking-tight">
                                 How to Write a {template.title} in 2025
                             </h2>
-                            <div className="space-y-6">
-                                {howToSteps.map(({ icon: Icon, label, content }) => (
-                                    <div key={label} className="flex gap-4">
-                                        <div className="w-9 h-9 bg-primary-50 rounded-xl border border-primary-100 flex items-center justify-center shrink-0 mt-0.5">
-                                            <Icon className="w-4 h-4 text-primary-600" />
+                            <div className="relative pl-4 sm:pl-8 border-l-2 border-primary-100 space-y-12">
+                                {howToSteps.map(({ icon: Icon, label, content }, index) => (
+                                    <div key={label} className="relative">
+                                        {/* Timeline Node */}
+                                        <div className="absolute -left-[35px] sm:-left-[51px] w-12 h-12 bg-white rounded-full border-4 border-[#FDFDFD] shadow-sm flex items-center justify-center top-0">
+                                            <div className="w-8 h-8 bg-primary-50 rounded-full border border-primary-100 flex items-center justify-center text-primary-600 font-black text-sm">
+                                                {index + 1}
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h3 className="text-[15px] font-black text-neutral-900 mb-2">{label}</h3>
-                                            <p className="text-neutral-600 leading-relaxed text-[14px] font-medium">{content}</p>
+                                        
+                                        <div className="pt-2">
+                                            <h3 className="text-xl font-black text-neutral-900 mb-3 flex items-center gap-2">
+                                                <Icon className="w-5 h-5 text-primary-500" />
+                                                {label}
+                                            </h3>
+                                            <p className="text-neutral-600 leading-relaxed text-[16px] font-medium">{content}</p>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                        </div>
+                        </section>
+
+                        <div className="h-px bg-neutral-200 w-full" />
 
                         {/* ── ATS KEYWORDS ── */}
-                        <div className="bg-white p-8 rounded-3xl shadow-xl shadow-neutral-200/20 border border-neutral-100">
-                            <div className="flex items-center gap-3 mb-2">
-                                <Tag className="w-5 h-5 text-primary-600" />
-                                <h2 className="text-xl font-black text-neutral-950 tracking-tight">
-                                    ATS Keywords for {template.title}
+                        <section>
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-10 h-10 bg-primary-50 rounded-xl border border-primary-100 flex items-center justify-center shrink-0">
+                                    <Tag className="w-5 h-5 text-primary-600" />
+                                </div>
+                                <h2 className="text-2xl font-black text-neutral-950 tracking-tight">
+                                    Target ATS Keywords
                                 </h2>
                             </div>
-                            <p className="text-neutral-500 text-sm font-medium mb-5">
-                                These are the exact terms ATS systems and recruiters search for when hiring for this role.
-                                Mirror this vocabulary in your resume where you have genuine experience with each item.
+                            <p className="text-neutral-500 text-[15px] font-medium mb-6 leading-relaxed">
+                                These are the exact terms applicant tracking systems and recruiters search for when hiring for {template.industry.toLowerCase()} roles. Mirror this vocabulary where you have genuine experience.
                             </p>
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-2.5">
                                 {template.keySkills.map(skill => (
                                     <span
                                         key={skill}
-                                        className="px-3 py-1.5 rounded-full bg-primary-50 border border-primary-100 text-primary-700 text-[12px] font-black tracking-wide"
+                                        className="px-4 py-2 rounded-xl bg-white border border-neutral-200 text-neutral-700 text-[13px] font-black tracking-wide shadow-sm hover:border-primary-300 hover:text-primary-700 transition-colors cursor-default"
                                     >
                                         {skill}
                                     </span>
                                 ))}
                             </div>
-                        </div>
+                        </section>
 
                         {/* ── EXAMPLE ACHIEVEMENT BULLETS ── */}
                         {template.exampleBullets && template.exampleBullets.length > 0 && (
-                            <div className="bg-white p-8 rounded-3xl shadow-xl shadow-neutral-200/20 border border-neutral-100">
-                                <h2 className="text-xl font-black text-neutral-950 mb-2 tracking-tight">
-                                    Example Achievement Bullets for {template.industry} Resumes
+                            <section>
+                                <h2 className="text-2xl font-black text-neutral-950 mb-3 tracking-tight">
+                                    Example Achievement Bullets
                                 </h2>
-                                <p className="text-neutral-500 text-sm font-medium mb-5">
-                                    Strong achievement bullets follow the formula: action + context + measurable outcome.
-                                    Use these as structural benchmarks when writing your own.
+                                <p className="text-neutral-500 text-[15px] font-medium mb-6">
+                                    Strong bullets follow the formula: <strong className="text-neutral-900">action + context + measurable outcome</strong>. Use these as structural benchmarks.
                                 </p>
-                                <div className="space-y-3">
+                                <div className="space-y-4">
                                     {template.exampleBullets.map((bullet, idx) => (
-                                        <div key={idx} className="flex gap-3 p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
-                                            <span className="text-primary-400 font-black shrink-0 mt-0.5">›</span>
-                                            <p className="text-neutral-700 font-medium text-[14px] leading-relaxed italic">{"\""}{bullet}{"\""}</p>
+                                        <div key={idx} className="flex gap-4 p-5 bg-white rounded-2xl border-l-4 border-l-primary-500 border-y border-r border-neutral-200 shadow-sm">
+                                            <span className="text-primary-400 font-black shrink-0 text-xl leading-none">"</span>
+                                            <p className="text-neutral-700 font-medium text-[15px] leading-relaxed italic pr-4">{bullet}</p>
                                         </div>
                                     ))}
                                 </div>
-                            </div>
-                        )}
-
-                        {/* ── FAQ ── */}
-                        {template.faqs && template.faqs.length > 0 && (
-                            <div className="bg-white p-8 rounded-3xl shadow-xl shadow-neutral-200/20 border border-neutral-100">
-                                <h2 className="text-xl font-black text-neutral-950 mb-6 tracking-tight">
-                                    {template.title} — Frequently Asked Questions
-                                </h2>
-                                <div className="space-y-4">
-                                    {template.faqs.map((faq, idx) => (
-                                        <details key={idx} className="group border border-neutral-100 rounded-2xl overflow-hidden">
-                                            <summary className="flex items-center justify-between px-5 py-4 cursor-pointer font-black text-neutral-900 text-[14px] list-none">
-                                                {faq.q}
-                                                <ArrowRight className="w-4 h-4 text-neutral-400 group-open:rotate-90 transition-transform shrink-0 ml-4" />
-                                            </summary>
-                                            <div className="px-5 pb-4 text-neutral-600 text-[14px] leading-relaxed font-medium border-t border-neutral-50">
-                                                <div className="pt-3">{faq.a}</div>
-                                            </div>
-                                        </details>
-                                    ))}
-                                </div>
-                            </div>
+                            </section>
                         )}
                     </div>
 
                     {/* ── RIGHT COLUMN — Sticky Preview ── */}
-                    <div className="lg:sticky lg:top-32 space-y-8">
-                        <div className="bg-neutral-900 rounded-[2.5rem] shadow-2xl border-4 border-neutral-900 overflow-hidden flex flex-col group">
+                    <div className="lg:col-span-5 lg:sticky lg:top-32 space-y-6 relative pb-12">
+                        <div className="bg-neutral-900 rounded-[2.5rem] shadow-2xl border-4 border-neutral-900 overflow-hidden flex flex-col group relative">
                             <div className="bg-neutral-950 px-6 py-4 flex items-center justify-between border-b border-white/10">
                                 <div className="flex gap-2">
                                     <div className="w-3 h-3 rounded-full bg-rose-500" />
@@ -341,34 +329,30 @@ export default async function TemplateLandingPage({ params }: Props) {
                                 </div>
                                 <div className="w-10" />
                             </div>
-                            <div className="relative w-full aspect-[8.5/11] bg-neutral-100 overflow-hidden flex items-start justify-center">
-                                <div className="absolute top-0 origin-top transform scale-[0.55] sm:scale-[0.8] lg:scale-[0.65] xl:scale-[0.8] w-[180%] sm:w-[125%] lg:w-[150%] xl:w-[125%] transition-transform duration-1000 group-hover:-translate-y-8 ease-out pointer-events-none">
-                                    <TemplateRenderer
-                                        templateId={template.templateId}
-                                        data={sampleData}
-                                        className="shadow-2xl mx-auto"
-                                    />
-                                </div>
-                                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-neutral-900 via-neutral-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-12 pointer-events-none">
-                                    <Link href={`/editor/setup?template=${template.templateId}`} className="pointer-events-auto">
-                                        <Button size="lg" variant="secondary" className="shadow-2xl font-black tracking-widest uppercase text-xs">
-                                            Build With This Template
-                                        </Button>
-                                    </Link>
-                                </div>
+                            <ScrollableDevicePreview 
+                                templateId={template.templateId}
+                                sampleData={sampleData}
+                            />
+                            
+                            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-neutral-900 via-neutral-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-8 pointer-events-none z-10">
+                                <Link href={`/editor/setup?template=${template.templateId}`} className="pointer-events-auto">
+                                    <Button size="lg" variant="secondary" className="shadow-2xl font-black tracking-widest uppercase text-xs">
+                                        Build With This Template
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
 
                         {/* CTA card */}
-                        <div className="bg-neutral-950 p-8 rounded-3xl text-white relative overflow-hidden">
+                        <div className="bg-neutral-950 p-8 rounded-3xl text-white relative overflow-hidden hidden lg:block">
                             <div className="absolute top-0 right-0 w-48 h-48 bg-primary-600/20 rounded-full blur-[60px]" />
                             <h3 className="text-xl font-black mb-3 relative z-10">Ready to build yours?</h3>
                             <p className="text-neutral-400 text-sm font-medium mb-6 leading-relaxed relative z-10">
                                 Open this template in the editor pre-filled with {template.industry}-specific content.
                                 Swap in your details, refine with AI, download as PDF.
                             </p>
-                            <Link href={`/editor/setup?template=${template.templateId}`} className="relative z-10 inline-flex">
-                                <Button size="lg" className="font-black bg-white text-neutral-950 hover:bg-neutral-100 shadow-xl">
+                            <Link href={`/editor/setup?template=${template.templateId}`} className="relative z-10 inline-flex w-full">
+                                <Button size="lg" className="w-full font-black bg-white text-neutral-950 hover:bg-neutral-100 shadow-xl">
                                     Use This Template Free <ArrowRight className="w-4 h-4 ml-2" />
                                 </Button>
                             </Link>
@@ -376,40 +360,67 @@ export default async function TemplateLandingPage({ params }: Props) {
                     </div>
                 </div>
 
-                {/* ── RELATED TEMPLATES ── */}
-                {relatedTemplates.length > 0 && (
-                    <section className="mt-20 pt-16 border-t border-neutral-200">
-                        <h2 className="text-xl font-black text-neutral-900 mb-8 tracking-tight text-center uppercase">
-                            Related {template.industry} Resume Examples
-                        </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                            {relatedTemplates.map(t => (
-                                <Link
-                                    key={t.slug}
-                                    href={`/templates/${t.slug}`}
-                                    className="group bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:border-primary-200 hover:-translate-y-1 transition-all"
-                                >
-                                    <h3 className="font-black text-neutral-900 text-sm mb-1 group-hover:text-primary-600 transition-colors">
-                                        {t.title}
-                                    </h3>
-                                    <p className="text-[11px] text-neutral-400 font-bold uppercase tracking-widest mb-3">{t.industry}</p>
-                                    <div className="flex flex-wrap gap-1">
-                                        {t.keySkills.slice(0, 3).map(skill => (
-                                            <span key={skill} className="text-[10px] font-bold text-neutral-500 bg-neutral-50 border border-neutral-100 px-2 py-0.5 rounded-full">
-                                                {skill}
-                                            </span>
-                                        ))}
-                                    </div>
+                {/* ── FULL WIDTH BOTTOM SECTIONS ── */}
+                <div className="max-w-4xl mx-auto space-y-20">
+                    {/* ── FAQ ── */}
+                    {template.faqs && template.faqs.length > 0 && (
+                        <section className="pt-10">
+                            <h2 className="text-3xl font-black text-neutral-950 mb-8 tracking-tight text-center">
+                                Frequently Asked Questions
+                            </h2>
+                            <div className="space-y-4">
+                                {template.faqs.map((faq, idx) => (
+                                    <details key={idx} className="group bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-sm hover:border-primary-200 transition-colors">
+                                        <summary className="flex items-center justify-between px-6 py-5 cursor-pointer font-black text-neutral-900 text-[16px] list-none">
+                                            {faq.q}
+                                            <div className="w-8 h-8 rounded-full bg-neutral-50 flex items-center justify-center shrink-0 ml-4 group-open:bg-primary-50">
+                                                <ArrowRight className="w-4 h-4 text-neutral-500 group-open:rotate-90 group-open:text-primary-600 transition-all" />
+                                            </div>
+                                        </summary>
+                                        <div className="px-6 pb-6 text-neutral-600 text-[15px] leading-relaxed font-medium">
+                                            <div className="pt-2 border-t border-neutral-100">{faq.a}</div>
+                                        </div>
+                                    </details>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* ── RELATED TEMPLATES ── */}
+                    {relatedTemplates.length > 0 && (
+                        <section className="pt-10 border-t border-neutral-200">
+                            <h2 className="text-2xl font-black text-neutral-900 mb-8 tracking-tight text-center uppercase">
+                                Related {template.industry} Resume Examples
+                            </h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {relatedTemplates.map(t => (
+                                    <Link
+                                        key={t.slug}
+                                        href={`/templates/${t.slug}`}
+                                        className="group bg-white p-6 rounded-3xl border border-neutral-200 shadow-sm hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 transition-all flex flex-col"
+                                    >
+                                        <h3 className="font-black text-neutral-900 text-lg mb-1 group-hover:text-primary-600 transition-colors">
+                                            {t.title}
+                                        </h3>
+                                        <p className="text-[11px] text-neutral-400 font-bold uppercase tracking-widest mb-4">{t.industry}</p>
+                                        <div className="flex flex-wrap gap-1.5 mt-auto">
+                                            {t.keySkills.slice(0, 3).map(skill => (
+                                                <span key={skill} className="text-[11px] font-bold text-neutral-600 bg-neutral-100 px-2.5 py-1 rounded-md">
+                                                    {skill}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                            <div className="text-center mt-10">
+                                <Link href="/resume-examples" className="text-[15px] font-black text-primary-600 hover:text-primary-700 underline underline-offset-4">
+                                    View all resume examples →
                                 </Link>
-                            ))}
-                        </div>
-                        <div className="text-center mt-8">
-                            <Link href="/resume-examples" className="text-sm font-bold text-primary-600 hover:text-primary-700 underline underline-offset-4">
-                                View all resume examples →
-                            </Link>
-                        </div>
-                    </section>
-                )}
+                            </div>
+                        </section>
+                    )}
+                </div>
             </div>
         </div>
     )

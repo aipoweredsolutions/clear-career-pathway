@@ -13,36 +13,56 @@ interface Props {
 
 export function LiveTemplatePreview({ templateId, sampleDataKey, title }: Props) {
     const [isVisible, setIsVisible] = useState(false)
+    const [scale, setScale] = useState(0.28) // Default fallback scale
     const containerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
+        if (!containerRef.current) return
+
+        // 1. Intersection Observer for lazy loading
+        const visObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setIsVisible(true)
-                    observer.disconnect()
+                    visObserver.disconnect()
                 }
             },
-            { threshold: 0.1 }
+            { threshold: 0.05, rootMargin: '200px' }
         )
+        visObserver.observe(containerRef.current)
 
-        if (containerRef.current) {
-            observer.observe(containerRef.current)
+        // 2. Resize Observer for dynamic scaling based on container width
+        // A4 width (210mm) is approx 793.7px at 96 DPI
+        const resObserver = new ResizeObserver((entries) => {
+            const { width } = entries[0].contentRect
+            setScale(width / 793.7)
+        })
+        resObserver.observe(containerRef.current)
+
+        return () => {
+            visObserver.disconnect()
+            resObserver.disconnect()
         }
-
-        return () => observer.disconnect()
     }, [])
 
-    const sampleData = getSampleDataForTemplate(templateId)
+    // Pass sampleDataKey for role-specific data matching
+    const sampleData = getSampleDataForTemplate(templateId, sampleDataKey)
 
     return (
         <div ref={containerRef} className="relative w-full h-full overflow-hidden flex items-start justify-center bg-white">
             {isVisible ? (
-                <div className="absolute top-0 origin-top transform scale-[0.25] w-[400%] shadow-2xl transition-opacity duration-1000 animate-in fade-in">
+                <div
+                    className="absolute top-0 left-0 origin-top-left shadow-2xl transition-opacity duration-1000 animate-in fade-in"
+                    style={{
+                        transform: `scale(${scale})`,
+                        width: '210mm',
+                        height: '297mm', // Adding height prevents clipping issues during scaling
+                    }}
+                >
                     <TemplateRenderer 
                         templateId={templateId} 
                         data={sampleData} 
-                        className="w-[210mm] min-h-[297mm] mx-auto" 
+                        className="w-full h-full mx-auto pointer-events-none select-none" 
                     />
                 </div>
             ) : (

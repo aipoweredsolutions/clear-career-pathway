@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
                 user_id: user.id,
                 title: data.title || `Imported Resume - ${new Date().toLocaleDateString()}`,
                 document_type: 'resume',
-                template_id: data.templateId || 'ats-gold-standard',
+                template_id: data.templateId || 'ats-professional',
             })
             .select()
             .single()

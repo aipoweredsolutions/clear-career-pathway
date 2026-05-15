@@ -11,7 +11,7 @@ interface TemplateProps {
 }
 
 /**
- * SUMMIT MODERN TEMPLATE
+ * ELITE SUMMIT TEMPLATE
  * A modern, minimal, and highly ATS-friendly template featuring clean sans-serif typography.
  * Distinguished by its ultra-wide tracking in the header and minimalist section dividers.
  */

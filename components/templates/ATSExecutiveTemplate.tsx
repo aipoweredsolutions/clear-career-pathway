@@ -41,7 +41,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
             className
         )}>
             {/* Executive Header — Power Header */}
-            <header className={cn("border-b-[4px] pb-5 mb-6", borderColorClass)}>
+            <header className={cn("border-b-[4px] pb-5 mb-3", borderColorClass)}>
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                     <div className="flex-1">
                         <h1 className={cn("text-[48px] font-black tracking-[-0.04em] leading-none mb-4 uppercase whitespace-nowrap truncate", accentColor)}>
@@ -188,7 +188,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                 {projects && projects.length > 0 && (
                     <section>
                         <SectionTitle>Key Strategic Initiatives</SectionTitle>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-4">
                             {projects.map((proj, i) => (
                                 <div key={i} className=" bg-neutral-50 p-5 rounded-xl border-[1.5px] border-neutral-100 group hover:border-neutral-200 transition-colors">
                                     <div className="flex justify-between items-start mb-4">
