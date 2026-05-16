@@ -2,9 +2,13 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+    // Forward pathname so the root layout can detect immersive routes
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.set('x-next-url', request.nextUrl.pathname)
+
     let response = NextResponse.next({
         request: {
-            headers: request.headers,
+            headers: requestHeaders,
         },
     })
 
@@ -54,7 +58,33 @@ export async function middleware(request: NextRequest) {
         }
     )
 
-    const { data: { user } } = await supabase.auth.getUser()
+    // Skip auth entirely for public immersive viewer routes
+    if (request.nextUrl.pathname.startsWith('/view/')) {
+        return response
+    }
+
+    // Referral detection
+    const referralCode = request.nextUrl.searchParams.get('ref')
+    if (referralCode) {
+        response.cookies.set('referral_code', referralCode, {
+            maxAge: 30 * 24 * 60 * 60, // 30 days
+            httpOnly: true,
+            path: '/',
+        })
+    }
+
+    let user = null
+    try {
+        console.log('Middleware: Fetching user...')
+        const { data: { user: supabaseUser }, error } = await supabase.auth.getUser()
+        if (error) {
+            console.error('Middleware: Supabase auth error:', error.message)
+        }
+        user = supabaseUser
+        console.log('Middleware: User fetched successfully:', user?.email || 'Guest')
+    } catch (e) {
+        console.error('Middleware: Critical error in getUser():', e)
+    }
 
     // Protected routes logic
     const isProtectedRoute = 
@@ -65,6 +95,7 @@ export async function middleware(request: NextRequest) {
     const isAuthRoute = request.nextUrl.pathname.startsWith('/auth')
 
     if (!user && isProtectedRoute) {
+        console.log('Middleware: Redirecting to login (unauthorized)')
         return NextResponse.redirect(new URL('/auth/login', request.url))
     }
 

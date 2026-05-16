@@ -4,8 +4,10 @@ import { redirect } from 'next/navigation'
 import { DashboardWorkspace } from '@/components/dashboard/DashboardWorkspace'
 import { DashboardHeaderActions } from '@/components/dashboard/DashboardHeaderActions'
 import { DashboardEmptyStateActions } from '@/components/dashboard/DashboardEmptyStateActions'
+import { JobTracker } from '@/components/dashboard/JobTracker'
 import { fetchUserDocuments } from '@/lib/supabase/documents'
-import { Zap, FileText } from 'lucide-react'
+import { Zap, FileText, Users, ArrowRight, Target } from 'lucide-react'
+import Link from 'next/link'
 
 export default async function DashboardPage() {
     const cookieStore = await cookies()
@@ -21,42 +23,37 @@ export default async function DashboardPage() {
         }
     )
 
-    // 1. Session check with Developer Guest Mode/Bypass support
-    const isMock = cookieStore.get('mock_session')?.value === 'true'
-    let session: any = null
+    // 1. Session check
+    const { data: authData } = await supabase.auth.getUser()
+    const user = authData?.user
 
-    if (isMock) {
-        console.log('Dashboard: Using Developer Guest Mode session')
-        session = {
-            user: { id: 'mock-user-id', email: 'tester@example.com' }
-        }
-    } else {
-        const { data } = await supabase.auth.getUser()
-        const user = data?.user
-        if (user) {
-            session = { user }
-        }
-    }
-
-    if (!session) {
+    if (!user) {
         redirect('/auth/login')
     }
 
-    // Fetch user's resumes, subscription, and profile
+    const session = { user }
+
+    // Fetch user's resumes, subscription, profile, and referral stats
     let resumes: any[] = []
     let fetchError = null
     let subscription: any = null
     let profile: any = null
+    let downloadCount = 0
+    let referralCount = 0
 
     try {
-        const [docs, sub, prof] = await Promise.all([
+        const [docs, sub, prof, dlHistory, refs] = await Promise.all([
             fetchUserDocuments(supabase, session.user.id),
             import('@/lib/supabase/subscriptions').then(m => m.fetchUserSubscription(supabase, session.user.id)),
-            supabase.from('profiles').select('*').eq('id', session.user.id).single()
+            supabase.from('profiles').select('*').eq('id', session.user.id).single(),
+            supabase.from('download_history').select('*', { count: 'exact', head: true }).eq('user_id', session.user.id),
+            supabase.from('referrals').select('*', { count: 'exact', head: true }).eq('referrer_id', session.user.id)
         ])
         resumes = docs
         subscription = sub
         profile = prof.data
+        downloadCount = dlHistory.count || 0
+        referralCount = refs.count || 0
     } catch (error: any) {
         console.error('Error fetching dashboard data:', error)
         fetchError = error.message
@@ -65,9 +62,9 @@ export default async function DashboardPage() {
     const { hasPremiumAccess } = await import('@/lib/supabase/subscriptions')
     const isPro = hasPremiumAccess(subscription)
 
-    // Onboarding Check: If they have 0 resumes and haven't seen the onboarding, send them there.
+    // Onboarding Check
     const hasSeenOnboarding = cookieStore.get('ccp_onboarding_completed')?.value === 'true' || profile?.has_completed_onboarding
-    if (resumes.length === 0 && !hasSeenOnboarding && !isMock) {
+    if (resumes.length === 0 && !hasSeenOnboarding) {
         redirect('/onboarding')
     }
 
@@ -105,6 +102,30 @@ export default async function DashboardPage() {
 
                 </div>
 
+                {/* Referral Invite CTA - Show after first download if no referrals yet */}
+                {downloadCount > 0 && referralCount === 0 && (
+                    <div className="bg-gradient-to-r from-neutral-900 to-neutral-800 rounded-[2.5rem] p-8 md:p-12 mb-16 text-white flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl shadow-neutral-200 overflow-hidden relative group border border-neutral-800">
+                        <div className="relative z-10 space-y-4">
+                            <div className="flex items-center gap-2 text-primary-400 text-[10px] font-black uppercase tracking-[0.3em]">
+                                <Users className="w-4 h-4" /> Affiliate Bonus
+                            </div>
+                            <h3 className="text-4xl font-black tracking-tighter italic">Share the <br/><span className="text-primary-500 tracking-normal not-italic">Success.</span></h3>
+                            <p className="text-neutral-400 font-bold max-w-md leading-relaxed">
+                                You&apos;ve built your resume. Now help your friends do the same. Give 5 free AI credits, get 5 for every signup.
+                            </p>
+                        </div>
+                        <Link
+                            href="/account?tab=referral"
+                            className="relative z-10 bg-white text-neutral-900 font-black px-10 py-5 rounded-[1.5rem] hover:bg-primary-50 transition-all shadow-2xl hover:scale-105 active:scale-95 flex items-center gap-3 group/btn whitespace-nowrap"
+                        >
+                            Get My Referral Link
+                            <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                        </Link>
+                        {/* Decorative background icon */}
+                        <Users className="absolute -bottom-10 -right-10 w-64 h-64 text-white/[0.03] -rotate-12 group-hover:rotate-0 transition-transform duration-1000" />
+                    </div>
+                )}
+
                 {fetchError && (
                     <div className="bg-amber-50 border border-amber-200 rounded-3xl p-8 mb-12 flex items-start gap-6 shadow-sm">
                         <div className="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center shrink-0">
@@ -123,6 +144,29 @@ export default async function DashboardPage() {
                         </div>
                     </div>
                 )}
+
+                <div className="mb-20">
+                    <div className="flex items-center gap-3 mb-10">
+                        <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-xl shadow-neutral-200">
+                            <Target className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl font-black text-neutral-900 tracking-tighter italic">Application <span className="text-primary-600">Pipeline.</span></h2>
+                            <p className="text-xs text-neutral-400 font-black uppercase tracking-[0.2em] mt-1">Track your tailored submissions</p>
+                        </div>
+                    </div>
+                    <JobTracker />
+                </div>
+
+                <div className="flex items-center gap-3 mb-10">
+                    <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-xl shadow-neutral-200">
+                        <FileText className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h2 className="text-3xl font-black text-neutral-900 tracking-tighter italic">Document <span className="text-primary-600">Library.</span></h2>
+                        <p className="text-xs text-neutral-400 font-black uppercase tracking-[0.2em] mt-1">Manage your high-impact assets</p>
+                    </div>
+                </div>
 
                 {resumes && resumes.length > 0 ? (
                     <DashboardWorkspace resumes={resumes} />

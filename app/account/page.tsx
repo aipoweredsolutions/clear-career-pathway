@@ -33,10 +33,25 @@ export default async function AccountPage() {
     const monthYear = new Date().toISOString().substring(0, 7)
     const { data: usage } = await supabase
         .from('user_usage')
-        .select('ai_count, export_count')
+        .select('ai_count, export_count, bonus_ai_credits')
         .eq('user_id', user.id)
         .eq('month_year', monthYear)
         .maybeSingle()
+
+    // Fetch referral stats
+    const { count: referralCount } = await supabase
+        .from('referrals')
+        .select('*', { count: 'exact', head: true })
+        .eq('referrer_id', user.id)
+        .eq('status', 'rewarded')
+
+    // Fetch total bonus credits earned (all time)
+    const { data: bonusData } = await supabase
+        .from('user_usage')
+        .select('bonus_ai_credits')
+        .eq('user_id', user.id)
+
+    const totalBonusCredits = bonusData?.reduce((acc, curr) => acc + (curr.bonus_ai_credits || 0), 0) || 0
 
     // Fetch document count
     const { count: documentCount } = await supabase
@@ -88,11 +103,17 @@ export default async function AccountPage() {
                 fullName: profile?.full_name ?? user.user_metadata?.full_name ?? '',
                 createdAt: profile?.created_at ?? user.created_at,
                 downloadCredits: profile?.download_credits ?? 0,
+                referralCode: profile?.referral_code ?? '',
             }}
             subscription={subscription}
             usage={{
                 aiCount: usage?.ai_count ?? 0,
                 exportCount: usage?.export_count ?? 0,
+                bonusAICredits: usage?.bonus_ai_credits ?? 0,
+            }}
+            referrals={{
+                count: referralCount ?? 0,
+                totalBonusCredits: totalBonusCredits,
             }}
             documentCount={documentCount ?? 0}
             downloadHistory={downloadHistory ?? []}

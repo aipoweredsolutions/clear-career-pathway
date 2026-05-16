@@ -35,7 +35,7 @@ Objective: Ensure all resume templates are fully ATS compliant by following the 
 - [x] ATSAcademiaCVTemplate.tsx
 
 ## Elite (Long-Form) Premium Templates
-- [x] EliteSterlingTemplate.tsx
+- [x] EliteAlpineTemplate.tsx
 - [x] EliteHaskinsTemplate.tsx
 - [x] EliteParkerTemplate.tsx
 - [x] EliteLondonTemplate.tsx

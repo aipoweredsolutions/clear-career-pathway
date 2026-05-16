@@ -6,7 +6,8 @@ import {
     User, Mail, Lock, CreditCard, BarChart2, Download,
     CheckCircle2, AlertCircle, ChevronRight, LogOut,
     FileText, Sparkles, Star, ArrowUpRight, Clock,
-    Shield, Zap, Loader2, Eye, EyeOff, Trash2
+    Shield, Zap, Loader2, Eye, EyeOff, Trash2,
+    Users, Copy, Link as LinkIcon
 } from 'lucide-react'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { updateProfile, updateEmail, updatePassword, deleteAccount } from '@/app/account/actions'
@@ -21,6 +22,7 @@ interface AccountUser {
     fullName: string
     createdAt: string
     downloadCredits: number
+    referralCode: string
 }
 
 interface Subscription {
@@ -40,6 +42,12 @@ interface Subscription {
 interface Usage {
     aiCount: number
     exportCount: number
+    bonusAICredits: number
+}
+
+interface ReferralStats {
+    count: number
+    totalBonusCredits: number
 }
 
 interface DownloadRecord {
@@ -62,6 +70,7 @@ interface AccountShellProps {
     user: AccountUser
     subscription: Subscription | null
     usage: Usage
+    referrals: ReferralStats
     documentCount: number
     downloadHistory: DownloadRecord[]
     paymentHistory: PaymentRecord[]
@@ -70,7 +79,7 @@ interface AccountShellProps {
 
 // ─── Tabs ─────────────────────────────────────────────────────────────────────
 
-type Tab = 'overview' | 'profile' | 'security' | 'billing' | 'history'
+type Tab = 'overview' | 'profile' | 'security' | 'billing' | 'history' | 'referral'
 
 // ─── Helper: Stat Badge ───────────────────────────────────────────────────────
 
@@ -286,6 +295,7 @@ const TABS: { id: Tab; label: string; icon: React.ElementType }[] = [
     { id: 'overview', label: 'Overview', icon: BarChart2 },
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'security', label: 'Security', icon: Shield },
+    { id: 'referral', label: 'Refer a Friend', icon: Users },
     { id: 'billing', label: 'Billing', icon: CreditCard },
     { id: 'history', label: 'Download History', icon: Download },
 ]
@@ -351,8 +361,19 @@ function DeleteAccountDialog({ onClose, onConfirmed }: { onClose: () => void; on
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function AccountShell({ user, subscription, usage, documentCount, downloadHistory, paymentHistory, managementUrls }: AccountShellProps) {
+export function AccountShell({ user, subscription, usage, referrals, documentCount, downloadHistory, paymentHistory, managementUrls }: AccountShellProps) {
     const { signOut } = useAuth()
+    const [copied, setCopied] = useState(false)
+    
+    const referralLink = typeof window !== 'undefined' 
+        ? `${window.location.origin}/?ref=${user.referralCode}`
+        : `${process.env.NEXT_PUBLIC_APP_URL || ''}/?ref=${user.referralCode}`
+
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(referralLink)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+    }
     const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
     const initialTab = (searchParams?.get('tab') as Tab) || 'overview'
     
@@ -475,15 +496,105 @@ export function AccountShell({ user, subscription, usage, documentCount, downloa
 
     const tabContent: Record<Tab, React.ReactNode> = {
 
+        // ── REFERRAL ────────────────────────────────────────────────────────
+        referral: (
+            <div className="space-y-6 max-w-2xl">
+                <div className="bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-2xl p-8 text-white relative overflow-hidden">
+                    <div className="relative z-10">
+                        <div className="inline-flex items-center gap-2 bg-primary-500 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full mb-4">
+                            <Sparkles className="w-3 h-3" /> Referral Program
+                        </div>
+                        <h3 className="text-3xl font-black mb-2 tracking-tight">Give 5, Get 5.</h3>
+                        <p className="text-neutral-300 font-medium mb-8 max-w-md">
+                            Share Clear Career Path with your friends. They get 5 free AI credits when they sign up, and you get 5 too!
+                        </p>
+
+                        <div className="space-y-4">
+                            <label className="block text-sm font-bold text-neutral-400">Your unique referral link</label>
+                            <div className="flex gap-2 p-1.5 bg-white/10 border border-white/10 rounded-2xl backdrop-blur-md">
+                                <div className="flex-1 px-4 py-2.5 text-sm font-medium text-white/90 truncate">
+                                    {referralLink}
+                                </div>
+                                <button
+                                    onClick={handleCopyLink}
+                                    className={cn(
+                                        "flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg",
+                                        copied ? "bg-emerald-500 text-white" : "bg-white text-neutral-900 hover:bg-neutral-100"
+                                    )}
+                                >
+                                    {copied ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                                    {copied ? 'Copied!' : 'Copy'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Abstract background blobs */}
+                    <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-64 h-64 bg-primary-500/20 rounded-full blur-[80px]" />
+                    <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px]" />
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="bg-white rounded-2xl border border-neutral-200 p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600">
+                                <Users className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <div className="text-sm font-black text-neutral-900">{referrals.count}</div>
+                                <div className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Friends Referred</div>
+                            </div>
+                        </div>
+                        <p className="text-xs text-neutral-500 leading-relaxed">
+                            Every friend who joins using your link increases this count and earns you credits.
+                        </p>
+                    </div>
+
+                    <div className="bg-white rounded-2xl border border-neutral-200 p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
+                                <Sparkles className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <div className="text-sm font-black text-neutral-900">{referrals.totalBonusCredits}</div>
+                                <div className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Bonus Credits Earned</div>
+                            </div>
+                        </div>
+                        <p className="text-xs text-neutral-500 leading-relaxed">
+                            These credits are added to your monthly allowance and never expire.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="bg-neutral-50 rounded-2xl border border-neutral-200 p-6">
+                    <h4 className="text-sm font-black text-neutral-900 mb-4 uppercase tracking-widest">How it works</h4>
+                    <div className="space-y-4">
+                        {[
+                            { step: '01', title: 'Share your link', desc: 'Send your referral link to friends or post it on social media.' },
+                            { step: '02', title: 'Friend signs up', desc: 'They get 5 free AI credits instantly upon account creation.' },
+                            { step: '03', title: 'You get rewarded', desc: 'You receive 5 bonus AI credits for every successful referral.' },
+                        ].map((item, idx) => (
+                            <div key={idx} className="flex gap-4">
+                                <span className="text-xl font-black text-neutral-200 tabular-nums">{item.step}</span>
+                                <div>
+                                    <div className="text-sm font-bold text-neutral-900">{item.title}</div>
+                                    <div className="text-xs text-neutral-500">{item.desc}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        ),
+
         // ── OVERVIEW ────────────────────────────────────────────────────────
         overview: (
             <div className="space-y-8">
                 {/* Stats Grid */}
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <StatCard icon={FileText} label="Documents" value={documentCount} sub={docLimit === null ? 'unlimited' : `of ${docLimit} allowed`} color="bg-primary-50 text-primary-600" />
-                    <StatCard icon={Sparkles} label="AI Uses (this month)" value={usage.aiCount} sub={aiLimit === null ? 'unlimited' : `of ${aiLimit} allowed`} color="bg-indigo-50 text-indigo-600" />
+                    <StatCard icon={Sparkles} label="AI Credits" value={(aiLimit || 0) + usage.bonusAICredits} sub={`${usage.aiCount} used this month`} color="bg-indigo-50 text-indigo-600" />
                     <StatCard icon={Download} label="Exports (this month)" value={usage.exportCount} sub={tier?.max_exports_per_month === null ? 'unlimited' : `of ${tier?.max_exports_per_month ?? 1} allowed`} color="bg-emerald-50 text-emerald-600" />
-                    <StatCard icon={CreditCard} label="Download Credits" value={user.downloadCredits} sub="pay-per-download" color="bg-amber-50 text-amber-600" />
+                    <StatCard icon={Users} label="Friends Referred" value={referrals.count} sub={`${referrals.totalBonusCredits} credits earned`} color="bg-rose-50 text-rose-600" />
                 </div>
 
                 {/* Plan & Usage Card */}

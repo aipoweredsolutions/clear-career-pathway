@@ -1,15 +1,23 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Plus, FileText, Upload } from 'lucide-react'
+import { Plus, FileText, Upload, Sparkles, Target } from 'lucide-react'
 import { ResumeUploadModal } from './ResumeUploadModal'
 import { createResume } from '@/app/dashboard/actions'
+import Link from 'next/link'
 
 export function DashboardHeaderActions() {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
 
     return (
         <div className="flex flex-wrap items-center gap-4">
+            <Link 
+                href="/tailor"
+                className="group h-16 px-10 bg-primary-50 border-2 border-primary-200 text-primary-700 rounded-2xl hover:border-primary-600 hover:bg-primary-600 hover:text-white transition-all flex items-center gap-3 font-black text-xs uppercase tracking-widest shadow-xl shadow-primary-900/5"
+            >
+                <Target className="w-5 h-5 transition-transform group-hover:scale-110" />
+                Tailor for a job
+            </Link>
             <button 
                 onClick={() => setIsUploadModalOpen(true)}
                 className="group h-16 px-10 bg-white border-2 border-primary-100 text-primary-600 rounded-2xl hover:border-primary-600 transition-all flex items-center gap-3 font-black text-xs uppercase tracking-widest shadow-xl shadow-primary-900/5"

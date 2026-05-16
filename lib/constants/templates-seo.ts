@@ -308,10 +308,10 @@ export const SEO_TEMPLATES: SeoTemplate[] = [
     },
     {
         slug: 'physical-therapist-resume-example',
-        templateId: 'ats-hospitality',
+        templateId: 'ats-professional',
         industry: 'Healthcare',
         title: 'Physical Therapist Resume Example',
-        name: 'ATS Hospitality',
+        name: 'ATS Professional',
         description: 'Free physical therapist resume example 2025. Manual therapy, rehabilitation, and patient outcomes keywords. ATS-compliant and ready to customise for PT roles.',
         sampleDataKey: 'physical-therapist',
         atsScore: 97,

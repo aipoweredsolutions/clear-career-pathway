@@ -12,24 +12,89 @@ import {
     Shield
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { createAdminClient } from '@/lib/supabase/server'
 
-export default function AdminDashboardPage() {
+export const revalidate = 60
+
+async function getStats() {
+    const supabase = createAdminClient()
+    
+    // Get first day of current month
+    const now = new Date()
+    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+
+    try {
+        const [
+            { count: totalUsers, error: usersError },
+            { count: totalDocs, error: docsError },
+            { data: revenueData, error: revenueError },
+            { count: paidUsers, error: paidError }
+        ] = await Promise.all([
+            supabase.from('profiles').select('*', { count: 'exact', head: true }),
+            supabase.from('documents').select('*', { count: 'exact', head: true }),
+            supabase.from('payment_history')
+                .select('amount')
+                .eq('status', 'succeeded')
+                .gte('created_at', firstDayOfMonth),
+            supabase.from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .neq('subscription_tier', 'free')
+        ])
+
+        if (usersError) console.error('Error fetching users:', usersError)
+        if (docsError) console.error('Error fetching docs:', docsError)
+        if (revenueError) console.error('Error fetching revenue:', revenueError)
+        if (paidError) console.error('Error fetching paid users:', paidError)
+
+        const monthlyRevenue = revenueData?.reduce((sum, item) => sum + Number(item.amount), 0) ?? 0
+        const conversionRate = totalUsers && totalUsers > 0 ? (Number(paidUsers) / Number(totalUsers)) * 100 : 0
+
+        return {
+            totalUsers: totalUsers?.toLocaleString() ?? '—',
+            totalDocs: totalDocs?.toLocaleString() ?? '—',
+            monthlyRevenue: monthlyRevenue > 0 ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(monthlyRevenue) : '$0.00',
+            conversionRate: conversionRate > 0 ? `${conversionRate.toFixed(1)}%` : '0.0%',
+            lastUpdated: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+        }
+    } catch (error) {
+        console.error('Failed to fetch admin stats:', error)
+        return {
+            totalUsers: '—',
+            totalDocs: '—',
+            monthlyRevenue: '—',
+            conversionRate: '—',
+            lastUpdated: new Date().toLocaleTimeString()
+        }
+    }
+}
+
+export default async function AdminDashboardPage() {
+    const stats = await getStats()
+
+    const metrics = [
+        { label: 'Total Active Users', value: stats.totalUsers, change: '+12.5%', trend: 'up', icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
+        { label: 'Resumes Generated', value: stats.totalDocs, change: '+18.2%', trend: 'up', icon: FileText, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+        { label: 'Monthly Revenue', value: stats.monthlyRevenue, change: '+8.4%', trend: 'up', icon: CreditCard, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+        { label: 'Conversion Rate', value: stats.conversionRate, change: '-0.4%', trend: 'down', icon: TrendingUp, color: 'text-purple-600', bg: 'bg-purple-50' },
+    ]
+
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header */}
-            <div>
-                <h1 className="text-4xl font-black text-neutral-900 tracking-tighter italic">System <span className="text-primary-600">Overview.</span></h1>
-                <p className="text-neutral-500 font-medium mt-2">Real-time performance metrics and professional activity logs.</p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h1 className="text-4xl font-black text-neutral-900 tracking-tighter italic">System <span className="text-primary-600">Overview.</span></h1>
+                    <p className="text-neutral-500 font-medium mt-2">Real-time performance metrics and professional activity logs.</p>
+                </div>
+                <div className="flex items-center gap-2 bg-neutral-100 px-4 py-2 rounded-full border border-neutral-200">
+                    <Clock className="w-4 h-4 text-neutral-500" />
+                    <span className="text-[10px] font-black text-neutral-500 uppercase tracking-widest">Last updated: {stats.lastUpdated}</span>
+                </div>
             </div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[
-                    { label: 'Total Active Users', value: '12,842', change: '+12.5%', trend: 'up', icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
-                    { label: 'Resumes Generated', value: '45,219', change: '+18.2%', trend: 'up', icon: FileText, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-                    { label: 'Monthly Revenue', value: '$24,500', change: '+8.4%', trend: 'up', icon: CreditCard, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-                    { label: 'Conversion Rate', value: '3.2%', change: '-0.4%', trend: 'down', icon: TrendingUp, color: 'text-purple-600', bg: 'bg-purple-50' },
-                ].map((stat, i) => (
+                {metrics.map((stat, i) => (
                     <div key={i} className="bg-white p-8 rounded-[2rem] border border-neutral-200 shadow-sm hover:shadow-xl hover:shadow-neutral-200/50 transition-all group">
                         <div className="flex items-center justify-between mb-6">
                             <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 group-hover:rotate-3", stat.bg)}>
@@ -123,3 +188,4 @@ export default function AdminDashboardPage() {
         </div>
     )
 }
+

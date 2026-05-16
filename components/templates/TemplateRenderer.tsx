@@ -26,7 +26,6 @@ const ATSExecutiveTemplate = dynamic(() => import('./ATSExecutiveTemplate').then
 const ATSModernTemplate = dynamic(() => import('./ATSModernTemplate').then(m => m.ATSModernTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSGraduateTemplate = dynamic(() => import('./ATSGraduateTemplate').then(m => m.ATSGraduateTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSTimelineTemplate = dynamic(() => import('./ATSTimelineTemplate').then(m => m.ATSTimelineTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const ATSHospitalityTemplate = dynamic(() => import('./ATSHospitalityTemplate').then(m => m.ATSHospitalityTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSNursingTemplate = dynamic(() => import('./ATSNursingTemplate').then(m => m.ATSNursingTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSAcademiaTemplate = dynamic(() => import('./ATSAcademiaTemplate').then(m => m.ATSAcademiaTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSExecutiveCVTemplate = dynamic(() => import('./ATSExecutiveCVTemplate').then(m => m.ATSExecutiveCVTemplate), { ssr: false, loading: () => <TemplateLoading /> })
@@ -50,7 +49,7 @@ const ATSCornerstoneTemplate = dynamic(() => import('./ATSCornerstoneTemplate').
 const ATSMeridianTemplate = dynamic(() => import('./ATSMeridianTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
 
 // Elite Single-Column (ATS Compliant) Templates
-const EliteSterlingTemplate = dynamic(() => import('./EliteSterlingTemplate').then(m => m.EliteSterlingTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteAlpineTemplate = dynamic(() => import('./EliteAlpineTemplate').then(m => m.EliteAlpineTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const EliteHaskinsTemplate = dynamic(() => import('./EliteHaskinsTemplate').then(m => m.EliteHaskinsTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const EliteParkerTemplate = dynamic(() => import('./EliteParkerTemplate').then(m => m.EliteParkerTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const EliteLondonTemplate = dynamic(() => import('./EliteLondonTemplate').then(m => m.EliteLondonTemplate), { ssr: false, loading: () => <TemplateLoading /> })
@@ -167,16 +166,6 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         if (id.includes('-green')) accentColor = 'text-green-800'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         return { Component: ATSGraduateTemplate, props: { accentColor } }
-    }
-
-    if (id.startsWith('ats-hospitality')) {
-        let accentColor = 'text-neutral-900'
-        if (id.includes('-black')) accentColor = 'text-black'
-        if (id.includes('-navy')) accentColor = 'text-blue-900'
-        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
-        if (id.includes('-slate')) accentColor = 'text-slate-700'
-        if (id.includes('-emerald')) accentColor = 'text-emerald-800'
-        return { Component: ATSHospitalityTemplate, props: { accentColor } }
     }
 
     if (id.startsWith('ats-nursing')) {
@@ -296,11 +285,11 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: ATSMeridianTemplate, props: { accentColor } }
     }
 
-    if (id.startsWith('elite-sterling')) {
+    if (id.startsWith('elite-alpine') || id.startsWith('elite-sterling')) {
         let accentColor = 'text-neutral-900'
         if (id.includes('-midnight')) accentColor = 'text-slate-900'
         if (id.includes('-slate')) accentColor = 'text-slate-700'
-        return { Component: EliteSterlingTemplate, props: { accentColor } }
+        return { Component: EliteAlpineTemplate, props: { accentColor } }
     }
 
     if (id.startsWith('elite-haskins')) {

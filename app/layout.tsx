@@ -91,25 +91,29 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { cn } from '@/lib/utils'
 import dynamic from 'next/dynamic'
+import { headers } from 'next/headers'
 
 const CookieConsent = dynamic(() => import('@/components/layout/CookieConsent').then(mod => mod.CookieConsent))
 const Toaster = dynamic(() => import('sonner').then(mod => mod.Toaster))
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
+    const headersList = await headers()
+    const pathname = headersList.get('x-next-url') || headersList.get('x-invoke-path') || ''
+    const isImmersive = pathname.startsWith('/view/')
+
     return (
         <html lang="en" className={cn(inter.variable, lora.variable, playfair.variable, lato.variable)}>
             <body className="min-h-screen bg-white">
                 <AuthProvider>
-
-                    <Navbar />
-                    <main className="min-h-[80vh]">
+                    {!isImmersive && <Navbar />}
+                    <main className={isImmersive ? '' : 'min-h-[80vh]'}>
                         {children}
                     </main>
-                    <Footer />
+                    {!isImmersive && <Footer />}
                     <CookieConsent />
                     <Toaster position="top-center" richColors />
                 </AuthProvider>

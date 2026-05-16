@@ -39,7 +39,6 @@ export const createStyles = (templateId: string) => {
     const isCentered = id.startsWith('classic') ||
         id.startsWith('ats-professional') ||
         id.startsWith('ats-classic') ||
-        id.startsWith('ats-hospitality') ||
         id.startsWith('ats-nursing') ||
         id.startsWith('ats-academia') ||
         id.startsWith('ats-gold-standard')
@@ -54,7 +53,7 @@ export const createStyles = (templateId: string) => {
         headerBorderBottomWidth = 1
     } else if (id.startsWith('ats-modern')) {
         headerBorderBottomWidth = 2
-    } else if (id.startsWith('compact') || id.startsWith('ats-timeline') || id.startsWith('ats-hospitality')) {
+    } else if (id.startsWith('compact') || id.startsWith('ats-timeline')) {
         headerBorderBottomWidth = 2
     }
 
@@ -162,20 +161,19 @@ export const createStyles = (templateId: string) => {
             paddingBottom: 12,
             borderBottomWidth: headerBorderBottomWidth,
             borderBottomColor: id.startsWith('ats-executive') ? '#262626' :
-                (id.startsWith('ats-hospitality') ? '#d1d5db' :
-                    (id.startsWith('ats-standard') ? '#e5e7eb' :
-                        (id.startsWith('ats-graduate') ? '#f3f4f6' :
-                            (id.startsWith('ats-classic') ? '#d1d5db' :
-                                (id.startsWith('ats-modern') ? '#e5e7eb' : colors.primary))))),
+                (id.startsWith('ats-standard') ? '#e5e7eb' :
+                    (id.startsWith('ats-graduate') ? '#f3f4f6' :
+                        (id.startsWith('ats-classic') ? '#d1d5db' :
+                            (id.startsWith('ats-modern') ? '#e5e7eb' : colors.primary)))),
             width: '100%',
         },
         name: {
-            fontSize: id.includes('minimal') || id.startsWith('ats-professional') || id.startsWith('classic') || id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-modern') ? 30 : 22,
+            fontSize: (id.startsWith('ats-professional') || id.startsWith('ats-executive') || id.startsWith('ats-classic')) ? 40 : (id.includes('minimal') || id.startsWith('classic') || id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-modern') ? 30 : 24),
             fontWeight: 'bold',
             color: colors.primary,
             marginBottom: id.startsWith('ats-modern') ? 10 : (id.startsWith('ats-professional') ? 2 : (id.includes('minimal') ? 4 : 6)),
-            textTransform: (id.includes('minimal') || id.startsWith('ats-executive') || id.startsWith('classic') || id.startsWith('ats-gold-standard') || id.startsWith('ats-timeline') || id.startsWith('ats-nursing') || id.startsWith('ats-metro') || id.startsWith('ats-masthead') || id.startsWith('ats-cornerstone') || id.startsWith('ats-hospitality') || id.startsWith('ats-gridline') || id.startsWith('ats-classic') || id.startsWith('ats-chronograph') || id.startsWith('ats-bauhaus') || id.startsWith('ats-academia') || id === 'cover-letter') ? 'uppercase' : 'none',
-            letterSpacing: id.startsWith('classic') ? 1.5 : ((id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-gold-standard')) ? 2 : (id.startsWith('ats-executive') || id.startsWith('ats-modern') ? -0.5 : 0.5)),
+            textTransform: (id.includes('minimal') || id.startsWith('ats-executive') || id.startsWith('classic') || id.startsWith('ats-gold-standard') || id.startsWith('ats-timeline') || id.startsWith('ats-nursing') || id.startsWith('ats-metro') || id.startsWith('ats-masthead') || id.startsWith('ats-cornerstone') || id.startsWith('ats-gridline') || id.startsWith('ats-classic') || id.startsWith('ats-chronograph') || id.startsWith('ats-bauhaus') || id.startsWith('ats-academia') || id === 'cover-letter') ? 'uppercase' : 'none',
+            letterSpacing: id.startsWith('classic') || id.startsWith('ats-cornerstone') ? 1.5 : ((id === 'graduate' || id.startsWith('graduate-') || id.startsWith('ats-gold-standard')) ? 2 : (id.startsWith('ats-executive') || id.startsWith('ats-modern') || id.startsWith('ats-professional') ? 0.5 : 1.0)),
         },
         title: {
             fontSize: id.startsWith('ats-modern') ? 14 : 11,
@@ -183,7 +181,7 @@ export const createStyles = (templateId: string) => {
             fontWeight: id.startsWith('ats-professional') ? 500 : 'bold',
             marginTop: id.startsWith('ats-modern') ? 4 : 0,
             marginBottom: 8,
-            textTransform: id.startsWith('chic') || id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('ats-executive') || id.startsWith('ats-hospitality') ? 'uppercase' : 'none',
+            textTransform: id.startsWith('chic') || id.startsWith('executive') || id.startsWith('luxe') || id.startsWith('ats-executive') ? 'uppercase' : 'none',
             letterSpacing: headingLetterSpacing,
         },
         contactInfo: {

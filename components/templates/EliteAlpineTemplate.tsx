@@ -16,7 +16,7 @@ interface TemplateProps {
  * Inspired by high-end executive layouts with centered headers, gray section bars,
  * and elegant serif typography. Single-column design for maximum ATS readability.
  */
-export function EliteSterlingTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
+export function EliteAlpineTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -297,4 +297,4 @@ export function EliteSterlingTemplate({ data, className, accentColor = 'text-neu
     )
 }
 
-export default EliteSterlingTemplate
+export default EliteAlpineTemplate

@@ -24,7 +24,6 @@ export function getMockDataForTemplate(templateId: string): ResumeDocument {
         if (id.startsWith('ats-nursing')) return MOCK_CORE.MOCK_NURSE_EXPERIENCED_DATA
         if (id.startsWith('ats-academia')) return MOCK_CORE.MOCK_ACADEMIC_DATA
         if (id.startsWith('ats-timeline')) return MOCK_CORE.MOCK_ATS_TIMELINE_DATA
-        if (id.startsWith('ats-hospitality')) return MOCK_HOSPITALITY.MOCK_HOSPITALITY_DATA
         if (id.startsWith('ats-standard')) {
             if (id.includes('nursing')) return MOCK_CORE.MOCK_NURSE_EXPERIENCED_DATA
             return MOCK_CORE.MOCK_CORPORATE_DATA

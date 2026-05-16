@@ -2,9 +2,9 @@ import { TemplateMetadata } from '../types/resume'
 
 export const templateRegistry: TemplateMetadata[] = [
 
-    // --- 1. ELITE STERLING (Executive Single-Column) ---
+    // --- 1. ELITE ALPINE (Executive Single-Column) ---
     {
-        id: 'elite-sterling',
+        id: 'elite-alpine',
         name: 'Elite Alpine',
         description: 'A premium, high-density executive layout with a sophisticated left-aligned header and subtle vertical rules. This single-column layout is engineered for both visual excellence and 100% ATS readability, making it the gold standard for senior directors and C-suite leaders.',
         suitableFor: {
@@ -181,26 +181,6 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 7. HOSPITALITY ATS PRO ---
-    {
-        id: 'ats-hospitality',
-        name: 'ATS Hospitality Pro',
-        description: 'ATS-compliant design strictly optimized for the hospitality industry. Prominently features language proficiencies, core competencies, and critical certifications like ServSafe. Evaluates perfectly in applicant tracking systems for Hotel Managers, Guest Services, Executive Chefs, and Concierge roles.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior', 'executive'],
-            jobTypes: ['service', 'corporate'],
-            industries: ['Hospitality', 'Tourism', 'Service', 'F&B', 'Events']
-        },
-        isPremium: true,
-        previewImage: '/templates/ats-hospitality-navy-preview.png',
-        colors: [
-            { id: 'black', name: 'Classic Black', hex: '#000000' },
-            { id: 'navy', name: 'Resort Navy', hex: '#1e3a8a' },
-            { id: 'charcoal', name: 'Charcoal Night', hex: '#374151' },
-            { id: 'emerald', name: 'Emerald', hex: '#064e3b' },
-            { id: 'slate', name: 'Cool Slate', hex: '#334155' }
-        ]
-    },
     // --- 9. ATS NURSING RN ---
     {
         id: 'ats-nursing',

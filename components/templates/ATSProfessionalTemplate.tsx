@@ -138,19 +138,19 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                     </div>
                 </div>
             ) : (
-                <div className="space-y-4">
+                <div className="space-y-12">
                     {/* Executive Summary */}
                     {professionalSummary?.summaryText && (
-                        <section className="grid grid-cols-1 md:grid-cols-12 gap-8">
-                            <div className="md:col-span-4 flex flex-col gap-2">
-                                <h2 className={cn("text-[12px] font-black uppercase tracking-[0.5em] text-neutral-200", accentColor)}>Executive {" // "} Synopsis</h2>
-                                <div className="h-px w-12 bg-neutral-100" />
+                        <section className="relative">
+                            <div className="flex items-center gap-4 mb-4">
+                                <h2 className={cn("text-[11px] font-black uppercase tracking-[0.4em] whitespace-nowrap", accentColor)}>
+                                    Executive Synopsis
+                                </h2>
+                                <div className="flex-1 h-px bg-neutral-100" />
                             </div>
-                            <div className="md:col-span-8">
-                                <p className="text-[16px] leading-[1.7] text-neutral-900 font-medium text-justify border-l-8 border-neutral-50 pl-8">
-                                    {professionalSummary.summaryText}
-                                </p>
-                            </div>
+                            <p className="text-[15px] leading-[1.8] text-neutral-800 font-medium text-justify">
+                                {professionalSummary.summaryText}
+                            </p>
                         </section>
                     )}
 
@@ -160,30 +160,28 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                             <SectionHeader title="Professional Trajectory" />
                             <div className="space-y-10">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className="grid grid-cols-1 md:grid-cols-12 gap-8 group">
-                                        {/* Temporal Column */}
-                                        <div className="md:col-span-4 flex flex-col items-start md:items-end gap-2 border-l-4 md:border-l-0 md:border-r-4 border-neutral-100 pl-6 md:pl-0 md:pr-8">
-                                            <div className="text-[13px] font-black text-neutral-950 tabular-nums uppercase tracking-widest bg-neutral-950 text-white px-3 py-1 shadow-md">
-                                                {job.startDate} — {job.isCurrent ? 'ACTIVE' : job.endDate}
+                                    <div key={i} className="group relative">
+                                        {/* Temporal & Header Row */}
+                                        <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-2 mb-4 border-l-4 border-neutral-900 pl-6">
+                                            <div>
+                                                <h3 className="text-[22px] font-black text-neutral-950 tracking-tighter leading-tight uppercase">
+                                                    {job.jobTitle}
+                                                </h3>
+                                                <div className="flex items-center gap-3 text-[13px] font-black uppercase tracking-[0.2em] text-neutral-400">
+                                                    {job.companyName}
+                                                    {job.location && <span className="opacity-30">/</span>}
+                                                    {job.location && <span className="opacity-60">{job.location}</span>}
+                                                </div>
                                             </div>
-                                            <div className={cn("text-[11px] font-black uppercase tracking-[0.3em] opacity-40", accentColor)}>
-                                                {job.location}
+                                            <div className="text-[13px] font-black text-neutral-950 tabular-nums uppercase tracking-widest bg-neutral-100 px-3 py-1 shrink-0">
+                                                {job.startDate} — {job.isCurrent ? 'ACTIVE' : job.endDate}
                                             </div>
                                         </div>
 
-                                        {/* Content Column */}
-                                        <div className="md:col-span-8 relative">
-                                            <div className="flex flex-col gap-1 mb-6">
-                                                <h3 className="text-[24px] font-black text-neutral-950 tracking-tighter leading-none group-hover:translate-x-1 transition-transform duration-500">
-                                                    {job.jobTitle}
-                                                </h3>
-                                                <div className="flex items-center gap-4 text-[14px] font-black uppercase tracking-[0.2em] text-neutral-300">
-                                                    {job.companyName}
-                                                </div>
-                                            </div>
-
+                                        {/* Content Area */}
+                                        <div className="ml-7">
                                             {job.roleDescription && (
-                                                <p className="text-[14px] text-neutral-500 mb-4 leading-[1.7] font-bold italic border-l-4 border-neutral-50 pl-6">
+                                                <p className="text-[14px] text-neutral-500 mb-5 leading-[1.7] font-bold italic opacity-80 max-w-4xl">
                                                     {job.roleDescription}
                                                 </p>
                                             )}
@@ -191,10 +189,9 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                                             {job.achievements && job.achievements.length > 0 && (
                                                 <ul className="space-y-3">
                                                     {job.achievements.map((a, j) => (
-                                                        <li key={j} className="text-[15px] text-neutral-800 leading-[1.6] flex gap-6 font-medium">
-                                                            <div className="flex flex-col items-center gap-1 shrink-0 mt-1.5">
-                                                                <div className={cn("w-1.5 h-1.5 rounded-full", bgColorClass)} />
-                                                                <div className="w-[1px] h-full bg-neutral-100" />
+                                                        <li key={j} className="text-[14.5px] text-neutral-800 leading-[1.6] flex gap-5 font-medium">
+                                                            <div className="shrink-0 mt-2">
+                                                                <div className={cn("w-1.5 h-1.5 rounded-sm rotate-45", bgColorClass)} />
                                                             </div>
                                                             <span>{a.achievementText}</span>
                                                         </li>
@@ -209,41 +206,37 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                     )}
 
                     {/* Matrix Section */}
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-12">
-                        {/* Skills Matrix */}
-                        <div className="md:col-span-12">
-                            <SectionHeader title={"Competency // Matrix"} />
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 mt-4 px-2">
-                                {skills && Object.entries(skills.reduce((acc, s) => {
-                                    const t = s.skillType || 'professional';
-                                    if (!acc[t]) acc[t] = [];
-                                    acc[t].push(s);
-                                    return acc;
-                                }, {} as Record<string, typeof skills>)).map(([type, list]) => (
-                                    <div key={type} className="flex flex-col gap-3 group">
-                                        <div className={cn("text-[10px] font-black text-neutral-200 uppercase tracking-[0.4em] mb-1 group-hover:text-neutral-400 transition-colors", accentColor)}>
-                                            {type}
-                                        </div>
-                                        <div className="flex flex-col gap-2">
-                                            {list.map((s, i) => (
-                                                <div key={i} className="text-[14px] text-neutral-900 font-black tracking-tight flex items-center justify-between border-b border-neutral-50 pb-1.5 hover:border-neutral-950 transition-all duration-300">
-                                                    {s.skillName}
-                                                    <div className={cn("w-1 h-1 rounded-full opacity-10", bgColorClass)} />
-                                                </div>
-                                            ))}
-                                        </div>
+                    <div className="pt-4">
+                        <SectionHeader title={"Competency Matrix"} />
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2">
+                            {skills && Object.entries(skills.reduce((acc, s) => {
+                                const t = s.skillType || 'professional';
+                                if (!acc[t]) acc[t] = [];
+                                acc[t].push(s);
+                                return acc;
+                            }, {} as Record<string, typeof skills>)).map(([type, list]) => (
+                                <div key={type} className="flex flex-col gap-4 group">
+                                    <div className={cn("text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em] border-b border-neutral-100 pb-2", accentColor)}>
+                                        {type}
                                     </div>
-                                ))}
-                            </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {list.map((s, i) => (
+                                            <div key={i} className="text-[12px] text-neutral-900 font-bold tracking-tight px-3 py-1.5 bg-neutral-50 border border-neutral-100 rounded-sm hover:border-neutral-900 hover:bg-white transition-all duration-300">
+                                                {s.skillName}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
                     {/* Bottom Data Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10 mt-10 pt-10 border-t-4 border-neutral-900">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8 pt-8 border-t-2 border-neutral-100">
                         {/* Education */}
                         {education && education.length > 0 && (
                             <section>
-                                <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-200 mb-6 italic">Academic Records</h3>
+                                <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-6 italic">Academic Credentials</h3>
                                 <div className="space-y-8">
                                     {education.map((edu, i) => (
                                         <div key={i} className="group relative pl-6 border-l-4 border-neutral-50 hover:border-neutral-950 transition-colors">
@@ -262,13 +255,13 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                             </section>
                         )}
 
-                        <div className="space-y-10">
+                        <div className="space-y-12">
                             {certifications && certifications.length > 0 && (
                                 <section>
-                                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-200 mb-6 italic">Validated Certs</h3>
-                                    <div className="grid grid-cols-1 gap-4">
+                                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-6 italic">Validation & Certs</h3>
+                                    <div className="grid grid-cols-1 gap-3">
                                         {certifications.map((c, i) => (
-                                            <div key={i} className="flex justify-between items-center p-3 bg-neutral-50 group hover:bg-neutral-950 hover:text-white transition-all duration-300">
+                                            <div key={i} className="flex justify-between items-center p-3 bg-neutral-50 group hover:bg-neutral-950 hover:text-white transition-all duration-300 border-l-2 border-neutral-200">
                                                 <div className="text-[13px] font-black tracking-tight">{c.certificationName}</div>
                                                 <div className={cn("text-[10px] font-black uppercase tracking-widest opacity-40", accentColor)}>{c.issueYear}</div>
                                             </div>
@@ -279,10 +272,10 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                             
                             {languages && languages.length > 0 && (
                                 <section>
-                                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-200 mb-6 italic">Linguistic Mastery</h3>
-                                    <div className="mt-4 space-y-3">
+                                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-6 italic">Linguistic Mastery</h3>
+                                    <div className="space-y-3">
                                         {languages.map((l, i) => (
-                                            <div key={i} className="flex justify-between items-center pb-3 border-b-2 border-neutral-50 group">
+                                            <div key={i} className="flex justify-between items-center pb-3 border-b border-neutral-50 group">
                                                 <span className="text-[15px] font-black text-neutral-950 tracking-tighter group-hover:translate-x-1 transition-transform">{l.languageName}</span>
                                                 <span className={cn("text-[10px] font-black uppercase tracking-[0.3em] opacity-40", accentColor)}>{l.proficiencyLevel}</span>
                                             </div>
@@ -294,13 +287,13 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                     </div>
 
                     {/* Final Signature Terminal */}
-                    <footer className="pt-16 flex justify-between items-end gap-10">
+                    <footer className="pt-20 flex justify-between items-end gap-10">
                         <div className="space-y-2">
-                            <div className={cn("h-4 w-40", bgColorClass)} />
-                            <div className="text-[10px] font-black text-neutral-200 uppercase tracking-[0.6em]">Corporate {" // "} Elite {" // "} Protocol</div>
+                            <div className={cn("h-3 w-40", bgColorClass)} />
+                            <div className="text-[9px] font-black text-neutral-300 uppercase tracking-[0.6em]">Corporate // Elite // Protocol // V2.5</div>
                         </div>
-                        <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.3em] tabular-nums">
-                            Checksum: {Math.random().toString(36).substring(2, 12).toUpperCase()}
+                        <div className="text-[9px] font-black text-neutral-200 uppercase tracking-[0.3em] tabular-nums">
+                            Authenticated Record: {Math.random().toString(36).substring(2, 12).toUpperCase()}
                         </div>
                     </footer>
                 </div>

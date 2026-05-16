@@ -199,12 +199,12 @@ export function TemplateGallery() {
                                         <TemplateThumbnail 
                                             template={template} 
                                             activeColorId={getActiveColor(template.id, template.colors || [])} 
-                                            className="group-hover/preview-box:scale-105 transition-transform duration-700" 
+                                            className="group-hover/preview-box:scale-110 transition-transform duration-700" 
                                         />
-                                        <div className="absolute inset-0 bg-neutral-950/0 group-hover/preview-box:bg-neutral-950/40 transition-all duration-500 flex items-center justify-center opacity-0 group-hover/preview-box:opacity-100 z-10 pointer-events-none group-hover/preview-box:pointer-events-auto">
+                                        <div className="absolute inset-0 bg-neutral-950/0 group-hover/preview-box:bg-neutral-950/5 transition-all duration-500 flex items-center justify-center opacity-0 group-hover/preview-box:opacity-100 z-10 pointer-events-none group-hover/preview-box:pointer-events-auto">
                                             <button 
                                                 onClick={(e) => { e.stopPropagation(); handlePreview(template.id) }} 
-                                                className="bg-white text-neutral-950 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl transform translate-y-8 group-hover/preview-box:translate-y-0 transition-all duration-500 hover:scale-110 active:scale-95"
+                                                className="bg-white text-neutral-950 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-neutral-100 transform translate-y-8 group-hover/preview-box:translate-y-0 transition-all duration-500 hover:scale-110 active:scale-95"
                                             >
                                                 Quick Preview
                                             </button>

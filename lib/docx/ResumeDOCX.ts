@@ -39,7 +39,6 @@ export class ResumeDOCX {
         const isCentered = id.startsWith('classic') ||
             id.startsWith('ats-professional') ||
             id.startsWith('ats-classic') ||
-            id.startsWith('ats-hospitality') ||
             id.startsWith('ats-nursing') ||
             id.startsWith('ats-academia') ||
             id.startsWith('ats-gold-standard')

@@ -86,7 +86,7 @@ export function HeroTemplateSlideshow() {
 
                 {/* Main card */}
                 <div
-                    className="relative z-10 w-full h-full rounded-2xl overflow-hidden cursor-pointer group"
+                    className="relative z-10 w-full h-full rounded-2xl overflow-hidden cursor-pointer group transition-transform duration-500 hover:scale-[1.05]"
                     style={{ boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.08)' }}
                     onClick={() => setPreviewId(current.id)}
                 >

@@ -15,14 +15,13 @@ export const getSectionTitle = (templateId: string, sectionId: string, index: nu
     }
 
     // 3. Hospitality & Cruise Specifics
-    if (id.startsWith('ats-hospitality') || id.startsWith('hospitality-elite') || id.startsWith('cruise-excellence')) {
+    if (id.startsWith('hospitality-elite') || id.startsWith('cruise-excellence')) {
         switch (sectionId) {
             case 'professionalSummary':
                 if (id.startsWith('hospitality-elite')) return ''
-                return id.startsWith('ats-hospitality') ? 'Professional Profile' : 'Professional Summary'
+                return 'Professional Summary'
             case 'workExperience':
                 if (id.startsWith('cruise')) return 'Maritime & Hospitality History'
-                if (id.startsWith('ats-hospitality')) return 'Hospitality Experience'
                 return 'Professional Experience'
             case 'skills': return id.startsWith('hospitality-elite') ? 'Expertise' : (id.startsWith('cruise') ? 'Skills' : 'Core Competencies & Languages')
             case 'certifications': return 'Licensure & Certifications'

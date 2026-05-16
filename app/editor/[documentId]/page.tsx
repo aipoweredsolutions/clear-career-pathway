@@ -1,13 +1,13 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useDeferredValue, Suspense } from 'react'
+import React, { useState, useEffect, useRef, useDeferredValue, Suspense, useCallback } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ResumeDocument } from '@/lib/types/resume'
 import { ResumeForm } from '@/components/editor/ResumeForm'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { Button } from '@/components/ui/Button'
-import { Save, ArrowLeft, LayoutTemplate, X, Loader2, Check, Maximize2, Minimize2, Eye, Sparkles, Target, Columns, Lock } from 'lucide-react'
+import { Save, ArrowLeft, LayoutTemplate, X, Loader2, Check, Maximize2, Minimize2, Eye, Sparkles, Target, Columns, Lock, PenLine, MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import { CoverLetterForm } from '@/components/editor/forms/CoverLetterForm'
 import dynamic from 'next/dynamic'
@@ -65,6 +65,10 @@ function EditorContent() {
     const [isMaximized, setIsMaximized] = useState(false)
     const [previewMode, setPreviewMode] = useState<'html' | 'pdf' | 'split'>('pdf')
     const [scale, setScale] = useState(0.85)
+    const [mobileTab, setMobileTab] = useState<'edit' | 'preview'>('edit')
+    const [mobileScale, setMobileScale] = useState(0.5)
+    const [showMobileMenu, setShowMobileMenu] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
 
     // Deferred preview data: keeps form input snappy while preview renders in background
     const deferredData = useDeferredValue(data)
@@ -228,6 +232,21 @@ function EditorContent() {
         }
     }, [isMaximized])
 
+    // Calculate mobile preview scale based on screen width
+    useEffect(() => {
+        const updateMobileScale = () => {
+            const mobile = window.innerWidth < 768
+            setIsMobile(mobile)
+            if (mobile) {
+                const padding = 32 // 16px each side
+                setMobileScale((window.innerWidth - padding) / 816)
+            }
+        }
+        updateMobileScale()
+        window.addEventListener('resize', updateMobileScale)
+        return () => window.removeEventListener('resize', updateMobileScale)
+    }, [])
+
     const handleMinimize = () => {
         setScale(prev => Math.max(0.4, prev - 0.1))
     }
@@ -334,13 +353,13 @@ function EditorContent() {
     return (
         <div className="flex flex-col h-screen bg-neutral-100 overflow-hidden relative">
             {/* Editor Header */}
-            <header className="bg-white border-b border-neutral-200 px-6 py-3 flex items-center justify-between shrink-0 h-16 relative z-30">
-                <div className="flex items-center gap-4">
-                    <Link href="/dashboard" className="text-neutral-500 hover:text-neutral-900 transition-colors">
+            <header className="bg-white border-b border-neutral-200 px-3 md:px-6 py-3 flex items-center justify-between shrink-0 h-14 md:h-16 relative z-30">
+                <div className="flex items-center gap-2 md:gap-4 min-w-0">
+                    <Link href="/dashboard" className="text-neutral-500 hover:text-neutral-900 transition-colors shrink-0">
                         <ArrowLeft className="w-5 h-5" />
                     </Link>
-                    <div className="flex flex-col">
-                        <h1 className="text-lg font-semibold text-neutral-900 leading-tight">
+                    <div className="flex flex-col min-w-0">
+                        <h1 className="text-sm md:text-lg font-semibold text-neutral-900 leading-tight truncate">
                             {data.title || 'Untitled Document'}
                         </h1>
                         <span className="text-xs text-neutral-500 flex items-center gap-1">
@@ -361,7 +380,8 @@ function EditorContent() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                {/* Desktop toolbar */}
+                <div className="hidden md:flex items-center gap-3">
                     <ATSScore data={deferredData || data} />
                     <CreditCount className="ml-2" />
 
@@ -375,7 +395,13 @@ function EditorContent() {
                         Keywords
                     </Button>
 
-
+                    <Link 
+                        href={`/tailor?id=${documentId}`}
+                        className="hidden lg:flex items-center gap-2 h-9 px-4 rounded-xl bg-primary-50 text-primary-700 hover:bg-primary-100 transition-all font-black text-[10px] uppercase tracking-widest border border-primary-200"
+                    >
+                        <Target className="w-4 h-4" />
+                        Tailor for a job
+                    </Link>
 
                     <Button
                         variant="primary"
@@ -420,7 +446,6 @@ function EditorContent() {
                         Switch Template
                     </Button>
 
-
                     <Button
                         variant={isMaximized ? "primary" : "outline"}
                         size="sm"
@@ -449,12 +474,79 @@ function EditorContent() {
 
                     <DownloadButtons data={data} />
                 </div>
+
+                {/* Mobile toolbar — only Download + More menu */}
+                <div className="flex md:hidden items-center gap-2">
+                    <DownloadButtons data={data} />
+                    <div className="relative">
+                        <button
+                            onClick={() => setShowMobileMenu(!showMobileMenu)}
+                            className="p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+                        >
+                            <MoreHorizontal className="w-5 h-5 text-neutral-600" />
+                        </button>
+                        {showMobileMenu && (
+                            <>
+                                <div className="fixed inset-0 z-40" onClick={() => setShowMobileMenu(false)} />
+                                <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-neutral-200 z-50 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                                    <button
+                                        onClick={() => { setShowTemplates(true); setShowMobileMenu(false); }}
+                                        className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                                    >
+                                        <LayoutTemplate className="w-4 h-4 text-neutral-500" />
+                                        Switch Template
+                                    </button>
+                                    <Link
+                                        href={`/tailor?id=${documentId}`}
+                                        className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                                    >
+                                        <Target className="w-4 h-4 text-primary-600" />
+                                        Tailor for a job
+                                    </Link>
+                                    <button
+                                        onClick={() => { setShowKeywords(!showKeywords); setShowMobileMenu(false); }}
+                                        className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                                    >
+                                        <Target className="w-4 h-4 text-violet-500" />
+                                        Keywords
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            const isPro = profile?.subscription_tier === 'pro' || profile?.subscription_tier === 'enterprise'
+                                            if (!isPro) {
+                                                toast.error('Magic Optimize is a Pro feature.', {
+                                                    description: 'Upgrade to unlock AI-powered resume optimization.',
+                                                    action: { label: 'Upgrade', onClick: () => window.location.href = '/pricing' }
+                                                })
+                                            } else {
+                                                setShowAIAssistant(true)
+                                            }
+                                            setShowMobileMenu(false)
+                                        }}
+                                        className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                                    >
+                                        <Sparkles className="w-4 h-4 text-indigo-500" />
+                                        Magic Optimize
+                                    </button>
+                                    <div className="h-px bg-neutral-100 my-1" />
+                                    <button
+                                        onClick={() => { handleSave(); setShowMobileMenu(false); }}
+                                        className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                                    >
+                                        <Save className="w-4 h-4 text-neutral-500" />
+                                        Save Now
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
             </header>
 
             {/* Main Content */}
             <div
                 className={cn(
-                    "flex flex-1 overflow-hidden relative",
+                    "flex flex-col md:flex-row flex-1 overflow-hidden relative pb-14 md:pb-0",
                     isResizing && "cursor-col-resize select-none"
                 )}
             >
@@ -462,7 +554,8 @@ function EditorContent() {
                 <div
                     className={cn(
                         "h-full overflow-y-auto border-r border-neutral-200 bg-white transition-opacity duration-300",
-                        isMaximized ? "w-0 min-w-0 opacity-0 overflow-hidden pointer-events-none" : "opacity-100"
+                        isMaximized ? "hidden md:block md:w-0 md:min-w-0 md:opacity-0 md:overflow-hidden md:pointer-events-none" : "md:opacity-100",
+                        mobileTab === 'edit' ? "flex-1 md:flex-none" : "hidden md:block"
                     )}
                     style={{
                         width: isMaximized ? '0%' : `${leftPanelWidth}%`,
@@ -483,12 +576,12 @@ function EditorContent() {
                     )}
                 </div>
 
-                {/* Resize Handle */}
+                {/* Resize Handle — desktop only */}
                 {!isMaximized && (
                     <div
                         onMouseDown={startResizing}
                         className={cn(
-                            "group absolute top-0 bottom-0 z-40 w-1 hover:w-1.5 transition-all cursor-col-resize flex items-center justify-center bg-transparent hover:bg-primary-500/30",
+                            "hidden md:flex group absolute top-0 bottom-0 z-40 w-1 hover:w-1.5 transition-all cursor-col-resize items-center justify-center bg-transparent hover:bg-primary-500/30",
                             isResizing && "w-1.5 bg-primary-500/50"
                         )}
                         style={{ left: `${leftPanelWidth}%`, transform: 'translateX(-50%)' }}
@@ -502,8 +595,9 @@ function EditorContent() {
 
                 {/* Right Panel: Live Preview */}
                 <div className={cn(
-                    "h-full bg-neutral-400 overflow-hidden flex flex-col relative transition-all duration-300",
-                    isMaximized ? "fixed inset-0 z-50 bg-neutral-800" : "flex-1"
+                    "h-full bg-neutral-400 overflow-hidden flex-col relative transition-all duration-300",
+                    isMaximized ? "fixed inset-0 z-50 bg-neutral-800" : "md:flex-1",
+                    mobileTab === 'preview' ? "flex flex-1" : "hidden md:flex"
                 )}>
                     {/* Control Bar */}
                     <ResumeControlBar
@@ -519,7 +613,7 @@ function EditorContent() {
 
                     {/* Preview Area container with background pattern for premium feel */}
                     <div className={cn(
-                        "flex-1 overflow-auto bg-[radial-gradient(#555_1px,transparent_1px)] [background-size:20px_20px] transition-all duration-300 p-12",
+                        "flex-1 overflow-auto bg-[radial-gradient(#555_1px,transparent_1px)] [background-size:20px_20px] transition-all duration-300 p-4 md:p-12",
                         previewMode === 'split' ? "flex flex-row items-start justify-center gap-4 lg:gap-12" : "flex justify-center",
                         isPreviewStale && "opacity-80"
                     )}>
@@ -546,7 +640,7 @@ function EditorContent() {
                         <div
                             className="transition-all duration-500 flex flex-col gap-4 items-center"
                             style={{
-                                transform: `scale(${scale})`,
+                                transform: `scale(${isMobile ? mobileScale : scale})`,
                                 transformOrigin: 'top center'
                             }}
                         >
@@ -658,6 +752,31 @@ function EditorContent() {
                         }
                     }}
                 />
+            </div>
+
+            {/* Mobile Bottom Tab Bar */}
+            <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-neutral-200 flex h-14">
+                <button
+                    onClick={() => setMobileTab('edit')}
+                    className={cn(
+                        "flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors",
+                        mobileTab === 'edit' ? "text-primary-600 bg-primary-50/50" : "text-neutral-400"
+                    )}
+                >
+                    <PenLine className="w-5 h-5" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider">Edit</span>
+                </button>
+                <div className="w-px bg-neutral-200" />
+                <button
+                    onClick={() => setMobileTab('preview')}
+                    className={cn(
+                        "flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors",
+                        mobileTab === 'preview' ? "text-primary-600 bg-primary-50/50" : "text-neutral-400"
+                    )}
+                >
+                    <Eye className="w-5 h-5" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider">Preview</span>
+                </button>
             </div>
         </div>
     )

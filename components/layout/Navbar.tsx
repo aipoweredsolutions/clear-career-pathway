@@ -46,7 +46,6 @@ const TEMPLATE_CATEGORIES = [
         bg: 'bg-rose-50',
         templates: [
             { name: 'Nursing Professional', id: 'ats-nursing' },
-            { name: 'Hospitality pro', id: 'ats-hospitality' },
             { name: 'ATS Scholar CV', id: 'ats-academia' },
             { name: 'ATS New Graduate', id: 'ats-graduate' },
         ]

@@ -96,32 +96,25 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
 
 
             {/* ── BODY ── */}
-            <div className="space-y-4">
+            <div className="space-y-6">
                 {/* Summary */}
                 {professionalSummary?.summaryText && (
-                    <section className="relative pl-8">
-                        <div className={cn("absolute left-0 top-0 bottom-0 w-0.5 rounded-full opacity-15", bgColorClass)} />
-                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-1.5", accentColor)}>Profile</h2>
+                    <section className="relative">
+                        <h2 className={cn("text-[14px] font-black uppercase tracking-[0.2em] mb-2 border-b border-neutral-100 pb-1", accentColor)}>Professional Profile</h2>
                         <p className="text-[11px] font-medium text-neutral-700 leading-relaxed">
                             {professionalSummary.summaryText}
                         </p>
                     </section>
                 )}
 
-                {/* Experience with Timeline */}
+                {/* Experience */}
                 {workExperience && workExperience.length > 0 && (
                     <section className="relative">
-                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-3 pl-8", accentColor)}>Career Timeline</h2>
+                        <h2 className={cn("text-[14px] font-black uppercase tracking-[0.2em] mb-4 border-b border-neutral-100 pb-1", accentColor)}>Professional Experience</h2>
 
-                        {/* Timeline Line */}
-                        <div className={cn("absolute left-[3px] top-7 bottom-0 w-px opacity-15", bgColorClass)} />
-
-                        <div className="space-y-4">
+                        <div className="space-y-5">
                             {workExperience.map((job, i) => (
-                                <div key={i} className=" relative pl-8">
-                                    {/* Timeline Dot */}
-                                    <div className={cn("absolute left-0 top-1 w-[7px] h-[7px] rounded-full border-[1.5px] bg-white", borderColorClass)} />
-
+                                <div key={i} className="relative">
                                     <div className="flex justify-between items-baseline mb-1 gap-4">
                                         <div className="flex-1 min-w-0">
                                             <h3 className="text-[13px] font-bold text-neutral-900 tracking-tight leading-tight">{job.jobTitle}</h3>
@@ -136,14 +129,14 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                                     </div>
 
                                     {job.roleDescription && (
-                                        <p className="text-[11px] text-neutral-500 mb-1.5 leading-relaxed italic">{job.roleDescription}</p>
+                                        <p className="text-[11px] text-neutral-500 mb-2 leading-relaxed italic">{job.roleDescription}</p>
                                     )}
 
                                     {job.achievements && job.achievements.length > 0 && (
-                                        <ul className="space-y-1">
+                                        <ul className="space-y-1.5">
                                             {job.achievements.map((ach, j) => (
                                                 <li key={j} className="text-[11px] text-neutral-700 leading-relaxed flex items-start gap-2.5">
-                                                    <span className={cn("mt-[5px] w-1 h-1 rounded-full flex-shrink-0", bgColorClass)} />
+                                                    <span className={cn("mt-[6px] w-1 h-1 rounded-full flex-shrink-0", bgColorClass)} />
                                                     {ach.achievementText}
                                                 </li>
                                             ))}
@@ -158,8 +151,8 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                 {/* Skills */}
                 {skills && skills.length > 0 && (
                     <section>
-                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-2", accentColor)}>Core Expertise</h2>
-                        <ul className="text-[11px] font-medium text-neutral-800 leading-relaxed flex flex-wrap m-0 p-0 list-none">
+                        <h2 className={cn("text-[14px] font-black uppercase tracking-[0.2em] mb-2 border-b border-neutral-100 pb-1", accentColor)}>Technical Expertise</h2>
+                        <ul className="text-[11px] font-medium text-neutral-800 leading-relaxed flex flex-wrap m-0 p-0 list-none mt-2">
                             {skills.map((skill, i) => (
                                 <li key={i} className="flex items-center">
                                     {skill.skillName}
@@ -175,8 +168,8 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                 {/* Education */}
                 {education && education.length > 0 && (
                     <section>
-                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-2", accentColor)}>Education</h2>
-                        <div className="space-y-1.5">
+                        <h2 className={cn("text-[14px] font-black uppercase tracking-[0.2em] mb-2 border-b border-neutral-100 pb-1", accentColor)}>Education</h2>
+                        <div className="space-y-3 mt-2">
                             {education.map((edu, i) => (
                                 <div key={i} className=" flex justify-between items-baseline gap-4">
                                     <div className="flex-1">
@@ -184,7 +177,7 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                                         {edu.fieldOfStudy && <span className="text-[11px] text-neutral-500"> — {edu.fieldOfStudy}</span>}
                                         <div className="text-[10px] font-medium text-neutral-400">{edu.institutionName}</div>
                                     </div>
-                                    <div className="text-[10px] font-bold text-neutral-300 uppercase tracking-widest shrink-0">{edu.endYear}</div>
+                                    <div className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest shrink-0">{edu.endYear}</div>
                                 </div>
                             ))}
                         </div>
@@ -194,8 +187,8 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                 {/* Certifications */}
                 {certifications && certifications.length > 0 && (
                     <section>
-                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-2", accentColor)}>Certifications</h2>
-                        <div className="space-y-1">
+                        <h2 className={cn("text-[14px] font-black uppercase tracking-[0.2em] mb-2 border-b border-neutral-100 pb-1", accentColor)}>Certifications</h2>
+                        <div className="space-y-1.5 mt-2">
                             {certifications.map((cert, i) => (
                                 <div key={i} className=" text-[11px]">
                                     <span className="font-bold text-neutral-800">{cert.certificationName}</span>
@@ -212,8 +205,8 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                 {/* Projects */}
                 {projects && projects.length > 0 && (
                     <section>
-                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-2", accentColor)}>Key Projects</h2>
-                        <div className="space-y-2">
+                        <h2 className={cn("text-[14px] font-black uppercase tracking-[0.2em] mb-3 border-b border-neutral-100 pb-1", accentColor)}>Key Projects</h2>
+                        <div className="space-y-3 mt-2">
                             {projects.map((proj, i) => (
                                 <div key={i} className="">
                                     <div className="flex justify-between items-baseline gap-4">
@@ -221,7 +214,7 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                                         {proj.role && <span className="text-[10px] font-medium text-neutral-400 shrink-0">{proj.role}</span>}
                                     </div>
                                     {proj.description && (
-                                        <p className="text-[11px] text-neutral-600 leading-relaxed">{proj.description}</p>
+                                        <p className="text-[11px] text-neutral-600 leading-relaxed mt-0.5">{proj.description}</p>
                                     )}
                                 </div>
                             ))}
@@ -232,8 +225,8 @@ export function ATSTimelineTemplate({ data, className, accentColor = 'text-slate
                 {/* Languages */}
                 {languages && languages.length > 0 && (
                     <section>
-                        <h2 className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-1.5", accentColor)}>Languages</h2>
-                        <ul className="text-[11px] font-medium text-neutral-800 flex flex-wrap m-0 p-0 list-none">
+                        <h2 className={cn("text-[14px] font-black uppercase tracking-[0.2em] mb-2 border-b border-neutral-100 pb-1", accentColor)}>Languages</h2>
+                        <ul className="text-[11px] font-medium text-neutral-800 flex flex-wrap m-0 p-0 list-none mt-2">
                             {languages.map((lang, i) => (
                                 <li key={i} className="flex items-center">
                                     {lang.languageName}
