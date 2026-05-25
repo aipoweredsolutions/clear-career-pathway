@@ -94,9 +94,25 @@ export async function middleware(request: NextRequest) {
 
     const isAuthRoute = request.nextUrl.pathname.startsWith('/auth')
 
-    if (!user && isProtectedRoute) {
+    const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
+
+    if (!user && (isProtectedRoute || isAdminRoute)) {
         console.log('Middleware: Redirecting to login (unauthorized)')
         return NextResponse.redirect(new URL('/auth/login', request.url))
+    }
+
+    if (user && isAdminRoute) {
+        // Fetch profile to check admin status
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', user.id)
+            .single()
+        
+        if (!profile?.is_admin) {
+            console.log('Middleware: User is not an admin, redirecting to dashboard')
+            return NextResponse.redirect(new URL('/dashboard', request.url))
+        }
     }
 
     if (user && isAuthRoute && !request.nextUrl.pathname.startsWith('/auth/callback')) {

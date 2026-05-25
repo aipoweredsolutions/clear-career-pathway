@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 const TEMPLATES = [
     { name: 'ATS Professional', id: 'ats-professional', category: 'ATS / Essential', status: 'Active', usage: 12450 },
-    { name: 'ATS Minimal', id: 'ats-minimal', category: 'ATS / Essential', status: 'Active', usage: 8200 },
+    { name: 'Minimalist Mono', id: 'ats-minimal-mono', category: 'ATS / Essential', status: 'Active', usage: 8200 },
     { name: 'ATS Classic', id: 'ats-classic', category: 'ATS / Essential', status: 'Active', usage: 5400 },
     { name: 'ATS Executive', id: 'ats-executive', category: 'ATS / Essential', status: 'Active', usage: 3100 },
     { name: 'ATS Modern', id: 'ats-modern', category: 'Modern / Clean', status: 'Active', usage: 9600 },

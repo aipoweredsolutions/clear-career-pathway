@@ -5,6 +5,8 @@ import { cookies } from 'next/headers'
 import { ResumeDocument, PersonalInfo, ProfessionalSummary, WorkExperience, Education, Skill, Project, UserSubscription } from '@/lib/types/resume'
 import { fetchFullDocument } from '@/lib/supabase/documents'
 import { fetchUserSubscription } from '@/lib/supabase/subscriptions'
+import { getUserTier } from '@/lib/auth/getUserTier'
+import { logger } from '@/lib/logger'
 
 // Helper to get Supabase client
 async function getSupabase() {
@@ -22,9 +24,44 @@ async function getSupabase() {
     )
 }
 
+// Helper to log user activity to database and server console
+async function logUserActivity(action: string, details: Record<string, any> = {}) {
+    try {
+        const supabase = await getSupabase()
+        const { data: { user } } = await supabase.auth.getUser()
+        const userId = user?.id || null
+
+        // 1. Log to server console (structured)
+        logger.info(`User activity: ${action}`, {
+            userId,
+            action,
+            details
+        })
+
+        // 2. Log to database
+        const { error } = await supabase.from('activity_logs').insert({
+            user_id: userId,
+            action,
+            details
+        })
+
+        if (error) {
+            logger.error(`Failed to insert activity log to database:`, { error: error.message, action, userId })
+        }
+    } catch (err: any) {
+        logger.error(`Exception in logUserActivity:`, { error: err.message || err })
+    }
+}
+
 export async function fetchResume(documentId: string): Promise<ResumeDocument | null> {
     const supabase = await getSupabase()
-    return fetchFullDocument(supabase, documentId)
+    const doc = await fetchFullDocument(supabase, documentId)
+    if (doc) {
+        await logUserActivity('fetch_resume', { documentId })
+    } else {
+        logger.warn('Failed to fetch resume or resume not found', { documentId })
+    }
+    return doc
 }
 
 export async function fetchSubscription(): Promise<UserSubscription | null> {
@@ -388,10 +425,12 @@ export async function saveResume(data: ResumeDocument): Promise<{ success: boole
                 }, { onConflict: 'document_id' })
         }
 
+        await logUserActivity('save_resume', { documentId: data.id, title: data.title })
         return { success: true }
 
     } catch (error: any) {
-        console.error('Save Resume Error:', error)
+        logger.error('Save Resume Error:', { error: error.message, documentId: data.id })
+        await logUserActivity('save_resume_failed', { documentId: data.id, error: error.message })
         return { success: false, error: error.message }
     }
 }
@@ -399,95 +438,53 @@ export async function saveResume(data: ResumeDocument): Promise<{ success: boole
 export async function incrementExportCount(documentId: string, format: string): Promise<{ success: boolean, limitReached?: boolean, requiresPayment?: boolean, error?: string }> {
     try {
         const supabase = await getSupabase()
-        const { data } = await supabase.auth.getUser()
-        const user = data?.user
+        const { data: { user } } = await supabase.auth.getUser()
         if (!user) return { success: false, error: 'User not authenticated' }
 
-        const monthYear = new Date().toISOString().substring(0, 7)
-
-        // 1. Get profile for credits (use maybeSingle to avoid throw on empty)
-        const { data: profile, error: profileErr } = await supabase
-            .from('profiles')
-            .select('download_credits')
-            .eq('id', user.id)
-            .maybeSingle()
-
-        if (profileErr) {
-            console.error('[incrementExportCount] Profile Error:', profileErr)
-        }
-
-        const credits = profile?.download_credits || 0
-
-        // 2. Get tier info
-        const { data: sub, error: subErr } = await supabase
-            .from('user_subscriptions')
-            .select('*, tier:subscription_tiers(*)')
-            .eq('user_id', user.id)
-            .maybeSingle()
-
-        if (subErr) {
-            console.error('[incrementExportCount] Subscription Error:', subErr)
-        }
-
-        const tier = sub?.tier as any
-        const tierName = tier?.name || 'free'
-        const isPremium = tierName === 'pro_monthly' || tierName === 'premium' || tierName === 'power' || tierName === 'lifetime_pro'
-        const exportLimit = tier?.max_exports_per_month ?? 1
-
+        const tier = await getUserTier(user.id)
         let paymentMethod = 'subscription'
 
-        if (credits > 0 && !isPremium) { // Use credit if not on unlimited plan
-            // Deduct credit
+        // 1. Check if they have bonus credits to use (and aren't on an unlimited plan)
+        if (tier.bonusAICredits > 0 && !tier.isPro) {
+            // NOTE: In this app, download_credits are treated as one-time "bonus" credits
+            // Let's deduct from profiles.download_credits
             const { error: updateErr } = await supabase
                 .from('profiles')
-                .update({ download_credits: credits - 1 })
+                .update({ download_credits: tier.bonusAICredits - 1 })
                 .eq('id', user.id)
                 
             if (updateErr) {
                 console.error('[incrementExportCount] Failed to update credits:', updateErr)
                 return { success: false, error: 'Failed to update credits' }
             }
-
             paymentMethod = 'credit'
         } else {
-            // Check regular subscription usage limit
-            const { data: usage, error: usageErr } = await supabase
-                .from('user_usage')
-                .select('*')
-                .eq('user_id', user.id)
-                .eq('month_year', monthYear)
-                .maybeSingle()
+            // 2. Check standard subscription usage limit
+            const currentCount = tier.currentMonthExportCount
+            const exportLimit = tier.maxExportsPerMonth
 
-            if (usageErr) {
-                console.error('[incrementExportCount] Usage Fetch Error:', usageErr)
-            }
-
-            const currentCount = usage?.export_count || 0
-
-            // If they have no credits and reached their limit (and it's not unlimited)
-            if (exportLimit !== null && currentCount >= exportLimit && !isPremium) {
+            // If they reached their limit (and it's not unlimited/Pro)
+            if (exportLimit !== null && currentCount >= exportLimit && !tier.isPro) {
+                await logUserActivity('export_resume_limit_reached', { documentId, format })
                 return { success: false, limitReached: true, requiresPayment: true }
             }
 
-            // Increment standard usage
+            // 3. Increment standard usage
             const { error: upsertErr } = await supabase
                 .from('user_usage')
                 .upsert({
                     user_id: user.id,
-                    month_year: monthYear,
+                    month_year: tier.usagePeriodKey,
                     export_count: currentCount + 1,
                     updated_at: new Date().toISOString()
                 }, { onConflict: 'user_id, month_year' })
                 
             if (upsertErr) {
                 console.error('[incrementExportCount] Failed to update user_usage:', upsertErr)
-                // We might fail here if RLS on user_usage blocks upsert, but we still want to allow the download if they had the right to it.
-                // However, we should try to track it. If it fails, we log it, but we can still return success to not block the user arbitrarily if the DB fails.
-                // Let's just log it and proceed.
             }
         }
 
-        // 3. Record in download history
+        // 4. Record in download history
         if (documentId) {
             const { error: historyErr } = await supabase.from('download_history').insert({
                 user_id: user.id,
@@ -500,9 +497,11 @@ export async function incrementExportCount(documentId: string, format: string): 
             }
         }
 
+        await logUserActivity('export_resume', { documentId, format, paymentMethod })
         return { success: true }
     } catch (err: any) {
-        console.error('[incrementExportCount] Unhandled Exception:', err)
+        logger.error('[incrementExportCount] Unhandled Exception:', { error: err.message, documentId, format })
+        await logUserActivity('export_resume_failed', { documentId, format, error: err.message })
         return { success: false, error: err.message || 'Unknown error' }
     }
 }
@@ -521,9 +520,10 @@ export async function completeOnboarding(): Promise<{ success: boolean, error?: 
 
         if (error) throw error
 
+        await logUserActivity('complete_onboarding')
         return { success: true }
     } catch (err: any) {
-        console.error('[completeOnboarding] Error:', err)
+        logger.error('[completeOnboarding] Error:', { error: err.message })
         return { success: false, error: err.message || 'Unknown error' }
     }
 }

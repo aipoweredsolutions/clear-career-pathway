@@ -240,6 +240,7 @@ export interface ResumeDocument {
         paperSize?: 'letter' | 'a4'
         themeColor?: string
         accentColor?: string
+        fontFamily?: 'sans' | 'serif' | 'mono'
     }
     sectionOrder?: string[]
 
@@ -274,6 +275,7 @@ export interface TemplateMetadata {
     }
     previewImage?: string
     isPremium?: boolean
+    atsCompliant?: boolean
     // New fields for color picker
     colors?: {
         id: string // e.g., 'blue', 'green', 'dark'

@@ -45,12 +45,7 @@ export function Footer() {
                     </div>
                 </div>
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <p className="text-sm">© {new Date().getFullYear()} Clear Career Path. All rights reserved.</p>
-                    <div className="flex gap-8 text-sm">
-                        <Link href="#" className="hover:text-white transition-colors">Twitter</Link>
-                        <Link href="#" className="hover:text-white transition-colors">LinkedIn</Link>
-                        <Link href="#" className="hover:text-white transition-colors">Instagram</Link>
-                    </div>
+                    <p className="text-sm text-center md:text-left w-full">© {new Date().getFullYear()} Clear Career Path. All rights reserved.</p>
                 </div>
             </div>
         </footer>

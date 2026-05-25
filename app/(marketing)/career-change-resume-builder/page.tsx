@@ -7,6 +7,29 @@ import Link from 'next/link'
 export const metadata: Metadata = {
     title: 'Career Change Resume Builder | Switch Careers with Confidence (2026)',
     description: 'Transitioning to a new field? Our AI-powered career change resume builder helps you translate your existing skills into terms your new industry understands.',
+    alternates: {
+        canonical: '/career-change-resume-builder',
+    },
+    openGraph: {
+        title: 'Career Change Resume Builder | Switch Careers with Confidence',
+        description: 'Transitioning to a new field? Our AI-powered career change resume builder helps you translate your existing skills into terms your new industry understands.',
+        type: 'website',
+        url: '/career-change-resume-builder',
+        images: [
+            {
+                url: '/api/og?title=Career%20Change%20Resume%20Builder&description=Switch%20Careers%20with%20Confidence',
+                width: 1200,
+                height: 630,
+                alt: 'Career Change Resume Builder',
+            }
+        ]
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Career Change Resume Builder | Switch Careers with Confidence',
+        description: 'Transitioning to a new field? Our AI-powered career change resume builder helps you translate your existing skills into terms your new industry understands.',
+        images: ['/api/og?title=Career%20Change%20Resume%20Builder&description=Switch%20Careers%20with%20Confidence'],
+    }
 }
 
 export default function CareerChangePage() {

@@ -1066,6 +1066,13 @@ export function AccountShell({ user, subscription, usage, referrals, documentCou
 
                         {/* Tabs */}
                         <nav className="flex gap-1 mt-6 overflow-x-auto pb-1">
+                            <Link
+                                href="/career-tools"
+                                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-black transition whitespace-nowrap bg-primary-50 text-primary-600 hover:bg-primary-100 mr-2 border border-primary-200"
+                            >
+                                <Sparkles className="w-4 h-4" />
+                                Career Hub
+                            </Link>
                             {TABS.map(tab => (
                                 <button
                                     key={tab.id}

@@ -132,7 +132,7 @@ export default async function PublicResumeViewerPage({ params }: PageProps) {
                         Resume Not Found
                     </h1>
                     <p className="text-neutral-500 font-medium mb-8 leading-relaxed">
-                        This resume doesn't exist, has been removed, or the owner has made it private.
+                        This resume doesn&apos;t exist, has been removed, or the owner has made it private.
                     </p>
                     <Link
                         href="/"

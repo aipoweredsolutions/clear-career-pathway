@@ -92,14 +92,80 @@ export class ResumeDOCX {
                         },
                     },
                 },
-                children: theme.hasSidebar
-                    ? [this.createSidebarLayout(data, theme)]
-                    : this.createStandardLayout(data, theme)
+                children: data.documentType === 'cover_letter'
+                    ? this.createCoverLetterLayout(data, theme)
+                    : (theme.hasSidebar
+                        ? [this.createSidebarLayout(data, theme)]
+                        : this.createStandardLayout(data, theme))
             }],
         })
 
         const blob = await Packer.toBlob(doc)
         saveAs(blob, filename)
+    }
+
+    private static createCoverLetterLayout(data: ResumeDocument, theme: DOCXTheme): any[] {
+        const { personalInfo, coverLetter } = data
+        const align = AlignmentType.LEFT
+        
+        const today = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
+
+        const contentParas = (coverLetter?.content || '').split('\n').filter(Boolean).map(para => 
+            new Paragraph({ text: para, spacing: { after: 240 }, alignment: AlignmentType.JUSTIFIED })
+        )
+
+        return [
+            // Header
+            new Paragraph({
+                text: personalInfo?.fullName || '',
+                heading: HeadingLevel.TITLE,
+                alignment: align,
+                spacing: { after: 100 }
+            }),
+            new Paragraph({
+                alignment: align,
+                spacing: { after: 400 },
+                children: [
+                    new TextRun({ text: [
+                        personalInfo?.email,
+                        personalInfo?.phone,
+                        personalInfo?.location || `${personalInfo?.city || ''}, ${personalInfo?.country || ''}`.trim(),
+                        personalInfo?.linkedinUrl ? 'LinkedIn' : ''
+                    ].filter(Boolean).join('  •  '), color: '666666' }),
+                ],
+                border: { bottom: { color: '000000', space: 1, style: BorderStyle.SINGLE, size: 2 } }
+            }),
+
+            // Date
+            new Paragraph({ children: [new TextRun({ text: today, bold: true })], spacing: { before: 200, after: 300 } }),
+
+            // Recipient
+            ...(coverLetter?.recipientName ? [new Paragraph({ children: [new TextRun({ text: coverLetter.recipientName, bold: true })] })] : []),
+            ...(coverLetter?.recipientTitle ? [new Paragraph({ text: coverLetter.recipientTitle })] : []),
+            ...(coverLetter?.companyName ? [new Paragraph({ children: [new TextRun({ text: coverLetter.companyName, bold: true })] })] : []),
+            ...(coverLetter?.companyAddress ? [new Paragraph({ text: coverLetter.companyAddress, spacing: { after: 300 } })] : []),
+            ...(!coverLetter?.companyAddress ? [new Paragraph({ text: '', spacing: { after: 300 } })] : []),
+
+            // Subject
+            new Paragraph({
+                children: [new TextRun({ text: `Re: ${coverLetter?.jobTitle || 'Application'} Position`, bold: true })],
+                spacing: { after: 300 }
+            }),
+
+            // Salutation
+            new Paragraph({ text: `Dear ${coverLetter?.recipientName || 'Hiring Manager'},`, spacing: { after: 200 } }),
+
+            // Body
+            ...(contentParas.length > 0 ? contentParas : [new Paragraph({ text: 'Your cover letter content will appear here.', spacing: { after: 240 } })]),
+
+            // Closing
+            new Paragraph({ text: 'Sincerely,', spacing: { before: 200, after: 400 } }),
+            new Paragraph({ children: [new TextRun({ text: personalInfo?.fullName || '', bold: true })] })
+        ]
     }
 
     private static createSidebarLayout(data: ResumeDocument, theme: DOCXTheme): Table {

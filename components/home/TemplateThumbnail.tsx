@@ -69,7 +69,7 @@ function LazyTemplatePreview({ template, colorSuffix, data, force = false }: { t
             observer.observe(ref.current)
         }
         return () => observer.disconnect()
-    }, [])
+    }, [force])
 
     return (
         <div

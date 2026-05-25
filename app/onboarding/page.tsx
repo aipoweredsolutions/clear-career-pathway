@@ -38,6 +38,12 @@ export default function OnboardingPage() {
     const [experience, setExperience] = useState<Experience | null>(null)
     const [industry, setIndustry] = useState<Industry | null>(null)
 
+    const getCompletionDestination = (selectedGoal: Goal | null) => {
+        if (selectedGoal === 'scan') return '/ats-resume-scanner'
+        if (selectedGoal === 'track') return '/dashboard'
+        return '/editor/setup'
+    }
+
     // Scroll to top when step changes to ensure navigation clarity
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -68,12 +74,10 @@ export default function OnboardingPage() {
             localStorage.setItem('ccp_user_preferences', JSON.stringify({ goal, experience, industry }))
             document.cookie = "ccp_onboarding_completed=true; path=/; max-age=31536000"
             
-            if (goal === 'build') router.push('/templates')
-            else if (goal === 'scan') router.push('/ats-resume-scanner')
-            else router.push('/dashboard')
+            router.push(getCompletionDestination(goal))
         } catch (error) {
             console.error('Failed to complete onboarding:', error)
-            router.push('/dashboard')
+            router.push('/editor/setup')
         } finally {
             setIsLoading(false)
         }
@@ -475,7 +479,7 @@ export default function OnboardingPage() {
                                 await saveOnboardingPreferences({ goal: null, experience: null, industry: null })
                                 document.cookie = "ccp_onboarding_completed=true; path=/; max-age=31536000"
                                 localStorage.setItem('ccp_onboarding_completed', 'true')
-                                router.push('/dashboard')
+                                router.push('/editor/setup')
                             }}
                             className="text-neutral-400 hover:text-neutral-950 text-[10px] font-black uppercase tracking-[0.3em] transition-colors"
                         >

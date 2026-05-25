@@ -87,6 +87,7 @@ export const metadata: Metadata = {
 }
 
 import { AuthProvider } from '@/components/auth/AuthProvider'
+import { PostHogProvider } from '@/components/providers/PostHogProvider'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { cn } from '@/lib/utils'
@@ -108,15 +109,17 @@ export default async function RootLayout({
     return (
         <html lang="en" className={cn(inter.variable, lora.variable, playfair.variable, lato.variable)}>
             <body className="min-h-screen bg-white">
-                <AuthProvider>
-                    {!isImmersive && <Navbar />}
-                    <main className={isImmersive ? '' : 'min-h-[80vh]'}>
-                        {children}
-                    </main>
-                    {!isImmersive && <Footer />}
-                    <CookieConsent />
-                    <Toaster position="top-center" richColors />
-                </AuthProvider>
+                <PostHogProvider>
+                    <AuthProvider>
+                        {!isImmersive && <Navbar />}
+                        <main className={isImmersive ? '' : 'min-h-[80vh]'}>
+                            {children}
+                        </main>
+                        {!isImmersive && <Footer />}
+                        <CookieConsent />
+                        <Toaster position="top-center" richColors />
+                    </AuthProvider>
+                </PostHogProvider>
             </body>
         </html>
     )

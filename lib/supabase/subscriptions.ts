@@ -1,5 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js'
 import { UserSubscription } from '@/lib/types/resume'
+import { templateRegistry } from '@/lib/templates/registry'
 
 /**
  * Fetches the user's current subscription from Supabase
@@ -66,10 +67,11 @@ export function hasPremiumAccess(subscription: UserSubscription | null): boolean
  * Checks if a user can download a specific template based on their tier and template's premium status
  */
 export function canDownloadTemplate(templateId: string, subscription: UserSubscription | null): boolean {
-    const freeTemplates = ['ats-professional', 'ats-minimal']
+    const template = templateRegistry.find(t => templateId === t.id || templateId.startsWith(t.id + '-'))
+    const isPremium = template ? template.isPremium : true
     
     // If it's a free template, anyone can download
-    if (freeTemplates.includes(templateId)) return true
+    if (!isPremium) return true
 
     // Otherwise, check for premium access
     return hasPremiumAccess(subscription)

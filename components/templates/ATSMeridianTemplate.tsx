@@ -22,7 +22,7 @@ interface TemplateProps {
  * ATS-compliant: linear DOM order, semantic headings, no absolute
  * positioning, clean text rendering.
  */
-export default function ATSMeridianTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
+export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -372,19 +372,19 @@ export default function ATSMeridianTemplate({ data, className, accentColor = 'te
                                             </span>
                                             
                                             <div className="mt-auto pt-1.5 space-y-0.5">
-                                                {(ref.email || ref.contactDetails || ref.contactInfo) && (
+                                                {((ref as any).email || ref.contactDetails || (ref as any).contactInfo) && (
                                                     <div className="text-[9px] text-neutral-500 font-medium">
-                                                        {ref.email || ref.contactDetails || ref.contactInfo}
+                                                        {((ref as any).email || ref.contactDetails || (ref as any).contactInfo)}
                                                     </div>
                                                 )}
-                                                {ref.phone && (
+                                                {(ref as any).phone && (
                                                     <div className="text-[9px] text-neutral-500 font-medium">
-                                                        {ref.phone}
+                                                        {(ref as any).phone}
                                                     </div>
                                                 )}
-                                                {ref.relationship && (
+                                                {(ref as any).relationship && (
                                                     <div className="text-[8.5px] font-black uppercase tracking-widest text-neutral-400 mt-1.5">
-                                                        {ref.relationship}
+                                                        {(ref as any).relationship}
                                                     </div>
                                                 )}
                                             </div>

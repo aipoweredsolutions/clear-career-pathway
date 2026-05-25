@@ -7,6 +7,29 @@ import Link from 'next/link'
 export const metadata: Metadata = {
     title: 'The Best Zety Alternative 2026 | Free ATS Resume Builder',
     description: 'Looking for a Zety alternative? Clear Career Path offers 100% ATS-compliant templates, real-time AI keyword scanning, and premium designs without the hidden fees.',
+    alternates: {
+        canonical: '/alternatives/zety',
+    },
+    openGraph: {
+        title: 'The Best Zety Alternative 2026 | Free ATS Resume Builder',
+        description: 'Looking for a Zety alternative? Clear Career Path offers 100% ATS-compliant templates, real-time AI keyword scanning, and premium designs without the hidden fees.',
+        type: 'website',
+        url: '/alternatives/zety',
+        images: [
+            {
+                url: '/api/og?title=The%20Smart%20Zety%20Alternative&description=100%25%20ATS-Compliant%20Resume%20Builder',
+                width: 1200,
+                height: 630,
+                alt: 'Zety Alternative - Clear Career Path',
+            }
+        ]
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'The Best Zety Alternative 2026 | Free ATS Resume Builder',
+        description: 'Looking for a Zety alternative? Clear Career Path offers 100% ATS-compliant templates, real-time AI keyword scanning, and premium designs without the hidden fees.',
+        images: ['/api/og?title=The%20Smart%20Zety%20Alternative&description=100%25%20ATS-Compliant%20Resume%20Builder'],
+    }
 }
 
 export default function ZetyAlternativePage() {

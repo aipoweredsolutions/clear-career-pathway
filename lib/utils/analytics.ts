@@ -1,4 +1,6 @@
-type EventName =
+import posthog from 'posthog-js'
+
+export type EventName =
     | 'template_preview'
     | 'template_use'
     | 'faq_expand'
@@ -7,18 +9,25 @@ type EventName =
     | 'auth_login_start'
     | 'resume_export'
     | 'ai_suggestion_use'
+    | 'onboarding_started'
+    | 'editor_viewed'
+    | 'export_intent'
+    | 'paywall_viewed'
+    | 'checkout_started'
 
-export const trackEvent = (eventName: EventName, properties?: Record<string, any>) => {
+export const trackEvent = (eventName: EventName | string, properties?: Record<string, any>) => {
     // In development, log to console
     if (process.env.NODE_ENV === 'development') {
         console.log(`[Analytics] Event: ${eventName}`, properties)
     }
 
-    // In production, you would send this to your analytics provider
-    // e.g., PostHog, Google Analytics, Vercel Analytics
-    /*
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', eventName, properties)
+    if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+        posthog.capture(eventName, properties)
     }
-    */
+}
+
+export const identifyUser = (userId: string, properties?: Record<string, any>) => {
+    if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+        posthog.identify(userId, properties)
+    }
 }

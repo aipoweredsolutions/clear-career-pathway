@@ -249,6 +249,30 @@ export const Section = ({ title, styles, children, isFirst, templateId = '', ind
         )
     }
 
+    if (templateId.startsWith('ats-minimal')) {
+        return (
+            <View style={[styles.section, isFirst && styles.sectionFirst]}>
+                <View style={{ marginTop: 24, marginBottom: 10 }}>
+                    <Text style={[styles.sectionTitle, { 
+                        fontSize: 9,
+                        letterSpacing: 4,
+                        marginBottom: 4, 
+                        paddingBottom: 0, 
+                        borderBottomWidth: 0,
+                        fontWeight: 900,
+                        textTransform: 'uppercase'
+                    }]}>
+                        {title}
+                    </Text>
+                    <View style={{ width: '100%', height: 0.5, backgroundColor: '#d4d4d4' }} />
+                </View>
+                <View>
+                    {children}
+                </View>
+            </View>
+        )
+    }
+
     return (
         <View style={[styles.section, isFirst && styles.sectionFirst]}>
             <Text style={styles.sectionTitle}>{title}</Text>
@@ -257,12 +281,15 @@ export const Section = ({ title, styles, children, isFirst, templateId = '', ind
     )
 }
 
-export const BulletPoint = ({ text, styles }: { text: string; styles: any }) => (
-    <View style={styles.bulletContainer}>
-        <Text style={styles.bullet}>•</Text>
-        <Text style={styles.bulletText}>{text}</Text>
-    </View>
-)
+export const BulletPoint = ({ text, styles, templateId = '' }: { text: string; styles: any; templateId?: string }) => {
+    const isMinimal = templateId.startsWith('ats-minimal')
+    return (
+        <View style={styles.bulletContainer}>
+            <Text style={[styles.bullet, isMinimal && { color: '#d4d4d4', fontWeight: 'bold' }]}>{isMinimal ? '—' : '•'}</Text>
+            <Text style={styles.bulletText}>{text}</Text>
+        </View>
+    )
+}
 
 export const SkillBadge = ({ text, styles }: { text: string; styles: any }) => (
     <View style={styles.skillBadge}>

@@ -239,6 +239,18 @@ export const StandardLayout = ({ data, styles, templateId, isWatermarked }: any)
                         <ContactInfo data={data} styles={styles} />
                     </View>
                 </View>
+            ) : templateId.startsWith('ats-minimal') ? (
+                <View style={[styles.header, { borderBottomWidth: 1.5, borderBottomColor: '#171717', paddingBottom: 20, marginBottom: 20 }]}>
+                    <Text style={[styles.name, { fontSize: 32, fontWeight: 900, textTransform: 'uppercase', letterSpacing: -0.5, marginBottom: 4, lineHeight: 1 }]}>
+                        {data.personalInfo?.fullName || 'YOUR NAME'}
+                    </Text>
+                    {data.personalInfo?.professionalTitle && (
+                        <Text style={[styles.title, { fontSize: 11, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 2, color: '#737373', marginBottom: 12 }]}>
+                            {data.personalInfo.professionalTitle}
+                        </Text>
+                    )}
+                    <ContactInfo data={data} styles={styles} separator=" | " />
+                </View>
             ) : templateId.startsWith('elite-london') ? (
                 <View style={[styles.header, { borderBottomWidth: 0, marginBottom: 25, alignItems: 'center', textAlign: 'center' }]}>
                     <Text style={[styles.name, { fontSize: 34, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }]}>

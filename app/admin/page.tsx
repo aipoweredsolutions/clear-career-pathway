@@ -68,8 +68,53 @@ async function getStats() {
     }
 }
 
+async function getRecentActivity() {
+    const supabase = createAdminClient()
+    
+    try {
+        const [
+            { data: downloads },
+            { data: docs },
+            { data: users }
+        ] = await Promise.all([
+            supabase.from('download_history').select('*, document:documents(title), profile:profiles(email)').order('created_at', { ascending: false }).limit(5),
+            supabase.from('documents').select('*, profile:profiles(email)').order('created_at', { ascending: false }).limit(5),
+            supabase.from('profiles').select('*').order('created_at', { ascending: false }).limit(5)
+        ])
+
+        const activities = [
+            ...(downloads || []).map(d => ({
+                user: (d as any).profile?.email || 'Unknown',
+                action: `Downloaded ${d.format.toUpperCase()} (${(d as any).document?.title || 'Resume'})`,
+                time: new Date(d.created_at),
+                type: 'download'
+            })),
+            ...(docs || []).map(d => ({
+                user: (d as any).profile?.email || 'Unknown',
+                action: `Created "${d.title}"`,
+                time: new Date(d.created_at),
+                type: 'create'
+            })),
+            ...(users || []).map(u => ({
+                user: u.email,
+                action: `Joined Clear Career Path`,
+                time: new Date(u.created_at),
+                type: 'user'
+            }))
+        ].sort((a, b) => b.time.getTime() - a.time.getTime()).slice(0, 8)
+
+        return activities
+    } catch (error) {
+        console.error('Error fetching admin activity:', error)
+        return []
+    }
+}
+
 export default async function AdminDashboardPage() {
-    const stats = await getStats()
+    const [stats, activities] = await Promise.all([
+        getStats(),
+        getRecentActivity()
+    ])
 
     const metrics = [
         { label: 'Total Active Users', value: stats.totalUsers, change: '+12.5%', trend: 'up', icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
@@ -77,6 +122,16 @@ export default async function AdminDashboardPage() {
         { label: 'Monthly Revenue', value: stats.monthlyRevenue, change: '+8.4%', trend: 'up', icon: CreditCard, color: 'text-emerald-600', bg: 'bg-emerald-50' },
         { label: 'Conversion Rate', value: stats.conversionRate, change: '-0.4%', trend: 'down', icon: TrendingUp, color: 'text-purple-600', bg: 'bg-purple-50' },
     ]
+
+    const timeAgo = (date: Date) => {
+        const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000)
+        if (seconds < 60) return 'Just now'
+        const minutes = Math.floor(seconds / 60)
+        if (minutes < 60) return `${minutes}m ago`
+        const hours = Math.floor(minutes / 60)
+        if (hours < 24) return `${hours}h ago`
+        return date.toLocaleDateString()
+    }
 
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -128,26 +183,31 @@ export default async function AdminDashboardPage() {
                     
                     <div className="bg-white rounded-[2.5rem] border border-neutral-200 shadow-sm overflow-hidden">
                         <div className="divide-y divide-neutral-100">
-                            {[
-                                { user: 'alex.sterling@example.com', action: 'Created "Executive Pro" Resume', time: '2 mins ago', type: 'create' },
-                                { user: 'sarah.j@company.com', action: 'Upgraded to Premium Pro', time: '14 mins ago', type: 'billing' },
-                                { user: 'mike.ross@law.org', action: 'Downloaded PDF (Sterling Template)', time: '45 mins ago', type: 'download' },
-                                { user: 'j.harrison@tech.co', action: 'Scanned Resume (Score: 92%)', time: '1 hour ago', type: 'scan' },
-                                { user: 'elena.v@design.it', action: 'Modified Summary with AI Helper', time: '3 hours ago', type: 'ai' },
-                            ].map((item, i) => (
+                            {activities.length > 0 ? activities.map((item, i) => (
                                 <div key={i} className="flex items-center justify-between p-6 hover:bg-neutral-50 transition-colors group">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-500 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
-                                            <Clock className="w-5 h-5" />
+                                        <div className={cn(
+                                            "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
+                                            item.type === 'billing' ? "bg-amber-50 text-amber-600" :
+                                            item.type === 'create' ? "bg-primary-50 text-primary-600" :
+                                            item.type === 'user' ? "bg-blue-50 text-blue-600" :
+                                            "bg-neutral-100 text-neutral-500"
+                                        )}>
+                                            {item.type === 'billing' ? <CreditCard className="w-5 h-5" /> :
+                                             item.type === 'create' ? <FileText className="w-5 h-5" /> :
+                                             item.type === 'user' ? <Users className="w-5 h-5" /> :
+                                             <Clock className="w-5 h-5" />}
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold text-neutral-900">{item.action}</p>
                                             <p className="text-xs text-neutral-500 font-medium">{item.user}</p>
                                         </div>
                                     </div>
-                                    <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">{item.time}</span>
+                                    <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">{timeAgo(item.time)}</span>
                                 </div>
-                            ))}
+                            )) : (
+                                <div className="p-10 text-center text-neutral-500 font-bold italic">No recent activity detected.</div>
+                            )}
                         </div>
                     </div>
                 </div>

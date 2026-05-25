@@ -26,15 +26,9 @@ import Link from 'next/link'
 import { getMockDataForTemplate } from '@/lib/utils/persona-matcher'
 import dynamic from 'next/dynamic'
 
-const PDFPreview = dynamic(() => import('@/components/pdf/PDFPreview').then(mod => mod.PDFPreview), {
-    ssr: false,
-    loading: () => (
-        <div className="flex flex-col items-center justify-center h-full w-full min-h-[500px] bg-neutral-50 rounded-2xl gap-4">
-            <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
-            <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Waking up PDF Engine...</p>
-        </div>
-    )
-})
+
+
+const PDFUrlGenerator = dynamic(() => import('@/components/home/PDFPreviewEngine').then(mod => mod.PDFUrlGenerator), { ssr: false })
 
 export default function TemplateStudioPage() {
     const params = useParams()
@@ -42,7 +36,7 @@ export default function TemplateStudioPage() {
     const templateId = params.templateId as string
 
     // Fetch the best-matching mock data for this specific template
-    const mockData = getMockDataForTemplate(templateId ?? "ats-professional")
+    const mockData = React.useMemo(() => getMockDataForTemplate(templateId ?? "ats-professional"), [templateId])
 
     // Format template ID for display: e.g. "ats-classic-navy" -> "ATS Classic Navy"
     const displayName = (templateId ?? "Professional")
@@ -56,31 +50,22 @@ export default function TemplateStudioPage() {
     }
 
     const [isDownloading, setIsDownloading] = useState(false)
+    const [pdfUrl, setPdfUrl] = useState<string | null>(null)
 
     const handleDownloadSample = async () => {
+        if (!pdfUrl) {
+            toast.error('PDF engine is still rendering...')
+            return
+        }
         setIsDownloading(true)
-        toast.info('Generating high-quality PDF sample...')
+        toast.info('Downloading high-quality PDF sample...')
         
         try {
-            const html2pdf = (await import('html2pdf.js')).default
-            const element = document.getElementById('studio-preview')
-            
-            if (!element) throw new Error('Preview element not found')
-
-            const opt: any = {
-                margin: [0, 0, 0, 0],
-                filename: `Clear_Career_Path_${displayName.replace(/\s+/g, '_')}_Sample.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, logging: false },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak: { mode: ['css', 'legacy'] }
-            }
-
-            await html2pdf().set(opt).from(element).save()
+            saveAs(pdfUrl, `Clear_Career_Path_${displayName.replace(/\s+/g, '_')}_Sample.pdf`)
             toast.success('Sample downloaded successfully')
         } catch (error) {
-            console.error('Sample generation failed:', error)
-            toast.error('Failed to generate sample. Please try again.')
+            console.error('Sample download failed:', error)
+            toast.error('Failed to download sample. Please try again.')
         } finally {
             setIsDownloading(false)
         }
@@ -210,14 +195,40 @@ export default function TemplateStudioPage() {
                                 </div>
                             </div>
                             
-                            {/* The Template Content */}
+                            {/* The Template Content — A4 page with CSS scale-down */}
                             <div className="bg-neutral-100 overflow-y-auto max-h-[85vh] p-4 sm:p-10 transition-all duration-500 flex w-full justify-center">
-                                <div id="studio-preview" className="w-full max-w-[850px]">
-                                    <TemplateRenderer 
-                                        templateId={templateId} 
-                                        data={mockData} 
-                                        className="shadow-2xl rounded-sm min-h-[1100px] w-full"
-                                    />
+                                <div
+                                    id="studio-preview"
+                                    className="relative w-full"
+                                    style={{ maxWidth: '680px', aspectRatio: '210 / 297' }}
+                                >
+                                    <div
+                                        className="absolute top-0 left-0 origin-top-left bg-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] ring-1 ring-neutral-900/5 rounded-sm"
+                                        style={{
+                                            width: '210mm',
+                                            minHeight: '297mm',
+                                            transform: 'scale(var(--studio-scale))',
+                                        }}
+                                        ref={(el) => {
+                                            if (!el) return
+                                            const parent = el.parentElement
+                                            if (!parent) return
+                                            const update = () => {
+                                                const s = parent.clientWidth / el.scrollWidth
+                                                el.style.setProperty('--studio-scale', String(Math.min(s, 1)))
+                                            }
+                                            update()
+                                            const ro = new ResizeObserver(update)
+                                            ro.observe(parent)
+                                        }}
+                                    >
+                                        <TemplateRenderer
+                                            templateId={templateId}
+                                            data={mockData}
+                                            className="w-[210mm] min-h-[297mm]"
+                                        />
+                                    </div>
+                                    <PDFUrlGenerator data={mockData} onUrlUpdate={setPdfUrl} />
                                 </div>
                             </div>
                         </div>

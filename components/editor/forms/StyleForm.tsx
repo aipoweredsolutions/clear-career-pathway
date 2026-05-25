@@ -3,7 +3,7 @@
 import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
-import { Palette, Type, MoveHorizontal, File, Layout, Check } from 'lucide-react'
+import { Palette, Type, MoveHorizontal, File, Layout, Check, ChevronDown } from 'lucide-react'
 import { templateRegistry } from '@/lib/templates/registry'
 
 interface StyleFormProps {
@@ -37,14 +37,41 @@ export function StyleForm({ data, onChange }: StyleFormProps) {
 
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Template Identification */}
-            <div className="flex items-center gap-4 p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
-                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-neutral-100">
-                    <Layout className="w-6 h-6 text-primary-500" />
+            {/* Template Selection Dropdown */}
+            <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                    <Layout className="w-4 h-4 text-primary-600" />
+                    <h4 className="text-xs font-black text-neutral-900 uppercase tracking-widest">Document Design</h4>
                 </div>
-                <div>
-                    <p className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Active Template</p>
-                    <h3 className="text-lg font-bold text-neutral-900">{currentTemplate?.name || 'Professional Standard'}</h3>
+                <div className="relative flex items-center bg-neutral-50 rounded-2xl border border-neutral-200 p-2 pl-4 focus-within:border-primary-500 focus-within:ring-4 focus-within:ring-primary-100 transition-all">
+                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-neutral-100 shrink-0">
+                        <Layout className="w-5 h-5 text-primary-500" />
+                    </div>
+                    <div className="flex-1 ml-4 relative">
+                        <span className="absolute left-0 top-0.5 text-[9px] font-black text-neutral-400 uppercase tracking-wider pointer-events-none">
+                            Select Template Layout
+                        </span>
+                        <select
+                            value={data.templateId || ''}
+                            onChange={(e) => {
+                                const newTemplateId = e.target.value
+                                onChange({
+                                    ...data,
+                                    templateId: newTemplateId
+                                })
+                            }}
+                            className="w-full bg-transparent text-neutral-900 pt-4 pb-1 pr-8 text-sm font-bold focus:outline-none appearance-none cursor-pointer"
+                        >
+                            {templateRegistry.map((tpl) => (
+                                <option key={tpl.id} value={tpl.id} className="bg-white text-neutral-900 font-bold">
+                                    {tpl.name} {tpl.isPremium ? '★ (Premium)' : ''}
+                                </option>
+                            ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-neutral-400">
+                            <ChevronDown className="w-4 h-4" />
+                        </div>
+                    </div>
                 </div>
             </div>
 

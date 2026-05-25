@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { RefreshCcw, Home, AlertTriangle } from 'lucide-react'
+import { logger } from '@/lib/logger'
 
 export default function Error({
     error,
@@ -12,8 +13,7 @@ export default function Error({
     reset: () => void
 }) {
     useEffect(() => {
-        // Log the error to an error reporting service
-        console.error('Application Error:', error)
+        logger.error('Application Error:', { error: error.message, stack: error.stack, digest: error.digest })
     }, [error])
 
     return (

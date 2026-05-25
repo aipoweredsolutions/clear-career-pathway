@@ -5,24 +5,32 @@ import { SEO_TEMPLATES } from '@/lib/constants/templates-seo'
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.clearcareerpath.com'
 
-    // 1. Static Core Pages
+    // 1. Core Product Pages
     const coreRoutes = [
         '',
         '/pricing',
         '/templates',
         '/resume-examples',
         '/blog',
-        '/alternatives/zety',
-        '/alternatives/canva',
-        '/career-change-resume-builder',
-        '/nurse-resume-builder',
         '/ats-resume-scanner',
-        '/ai-integrity'
     ].map((route) => ({
         url: `${baseUrl}${route}`,
         lastModified: new Date().toISOString(),
         changeFrequency: 'weekly' as const,
         priority: route === '' ? 1 : 0.8,
+    }))
+
+    // 2. Marketing & SEO Pages (app/(marketing))
+    const marketingRoutes = [
+        '/alternatives/zety',
+        '/alternatives/canva',
+        '/career-change-resume-builder',
+        '/ai-integrity'
+    ].map((route) => ({
+        url: `${baseUrl}${route}`,
+        lastModified: new Date().toISOString(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
     }))
 
     // 2. Dynamic Blog Posts
@@ -41,5 +49,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.9,
     }))
 
-    return [...coreRoutes, ...blogRoutes, ...templateRoutes]
+    return [...coreRoutes, ...marketingRoutes, ...blogRoutes, ...templateRoutes]
 }

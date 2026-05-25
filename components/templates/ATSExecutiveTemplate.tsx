@@ -42,18 +42,18 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
         )}>
             {/* Executive Header — Power Header */}
             <header className={cn("border-b-[4px] pb-5 mb-3", borderColorClass)}>
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                    <div className="flex-1">
-                        <h1 className={cn("text-[48px] font-black tracking-[-0.04em] leading-none mb-4 uppercase whitespace-nowrap truncate", accentColor)}>
+                <div className="flex flex-col justify-between items-start gap-4">
+                    <div className="w-full">
+                        <h1 className={cn("text-[40px] font-black tracking-[-0.04em] leading-none mb-3 uppercase break-words", accentColor)}>
                             {personalInfo?.fullName || 'Your Name'}
                         </h1>
                         {personalInfo?.professionalTitle && (
-                            <div className={cn("text-[16px] font-black tracking-[0.15em] uppercase opacity-80", accentColor)}>
+                            <div className={cn("text-[14px] font-black tracking-[0.15em] uppercase opacity-80", accentColor)}>
                                 {personalInfo.professionalTitle}
                             </div>
                         )}
                     </div>
-                    <div className="flex flex-col items-end gap-1.5 text-[12px] font-bold text-neutral-500 uppercase tracking-wider text-right">
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-neutral-500 uppercase tracking-wider">
                         {personalInfo?.email && <span>{personalInfo.email}</span>}
                         {personalInfo?.phone && <span>{personalInfo.phone}</span>}
                         {(personalInfo?.city || personalInfo?.country) && (
@@ -107,7 +107,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                     <section>
                         <SectionTitle>Executive Mandate</SectionTitle>
                         <div className="p-6 bg-neutral-50/50 border-l-[4px] border-neutral-900 rounded-r-xl">
-                            <p className="text-[15px] font-medium leading-relaxed text-neutral-700 text-justify">
+                            <p className="text-[13px] font-medium leading-relaxed text-neutral-700 text-justify">
                                 {professionalSummary.summaryText}
                             </p>
                         </div>
@@ -152,7 +152,7 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                                 <div key={i} className=" relative pl-6 border-l-[2px] border-neutral-100">
                                     <div className={cn("absolute top-1.5 -left-[7px] w-3 h-3 rounded-full border-[2px] border-white ring-2 ring-neutral-100", bgColorClass)} />
                                     
-                                    <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-2">
+                                    <div className="flex flex-col justify-between items-start mb-3 gap-1">
                                         <div>
                                             <h3 className="text-[13.5px] font-black text-neutral-900 leading-tight mb-1">{job.jobTitle}</h3>
                                             <div className={cn("text-[11.5px] font-black uppercase tracking-wider", accentColor)}>
@@ -165,13 +165,13 @@ export function ATSExecutiveTemplate({ data, className, accentColor = 'text-neut
                                     </div>
 
                                     {job.roleDescription && (
-                                        <p className="text-[14.5px] text-neutral-600 mb-4 leading-relaxed font-medium">{job.roleDescription}</p>
+                                        <p className="text-[13px] text-neutral-600 mb-3 leading-relaxed font-medium">{job.roleDescription}</p>
                                     )}
 
                                     {job.achievements && (
                                         <ul className="space-y-3">
                                             {job.achievements.map((a, j) => (
-                                                <li key={j} className="text-[14px] text-neutral-700 flex gap-4 leading-relaxed group">
+                                                <li key={j} className="text-[12.5px] text-neutral-700 flex gap-3 leading-relaxed group">
                                                     <span className={cn("mt-2.5 w-1.5 h-1.5 rounded-full shrink-0", bgColorClass, "opacity-30 group-hover:opacity-100 transition-opacity")} />
                                                     <span className="font-medium">{a.achievementText}</span>
                                                 </li>

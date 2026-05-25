@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { createClient } from '@/lib/supabase/server'
+import { getUserTier } from '@/lib/auth/getUserTier'
 
 // Providers
 type AIProvider = 'openai' | 'gemini'
@@ -36,42 +37,31 @@ export async function POST(req: NextRequest) {
         }
 
         // 3. Check Usage Limits & Rate Limiting
-        const { data: sub } = await supabase
-            .from('user_subscriptions')
-            .select('*, tier:subscription_tiers(*)')
-            .eq('user_id', user.id)
-            .maybeSingle()
+        let tier: any = { isPro: false, effectiveAICredits: 10, currentMonthAICount: 0, usagePeriodKey: '' }
+        if (user) {
+            tier = await getUserTier(user.id)
+            const aiLimit = tier.effectiveAICredits
+            const currentCount = tier.currentMonthAICount
 
-        const tier = sub?.tier as any
-        const aiLimit = tier?.ai_improvements_per_month ?? 5
+            if (currentCount >= aiLimit) {
+                return NextResponse.json({
+                    error: 'Monthly AI limit reached',
+                    limit: aiLimit,
+                    count: currentCount,
+                    upgradeNeeded: true,
+                    upgradeUrl: '/pricing'
+                }, { status: 403 })
+            }
 
-        const monthYear = new Date().toISOString().substring(0, 7)
-        const { data: usage } = await supabase
-            .from('user_usage')
-            .select('*')
-            .eq('user_id', user.id)
-            .eq('month_year', monthYear)
-            .maybeSingle()
-
-        const currentCount = usage?.ai_count || 0
-        const lastUpdated = usage?.updated_at ? new Date(usage.updated_at).getTime() : 0
-        const now = new Date().getTime()
-
-        // Anti-spam: 5 second cooldown
-        if (now - lastUpdated < 5000) {
-            return NextResponse.json({
-                error: 'Too many requests',
-                message: 'Please wait a few seconds between AI generations.'
-            }, { status: 429 })
-        }
-
-        if (aiLimit !== null && currentCount >= aiLimit) {
-            return NextResponse.json({
-                error: 'Monthly AI limit reached',
-                limit: aiLimit,
-                count: currentCount,
-                upgradeNeeded: true
-            }, { status: 403 })
+            // 3b. Feature Gating
+            const proOnlyTools = ['interview_prep', 'interview_feedback', 'salary_negotiation', 'linkedin_optimizer', 'career_roadmap']
+            if (proOnlyTools.includes(type) && !tier.isPro) {
+                return NextResponse.json({
+                    error: 'pro_required',
+                    message: 'This premium career tool requires a Pro subscription.',
+                    upgradeUrl: '/pricing?feature=' + type
+                }, { status: 403 })
+            }
         }
 
         // 4. Parse Request (Moved to top)
@@ -504,22 +494,24 @@ export async function POST(req: NextRequest) {
         }
 
         // 7. Update Usage
-        try {
-            const { error: usageError } = await supabase
-                .from('user_usage')
-                .upsert({
-                    user_id: user.id,
-                    month_year: monthYear,
-                    ai_count: (currentCount || 0) + 1,
-                    updated_at: new Date().toISOString()
-                }, { onConflict: 'user_id, month_year' })
-            
-            if (usageError) {
-                console.error('[GenerateAPI] Usage Update Error:', usageError)
-                // We don't throw here to avoid failing the whole request if just usage tracking fails
+        if (user) {
+            try {
+                const { error: usageError } = await supabase
+                    .from('user_usage')
+                    .upsert({
+                        user_id: user.id,
+                        month_year: tier.usagePeriodKey,
+                        ai_count: (tier.currentMonthAICount || 0) + 1,
+                        updated_at: new Date().toISOString()
+                    }, { onConflict: 'user_id, month_year' })
+                
+                if (usageError) {
+                    console.error('[GenerateAPI] Usage Update Error:', usageError)
+                    // We don't throw here to avoid failing the whole request if just usage tracking fails
+                }
+            } catch (usageEx) {
+                console.error('[GenerateAPI] Usage Exception:', usageEx)
             }
-        } catch (usageEx) {
-            console.error('[GenerateAPI] Usage Exception:', usageEx)
         }
 
         return NextResponse.json({ data: resultData })

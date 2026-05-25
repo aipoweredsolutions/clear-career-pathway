@@ -34,14 +34,14 @@ export default function TermsPage() {
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">4. Payments and Subscriptions</h2>
+                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">4. Payments and Merchant of Record</h2>
                         <p>
-                            Payments are processed via Paddle, our merchant of record.
+                            Our order process is conducted by our online reseller Paddle.com. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries and handles returns. Your relationship for any purchases made is directly with Paddle.com.
                         </p>
                         <ul className="list-disc pl-6 space-y-2 mt-2">
-                            <li><strong>Subscription Plans:</strong> Some services are billed on a subscription basis. You will be billed in advance on a recurring and periodic basis.</li>
-                            <li><strong>One-Time Purchases:</strong> Certain products like the Starter Pass are one-time purchases with no recurring billing.</li>
-                            <li><strong>Refunds:</strong> We offer a 14-day money-back guarantee if you are not satisfied with the Service, provided you have not used more than one AI generation or export.</li>
+                            <li><strong>Subscription Plans:</strong> Some services are billed on a subscription basis. You will be billed in advance on a recurring and periodic basis depending on your selected plan.</li>
+                            <li><strong>Cancellations:</strong> You may cancel your subscription at any time through your account dashboard or by contacting Paddle customer support.</li>
+                            <li><strong>Refunds:</strong> We offer a 14-day money-back guarantee if you are not satisfied with the Service, provided you have not excessively utilized AI generation credits or completed multiple document exports. All refund requests are subject to approval and processed by Paddle.</li>
                         </ul>
                     </section>
 
@@ -69,12 +69,19 @@ export default function TermsPage() {
                     <section>
                         <h2 className="text-2xl font-bold text-neutral-900 mb-4">8. Governing Law</h2>
                         <p>
-                            These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which the company is registered, without regard to its conflict of law provisions.
+                            These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Clear Career Path operates, without regard to its conflict of law provisions. Any transactions processed through Paddle are additionally governed by Paddle&apos;s terms and the laws of their jurisdiction.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">9. Contact Information</h2>
+                        <p>
+                            If you have any questions about these Terms, please contact us at support@clearcareerpath.com. For billing and order inquiries, you may also contact Paddle.com directly.
                         </p>
                     </section>
 
                     <section className="pt-8 border-t border-neutral-100 italic">
-                        <p>Last Updated: January 28, 2026</p>
+                        <p>Last Updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                     </section>
                 </div>
             </div>

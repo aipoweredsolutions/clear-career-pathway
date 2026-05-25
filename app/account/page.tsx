@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { AccountShell } from '@/components/account/AccountShell'
+import { getUserTier } from '@/lib/auth/getUserTier'
 
 export const metadata = {
     title: 'My Account',
@@ -29,13 +30,15 @@ export default async function AccountPage() {
         .eq('user_id', user.id)
         .maybeSingle()
 
-    // Fetch current month usage
-    const monthYear = new Date().toISOString().substring(0, 7)
+    // Fetch tier for billing cycle alignment
+    const tier = await getUserTier(user.id)
+
+    // Fetch current month usage using the correct period key
     const { data: usage } = await supabase
         .from('user_usage')
         .select('ai_count, export_count, bonus_ai_credits')
         .eq('user_id', user.id)
-        .eq('month_year', monthYear)
+        .eq('month_year', tier.usagePeriodKey)
         .maybeSingle()
 
     // Fetch referral stats

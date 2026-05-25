@@ -7,6 +7,29 @@ import Link from 'next/link'
 export const metadata: Metadata = {
     title: 'Canva Resume Alternative | Why Canva Resumes Fail ATS (2026)',
     description: 'Stop using Canva for your resume. Discover why Canva templates fail ATS filters and why Clear Career Path is the premium, 100% ATS-safe alternative for professionals.',
+    alternates: {
+        canonical: '/alternatives/canva',
+    },
+    openGraph: {
+        title: 'Canva Resume Alternative | Why Canva Resumes Fail ATS',
+        description: 'Stop using Canva for your resume. Discover why Canva templates fail ATS filters and why Clear Career Path is the premium, 100% ATS-safe alternative for professionals.',
+        type: 'website',
+        url: '/alternatives/canva',
+        images: [
+            {
+                url: '/api/og?title=The%20Canva%20Resume%20Alternative&description=Professional%20Grade%20Engineering',
+                width: 1200,
+                height: 630,
+                alt: 'Canva Alternative - Clear Career Path',
+            }
+        ]
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Canva Resume Alternative | Why Canva Resumes Fail ATS',
+        description: 'Stop using Canva for your resume. Discover why Canva templates fail ATS filters and why Clear Career Path is the premium, 100% ATS-safe alternative for professionals.',
+        images: ['/api/og?title=The%20Canva%20Resume%20Alternative&description=Professional%20Grade%20Engineering'],
+    }
 }
 
 export default function CanvaAlternativePage() {

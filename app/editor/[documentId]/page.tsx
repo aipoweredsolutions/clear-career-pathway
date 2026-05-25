@@ -48,6 +48,7 @@ import { useDebounce } from '@/lib/hooks/use-debounce'
 import { toast } from 'sonner'
 import { getMockDataForTemplate } from '@/lib/utils/template-helpers'
 import { useAuth } from '@/components/auth/AuthProvider'
+import { trackEvent } from '@/lib/utils/analytics'
 
 
 
@@ -90,14 +91,190 @@ function EditorContent() {
             for (let entry of entries) {
                 const heightPx = entry.target.scrollHeight
                 const isA4 = (deferredData || data)?.formatting?.paperSize === 'a4'
-                const visiblePageHeightPx = (isA4 ? 287 : (10.6 * 25.4)) * 3.7795275591 // 287mm or 10.6in (5mm margins)
-                setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
+                const templateId = (deferredData || data)?.templateId || ''
+                const isFullBleed = templateId.startsWith('elegant-split') ||
+                                    templateId.startsWith('ats-sterling') ||
+                                    templateId.startsWith('ats-royal-scholar')
+                
+                const pageHeightMmOrIn = isFullBleed 
+                    ? (isA4 ? 297 : (11.0 * 25.4)) 
+                    : (isA4 ? 287 : (10.6 * 25.4))
+                const visiblePageHeightPx = pageHeightMmOrIn * 3.7795275591
+                
+                if (templateId.startsWith('elegant-split')) {
+                    setNumPages(1)
+                } else {
+                    setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
+                }
             }
         })
 
         observer.observe(measureRef.current)
 
         return () => observer.disconnect()
+    }, [deferredData, data])
+
+    // Smart Pagination & Text Flow Rules Layout Pass
+    useEffect(() => {
+        if (!deferredData && !data) return;
+        
+        // Skip pagination logic for single page templates
+        if ((deferredData || data)?.templateId.startsWith('elegant-split')) {
+            return;
+        }
+
+        // Run on the next animation frame/timeout to ensure React has fully committed the fresh DOM
+        const timer = setTimeout(() => {
+            const containers = document.querySelectorAll('.template-container');
+            if (!containers.length) return;
+
+            // Reset all previously calculated margins before re-evaluating
+            containers.forEach(container => {
+                const els = Array.from(container.querySelectorAll(
+                    'h1, h2, h3, h4, h5, h6, p, li, div.group, div[class*="space-y-"] > div, div[class*="grid"] > div'
+                )) as HTMLElement[];
+                els.forEach(el => {
+                    el.style.marginTop = '';
+                    if (el.parentElement && el.parentElement !== container && el.parentElement.tagName === 'DIV') {
+                        el.parentElement.style.marginTop = '';
+                    }
+                });
+            });
+
+            const masterContainer = containers[0] as HTMLElement;
+            const isA4 = (deferredData || data)?.formatting?.paperSize === 'a4';
+            const templateId = (deferredData || data)?.templateId || '';
+            const isFullBleed = templateId.startsWith('elegant-split') ||
+                                templateId.startsWith('ats-sterling') ||
+                                templateId.startsWith('ats-royal-scholar');
+            
+            const pageHeightMmOrIn = isFullBleed 
+                ? (isA4 ? 297 : (11.0 * 25.4)) 
+                : (isA4 ? 287 : (10.6 * 25.4));
+            
+            const visiblePageHeightPx = pageHeightMmOrIn * 3.7795275591;
+            const topMarginPx = 48; // minimum two blank lines of spacing
+
+            // Select all atomic block candidates (headings, paragraphs, list items, job/edu/project blocks)
+            const elements = Array.from(masterContainer.querySelectorAll(
+                'h1, h2, h3, h4, h5, h6, p, li, div.group, div[class*="space-y-"] > div, div[class*="grid"] > div'
+            )) as HTMLElement[];
+
+            for (let k = 0; k < elements.length; k++) {
+                const el = elements[k];
+                const elRect = el.getBoundingClientRect();
+                if (elRect.height === 0) continue;
+
+                // If the block itself is taller than a page, do not push the whole block; let its inner p/li be pushed
+                if (elRect.height > visiblePageHeightPx - topMarginPx) continue;
+
+                const masterRect = masterContainer.getBoundingClientRect();
+                const top = el.getBoundingClientRect().top - masterRect.top;
+                const bottom = el.getBoundingClientRect().bottom - masterRect.top;
+
+                const pageIndex = Math.floor(top / visiblePageHeightPx);
+                const pageBottom = (pageIndex + 1) * visiblePageHeightPx;
+
+                let pushToNextPage = false;
+
+                // Rule 1: No orphan headings
+                const isHeading = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(el.tagName) || el.getAttribute('role') === 'heading';
+                if (isHeading) {
+                    if (bottom > pageBottom) {
+                        pushToNextPage = true;
+                    } else {
+                        // Find next content element
+                        let curr: Element | null = el;
+                        let nextContent: Element | null = null;
+                        while (curr && curr !== masterContainer) {
+                            if (curr.nextElementSibling) {
+                                nextContent = curr.nextElementSibling;
+                                break;
+                            }
+                            curr = curr.parentElement;
+                        }
+
+                        if (nextContent) {
+                            const nextTop = nextContent.getBoundingClientRect().top - masterContainer.getBoundingClientRect().top;
+                            // If next content starts on the next page, or is within 40px of the page bottom (insufficient room for body text)
+                            if (nextTop >= pageBottom || (pageBottom - nextTop < 40)) {
+                                pushToNextPage = true;
+                            }
+                        }
+                    }
+                } else {
+                    // Rule 2: No mid-sentence / mid-block page breaks
+                    if (top < pageBottom && bottom > pageBottom) {
+                        pushToNextPage = true;
+                    }
+                }
+
+                // Rule 3 & Execution: Push element to the next page with post-page-break top margin
+                if (pushToNextPage) {
+                    let targetEl: HTMLElement = el;
+                    if (isHeading && el.parentElement && el.parentElement !== masterContainer && el.parentElement.tagName === 'DIV') {
+                        targetEl = el.parentElement;
+                    }
+
+                    const currentTop = targetEl.getBoundingClientRect().top - masterContainer.getBoundingClientRect().top;
+                    const targetY = pageBottom + topMarginPx;
+                    const diff = targetY - currentTop;
+
+                    if (diff > 0) {
+                        const currentMarginTop = parseFloat(window.getComputedStyle(targetEl).marginTop) || 0;
+                        const newMargin = `${currentMarginTop + diff}px`;
+                        targetEl.style.marginTop = newMargin;
+
+                        // Synchronize across all visible preview containers
+                        for (let c = 1; c < containers.length; c++) {
+                            const cElements = containers[c].querySelectorAll(
+                                'h1, h2, h3, h4, h5, h6, p, li, div.group, div[class*="space-y-"] > div, div[class*="grid"] > div'
+                            );
+                            const cEl = cElements[k] as HTMLElement;
+                            if (cEl) {
+                                let cTargetEl: HTMLElement = cEl;
+                                if (isHeading && cEl.parentElement && cEl.parentElement !== containers[c] && cEl.parentElement.tagName === 'DIV') {
+                                    cTargetEl = cEl.parentElement;
+                                }
+                                cTargetEl.style.marginTop = newMargin;
+                            }
+                        }
+                    }
+                } else if (top >= pageBottom && top < pageBottom + topMarginPx) {
+                    // Rule 3: Element naturally falls at the top of a new page but starts too close to the top edge
+                    let targetEl: HTMLElement = el;
+                    if (isHeading && el.parentElement && el.parentElement !== masterContainer && el.parentElement.tagName === 'DIV') {
+                        targetEl = el.parentElement;
+                    }
+
+                    const currentTop = targetEl.getBoundingClientRect().top - masterContainer.getBoundingClientRect().top;
+                    const targetY = pageBottom + topMarginPx;
+                    const diff = targetY - currentTop;
+
+                    if (diff > 0) {
+                        const currentMarginTop = parseFloat(window.getComputedStyle(targetEl).marginTop) || 0;
+                        const newMargin = `${currentMarginTop + diff}px`;
+                        targetEl.style.marginTop = newMargin;
+
+                        for (let c = 1; c < containers.length; c++) {
+                            const cElements = containers[c].querySelectorAll(
+                                'h1, h2, h3, h4, h5, h6, p, li, div.group, div[class*="space-y-"] > div, div[class*="grid"] > div'
+                            );
+                            const cEl = cElements[k] as HTMLElement;
+                            if (cEl) {
+                                let cTargetEl: HTMLElement = cEl;
+                                if (isHeading && cEl.parentElement && cEl.parentElement !== containers[c] && cEl.parentElement.tagName === 'DIV') {
+                                    cTargetEl = cEl.parentElement;
+                                }
+                                cTargetEl.style.marginTop = newMargin;
+                            }
+                        }
+                    }
+                }
+            }
+        }, 50);
+
+        return () => clearTimeout(timer);
     }, [deferredData, data])
 
     // Trigger onboarding for new users
@@ -164,6 +341,7 @@ function EditorContent() {
 
                     setData(baseData)
                     setLoading(false)
+                    trackEvent('editor_viewed', { documentId: 'new', documentType: docType })
                     return
                 }
 
@@ -171,6 +349,7 @@ function EditorContent() {
 
                 if (fetchedData) {
                     setData(fetchedData)
+                    trackEvent('editor_viewed', { documentId: fetchedData.id, documentType: fetchedData.documentType })
                 }
             } catch (error) {
                 console.error("Failed to load editor data", error)
@@ -646,25 +825,46 @@ function EditorContent() {
                         >
                             {Array.from({ length: numPages }).map((_, i) => {
                                 const isA4 = (deferredData || data).formatting?.paperSize === 'a4'
+                                const templateId = (deferredData || data)?.templateId || ''
+                                const isElegantSplit = templateId.startsWith('elegant-split')
+                                const isFullBleed = templateId.startsWith('elegant-split') ||
+                                                    templateId.startsWith('ats-sterling') ||
+                                                    templateId.startsWith('ats-royal-scholar')
+                                
+                                const pageHeightMm = isFullBleed ? 297 : 287
+                                const pageHeightIn = isFullBleed ? 11 : 10.6
+
                                 return (
                                     <div 
                                         key={i} 
                                         className={cn(
-                                            "bg-white shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] relative ring-1 ring-neutral-900/5 flex flex-col items-center justify-center",
-                                            isA4 ? 'w-[210mm] h-[297mm]' : 'w-[8.5in] h-[11in]'
+                                            "bg-white shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] relative ring-1 ring-neutral-900/5 flex flex-col items-center justify-start",
+                                            isElegantSplit 
+                                                ? (isA4 ? 'w-[210mm] min-h-[297mm] h-auto' : 'w-[8.5in] min-h-[11in] h-auto')
+                                                : (isA4 ? 'w-[210mm] h-[297mm]' : 'w-[8.5in] h-[11in]')
                                         )}
                                     >
                                         <div 
-                                            className="relative w-full overflow-hidden"
-                                            style={{ height: isA4 ? '287mm' : '10.6in' }}
+                                            className={cn("relative w-full", !isElegantSplit && "overflow-hidden")}
+                                            style={{ 
+                                                height: isElegantSplit 
+                                                    ? 'auto' 
+                                                    : (isA4 ? `${pageHeightMm}mm` : `${pageHeightIn}in`) 
+                                            }}
                                         >
-                                            <div className="absolute top-0 left-0 w-full" style={{ 
-                                                transform: `translateY(-${i * (isA4 ? 287 : 10.6)}${isA4 ? 'mm' : 'in'})` 
-                                            }}>
+                                            <div 
+                                                className={cn("w-full", isElegantSplit ? "relative" : "absolute top-0 left-0")} 
+                                                style={isElegantSplit ? {} : { 
+                                                    transform: `translateY(-${i * (isA4 ? pageHeightMm : pageHeightIn)}${isA4 ? 'mm' : 'in'})` 
+                                                }}
+                                            >
                                                 <TemplateRenderer
                                                     templateId={(deferredData || data).templateId}
                                                     data={deferredData || data}
-                                                    className={isA4 ? 'w-[210mm]' : 'w-[8.5in]'}
+                                                    className={cn(
+                                                        isA4 ? 'w-[210mm]' : 'w-[8.5in]',
+                                                        isElegantSplit && 'h-full'
+                                                    )}
                                                 />
                                             </div>
                                         </div>

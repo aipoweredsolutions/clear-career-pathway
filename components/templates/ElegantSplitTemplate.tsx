@@ -249,7 +249,7 @@ export function ElegantSplitTemplate({ data, accentColor = 'slate' }: TemplatePr
 
                 {/* Custom Sections */}
                 {customSections && customSections.map((s, i) => (
-                    <MainSection key={i} title={s.title} className="">
+                    <MainSection key={i} title={s.title}>
                         {s.content && <p className="text-[10px] text-neutral-600 leading-relaxed mb-2">{s.content}</p>}
                         {s.items && s.items.length > 0 && (
                             <ul className="space-y-1">

@@ -12,6 +12,8 @@ import { resumeToPlainText } from '@/lib/utils/resume-to-text'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { incrementExportCount } from '@/app/editor/actions'
+import { trackEvent } from '@/lib/utils/analytics'
+import { templateRegistry } from '@/lib/templates/registry'
 
 interface DownloadButtonsProps {
     data: ResumeDocument
@@ -30,7 +32,9 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
     const [copied, setCopied] = useState(false)
     const defaultFileName = data.personalInfo?.fullName?.replace(/\s+/g, '_') || 'resume'
     const [customFileName, setCustomFileName] = useState(defaultFileName)
-    const isPremiumTemplate = !['ats-professional', 'ats-minimal', 'ats-gold-standard'].includes(data.templateId)
+    
+    const template = templateRegistry.find(t => data.templateId === t.id || data.templateId.startsWith(t.id + '-'))
+    const isPremiumTemplate = template ? template.isPremium : true
 
     const copyToClipboard = async () => {
         const text = resumeToPlainText(data)
@@ -45,8 +49,10 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
     }
 
     const handleDocxDownload = async () => {
+        trackEvent('export_intent', { format: 'docx', templateId: data.templateId })
         // Check if template is premium and user is NOT pro
         if (isPremiumTemplate && !isPro) {
+            trackEvent('paywall_viewed', { format: 'docx', reason: 'premium_template', templateId: data.templateId })
             toast.error('This premium template requires a Pro plan.')
             router.push(`/pricing?template=${data.templateId}`)
             return
@@ -57,8 +63,10 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
             const result = await incrementExportCount(data.id || '', 'docx')
             if (!result.success) {
                 if (result.requiresPayment) {
+                    trackEvent('paywall_viewed', { format: 'docx', reason: 'out_of_credits' })
                     toast.error('No download credits remaining. Please purchase a bundle or subscribe.')
                 } else if (result.limitReached) {
+                    trackEvent('paywall_viewed', { format: 'docx', reason: 'limit_reached' })
                     toast.error('Monthly export limit reached. Please upgrade to Power User plan.')
                 } else {
                     toast.error('Failed to process download request. Please try again.')
@@ -77,7 +85,9 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
     }
 
     const handlePdfDownload = async () => {
+        trackEvent('export_intent', { format: 'pdf', templateId: data.templateId })
         if (isPremiumTemplate && !isPro) {
+            trackEvent('paywall_viewed', { format: 'pdf', reason: 'premium_template', templateId: data.templateId })
             toast.error('This premium template requires a Pro plan.')
             router.push(`/pricing?template=${data.templateId}`)
             return
@@ -88,8 +98,10 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
             const result = await incrementExportCount(data.id || '', 'pdf')
             if (!result.success) {
                 if (result.requiresPayment) {
+                    trackEvent('paywall_viewed', { format: 'pdf', reason: 'out_of_credits' })
                     toast.error('No download credits remaining. Please purchase a bundle or subscribe.')
                 } else if (result.limitReached) {
+                    trackEvent('paywall_viewed', { format: 'pdf', reason: 'limit_reached' })
                     toast.error('Monthly export limit reached. Please upgrade to Power User plan.')
                 } else {
                     toast.error('Failed to process download request. Please try again.')

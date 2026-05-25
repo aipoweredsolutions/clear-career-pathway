@@ -37,6 +37,7 @@
         "next-mdx-remote": "^6.0.0",
         "openai": "^4.24.7",
         "pdf-parse": "^1.1.1",
+        "posthog-js": "^1.374.2",
         "react": "^19.2.5",
         "react-dom": "^19.2.5",
         "react-to-print": "^3.3.0",

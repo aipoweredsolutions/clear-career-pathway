@@ -66,6 +66,7 @@ export function PricingCard({ tier, isLoggedIn }: PricingCardProps) {
             const userData = await response.json()
             const userId = userData.user?.id
 
+            trackEvent('checkout_started', { tierName: tier.name, price: tier.price })
             paddle.Checkout.open({
                 items: [
                     {

@@ -93,6 +93,7 @@ export function getMockDataForTemplate(templateId: string): ResumeDocument {
 
     return {
         ...baseData,
+        templateId: templateId,
         personalInfo: {
             ...baseData.personalInfo,
             fullName: finalName

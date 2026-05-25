@@ -14,9 +14,9 @@ export function HeroSection() {
                 <div className="absolute bottom-0 left-0 w-full h-[50%] bg-[#0a0f1a]" />
                 {/* Subtle grid overlay for texture */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
-                {/* Solid accent glow — emerald */}
-                <div className="absolute top-[-200px] right-[-100px] w-[600px] h-[600px] rounded-full bg-emerald-500/[0.07] blur-[120px]" />
-                <div className="absolute bottom-[-150px] left-[-100px] w-[500px] h-[500px] rounded-full bg-primary-500/[0.05] blur-[100px]" />
+                {/* Solid accent glow */}
+                <div className="absolute top-[-200px] right-[-100px] w-[600px] h-[600px] rounded-full bg-primary-500/[0.07] blur-[120px]" />
+                <div className="absolute bottom-[-150px] left-[-100px] w-[500px] h-[500px] rounded-full bg-indigo-500/[0.05] blur-[100px]" />
                 {/* Top edge line */}
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/[0.04]" />
             </div>
@@ -29,33 +29,33 @@ export function HeroSection() {
                     <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-center py-16 lg:py-20">
 
                         {/* Status badge */}
-                        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-400 mb-8 w-max">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                            <span>Trusted by 50,000+ professionals</span>
+                        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 text-xs font-bold text-primary-400 mb-8 w-max">
+                            <span className="w-2 h-2 rounded-full bg-primary-400 animate-pulse" />
+                            <span>Built for ambitious professionals</span>
                         </div>
 
                         {/* ── HEADLINE — Solid, no gradients ── */}
                         <h1 className="text-[3.25rem] sm:text-[4rem] lg:text-[4.5rem] xl:text-[5.5rem] font-black leading-[0.92] tracking-[-0.03em] mb-7">
                             <span className="text-white block">Built to Get</span>
-                            <span className="text-white block">You <span className="text-emerald-400">Hired.</span></span>
+                            <span className="text-white block">You <span className="text-primary-400">Hired.</span></span>
                         </h1>
 
                         {/* Subheadline — sharp and direct */}
                         <p className="text-lg sm:text-xl text-neutral-400 mb-10 leading-relaxed max-w-lg font-medium">
-                            Stop getting filtered out. Our ATS-optimised resumes, AI bullet writer, and real-time
-                            scoring engine are built for one thing — <span className="text-white font-semibold">landing you the interview.</span>
+                            Stop getting filtered out. Our ATS-optimised resumes, AI bullet writer, and dedicated
+                            ATS scanner are built for one thing — <span className="text-white font-semibold">landing you the interview.</span>
                         </p>
 
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-3 mb-14">
                             <Link
                                 href="/editor/setup?template=ats-classic"
-                                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4.5 font-bold text-neutral-950 bg-emerald-400 rounded-xl overflow-hidden shadow-[0_0_40px_rgba(52,211,153,0.2)] hover:shadow-[0_0_60px_rgba(52,211,153,0.35)] transition-all duration-300 hover:-translate-y-0.5"
+                                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4.5 font-bold text-white bg-primary-600 rounded-xl overflow-hidden shadow-lg shadow-primary-500/20 hover:shadow-xl hover:shadow-primary-500/40 transition-all duration-300 hover:-translate-y-0.5"
                                 prefetch={true}
                             >
                                 <span className="text-[15px] font-extrabold relative z-10">Start Building — It&apos;s Free</span>
                                 <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
-                                <div className="absolute inset-0 bg-emerald-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute inset-0 bg-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             </Link>
                             <Link
                                 href="/templates"
@@ -68,9 +68,9 @@ export function HeroSection() {
                         {/* Stat row — solid numbers, no fluff */}
                         <div className="flex items-center gap-6 sm:gap-8 flex-wrap">
                             {[
-                                { value: '99%', label: 'ATS Pass Rate', icon: Shield, color: 'text-emerald-400' },
-                                { value: '3 min', label: 'Avg. Build Time', icon: Zap, color: 'text-primary-400' },
-                                { value: '25+', label: 'Elite Templates', icon: FileText, color: 'text-amber-400' },
+                                { value: 'Ready', label: 'ATS Compliant', icon: Shield, color: 'text-emerald-400' },
+                                { value: 'Rapid', label: 'Resume Builder', icon: Zap, color: 'text-primary-400' },
+                                { value: 'Premium', label: 'Elite Templates', icon: FileText, color: 'text-amber-400' },
                             ].map(({ value, label, icon: Icon, color }) => (
                                 <div key={label} className="flex items-center gap-3">
                                     <div className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
@@ -88,7 +88,7 @@ export function HeroSection() {
                     {/* ── RIGHT COLUMN — Template Slideshow ── */}
                     <div className="lg:col-span-6 xl:col-span-5 relative hidden lg:flex items-center justify-center">
                         {/* Solid glow behind slideshow */}
-                        <div className="absolute inset-0 bg-emerald-500/[0.08] blur-[80px] rounded-full pointer-events-none" />
+                        <div className="absolute inset-0 bg-primary-500/[0.08] blur-[80px] rounded-full pointer-events-none" />
                         <HeroTemplateSlideshow />
 
                         {/* Floating card — ATS Score */}

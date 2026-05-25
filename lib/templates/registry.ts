@@ -13,6 +13,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Operations', 'Executive Management', 'Finance', 'Tech Leadership', 'Strategy']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Executive Black', hex: '#000000' },
             { id: 'midnight', name: 'Midnight Blue', hex: '#0f172a' },
@@ -31,6 +32,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Executive Leadership', 'Strategy', 'Consulting', 'Operations', 'Finance']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'London Black', hex: '#000000' },
             { id: 'navy', name: 'Regent Navy', hex: '#1e3a8a' },
@@ -49,6 +51,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Executive Leadership', 'Strategy', 'Consulting', 'Operations', 'Academic Research']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Professional Black', hex: '#000000' },
             { id: 'navy', name: 'Executive Navy', hex: '#1e3a8a' },
@@ -67,6 +70,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Tech', 'Marketing', 'Consulting', 'Business', 'Operations']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Modern Black', hex: '#000000' },
             { id: 'zinc', name: 'Cool Zinc', hex: '#52525b' },
@@ -85,6 +89,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Management', 'Finance', 'Operations', 'Business', 'Legal', 'Healthcare']
         },
         isPremium: true,
+        atsCompliant: true,
         previewImage: '/templates/ats-professional-navy-preview.png',
         colors: [
             { id: 'black', name: 'Elite Black', hex: '#000000' },
@@ -108,6 +113,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Legal', 'Finance', 'Education']
         },
         isPremium: true,
+        atsCompliant: true,
         previewImage: '/templates/ats-classic-navy-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
@@ -129,6 +135,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Management', 'C-Suite']
         },
         isPremium: true,
+        atsCompliant: true,
         previewImage: '/templates/ats-executive-gold-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
@@ -150,6 +157,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Tech', 'SaaS', 'Marketing']
         },
         isPremium: true,
+        atsCompliant: true,
         previewImage: '/templates/ats-modern-blue-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
@@ -171,6 +179,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Finance', 'Consulting', 'Tech', 'Legal']
         },
         isPremium: true,
+        atsCompliant: true,
         previewImage: '/templates/ats-timeline-emerald-preview.png',
         colors: [
             { id: 'black', name: 'Elite Black', hex: '#000000' },
@@ -192,6 +201,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Healthcare', 'Nursing', 'Medical', 'Clinical']
         },
         isPremium: true,
+        atsCompliant: true,
         previewImage: '/templates/ats-nursing-blue-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
@@ -213,6 +223,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Education', 'Research', 'Science', 'University']
         },
         isPremium: true,
+        atsCompliant: true,
         previewImage: '/templates/ats-academia-navy-preview.png',
         colors: [
             { id: 'black', name: 'Oxford Black', hex: '#000000' },
@@ -234,6 +245,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Education', 'Tech', 'Business', 'Research']
         },
         isPremium: true,
+        atsCompliant: true,
         previewImage: '/templates/ats-graduate-navy-preview.png',
         colors: [
             { id: 'black', name: 'Standard Black', hex: '#000000' },
@@ -258,6 +270,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['C-Suite', 'Management', 'Legal', 'Consulting', 'Academic']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Ebony Black', hex: '#000000' },
             { id: 'navy', name: 'Midnight Navy', hex: '#0f172a' },
@@ -277,6 +290,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Tech', 'Design', 'Media', 'Marketing']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Deep Black', hex: '#000000' },
             { id: 'slate', name: 'Cool Slate', hex: '#334155' },
@@ -295,6 +309,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Law', 'Academia', 'Consulting', 'Research']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Scholastic Black', hex: '#000000' },
             { id: 'navy', name: 'Oxford Blue', hex: '#1e3a8a' },
@@ -313,6 +328,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Management', 'Finance', 'Consulting', 'Project Management', 'Engineering']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Ink Black', hex: '#000000' },
             { id: 'slate', name: 'Slate Gray', hex: '#4b5563' },
@@ -332,6 +348,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Marketing', 'Communications', 'Design', 'Media']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Classic Black', hex: '#000000' },
             { id: 'charcoal', name: 'Charcoal', hex: '#262626' },
@@ -352,6 +369,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Finance', 'Investment Banking', 'Legal', 'Consulting', 'Executive Management']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'copper', name: 'Heritage Copper', hex: '#78350f' },
             { id: 'black', name: 'Institutional Black', hex: '#0c0a09' },
@@ -373,6 +391,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Tech', 'Product Management', 'Fintech', 'SaaS', 'Consulting', 'Marketing']
         },
         isPremium: true,
+        atsCompliant: false,
         colors: [
             { id: 'black', name: 'Precision Black', hex: '#171717' },
             { id: 'charcoal', name: 'Modern Charcoal', hex: '#374151' },
@@ -393,6 +412,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Design', 'Architecture', 'Tech', 'Brand Strategy']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Bauhaus Black', hex: '#000000' },
             { id: 'vermillion', name: 'Vermillion', hex: '#dc2626' },
@@ -416,6 +436,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Engineering', 'Data Science', 'Product Management']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Carbon Black', hex: '#000000' },
             { id: 'blueprint', name: 'Blueprint', hex: '#1e40af' },
@@ -438,6 +459,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Finance', 'Legal', 'Business', 'Management', 'Accounting']
         },
         isPremium: true,
+        atsCompliant: false,
         colors: [
             { id: 'black',   name: 'Standard Black', hex: '#000000' },
             { id: 'navy',    name: 'Navy',            hex: '#1e3a8a' },
@@ -458,6 +480,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Operations', 'Management', 'Finance', 'Consulting', 'Strategy', 'Business']
         },
         isPremium: false,
+        atsCompliant: false,
         colors: [
             { id: 'black', name: 'Corporate Black', hex: '#000000' },
             { id: 'corporate', name: 'Corporate Blue', hex: '#1d4ed8' },
@@ -482,6 +505,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General', 'Tech', 'Marketing', 'Design', 'Finance', 'Sales']
         },
         isPremium: false,
+        atsCompliant: false,
         colors: [
             { id: 'black', name: 'Classic Black', hex: '#000000' },
             { id: 'slate',    name: 'Midnight Slate', hex: '#0f172a' },
@@ -503,6 +527,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['General', 'Business', 'Law', 'Consulting', 'Academia', 'Finance', 'Healthcare']
         },
         isPremium: false,
+        atsCompliant: false,
         colors: [
             { id: 'black',    name: 'Classic Black', hex: '#000000' },
             { id: 'gold',     name: 'Classic Gold',    hex: '#C9A84C' },
@@ -524,6 +549,7 @@ export const templateRegistry: TemplateMetadata[] = [
             industries: ['Academia', 'Research', 'Education', 'Science', 'Healthcare', 'Policy']
         },
         isPremium: true,
+        atsCompliant: true,
         colors: [
             { id: 'black', name: 'Classic Black', hex: '#171717' },
             { id: 'navy', name: 'Oxford Navy', hex: '#1e3a8a' },

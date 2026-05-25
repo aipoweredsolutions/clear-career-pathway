@@ -108,13 +108,20 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData }: Temp
     const filteredTemplates = React.useMemo(() => {
         return templateRegistry.filter(t => {
             if (activeCategory === 'all') return true
-            if (activeCategory === 'ats') return t.id.startsWith('ats-') || t.id === 'classic-clean'
-            if (activeCategory === 'creative') return t.id === 'elegant-split' || t.id === 'prestige' || t.id.includes('bauhaus') || t.id.includes('masthead')
+            if (activeCategory === 'ats') return t.atsCompliant !== false
+            if (activeCategory === 'creative') return t.id === 'elegant-split' || t.id === 'prestige' || t.id.includes('bauhaus') || t.id.includes('masthead') || t.atsCompliant === false
             if (activeCategory === 'academic') return t.id.includes('academia') || t.id.includes('scholar')
             if (activeCategory === 'executive') return t.id.includes('executive') || t.id.includes('elite') || t.id.includes('stately')
             return true
         })
     }, [activeCategory])
+
+    const { atsTemplates, designTemplates } = React.useMemo(() => {
+        return {
+            atsTemplates: filteredTemplates.filter(t => t.atsCompliant !== false),
+            designTemplates: filteredTemplates.filter(t => t.atsCompliant === false)
+        }
+    }, [filteredTemplates])
 
     const recommendations = React.useMemo(() => {
         if (!realData) return []
@@ -356,107 +363,53 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData }: Temp
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                {filteredTemplates.map((template) => {
-                    const recommendation = recommendations.find(r => r.id === template.id)
-                    const score = recommendation?.score || 0
-                    const isRecommended = topMatches.includes(template.id)
-                    const matchPercentage = Math.min(100, Math.round((score / 10) * 100))
-                    
-                    return (
-                    <button
+                {atsTemplates.map((template) => (
+                    <TemplateCard 
                         key={template.id}
-                        onClick={() => setPreviewTemplate(template)}
-                        onMouseEnter={(e) => handleHoverEnter(template, e.currentTarget)}
-                        onMouseLeave={handleHoverLeave}
-                        className={cn(
-                            "relative group flex flex-col items-center p-3 rounded-xl border-2 transition-all hover:border-primary-400 hover:bg-white text-left overflow-hidden",
-                            currentTemplateId === template.id
-                                ? "border-primary-600 bg-primary-50/50 ring-2 ring-primary-100 shadow-sm"
-                                : "border-neutral-200 bg-neutral-50/50 shadow-sm"
-                        )}
-                    >
-                        {/* Best Match Badge */}
-                        {isRecommended && (
-                            <div className="absolute top-0 left-0 z-20 bg-gradient-to-r from-primary-600 to-indigo-600 text-white text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-br-xl shadow-lg flex items-center gap-1.5 animate-in slide-in-from-left-4 duration-500">
-                                <Sparkles className="w-3 h-3" />
-                                Best Match
-                            </div>
-                        )}
-
-                    {/* Real Mini Preview */}
-                    <div className="w-full aspect-[210/297] bg-white rounded-lg border border-neutral-200 mb-3 overflow-hidden shadow-sm group-hover:shadow-md group-hover:scale-[1.03] transition-all duration-500 relative">
-                        {template.previewImage ? (
-                            <div className="relative w-full h-full">
-                                <NextImage
-                                    src={template.previewImage}
-                                    alt={template.name}
-                                    fill
-                                    className="object-cover object-top group-hover:scale-110 transition-transform duration-700"
-                                    sizes="(max-width: 400px) 50vw, 20vw"
-                                />
-                            </div>
-                        ) : (
-                            <LazyTemplateSelectorPreview
-                                template={template}
-                                data={getPreviewData(template.id, realData)}
-                            />
-                        )}
-
-                        {/* Active Indicator Over Preview */}
-                        {currentTemplateId === template.id && (
-                            <div className="absolute inset-0 bg-primary-600/5 ring-2 ring-inset ring-primary-600 z-10 animate-in fade-in duration-300" />
-                        )}
-
-                        {/* Lock Overlay for Premium Templates */}
-                        {template.isPremium && !isPro && (
-                            <div className="absolute top-2 right-2 z-30 bg-white/90 backdrop-blur-sm p-1.5 rounded-lg shadow-sm border border-neutral-100 flex items-center justify-center">
-                                <Lock className="w-3 h-3 text-neutral-400" />
-                            </div>
-                        )}
-
-                        {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                            <div className="bg-white/95 backdrop-blur-md text-primary-600 font-black text-[9px] uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-2xl transform translate-y-2 group-hover:translate-y-0 transition-all border border-primary-100">
-                                {template.isPremium && !isPro ? "View Details" : "Quick Preview"}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="w-full px-1">
-                        <div className="flex items-center justify-between gap-2 mb-1">
-                            <h3 className="text-sm font-bold text-neutral-900 truncate">
-                                {template.name}
-                            </h3>
-                            <div className="flex gap-1 flex-shrink-0">
-                                {(template.id.startsWith('ats-') || template.id === 'classic-clean') && (
-                                    <span className="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider" title="ATS Compliant">
-                                        ATS
-                                    </span>
-                                )}
-                                {template.isPremium && (
-                                    <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
-                                        Pro
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-                        <div className="flex items-center justify-between gap-2 mt-1">
-                            <p className="text-[10px] text-neutral-400 font-medium truncate">
-                                {template.suitableFor.industries?.slice(0, 2).join(', ')}
-                            </p>
-                            {realData && (
-                                <span className={cn(
-                                    "text-[9px] font-black uppercase tracking-wider",
-                                    matchPercentage >= 80 ? "text-primary-600" : "text-neutral-300"
-                                )}>
-                                    {matchPercentage}% Match
-                                </span>
-                            )}
-                        </div>
-                    </div>
-                </button>
-            )})}
+                        template={template}
+                        currentTemplateId={currentTemplateId}
+                        isPro={isPro}
+                        realData={realData}
+                        onPreview={setPreviewTemplate}
+                        onSelect={onSelect}
+                        handleHoverEnter={handleHoverEnter}
+                        handleHoverLeave={handleHoverLeave}
+                        recommendations={recommendations}
+                        topMatches={topMatches}
+                        matchPercentage={Math.min(100, Math.round(((recommendations.find(r => r.id === template.id)?.score || 0) / 10) * 100))}
+                    />
+                ))}
             </div>
+
+            {designTemplates.length > 0 && (
+                <div className="mt-8">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="h-px flex-1 bg-neutral-200" />
+                        <h3 className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em] whitespace-nowrap">
+                            Design Templates (Non-ATS)
+                        </h3>
+                        <div className="h-px flex-1 bg-neutral-200" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 opacity-90">
+                        {designTemplates.map((template) => (
+                            <TemplateCard 
+                                key={template.id}
+                                template={template}
+                                currentTemplateId={currentTemplateId}
+                                isPro={isPro}
+                                realData={realData}
+                                onPreview={setPreviewTemplate}
+                                onSelect={onSelect}
+                                handleHoverEnter={handleHoverEnter}
+                                handleHoverLeave={handleHoverLeave}
+                                recommendations={recommendations}
+                                topMatches={topMatches}
+                                matchPercentage={Math.min(100, Math.round(((recommendations.find(r => r.id === template.id)?.score || 0) / 10) * 100))}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* ═══ Hover-to-Maximize Preview Overlay ═══ */}
             {hoverTemplate && (
@@ -549,6 +502,133 @@ export function TemplateSelector({ currentTemplateId, onSelect, realData }: Temp
                 </div>
             )}
         </div>
+    )
+}
+
+function TemplateCard({ 
+    template, 
+    currentTemplateId, 
+    isPro, 
+    realData, 
+    onPreview, 
+    onSelect, 
+    handleHoverEnter, 
+    handleHoverLeave,
+    recommendations,
+    topMatches,
+    matchPercentage
+}: { 
+    template: TemplateMetadata, 
+    currentTemplateId: string, 
+    isPro: boolean, 
+    realData: any, 
+    onPreview: (t: TemplateMetadata) => void,
+    onSelect: (id: string) => void,
+    handleHoverEnter: (t: TemplateMetadata, el: HTMLButtonElement) => void,
+    handleHoverLeave: () => void,
+    recommendations: any[],
+    topMatches: string[],
+    matchPercentage: number
+}) {
+    const isRecommended = topMatches.includes(template.id)
+    
+    return (
+        <button
+            key={template.id}
+            onClick={() => onPreview(template)}
+            onMouseEnter={(e) => handleHoverEnter(template, e.currentTarget)}
+            onMouseLeave={handleHoverLeave}
+            className={cn(
+                "relative group flex flex-col items-center p-3 rounded-xl border-2 transition-all hover:border-primary-400 hover:bg-white text-left overflow-hidden",
+                currentTemplateId === template.id
+                    ? "border-primary-600 bg-primary-50/50 ring-2 ring-primary-100 shadow-sm"
+                    : "border-neutral-200 bg-neutral-50/50 shadow-sm"
+            )}
+        >
+            {/* Best Match Badge */}
+            {isRecommended && (
+                <div className="absolute top-0 left-0 z-20 bg-gradient-to-r from-primary-600 to-indigo-600 text-white text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-br-xl shadow-lg flex items-center gap-1.5 animate-in slide-in-from-left-4 duration-500">
+                    <Sparkles className="w-3 h-3" />
+                    Best Match
+                </div>
+            )}
+
+            {/* Real Mini Preview */}
+            <div className="w-full aspect-[210/297] bg-white rounded-lg border border-neutral-200 mb-3 overflow-hidden shadow-sm group-hover:shadow-md group-hover:scale-[1.03] transition-all duration-500 relative">
+                {template.previewImage ? (
+                    <div className="relative w-full h-full">
+                        <NextImage
+                            src={template.previewImage}
+                            alt={template.name}
+                            fill
+                            className="object-cover object-top group-hover:scale-110 transition-transform duration-700"
+                            sizes="(max-width: 400px) 50vw, 20vw"
+                        />
+                    </div>
+                ) : (
+                    <LazyTemplateSelectorPreview
+                        template={template}
+                        data={getPreviewData(template.id, realData)}
+                    />
+                )}
+
+                {/* Active Indicator Over Preview */}
+                {currentTemplateId === template.id && (
+                    <div className="absolute inset-0 bg-primary-600/5 ring-2 ring-inset ring-primary-600 z-10 animate-in fade-in duration-300" />
+                )}
+
+                {/* Lock Overlay for Premium Templates */}
+                {template.isPremium && !isPro && (
+                    <div className="absolute top-2 right-2 z-30 bg-white/90 backdrop-blur-sm p-1.5 rounded-lg shadow-sm border border-neutral-100 flex items-center justify-center">
+                        <Lock className="w-3 h-3 text-neutral-400" />
+                    </div>
+                )}
+
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                    <div className="bg-white/95 backdrop-blur-md text-primary-600 font-black text-[9px] uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-2xl transform translate-y-2 group-hover:translate-y-0 transition-all border border-primary-100">
+                        {template.isPremium && !isPro ? "View Details" : "Quick Preview"}
+                    </div>
+                </div>
+            </div>
+
+            <div className="w-full px-1">
+                <div className="flex items-center justify-between gap-2 mb-1">
+                    <h3 className="text-sm font-bold text-neutral-900 truncate">
+                        {template.name}
+                    </h3>
+                    <div className="flex gap-1 flex-shrink-0">
+                        {template.atsCompliant !== false ? (
+                            <span className="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider" title="100% ATS Compliant">
+                                ATS
+                            </span>
+                        ) : (
+                            <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider cursor-help" title="Best for roles reviewed by humans. May not parse correctly in automated ATS systems.">
+                                Design
+                            </span>
+                        )}
+                        {template.isPremium && (
+                            <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                                Pro
+                            </span>
+                        )}
+                    </div>
+                </div>
+                <div className="flex items-center justify-between gap-2 mt-1">
+                    <p className="text-[10px] text-neutral-400 font-medium truncate">
+                        {template.suitableFor.industries?.slice(0, 2).join(', ')}
+                    </p>
+                    {realData && (
+                        <span className={cn(
+                            "text-[9px] font-black uppercase tracking-wider",
+                            matchPercentage >= 80 ? "text-primary-600" : "text-neutral-300"
+                        )}>
+                            {matchPercentage}% Match
+                        </span>
+                    )}
+                </div>
+            </div>
+        </button>
     )
 }
 

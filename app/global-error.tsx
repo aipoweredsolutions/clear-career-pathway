@@ -1,7 +1,9 @@
 'use client'
 
+import { useEffect } from 'react'
 import { Inter } from 'next/font/google'
 import '@/app/globals.css'
+import { logger } from '@/lib/logger'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,6 +14,10 @@ export default function GlobalError({
     error: Error & { digest?: string }
     reset: () => void
 }) {
+    useEffect(() => {
+        logger.error('Critical Root Error:', { error: error.stack || error.message, digest: error.digest })
+    }, [error])
+
     return (
         <html lang="en">
             <body className={inter.className}>

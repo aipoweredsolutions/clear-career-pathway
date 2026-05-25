@@ -177,8 +177,27 @@ export default function BlogIndexPage() {
 
                 {/* ── Empty state ── */}
                 {BLOG_POSTS.length === 0 && (
-                    <div className="text-center py-24 text-neutral-400 font-semibold">
-                        New guides coming soon. Check back shortly.
+                    <div className="text-center py-32 px-6 bg-white border border-neutral-100 rounded-[2.5rem] shadow-xl shadow-neutral-200/40 relative overflow-hidden">
+                        {/* Background subtle elements */}
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(79,70,229,0.03),transparent_50%)]" />
+                        
+                        <div className="relative z-10 flex flex-col items-center">
+                            <div className="w-20 h-20 bg-neutral-50 rounded-3xl flex items-center justify-center mb-6 shadow-inner border border-neutral-100">
+                                <Clock className="w-10 h-10 text-neutral-300" />
+                            </div>
+                            <h3 className="text-3xl font-black text-neutral-900 tracking-tight mb-4">
+                                Strategic Insights <span className="text-primary-600 italic">Incoming.</span>
+                            </h3>
+                            <p className="text-neutral-500 font-bold max-w-md mx-auto leading-relaxed mb-8">
+                                Our career experts are currently drafting new high-impact guides. Check back soon for actionable advice to accelerate your job search.
+                            </p>
+                            
+                            <Link href="/editor/setup">
+                                <button className="inline-flex items-center gap-2 bg-neutral-900 text-white font-black text-[11px] uppercase tracking-widest px-8 py-4 rounded-2xl hover:bg-neutral-800 transition shadow-xl hover:-translate-y-0.5">
+                                    Build Your Resume Now <ArrowRight className="w-4 h-4" />
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 )}
 

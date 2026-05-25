@@ -44,7 +44,7 @@ export function JobTracker() {
             setLoading(false)
         }
         fetchApps()
-    }, [])
+    }, [supabase])
 
     if (loading) return (
         <div className="grid gap-4">
@@ -61,7 +61,7 @@ export function JobTracker() {
             </div>
             <h4 className="text-xl font-black text-neutral-900 mb-2">No applications tracked yet</h4>
             <p className="text-sm text-neutral-500 font-bold max-w-xs mx-auto">
-                Use the "Tailored Apply" feature to personalize your resume and track your application status here.
+                Use the &quot;Tailored Apply&quot; feature to personalize your resume and track your application status here.
             </p>
         </div>
     )

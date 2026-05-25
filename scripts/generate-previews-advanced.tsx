@@ -20,7 +20,7 @@ import { ATSAcademiaTemplate } from '../components/templates/ATSAcademiaTemplate
 import { ATSExecutiveTemplate } from '../components/templates/ATSExecutiveTemplate'
 import { ATSGraduateTemplate } from '../components/templates/ATSGraduateTemplate'
 
-import { ATSMinimalTemplate } from '../components/templates/ATSMinimalTemplate'
+import { ATSMinimalistMonoTemplate } from '../components/templates/ATSMinimalistMonoTemplate'
 import { ATSNursingTemplate } from '../components/templates/ATSNursingTemplate'
 import { ATSTimelineTemplate } from '../components/templates/ATSTimelineTemplate'
 
@@ -34,7 +34,7 @@ const templateComponents: Record<string, any> = {
     'ats-executive': ATSExecutiveTemplate,
     'ats-graduate': ATSGraduateTemplate,
 
-    'ats-minimal': ATSMinimalTemplate,
+    'ats-minimal': ATSMinimalistMonoTemplate,
     'ats-nursing': ATSNursingTemplate,
     'ats-timeline': ATSTimelineTemplate,
     'ats-standard': ATSProfessionalTemplate,

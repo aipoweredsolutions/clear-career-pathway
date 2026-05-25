@@ -26,7 +26,7 @@ export const ExperienceSection = ({ data, styles, templateId, index }: any) => {
                                 <Text style={[styles.description, { marginBottom: 8 }]}>{exp.roleDescription}</Text>
                             )}
                             {exp.achievements?.map((ach: any, j: number) => (
-                                <BulletPoint key={j} text={ach.achievementText} styles={styles} />
+                                <BulletPoint key={j} text={ach.achievementText} styles={styles} templateId={templateId} />
                             ))}
                         </View>
                     )
@@ -51,7 +51,7 @@ export const ExperienceSection = ({ data, styles, templateId, index }: any) => {
                                 <Text style={[styles.description, { fontStyle: 'italic', marginBottom: 4, color: '#525252' }]}>{exp.roleDescription}</Text>
                             )}
                             {exp.achievements?.map((ach: any, j: number) => (
-                                <BulletPoint key={j} text={ach.achievementText} styles={styles} />
+                                <BulletPoint key={j} text={ach.achievementText} styles={styles} templateId={templateId} />
                             ))}
                         </View>
                     )
@@ -71,7 +71,7 @@ export const ExperienceSection = ({ data, styles, templateId, index }: any) => {
                             <Text style={styles.description}>{exp.roleDescription}</Text>
                         )}
                         {exp.achievements?.map((ach: any, j: number) => (
-                            <BulletPoint key={j} text={ach.achievementText} styles={styles} />
+                            <BulletPoint key={j} text={ach.achievementText} styles={styles} templateId={templateId} />
                         ))}
                     </View>
                 )

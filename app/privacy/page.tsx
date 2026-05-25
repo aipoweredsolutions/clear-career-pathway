@@ -20,7 +20,7 @@ export default function PrivacyPage() {
                         <ul className="list-disc pl-6 space-y-2 mt-2">
                             <li>Account information (Email address, Password hash)</li>
                             <li>Resume content (Work history, education, skills, contact details)</li>
-                            <li>Payment information (Processed securely by our payment provider, Paddle)</li>
+                            <li>Payment information (Processed securely by our Merchant of Record, Paddle.com. We do not store full credit card details on our servers.)</li>
                         </ul>
                     </section>
 
@@ -38,47 +38,47 @@ export default function PrivacyPage() {
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">3. Data Sharing</h2>
+                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">3. Data Sharing and Third Parties</h2>
                         <p>
                             We do not sell your personal information to third parties. We share data only with service providers necessary to run our platform, such as:
                         </p>
                         <ul className="list-disc pl-6 space-y-2 mt-2">
                             <li><strong>Supabase:</strong> For database hosting and authentication.</li>
-                            <li><strong>OpenAI:</strong> For processing resume content to provide AI improvements (data is not used to train their models).</li>
-                            <li><strong>Paddle:</strong> For payment processing.</li>
+                            <li><strong>Google and OpenAI:</strong> For processing resume content to provide AI improvements. (Data is not used to train their base models).</li>
+                            <li><strong>Paddle.com:</strong> Our order process is conducted by our online reseller Paddle.com. Paddle.com is the Merchant of Record for all our orders. They process your payment data securely and handle billing inquiries.</li>
                         </ul>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold text-neutral-900 mb-4">4. Data Security</h2>
                         <p>
-                            We implement industry-standard security measures, including HTTPS encryption and secure database access policies, to protect your personal data from unauthorized access or disclosure.
+                            We implement industry-standard security measures, including HTTPS encryption and secure database access policies via Row Level Security (RLS), to protect your personal data from unauthorized access or disclosure.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold text-neutral-900 mb-4">5. Your Rights (GDPR/CCPA)</h2>
                         <p>
-                            Depending on your location, you may have the right to access, correct, or delete your personal data. You can delete your resumes at any time directly from the dashboard. For full account deletion, please contact our support team.
+                            Depending on your location, you may have the right to access, correct, or delete your personal data. You can delete your resumes at any time directly from the dashboard. For full account deletion or to exercise data rights, please contact our support team.
                         </p>
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">6. Refund Policy</h2>
-                        <p>
-                            We strive for 100% customer satisfaction. If you are not satisfied with our premium templates or AI generation services, we offer a full refund within 14 days of your purchase. To request a refund, please contact our support team with your account details and transaction ID. Refunds are typically processed within 5-10 business days.
-                        </p>
-                    </section>
-
-                    <section>
-                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">7. Cookies</h2>
+                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">6. Cookies</h2>
                         <p>
                             We use essential cookies to maintain your session and authentication. We do not use tracking or advertising cookies.
                         </p>
                     </section>
 
+                    <section>
+                        <h2 className="text-2xl font-bold text-neutral-900 mb-4">7. Contact Information</h2>
+                        <p>
+                            For privacy-related inquiries or to exercise your data rights, please contact us at support@clearcareerpath.com.
+                        </p>
+                    </section>
+
                     <section className="pt-8 border-t border-neutral-100 italic">
-                        <p>Last Updated: January 29, 2026</p>
+                        <p>Last Updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                     </section>
                 </div>
             </div>

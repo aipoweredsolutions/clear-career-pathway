@@ -1,9 +1,21 @@
-import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
+import { getUserTier } from '@/lib/auth/getUserTier'
 
 export async function GET() {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    try {
+        const supabase = await createClient()
+        const { data: { user } } = await supabase.auth.getUser()
 
-    return NextResponse.json({ user })
+        if (!user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        const tier = await getUserTier(user.id)
+
+        return NextResponse.json(tier)
+    } catch (error: any) {
+        console.error('[AuthMe] Error:', error)
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
 }

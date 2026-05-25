@@ -21,7 +21,6 @@ const TemplateLoading = () => (
 // Dynamic imports for ATS-compliant templates
 const ATSProfessionalTemplate = dynamic(() => import('./ATSProfessionalTemplate').then(m => m.ATSProfessionalTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSClassicTemplate = dynamic(() => import('./ATSClassicTemplate').then(m => m.ATSClassicTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-// const ATSMinimalTemplate = dynamic(() => import('./ATSMinimalTemplate').then(m => m.ATSMinimalTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSExecutiveTemplate = dynamic(() => import('./ATSExecutiveTemplate').then(m => m.ATSExecutiveTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSModernTemplate = dynamic(() => import('./ATSModernTemplate').then(m => m.ATSModernTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSGraduateTemplate = dynamic(() => import('./ATSGraduateTemplate').then(m => m.ATSGraduateTemplate), { ssr: false, loading: () => <TemplateLoading /> })
@@ -46,7 +45,7 @@ const ATSGridlineTemplate = dynamic(() => import('./ATSGridlineTemplate').then(m
 const ATSClassicLeftTemplate = dynamic(() => import('./ATSClassicLeftTemplate').then(m => m.ATSClassicLeftTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSSterlingTemplate = dynamic(() => import('./ATSSterlingTemplate').then(m => m.ATSSterlingTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSCornerstoneTemplate = dynamic(() => import('./ATSCornerstoneTemplate').then(m => m.ATSCornerstoneTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const ATSMeridianTemplate = dynamic(() => import('./ATSMeridianTemplate'), { ssr: false, loading: () => <TemplateLoading /> })
+const ATSMeridianTemplate = dynamic(() => import('./ATSMeridianTemplate').then(m => m.ATSMeridianTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 
 // Elite Single-Column (ATS Compliant) Templates
 const EliteAlpineTemplate = dynamic(() => import('./EliteAlpineTemplate').then(m => m.EliteAlpineTemplate), { ssr: false, loading: () => <TemplateLoading /> })
@@ -126,17 +125,7 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: ATSClassicTemplate, props: { accentColor } }
     }
 
-    /* Decommissioned: Elegant Minimal
-    if (id.startsWith('ats-minimal')) {
-        let accentColor = 'text-neutral-900'
-        if (id.includes('-black')) accentColor = 'text-black'
-        if (id.includes('-charcoal')) accentColor = 'text-gray-700'
-        if (id.includes('-navy')) accentColor = 'text-blue-900'
-        if (id.includes('-slate')) accentColor = 'text-slate-600'
-        if (id.includes('-teal')) accentColor = 'text-teal-700'
-        return { Component: ATSMinimalTemplate, props: { accentColor } }
-    }
-    */
+    /* Decommissioned: Elegant Minimal */
 
     if (id.startsWith('ats-executive')) {
         let accentColor = 'text-neutral-900'
@@ -342,7 +331,8 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
 }
 
 export const TemplateRenderer: React.FC<TemplateRendererProps> = React.memo(({ templateId, data, className }) => {
-    const effectiveTemplateId = data.formatting?.themeColor ? `${templateId}-${data.formatting.themeColor}` : templateId
+    const isCoverLetter = data.documentType === 'cover_letter'
+    const effectiveTemplateId = isCoverLetter ? 'cover-letter' : (data.formatting?.themeColor ? `${templateId}-${data.formatting.themeColor}` : templateId)
     const { Component, props } = getTemplateConfig(effectiveTemplateId)
 
     if (!Component) {

@@ -42,38 +42,18 @@ export async function GET(request: Request) {
                         rewarded_at: new Date().toISOString()
                     })
 
-                    // 4. Award credits (upsert user_usage for current month)
-                    const monthYear = new Date().toISOString().substring(0, 7)
-                    
+                    // 4. Award credits (Update profiles for permanent bonus)
                     // Award Referrer
-                    const { data: referrerUsage } = await adminSupabase
-                        .from('user_usage')
-                        .select('bonus_ai_credits')
-                        .eq('user_id', referrer.id)
-                        .eq('month_year', monthYear)
-                        .maybeSingle()
-                    
-                    await adminSupabase.from('user_usage').upsert({
-                        user_id: referrer.id,
-                        month_year: monthYear,
-                        bonus_ai_credits: (referrerUsage?.bonus_ai_credits || 0) + 5,
-                        updated_at: new Date().toISOString()
-                    }, { onConflict: 'user_id, month_year' })
+                    await adminSupabase.rpc('increment_bonus_credits', { 
+                        p_user_id: referrer.id, 
+                        p_amount: 5 
+                    })
 
                     // Award Referred User
-                    const { data: referredUsage } = await adminSupabase
-                        .from('user_usage')
-                        .select('bonus_ai_credits')
-                        .eq('user_id', user.id)
-                        .eq('month_year', monthYear)
-                        .maybeSingle()
-
-                    await adminSupabase.from('user_usage').upsert({
-                        user_id: user.id,
-                        month_year: monthYear,
-                        bonus_ai_credits: (referredUsage?.bonus_ai_credits || 0) + 5,
-                        updated_at: new Date().toISOString()
-                    }, { onConflict: 'user_id, month_year' })
+                    await adminSupabase.rpc('increment_bonus_credits', { 
+                        p_user_id: user.id, 
+                        p_amount: 5 
+                    })
                 }
             }
         }

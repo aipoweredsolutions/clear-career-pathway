@@ -9,7 +9,8 @@ import {
     Menu, X, User, ChevronDown, LayoutDashboard, LogOut,
     FileText, CreditCard, Target, ArrowRight,
     Shield, Briefcase, GraduationCap, Palette, Stethoscope,
-    LayoutGrid, Zap, Search, PenTool, Rocket, ScanSearch, Layers
+    LayoutGrid, Zap, Search, PenTool, Rocket, ScanSearch, Layers,
+    Sparkles
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -23,7 +24,7 @@ const TEMPLATE_CATEGORIES = [
         bg: 'bg-blue-50',
         templates: [
             { name: 'ATS Professional', id: 'ats-professional' },
-            { name: 'ATS Minimal', id: 'ats-minimal' },
+            { name: 'Minimalist Mono', id: 'ats-minimal-mono' },
             { name: 'ATS Classic', id: 'ats-classic' },
             { name: 'ATS Executive', id: 'ats-executive' },
         ]
@@ -144,20 +145,28 @@ const PRODUCT_TOOLS = [
         bg: 'bg-blue-50'
     },
     {
+        name: 'Career Intelligence',
+        description: 'Interview simulator, salary negotiation & roadmap.',
+        href: '/career-tools',
+        icon: Sparkles,
+        color: 'text-amber-600',
+        bg: 'bg-amber-50'
+    },
+    {
+        name: 'Job Tracker',
+        description: 'Manage your application pipeline and offers.',
+        href: '/tracker',
+        icon: Target,
+        color: 'text-rose-600',
+        bg: 'bg-rose-50'
+    },
+    {
         name: 'Free ATS Scanner',
-        description: 'Check if your resume passes applicant tracking systems.',
+        description: 'Check if your resume passes tracking systems.',
         href: '/ats-resume-scanner',
         icon: ScanSearch,
         color: 'text-indigo-600',
         bg: 'bg-indigo-50'
-    },
-    {
-        name: 'Cover Letter Pro',
-        description: 'Draft highly-tailored cover letters instantly.',
-        href: '/editor/setup?documentType=cover_letter',
-        icon: PenTool,
-        color: 'text-emerald-600',
-        bg: 'bg-emerald-50'
     }
 ]
 
@@ -207,7 +216,7 @@ function ProductsMegaMenu({ onClose }: { onClose: () => void }) {
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
 export function Navbar() {
-    const { user, signOut } = useAuth()
+    const { user, signOut, profile } = useAuth()
     const pathname = usePathname()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false)

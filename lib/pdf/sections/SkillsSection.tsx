@@ -53,6 +53,21 @@ export const SkillsSection = ({ data, styles, templateId, index, isSidebar = fal
                         </View>
                     ))}
                 </View>
+            ) : templateId.startsWith('ats-minimal') ? (
+                <View style={{ gap: 6 }}>
+                    {groupEntries.map(([type, list]: [string, any], i: number) => (
+                        <View key={i} style={{ marginBottom: 4 }}>
+                            {groupEntries.length > 1 && (
+                                <Text style={{ fontSize: 8, fontWeight: 'bold', color: '#a3a3a3', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 4 }}>
+                                    {type}
+                                </Text>
+                            )}
+                            <Text style={{ fontSize: 10, color: '#404040', fontWeight: 'medium' }}>
+                                {list.join('  ·  ')}
+                            </Text>
+                        </View>
+                    ))}
+                </View>
             ) : groupEntries.length === 1 && groupEntries[0][0] === 'General' ? (
                 <View style={styles.skillRow}>
                     {(groupEntries[0][1] as string[]).map((skill: string, i: number) => (

@@ -360,7 +360,7 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText, onImport }:
                         <div>
                             <p className="text-sm font-black text-blue-900 mb-1">Pro Tip: Import from LinkedIn</p>
                             <p className="text-xs text-blue-700 font-medium leading-relaxed">
-                                Don't have a resume ready? Switch to the LinkedIn tab above to instantly generate a resume directly from your profile.
+                                Don&apos;t have a resume ready? Switch to the LinkedIn tab above to instantly generate a resume directly from your profile.
                             </p>
                         </div>
                     </div>

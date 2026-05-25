@@ -90,7 +90,7 @@ function TailorContent() {
             if (data) setResumes(data)
         }
         fetchResumes()
-    }, [])
+    }, [supabase])
 
     const handleStartTailoring = async () => {
         if (!selectedResumeId || (!jobUrl && !jobDescription)) {
@@ -198,7 +198,7 @@ function TailorContent() {
                         Personalize <br/><span className="text-primary-600">to Win.</span>
                     </h1>
                     <p className="text-lg text-neutral-500 font-bold max-w-xl mx-auto">
-                        Don't send a generic resume. Use AI to align your experience with exactly what the recruiter is looking for.
+                        Don&apos;t send a generic resume. Use AI to align your experience with exactly what the recruiter is looking for.
                     </p>
                 </div>
 
@@ -458,7 +458,7 @@ function TailorContent() {
     )
 }
 
-export function TailorPage() {
+function TailorPage() {
     return (
         <Suspense fallback={
             <div className="min-h-screen flex items-center justify-center">

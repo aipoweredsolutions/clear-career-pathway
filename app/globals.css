@@ -117,10 +117,33 @@
     /* Prevent awkward page breaks in the PDF */
     .template-container section,
     .template-container .avoid-break,
+    .template-container p,
     .template-container li {
       page-break-inside: avoid;
       break-inside: avoid;
     }
+
+    /* No orphan headings */
+    .template-container h1,
+    .template-container h2,
+    .template-container h3,
+    .template-container h4,
+    .template-container h5,
+    .template-container h6 {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+    margin-top: 48px;
+    margin-bottom: 48px;
+  }
+
+  @page :first {
+    margin-top: 0;
   }
 }
 

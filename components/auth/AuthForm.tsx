@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/Button'
@@ -44,6 +44,54 @@ export function AuthForm({ type }: AuthFormProps) {
     const [error, setError] = useState<string | null>(null)
     const [message, setMessage] = useState<string | null>(null)
     const router = useRouter()
+    const searchParams = useSearchParams()
+
+    const sanitizeRedirect = (value: string | null) => {
+        if (!value || !value.startsWith('/') || value.startsWith('//') || value.startsWith('/auth')) {
+            return null
+        }
+        return value
+    }
+
+    const buildEditorTarget = () => {
+        const params = new URLSearchParams()
+        const template = searchParams.get('template')
+        const color = searchParams.get('color')
+        const sample = searchParams.get('sample')
+        const documentType = searchParams.get('type')
+
+        if (template) params.set('template', template)
+        if (color) params.set('color', color)
+        if (sample) params.set('sample', sample)
+        if (documentType) params.set('type', documentType)
+
+        const query = params.toString()
+        return query ? `/editor/new?${query}` : null
+    }
+
+    const getPostAuthTarget = () => {
+        const explicitRedirect = sanitizeRedirect(searchParams.get('redirect') || searchParams.get('next'))
+        if (explicitRedirect) return explicitRedirect
+
+        const tier = searchParams.get('tier')
+        if (tier) return `/pricing?tier=${encodeURIComponent(tier)}`
+
+        const editorTarget = buildEditorTarget()
+        if (editorTarget) return editorTarget
+
+        return type === 'signup' ? '/onboarding' : '/dashboard'
+    }
+
+    const getCallbackUrl = () => {
+        const next = getPostAuthTarget()
+        return `${location.origin}/auth/callback?next=${encodeURIComponent(next)}`
+    }
+
+    const getAuthSwitchHref = () => {
+        const query = searchParams.toString()
+        const path = type === 'login' ? '/auth/signup' : '/auth/login'
+        return query ? `${path}?${query}` : path
+    }
 
     const handleOAuthLogin = async (provider: 'google' | 'linkedin_oidc') => {
         setOauthLoading(provider)
@@ -54,14 +102,14 @@ export function AuthForm({ type }: AuthFormProps) {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider,
                 options: {
-                    redirectTo: `${location.origin}/auth/callback`,
+                    redirectTo: getCallbackUrl(),
                 },
             })
             if (error) throw error
         } catch (err: any) {
             console.error(`${provider} OAuth error:`, err)
             if (err.message?.includes('Provider not enabled') || err.message?.includes('Unsupported provider')) {
-                setError(`${provider === 'google' ? 'Google' : 'LinkedIn'} login is not yet configured. Please enable it in your Supabase Dashboard → Authentication → Providers.`)
+                setError(`${provider === 'google' ? 'Google' : 'LinkedIn'} sign-in is not available yet. Please use email and password for now.`)
             } else {
                 setError(err.message || `Failed to sign in with ${provider === 'google' ? 'Google' : 'LinkedIn'}`)
             }
@@ -82,39 +130,39 @@ export function AuthForm({ type }: AuthFormProps) {
                     password,
                 })
                 if (error) throw error
-                router.push('/dashboard')
+                router.push(getPostAuthTarget())
                 router.refresh()
             } else {
                 const { data, error } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
-                        emailRedirectTo: `${location.origin}/auth/callback`,
+                        emailRedirectTo: getCallbackUrl(),
                     },
                 })
                 if (error) throw error
 
                 // Check if email confirmation is required
                 if (data.user && !data.session) {
-                    setError('⚠️ Email Confirmation Required: Supabase is waiting for you to confirm your email. If you are testing locally and cannot receive emails, please go to your Supabase Dashboard -> Authentication -> Providers -> Email -> Disable "Confirm email", then try signing in.')
+                    setMessage('Check your email to confirm your account. We will bring you back to your next step after confirmation.')
                 } else if (data.session) {
                     // Auto-confirmed (email confirmation disabled in Supabase)
-                    setMessage('✅ Account created successfully! Redirecting to dashboard...')
+                    setMessage('Account created successfully. Taking you to the next step...')
                     setTimeout(() => {
-                        router.push('/dashboard')
+                        router.push(getPostAuthTarget())
                         router.refresh()
                     }, 1500)
                 } else {
-                    setMessage('✅ Account created! You can now sign in.')
+                    setMessage('Account created. You can now sign in.')
                 }
             }
         } catch (err: any) {
             console.error('Auth error:', err)
             // Provide human-readable errors for common Supabase issues
             if (err.message?.includes('Database error saving new user')) {
-                setError('Database Trigger Error: The signup succeeded but the profile trigger failed. Please run the SQL in `supabase/quick_fix.sql` in your Supabase SQL Editor.')
+                setError('We could not finish setting up your profile. Please try again in a moment.')
             } else if (err.message?.includes('Failed to fetch')) {
-                setError('Network Error: Could not connect to Supabase. Please ensure your NEXT_PUBLIC_SUPABASE_URL is correct and the database is running.')
+                setError('Network error. Please check your connection and try again.')
             } else {
                 setError(err.message || 'An error occurred during authentication')
             }
@@ -218,7 +266,7 @@ export function AuthForm({ type }: AuthFormProps) {
                                 <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
                                 <span>{error}</span>
                             </div>
-                            {email === 'test@clearcareerpath.com' && (
+                            {process.env.NODE_ENV === 'development' && email === 'test@clearcareerpath.com' && (
                                 <Button
                                     type="button"
                                     variant="outline"
@@ -266,8 +314,8 @@ export function AuthForm({ type }: AuthFormProps) {
                                 : 'Create Account'}
                     </Button>
 
-                    {/* Testing Credentials Section (Reviewer Helpful) */}
-                    {type === 'login' && (
+                    {/* Local development shortcut */}
+                    {process.env.NODE_ENV === 'development' && type === 'login' && (
                         <div className="mt-8 pt-8 border-t border-neutral-100">
                             <div className="bg-primary-50/50 rounded-2xl p-5 border border-primary-100 shadow-sm relative overflow-hidden group">
                                 {/* Decor */}
@@ -299,7 +347,7 @@ export function AuthForm({ type }: AuthFormProps) {
                                             })
 
                                             if (!signInError && data.session) {
-                                                router.push('/dashboard')
+                                                router.push(getPostAuthTarget())
                                                 router.refresh()
                                                 return
                                             }
@@ -313,7 +361,7 @@ export function AuthForm({ type }: AuthFormProps) {
                                                 document.cookie = "mock_session=true; path=/; max-age=3600";
 
                                                 setTimeout(() => {
-                                                    window.location.href = '/dashboard';
+                                                    window.location.href = getPostAuthTarget();
                                                 }, 1000);
                                             } else {
                                                 setError(signInError?.message || 'Authentication failed')
@@ -323,7 +371,7 @@ export function AuthForm({ type }: AuthFormProps) {
                                             if (useBypass) {
                                                 setMessage('Live database unreachable. Entering Guest Mode...');
                                                 document.cookie = "mock_session=true; path=/; max-age=3600";
-                                                setTimeout(() => { window.location.href = '/dashboard'; }, 1000);
+                                                setTimeout(() => { window.location.href = getPostAuthTarget(); }, 1000);
                                             } else {
                                                 setError(err.message)
                                             }
@@ -361,7 +409,7 @@ export function AuthForm({ type }: AuthFormProps) {
                 <p className="text-sm text-neutral-600">
                     {type === 'login' ? "Don't have an account? " : "Already have an account? "}
                     <Link
-                        href={type === 'login' ? '/auth/signup' : '/auth/login'}
+                        href={getAuthSwitchHref()}
                         className="text-primary-600 font-semibold hover:text-primary-700"
                     >
                         {type === 'login' ? 'Sign Up' : 'Sign In'}

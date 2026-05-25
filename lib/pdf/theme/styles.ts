@@ -30,7 +30,7 @@ export const createStyles = (templateId: string) => {
     if (isEtsyPremiumSerif) fontFamily = 'Playfair Display';
     else if (isStandardSerif) fontFamily = 'Lora';
     else if (id.includes('technical')) fontFamily = 'Courier';
-    else if (id.startsWith('ats-minimal') || id.startsWith('ats-modern')) fontFamily = 'Lato';
+    else if (id.startsWith('ats-modern')) fontFamily = 'Lato';
 
     const baseLineHeight = isEtsyPremiumSerif ? 1.45 : (isStandardSerif ? 1.35 : 1.3);
     const headingLetterSpacing = (isEtsyPremiumSerif || id.startsWith('minimal') || id.startsWith('cute') || id.startsWith('modern')) ? 1.5 : 1;
@@ -229,11 +229,11 @@ export const createStyles = (templateId: string) => {
             fontWeight: 'bold',
             color: colors.primary,
             textTransform: 'uppercase',
-            letterSpacing: id.startsWith('ats-modern') ? 2.2 : (id.startsWith('elite-london') ? 2 : 1.2),
-            paddingBottom: (id.startsWith('ats-modern') || id.startsWith('elite-london')) ? 6 : 4,
+            letterSpacing: id.startsWith('ats-modern') ? 2.2 : (id.startsWith('elite-london') ? 2 : (id.startsWith('ats-minimal') ? 3.5 : 1.2)),
+            paddingBottom: (id.startsWith('ats-modern') || id.startsWith('elite-london') || id.startsWith('ats-minimal')) ? 6 : 4,
             marginBottom: 8,
-            borderBottomWidth: (id.startsWith('ats-professional') || id.startsWith('technical') || id.startsWith('elite-london')) ? 2 : (id.startsWith('ats-classic') || id.startsWith('ats-graduate') || id.startsWith('ats-modern') ? 1 : 0),
-            borderBottomColor: id.startsWith('elite-london') ? '#e2e8f0' : colors.primary,
+            borderBottomWidth: (id.startsWith('ats-professional') || id.startsWith('technical') || id.startsWith('elite-london')) ? 2 : (id.startsWith('ats-classic') || id.startsWith('ats-graduate') || id.startsWith('ats-modern') ? 1 : (id.startsWith('ats-minimal') ? 0.5 : 0)),
+            borderBottomColor: id.startsWith('elite-london') ? '#e2e8f0' : (id.startsWith('ats-minimal') ? '#d4d4d4' : colors.primary),
         },
         sidebarSection: {
             marginTop: 25,

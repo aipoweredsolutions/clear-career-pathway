@@ -2,9 +2,11 @@ import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { Button } from '@/components/ui/Button'
 import { DownloadButtons } from '@/components/editor/DownloadButtons'
-import { Minimize2, Maximize2, Type, MoveHorizontal, File, Minus, Square, X, Palette } from 'lucide-react'
+import { Minimize2, Maximize2, Type, MoveHorizontal, File, Minus, Square, X, Palette, Target } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { templateRegistry } from '@/lib/templates/registry'
+import { AddApplicationModal } from '@/components/tracker/AddApplicationModal'
+import { useRouter } from 'next/navigation'
 
 import { UserSubscription } from '@/lib/types/resume'
 
@@ -20,6 +22,9 @@ interface ResumeControlBarProps {
 }
 
 export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, onToggleMaximize, onClose, onMinimize, onMaximize }: ResumeControlBarProps) {
+    const router = useRouter()
+    const [isTrackModalOpen, setIsTrackModalOpen] = React.useState(false)
+
     const updateFormatting = (key: string, value: string) => {
         onUpdate({
             ...data,
@@ -105,7 +110,7 @@ export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, on
                 </div>
 
                 {/* Paper Size */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 border-r border-neutral-200 pr-4">
                     <File className="w-4 h-4 text-neutral-400" />
                     <div className="flex bg-neutral-100 rounded-md p-0.5">
                         <button
@@ -128,6 +133,33 @@ export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, on
                         </button>
                     </div>
                 </div>
+
+                {/* Font Family — specifically for Minimalist Mono consolidation */}
+                {data.templateId === 'ats-minimal-mono' && (
+                    <div className="flex items-center gap-2 border-r border-neutral-200 pr-4">
+                        <Type className="w-4 h-4 text-neutral-400" />
+                        <div className="flex bg-neutral-100 rounded-md p-0.5">
+                            <button
+                                onClick={() => updateFormatting('fontFamily', 'sans')}
+                                className={cn(
+                                    "px-2 py-1 text-[10px] font-black uppercase tracking-wider rounded transition-colors",
+                                    (!data.formatting?.fontFamily || data.formatting?.fontFamily === 'sans') ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"
+                                )}
+                            >
+                                Sans
+                            </button>
+                            <button
+                                onClick={() => updateFormatting('fontFamily', 'serif')}
+                                className={cn(
+                                    "px-2 py-1 text-[10px] font-black uppercase tracking-wider rounded transition-colors",
+                                    data.formatting?.fontFamily === 'serif' ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"
+                                )}
+                            >
+                                Serif
+                            </button>
+                        </div>
+                    </div>
+                )}
 
                 {/* Theme Colors (Legacy) */}
                 {templateColors.length > 0 && (
@@ -196,10 +228,32 @@ export function ResumeControlBar({ data, subscription, onUpdate, isMaximized, on
                 {/* Download buttons when maximized */}
                 {isMaximized && (
                     <>
+                        <Button
+                            onClick={() => setIsTrackModalOpen(true)}
+                            className="h-9 px-4 bg-primary-50 text-primary-600 hover:bg-primary-100 font-bold text-xs gap-2 rounded-lg border border-primary-200"
+                        >
+                            <Target className="w-4 h-4" />
+                            Track Application
+                        </Button>
+                        <div className="h-6 w-px bg-neutral-200" />
                         <DownloadButtons data={data} variant="toolbar" />
                         <div className="h-6 w-px bg-neutral-200" />
                     </>
                 )}
+
+                <AddApplicationModal 
+                    isOpen={isTrackModalOpen}
+                    onClose={() => setIsTrackModalOpen(false)}
+                    onSuccess={() => {
+                        setIsTrackModalOpen(false)
+                        router.push('/tracker')
+                    }}
+                    initialData={{
+                        resume_document_id: data.id,
+                        role_title: data.personalInfo?.professionalTitle || '',
+                        company_name: ''
+                    }}
+                />
 
                 {/* Window Controls */}
                 <div className="flex items-center gap-1">

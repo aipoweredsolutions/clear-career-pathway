@@ -69,8 +69,19 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             for (let entry of entries) {
                 // Use scrollHeight to capture the full overflowing content height if any
                 const heightPx = entry.target.scrollHeight
-                const visiblePageHeightPx = 287 * 3.7795275591 // 287mm visible content per page (5mm margins)
-                setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
+                const templateId = previewData.templateId || ''
+                const isFullBleed = templateId.startsWith('elegant-split') ||
+                                    templateId.startsWith('ats-sterling') ||
+                                    templateId.startsWith('ats-royal-scholar')
+                
+                const pageHeightMm = isFullBleed ? 297 : 287
+                const visiblePageHeightPx = pageHeightMm * 3.7795275591 // 297mm or 287mm visible content per page
+                
+                if (templateId.startsWith('elegant-split')) {
+                    setNumPages(1)
+                } else {
+                    setNumPages(Math.max(1, Math.ceil(heightPx / visiblePageHeightPx)))
+                }
             }
         })
 
@@ -195,18 +206,52 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                                     </div>
 
                                     {/* Paginated Render */}
-                                    {Array.from({ length: numPages }).map((_, i) => (
-                                        <div key={i} className="bg-white shadow-2xl shrink-0 w-[210mm] h-[297mm] relative ring-1 ring-neutral-900/5 flex flex-col items-center justify-center">
-                                            <div className="relative w-full h-[287mm] overflow-hidden">
-                                                <div className="absolute top-0 left-0 w-full" style={{ transform: `translateY(-${i * 287}mm)` }}>
-                                                    <TemplateRenderer
-                                                        templateId={previewData.templateId}
-                                                        data={previewData}
-                                                    />
+                                    {Array.from({ length: numPages }).map((_, i) => {
+                                        const templateId = previewData.templateId || ''
+                                        const isElegantSplit = templateId.startsWith('elegant-split')
+                                        const isFullBleed = templateId.startsWith('elegant-split') ||
+                                                            templateId.startsWith('ats-sterling') ||
+                                                            templateId.startsWith('ats-royal-scholar')
+                                        
+                                        const pageHeightMm = isFullBleed ? 297 : 287
+
+                                        return (
+                                            <div 
+                                                key={i} 
+                                                className={cn(
+                                                    "bg-white shadow-2xl shrink-0 relative ring-1 ring-neutral-900/5 flex flex-col items-center justify-start",
+                                                    isElegantSplit 
+                                                        ? 'w-[210mm] min-h-[297mm] h-auto'
+                                                        : 'w-[210mm] h-[297mm]'
+                                                )}
+                                            >
+                                                <div 
+                                                    className={cn("relative w-full", !isElegantSplit && "overflow-hidden")}
+                                                    style={{ 
+                                                        height: isElegantSplit 
+                                                            ? 'auto' 
+                                                            : `${pageHeightMm}mm` 
+                                                    }}
+                                                >
+                                                    <div 
+                                                        className={cn("w-full", isElegantSplit ? "relative" : "absolute top-0 left-0")} 
+                                                        style={isElegantSplit ? {} : { 
+                                                            transform: `translateY(-${i * pageHeightMm}mm)` 
+                                                        }}
+                                                    >
+                                                        <TemplateRenderer
+                                                            templateId={previewData.templateId}
+                                                            data={previewData}
+                                                            className={cn(
+                                                                'w-[210mm]',
+                                                                isElegantSplit && 'h-full'
+                                                            )}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        )
+                                    })}
                                 </div>
                             )}
                         </div>

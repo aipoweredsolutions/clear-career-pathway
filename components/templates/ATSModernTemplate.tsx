@@ -47,9 +47,6 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
                 <div className="absolute -left-16 -top-16 w-32 h-32 rounded-full bg-neutral-50 blur-3xl -z-10" />
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                     <div className="flex-1">
-                        <div className={cn("inline-block px-3 py-1 text-[9px] font-black uppercase tracking-[0.4em] mb-4 bg-neutral-900 text-white")}>
-                            Certified Professional {" // "} {new Date().getFullYear()}
-                        </div>
                         <h1 className="text-[32px] font-black tracking-[-0.04em] leading-none mb-2 uppercase text-neutral-950 whitespace-nowrap truncate">
                             {personalInfo?.fullName || 'MODERN ELITE'}
                         </h1>
@@ -176,91 +173,90 @@ export function ATSModernTemplate({ data, className, accentColor = 'text-indigo-
                         </section>
                     )}
 
-                    {/* Skills & Certs Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                        {/* Skills */}
-                        {skills && skills.length > 0 && (
-                            <section>
-                                <SectionHeader title="Core Competencies" />
-                                <div className="space-y-8 px-4">
-                                    {Object.entries(skills.reduce((acc, s) => {
-                                        const t = s.skillType || 'professional';
-                                        if (!acc[t]) acc[t] = [];
-                                        acc[t].push(s);
-                                        return acc;
-                                    }, {} as Record<string, typeof skills>)).map(([type, list]) => (
-                                        <div key={type} className="group">
-                                            <div className={cn("text-[9px] font-black uppercase tracking-[0.4em] mb-4 opacity-40", accentColor)}>
-                                                {type}
-                                            </div>
-                                            <div className="flex flex-wrap gap-x-4 gap-y-3">
-                                                {list.map((s, i) => (
-                                                    <div key={i} className="text-[13px] text-neutral-950 font-black tracking-tight bg-neutral-50 px-3 py-1.5 rounded border border-neutral-100 hover:border-neutral-300 transition-colors">
-                                                        {s.skillName}
-                                                    </div>
-                                                ))}
-                                            </div>
+                    {/* Skills */}
+                    {skills && skills.length > 0 && (
+                        <section>
+                            <SectionHeader title="Core Competencies" />
+                            <div className="space-y-8 px-4">
+                                {Object.entries(skills.reduce((acc, s) => {
+                                    const t = s.skillType || 'professional';
+                                    if (!acc[t]) acc[t] = [];
+                                    acc[t].push(s);
+                                    return acc;
+                                }, {} as Record<string, typeof skills>)).map(([type, list]) => (
+                                    <div key={type} className="group">
+                                        <div className={cn("text-[9px] font-black uppercase tracking-[0.4em] mb-4 opacity-40", accentColor)}>
+                                            {type}
                                         </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
+                                        <div className="flex flex-wrap gap-x-4 gap-y-3">
+                                            {list.map((s, i) => (
+                                                <div key={i} className="text-[13px] text-neutral-950 font-black tracking-tight bg-neutral-50 px-3 py-1.5 rounded border border-neutral-100 hover:border-neutral-300 transition-colors">
+                                                    {s.skillName}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
 
-                        {/* Education */}
-                        {education && education.length > 0 && (
-                            <section>
-                                <SectionHeader title="Academic Credentials" />
-                                <div className="space-y-8 px-4">
-                                    {education.map((edu, i) => (
-                                        <div key={i} className="group">
-                                            <div className="text-[12px] font-black text-neutral-950 tabular-nums uppercase tracking-widest mb-3">
-                                                {edu.endYear || 'Current'}
-                                            </div>
-                                            <h3 className="text-[16px] font-black text-neutral-950 tracking-tight leading-tight uppercase group-hover:text-neutral-600 transition-colors">
-                                                {edu.degree}
-                                            </h3>
-                                            <div className={cn("text-[11px] font-black uppercase tracking-[0.2em] opacity-40 mt-1", accentColor)}>
-                                                {edu.institutionName}
-                                            </div>
+                    {/* Education */}
+                    {education && education.length > 0 && (
+                        <section>
+                            <SectionHeader title="Academic Credentials" />
+                            <div className="space-y-8 px-4">
+                                {education.map((edu, i) => (
+                                    <div key={i} className="group">
+                                        <div className="text-[12px] font-black text-neutral-950 tabular-nums uppercase tracking-widest mb-3">
+                                            {edu.endYear || 'Current'}
                                         </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
-                    </div>
+                                        <h3 className="text-[16px] font-black text-neutral-950 tracking-tight leading-tight uppercase group-hover:text-neutral-600 transition-colors">
+                                            {edu.degree}
+                                        </h3>
+                                        <div className={cn("text-[11px] font-black uppercase tracking-[0.2em] opacity-40 mt-1", accentColor)}>
+                                            {edu.institutionName}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
 
                     {/* Credentials & Languages */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mt-10 pt-10 border-t-2 border-neutral-950">
-                        {certifications && certifications.length > 0 && (
-                            <section>
-                                <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-8 italic">Verified Licenses</h3>
-                                <div className="space-y-6">
-                                    {certifications.map((c, i) => (
-                                        <div key={i} className="flex flex-col gap-1 border-l-4 border-neutral-50 pl-6 hover:border-neutral-200 transition-colors">
-                                            <div className="text-[14px] font-black text-neutral-950 tracking-tight">{c.certificationName}</div>
-                                            <div className={cn("text-[10px] font-black uppercase tracking-widest mt-1 opacity-40", accentColor)}>
-                                                {c.issuingOrganization}
+                    {((certifications && certifications.length > 0) || (languages && languages.length > 0)) && (
+                        <div className="space-y-10 mt-10 pt-10 border-t-2 border-neutral-950">
+                            {certifications && certifications.length > 0 && (
+                                <section>
+                                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-8 italic">Verified Licenses</h3>
+                                    <div className="space-y-6 px-4">
+                                        {certifications.map((c, i) => (
+                                            <div key={i} className="flex flex-col gap-1 border-l-4 border-neutral-50 pl-6 hover:border-neutral-200 transition-colors">
+                                                <div className="text-[14px] font-black text-neutral-950 tracking-tight">{c.certificationName}</div>
+                                                <div className={cn("text-[10px] font-black uppercase tracking-widest mt-1 opacity-40", accentColor)}>
+                                                    {c.issuingOrganization}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
 
-                        {languages && languages.length > 0 && (
-                            <section>
-                                <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-8 italic">Linguistic Mastery</h3>
-                                <div className="space-y-4">
-                                    {languages.map((l, i) => (
-                                        <div key={i} className="flex justify-between items-center pb-4 border-b border-neutral-50 group">
-                                            <span className="text-[14px] font-black text-neutral-950 tracking-tighter group-hover:translate-x-2 transition-transform">{l.languageName}</span>
-                                            <span className={cn("text-[10px] font-black uppercase tracking-[0.2em] opacity-40", accentColor)}>{l.proficiencyLevel}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
-                    </div>
+                            {languages && languages.length > 0 && (
+                                <section>
+                                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-8 italic">Linguistic Mastery</h3>
+                                    <div className="space-y-4 px-4">
+                                        {languages.map((l, i) => (
+                                            <div key={i} className="flex justify-between items-center pb-4 border-b border-neutral-50 group max-w-md">
+                                                <span className="text-[14px] font-black text-neutral-950 tracking-tighter group-hover:translate-x-2 transition-transform">{l.languageName}</span>
+                                                <span className={cn("text-[10px] font-black uppercase tracking-[0.2em] opacity-40", accentColor)}>{l.proficiencyLevel}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+                        </div>
+                    )}
                 </div>
             )}
 

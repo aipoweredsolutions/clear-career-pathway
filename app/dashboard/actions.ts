@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { fetchResume } from '@/app/editor/actions'
+import { getUserTier } from '@/lib/auth/getUserTier'
 
 export async function createResume(type: 'resume' | 'cover_letter' | 'references' = 'resume') {
     const supabase = await createClient()
@@ -45,28 +46,8 @@ export async function createResume(type: 'resume' | 'cover_letter' | 'references
         }
 
         // --- CHECK DOCUMENT LIMITS ---
-        let docLimit = 1
-        let currentCount = 0
-
-        try {
-            const { data: sub } = await supabase
-                .from('user_subscriptions')
-                .select('*, tier:subscription_tiers(*)')
-                .eq('user_id', session.user.id)
-                .maybeSingle()
-
-            const tier = sub?.tier as any
-            docLimit = tier?.max_documents ?? 1
-
-            const { count } = await supabase
-                .from('documents')
-                .select('id', { count: 'exact', head: true })
-                .eq('user_id', session.user.id)
-
-            currentCount = count || 0
-        } catch (limitError) { }
-
-        if (docLimit !== null && currentCount >= docLimit) {
+        const tier = await getUserTier(session.user.id)
+        if (tier.totalDocumentCount >= tier.maxDocuments) {
             redirect('/pricing?reason=limit_reached')
         }
 
@@ -131,6 +112,12 @@ export async function duplicateResume(resumeId: string) {
         // 1. Fetch full document including relations
         const fullDoc = await fetchResume(resumeId)
         if (!fullDoc) throw new Error('Document not found')
+
+        // 1b. Check document limits
+        const tier = await getUserTier(session.user.id)
+        if (tier.totalDocumentCount >= tier.maxDocuments) {
+            return { success: false, error: 'limit_reached' }
+        }
 
         // 2. Create new document
         const { data: newDoc, error: docError } = await supabase

@@ -34,60 +34,56 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
     const bgColorClass = accentColor.replace('text-', 'bg-').split(' ')[0]
 
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="mt-12 mb-8 group relative">
-            <div className="flex items-center gap-6 border-b-2 border-neutral-900 pb-3">
-                <h2 className={cn("text-[16px] font-black uppercase tracking-[0.5em] leading-none shrink-0", accentColor)}>
+        <div className="mt-8 mb-6 group relative">
+            <div className="flex items-center gap-4 border-b-2 border-neutral-900 pb-3">
+                <h2 className={cn("text-[13px] font-black uppercase tracking-[0.4em] leading-none shrink-0", accentColor)}>
                     {title}
                 </h2>
                 <div className="flex-1 h-[2px] bg-neutral-100" />
-                <div className={cn("w-4 h-4 border-4", borderColorClass, "shrink-0")} />
+                <div className={cn("w-3 h-3 border-4", borderColorClass, "shrink-0")} />
             </div>
-            <div className={cn("absolute -bottom-[4px] left-0 w-24 h-1", bgColorClass)} />
+            <div className={cn("absolute -bottom-[4px] left-0 w-20 h-1", bgColorClass)} />
         </div>
     )
 
     return (
         <div className={cn(
-            "w-full bg-white text-neutral-900 font-sans leading-relaxed p-8 md:p-10",
+            "w-full bg-white text-neutral-900 font-sans leading-relaxed",
             className
         )}
         style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
         >
             {/* ── ELITE CORPORATE MASTHEAD ── */}
-            <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12 border-b-4 border-neutral-900 pb-8">
-                <div className="flex-1 relative">
-                    <div className={cn("absolute -top-12 -left-4 text-[80px] font-black opacity-[0.03] select-none uppercase tracking-tighter leading-none whitespace-nowrap -z-10")}>
+            <header className="flex flex-col gap-4 mb-8 border-b-4 border-neutral-900 pb-6">
+                <div className="w-full relative">
+                    <div className={cn("absolute -top-10 -left-2 text-[64px] font-black opacity-[0.03] select-none uppercase tracking-tighter leading-none -z-10")}>
                         {personalInfo?.fullName?.split(' ')[0] || 'ELITE'}
                     </div>
-                    <div className={cn("inline-block px-4 py-1 text-[10px] font-black uppercase tracking-[0.4em] mb-6 bg-neutral-950 text-white shadow-lg")}>
-                        Professional Dossier {" // "} {new Date().getFullYear()}
-                    </div>
-                    <h1 className="text-[48px] font-black tracking-[-0.07em] leading-none mb-4 text-neutral-950 uppercase whitespace-nowrap truncate">
+
+                    <h1 className="text-[38px] font-black tracking-[-0.07em] leading-none mb-3 text-neutral-950 uppercase break-words">
                         {personalInfo?.fullName || 'Professional'}
                     </h1>
                     {personalInfo?.professionalTitle && (
-                        <div className="flex items-center gap-6">
-                            <div className={cn("h-1 w-12", bgColorClass)} />
-                            <div className={cn("text-[16px] font-black uppercase tracking-[0.4em] opacity-40", accentColor)}>
+                        <div className="flex items-center gap-4">
+                            <div className={cn("h-1 w-10", bgColorClass)} />
+                            <div className={cn("text-[13px] font-black uppercase tracking-[0.3em] opacity-40", accentColor)}>
                                 {personalInfo.professionalTitle}
                             </div>
                         </div>
                     )}
                 </div>
 
-                <div className="shrink-0 flex flex-col items-start md:items-end gap-3 text-[12px] font-black uppercase tracking-widest text-neutral-400">
-                    <div className="text-neutral-950 tracking-normal normal-case text-[14px] mb-2">
+                <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] font-black uppercase tracking-widest text-neutral-400 border-l-4 border-neutral-100 pl-4 py-1">
+                    <div className="text-neutral-950 tracking-normal normal-case text-[12px]">
                         {personalInfo?.location || [personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}
                     </div>
-                    <div className="flex flex-col items-start md:items-end gap-1.5 border-r-4 md:border-r-0 md:border-l-4 border-neutral-100 pr-6 md:pr-0 md:pl-6 py-2">
-                        {personalInfo?.email && <div className={cn("text-neutral-900 transition-colors", accentColor)}>{personalInfo.email}</div>}
-                        {personalInfo?.phone && <div className="tabular-nums">{personalInfo.phone}</div>}
-                        {personalInfo?.linkedinUrl && (
-                            <div className="mt-2 pt-2 border-t border-neutral-50 lowercase tracking-tight opacity-60">
-                                {personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}
-                            </div>
-                        )}
-                    </div>
+                    {personalInfo?.email && <div className={cn("text-neutral-900", accentColor)}>{personalInfo.email}</div>}
+                    {personalInfo?.phone && <div className="tabular-nums">{personalInfo.phone}</div>}
+                    {personalInfo?.linkedinUrl && (
+                        <div className="lowercase tracking-tight opacity-60">
+                            {personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}
+                        </div>
+                    )}
                 </div>
             </header>
 
@@ -138,7 +134,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                     </div>
                 </div>
             ) : (
-                <div className="space-y-12">
+                <div className="space-y-8">
                     {/* Executive Summary */}
                     {professionalSummary?.summaryText && (
                         <section className="relative">
@@ -148,7 +144,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                                 </h2>
                                 <div className="flex-1 h-px bg-neutral-100" />
                             </div>
-                            <p className="text-[15px] leading-[1.8] text-neutral-800 font-medium text-justify">
+                            <p className="text-[13px] leading-[1.7] text-neutral-800 font-medium text-justify">
                                 {professionalSummary.summaryText}
                             </p>
                         </section>
@@ -158,38 +154,38 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                     {workExperience && workExperience.length > 0 && (
                         <section>
                             <SectionHeader title="Professional Trajectory" />
-                            <div className="space-y-10">
+                            <div className="space-y-7">
                                 {workExperience.map((job, i) => (
                                     <div key={i} className="group relative">
                                         {/* Temporal & Header Row */}
-                                        <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-2 mb-4 border-l-4 border-neutral-900 pl-6">
+                                        <div className="flex flex-col gap-1 mb-3 border-l-4 border-neutral-900 pl-5">
                                             <div>
-                                                <h3 className="text-[22px] font-black text-neutral-950 tracking-tighter leading-tight uppercase">
+                                                <h3 className="text-[16px] font-black text-neutral-950 tracking-tighter leading-tight uppercase">
                                                     {job.jobTitle}
                                                 </h3>
-                                                <div className="flex items-center gap-3 text-[13px] font-black uppercase tracking-[0.2em] text-neutral-400">
+                                                <div className="flex flex-wrap items-center gap-2 text-[11px] font-black uppercase tracking-[0.15em] text-neutral-400">
                                                     {job.companyName}
                                                     {job.location && <span className="opacity-30">/</span>}
                                                     {job.location && <span className="opacity-60">{job.location}</span>}
                                                 </div>
                                             </div>
-                                            <div className="text-[13px] font-black text-neutral-950 tabular-nums uppercase tracking-widest bg-neutral-100 px-3 py-1 shrink-0">
+                                            <div className="text-[11px] font-black text-neutral-950 tabular-nums uppercase tracking-widest">
                                                 {job.startDate} — {job.isCurrent ? 'ACTIVE' : job.endDate}
                                             </div>
                                         </div>
 
                                         {/* Content Area */}
-                                        <div className="ml-7">
+                                        <div className="ml-6">
                                             {job.roleDescription && (
-                                                <p className="text-[14px] text-neutral-500 mb-5 leading-[1.7] font-bold italic opacity-80 max-w-4xl">
+                                                <p className="text-[12px] text-neutral-500 mb-3 leading-[1.7] font-bold italic opacity-80">
                                                     {job.roleDescription}
                                                 </p>
                                             )}
 
                                             {job.achievements && job.achievements.length > 0 && (
-                                                <ul className="space-y-3">
+                                                <ul className="space-y-2">
                                                     {job.achievements.map((a, j) => (
-                                                        <li key={j} className="text-[14.5px] text-neutral-800 leading-[1.6] flex gap-5 font-medium">
+                                                        <li key={j} className="text-[12.5px] text-neutral-800 leading-[1.6] flex gap-3 font-medium">
                                                             <div className="shrink-0 mt-2">
                                                                 <div className={cn("w-1.5 h-1.5 rounded-sm rotate-45", bgColorClass)} />
                                                             </div>
@@ -208,18 +204,18 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                     {/* Matrix Section */}
                     <div className="pt-4">
                         <SectionHeader title={"Competency Matrix"} />
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2">
+                        <div className="flex flex-col gap-8 px-2">
                             {skills && Object.entries(skills.reduce((acc, s) => {
                                 const t = s.skillType || 'professional';
                                 if (!acc[t]) acc[t] = [];
                                 acc[t].push(s);
                                 return acc;
                             }, {} as Record<string, typeof skills>)).map(([type, list]) => (
-                                <div key={type} className="flex flex-col gap-4 group">
-                                    <div className={cn("text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em] border-b border-neutral-100 pb-2", accentColor)}>
+                                <div key={type} className="flex flex-col gap-2 border-b border-neutral-100 pb-4 last:border-0 last:pb-0 group">
+                                    <div className={cn("text-[10px] font-black uppercase tracking-[0.3em] shrink-0 pb-1", accentColor)}>
                                         {type}
                                     </div>
-                                    <div className="flex flex-wrap gap-2">
+                                    <div className="flex flex-wrap gap-2 flex-1">
                                         {list.map((s, i) => (
                                             <div key={i} className="text-[12px] text-neutral-900 font-bold tracking-tight px-3 py-1.5 bg-neutral-50 border border-neutral-100 rounded-sm hover:border-neutral-900 hover:bg-white transition-all duration-300">
                                                 {s.skillName}
@@ -231,8 +227,8 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                         </div>
                     </div>
 
-                    {/* Bottom Data Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8 pt-8 border-t-2 border-neutral-100">
+                    {/* Bottom Data Sections */}
+                    <div className="space-y-12 mt-8 pt-8 border-t-2 border-neutral-100">
                         {/* Education */}
                         {education && education.length > 0 && (
                             <section>
@@ -243,7 +239,7 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                                             <div className="text-[13px] font-black text-neutral-950 tabular-nums tracking-widest mb-1">
                                                 {edu.endYear}
                                             </div>
-                                            <h4 className="text-[17px] font-black text-neutral-950 tracking-tighter leading-none mb-1 uppercase">
+                                            <h4 className="text-[14px] font-black text-neutral-950 tracking-tighter leading-none mb-1 uppercase">
                                                 {edu.degree}
                                             </h4>
                                             <div className={cn("text-[11px] font-black uppercase tracking-[0.2em] opacity-40", accentColor)}>
@@ -255,39 +251,37 @@ export function ATSProfessionalTemplate({ data, className, accentColor = 'text-n
                             </section>
                         )}
 
-                        <div className="space-y-12">
-                            {certifications && certifications.length > 0 && (
-                                <section>
-                                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-6 italic">Validation & Certs</h3>
-                                    <div className="grid grid-cols-1 gap-3">
-                                        {certifications.map((c, i) => (
-                                            <div key={i} className="flex justify-between items-center p-3 bg-neutral-50 group hover:bg-neutral-950 hover:text-white transition-all duration-300 border-l-2 border-neutral-200">
-                                                <div className="text-[13px] font-black tracking-tight">{c.certificationName}</div>
-                                                <div className={cn("text-[10px] font-black uppercase tracking-widest opacity-40", accentColor)}>{c.issueYear}</div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </section>
-                            )}
-                            
-                            {languages && languages.length > 0 && (
-                                <section>
-                                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-6 italic">Linguistic Mastery</h3>
-                                    <div className="space-y-3">
-                                        {languages.map((l, i) => (
-                                            <div key={i} className="flex justify-between items-center pb-3 border-b border-neutral-50 group">
-                                                <span className="text-[15px] font-black text-neutral-950 tracking-tighter group-hover:translate-x-1 transition-transform">{l.languageName}</span>
-                                                <span className={cn("text-[10px] font-black uppercase tracking-[0.3em] opacity-40", accentColor)}>{l.proficiencyLevel}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </section>
-                            )}
-                        </div>
+                        {certifications && certifications.length > 0 && (
+                            <section>
+                                <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-6 italic">Validation & Certs</h3>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {certifications.map((c, i) => (
+                                        <div key={i} className="flex justify-between items-center p-3 bg-neutral-50 group hover:bg-neutral-950 hover:text-white transition-all duration-300 border-l-2 border-neutral-200">
+                                            <div className="text-[13px] font-black tracking-tight">{c.certificationName}</div>
+                                            <div className={cn("text-[10px] font-black uppercase tracking-widest opacity-40", accentColor)}>{c.issueYear}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                        
+                        {languages && languages.length > 0 && (
+                            <section>
+                                <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-6 italic">Linguistic Mastery</h3>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {languages.map((l, i) => (
+                                        <div key={i} className="flex justify-between items-center pb-3 border-b border-neutral-50 group">
+                                            <span className="text-[13px] font-black text-neutral-950 tracking-tighter group-hover:translate-x-1 transition-transform">{l.languageName}</span>
+                                            <span className={cn("text-[10px] font-black uppercase tracking-[0.3em] opacity-40", accentColor)}>{l.proficiencyLevel}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
                     </div>
 
                     {/* Final Signature Terminal */}
-                    <footer className="pt-20 flex justify-between items-end gap-10">
+                    <footer className="pt-12 flex justify-between items-end gap-6">
                         <div className="space-y-2">
                             <div className={cn("h-3 w-40", bgColorClass)} />
                             <div className="text-[9px] font-black text-neutral-300 uppercase tracking-[0.6em]">Corporate // Elite // Protocol // V2.5</div>

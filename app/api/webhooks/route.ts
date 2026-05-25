@@ -31,6 +31,7 @@ function getTierFromPriceId(priceId: string) {
     const name = tier.name.toLowerCase()
     if (name.includes('pro')) return 'pro_monthly'
     if (name.includes('single')) return 'single_export'
+    if (name.includes('bundle')) return 'download_bundle'
     return 'free'
 }
 
@@ -52,7 +53,10 @@ export async function POST(req: NextRequest) {
     try {
         switch (eventType) {
             case 'subscription.created':
-            case 'subscription.updated': {
+            case 'subscription.updated':
+            case 'subscription.past_due':
+            case 'subscription.paused':
+            case 'subscription.resumed': {
                 const userId = data.custom_data?.userId
                 const priceId = data.items?.[0]?.price?.id
 
@@ -62,8 +66,10 @@ export async function POST(req: NextRequest) {
                 }
 
                 const tierName = getTierFromPriceId(priceId)
+                const isActive = data.status === 'active' || data.status === 'trialing'
                 // Simplify tier name for frontend consistency ('pro_monthly' or 'single_export' -> 'pro')
-                const simpleTier = (tierName === 'pro_monthly' || tierName === 'single_export') ? 'pro' : 'free'
+                // If the subscription is no longer active (e.g. past_due, paused), explicitly downgrade them to free
+                const simpleTier = isActive ? ((tierName === 'pro_monthly' || tierName === 'single_export') ? 'pro' : 'free') : 'free'
 
                 // Resolve tier name to UUID
                 const { data: tierData } = await supabase
@@ -95,7 +101,7 @@ export async function POST(req: NextRequest) {
                     .from('profiles')
                     .update({ 
                         subscription_tier: simpleTier,
-                        billing_status: data.status === 'active' ? 'active' : 'canceled'
+                        billing_status: data.status
                     })
                     .eq('id', userId)
 
@@ -146,7 +152,7 @@ export async function POST(req: NextRequest) {
                             }, { onConflict: 'user_id' })
                         
                         // SYNC TO PROFILE
-                        const simpleTier = (tierName === 'pro_monthly' || tierName === 'single_export') ? 'pro' : 'free'
+                        const simpleTier = (tierName === 'pro_monthly') ? 'pro' : 'free'
                         await supabase
                             .from('profiles')
                             .update({ 

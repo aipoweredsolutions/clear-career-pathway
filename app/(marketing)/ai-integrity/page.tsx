@@ -7,6 +7,29 @@ export const metadata: Metadata = {
     title: 'AI Integrity & Technical Capabilities | Clear Career Path',
     description: 'Understand the engineering behind our AI resume builder. Learn about our 99.9% parsing accuracy, ATS compliance standards, and ethical AI commitment.',
     keywords: ['AI resume builder technology', 'ATS parsing accuracy', 'ethical AI career tools', 'resume automation standards'],
+    alternates: {
+        canonical: '/ai-integrity',
+    },
+    openGraph: {
+        title: 'AI Integrity & Technical Capabilities | Clear Career Path',
+        description: 'Understand the engineering behind our AI resume builder. Learn about our 99.9% parsing accuracy, ATS compliance standards, and ethical AI commitment.',
+        type: 'website',
+        url: '/ai-integrity',
+        images: [
+            {
+                url: '/api/og?title=AI%20Integrity%20%26%20Technical%20Capabilities&description=99.9%25%20Parsing%20Accuracy',
+                width: 1200,
+                height: 630,
+                alt: 'AI Integrity and Technology',
+            }
+        ]
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'AI Integrity & Technical Capabilities | Clear Career Path',
+        description: 'Understand the engineering behind our AI resume builder. Learn about our 99.9% parsing accuracy, ATS compliance standards, and ethical AI commitment.',
+        images: ['/api/og?title=AI%20Integrity%20%26%20Technical%20Capabilities&description=99.9%25%20Parsing%20Accuracy'],
+    }
 }
 
 export default function AIIntegrityPage() {

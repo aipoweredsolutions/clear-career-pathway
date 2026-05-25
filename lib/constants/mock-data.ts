@@ -3727,8 +3727,9 @@ export const MOCK_CORNERSTONE_DATA: ResumeDocument = {
     id: 'preview-cornerstone',
     personalInfo: {
         ...MOCK_PREVIEW_DATA.personalInfo,
+        fullName: MOCK_PREVIEW_DATA.personalInfo?.fullName || 'Mock Name',
         portfolioUrl: undefined // Remove Behance link
-    }
+    } as any
 }
 
 export const MOCK_PERSONAS = {
