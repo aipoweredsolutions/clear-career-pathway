@@ -12,7 +12,7 @@ const TemplatePreviewDialog = dynamic(
 )
 
 const FEATURED_TEMPLATES = [
-    { id: 'ats-cornerstone',    name: 'Cornerstone',     tag: 'Executive',   colorId: 'copper' },
+    { id: 'ats-cornerstone',    name: 'Cornerstone',     tag: 'Executive',   colorId: 'black' },
     { id: 'ats-meridian',       name: 'Meridian',        tag: 'Modern',      colorId: 'black'  },
     { id: 'prestige',           name: 'Prestige',        tag: 'Executive',   colorId: 'gold'  },
     { id: 'elegant-split',      name: 'Elegant Split',   tag: 'Creative',    colorId: 'slate' },

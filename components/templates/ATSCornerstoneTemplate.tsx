@@ -41,23 +41,22 @@ export function ATSCornerstoneTemplate({ data, className, accentColor = 'text-sl
     const accentBorder = accentColor.replace('text-', 'border-').split(' ')[0]
     const accentBg     = accentColor.replace('text-', 'bg-').split(' ')[0]
 
-    // ── Section header: accent label left, hairline rule extending right ──────
+    // ── Section header: sharp full-width rectangle ──────
     const SectionHeader = ({ title }: { title: string }) => (
-        <div className="flex items-center gap-3 mt-8 mb-4">
+        <div className="flex items-center mb-5 mt-8 w-full">
             <h2 className={cn(
-                'text-[10px] font-black uppercase tracking-[0.22em] shrink-0',
+                'w-full text-[11px] font-bold uppercase tracking-widest px-4 py-2 bg-neutral-100 rounded-none',
                 accentColor
             )}>
                 {title}
             </h2>
-            <div className={cn('h-px flex-1', accentBg, 'opacity-20')} />
         </div>
     )
 
     // ── Bullet point ──────────────────────────────────────────────────────────
     const Bullet = ({ text }: { text: string }) => (
-        <li className="flex gap-3 text-[12px] text-neutral-600 leading-[1.65]">
-            <span className={cn('shrink-0 mt-[7px] w-1 h-1 rounded-full', accentBg, 'opacity-70')} />
+        <li className="flex gap-3 text-[12.5px] text-neutral-600 leading-[1.75]">
+            <span className={cn('shrink-0 mt-[9px] w-1.5 h-1.5 rounded-none', accentBg, 'opacity-70')} />
             <span>{text}</span>
         </li>
     )
@@ -94,31 +93,25 @@ export function ATSCornerstoneTemplate({ data, className, accentColor = 'text-sl
             {/* ════════════════════════════════════════════
                 HEADER
             ════════════════════════════════════════════ */}
-            <header className="pb-5">
+            <header className="pb-6 mb-2 border-b border-neutral-100">
                 {/* Name */}
-                <h1 className="text-[30px] font-black tracking-tight text-neutral-950 leading-none mb-1">
+                <h1 className="text-[34px] font-bold tracking-tight text-neutral-900 leading-none mb-2">
                     {personalInfo?.fullName || 'Your Name'}
                 </h1>
 
                 {/* Professional title */}
                 {personalInfo?.professionalTitle && (
-                    <p className={cn('text-[13px] font-semibold mb-4', accentColor)}>
+                    <p className={cn('text-[14px] font-medium mb-6', accentColor)}>
                         {personalInfo.professionalTitle}
                     </p>
                 )}
 
-                {/* Divider */}
-                <div className={cn('h-[1.5px] w-full mb-3', accentBg)} />
-
                 {/* Contact row */}
                 {contactParts.length > 0 && (
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
                         {contactParts.map((part, i) => (
-                            <span key={i} className="flex items-center gap-4">
-                                {i > 0 && (
-                                    <span className="w-[3px] h-[3px] rounded-full bg-neutral-300 inline-block" />
-                                )}
-                                <span className="text-[11.5px] text-neutral-500">{part}</span>
+                            <span key={i} className="inline-flex items-center px-3 py-1 rounded-none bg-neutral-50 text-[11.5px] text-neutral-500 border border-neutral-100">
+                                {part}
                             </span>
                         ))}
                     </div>

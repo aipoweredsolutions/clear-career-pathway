@@ -362,7 +362,7 @@ export const templateRegistry: TemplateMetadata[] = [
     {
         id: 'ats-cornerstone',
         name: 'Cornerstone Executive',
-        description: 'A refined, executive-grade template inspired by elite financial institutions and FTSE-100 board presentations. Features centered serif typography with generous letter-spacing, warm copper accent rules, pipe-separated contact rows, and an italic serif professional summary. Engineered for CFOs, MDs, and senior corporate leaders who demand institutional authority with perfect ATS compliance.',
+        description: 'A soft, modern executive-grade template inspired by contemporary design systems. Features rounded section badges, clean sans-serif typography, and pill-shaped contact tags for an airy, breathable aesthetic. Engineered for modern professionals who demand approachability alongside perfect ATS compliance.',
         suitableFor: {
             careerLevels: ['senior', 'executive'],
             jobTypes: ['corporate', 'management'],
@@ -371,8 +371,8 @@ export const templateRegistry: TemplateMetadata[] = [
         isPremium: true,
         atsCompliant: true,
         colors: [
-            { id: 'copper', name: 'Heritage Copper', hex: '#78350f' },
             { id: 'black', name: 'Institutional Black', hex: '#0c0a09' },
+            { id: 'copper', name: 'Heritage Copper', hex: '#78350f' },
             { id: 'charcoal', name: 'Boardroom Charcoal', hex: '#44403c' },
             { id: 'navy', name: 'Fiduciary Navy', hex: '#1e3a8a' },
             { id: 'burgundy', name: 'Claret Burgundy', hex: '#881337' },
