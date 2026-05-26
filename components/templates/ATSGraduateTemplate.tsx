@@ -8,7 +8,7 @@ interface TemplateProps {
     accentColor?: string
 }
 
-export function ATSGraduateTemplate({ data, className, accentColor = 'text-sky-600' }: TemplateProps) {
+export function ATSGraduateTemplate({ data, className, accentColor = 'text-slate-800' }: TemplateProps) {
     const borderColorClass = accentColor.replace('text-', 'border-')
     const bgColorClass = accentColor.replace('text-', 'bg-')
     
@@ -32,7 +32,7 @@ export function ATSGraduateTemplate({ data, className, accentColor = 'text-sky-6
 
     const SectionHeader = ({ title }: { title: string }) => (
         <div className="flex items-center gap-4 mb-3 mt-5">
-            <h2 className={cn("text-[11px] font-black uppercase tracking-[0.25em]", accentColor)}>
+            <h2 className={cn("text-xs font-black uppercase tracking-[0.25em]", accentColor)}>
                 {title}
             </h2>
             <div className="flex-1 h-[2px] bg-neutral-50" />

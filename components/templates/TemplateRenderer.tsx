@@ -37,10 +37,8 @@ const CoverLetterTemplate = dynamic(() => import('./CoverLetterTemplate').then(m
 // New Templates
 const ATSChronographTemplate = dynamic(() => import('./ATSChronographTemplate').then(m => m.ATSChronographTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSMastheadTemplate = dynamic(() => import('./ATSMastheadTemplate').then(m => m.ATSMastheadTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const ATSBauhausTemplate = dynamic(() => import('./ATSBauhausTemplate').then(m => m.ATSBauhausTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 // Removed: Editorial Vogue template
 // const ATSEditorialTemplate = dynamic(() => import('./ATSEditorialTemplate').then(m => m.ATSEditorialTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const ATSGridlineTemplate = dynamic(() => import('./ATSGridlineTemplate').then(m => m.ATSGridlineTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 // const ATSMetroTemplate = dynamic(() => import('./ATSMetroTemplate').then(m => m.ATSMetroTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSClassicLeftTemplate = dynamic(() => import('./ATSClassicLeftTemplate').then(m => m.ATSClassicLeftTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSSterlingTemplate = dynamic(() => import('./ATSSterlingTemplate').then(m => m.ATSSterlingTemplate), { ssr: false, loading: () => <TemplateLoading /> })
@@ -206,27 +204,6 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: ATSMastheadTemplate, props: { accentColor } }
     }
 
-    if (id.startsWith('ats-bauhaus')) {
-        let accentColor = 'bg-red-600 text-red-600'
-        if (id.includes('-black')) accentColor = 'bg-neutral-950 text-neutral-950'
-        if (id.includes('-cobalt')) accentColor = 'bg-blue-700 text-blue-700'
-        if (id.includes('-onyx')) accentColor = 'bg-neutral-900 text-neutral-900'
-        if (id.includes('-brass')) accentColor = 'bg-yellow-700 text-yellow-700'
-        return { Component: ATSBauhausTemplate, props: { accentColor } }
-    }
-
-    // Editorial Vogue removed — falls through to default
-
-
-    if (id.startsWith('ats-gridline')) {
-        let accentColor = 'text-blue-800'
-        if (id.includes('-black')) accentColor = 'text-neutral-950'
-        if (id.includes('-carbon')) accentColor = 'text-neutral-800'
-        if (id.includes('-emerald')) accentColor = 'text-emerald-800'
-        if (id.includes('-copper')) accentColor = 'text-orange-800'
-        return { Component: ATSGridlineTemplate, props: { accentColor } }
-    }
-
     // Metro removed — falls through to default
 
 
@@ -351,7 +328,6 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = React.memo(({ t
 
     // Self-padded: templates with their own p-10/p-12 — wrapper padding creates double-padding vs thumbnail
     const isSelfPadded =
-        templateId.startsWith('ats-bauhaus') ||
         templateId.startsWith('ats-chronograph') ||
         templateId.startsWith('ats-classic-left') ||
         templateId.startsWith('ats-meridian')

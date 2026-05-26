@@ -401,51 +401,6 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 18. ATS BAUHAUS ---
-    {
-        id: 'ats-bauhaus',
-        name: 'Bauhaus Geometric',
-        description: 'Inspired by Bauhaus design principles: geometric clarity and functional hierarchy. Each section is introduced by a large colored block containing a number. A distinctive visual identity that remains strictly single-column and machine readable.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior'],
-            jobTypes: ['creative', 'technical'],
-            industries: ['Design', 'Architecture', 'Tech', 'Brand Strategy']
-        },
-        isPremium: true,
-        atsCompliant: true,
-        colors: [
-            { id: 'black', name: 'Bauhaus Black', hex: '#000000' },
-            { id: 'vermillion', name: 'Vermillion', hex: '#dc2626' },
-            { id: 'cobalt', name: 'Cobalt', hex: '#1d4ed8' },
-            { id: 'onyx', name: 'Onyx', hex: '#171717' },
-            { id: 'brass', name: 'Brass', hex: '#a16207' }
-        ]
-    },
-
-    // --- 19. ATS EDITORIAL (Removed) ---
-
-
-    // --- 20. ATS GRIDLINE ---
-    {
-        id: 'ats-gridline',
-        name: 'Gridline Structural',
-        description: 'Inspired by engineering dot-grid notebooks. Uses a subtle dot-grid background pattern (CSS-only) behind a rigorously structured card layout. Appeals to precision, structure, and systematic thinking.',
-        suitableFor: {
-            careerLevels: ['entry', 'mid', 'senior'],
-            jobTypes: ['technical', 'corporate'],
-            industries: ['Engineering', 'Data Science', 'Product Management']
-        },
-        isPremium: true,
-        atsCompliant: true,
-        colors: [
-            { id: 'black', name: 'Carbon Black', hex: '#000000' },
-            { id: 'blueprint', name: 'Blueprint', hex: '#1e40af' },
-            { id: 'carbon', name: 'Carbon', hex: '#262626' },
-            { id: 'emerald', name: 'Emerald', hex: '#065f46' },
-            { id: 'copper', name: 'Copper', hex: '#9a3412' }
-        ]
-    },
-
     // --- 21. ATS METRO (Removed) ---
 
     // --- 22. ATS CLASSIC LEFT ---

@@ -60,7 +60,7 @@ const ChronographMasthead = ({ data, theme }: { data: ResumeDocument, theme: The
 const ChronographCoverLetter = ({ data, theme }: { data: ResumeDocument, theme: Theme }) => (
     <div className="max-w-2xl mx-auto py-10">
         <div className="mb-12 space-y-1 text-[14px]">
-            <div className="text-neutral-300 font-black uppercase tracking-[0.3em] text-[10px] mb-8">Dated // {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+            <div className="text-neutral-300 font-black uppercase tracking-[0.3em] text-[10px] mb-8">Date: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
             {data.coverLetter?.recipientName && <p className="font-black text-neutral-900">{data.coverLetter.recipientName}</p>}
             {data.coverLetter?.recipientTitle && <p className="text-neutral-400 font-black uppercase tracking-widest text-[11px]">{data.coverLetter.recipientTitle}</p>}
             {data.coverLetter?.companyName && <p className="font-black text-neutral-600 italic">{data.coverLetter.companyName}</p>}
@@ -86,7 +86,7 @@ const ChronographCoverLetter = ({ data, theme }: { data: ResumeDocument, theme: 
 
 const ChronographReferences = ({ data, theme }: { data: ResumeDocument, theme: Theme }) => (
     <div className="space-y-16">
-        <SectionHeader title="Validated Network" theme={theme} />
+        <SectionHeader title="References" theme={theme} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {data.references?.map((ref, i) => (
                 <div key={i} className=" flex gap-8 p-8 border border-neutral-50 bg-neutral-50/20 rounded-lg group">
@@ -112,7 +112,7 @@ const ChronographReferences = ({ data, theme }: { data: ResumeDocument, theme: T
 const ChronographSummary = ({ summaryText, theme }: { summaryText: string, theme: Theme }) => (
     <section className="grid grid-cols-1 md:grid-cols-12 gap-10">
         <div className="md:col-span-4">
-            <h2 className={cn("text-[11px] font-black uppercase tracking-[0.5em] text-neutral-300", theme.accentColor)}>Summary // Statement</h2>
+            <h2 className={cn("text-[11px] font-black uppercase tracking-[0.5em] text-neutral-300", theme.accentColor)}>Professional Summary</h2>
         </div>
         <div className="md:col-span-8">
             <p className="text-[16px] leading-[1.8] text-neutral-800 font-medium text-justify">
@@ -124,7 +124,7 @@ const ChronographSummary = ({ summaryText, theme }: { summaryText: string, theme
 
 const ChronographExperience = ({ workExperience, theme }: { workExperience: NonNullable<ResumeDocument['workExperience']>, theme: Theme }) => (
     <section>
-        <SectionHeader title="Chronology // Timeline" theme={theme} />
+        <SectionHeader title="Professional Experience" theme={theme} />
         <div className="space-y-8">
             {workExperience.map((job, i) => (
                 <div key={i} className={cn("grid grid-cols-1 md:grid-cols-12 gap-10 group", job.forcePageBreak && "force-page-break")}>
@@ -178,7 +178,7 @@ const ChronographExperience = ({ workExperience, theme }: { workExperience: NonN
 
 const ChronographSkills = ({ skills, theme }: { skills: NonNullable<ResumeDocument['skills']>, theme: Theme }) => (
     <section>
-        <SectionHeader title="Competency // Matrix" theme={theme} />
+        <SectionHeader title="Technical Skills" theme={theme} />
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
             <div className="md:col-span-4">
                 <div className="text-[10px] font-black text-neutral-200 uppercase tracking-[0.5em] mb-4">Core Skillsets</div>
@@ -219,7 +219,7 @@ const ChronographSkills = ({ skills, theme }: { skills: NonNullable<ResumeDocume
 
 const ChronographEducation = ({ education, theme }: { education: NonNullable<ResumeDocument['education']>, theme: Theme }) => (
     <section>
-        <SectionHeader title="Academic // History" theme={theme} />
+        <SectionHeader title="Education" theme={theme} />
         <div className="space-y-12">
             {education.map((edu, i) => (
                 <div key={i} className={cn("grid grid-cols-1 md:grid-cols-12 gap-10 group", edu.forcePageBreak && "force-page-break")}>
@@ -261,7 +261,7 @@ const ChronographSupplemental = ({
     if (!certifications?.length && !languages?.length && !projects?.length) return null
     return (
         <section>
-            <SectionHeader title="Supplemental // Data" theme={theme} />
+            <SectionHeader title="Additional Information" theme={theme} />
             <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                 <div className="md:col-span-4" />
                 <div className="md:col-span-8 space-y-16">
@@ -279,7 +279,7 @@ const ChronographSupplemental = ({
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 pt-10 border-t border-neutral-50">
                         {certifications && certifications.length > 0 && (
                             <div className="space-y-4">
-                                <div className="text-[10px] font-black text-neutral-300 uppercase tracking-widest">Credentials</div>
+                                <div className="text-[10px] font-black text-neutral-300 uppercase tracking-widest">Certifications</div>
                                 {certifications.map((c, i) => (
                                     <div key={i} className={cn("group", c.forcePageBreak && "force-page-break")}>
                                         <div className="text-[13px] font-black text-neutral-950 leading-tight group-hover:text-primary-600 transition-colors">{c.certificationName}</div>
@@ -290,7 +290,7 @@ const ChronographSupplemental = ({
                         )}
                         {languages && languages.length > 0 && (
                             <div className="space-y-4">
-                                <div className="text-[10px] font-black text-neutral-300 uppercase tracking-widest">Linguistics</div>
+                                <div className="text-[10px] font-black text-neutral-300 uppercase tracking-widest">Languages</div>
                                 {languages.map((l, i) => (
                                     <div key={i} className="flex justify-between items-center border-b border-neutral-50 pb-2">
                                         <span className="text-[14px] font-black text-neutral-950 tracking-tighter">{l.languageName}</span>
@@ -306,17 +306,7 @@ const ChronographSupplemental = ({
     )
 }
 
-const ChronographFooter = ({ theme }: { theme: Theme }) => (
-    <footer className="pt-20 border-t-2 border-neutral-950 flex justify-between items-end gap-10">
-        <div className="space-y-2">
-            <div className={cn("h-4 w-40", theme.bgColorClass)} />
-            <div className="text-[10px] font-black text-neutral-200 uppercase tracking-[0.8em]">Chronograph // Release</div>
-        </div>
-        <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.2em] tabular-nums">
-            Hash: {Math.random().toString(36).substring(2, 10).toUpperCase()}
-        </div>
-    </footer>
-)
+
 
 /**
  * ATS Chronograph Template - Elite Overhaul
@@ -365,8 +355,6 @@ export function ATSChronographTemplate({ data, className, accentColor = 'text-em
                         languages={data.languages} 
                         theme={theme} 
                     />
-
-                    <ChronographFooter theme={theme} />
                 </div>
             )}
         </div>

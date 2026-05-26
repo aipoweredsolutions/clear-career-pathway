@@ -125,7 +125,7 @@ export const SEO_TEMPLATES: SeoTemplate[] = [
     },
     {
         slug: 'ux-designer-resume-example',
-        templateId: 'ats-bauhaus',
+        templateId: 'ats-modern',
         industry: 'Technology',
         title: 'UX Designer Resume Example',
         name: 'ATS Bauhaus',
@@ -618,7 +618,7 @@ export const SEO_TEMPLATES: SeoTemplate[] = [
     // ── CREATIVE ──────────────────────────────────────────────────────────────
     {
         slug: 'graphic-designer-resume-example',
-        templateId: 'ats-bauhaus',
+        templateId: 'ats-modern',
         industry: 'Creative',
         title: 'Graphic Designer Resume Example',
         name: 'ATS Bauhaus',

@@ -110,7 +110,7 @@ export function getSampleDataForTemplate(templateId: string, sampleDataKey?: str
         else if (id.includes('executive-cv') || id.includes('elite-london') || id.includes('elite-haskins')) baseData = MOCK_EXECUTIVE_TEMPLATE_DATA
         else if (id.includes('executive') || id.includes('elite'))                                         baseData = MOCK_ATS_EXECUTIVE_DATA
         else if (id.includes('professional'))                                              baseData = MOCK_ATS_PROFESSIONAL_DATA
-        else if (id.includes('technical') || id.includes('gridline'))                      baseData = MOCK_TECHNICAL_DATA
+        else if (id.includes('technical'))                                                 baseData = MOCK_TECHNICAL_DATA
         else if (id.includes('hospitality'))                                               baseData = MOCK_HOSPITALITY_DATA
         else if (id.includes('graduate') || id.includes('internship') || id.includes('no-experience')) baseData = MOCK_ATS_GRADUATE_DATA
         else if (id.includes('modern') || id.includes('minimalist-mono') || id.includes('bauhaus')) baseData = MOCK_ATS_MODERN_DATA
