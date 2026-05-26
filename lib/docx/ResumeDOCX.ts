@@ -22,6 +22,7 @@ interface DOCXTheme {
     secondary: string
     accent: string
     hasSidebar: boolean
+    isModern: boolean
     font: string
     isCentered: boolean
 }
@@ -43,7 +44,10 @@ export class ResumeDOCX {
             id.startsWith('ats-academia') ||
             id.startsWith('ats-gold-standard')
 
+        const isModern = id.startsWith('ats-modern') || id.startsWith('modern') || id.startsWith('ats-masthead');
+
         let primaryHex = '111827';
+        let secondaryHex = '4B5563';
         const template = templateRegistry.find(t => t.id === id);
         if (template && template.colors && template.colors.length > 0) {
             const colorOption = template.colors.find(c => c.id === data.formatting?.themeColor) || template.colors[0];
@@ -53,16 +57,23 @@ export class ResumeDOCX {
         }
 
         let font = 'Arial';
-        const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('ats-sterling');
-        const isStandardSerif = id.startsWith('ats-academia') || id.startsWith('ats-classic') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
-        if (isEtsyPremiumSerif || isStandardSerif) font = 'Georgia';
-        else if (id.includes('technical')) font = 'Courier New';
+        if (data.formatting?.fontFamily === 'serif') {
+            font = 'Georgia';
+        } else if (data.formatting?.fontFamily === 'sans') {
+            font = 'Arial';
+        } else {
+            const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('ats-sterling') || id.startsWith('ats-academia');
+            const isStandardSerif = id.startsWith('ats-classic') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
+            if (isEtsyPremiumSerif || isStandardSerif) font = 'Georgia';
+            else if (id.includes('technical')) font = 'Courier New';
+        }
 
         return {
             primary: primaryHex,
-            secondary: '4B5563',
+            secondary: secondaryHex,
             accent: primaryHex,
             hasSidebar,
+            isModern,
             font,
             isCentered
         }
@@ -327,29 +338,75 @@ export class ResumeDOCX {
 
     private static createStandardLayout(data: ResumeDocument, theme: DOCXTheme): any[] {
         const align = theme.isCentered ? AlignmentType.CENTER : AlignmentType.LEFT;
+        const contactText = [
+            data.personalInfo?.email,
+            data.personalInfo?.phone,
+            data.personalInfo?.location || `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}`.trim()
+        ].filter(Boolean).join('  •  ');
+
+        let headerElements: any[] = [];
         
+        if (theme.isModern) {
+            headerElements = [
+                new Table({
+                    width: { size: 100, type: WidthType.PERCENTAGE },
+                    borders: {
+                        top: { style: BorderStyle.NONE },
+                        bottom: { style: BorderStyle.NONE },
+                        left: { style: BorderStyle.NONE },
+                        right: { style: BorderStyle.NONE },
+                        insideHorizontal: { style: BorderStyle.NONE },
+                        insideVertical: { style: BorderStyle.NONE },
+                    },
+                    rows: [
+                        new TableRow({
+                            children: [
+                                new TableCell({
+                                    shading: { fill: theme.primary, type: ShadingType.CLEAR },
+                                    margins: { top: 400, bottom: 400, left: 400, right: 400 },
+                                    children: [
+                                        new Paragraph({
+                                            children: [new TextRun({ text: data.personalInfo?.fullName || '', bold: true, size: 48, color: 'FFFFFF' })],
+                                            alignment: align,
+                                        }),
+                                        new Paragraph({
+                                            children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: 'FFFFFF', size: 24 })],
+                                            alignment: align,
+                                            spacing: { before: 100, after: 200 },
+                                        }),
+                                        new Paragraph({
+                                            alignment: align,
+                                            children: [new TextRun({ text: contactText, color: 'FFFFFF' })],
+                                        }),
+                                    ]
+                                })
+                            ]
+                        })
+                    ]
+                }),
+                new Paragraph({ text: '', spacing: { after: 400 } })
+            ];
+        } else {
+            headerElements = [
+                new Paragraph({
+                    children: [new TextRun({ text: data.personalInfo?.fullName || '', bold: true, size: 52 })],
+                    alignment: align,
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: theme.primary, size: 24 })],
+                    alignment: align,
+                    spacing: { before: 100, after: 200 },
+                }),
+                new Paragraph({
+                    alignment: align,
+                    spacing: { after: 400 },
+                    children: [new TextRun({ text: contactText, color: '666666' })],
+                }),
+            ];
+        }
+
         return [
-            new Paragraph({
-                text: data.personalInfo?.fullName || '',
-                heading: HeadingLevel.TITLE,
-                alignment: align,
-            }),
-            new Paragraph({
-                text: data.personalInfo?.professionalTitle || '',
-                alignment: align,
-                spacing: { before: 100, after: 200 },
-            }),
-            new Paragraph({
-                alignment: align,
-                spacing: { after: 400 },
-                children: [
-                    new TextRun({ text: [
-                        data.personalInfo?.email,
-                        data.personalInfo?.phone,
-                        data.personalInfo?.location || `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}`.trim()
-                    ].filter(Boolean).join('  •  ') }),
-                ],
-            }),
+            ...headerElements,
 
             ...(data.professionalSummary?.summaryText ? [
                 this.standardSectionHeading('Professional Summary', theme),
@@ -361,13 +418,13 @@ export class ResumeDOCX {
                 ...data.workExperience.flatMap(exp => [
                     new Paragraph({
                         children: [
-                            new TextRun({ text: exp.jobTitle, bold: true, size: 22 }),
-                            new TextRun({ text: `\t${exp.startDate} - ${exp.isCurrent ? 'Present' : exp.endDate}`, bold: true }),
+                            new TextRun({ text: exp.jobTitle, bold: true, size: 22, color: theme.primary }),
+                            new TextRun({ text: `\t${exp.startDate} - ${exp.isCurrent ? 'Present' : exp.endDate}`, bold: true, color: '666666' }),
                         ],
                         tabStops: [{ type: AlignmentType.RIGHT, position: 9000 }],
                     }),
                     new Paragraph({
-                        children: [new TextRun({ text: exp.companyName, italics: true })],
+                        children: [new TextRun({ text: exp.companyName, italics: true, color: theme.secondary })],
                         spacing: { after: 100 }
                     }),
                     ...(exp.roleDescription ? [new Paragraph({ text: exp.roleDescription })] : []),
@@ -391,8 +448,8 @@ export class ResumeDOCX {
                 this.standardSectionHeading('Education', theme),
                 ...data.education.map(edu => new Paragraph({
                     children: [
-                        new TextRun({ text: edu.institutionName, bold: true }),
-                        new TextRun({ text: ` — ${edu.degree}${edu.major ? ' in ' + edu.major : ''} (${edu.endYear || ''})` }),
+                        new TextRun({ text: edu.institutionName, bold: true, color: theme.primary }),
+                        new TextRun({ text: ` — ${edu.degree}${edu.major ? ' in ' + edu.major : ''} (${edu.endYear || ''})`, color: '666666' }),
                     ],
                     spacing: { after: 100 },
                 }))

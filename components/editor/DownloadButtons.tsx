@@ -14,6 +14,7 @@ import { useAuth } from '@/components/auth/AuthProvider'
 import { incrementExportCount } from '@/app/editor/actions'
 import { trackEvent } from '@/lib/utils/analytics'
 import { templateRegistry } from '@/lib/templates/registry'
+import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 
 interface DownloadButtonsProps {
     data: ResumeDocument
@@ -30,10 +31,14 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
     const [downloadingDocx, setDownloadingDocx] = useState(false)
     const [downloadingPdf, setDownloadingPdf] = useState(false)
     const [copied, setCopied] = useState(false)
-    const defaultFileName = data.personalInfo?.fullName?.replace(/\s+/g, '_') || 'resume'
+    const defaultFileName = (data.title && data.title !== 'Untitled Document' && data.title !== 'New Resume') 
+        ? data.title.replace(/\s+/g, '_') 
+        : (data.personalInfo?.fullName?.replace(/\s+/g, '_') || 'resume')
     const [customFileName, setCustomFileName] = useState(defaultFileName)
+    const [downloadTemplateId, setDownloadTemplateId] = useState<string>('')
     
-    const template = templateRegistry.find(t => data.templateId === t.id || data.templateId.startsWith(t.id + '-'))
+    const activeTemplateId = downloadTemplateId || data.templateId
+    const template = templateRegistry.find(t => activeTemplateId === t.id || activeTemplateId.startsWith(t.id + '-'))
     const isPremiumTemplate = template ? template.isPremium : true
 
     const copyToClipboard = async () => {
@@ -75,7 +80,7 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
             }
 
             const { ResumeDOCX } = await import('@/lib/docx/ResumeDOCX')
-            await ResumeDOCX.download(data, `${customFileName || defaultFileName}.docx`)
+            await ResumeDOCX.download({ ...data, templateId: activeTemplateId }, `${customFileName || defaultFileName}.docx`)
         } catch (error) {
             console.error('DOCX download failed:', error)
             toast.error('Failed to download DOCX. Please try again.')
@@ -114,7 +119,10 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
             // Dynamically import html2pdf
             const html2pdf = (await import('html2pdf.js')).default
 
-            const element = document.getElementById(previewElementId)
+            // Ensure React has committed the template changes to the DOM
+            await new Promise(resolve => setTimeout(resolve, 100))
+
+            const element = document.getElementById('download-preview')
             if (!element) {
                 toast.error('Could not find the resume preview element.')
                 return
@@ -181,6 +189,38 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
     if (variant === 'toolbar') {
         return (
             <div className={cn('flex flex-col gap-3', className)}>
+                {/* Hidden Render Container for PDF */}
+                <div className="absolute -left-[9999px] -top-[9999px] opacity-0" aria-hidden="true">
+                    <div 
+                        id="download-preview" 
+                        className="bg-white" 
+                        style={{ 
+                            width: data.formatting?.paperSize === 'a4' ? '210mm' : '8.5in', 
+                            minHeight: data.formatting?.paperSize === 'a4' ? '297mm' : '11in' 
+                        }}
+                    >
+                        <TemplateRenderer
+                            templateId={activeTemplateId}
+                            data={{...data, templateId: activeTemplateId}}
+                        />
+                    </div>
+                </div>
+
+                {/* Template Selection */}
+                <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-1">Export Template</label>
+                    <select
+                        value={downloadTemplateId}
+                        onChange={(e) => setDownloadTemplateId(e.target.value)}
+                        className="w-full bg-white border border-neutral-200 rounded-xl px-3 py-2 text-xs font-bold text-neutral-900 outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all cursor-pointer"
+                    >
+                        <option value="">Use Preview Template</option>
+                        {templateRegistry.map(t => (
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                        ))}
+                    </select>
+                </div>
+
                 {/* Filename Input */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-1">Filename</label>
@@ -245,6 +285,37 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
     // Header variant (default)
     return (
         <div className={cn('flex items-center gap-4', className)}>
+            {/* Hidden Render Container for PDF */}
+            <div className="absolute -left-[9999px] -top-[9999px] opacity-0" aria-hidden="true">
+                <div 
+                    id="download-preview" 
+                    className="bg-white" 
+                    style={{ 
+                        width: data.formatting?.paperSize === 'a4' ? '210mm' : '8.5in', 
+                        minHeight: data.formatting?.paperSize === 'a4' ? '297mm' : '11in' 
+                    }}
+                >
+                    <TemplateRenderer
+                        templateId={activeTemplateId}
+                        data={{...data, templateId: activeTemplateId}}
+                    />
+                </div>
+            </div>
+
+            {/* Template Selection */}
+            <div className="hidden md:flex flex-col gap-1">
+                <select
+                    value={downloadTemplateId}
+                    onChange={(e) => setDownloadTemplateId(e.target.value)}
+                    className="w-32 lg:w-48 bg-neutral-50 border border-neutral-200 rounded-lg px-2 py-1.5 text-[11px] font-bold text-neutral-900 outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all cursor-pointer"
+                >
+                    <option value="">Use Preview Template</option>
+                    {templateRegistry.map(t => (
+                        <option key={t.id} value={t.id}>{t.name}</option>
+                    ))}
+                </select>
+            </div>
+
             {/* Filename Input */}
             <div className="hidden md:flex flex-col gap-1">
                 <input 
