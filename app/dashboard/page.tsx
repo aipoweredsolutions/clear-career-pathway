@@ -5,8 +5,11 @@ import { DashboardWorkspace } from '@/components/dashboard/DashboardWorkspace'
 import { DashboardHeaderActions } from '@/components/dashboard/DashboardHeaderActions'
 import { DashboardEmptyStateActions } from '@/components/dashboard/DashboardEmptyStateActions'
 import { JobTracker } from '@/components/dashboard/JobTracker'
+import { FreeTierBanner } from '@/components/dashboard/FreeTierBanner'
+import { DashboardStatsRow } from '@/components/dashboard/DashboardStatsRow'
+import { ProfileCompletenessCard } from '@/components/dashboard/ProfileCompletenessCard'
 import { fetchUserDocuments } from '@/lib/supabase/documents'
-import { Zap, FileText, Users, ArrowRight, Target } from 'lucide-react'
+import { Zap, FileText, Users, ArrowRight, Target, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function DashboardPage() {
@@ -40,20 +43,23 @@ export default async function DashboardPage() {
     let profile: any = null
     let downloadCount = 0
     let referralCount = 0
+    let applications: any[] = []
 
     try {
-        const [docs, sub, prof, dlHistory, refs] = await Promise.all([
+        const [docs, sub, prof, dlHistory, refs, apps] = await Promise.all([
             fetchUserDocuments(supabase, session.user.id),
             import('@/lib/supabase/subscriptions').then(m => m.fetchUserSubscription(supabase, session.user.id)),
             supabase.from('profiles').select('*').eq('id', session.user.id).single(),
             supabase.from('download_history').select('*', { count: 'exact', head: true }).eq('user_id', session.user.id),
-            supabase.from('referrals').select('*', { count: 'exact', head: true }).eq('referrer_id', session.user.id)
+            supabase.from('referrals').select('*', { count: 'exact', head: true }).eq('referrer_id', session.user.id),
+            supabase.from('job_applications').select('status').eq('user_id', session.user.id)
         ])
         resumes = docs
         subscription = sub
         profile = prof.data
         downloadCount = dlHistory.count || 0
         referralCount = refs.count || 0
+        applications = apps.data || []
     } catch (error: any) {
         console.error('Error fetching dashboard data:', error)
         fetchError = error.message
@@ -145,44 +151,103 @@ export default async function DashboardPage() {
                     </div>
                 )}
 
-                <div className="mb-20">
-                    <div className="flex items-center gap-3 mb-10">
-                        <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-xl shadow-neutral-200">
-                            <Target className="w-6 h-6" />
-                        </div>
+                {/* Dashboard Stats Row */}
+                <DashboardStatsRow 
+                    totalDocuments={resumes.length} 
+                    totalApplications={applications.length} 
+                    interviewsScheduled={applications.filter(a => a.status === 'interviewing').length}
+                    isPro={isPro}
+                />
+
+                {/* 2-Column Grid Layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    {/* Main Column */}
+                    <div className="lg:col-span-2 space-y-16">
+                        
+                        {/* Application Pipeline */}
                         <div>
-                            <h2 className="text-3xl font-black text-neutral-900 tracking-tighter italic">Application <span className="text-primary-600">Pipeline.</span></h2>
-                            <p className="text-xs text-neutral-400 font-black uppercase tracking-[0.2em] mt-1">Track your tailored submissions</p>
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-xl shadow-neutral-200">
+                                    <Target className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <h2 className="text-3xl font-black text-neutral-900 tracking-tighter italic">Application <span className="text-primary-600">Pipeline.</span></h2>
+                                    <p className="text-xs text-neutral-400 font-black uppercase tracking-[0.2em] mt-1">Track your tailored submissions</p>
+                                </div>
+                            </div>
+                            <JobTracker />
+                        </div>
+
+                        {/* Document Library */}
+                        <div>
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-xl shadow-neutral-200">
+                                    <FileText className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <h2 className="text-3xl font-black text-neutral-900 tracking-tighter italic">Document <span className="text-primary-600">Library.</span></h2>
+                                    <p className="text-xs text-neutral-400 font-black uppercase tracking-[0.2em] mt-1">Manage your high-impact assets</p>
+                                </div>
+                            </div>
+
+                            {resumes && resumes.length > 0 ? (
+                                <DashboardWorkspace resumes={resumes} />
+                            ) : (
+                                <div className="bg-white rounded-[3rem] border border-neutral-100 p-12 md:p-20 text-center shadow-2xl shadow-neutral-200/50 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary-50 rounded-bl-full -z-10" />
+                                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-neutral-50 rounded-tr-full -z-10" />
+                                    
+                                    <div className="w-24 h-24 bg-white rounded-[2rem] flex items-center justify-center mx-auto mb-10 border border-neutral-100 shadow-xl group">
+                                        <Sparkles className="w-10 h-10 text-primary-500 animate-pulse" />
+                                    </div>
+                                    <h3 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6 tracking-tighter italic leading-none">Your legacy starts <br/><span className="text-primary-600">here.</span></h3>
+                                    <p className="text-lg text-neutral-500 mb-12 max-w-md mx-auto font-bold leading-relaxed">
+                                        You haven&apos;t created any documents yet. Launch your high-performance career with our AI-powered workspace.
+                                    </p>
+                                    <DashboardEmptyStateActions />
+                                </div>
+                            )}
                         </div>
                     </div>
-                    <JobTracker />
-                </div>
 
-                <div className="flex items-center gap-3 mb-10">
-                    <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-xl shadow-neutral-200">
-                        <FileText className="w-6 h-6" />
-                    </div>
-                    <div>
-                        <h2 className="text-3xl font-black text-neutral-900 tracking-tighter italic">Document <span className="text-primary-600">Library.</span></h2>
-                        <p className="text-xs text-neutral-400 font-black uppercase tracking-[0.2em] mt-1">Manage your high-impact assets</p>
-                    </div>
-                </div>
-
-                {resumes && resumes.length > 0 ? (
-                    <DashboardWorkspace resumes={resumes} />
-                ) : (
-                    <div className="bg-white rounded-[3rem] border border-neutral-100 p-20 text-center shadow-2xl shadow-neutral-200">
-                        <div className="w-24 h-24 bg-neutral-50 rounded-[2rem] flex items-center justify-center mx-auto mb-10 border border-neutral-100 group">
-                            <FileText className="w-10 h-10 text-neutral-300 group-hover:text-primary-600 transition-colors" />
+                    {/* Sidebar Column */}
+                    <div className="space-y-8">
+                        <ProfileCompletenessCard profile={profile} resumesCount={resumes.length} />
+                        
+                        {/* Quick Tips or Pro Upsell */}
+                        {!isPro && (
+                            <div className="bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-[2.5rem] p-8 text-white relative overflow-hidden group border border-neutral-800 shadow-2xl shadow-neutral-900/20">
+                                <Zap className="absolute top-4 right-4 w-32 h-32 text-white/[0.03] -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
+                                <h3 className="text-2xl font-black tracking-tighter italic mb-3 relative z-10">Unlock <span className="text-amber-400">Pro.</span></h3>
+                                <p className="text-sm font-bold text-neutral-400 mb-6 leading-relaxed relative z-10">
+                                    Get unlimited AI tailoring, premium ATS templates, and cover letter generation.
+                                </p>
+                                <Link 
+                                    href="/pricing"
+                                    className="inline-flex items-center gap-2 bg-white text-neutral-900 font-black text-[10px] uppercase tracking-widest px-6 py-3 rounded-xl hover:bg-neutral-100 transition-colors relative z-10"
+                                >
+                                    Upgrade Now <ArrowRight className="w-4 h-4" />
+                                </Link>
+                            </div>
+                        )}
+                        
+                        {/* Career Guide */}
+                        <div className="bg-white rounded-[2.5rem] border border-neutral-100 p-8 shadow-sm">
+                            <h3 className="text-lg font-black text-neutral-900 mb-4 tracking-tight">Career Resources</h3>
+                            <div className="space-y-4">
+                                <Link href="/career-tools/interview" className="block group">
+                                    <div className="text-sm font-bold text-neutral-900 group-hover:text-primary-600 transition-colors">Ace the Interview</div>
+                                    <div className="text-xs text-neutral-500 font-bold mt-1">AI-powered mock interviews and feedback.</div>
+                                </Link>
+                                <div className="w-full h-px bg-neutral-100" />
+                                <Link href="/career-tools/linkedin" className="block group">
+                                    <div className="text-sm font-bold text-neutral-900 group-hover:text-primary-600 transition-colors">LinkedIn Optimization</div>
+                                    <div className="text-xs text-neutral-500 font-bold mt-1">Make your profile stand out to recruiters.</div>
+                                </Link>
+                            </div>
                         </div>
-                        <h3 className="text-4xl font-black text-neutral-900 mb-6 tracking-tighter italic">Your legacy starts <br/> with a blank page.</h3>
-                        <p className="text-xl text-neutral-500 mb-12 max-w-lg mx-auto font-bold leading-relaxed">
-                            You haven&apos;t created any documents yet. Launch your high-performance career with our AI-powered workspace.
-                        </p>
-                        <DashboardEmptyStateActions />
-
                     </div>
-                )}
+                </div>
             </div>
         </div>
     )
