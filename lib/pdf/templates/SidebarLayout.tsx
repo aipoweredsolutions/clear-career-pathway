@@ -20,7 +20,7 @@ export const SidebarLayout = ({ data, styles, templateId, isWatermarked }: any) 
     return (
         <Page size="A4" style={styles.page}>
 
-            <View style={[styles.container, templateId.startsWith('ats-sterling') ? { paddingTop: 0 } : {}]}>
+            <View style={[styles.container, templateId.startsWith('sterling-corporate') ? { paddingTop: 0 } : {}]}>
                 {/* Sidebar */}
                 <View style={styles.sidebar} fixed>
                     {data.personalInfo?.photoUrl && (
@@ -59,11 +59,11 @@ export const SidebarLayout = ({ data, styles, templateId, isWatermarked }: any) 
                             <Text style={styles.title}>{data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}</Text>
                         </View>
                     ) : (
-                        <View style={templateId.startsWith('ats-sterling') ? { marginBottom: 20 } : styles.header}>
-                            <Text style={templateId.startsWith('ats-sterling') ? [styles.name, { fontSize: 36, fontFamily: 'Playfair Display' }] : styles.name}>
+                        <View style={templateId.startsWith('sterling-corporate') ? { marginBottom: 20 } : styles.header}>
+                            <Text style={templateId.startsWith('sterling-corporate') ? [styles.name, { fontSize: 36, fontFamily: 'Playfair Display' }] : styles.name}>
                                 {data.personalInfo?.fullName || 'Untitled'}
                             </Text>
-                            <Text style={templateId.startsWith('ats-sterling') ? [styles.title, { fontSize: 11, color: '#64748b', textTransform: 'uppercase', letterSpacing: 2.5, marginTop: 4 }] : styles.title}>
+                            <Text style={templateId.startsWith('sterling-corporate') ? [styles.title, { fontSize: 11, color: '#64748b', textTransform: 'uppercase', letterSpacing: 2.5, marginTop: 4 }] : styles.title}>
                                 {data.personalInfo?.professionalTitle || data.personalInfo?.title || ''}
                             </Text>
                         </View>

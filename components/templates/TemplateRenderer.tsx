@@ -40,15 +40,15 @@ const ATSMastheadTemplate = dynamic(() => import('./ATSMastheadTemplate').then(m
 // Removed: Editorial Vogue template
 // const ATSEditorialTemplate = dynamic(() => import('./ATSEditorialTemplate').then(m => m.ATSEditorialTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 // const ATSMetroTemplate = dynamic(() => import('./ATSMetroTemplate').then(m => m.ATSMetroTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const ATSClassicLeftTemplate = dynamic(() => import('./ATSClassicLeftTemplate').then(m => m.ATSClassicLeftTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const ATSSterlingTemplate = dynamic(() => import('./ATSSterlingTemplate').then(m => m.ATSSterlingTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const ClassicLeftHeaderTemplate = dynamic(() => import('./ClassicLeftHeaderTemplate').then(m => m.ClassicLeftHeaderTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const SterlingCorporateTemplate = dynamic(() => import('./SterlingCorporateTemplate').then(m => m.SterlingCorporateTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const ATSCornerstoneTemplate = dynamic(() => import('./ATSCornerstoneTemplate').then(m => m.ATSCornerstoneTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const ATSMeridianTemplate = dynamic(() => import('./ATSMeridianTemplate').then(m => m.ATSMeridianTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const MeridianProfessionalTemplate = dynamic(() => import('./MeridianProfessionalTemplate').then(m => m.MeridianProfessionalTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 
 // Elite Single-Column (ATS Compliant) Templates
 const EliteAlpineTemplate = dynamic(() => import('./EliteAlpineTemplate').then(m => m.EliteAlpineTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const EliteHaskinsTemplate = dynamic(() => import('./EliteHaskinsTemplate').then(m => m.EliteHaskinsTemplate), { ssr: false, loading: () => <TemplateLoading /> })
-const EliteParkerTemplate = dynamic(() => import('./EliteParkerTemplate').then(m => m.EliteParkerTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteKyotoTemplate = dynamic(() => import('./EliteKyotoTemplate').then(m => m.EliteKyotoTemplate), { ssr: false, loading: () => <TemplateLoading /> })
+const EliteSummitTemplate = dynamic(() => import('./EliteSummitTemplate').then(m => m.EliteSummitTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 const EliteLondonTemplate = dynamic(() => import('./EliteLondonTemplate').then(m => m.EliteLondonTemplate), { ssr: false, loading: () => <TemplateLoading /> })
 
 // Non-ATS Elegant Two-Column Templates
@@ -109,8 +109,8 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: ATSProfessionalTemplate, props: { accentColor } }
     }
 
-    if (id.startsWith('ats-classic-left')) {
-        return { Component: ATSClassicLeftTemplate, props: {} }
+    if (id.startsWith('classic-left-header')) {
+        return { Component: ClassicLeftHeaderTemplate, props: {} }
     }
 
     if (id.startsWith('ats-classic')) {
@@ -221,14 +221,14 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
     }
     */
 
-    if (id.startsWith('ats-sterling')) {
+    if (id.startsWith('sterling-corporate')) {
         let accentColor = 'text-blue-700'
         if (id.includes('-black')) accentColor = 'text-neutral-950'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-emerald')) accentColor = 'text-emerald-700'
         if (id.includes('-slate')) accentColor = 'text-slate-600'
-        return { Component: ATSSterlingTemplate, props: { accentColor } }
+        return { Component: SterlingCorporateTemplate, props: { accentColor } }
     }
 
     if (id.startsWith('ats-cornerstone')) {
@@ -241,14 +241,14 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: ATSCornerstoneTemplate, props: { accentColor } }
     }
 
-    if (id.startsWith('ats-meridian')) {
+    if (id.startsWith('meridian-professional')) {
         let accentColor = 'text-neutral-900'
         if (id.includes('-black')) accentColor = 'text-neutral-950'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-slate')) accentColor = 'text-slate-700'
         if (id.includes('-emerald')) accentColor = 'text-emerald-900'
-        return { Component: ATSMeridianTemplate, props: { accentColor } }
+        return { Component: MeridianProfessionalTemplate, props: { accentColor } }
     }
 
     if (id.startsWith('elite-alpine') || id.startsWith('elite-sterling')) {
@@ -258,18 +258,18 @@ const getTemplateConfig = (id: string): { Component: any, props: any } => {
         return { Component: EliteAlpineTemplate, props: { accentColor } }
     }
 
-    if (id.startsWith('elite-haskins')) {
+    if (id.startsWith('elite-kyoto')) {
         let accentColor = 'text-neutral-900'
         if (id.includes('-navy')) accentColor = 'text-blue-900'
         if (id.includes('-charcoal')) accentColor = 'text-gray-700'
-        return { Component: EliteHaskinsTemplate, props: { accentColor } }
+        return { Component: EliteKyotoTemplate, props: { accentColor } }
     }
 
-    if (id.startsWith('elite-parker')) {
+    if (id.startsWith('elite-summit')) {
         let accentColor = 'text-neutral-900'
         if (id.includes('-zinc')) accentColor = 'text-zinc-600'
         if (id.includes('-slate')) accentColor = 'text-slate-700'
-        return { Component: EliteParkerTemplate, props: { accentColor } }
+        return { Component: EliteSummitTemplate, props: { accentColor } }
     }
 
     if (id.startsWith('elite-london')) {
@@ -323,14 +323,14 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = React.memo(({ t
     // Full-bleed: sidebars or edge-to-edge decorative borders that must touch the page edge
     const isFullBleed =
         templateId.startsWith('elegant-split') ||
-        templateId.startsWith('ats-sterling') ||
+        templateId.startsWith('sterling-corporate') ||
         templateId.startsWith('ats-royal-scholar')
 
     // Self-padded: templates with their own p-10/p-12 — wrapper padding creates double-padding vs thumbnail
     const isSelfPadded =
         templateId.startsWith('ats-chronograph') ||
-        templateId.startsWith('ats-classic-left') ||
-        templateId.startsWith('ats-meridian')
+        templateId.startsWith('classic-left-header') ||
+        templateId.startsWith('meridian-professional')
 
     // Override the default accent color if a custom one is provided
     const finalProps = {

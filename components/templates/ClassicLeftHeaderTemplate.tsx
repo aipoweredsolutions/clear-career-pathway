@@ -19,7 +19,7 @@ interface TemplateProps {
  *
  * 100% ATS-compliant — single logical reading order, no floats or absolute positioning.
  */
-export function ATSClassicLeftTemplate({ data, className, accentColor = 'text-neutral-950' }: TemplateProps) {
+export function ClassicLeftHeaderTemplate({ data, className, accentColor = 'text-neutral-950' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -43,10 +43,10 @@ export function ATSClassicLeftTemplate({ data, className, accentColor = 'text-ne
 
     // ── Section wrapper: label left / content right ───────────────────────────
     const Section = ({ label, children }: { label: string; children: React.ReactNode }) => (
-        <section className="grid grid-cols-[10rem_1fr] gap-x-8 border-t border-neutral-100 pt-5 pb-1">
-            <div className="pt-0.5">
+        <section className="grid grid-cols-[11rem_1fr] gap-x-10 border-t border-neutral-100 pt-6 pb-2">
+            <div className="pt-1">
                 <h2 className={cn(
-                    'text-[9.5px] font-black uppercase tracking-[0.22em] leading-none',
+                    'text-[10px] font-black uppercase tracking-[0.2em] leading-none',
                     accentColor
                 )}>
                     {label}
@@ -58,8 +58,8 @@ export function ATSClassicLeftTemplate({ data, className, accentColor = 'text-ne
 
     // ── Bullet ────────────────────────────────────────────────────────────────
     const Bullet = ({ text }: { text: string }) => (
-        <li className="flex gap-2.5 text-[12.5px] text-neutral-600 leading-[1.65] pl-0">
-            <span className="shrink-0 mt-[7px] w-[3px] h-[3px] rounded-full bg-neutral-400" />
+        <li className="flex gap-3 text-[12.5px] text-neutral-600 leading-[1.65] pl-0">
+            <span className="shrink-0 mt-[7px] w-[4px] h-[4px] rounded-full bg-neutral-400" />
             <span>{text}</span>
         </li>
     )
@@ -190,31 +190,36 @@ export function ATSClassicLeftTemplate({ data, className, accentColor = 'text-ne
                     {/* Experience */}
                     {workExperience && workExperience.length > 0 && (
                         <Section label="Experience">
-                            <div className="space-y-6">
+                            <div className="space-y-7">
                                 {workExperience.map((job, i) => (
                                     <div key={i}>
-                                        <div className="flex items-baseline justify-between gap-4 mb-0.5">
-                                            <h3 className="text-[13.5px] font-bold text-neutral-900 leading-snug">
+                                        <div className="mb-1">
+                                            <h3 className="text-[14px] font-bold text-neutral-900 leading-tight mb-0.5">
                                                 {job.jobTitle}
-                                                <span className="font-normal text-neutral-500"> · {job.companyName}</span>
                                             </h3>
-                                            <span className="text-[11px] text-neutral-400 shrink-0 tabular-nums">
-                                                {dateRange(job.startDate, job.endDate, job.isCurrent)}
-                                            </span>
+                                            <div className="flex items-baseline gap-2 text-[11.5px]">
+                                                <span className="font-medium text-neutral-600">{job.companyName}</span>
+                                                {job.location && (
+                                                    <>
+                                                        <span className="text-neutral-300">·</span>
+                                                        <span className="text-neutral-400">{job.location}</span>
+                                                    </>
+                                                )}
+                                                <span className="text-neutral-300">·</span>
+                                                <span className="text-neutral-400 tabular-nums">
+                                                    {dateRange(job.startDate, job.endDate, job.isCurrent)}
+                                                </span>
+                                            </div>
                                         </div>
 
-                                        {job.location && (
-                                            <p className="text-[11.5px] text-neutral-400 mb-2">{job.location}</p>
-                                        )}
-
                                         {job.roleDescription && (
-                                            <p className="text-[12.5px] text-neutral-600 leading-[1.65] mb-2">
+                                            <p className="text-[12.5px] text-neutral-600 leading-[1.65] mb-2.5">
                                                 {job.roleDescription}
                                             </p>
                                         )}
 
                                         {job.achievements && job.achievements.length > 0 && (
-                                            <ul className="space-y-1.5">
+                                            <ul className="space-y-2">
                                                 {job.achievements.map((ach, j) => (
                                                     <Bullet key={j} text={ach.achievementText} />
                                                 ))}
@@ -229,33 +234,39 @@ export function ATSClassicLeftTemplate({ data, className, accentColor = 'text-ne
                     {/* Education */}
                     {education && education.length > 0 && (
                         <Section label="Education">
-                            <div className="space-y-5">
+                            <div className="space-y-6">
                                 {education.map((edu, i) => (
                                     <div key={i}>
-                                        <div className="flex items-baseline justify-between gap-4 mb-0.5">
-                                            <h3 className="text-[13.5px] font-bold text-neutral-900">
+                                        <div className="mb-1">
+                                            <h3 className="text-[13.5px] font-bold text-neutral-900 leading-tight mb-0.5">
                                                 {edu.degree}
-                                                {edu.major ? ` · ${edu.major}` : ''}
-                                                {edu.fieldOfStudy && !edu.major ? ` · ${edu.fieldOfStudy}` : ''}
+                                                {edu.major ? ` in ${edu.major}` : ''}
+                                                {edu.fieldOfStudy && !edu.major ? ` in ${edu.fieldOfStudy}` : ''}
                                             </h3>
-                                            <span className="text-[11px] text-neutral-400 shrink-0 tabular-nums">
-                                                {edu.endYear || edu.startYear}
-                                            </span>
+                                            <div className="flex items-baseline gap-2 text-[11.5px]">
+                                                <span className="font-medium text-neutral-600">{edu.institutionName}</span>
+                                                {edu.location && (
+                                                    <>
+                                                        <span className="text-neutral-300">·</span>
+                                                        <span className="text-neutral-400">{edu.location}</span>
+                                                    </>
+                                                )}
+                                                <span className="text-neutral-300">·</span>
+                                                <span className="text-neutral-400 tabular-nums">
+                                                    {edu.endYear || edu.startYear}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <p className="text-[12.5px] text-neutral-500 mb-1">
-                                            {edu.institutionName}
-                                            {edu.location && ` · ${edu.location}`}
-                                        </p>
                                         {edu.gpa && (
-                                            <p className="text-[11.5px] text-neutral-400">GPA: {edu.gpa}</p>
+                                            <p className="text-[11.5px] text-neutral-400 mt-1">GPA: {edu.gpa}</p>
                                         )}
                                         {edu.achievements && (
-                                            <p className="text-[11.5px] text-neutral-400 leading-relaxed mt-0.5">
+                                            <p className="text-[11.5px] text-neutral-400 leading-[1.6] mt-1">
                                                 {edu.achievements}
                                             </p>
                                         )}
                                         {edu.coursework && (
-                                            <p className="text-[11.5px] text-neutral-400 mt-0.5">
+                                            <p className="text-[11.5px] text-neutral-400 mt-1">
                                                 <span className="font-medium text-neutral-600">Coursework:</span> {edu.coursework}
                                             </p>
                                         )}
@@ -324,22 +335,27 @@ export function ATSClassicLeftTemplate({ data, className, accentColor = 'text-ne
                     {/* Projects */}
                     {projects && projects.length > 0 && (
                         <Section label="Projects">
-                            <div className="space-y-5">
+                            <div className="space-y-6">
                                 {projects.map((proj, i) => (
                                     <div key={i}>
-                                        <div className="flex items-baseline justify-between gap-4 mb-0.5">
-                                            <h3 className="text-[13px] font-bold text-neutral-900">{proj.projectName}</h3>
-                                            {(proj.startDate || proj.endDate) && (
-                                                <span className="text-[11px] text-neutral-400 shrink-0">
-                                                    {proj.startDate}{proj.endDate ? ` – ${proj.endDate}` : ''}
-                                                </span>
-                                            )}
+                                        <div className="mb-1">
+                                            <h3 className="text-[13px] font-bold text-neutral-900 leading-tight mb-0.5">{proj.projectName}</h3>
+                                            <div className="flex items-baseline gap-2 text-[11.5px]">
+                                                {proj.role && (
+                                                    <>
+                                                        <span className="font-medium text-neutral-600">{proj.role}</span>
+                                                        {(proj.startDate || proj.endDate) && <span className="text-neutral-300">·</span>}
+                                                    </>
+                                                )}
+                                                {(proj.startDate || proj.endDate) && (
+                                                    <span className="text-neutral-400 tabular-nums">
+                                                        {proj.startDate}{proj.endDate ? ` – ${proj.endDate}` : ''}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
-                                        {proj.role && (
-                                            <p className="text-[12px] text-neutral-500 mb-1">{proj.role}</p>
-                                        )}
                                         {proj.description && (
-                                            <p className="text-[12.5px] text-neutral-600 leading-[1.65] mb-1">
+                                            <p className="text-[12.5px] text-neutral-600 leading-[1.65] mb-1.5">
                                                 {proj.description}
                                             </p>
                                         )}
@@ -428,18 +444,25 @@ export function ATSClassicLeftTemplate({ data, className, accentColor = 'text-ne
                     {/* Volunteer */}
                     {volunteerExperience && volunteerExperience.length > 0 && (
                         <Section label="Volunteering">
-                            <div className="space-y-5">
+                            <div className="space-y-6">
                                 {volunteerExperience.map((vol, i) => (
                                     <div key={i}>
-                                        <div className="flex items-baseline justify-between gap-4 mb-0.5">
-                                            <h3 className="text-[13px] font-bold text-neutral-900">
+                                        <div className="mb-1">
+                                            <h3 className="text-[13px] font-bold text-neutral-900 leading-tight mb-0.5">
                                                 {vol.roleTitle}
-                                                <span className="font-normal text-neutral-500"> · {vol.organizationName}</span>
                                             </h3>
-                                            <span className="text-[11px] text-neutral-400 shrink-0">
-                                                {vol.startDate}
-                                                {vol.endDate ? ` – ${vol.endDate}` : vol.startDate ? ' – Present' : ''}
-                                            </span>
+                                            <div className="flex items-baseline gap-2 text-[11.5px]">
+                                                <span className="font-medium text-neutral-600">{vol.organizationName}</span>
+                                                {(vol.startDate || vol.endDate) && (
+                                                    <>
+                                                        <span className="text-neutral-300">·</span>
+                                                        <span className="text-neutral-400 tabular-nums">
+                                                            {vol.startDate}
+                                                            {vol.endDate ? ` – ${vol.endDate}` : vol.startDate ? ' – Present' : ''}
+                                                        </span>
+                                                    </>
+                                                )}
+                                            </div>
                                         </div>
                                         {vol.contributions && (
                                             <p className="text-[12.5px] text-neutral-600 leading-[1.65]">

@@ -93,7 +93,7 @@ function EditorContent() {
                 const isA4 = (deferredData || data)?.formatting?.paperSize === 'a4'
                 const templateId = (deferredData || data)?.templateId || ''
                 const isFullBleed = templateId.startsWith('elegant-split') ||
-                                    templateId.startsWith('ats-sterling') ||
+                                    templateId.startsWith('sterling-corporate') ||
                                     templateId.startsWith('ats-royal-scholar')
                 
                 const pageHeightMmOrIn = isFullBleed 
@@ -145,7 +145,7 @@ function EditorContent() {
             const isA4 = (deferredData || data)?.formatting?.paperSize === 'a4';
             const templateId = (deferredData || data)?.templateId || '';
             const isFullBleed = templateId.startsWith('elegant-split') ||
-                                templateId.startsWith('ats-sterling') ||
+                                templateId.startsWith('sterling-corporate') ||
                                 templateId.startsWith('ats-royal-scholar');
             
             const pageHeightMmOrIn = isFullBleed 
@@ -828,7 +828,7 @@ function EditorContent() {
                                 const templateId = (deferredData || data)?.templateId || ''
                                 const isElegantSplit = templateId.startsWith('elegant-split')
                                 const isFullBleed = templateId.startsWith('elegant-split') ||
-                                                    templateId.startsWith('ats-sterling') ||
+                                                    templateId.startsWith('sterling-corporate') ||
                                                     templateId.startsWith('ats-royal-scholar')
                                 
                                 const pageHeightMm = isFullBleed ? 297 : 287

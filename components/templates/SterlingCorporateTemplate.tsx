@@ -1,7 +1,6 @@
 import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
-import { Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react'
 
 interface TemplateProps {
     data: ResumeDocument
@@ -9,7 +8,7 @@ interface TemplateProps {
     accentColor?: string
 }
 
-export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate-800' }: TemplateProps) {
+export function SterlingCorporateTemplate({ data, className, accentColor = 'text-slate-800' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -41,21 +40,21 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
 
     // Section header for the left column
     const SidebarTitle = ({ children }: { children: React.ReactNode }) => (
-        <div className="mb-4">
-            <h2 className="text-[16px] font-bold text-slate-800 font-serif mb-2">
+        <div className="mb-5">
+            <h2 className="text-[13px] font-bold text-slate-800 mb-2.5 tracking-wide">
                 {children}
             </h2>
-            <div className="w-full h-px bg-slate-200" />
+            <div className="w-full h-[1.5px] bg-slate-300" />
         </div>
     )
 
     // Section header for the main column
     const MainTitle = ({ children }: { children: React.ReactNode }) => (
-        <div className="mb-4 mt-6 first:mt-0">
-            <h2 className="text-[18px] font-bold text-slate-800 font-serif mb-2">
+        <div className="mb-4 mt-7 first:mt-0">
+            <h2 className="text-[15px] font-bold text-slate-800 mb-2.5 tracking-wide">
                 {children}
             </h2>
-            <div className="w-full h-px bg-slate-200" />
+            <div className="w-full h-[1.5px] bg-slate-300" />
         </div>
     )
 
@@ -64,24 +63,18 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
             "w-full flex bg-white text-slate-800 font-sans leading-relaxed min-h-full",
             className
         )}>
-            {/* ─── LEFT SIDEBAR (~33%) ─── */}
-            <div className="w-[33%] shrink-0 bg-[#f1f5f9] flex flex-col pt-10 pb-10 px-8">
-                {/* Profile Photo */}
-                <div className="flex justify-center mb-10">
-                    {personalInfo?.photoUrl ? (
+            {/* ─── LEFT SIDEBAR (35%) ─── */}
+            <div className="w-[35%] shrink-0 bg-[#f8fafc] flex flex-col pt-12 pb-12 px-9 border-r border-slate-200">
+                {/* Profile Photo - Optional */}
+                {personalInfo?.photoUrl && (
+                    <div className="flex justify-center mb-10">
                         <img 
                             src={personalInfo.photoUrl} 
                             alt={personalInfo.fullName} 
-                            className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-sm"
+                            className="w-28 h-28 rounded-full object-cover border-3 border-white shadow-md"
                         />
-                    ) : (
-                        <div className="w-32 h-32 rounded-full bg-slate-300 flex items-center justify-center border-4 border-white shadow-sm">
-                            <span className="text-4xl text-white font-bold font-serif">
-                                {personalInfo?.fullName?.charAt(0) || 'A'}
-                            </span>
-                        </div>
-                    )}
-                </div>
+                    </div>
+                )}
 
                 <div className="space-y-8 flex-1">
                     {/* Contact */}
@@ -89,33 +82,33 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                         <SidebarTitle>Contact</SidebarTitle>
                         <div className="space-y-3">
                             {personalInfo?.email && (
-                                <div className="flex items-center gap-3 text-[11px] text-slate-600">
-                                    <Mail className="w-3.5 h-3.5 shrink-0 text-slate-400" />
-                                    <span className="break-all">{personalInfo.email}</span>
+                                <div className="text-[10.5px] text-slate-700">
+                                    <div className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mb-1">Email</div>
+                                    <div className="break-all">{personalInfo.email}</div>
                                 </div>
                             )}
                             {personalInfo?.phone && (
-                                <div className="flex items-center gap-3 text-[11px] text-slate-600">
-                                    <Phone className="w-3.5 h-3.5 shrink-0 text-slate-400" />
-                                    <span>{personalInfo.phone}</span>
+                                <div className="text-[10.5px] text-slate-700">
+                                    <div className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mb-1">Phone</div>
+                                    <div>{personalInfo.phone}</div>
                                 </div>
                             )}
                             {(personalInfo?.city || personalInfo?.country) && (
-                                <div className="flex items-center gap-3 text-[11px] text-slate-600">
-                                    <MapPin className="w-3.5 h-3.5 shrink-0 text-slate-400" />
-                                    <span>{[personalInfo.city, personalInfo.country].filter(Boolean).join(', ')}</span>
+                                <div className="text-[10.5px] text-slate-700">
+                                    <div className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mb-1">Location</div>
+                                    <div>{[personalInfo.city, personalInfo.country].filter(Boolean).join(', ')}</div>
                                 </div>
                             )}
                             {personalInfo?.linkedinUrl && (
-                                <div className="flex items-center gap-3 text-[11px] text-slate-600">
-                                    <Linkedin className="w-3.5 h-3.5 shrink-0 text-slate-400" />
-                                    <span className="break-all">{personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                                <div className="text-[10.5px] text-slate-700">
+                                    <div className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mb-1">LinkedIn</div>
+                                    <div className="break-all">{personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}</div>
                                 </div>
                             )}
                             {personalInfo?.websiteUrl && (
-                                <div className="flex items-center gap-3 text-[11px] text-slate-600">
-                                    <Globe className="w-3.5 h-3.5 shrink-0 text-slate-400" />
-                                    <span className="break-all">{personalInfo.websiteUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                                <div className="text-[10.5px] text-slate-700">
+                                    <div className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mb-1">Website</div>
+                                    <div className="break-all">{personalInfo.websiteUrl.replace(/^https?:\/\/(www\.)?/, '')}</div>
                                 </div>
                             )}
                         </div>
@@ -127,20 +120,23 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                             <SidebarTitle>Education</SidebarTitle>
                             <div className="space-y-5">
                                 {education.map((edu, i) => (
-                                    <div key={i} className="">
-                                        <h3 className="text-[12px] font-bold text-slate-800 leading-tight mb-1">
-                                            {edu.degree}{edu.major ? `\n${edu.major}` : ''}
+                                    <div key={i}>
+                                        <h3 className="text-[11px] font-bold text-slate-900 leading-tight mb-1.5">
+                                            {edu.degree}
                                         </h3>
-                                        <div className="flex justify-between items-start gap-2">
-                                            <p className="text-[11px] text-slate-600 leading-snug">
-                                                {edu.institutionName}
+                                        {(edu.major || edu.fieldOfStudy) && (
+                                            <p className="text-[10px] text-slate-700 mb-1">
+                                                {edu.major || edu.fieldOfStudy}
                                             </p>
-                                            {edu.endYear && (
-                                                <span className="text-[11px] text-slate-500 whitespace-nowrap">
-                                                    {edu.endYear}
-                                                </span>
-                                            )}
-                                        </div>
+                                        )}
+                                        <p className="text-[10px] text-slate-600 leading-snug mb-1">
+                                            {edu.institutionName}
+                                        </p>
+                                        {edu.endYear && (
+                                            <span className="text-[10px] text-slate-500">
+                                                {edu.endYear}
+                                            </span>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -154,12 +150,12 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                             <div className="space-y-5">
                                 {Object.entries(groupedSkills).map(([type, list]) => (
                                     <div key={type}>
-                                        <h4 className="text-[10px] font-bold text-slate-500 mb-2 tracking-wide">
+                                        <h4 className="text-[9px] font-bold text-slate-500 mb-2.5 tracking-wider uppercase">
                                             {formatSkillTypeLabel(type)}
                                         </h4>
                                         <div className="flex flex-wrap gap-2">
                                             {list?.map((s, i) => (
-                                                <span key={i} className="bg-slate-200/60 text-slate-700 text-[11px] px-2.5 py-1 rounded-sm">
+                                                <span key={i} className="bg-slate-200 text-slate-800 text-[10px] px-2.5 py-1 rounded-sm font-medium">
                                                     {s.skillName}
                                                 </span>
                                             ))}
@@ -174,11 +170,11 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                     {languages && languages.length > 0 && (
                         <section>
                             <SidebarTitle>Languages</SidebarTitle>
-                            <div className="space-y-2">
+                            <div className="space-y-2.5">
                                 {languages.map((l, i) => (
                                     <div key={i} className="flex justify-between items-baseline">
-                                        <span className="text-[11px] font-bold text-slate-800">{l.languageName}</span>
-                                        <span className="text-[10px] text-slate-500 capitalize">{l.proficiencyLevel}</span>
+                                        <span className="text-[10.5px] font-bold text-slate-800">{l.languageName}</span>
+                                        <span className="text-[9.5px] text-slate-500 capitalize">{l.proficiencyLevel}</span>
                                     </div>
                                 ))}
                             </div>
@@ -187,15 +183,15 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                 </div>
             </div>
 
-            {/* ─── MAIN CONTENT (~67%) ─── */}
-            <div className="w-[67%] shrink-0 pt-10 pb-10 px-10">
+            {/* ─── MAIN CONTENT (65%) ─── */}
+            <div className="w-[65%] shrink-0 pt-12 pb-12 px-11">
                 {/* Header (Name & Title) */}
-                <header className="mb-8">
-                    <h1 className="text-[38px] font-bold text-slate-900 font-serif leading-[1.1] mb-2 tracking-tight">
-                        {personalInfo?.fullName || 'Alexander J. Sterling'}
+                <header className="mb-10 border-b-2 border-slate-200 pb-6">
+                    <h1 className="text-[34px] font-bold text-slate-900 leading-[1.1] mb-2.5 tracking-tight">
+                        {personalInfo?.fullName || 'Your Name'}
                     </h1>
-                    <p className="text-[12px] font-bold text-slate-500 uppercase tracking-widest font-sans">
-                        {personalInfo?.professionalTitle || 'SENIOR STRATEGY OPERATIONS DIRECTOR'}
+                    <p className="text-[11px] font-semibold text-slate-600 uppercase tracking-[0.2em]">
+                        {personalInfo?.professionalTitle || 'Professional Title'}
                     </p>
                 </header>
             {/* --- DOCUMENT TYPE OVERRIDES --- */}
@@ -236,12 +232,12 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                 <>
 
 
-                <div className="space-y-6">
+                <div className="space-y-7">
                     {/* Professional Summary */}
                     {professionalSummary?.summaryText && (
                         <section>
                             <MainTitle>Professional Summary</MainTitle>
-                            <p className="text-[12px] leading-relaxed text-slate-600 text-justify">
+                            <p className="text-[11px] leading-[1.6] text-slate-700">
                                 {professionalSummary.summaryText}
                             </p>
                         </section>
@@ -253,24 +249,24 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                             <MainTitle>Professional Experience</MainTitle>
                             <div className="space-y-6">
                                 {workExperience.map((job, i) => (
-                                    <div key={i} className="">
+                                    <div key={i}>
                                         {/* Row 1: Title and Dates */}
-                                        <div className="flex justify-between items-baseline mb-0.5">
-                                            <h3 className="text-[13px] font-bold text-slate-900">
+                                        <div className="flex justify-between items-baseline mb-1">
+                                            <h3 className="text-[12px] font-bold text-slate-900">
                                                 {job.jobTitle}
                                             </h3>
-                                            <span className="text-[11px] text-slate-500">
+                                            <span className="text-[10px] text-slate-500 font-medium">
                                                 {job.startDate} – {job.isCurrent ? 'Present' : job.endDate}
                                             </span>
                                         </div>
                                         
                                         {/* Row 2: Company and Location */}
-                                        <div className="flex justify-between items-baseline mb-2">
-                                            <span className="text-[12px] font-bold text-slate-700">
+                                        <div className="flex justify-between items-baseline mb-3">
+                                            <span className="text-[11px] font-semibold text-slate-700">
                                                 {job.companyName}
                                             </span>
                                             {job.location && (
-                                                <span className="text-[11px] italic text-slate-500">
+                                                <span className="text-[10px] text-slate-500">
                                                     {job.location}
                                                 </span>
                                             )}
@@ -278,18 +274,18 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
 
                                         {/* Role Description */}
                                         {job.roleDescription && (
-                                            <p className="text-[11.5px] text-slate-600 mb-2 leading-relaxed italic">
+                                            <p className="text-[10.5px] text-slate-600 mb-2.5 leading-[1.6]">
                                                 {job.roleDescription}
                                             </p>
                                         )}
 
                                         {/* Achievements */}
                                         {job.achievements && job.achievements.length > 0 && (
-                                            <ul className="space-y-1.5 ml-1">
+                                            <ul className="space-y-2">
                                                 {job.achievements.map((a, j) => (
-                                                    <li key={j} className="text-[11.5px] text-slate-600 leading-relaxed flex gap-2.5">
-                                                        <span className="text-slate-400 mt-[7px] w-1 h-1 rounded-full bg-slate-400 shrink-0" />
-                                                        <span className="text-justify">{a.achievementText}</span>
+                                                    <li key={j} className="text-[10.5px] text-slate-700 leading-[1.6] flex gap-2.5">
+                                                        <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
+                                                        <span>{a.achievementText}</span>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -306,13 +302,13 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                             <MainTitle>Key Projects</MainTitle>
                             <div className="space-y-5">
                                 {projects.map((proj, i) => (
-                                    <div key={i} className="">
-                                        <div className="flex justify-between items-baseline mb-1">
-                                            <h3 className="text-[13px] font-bold text-slate-900">{proj.projectName}</h3>
-                                            {proj.role && <span className="text-[11px] italic text-slate-500">{proj.role}</span>}
+                                    <div key={i}>
+                                        <div className="flex justify-between items-baseline mb-1.5">
+                                            <h3 className="text-[11.5px] font-bold text-slate-900">{proj.projectName}</h3>
+                                            {proj.role && <span className="text-[10px] text-slate-500">{proj.role}</span>}
                                         </div>
                                         {proj.description && (
-                                            <p className="text-[11.5px] text-slate-600 leading-relaxed text-justify">{proj.description}</p>
+                                            <p className="text-[10.5px] text-slate-700 leading-[1.6]">{proj.description}</p>
                                         )}
                                     </div>
                                 ))}
@@ -326,9 +322,9 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                             <MainTitle>Certifications</MainTitle>
                             <div className="space-y-3">
                                 {certifications.map((c, i) => (
-                                    <div key={i} className=" flex justify-between items-baseline">
-                                        <h3 className="text-[12px] font-bold text-slate-800">{c.certificationName}</h3>
-                                        <span className="text-[11px] text-slate-500">
+                                    <div key={i} className="flex justify-between items-baseline">
+                                        <h3 className="text-[11px] font-bold text-slate-800">{c.certificationName}</h3>
+                                        <span className="text-[10px] text-slate-500">
                                             {c.issuingOrganization}{c.issueYear ? ` • ${c.issueYear}` : ''}
                                         </span>
                                     </div>
@@ -340,12 +336,12 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
                     {/* Achievements / Awards */}
                     {achievements && achievements.length > 0 && (
                         <section>
-                            <MainTitle>Awards</MainTitle>
+                            <MainTitle>Awards & Recognition</MainTitle>
                             <div className="space-y-3">
                                 {achievements.map((a, i) => (
                                     <div key={i} className="flex justify-between items-baseline">
-                                        <h3 className="text-[12px] font-bold text-slate-800">{a.achievementTitle}</h3>
-                                        <span className="text-[11px] text-slate-500">
+                                        <h3 className="text-[11px] font-bold text-slate-800">{a.achievementTitle}</h3>
+                                        <span className="text-[10px] text-slate-500">
                                             {a.issuingBody}{a.year ? ` • ${a.year}` : ''}
                                         </span>
                                     </div>
@@ -356,14 +352,14 @@ export function ATSSterlingTemplate({ data, className, accentColor = 'text-slate
 
                     {/* Custom Sections */}
                     {customSections && customSections.map((s, i) => (
-                        <section key={i} className="">
+                        <section key={i}>
                             <MainTitle>{s.title}</MainTitle>
-                            {s.content && <p className="text-[11.5px] text-slate-600 leading-relaxed mb-2">{s.content}</p>}
+                            {s.content && <p className="text-[10.5px] text-slate-700 leading-[1.6] mb-2">{s.content}</p>}
                             {s.items && (
-                                <ul className="space-y-1.5 ml-1">
+                                <ul className="space-y-2">
                                     {s.items.map((item, j) => (
-                                        <li key={j} className="text-[11.5px] text-slate-600 flex gap-2.5">
-                                            <span className="mt-[7px] w-1 h-1 rounded-full bg-slate-400 shrink-0" />
+                                        <li key={j} className="text-[10.5px] text-slate-700 flex gap-2.5 leading-[1.6]">
+                                            <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
                                             {item.text}
                                         </li>
                                     ))}

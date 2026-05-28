@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, LayoutGrid, Zap, ShieldCheck, ArrowRight, X, Star } from 'lucide-react'
+import { Search, Zap, ArrowRight, Star, ChevronLeft, ChevronRight, Shield, Eye } from 'lucide-react'
 import { templateRegistry } from '@/lib/templates/registry'
 import { cn } from '@/lib/utils'
 import { TemplateThumbnail } from '@/components/home/TemplateThumbnail'
@@ -11,11 +11,8 @@ import { TemplateThumbnail } from '@/components/home/TemplateThumbnail'
 export default function TemplatesGalleryPage() {
     const [activeIndustry, setActiveIndustry] = useState('All')
     const [searchQuery, setSearchQuery] = useState('')
-    const [isLoaded, setIsLoaded] = useState(false)
-
-    useEffect(() => {
-        setIsLoaded(true)
-    }, [])
+    const [hoveredId, setHoveredId] = useState<string | null>(null)
+    const [selectedColorMap, setSelectedColorMap] = useState<Record<string, string>>({})
 
     const uniqueTemplates = templateRegistry
 
@@ -23,7 +20,6 @@ export default function TemplatesGalleryPage() {
         return uniqueTemplates.filter(template => {
             const isFree = !template.isPremium
             
-            // Map the "industries" string to a category format
             const matchesIndustry = activeIndustry === 'All' || 
                                    (activeIndustry === 'Free' ? isFree : (template.suitableFor.industries?.some(ind => ind.toLowerCase() === activeIndustry.toLowerCase()) || false))
             
@@ -34,39 +30,24 @@ export default function TemplatesGalleryPage() {
         })
     }, [activeIndustry, searchQuery, uniqueTemplates])
     
-    // Categories to display in the filter bar
-    const filterCategories = ['All', 'Executive Leadership', 'Technology', 'Healthcare', 'Finance', 'Creative', 'Free']
+    const filterCategories = ['All', 'Executive Leadership', 'Tech', 'Healthcare', 'Finance', 'Design', 'Free']
 
     return (
-        <div className="min-h-screen bg-white font-sans overflow-hidden">
-            {/* --- Premium Ambient Background --- */}
+        <div className="min-h-screen bg-neutral-950 font-sans overflow-hidden">
+            {/* --- Dark Premium Background --- */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                {/* Primary Mesh Gradient */}
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.6 }}
-                    className="absolute top-[-20%] left-[-10%] w-[100%] h-[100%] bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.08),transparent_70%)] blur-[120px]"
-                />
-                {/* Secondary Accents */}
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.4 }}
-                    className="absolute bottom-[-10%] right-[-5%] w-[80%] h-[80%] bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05),transparent_70%)] blur-[100px]"
-                />
-                {/* Sophisticated Grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000003_1px,transparent_1px),linear-gradient(to_bottom,#00000003_1px,transparent_1px)] bg-[size:32px_32px]" />
-                {/* Sharp Vertical Accents */}
-                <div className="absolute left-[10%] top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-neutral-100 to-transparent opacity-50" />
-                <div className="absolute right-[10%] top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-neutral-100 to-transparent opacity-50" />
+                <div className="absolute top-[-20%] left-[20%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.12),transparent_70%)] blur-[120px]" />
+                <div className="absolute bottom-[-10%] right-[10%] w-[50%] h-[50%] bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.08),transparent_70%)] blur-[100px]" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:48px_48px]" />
             </div>
 
-            <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-40">
+            <div className="relative z-10 max-w-[90rem] mx-auto px-6 pt-28 pb-40">
                 {/* --- Hero Section --- */}
-                <header className="mb-24 text-center max-w-4xl mx-auto">
+                <header className="mb-20 text-center max-w-4xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-900 text-white text-[10px] font-black uppercase tracking-[0.25em] mb-10 shadow-2xl shadow-neutral-200"
+                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/60 text-[10px] font-black uppercase tracking-[0.25em] mb-8 backdrop-blur-sm"
                     >
                         <Zap className="w-3 h-3 fill-primary-400 text-primary-400" />
                         Engineered for High-Conversion
@@ -76,40 +57,45 @@ export default function TemplatesGalleryPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-6xl lg:text-7xl font-black text-neutral-950 tracking-tight leading-none mb-10 uppercase italic"
+                        className="text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-none mb-8"
                     >
-                        Select Your <br />
-                        <span className="text-primary-600">Legend.</span>
+                        Resume Templates{' '}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-emerald-400">Gallery</span>
                     </motion.h1>
                     
                     <motion.p 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="text-xl md:text-2xl text-neutral-500 font-bold max-w-2xl mx-auto leading-relaxed"
+                        className="text-lg md:text-xl text-neutral-400 font-medium max-w-2xl mx-auto leading-relaxed"
                     >
-                        Our ATS-Elite templates are engineered by career architects and hiring psychologists to bypass filters and command authority.
+                        Every template is meticulously crafted by career architects. ATS-compliant, recruiter-tested, and designed to command authority.
                     </motion.p>
                 </header>
 
-                {/* --- Interactive Filter Bar --- */}
-                <div className="mb-20 flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="flex flex-wrap items-center gap-2 p-1.5 bg-neutral-50 rounded-[2rem] border border-neutral-100 shadow-sm backdrop-blur-xl">
+                {/* --- Filter Bar --- */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="mb-16 flex flex-col lg:flex-row items-center justify-between gap-6"
+                >
+                    <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-sm">
                         {filterCategories.map((category) => (
                             <button
                                 key={category}
                                 onClick={() => setActiveIndustry(category)}
                                 className={cn(
-                                    "px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 relative",
+                                    "px-5 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-widest transition-all duration-300 relative",
                                     activeIndustry === category 
                                         ? "text-white" 
-                                        : "text-neutral-400 hover:text-neutral-900"
+                                        : "text-neutral-500 hover:text-neutral-300"
                                 )}
                             >
                                 {activeIndustry === category && (
                                     <motion.div 
                                         layoutId="activeFilter"
-                                        className="absolute inset-0 bg-neutral-950 rounded-full"
+                                        className="absolute inset-0 bg-white/10 rounded-xl border border-white/10"
                                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                     />
                                 )}
@@ -118,140 +104,169 @@ export default function TemplatesGalleryPage() {
                         ))}
                     </div>
 
-                    <div className="relative group w-full md:w-80">
-                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 group-focus-within:text-primary-600 transition-colors" />
+                    <div className="relative group w-full lg:w-80">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500 group-focus-within:text-primary-400 transition-colors" />
                         <input 
                             type="text"
                             placeholder="Search templates..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-6 py-4 bg-white border border-neutral-100 rounded-2xl text-sm font-bold placeholder:text-neutral-300 focus:outline-none focus:ring-4 focus:ring-primary-50 transition-all shadow-sm group-hover:border-neutral-200"
+                            className="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm font-medium text-white placeholder:text-neutral-600 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500/50 transition-all backdrop-blur-sm"
                         />
                     </div>
+                </motion.div>
+
+                {/* --- Results Count --- */}
+                <div className="mb-8 flex items-center justify-between">
+                    <p className="text-neutral-500 text-sm font-medium">
+                        <span className="text-white font-bold">{filteredTemplates.length}</span> templates found
+                    </p>
                 </div>
 
-                {/* --- Templates Grid --- */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                {/* --- Templates Grid — Full Resume Preview --- */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     <AnimatePresence mode="popLayout">
                         {filteredTemplates.map((template, idx) => {
                             const isPremium = template.isPremium
                             const colors = template.colors || []
-                            const activeColor = colors[0]?.id || 'standard'
+                            const activeColor = selectedColorMap[template.id] || colors[0]?.id || 'standard'
+                            const isHovered = hoveredId === template.id
                             
                             return (
                                 <motion.div
                                     layout
                                     key={template.id}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.5, delay: idx * 0.05 }}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 20 }}
+                                    transition={{ duration: 0.4, delay: Math.min(idx * 0.04, 0.4) }}
                                     className="group relative"
+                                    onMouseEnter={() => setHoveredId(template.id)}
+                                    onMouseLeave={() => setHoveredId(null)}
                                 >
-                                    {/* Glass Card Container */}
-                                    <div className="relative rounded-[2.5rem] bg-white border border-neutral-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-700 group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] group-hover:-translate-y-5 flex flex-col h-full">
-                                        
-                                        {/* Template Preview with Hover Logic */}
-                                        <div className="aspect-[210/297] relative bg-neutral-100 overflow-hidden cursor-pointer" onClick={() => window.location.href = `/editor/setup?template=${template.id}&color=${activeColor}`}>
+                                    <div className="relative flex flex-col h-full">
+                                        {/* Resume Preview — Clean, No Device Frame */}
+                                        <div className={cn(
+                                            "relative aspect-[210/297] rounded-2xl overflow-hidden ring-1 ring-white/10 bg-white transition-all duration-500",
+                                            isHovered && "ring-2 ring-primary-500/60 shadow-[0_0_60px_-10px_rgba(99,102,241,0.3)]"
+                                        )}>
                                             <TemplateThumbnail 
                                                 template={template}
                                                 activeColorId={activeColor}
-                                                className="w-full h-full object-cover origin-top transition-transform duration-700 group-hover:scale-110"
+                                                className="w-full h-full"
                                             />
                                             
-                                            {/* Top Accents */}
-                                            <div className="absolute top-6 left-6 z-20 flex gap-2">
+                                            {/* Badges */}
+                                            <div className="absolute top-3 left-3 z-20 flex gap-1.5">
                                                 {isPremium ? (
-                                                    <div className="px-3 py-1 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-white text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5 shadow-xl">
-                                                        <Star className="w-3 h-3 fill-white text-white" />
-                                                        Premium
+                                                    <div className="px-2.5 py-1 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 text-white text-[9px] font-black uppercase tracking-wider flex items-center gap-1 shadow-lg">
+                                                        <Star className="w-2.5 h-2.5 fill-white" />
+                                                        Pro
                                                     </div>
                                                 ) : (
-                                                    <div className="px-3 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-black uppercase tracking-[0.2em] shadow-xl">
+                                                    <div className="px-2.5 py-1 rounded-lg bg-emerald-500 text-white text-[9px] font-black uppercase tracking-wider shadow-lg">
                                                         Free
+                                                    </div>
+                                                )}
+                                                {template.atsCompliant && (
+                                                    <div className="px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
+                                                        <Shield className="w-2.5 h-2.5" />
+                                                        ATS
                                                     </div>
                                                 )}
                                             </div>
 
-                                            {/* Hover Overlay */}
-                                            <div className="absolute inset-0 transition-all duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
+                                            {/* Hover Overlay with Actions */}
+                                            <div className={cn(
+                                                "absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col items-center justify-end pb-8 gap-3 transition-all duration-400",
+                                                isHovered ? "opacity-100" : "opacity-0"
+                                            )}>
                                                 <Link 
                                                     href={`/editor/setup?template=${template.id}&color=${activeColor}`}
-                                                    className="px-10 py-5 bg-white text-neutral-950 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-[0_20px_50px_rgba(0,0,0,0.25)] border border-neutral-200 hover:scale-110 active:scale-95 transition-all flex items-center gap-2 pointer-events-auto"
+                                                    className="px-8 py-3 bg-white text-neutral-950 rounded-full font-black text-[11px] uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
                                                 >
-                                                    Build With This
-                                                    <ArrowRight className="w-4 h-4" />
+                                                    Use Template
+                                                    <ArrowRight className="w-3.5 h-3.5" />
+                                                </Link>
+                                                <Link
+                                                    href={`/templates/${template.id}`}
+                                                    className="px-6 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-white/25 transition-all flex items-center gap-1.5"
+                                                >
+                                                    <Eye className="w-3 h-3" />
+                                                    Preview
                                                 </Link>
                                             </div>
                                         </div>
 
-                                        {/* Content Area */}
-                                        <div className="p-6 pb-8 flex-1 flex flex-col">
-                                            <div className="flex items-start justify-between mb-4">
-                                                <h3 className="text-2xl font-black text-neutral-950 tracking-tight leading-tight group-hover:text-primary-600 transition-colors">
+                                        {/* Info Below the Preview */}
+                                        <div className="pt-4 pb-2 px-1">
+                                            <div className="flex items-start justify-between gap-2 mb-2">
+                                                <h3 className="text-sm font-bold text-white group-hover:text-primary-400 transition-colors leading-tight">
                                                     {template.name}
                                                 </h3>
                                             </div>
                                             
-                                            <p className="text-neutral-500 font-medium text-sm mb-8 leading-relaxed line-clamp-3 flex-1">
+                                            <p className="text-neutral-500 text-xs leading-relaxed line-clamp-2 mb-3">
                                                 {template.description}
                                             </p>
 
+                                            {/* Color Swatches */}
                                             <div className="flex items-center justify-between">
-                                                <div className="flex -space-x-2">
-                                                    {colors.slice(0, 3).map((c) => (
-                                                        <div 
-                                                            key={c.id} 
-                                                            className="w-6 h-6 rounded-full border-2 border-white shadow-sm"
+                                                <div className="flex items-center gap-1">
+                                                    {colors.map((c) => (
+                                                        <button 
+                                                            key={c.id}
+                                                            onClick={() => setSelectedColorMap(prev => ({ ...prev, [template.id]: c.id }))}
+                                                            className={cn(
+                                                                "w-4 h-4 rounded-full border transition-all duration-200 hover:scale-125",
+                                                                activeColor === c.id
+                                                                    ? "border-primary-400 ring-2 ring-primary-400/30 scale-110"
+                                                                    : "border-white/20 hover:border-white/40"
+                                                            )}
                                                             style={{ backgroundColor: c.hex }}
                                                             title={c.name}
                                                         />
                                                     ))}
                                                 </div>
-                                                <div className="flex gap-2">
-                                                    {template.suitableFor.careerLevels.slice(0, 1).map(l => (
-                                                        <span key={l} className="text-[10px] font-black uppercase tracking-widest text-neutral-400 bg-neutral-100 px-2 py-1 rounded-md">{l}</span>
+                                                <div className="flex gap-1.5">
+                                                    {template.suitableFor.careerLevels.slice(0, 2).map(l => (
+                                                        <span key={l} className="text-[9px] font-bold uppercase tracking-widest text-neutral-600 bg-white/5 px-2 py-0.5 rounded">{l}</span>
                                                     ))}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* Bottom Decorative Element */}
-                                    <div className="absolute -bottom-6 left-12 right-12 h-6 bg-neutral-950/5 blur-2xl -z-10 group-hover:bg-primary-600/10 transition-all" />
                                 </motion.div>
                             )
                         })}
                     </AnimatePresence>
                 </div>
 
-                {/* --- Global Call to Action --- */}
+                {/* --- Call to Action --- */}
                 <motion.section 
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     className="mt-40 text-center relative"
                 >
-                    <div className="absolute inset-0 bg-primary-50/50 blur-[100px] rounded-full pointer-events-none" />
-                    <div className="relative z-10 p-16 md:p-24 rounded-[4rem] bg-neutral-950 text-white overflow-hidden shadow-2xl">
-                        {/* Decorative Background Elements */}
-                        <div className="absolute top-0 right-0 w-80 h-80 bg-primary-600/20 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2" />
-                        <div className="absolute bottom-0 left-0 w-60 h-60 bg-emerald-600/20 blur-[60px] rounded-full translate-y-1/2 -translate-x-1/2" />
+                    <div className="relative z-10 p-16 md:p-24 rounded-[3rem] bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 overflow-hidden backdrop-blur-sm">
+                        <div className="absolute top-0 right-0 w-80 h-80 bg-primary-600/15 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2" />
+                        <div className="absolute bottom-0 left-0 w-60 h-60 bg-emerald-600/10 blur-[80px] rounded-full translate-y-1/2 -translate-x-1/2" />
                         
-                        <h2 className="text-5xl md:text-7xl font-black mb-10 tracking-tight leading-[0.9] uppercase italic">
+                        <h2 className="text-4xl md:text-6xl font-black mb-8 tracking-tight leading-[0.95] text-white">
                             Your Elite Career <br />
-                            <span className="text-primary-400">Begins Here.</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-emerald-400">Begins Here.</span>
                         </h2>
                         
-                        <p className="text-xl md:text-2xl text-neutral-400 font-bold mb-16 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-lg md:text-xl text-neutral-400 font-medium mb-12 max-w-2xl mx-auto leading-relaxed">
                             Stop settling for generic templates. Command recruiter attention with the platform designed for high-performance careers.
                         </p>
                         
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                            <Link href="/onboarding" className="w-full sm:w-auto px-12 py-6 bg-primary-500 text-white rounded-full font-black text-sm uppercase tracking-[0.2em] shadow-2xl hover:bg-primary-400 hover:scale-105 active:scale-95 transition-all">
-                                Get Started for Free
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <Link href="/onboarding" className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-full font-black text-sm uppercase tracking-widest shadow-2xl shadow-primary-500/25 hover:shadow-primary-500/40 hover:scale-105 active:scale-95 transition-all">
+                                Get Started Free
                             </Link>
-                            <Link href="/ats-resume-scanner" className="w-full sm:w-auto px-12 py-6 bg-white/10 text-white backdrop-blur-xl border border-white/20 rounded-full font-black text-sm uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 active:scale-95 transition-all">
+                            <Link href="/ats-resume-scanner" className="w-full sm:w-auto px-10 py-4 bg-white/5 text-white backdrop-blur-sm border border-white/10 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-white/10 hover:scale-105 active:scale-95 transition-all">
                                 Scan Your Resume
                             </Link>
                         </div>

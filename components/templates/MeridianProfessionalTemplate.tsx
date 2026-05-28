@@ -3,7 +3,6 @@
 import React from 'react'
 import { ResumeDocument } from '@/lib/types/resume'
 import { cn } from '@/lib/utils'
-import { Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react'
 
 interface TemplateProps {
     data: ResumeDocument
@@ -12,17 +11,16 @@ interface TemplateProps {
 }
 
 /**
- * ATS Meridian Template — "The Modern Professional"
+ * Meridian Professional Template — "The Modern Two-Column"
  *
- * A highly-compact, single-page optimized ATS template.
- * Split-weight header text with top-right right-aligned contact info.
- * Left sidebar holds education, skills, languages. 
- * Right main column features summary and work experience.
+ * A sophisticated two-column layout optimized for modern professionals.
+ * Features balanced typography with professional header styling.
+ * Left sidebar holds education, skills, and languages with clean organization.
+ * Right main column features summary and work experience with refined formatting.
  *
- * ATS-compliant: linear DOM order, semantic headings, no absolute
- * positioning, clean text rendering.
+ * Note: Two-column layout is optimized for visual appeal, not ATS parsing.
  */
-export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
+export function MeridianProfessionalTemplate({ data, className, accentColor = 'text-neutral-900' }: TemplateProps) {
     const {
         personalInfo,
         professionalSummary,
@@ -51,21 +49,21 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
 
     // Sidebar section header
     const SidebarHeader = ({ title }: { title: string }) => (
-        <div className="mt-5 mb-2.5 first:mt-0">
-            <h2 className={cn('text-[10px] font-black uppercase tracking-[0.25em] text-neutral-900 pb-1.5')}>
+        <div className="mt-6 mb-3 first:mt-0">
+            <h2 className={cn('text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-900 pb-2')}>
                 {title}
             </h2>
-            <div className="h-[2px] w-full bg-neutral-200" />
+            <div className="h-[1.5px] w-full bg-neutral-300" />
         </div>
     )
 
     // Main section header
     const MainHeader = ({ title }: { title: string }) => (
-        <div className="mt-5 mb-3 first:mt-0">
-            <h2 className={cn('text-[10px] font-black uppercase tracking-[0.25em] pb-1.5', accentColor)}>
+        <div className="mt-6 mb-3 first:mt-0">
+            <h2 className={cn('text-[11px] font-bold uppercase tracking-[0.2em] pb-2', accentColor)}>
                 {title}
             </h2>
-            <div className="h-[2px] w-full bg-neutral-200" />
+            <div className="h-[1.5px] w-full bg-neutral-300" />
         </div>
     )
 
@@ -106,56 +104,51 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
         <div className={cn('w-full flex flex-col bg-white text-neutral-800 font-sans leading-snug min-h-full', className)}>
 
             {/* ═══ HEADER ═══ */}
-            <header className="w-full px-8 py-6 flex justify-between items-center bg-white">
-                <div>
-                    <h1 className="leading-[1] mb-1.5 flex items-baseline gap-2">
-                        <span className={cn('text-[36px] font-black uppercase tracking-tight', accentColor)}>
-                            {firstName}
-                        </span>
-                        <span className={cn('text-[36px] font-light uppercase tracking-tight', accentColor)}>
-                            {lastName}
+            <header className="w-full px-10 py-7 flex justify-between items-start bg-white border-b-2 border-neutral-200">
+                <div className="flex-1">
+                    <h1 className="leading-[1.1] mb-2">
+                        <span className={cn('text-[32px] font-bold tracking-tight', accentColor)}>
+                            {personalInfo?.fullName || 'YOUR NAME'}
                         </span>
                     </h1>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.45em] text-neutral-500">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-500">
                         {personalInfo?.professionalTitle || 'PROFESSIONAL TITLE'}
                     </p>
                 </div>
 
-                <div className="flex flex-col items-end gap-1.5 text-[9.5px] text-neutral-600">
+                <div className="flex flex-col items-end gap-2 text-[10px] text-neutral-600 mt-1">
                     {personalInfo?.phone && (
-                        <div className="flex items-center gap-1.5">
-                            <Phone className="w-3 h-3 text-neutral-400" />
-                            <span>{personalInfo.phone}</span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-neutral-400 text-[9px] uppercase tracking-wider font-semibold">Phone</span>
+                            <span className="font-medium">{personalInfo.phone}</span>
                         </div>
                     )}
                     {(personalInfo?.city || personalInfo?.country || personalInfo?.location) && (
-                        <div className="flex items-center gap-1.5">
-                            <MapPin className="w-3 h-3 text-neutral-400" />
-                            <span>{personalInfo?.location || [personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-neutral-400 text-[9px] uppercase tracking-wider font-semibold">Location</span>
+                            <span className="font-medium">{personalInfo?.location || [personalInfo?.city, personalInfo?.country].filter(Boolean).join(', ')}</span>
                         </div>
                     )}
                     {personalInfo?.email && (
-                        <div className="flex items-center gap-1.5">
-                            <Mail className="w-3 h-3 text-neutral-400" />
-                            <span>{personalInfo.email}</span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-neutral-400 text-[9px] uppercase tracking-wider font-semibold">Email</span>
+                            <span className="font-medium">{personalInfo.email}</span>
                         </div>
                     )}
                     {personalInfo?.linkedinUrl && (
-                        <div className="flex items-center gap-1.5">
-                            <Linkedin className="w-3 h-3 text-neutral-400" />
-                            <span>{personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-neutral-400 text-[9px] uppercase tracking-wider font-semibold">LinkedIn</span>
+                            <span className="font-medium">{personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
                         </div>
                     )}
                     {personalInfo?.portfolioUrl && (
-                        <div className="flex items-center gap-1.5">
-                            <Globe className="w-3 h-3 text-neutral-400" />
-                            <span>{personalInfo.portfolioUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-neutral-400 text-[9px] uppercase tracking-wider font-semibold">Portfolio</span>
+                            <span className="font-medium">{personalInfo.portfolioUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
                         </div>
                     )}
                 </div>
             </header>
-
-            <div className="w-full h-px bg-neutral-200" />
 
             {/* ═══ DOCUMENT TYPE OVERRIDES ═══ */}
             {data.documentType === 'cover_letter' ? (
@@ -192,26 +185,26 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
                 </div>
             ) : (
                 <div className="flex w-full flex-1">
-                    {/* ─── LEFT SIDEBAR (Gray Background) ─── */}
-                    <aside className="w-[32%] shrink-0 bg-[#f3f4f6] px-6 py-6 border-r border-neutral-200/60">
+                    {/* ─── LEFT SIDEBAR (Light Gray Background) ─── */}
+                    <aside className="w-[34%] shrink-0 bg-[#fafafa] px-7 py-7 border-r border-neutral-200">
                         
                         {/* Education */}
                         {education && education.length > 0 && (
                             <section>
                                 <SidebarHeader title="Education" />
-                                <div className="space-y-3.5">
+                                <div className="space-y-4">
                                     {education.map((edu, i) => (
                                         <div key={i}>
-                                            <h3 className="text-[10.5px] font-black text-neutral-900 leading-tight">
+                                            <h3 className="text-[11px] font-bold text-neutral-900 leading-tight">
                                                 {edu.degree}
                                             </h3>
                                             {(edu.major || edu.fieldOfStudy) && (
-                                                <p className="text-[10px] text-neutral-700 mt-0.5">
+                                                <p className="text-[10px] text-neutral-700 mt-1">
                                                     {edu.major || edu.fieldOfStudy}
                                                 </p>
                                             )}
-                                            <p className="text-[10px] text-neutral-600 italic mt-0.5">{edu.institutionName}</p>
-                                            <p className="text-[9.5px] text-neutral-500 mt-0.5">
+                                            <p className="text-[10px] text-neutral-600 mt-1">{edu.institutionName}</p>
+                                            <p className="text-[10px] text-neutral-500 mt-1">
                                                 {fmtDateRange(edu.startYear?.toString(), edu.endYear?.toString())}
                                             </p>
                                         </div>
@@ -224,10 +217,11 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
                         {groupedSkills['professional'] && groupedSkills['professional'].length > 0 && (
                             <section>
                                 <SidebarHeader title="Core Skills" />
-                                <ul className="flex flex-col">
+                                <ul className="flex flex-col gap-2">
                                     {groupedSkills['professional'].map((s, i) => (
-                                        <li key={i} className="py-1.5 text-[10px] text-neutral-700 border-b border-neutral-200/80 last:border-0">
-                                            {s.skillName}
+                                        <li key={i} className="text-[10px] text-neutral-700 flex items-start gap-2">
+                                            <span className="mt-1 w-1.5 h-1.5 rounded-full bg-neutral-400 shrink-0" />
+                                            <span>{s.skillName}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -237,11 +231,12 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
                         {/* Tools (Technical) */}
                         {groupedSkills['technical'] && groupedSkills['technical'].length > 0 && (
                             <section>
-                                <SidebarHeader title="Tools" />
-                                <ul className="flex flex-col">
+                                <SidebarHeader title="Technical Skills" />
+                                <ul className="flex flex-col gap-2">
                                     {groupedSkills['technical'].map((s, i) => (
-                                        <li key={i} className="py-1.5 text-[10px] text-neutral-700 border-b border-neutral-200/80 last:border-0">
-                                            {s.skillName}
+                                        <li key={i} className="text-[10px] text-neutral-700 flex items-start gap-2">
+                                            <span className="mt-1 w-1.5 h-1.5 rounded-full bg-neutral-400 shrink-0" />
+                                            <span>{s.skillName}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -252,11 +247,30 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
                         {languages && languages.length > 0 && (
                             <section>
                                 <SidebarHeader title="Languages" />
-                                <div className="space-y-0">
+                                <div className="space-y-2">
                                     {languages.map((l, i) => (
-                                        <div key={i} className="flex justify-between items-center py-1.5 border-b border-neutral-200/80 last:border-0 text-[10px]">
-                                            <span className="text-neutral-800">{l.languageName}</span>
-                                            {l.proficiencyLevel && <span className="text-[9.5px] text-neutral-400 capitalize">{l.proficiencyLevel}</span>}
+                                        <div key={i} className="flex justify-between items-center text-[10px]">
+                                            <span className="text-neutral-800 font-medium">{l.languageName}</span>
+                                            {l.proficiencyLevel && <span className="text-[9px] text-neutral-500 capitalize">{l.proficiencyLevel}</span>}
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Certifications in Sidebar */}
+                        {certifications && certifications.length > 0 && (
+                            <section>
+                                <SidebarHeader title="Certifications" />
+                                <div className="space-y-3">
+                                    {certifications.map((c, i) => (
+                                        <div key={i}>
+                                            <div className="text-[10px] font-bold text-neutral-900 leading-tight">{c.certificationName}</div>
+                                            {c.issuingOrganization && (
+                                                <div className="text-[9px] text-neutral-600 mt-0.5">
+                                                    {c.issuingOrganization}{(c.issueYear || c.issueDate) && ` • ${c.issueYear || c.issueDate}`}
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -270,9 +284,9 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
                                 <div className="space-y-3">
                                     {volunteerExperience.map((vol, i) => (
                                         <div key={i}>
-                                            <h3 className="text-[10.5px] font-black text-neutral-900">{vol.roleTitle}</h3>
+                                            <h3 className="text-[10px] font-bold text-neutral-900">{vol.roleTitle}</h3>
                                             <p className="text-[10px] text-neutral-600 mt-0.5">{vol.organizationName}</p>
-                                            <p className="text-[9.5px] text-neutral-500 mt-0.5">
+                                            <p className="text-[9px] text-neutral-500 mt-0.5">
                                                 {vol.startDate}{vol.endDate ? ` – ${vol.endDate}` : ''}
                                             </p>
                                         </div>
@@ -283,13 +297,13 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
                     </aside>
 
                     {/* ─── MAIN CONTENT (White Background) ─── */}
-                    <main className="w-[68%] px-8 py-6 bg-white">
+                    <main className="w-[66%] px-9 py-7 bg-white">
 
                         {/* Summary */}
                         {professionalSummary?.summaryText && (
                             <section>
-                                <MainHeader title="Summary" />
-                                <p className="text-[10.5px] text-neutral-700 leading-[1.6] text-justify">
+                                <MainHeader title="Professional Summary" />
+                                <p className="text-[11px] text-neutral-700 leading-[1.6]">
                                     {professionalSummary.summaryText}
                                 </p>
                             </section>
@@ -298,38 +312,43 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
                         {/* Professional History */}
                         {workExperience && workExperience.length > 0 && (
                             <section>
-                                <MainHeader title="Professional History" />
-                                <div className="space-y-4">
+                                <MainHeader title="Professional Experience" />
+                                <div className="space-y-5">
                                     {workExperience.map((job, i) => (
                                         <div key={i}>
                                             {/* Title */}
-                                            <h3 className="text-[11.5px] font-black text-neutral-900 mb-0.5">
+                                            <h3 className="text-[12px] font-bold text-neutral-900 mb-1">
                                                 {job.jobTitle}
                                             </h3>
                                             
                                             {/* Company & Date row */}
-                                            <div className="flex items-center text-[10px] text-neutral-500 mb-2 font-medium">
-                                                <span className="italic">{job.companyName}</span>
-                                                {(job.location || job.startDate) && <span className="mx-2 text-neutral-300">·</span>}
-                                                {job.location && <span>{job.location}</span>}
-                                                {(job.location && job.startDate) && <span className="mx-2 text-neutral-300">·</span>}
-                                                <span>{fmtFullRange(job.startDate, job.endDate, job.isCurrent)}</span>
+                                            <div className="flex items-center justify-between text-[10px] text-neutral-600 mb-2.5">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-semibold">{job.companyName}</span>
+                                                    {job.location && (
+                                                        <>
+                                                            <span className="text-neutral-300">•</span>
+                                                            <span>{job.location}</span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <span className="text-neutral-500">{fmtFullRange(job.startDate, job.endDate, job.isCurrent)}</span>
                                             </div>
 
                                             {/* Description */}
                                             {job.roleDescription && (
-                                                <p className="text-[10.5px] text-neutral-700 leading-[1.6] mb-2 text-justify">
+                                                <p className="text-[10.5px] text-neutral-700 leading-[1.6] mb-2.5">
                                                     {job.roleDescription}
                                                 </p>
                                             )}
 
                                             {/* Achievements */}
                                             {job.achievements && job.achievements.length > 0 && (
-                                                <ul className="space-y-1.5">
+                                                <ul className="space-y-2">
                                                     {job.achievements.map((a, j) => (
-                                                        <li key={j} className="text-[10.5px] text-neutral-700 leading-[1.5] flex gap-2">
-                                                            <span className="mt-[6px] w-[3px] h-[3px] rounded-full bg-neutral-400 shrink-0" />
-                                                            <span className="text-justify">{a.achievementText}</span>
+                                                        <li key={j} className="text-[10.5px] text-neutral-700 leading-[1.5] flex gap-2.5">
+                                                            <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-neutral-400 shrink-0" />
+                                                            <span>{a.achievementText}</span>
                                                         </li>
                                                     ))}
                                                 </ul>
@@ -340,54 +359,40 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
                             </section>
                         )}
 
-                        {/* Certifications */}
-                        {certifications && certifications.length > 0 && (
+                        {/* Projects */}
+                        {projects && projects.length > 0 && (
                             <section>
-                                <MainHeader title="Certifications" />
-                                <ul className="space-y-2">
-                                    {certifications.map((c, i) => (
-                                        <li key={i} className="text-[10.5px] text-neutral-700 flex items-start gap-2">
-                                            <span className="mt-[6px] w-[3px] h-[3px] rounded-full bg-neutral-400 shrink-0" />
-                                            <div>
-                                                <span className="text-neutral-900">{c.certificationName}</span>
-                                                {c.issuingOrganization && <span className="text-neutral-500"> — {c.issuingOrganization}</span>}
-                                                {(c.issueYear || c.issueDate) && <span className="text-neutral-400">, {c.issueYear || c.issueDate}</span>}
-                                            </div>
-                                        </li>
+                                <MainHeader title="Key Projects" />
+                                <div className="space-y-4">
+                                    {projects.map((proj, i) => (
+                                        <div key={i}>
+                                            <h3 className="text-[11px] font-bold text-neutral-900 mb-1">{proj.projectName}</h3>
+                                            {proj.role && <p className="text-[10px] text-neutral-500 italic mb-1">{proj.role}</p>}
+                                            {proj.description && (
+                                                <p className="text-[10.5px] text-neutral-700 leading-[1.6]">{proj.description}</p>
+                                            )}
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
                             </section>
                         )}
 
-                        {/* References (2x2 Grid with borders) */}
+                        {/* References */}
                         {references && references.length > 0 && (
                             <section>
                                 <MainHeader title="References" />
-                                <div className="grid grid-cols-2 gap-3 mt-2">
+                                <div className="grid grid-cols-2 gap-4 mt-2">
                                     {references.map((ref, i) => (
-                                        <div key={i} className="p-3 bg-neutral-50/50 border border-neutral-200 border-t-[2px] border-t-neutral-900 flex flex-col">
-                                            <span className="text-[11px] font-black text-neutral-900 mb-0.5">{ref.referenceName || ref.name}</span>
-                                            <span className="text-[9.5px] text-neutral-600 italic leading-tight mb-1.5">
+                                        <div key={i} className="p-3 bg-neutral-50 border border-neutral-200 rounded-sm">
+                                            <span className="text-[11px] font-bold text-neutral-900 block mb-1">{ref.referenceName || ref.name}</span>
+                                            <span className="text-[10px] text-neutral-600 block mb-2">
                                                 {ref.role || ref.title}{(ref.organization || ref.company) && `, ${ref.organization || ref.company}`}
                                             </span>
-                                            
-                                            <div className="mt-auto pt-1.5 space-y-0.5">
-                                                {((ref as any).email || ref.contactDetails || (ref as any).contactInfo) && (
-                                                    <div className="text-[9px] text-neutral-500 font-medium">
-                                                        {((ref as any).email || ref.contactDetails || (ref as any).contactInfo)}
-                                                    </div>
-                                                )}
-                                                {(ref as any).phone && (
-                                                    <div className="text-[9px] text-neutral-500 font-medium">
-                                                        {(ref as any).phone}
-                                                    </div>
-                                                )}
-                                                {(ref as any).relationship && (
-                                                    <div className="text-[8.5px] font-black uppercase tracking-widest text-neutral-400 mt-1.5">
-                                                        {(ref as any).relationship}
-                                                    </div>
-                                                )}
-                                            </div>
+                                            {((ref as any).email || ref.contactDetails || (ref as any).contactInfo) && (
+                                                <div className="text-[9px] text-neutral-500">
+                                                    {((ref as any).email || ref.contactDetails || (ref as any).contactInfo)}
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -398,13 +403,13 @@ export function ATSMeridianTemplate({ data, className, accentColor = 'text-neutr
                         {customSections && customSections.map((s, si) => (
                             <section key={si}>
                                 <MainHeader title={s.title} />
-                                {s.content && <p className="text-[10.5px] text-neutral-700 leading-[1.6] text-justify mb-2">{s.content}</p>}
+                                {s.content && <p className="text-[11px] text-neutral-700 leading-[1.6] mb-2">{s.content}</p>}
                                 {s.items && s.items.length > 0 && (
-                                    <ul className="space-y-1.5">
+                                    <ul className="space-y-2">
                                         {s.items.map((item, ii) => (
-                                            <li key={ii} className="text-[10.5px] text-neutral-700 flex gap-2 leading-[1.5]">
-                                                <span className="mt-[6px] w-[3px] h-[3px] rounded-full bg-neutral-400 shrink-0" />
-                                                <span className="text-justify">{item.text}</span>
+                                            <li key={ii} className="text-[10.5px] text-neutral-700 flex gap-2.5 leading-[1.5]">
+                                                <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-neutral-400 shrink-0" />
+                                                <span>{item.text}</span>
                                             </li>
                                         ))}
                                     </ul>

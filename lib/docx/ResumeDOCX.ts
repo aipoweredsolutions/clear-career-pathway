@@ -33,8 +33,8 @@ export class ResumeDOCX {
         const hasSidebar = 
             id.startsWith('elegant-split') || 
             id.startsWith('prestige') ||
-            id.startsWith('ats-sterling') ||
-            id.startsWith('ats-classic-left') ||
+            id.startsWith('sterling-corporate') ||
+            id.startsWith('classic-left-header') ||
             id.includes('sidebar')
 
         const isCentered = id.startsWith('classic') ||
@@ -62,7 +62,7 @@ export class ResumeDOCX {
         } else if (data.formatting?.fontFamily === 'sans') {
             font = 'Arial';
         } else {
-            const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('ats-sterling') || id.startsWith('ats-academia');
+            const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('sterling-corporate') || id.startsWith('ats-academia');
             const isStandardSerif = id.startsWith('ats-classic') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
             if (isEtsyPremiumSerif || isStandardSerif) font = 'Georgia';
             else if (id.includes('technical')) font = 'Courier New';

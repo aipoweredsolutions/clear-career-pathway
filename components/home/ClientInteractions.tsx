@@ -67,7 +67,7 @@ export function TemplateGallery() {
             const categoryMatch = selectedCategory === 'All' ||
                 (selectedCategory === 'Executive Elite' && (template.id.startsWith('elite-'))) ||
                 (selectedCategory === 'Free' && !template.isPremium) ||
-                (selectedCategory === 'Essential' && ['ats-professional', 'ats-minimal', 'ats-minimal-mono', 'ats-classic', 'ats-executive', 'ats-classic-left'].includes(template.id)) ||
+                (selectedCategory === 'Essential' && ['ats-professional', 'ats-minimal', 'ats-minimal-mono', 'ats-classic', 'ats-executive', 'classic-left-header'].includes(template.id)) ||
                 (selectedCategory === 'Modern Clean' && ['ats-modern', 'ats-timeline', 'classic-clean'].includes(template.id)) ||
                 (selectedCategory === 'Healthcare' && ['ats-nursing', 'ats-standard-nursing'].includes(template.id)) ||
                 (selectedCategory === 'Academic' && template.id === 'ats-academia');
@@ -81,11 +81,11 @@ export function TemplateGallery() {
         // Sorting logic: Elite ATS-Compliant first, then Premium, then Free
         const eliteIds = [
             'ats-cornerstone',
-            'ats-meridian',
+            'meridian-professional',
             'elite-alpine', 
             'elite-london', 
-            'elite-haskins', 
-            'elite-parker', 
+            'elite-kyoto', 
+            'elite-summit', 
             'ats-timeline',
             'ats-executive',
             'ats-classic'

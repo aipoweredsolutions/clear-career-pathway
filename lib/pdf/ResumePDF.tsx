@@ -57,8 +57,8 @@ export const ResumePDF = ({ data, isWatermarked = false }: ResumePDFProps) => {
     const isSidebarLayout = 
         templateId.startsWith('elegant-split') || 
         templateId.startsWith('prestige') ||
-        templateId.startsWith('ats-sterling') ||
-        templateId.startsWith('ats-classic-left') ||
+        templateId.startsWith('sterling-corporate') ||
+        templateId.startsWith('classic-left-header') ||
         templateId.includes('sidebar')
 
     return (

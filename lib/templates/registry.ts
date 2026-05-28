@@ -40,9 +40,9 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 3. ELITE HASKINS (Multipage Executive) ---
+    // --- 3. ELITE KYOTO (Multipage Executive) ---
     {
-        id: 'elite-haskins',
+        id: 'elite-kyoto',
         name: 'Elite Kyoto',
         description: 'A minimalist, zen-inspired executive layout with generous white space and clean typography. Features clean horizontal dividers, a grid-based skills matrix, and high information density without sacrificing visual breathing room. Perfect for established professionals with extensive experience.',
         suitableFor: {
@@ -59,9 +59,9 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 4. ELITE PARKER (Modern Sans-Serif) ---
+    // --- 4. ELITE SUMMIT (Modern Sans-Serif) ---
     {
-        id: 'elite-parker',
+        id: 'elite-summit',
         name: 'Elite Summit',
         description: 'A bold, modern executive layout with high-contrast headers and a structured, professional feel. Engineered for maximum ATS readability while providing a clean, architectural aesthetic. Ideal for tech leaders, modern corporate roles, and minimalist-leaning executives.',
         suitableFor: {
@@ -380,11 +380,11 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 18c. ATS MERIDIAN ---
+    // --- 18c. MERIDIAN PROFESSIONAL (Modern Two-Column) ---
     {
-        id: 'ats-meridian',
+        id: 'meridian-professional',
         name: 'Meridian Professional',
-        description: 'A bold, modern two-column resume featuring a dramatic split-weight header with the first name in heavy black type and the last name in ultralight. Left sidebar holds icon-based contact details, education, skills, and languages. Right main column features an italic serif summary and work experience with timeline circle markers. Perfectly suited for product managers, tech leaders, and modern professionals.',
+        description: 'A bold, modern two-column resume featuring a dramatic split-weight header with sophisticated typography. Left sidebar holds contact details, education, skills, and languages with clean organization. Right main column features professional summary and work experience with refined formatting. Perfectly suited for product managers, tech leaders, and modern professionals. Note: Two-column layout is not ATS-optimized.',
         suitableFor: {
             careerLevels: ['mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'technical', 'creative'],
@@ -403,11 +403,11 @@ export const templateRegistry: TemplateMetadata[] = [
 
     // --- 21. ATS METRO (Removed) ---
 
-    // --- 22. ATS CLASSIC LEFT ---
+    // --- 22. CLASSIC LEFT HEADER (Unique Layout) ---
     {
-        id: 'ats-classic-left',
+        id: 'classic-left-header',
         name: 'Classic Left Header',
-        description: 'A premium, high-impact ATS-compliant template that breaks from traditional layouts with a sophisticated left-aligned column for headers and dates. Engineered with a strictly linear DOM structure to ensure 100% machine readability while providing a unique, executive visual identity.',
+        description: 'A distinctive professional template with a sophisticated left-aligned layout for headers and dates. Features clean typography and a unique visual structure that stands out while maintaining professional credibility. Best for creative corporate roles and modern business professionals. Note: Unconventional layout is not ATS-optimized.',
         suitableFor: {
             careerLevels: ['mid', 'senior', 'executive'],
             jobTypes: ['corporate', 'academic'],
@@ -424,11 +424,11 @@ export const templateRegistry: TemplateMetadata[] = [
         ]
     },
 
-    // --- 25. ATS STERLING (Two-Column Corporate) ---
+    // --- 25. STERLING CORPORATE (Two-Column Executive) ---
     {
-        id: 'ats-sterling',
-        name: 'Canyon Corporate',
-        description: 'A polished two-column corporate template inspired by Fortune 500 executive résumés. Features a bold header with professional title in small caps, a vertical divider separating main experience from a sidebar with contact details, education, and grouped core competencies. Ideal for operations directors, strategy leads, and senior management professionals.',
+        id: 'sterling-corporate',
+        name: 'Sterling Corporate',
+        description: 'A polished two-column corporate template inspired by Fortune 500 executive résumés. Features a bold header with professional title in small caps, elegant sidebar with contact details, education, and grouped core competencies. Ideal for operations directors, strategy leads, and senior management professionals. Note: Two-column layout with sidebar is not ATS-optimized.',
         suitableFor: {
             careerLevels: ['mid', 'senior', 'executive'],
             jobTypes: ['corporate'],

@@ -128,7 +128,7 @@ export const Section = ({ title, styles, children, isFirst, templateId = '', ind
         )
     }
 
-    if (templateId.startsWith('ats-sterling')) {
+    if (templateId.startsWith('sterling-corporate')) {
         return (
             <View style={[styles.section, isFirst && styles.sectionFirst]}>
                 <View style={{ marginTop: 24, marginBottom: 12 }}>
@@ -176,7 +176,7 @@ export const Section = ({ title, styles, children, isFirst, templateId = '', ind
         )
     }
 
-    if (templateId.startsWith('elite-parker')) {
+    if (templateId.startsWith('elite-summit')) {
         return (
             <View style={[styles.section, isFirst && styles.sectionFirst]}>
                 <View style={{ marginTop: 24, marginBottom: 15 }}>

@@ -71,7 +71,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                 const heightPx = entry.target.scrollHeight
                 const templateId = previewData.templateId || ''
                 const isFullBleed = templateId.startsWith('elegant-split') ||
-                                    templateId.startsWith('ats-sterling') ||
+                                    templateId.startsWith('sterling-corporate') ||
                                     templateId.startsWith('ats-royal-scholar')
                 
                 const pageHeightMm = isFullBleed ? 297 : 287
@@ -210,7 +210,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
                                         const templateId = previewData.templateId || ''
                                         const isElegantSplit = templateId.startsWith('elegant-split')
                                         const isFullBleed = templateId.startsWith('elegant-split') ||
-                                                            templateId.startsWith('ats-sterling') ||
+                                                            templateId.startsWith('sterling-corporate') ||
                                                             templateId.startsWith('ats-royal-scholar')
                                         
                                         const pageHeightMm = isFullBleed ? 297 : 287

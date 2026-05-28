@@ -12,13 +12,13 @@ const TemplatePreviewDialog = dynamic(
 )
 
 const FEATURED_TEMPLATES = [
-    { id: 'ats-cornerstone',    name: 'Cornerstone',     tag: 'Executive',   colorId: 'black' },
-    { id: 'ats-meridian',       name: 'Meridian',        tag: 'Modern',      colorId: 'black'  },
-    { id: 'prestige',           name: 'Prestige',        tag: 'Executive',   colorId: 'gold'  },
-    { id: 'elegant-split',      name: 'Elegant Split',   tag: 'Creative',    colorId: 'slate' },
-    { id: 'ats-classic-left',   name: 'Executive Left',  tag: 'Corporate',   colorId: 'navy'  },
-    { id: 'ats-modern',         name: 'Modern',          tag: 'Minimal',     colorId: 'slate' },
-    { id: 'elite-alpine',       name: 'Elite Alpine',    tag: 'Premium',     colorId: 'midnight' },
+    { id: 'ats-cornerstone',        name: 'Cornerstone',     tag: 'Executive',   colorId: 'black' },
+    { id: 'meridian-professional',  name: 'Meridian',        tag: 'Modern',      colorId: 'black'  },
+    { id: 'prestige',               name: 'Prestige',        tag: 'Executive',   colorId: 'gold'  },
+    { id: 'elegant-split',          name: 'Elegant Split',   tag: 'Creative',    colorId: 'slate' },
+    { id: 'classic-left-header',    name: 'Executive Left',  tag: 'Corporate',   colorId: 'navy'  },
+    { id: 'ats-modern',             name: 'Modern',          tag: 'Minimal',     colorId: 'slate' },
+    { id: 'elite-alpine',           name: 'Elite Alpine',    tag: 'Premium',     colorId: 'midnight' },
 ]
 
 const SLIDE_DURATION = 3500

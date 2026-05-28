@@ -8,7 +8,7 @@ interface TemplateProps {
 }
 
 const THEMES: Record<string, { line: string; headerText: string; sectionLabel: string; bullet: string }> = {
-    gold:      { line: '#C9A84C',  headerText: '#1a1a1a', sectionLabel: '#8B6914', bullet: '#C9A84C' },
+    gold:      { line: '#B8975A',  headerText: '#1a1a1a', sectionLabel: '#8B7355', bullet: '#B8975A' },
     teal:      { line: '#0F766E',  headerText: '#0f2027', sectionLabel: '#0F766E', bullet: '#0F766E' },
     charcoal:  { line: '#374151',  headerText: '#111827', sectionLabel: '#374151', bullet: '#374151' },
     rose:      { line: '#9F1239',  headerText: '#1a0a0e', sectionLabel: '#9F1239', bullet: '#9F1239' },
@@ -41,17 +41,17 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
 
     const LeftLabel = ({ children }: { children: React.ReactNode }) => (
         <div
-            className="text-[9px] font-black uppercase tracking-[0.22em] mb-3 pb-1.5"
-            style={{ color: theme.sectionLabel, borderBottom: `1px solid ${theme.line}` }}
+            className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 pb-2"
+            style={{ color: theme.sectionLabel, borderBottom: `1.5px solid ${theme.line}` }}
         >
             {children}
         </div>
     )
 
     const RightSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-        <div className="mb-6">
+        <div className="mb-7">
             <div
-                className="text-[9px] font-black uppercase tracking-[0.22em] mb-3 pb-1.5"
+                className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 pb-2"
                 style={{ color: theme.sectionLabel, borderBottom: `1.5px solid ${theme.line}` }}
             >
                 {title}
@@ -68,32 +68,32 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
         <div className="w-full bg-white min-h-full" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
 
             {/* ═══ FULL-WIDTH HEADER ═══ */}
-            <div className="px-10 pt-9 pb-5">
+            <div className="px-12 pt-10 pb-6">
                 {/* Name row + Contact row */}
                 <div className="flex justify-between items-start">
                     {/* Name */}
                     <h1
-                        className="text-[36px] font-bold leading-none tracking-tight"
+                        className="text-[38px] font-bold leading-none tracking-tight"
                         style={{ color: theme.headerText }}
                     >
                         {personalInfo?.fullName || 'Your Name'}
                     </h1>
 
                     {/* Contact block — right-aligned */}
-                    <div className="text-right space-y-0.5 mt-1">
+                    <div className="text-right space-y-1 mt-1">
                         {personalInfo?.phone && (
-                            <div className="text-[10px] text-neutral-500">{personalInfo.phone}</div>
+                            <div className="text-[10.5px] text-neutral-500">{personalInfo.phone}</div>
                         )}
                         {personalInfo?.email && (
-                            <div className="text-[10px] text-neutral-500">{personalInfo.email}</div>
+                            <div className="text-[10.5px] text-neutral-500">{personalInfo.email}</div>
                         )}
                         {(personalInfo?.city || personalInfo?.country) && (
-                            <div className="text-[10px] text-neutral-500">
+                            <div className="text-[10.5px] text-neutral-500">
                                 {[personalInfo.city, personalInfo.country].filter(Boolean).join(', ')}
                             </div>
                         )}
                         {personalInfo?.linkedinUrl && (
-                            <div className="text-[10px] text-neutral-500">
+                            <div className="text-[10.5px] text-neutral-500">
                                 {personalInfo.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}
                             </div>
                         )}
@@ -103,7 +103,7 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                 {/* Professional Title — italic, below name */}
                 {personalInfo?.professionalTitle && (
                     <p
-                        className="text-[12px] italic mt-1.5"
+                        className="text-[13px] italic mt-2"
                         style={{ color: theme.sectionLabel }}
                     >
                         {personalInfo.professionalTitle}
@@ -111,20 +111,20 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                 )}
 
                 {/* Divider */}
-                <div className="mt-4" style={{ borderTop: `2px solid ${theme.line}` }} />
+                <div className="mt-5" style={{ borderTop: `2.5px solid ${theme.line}` }} />
             </div>
 
             {/* ═══ TWO-COLUMN BODY ═══ */}
-            <div className="flex px-10 pb-9 gap-8">
+            <div className="flex px-12 pb-10 gap-10">
 
-                {/* LEFT COLUMN — 38% */}
-                <div className="w-[38%] shrink-0 space-y-6">
+                {/* LEFT COLUMN — 36% */}
+                <div className="w-[36%] shrink-0 space-y-7">
 
                     {/* Summary (left side for this template) */}
                     {professionalSummary?.summaryText && (
                         <div>
                             <LeftLabel>Professional Overview</LeftLabel>
-                            <p className="text-[10px] text-neutral-600 leading-relaxed">
+                            <p className="text-[10.5px] text-neutral-600 leading-[1.65]">
                                 {professionalSummary.summaryText}
                             </p>
                         </div>
@@ -135,13 +135,13 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                         <div>
                             <LeftLabel>Skills</LeftLabel>
                             {technicalSkills.length > 0 && professionalSkills.length > 0 ? (
-                                <div className="space-y-3">
+                                <div className="space-y-4">
                                     {technicalSkills.length > 0 && (
                                         <div>
-                                            <div className="text-[8px] font-black uppercase tracking-widest text-neutral-400 mb-1.5">Technical</div>
-                                            <div className="flex flex-wrap gap-1">
+                                            <div className="text-[9px] font-black uppercase tracking-widest text-neutral-400 mb-2">Technical</div>
+                                            <div className="flex flex-wrap gap-1.5">
                                                 {technicalSkills.map((s, i) => (
-                                                    <span key={i} className="text-[9px] text-neutral-700 bg-neutral-100 px-2 py-0.5 rounded-sm">
+                                                    <span key={i} className="text-[10px] text-neutral-700 bg-neutral-100 px-2.5 py-1 rounded-sm">
                                                         {s.skillName}
                                                     </span>
                                                 ))}
@@ -150,12 +150,12 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                                     )}
                                     {professionalSkills.length > 0 && (
                                         <div>
-                                            <div className="text-[8px] font-black uppercase tracking-widest text-neutral-400 mb-1.5">Professional</div>
-                                            <div className="grid grid-cols-2 gap-x-3 gap-y-1">
+                                            <div className="text-[9px] font-black uppercase tracking-widest text-neutral-400 mb-2">Professional</div>
+                                            <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                                                 {professionalSkills.map((s, i) => (
-                                                    <div key={i} className="flex items-center gap-1.5">
-                                                        <div className="w-1 h-1 rounded-full shrink-0" style={{ background: theme.bullet }} />
-                                                        <span className="text-[9px] text-neutral-700 leading-tight">{s.skillName}</span>
+                                                    <div key={i} className="flex items-center gap-2">
+                                                        <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: theme.bullet }} />
+                                                        <span className="text-[10px] text-neutral-700 leading-tight">{s.skillName}</span>
                                                     </div>
                                                 ))}
                                             </div>
@@ -164,11 +164,11 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                                 </div>
                             ) : (
                                 /* All skills in a simple 2-column grid */
-                                <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
+                                <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                                     {allSkills.map((s, i) => (
-                                        <div key={i} className="flex items-center gap-1.5">
-                                            <div className="w-1 h-1 rounded-full shrink-0" style={{ background: theme.bullet }} />
-                                            <span className="text-[9px] text-neutral-700 leading-tight">{s.skillName}</span>
+                                        <div key={i} className="flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: theme.bullet }} />
+                                            <span className="text-[10px] text-neutral-700 leading-tight">{s.skillName}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -180,11 +180,11 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                     {languages && languages.length > 0 && (
                         <div>
                             <LeftLabel>Languages</LeftLabel>
-                            <div className="space-y-1.5">
+                            <div className="space-y-2.5">
                                 {languages.map((l, i) => (
                                     <div key={i} className="flex justify-between items-center">
-                                        <span className="text-[10px] font-semibold text-neutral-800">{l.languageName}</span>
-                                        <span className="text-[9px] italic text-neutral-400 capitalize">{l.proficiencyLevel}</span>
+                                        <span className="text-[10.5px] font-semibold text-neutral-800">{l.languageName}</span>
+                                        <span className="text-[10px] italic text-neutral-400 capitalize">{l.proficiencyLevel}</span>
                                     </div>
                                 ))}
                             </div>
@@ -195,11 +195,11 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                     {certifications && certifications.length > 0 && (
                         <div>
                             <LeftLabel>Certifications</LeftLabel>
-                            <div className="space-y-2.5">
+                            <div className="space-y-3">
                                 {certifications.map((c, i) => (
                                     <div key={i} className="">
-                                        <div className="text-[10px] font-semibold text-neutral-800 leading-snug">{c.certificationName}</div>
-                                        <div className="text-[9px] italic text-neutral-400">
+                                        <div className="text-[10.5px] font-semibold text-neutral-800 leading-snug">{c.certificationName}</div>
+                                        <div className="text-[10px] italic text-neutral-400 mt-0.5">
                                             {c.issuingOrganization}{c.issueYear ? ` · ${c.issueYear}` : ''}
                                         </div>
                                     </div>
@@ -212,11 +212,11 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                     {achievements && achievements.length > 0 && (
                         <div>
                             <LeftLabel>Recognition</LeftLabel>
-                            <div className="space-y-2.5">
+                            <div className="space-y-3">
                                 {achievements.map((a, i) => (
                                     <div key={i}>
-                                        <div className="text-[10px] font-semibold text-neutral-800 leading-snug">{a.achievementTitle}</div>
-                                        <div className="text-[9px] italic text-neutral-400">
+                                        <div className="text-[10.5px] font-semibold text-neutral-800 leading-snug">{a.achievementTitle}</div>
+                                        <div className="text-[10px] italic text-neutral-400 mt-0.5">
                                             {a.issuingBody}{a.year ? ` · ${a.year}` : ''}
                                         </div>
                                     </div>
@@ -229,13 +229,13 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                     {volunteerExperience && volunteerExperience.length > 0 && (
                         <div>
                             <LeftLabel>Volunteering</LeftLabel>
-                            <div className="space-y-3">
+                            <div className="space-y-3.5">
                                 {volunteerExperience.map((v, i) => (
                                     <div key={i} className="">
-                                        <div className="text-[10px] font-bold text-neutral-800">{v.roleTitle}</div>
-                                        <div className="text-[9px] italic text-neutral-400">{v.organizationName}</div>
+                                        <div className="text-[10.5px] font-bold text-neutral-800">{v.roleTitle}</div>
+                                        <div className="text-[10px] italic text-neutral-400 mt-0.5">{v.organizationName}</div>
                                         {v.contributions && (
-                                            <p className="text-[9px] text-neutral-600 leading-relaxed mt-0.5">{v.contributions}</p>
+                                            <p className="text-[10px] text-neutral-600 leading-[1.6] mt-1">{v.contributions}</p>
                                         )}
                                     </div>
                                 ))}
@@ -244,32 +244,32 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                     )}
                 </div>
 
-                {/* RIGHT COLUMN — 62% */}
+                {/* RIGHT COLUMN — 64% */}
                 <div className="flex-1">
 
                     {/* Work Experience */}
                     {workExperience && workExperience.length > 0 && (
                         <RightSection title="Work Experience">
-                            <div className="space-y-5">
+                            <div className="space-y-6">
                                 {workExperience.map((job, i) => (
                                     <div key={i} className="">
-                                        <div className="flex justify-between items-baseline">
-                                            <h3 className="text-[12px] font-bold text-neutral-900">{job.jobTitle}</h3>
-                                            <span className="text-[9px] text-neutral-400 shrink-0 ml-2">
+                                        <div className="flex justify-between items-baseline mb-1">
+                                            <h3 className="text-[13px] font-bold text-neutral-900">{job.jobTitle}</h3>
+                                            <span className="text-[10px] text-neutral-400 shrink-0 ml-2">
                                                 {formatDate(job.startDate)} — {job.isCurrent ? 'Present' : formatDate(job.endDate)}
                                             </span>
                                         </div>
-                                        <div className="text-[10px] italic text-neutral-500 mb-1.5">
+                                        <div className="text-[10.5px] italic text-neutral-500 mb-2">
                                             {job.companyName}{job.location ? `, ${job.location}` : ''}
                                         </div>
                                         {job.roleDescription && (
-                                            <p className="text-[10px] text-neutral-600 leading-relaxed mb-1.5 italic">{job.roleDescription}</p>
+                                            <p className="text-[10.5px] text-neutral-600 leading-[1.65] mb-2.5 italic">{job.roleDescription}</p>
                                         )}
                                         {job.achievements && job.achievements.length > 0 && (
-                                            <ul className="space-y-1">
+                                            <ul className="space-y-2">
                                                 {job.achievements.map((a, j) => (
-                                                    <li key={j} className="flex gap-2 text-[10px] text-neutral-700 leading-relaxed">
-                                                        <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ background: theme.bullet }} />
+                                                    <li key={j} className="flex gap-2.5 text-[10.5px] text-neutral-700 leading-[1.65]">
+                                                        <span className="mt-[6px] w-1.5 h-1.5 rounded-full shrink-0" style={{ background: theme.bullet }} />
                                                         <span>{a.achievementText}</span>
                                                     </li>
                                                 ))}
@@ -284,17 +284,17 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                     {/* Projects */}
                     {projects && projects.length > 0 && (
                         <RightSection title="Projects">
-                            <div className="space-y-4">
+                            <div className="space-y-5">
                                 {projects.map((p, i) => (
                                     <div key={i} className="">
-                                        <div className="flex justify-between items-baseline">
-                                            <h3 className="text-[11px] font-bold text-neutral-900">{p.projectName}</h3>
-                                            {p.role && <span className="text-[9px] italic text-neutral-400">{p.role}</span>}
+                                        <div className="flex justify-between items-baseline mb-1">
+                                            <h3 className="text-[12px] font-bold text-neutral-900">{p.projectName}</h3>
+                                            {p.role && <span className="text-[10px] italic text-neutral-400">{p.role}</span>}
                                         </div>
-                                        {p.description && <p className="text-[10px] text-neutral-600 leading-relaxed">{p.description}</p>}
-                                        {p.outcomes && <p className="text-[9px] text-neutral-400 italic">{p.outcomes}</p>}
+                                        {p.description && <p className="text-[10.5px] text-neutral-600 leading-[1.65]">{p.description}</p>}
+                                        {p.outcomes && <p className="text-[10px] text-neutral-400 italic mt-1">{p.outcomes}</p>}
                                         {p.toolsUsed && p.toolsUsed.length > 0 && (
-                                            <div className="text-[9px] text-neutral-400 mt-0.5">{p.toolsUsed.join(' · ')}</div>
+                                            <div className="text-[10px] text-neutral-400 mt-1">{p.toolsUsed.join(' · ')}</div>
                                         )}
                                     </div>
                                 ))}
@@ -305,20 +305,20 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                     {/* Education */}
                     {education && education.length > 0 && (
                         <RightSection title="Education">
-                            <div className="space-y-4">
+                            <div className="space-y-5">
                                 {education.map((edu, i) => (
                                     <div key={i} className=" flex justify-between items-start">
                                         <div>
-                                            <div className="text-[11px] font-bold text-neutral-900 leading-snug">
+                                            <div className="text-[12px] font-bold text-neutral-900 leading-snug">
                                                 {edu.degree}{edu.major || edu.fieldOfStudy ? ` in ${edu.major || edu.fieldOfStudy}` : ''}
                                             </div>
-                                            <div className="text-[10px] italic text-neutral-500">{edu.institutionName}</div>
+                                            <div className="text-[10.5px] italic text-neutral-500 mt-1">{edu.institutionName}</div>
                                             {edu.coursework && (
-                                                <div className="text-[9px] text-neutral-400 mt-0.5 leading-snug">Courses: {edu.coursework}</div>
+                                                <div className="text-[10px] text-neutral-400 mt-1 leading-snug">Courses: {edu.coursework}</div>
                                             )}
-                                            {edu.gpa && <div className="text-[9px] text-neutral-400 mt-0.5">GPA: {edu.gpa}</div>}
+                                            {edu.gpa && <div className="text-[10px] text-neutral-400 mt-0.5">GPA: {edu.gpa}</div>}
                                         </div>
-                                        <div className="text-[9px] text-neutral-400 shrink-0 ml-2 mt-0.5">{edu.endYear}</div>
+                                        <div className="text-[10px] text-neutral-400 shrink-0 ml-2 mt-0.5">{edu.endYear}</div>
                                     </div>
                                 ))}
                             </div>
@@ -328,12 +328,12 @@ export function PrestigeTemplate({ data, accentColor = 'gold' }: TemplateProps) 
                     {/* Custom Sections */}
                     {customSections && customSections.map((s, i) => (
                         <RightSection key={i} title={s.title}>
-                            {s.content && <p className="text-[10px] text-neutral-600 leading-relaxed mb-2">{s.content}</p>}
+                            {s.content && <p className="text-[10.5px] text-neutral-600 leading-[1.65] mb-2.5">{s.content}</p>}
                             {s.items && s.items.length > 0 && (
-                                <ul className="space-y-1">
+                                <ul className="space-y-2">
                                     {s.items.map((item, j) => (
-                                        <li key={j} className="flex gap-2 text-[10px] text-neutral-700 leading-relaxed">
-                                            <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ background: theme.bullet }} />
+                                        <li key={j} className="flex gap-2.5 text-[10.5px] text-neutral-700 leading-[1.65]">
+                                            <span className="mt-[6px] w-1.5 h-1.5 rounded-full shrink-0" style={{ background: theme.bullet }} />
                                             <span>{item.text}</span>
                                         </li>
                                     ))}

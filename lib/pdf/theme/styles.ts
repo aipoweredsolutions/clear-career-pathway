@@ -10,20 +10,20 @@ export const createStyles = (templateId: string) => {
     const isSidebarLayout = 
         id.startsWith('elegant-split') || 
         id.startsWith('prestige') ||
-        id.startsWith('ats-sterling') ||
-        id.startsWith('ats-classic-left') ||
+        id.startsWith('sterling-corporate') ||
+        id.startsWith('classic-left-header') ||
         id.includes('sidebar')
         
     const hasSidebar = isSidebarLayout
     const hasColumns = isSidebarLayout
-    const sidebarOnRight = id.includes('right') || id.startsWith('elegant-split') || id.startsWith('ats-sterling')
+    const sidebarOnRight = id.includes('right') || id.startsWith('elegant-split') || id.startsWith('sterling-corporate')
     const sidebarOnLeft = hasSidebar && !sidebarOnRight
     
     // Increased margins for ATS templates for better scanner readability
     const containerPaddingX = isATS ? 54 : 30
     const containerPaddingY = isATS ? 45 : 20
     
-    const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('ats-sterling');
+    const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('sterling-corporate');
     const isStandardSerif = id.startsWith('ats-academia') || id.startsWith('ats-classic') || id.startsWith('ats-cornerstone') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
     
     let fontFamily = 'Inter';
