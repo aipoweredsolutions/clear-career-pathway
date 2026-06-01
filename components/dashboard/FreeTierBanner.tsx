@@ -3,121 +3,89 @@
 import React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
-import { Sparkles, FileText, Download, Wand2 } from 'lucide-react'
-import { useFreeTier } from '@/lib/hooks/useFreeTier'
+import { Sparkles, FileText, Download, Wand2, ArrowRight } from 'lucide-react'
 
-export function FreeTierBanner() {
-    const { isFree, remaining, limits, loading } = useFreeTier()
+interface FreeTierBannerProps {
+    resumeCount: number
+    maxResumes?: number
+    exportsThisMonth?: number
+    maxExports?: number
+}
 
-    if (loading || !isFree) {
-        return null
-    }
+export function FreeTierBanner({
+    resumeCount,
+    maxResumes = 1,
+    exportsThisMonth = 0,
+    maxExports = 1,
+}: FreeTierBannerProps) {
+    const resumesRemaining = Math.max(0, maxResumes - resumeCount)
+    const exportsRemaining = Math.max(0, maxExports - exportsThisMonth)
 
     return (
-        <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border-2 border-amber-200 rounded-2xl p-6 shadow-lg mb-6">
+        <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border-2 border-amber-200 rounded-2xl p-6 shadow-sm mb-8">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-                {/* Left side - Message */}
-                <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-3">
-                        <Sparkles className="w-5 h-5 text-amber-600" />
-                        <h3 className="text-lg font-bold text-neutral-900">
-                            You're on the Free Plan
+                {/* Left — message + usage stats */}
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-2">
+                        <Sparkles className="w-5 h-5 text-amber-600 shrink-0" />
+                        <h3 className="text-base font-bold text-neutral-900">
+                            You&apos;re on the Free Plan
                         </h3>
                     </div>
-                    <p className="text-neutral-700 mb-4">
-                        Upgrade to Pro to unlock unlimited resumes, all premium templates, and AI-powered features.
+                    <p className="text-sm text-neutral-600 mb-4 leading-relaxed">
+                        Upgrade to Pro for unlimited resumes, all 27+ premium templates, and AI-powered improvements.
                     </p>
 
-                    {/* Usage Stats */}
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="bg-white/60 rounded-lg p-3 border border-amber-200">
-                            <div className="flex items-center gap-2 mb-1">
-                                <FileText className="w-4 h-4 text-amber-600" />
-                                <span className="text-xs font-medium text-neutral-600">Resumes</span>
-                            </div>
-                            <p className="text-lg font-bold text-neutral-900">
-                                {remaining.documents === 'unlimited' ? '∞' : remaining.documents}
-                                <span className="text-sm font-normal text-neutral-500">
-                                    {remaining.documents !== 'unlimited' && ` / ${limits.MAX_DOCUMENTS}`}
-                                </span>
-                            </p>
+                    {/* Usage pills */}
+                    <div className="flex flex-wrap gap-3">
+                        <div className="flex items-center gap-2 bg-white border border-amber-200 rounded-lg px-3 py-2">
+                            <FileText className="w-4 h-4 text-amber-600 shrink-0" />
+                            <span className="text-xs font-medium text-neutral-600">Resumes</span>
+                            <span className="text-sm font-bold text-neutral-900">
+                                {resumeCount}
+                                <span className="text-neutral-400 font-normal"> / {maxResumes}</span>
+                            </span>
+                            {resumesRemaining === 0 && (
+                                <span className="text-[10px] font-bold text-red-500 uppercase tracking-wide">Limit reached</span>
+                            )}
                         </div>
 
-                        <div className="bg-white/60 rounded-lg p-3 border border-amber-200">
-                            <div className="flex items-center gap-2 mb-1">
-                                <Download className="w-4 h-4 text-amber-600" />
-                                <span className="text-xs font-medium text-neutral-600">Exports</span>
-                            </div>
-                            <p className="text-lg font-bold text-neutral-900">
-                                {remaining.exports === 'unlimited' ? '∞' : remaining.exports}
-                                <span className="text-sm font-normal text-neutral-500">
-                                    {remaining.exports !== 'unlimited' && ` / ${limits.MAX_EXPORTS_PER_MONTH}`}
-                                </span>
-                            </p>
+                        <div className="flex items-center gap-2 bg-white border border-amber-200 rounded-lg px-3 py-2">
+                            <Download className="w-4 h-4 text-amber-600 shrink-0" />
+                            <span className="text-xs font-medium text-neutral-600">Exports this month</span>
+                            <span className="text-sm font-bold text-neutral-900">
+                                {exportsThisMonth}
+                                <span className="text-neutral-400 font-normal"> / {maxExports}</span>
+                            </span>
+                            {exportsRemaining === 0 && (
+                                <span className="text-[10px] font-bold text-red-500 uppercase tracking-wide">Limit reached</span>
+                            )}
                         </div>
 
-                        <div className="bg-white/60 rounded-lg p-3 border border-amber-200">
-                            <div className="flex items-center gap-2 mb-1">
-                                <Wand2 className="w-4 h-4 text-amber-600" />
-                                <span className="text-xs font-medium text-neutral-600">AI Uses</span>
-                            </div>
-                            <p className="text-lg font-bold text-neutral-900">
-                                {remaining.aiImprovements === 'unlimited' ? '∞' : remaining.aiImprovements}
-                                <span className="text-sm font-normal text-neutral-500">
-                                    {remaining.aiImprovements !== 'unlimited' && ` / ${limits.AI_IMPROVEMENTS_PER_MONTH}`}
-                                </span>
-                            </p>
+                        <div className="flex items-center gap-2 bg-white border border-amber-200 rounded-lg px-3 py-2">
+                            <Wand2 className="w-4 h-4 text-amber-600 shrink-0" />
+                            <span className="text-xs font-medium text-neutral-600">AI features</span>
+                            <span className="text-[10px] font-bold text-red-500 uppercase tracking-wide">Pro only</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Right side - CTA */}
-                <div className="flex-shrink-0">
+                {/* Right — CTA */}
+                <div className="shrink-0 flex flex-col items-start lg:items-end gap-1">
                     <Link href="/pricing">
-                        <Button 
-                            size="lg" 
-                            className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all"
+                        <Button
+                            size="lg"
+                            className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md hover:shadow-lg transition-all group"
                         >
                             <Sparkles className="w-4 h-4 mr-2" />
                             Upgrade to Pro
+                            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
                         </Button>
                     </Link>
-                    <p className="text-xs text-neutral-600 mt-2 text-center">
-                        Starting at $14.99/month
+                    <p className="text-xs text-neutral-500 lg:text-right">
+                        From $14.99/month · Cancel anytime
                     </p>
                 </div>
-            </div>
-        </div>
-    )
-}
-
-/**
- * Compact version for smaller spaces
- */
-export function FreeTierBannerCompact() {
-    const { isFree, loading } = useFreeTier()
-
-    if (loading || !isFree) {
-        return null
-    }
-
-    return (
-        <div className="bg-gradient-to-r from-amber-100 to-orange-100 border border-amber-300 rounded-lg p-4 mb-4">
-            <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 bg-amber-200 rounded-full flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-amber-700" />
-                    </div>
-                    <div>
-                        <p className="text-sm font-bold text-neutral-900">Free Plan</p>
-                        <p className="text-xs text-neutral-600">Upgrade for unlimited access</p>
-                    </div>
-                </div>
-                <Link href="/pricing">
-                    <Button size="sm" className="bg-amber-600 hover:bg-amber-700 text-white">
-                        Upgrade
-                    </Button>
-                </Link>
             </div>
         </div>
     )

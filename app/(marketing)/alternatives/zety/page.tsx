@@ -52,7 +52,7 @@ export default function ZetyAlternativePage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Button size="lg" className="px-10 h-14 rounded-full font-black uppercase tracking-widest text-xs">
-                                <Link href="/editor/new">Create My ATS Resume Now</Link>
+                                <Link href="/editor/setup">Create My ATS Resume Now</Link>
                             </Button>
                             <Button variant="outline" size="lg" className="px-10 h-14 rounded-full font-black uppercase tracking-widest text-xs border-2">
                                 <Link href="/templates">View Pro Templates</Link>
@@ -163,7 +163,7 @@ export default function ZetyAlternativePage() {
                         Join 50,000+ professionals who have switched from generic builders to Clear Career Path and secured interviews at Google, Apple, and McKinsey.
                     </p>
                     <Button size="lg" className="px-12 h-16 rounded-full font-black uppercase tracking-widest text-sm bg-white text-neutral-900 hover:bg-neutral-100">
-                        <Link href="/editor/new">Start Building for Free</Link>
+                        <Link href="/editor/setup">Start Building for Free</Link>
                         <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                 </div>

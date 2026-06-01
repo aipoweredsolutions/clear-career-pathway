@@ -24,14 +24,13 @@ function verifyPaddleSignature(signature: string, body: string, secret: string) 
     return hmac === expectedHmac
 }
 
-function getTierFromPriceId(priceId: string) {
+function getTierFromPriceId(priceId: string): 'pro_monthly' | 'single_export' | 'free' {
     const tier = PRICING_TIERS.find(t => t.paddlePriceId === priceId)
     if (!tier) return 'free'
-    
+
     const name = tier.name.toLowerCase()
     if (name.includes('pro')) return 'pro_monthly'
     if (name.includes('single')) return 'single_export'
-    if (name.includes('bundle')) return 'download_bundle'
     return 'free'
 }
 
@@ -109,7 +108,7 @@ export async function POST(req: NextRequest) {
             }
 
             case 'transaction.completed': {
-                // Handle one-time purchases (Basic, Starter Pass)
+                // Handle one-time purchases
                 const userId = data.custom_data?.userId
                 const priceId = data.items?.[0]?.price?.id
 
@@ -120,46 +119,24 @@ export async function POST(req: NextRequest) {
 
                 if (!isSubscription) {
                     if (tierName === 'single_export') {
-                        // Add 1 credit
-                        const { data: profile } = await supabase.from('profiles').select('download_credits').eq('id', userId).single()
+                        // Add 1 download credit
+                        const { data: profile } = await supabase
+                            .from('profiles')
+                            .select('download_credits')
+                            .eq('id', userId)
+                            .single()
                         const credits = (profile?.download_credits || 0) + 1
-                        await supabase.from('profiles').update({ download_credits: credits }).eq('id', userId)
-                        break
-                    } else if (tierName === 'download_bundle') {
-                        // Add 5 credits
-                        const { data: profile } = await supabase.from('profiles').select('download_credits').eq('id', userId).single()
-                        const credits = (profile?.download_credits || 0) + 5
-                        await supabase.from('profiles').update({ download_credits: credits }).eq('id', userId)
+                        await supabase
+                            .from('profiles')
+                            .update({ download_credits: credits })
+                            .eq('id', userId)
                         break
                     }
 
-                    // Resolve tier name to UUID for other one-time purchases
-                    const { data: tierData } = await supabase
-                        .from('subscription_tiers')
-                        .select('id')
-                        .eq('name', tierName)
-                        .single()
-
-                    if (tierName && tierData) {
-                        await supabase
-                            .from('user_subscriptions')
-                            .upsert({
-                                user_id: userId,
-                                status: 'active',
-                                tier_id: tierData.id,
-                                updated_at: new Date().toISOString()
-                                // One-time purchases don't have periods or subscription IDs
-                            }, { onConflict: 'user_id' })
-                        
-                        // SYNC TO PROFILE
-                        const simpleTier = (tierName === 'pro_monthly') ? 'pro' : 'free'
-                        await supabase
-                            .from('profiles')
-                            .update({ 
-                                subscription_tier: simpleTier,
-                                billing_status: 'active'
-                            })
-                            .eq('id', userId)
+                    // pro_monthly handled via subscription.created — nothing to do here for subscriptions
+                    // Any unrecognised price ID: log and do nothing
+                    if (tierName === 'free') {
+                        console.warn(`transaction.completed: unrecognised priceId "${priceId}" for userId "${userId}" — no action taken`)
                     }
                 }
                 break

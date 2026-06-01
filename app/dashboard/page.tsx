@@ -108,6 +108,16 @@ export default async function DashboardPage() {
 
                 </div>
 
+                {/* Free Tier Banner — shown to non-Pro users only */}
+                {!isPro && (
+                    <FreeTierBanner
+                        resumeCount={resumes.length}
+                        maxResumes={1}
+                        exportsThisMonth={downloadCount}
+                        maxExports={1}
+                    />
+                )}
+
                 {/* Referral Invite CTA - Show after first download if no referrals yet */}
                 {downloadCount > 0 && referralCount === 0 && (
                     <div className="bg-gradient-to-r from-neutral-900 to-neutral-800 rounded-[2.5rem] p-8 md:p-12 mb-16 text-white flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl shadow-neutral-200 overflow-hidden relative group border border-neutral-800">

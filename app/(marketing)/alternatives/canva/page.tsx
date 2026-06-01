@@ -52,7 +52,7 @@ export default function CanvaAlternativePage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Button size="lg" className="px-10 h-14 rounded-full font-black uppercase tracking-widest text-xs bg-violet-600 hover:bg-violet-700">
-                                <Link href="/editor/new">Create an ATS-Safe Resume</Link>
+                                <Link href="/editor/setup">Create an ATS-Safe Resume</Link>
                             </Button>
                             <Button variant="outline" size="lg" className="px-10 h-14 rounded-full font-black uppercase tracking-widest text-xs border-2">
                                 <Link href="/templates">See Pro Designs</Link>
@@ -161,7 +161,7 @@ export default function CanvaAlternativePage() {
                         Join thousands of professionals who switched from Canva to Clear Career Path and finally beat the Applicant Tracking Systems.
                     </p>
                     <Button size="lg" className="px-12 h-16 rounded-full font-black uppercase tracking-widest text-sm bg-white text-violet-600 hover:bg-neutral-100">
-                        <Link href="/editor/new">Build My Professional Resume</Link>
+                        <Link href="/editor/setup">Build My Professional Resume</Link>
                         <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                 </div>

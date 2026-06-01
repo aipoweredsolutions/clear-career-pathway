@@ -25,6 +25,11 @@ export function CookieConsent() {
         setShowCookieConsent(false)
     }
 
+    function rejectCookies() {
+        localStorage.setItem('cookieConsent', 'rejected')
+        setShowCookieConsent(false)
+    }
+
     if (!showCookieConsent) return null
 
     return (
@@ -32,7 +37,7 @@ export function CookieConsent() {
             <div className="bg-white shadow-2xl rounded-2xl border border-neutral-200 p-6 flex flex-col gap-4 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 to-indigo-500" />
                 <button 
-                    onClick={acceptNecessary}
+                    onClick={rejectCookies}
                     className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-600 transition bg-neutral-50 rounded-full p-1.5 hover:bg-neutral-100"
                     aria-label="Close message"
                 >
@@ -44,7 +49,7 @@ export function CookieConsent() {
                         <h3 className="text-lg font-bold text-neutral-900 font-serif">Cookie Preferences</h3>
                     </div>
                     <p className="text-sm text-neutral-600 leading-relaxed">
-                        We use essential cookies for security and authentication. You can choose to accept all cookies or only those necessary for the site to function.
+                        We use essential cookies for security and authentication. You can choose to accept all cookies, only necessary ones, or reject all non-essential cookies.
                         Read our <Link href="/cookies" className="text-indigo-600 hover:underline">Cookie Policy</Link> for details.
                     </p>
                 </div>
@@ -60,6 +65,12 @@ export function CookieConsent() {
                         className="w-full sm:w-auto bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-700 text-sm font-bold px-6 py-2.5 rounded-xl transition whitespace-nowrap"
                     >
                         Necessary Only
+                    </button>
+                    <button
+                        onClick={rejectCookies}
+                        className="w-full sm:w-auto bg-white border border-rose-200 hover:bg-rose-50 text-rose-600 text-sm font-bold px-6 py-2.5 rounded-xl transition whitespace-nowrap"
+                    >
+                        Reject All
                     </button>
                 </div>
                 <Link

@@ -52,7 +52,7 @@ export default function CareerChangePage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Button size="lg" className="px-10 h-14 rounded-full font-black uppercase tracking-widest text-xs bg-blue-600 hover:bg-blue-700">
-                                <Link href="/editor/new">Start My Career Pivot</Link>
+                                <Link href="/editor/setup">Start My Career Pivot</Link>
                             </Button>
                         </div>
                     </div>
@@ -128,7 +128,7 @@ export default function CareerChangePage() {
                         Let our AI build the bridge between where you&apos;ve been and where you&apos;re going.
                     </p>
                     <Button size="lg" className="px-12 h-16 rounded-full font-black uppercase tracking-widest text-sm bg-blue-600 hover:bg-blue-700">
-                        <Link href="/editor/new">Build My Pivot Resume</Link>
+                        <Link href="/editor/setup">Build My Pivot Resume</Link>
                         <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                 </div>

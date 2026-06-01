@@ -1,9 +1,8 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { saveAs } from 'file-saver'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
@@ -24,48 +23,56 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { getMockDataForTemplate } from '@/lib/utils/persona-matcher'
-import dynamic from 'next/dynamic'
-
-
-
-const PDFUrlGenerator = dynamic(() => import('@/components/home/PDFPreviewEngine').then(mod => mod.PDFUrlGenerator), { ssr: false })
 
 export default function TemplateStudioPage() {
     const params = useParams()
     const router = useRouter()
     const templateId = params.templateId as string
 
-    // Fetch the best-matching mock data for this specific template
     const mockData = React.useMemo(() => getMockDataForTemplate(templateId ?? "ats-professional"), [templateId])
 
-    // Format template ID for display: e.g. "ats-classic-navy" -> "ATS Classic Navy"
     const displayName = (templateId ?? "Professional")
         .split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ')
 
-    // Go back to previous page
-    const handleBack = () => {
-        router.back()
-    }
+    const handleBack = () => router.back()
 
     const [isDownloading, setIsDownloading] = useState(false)
-    const [pdfUrl, setPdfUrl] = useState<string | null>(null)
+    const previewRef = useRef<HTMLDivElement>(null)
 
     const handleDownloadSample = async () => {
-        if (!pdfUrl) {
-            toast.error('PDF engine is still rendering...')
+        if (!previewRef.current) {
+            toast.error('Preview not ready yet.')
             return
         }
         setIsDownloading(true)
-        toast.info('Downloading high-quality PDF sample...')
-        
+        toast.info('Generating PDF sample...', { id: 'studio-pdf' })
+
         try {
-            saveAs(pdfUrl, `Clear_Career_Path_${displayName.replace(/\s+/g, '_')}_Sample.pdf`)
-            toast.success('Sample downloaded successfully')
+            const html2pdf = (await import('html2pdf.js')).default
+            // Brief pause to ensure the DOM is fully painted
+            await new Promise(resolve => setTimeout(resolve, 150))
+
+            const element = previewRef.current
+            const originalTransform = element.style.transform
+            element.style.transform = 'none'
+
+            const opt = {
+                margin: [0, 0, 0, 0],
+                filename: `Clear_Career_Path_${displayName.replace(/\s+/g, '_')}_Sample.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'], avoid: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', '.break-inside-avoid'] }
+            }
+
+            await html2pdf().set(opt).from(element).save()
+            element.style.transform = originalTransform
+            toast.success('Sample downloaded!', { id: 'studio-pdf' })
         } catch (error) {
             console.error('Sample download failed:', error)
-            toast.error('Failed to download sample. Please try again.')
+            toast.error('Failed to download sample. Please try again.', { id: 'studio-pdf' })
         } finally {
             setIsDownloading(false)
         }
@@ -211,6 +218,7 @@ export default function TemplateStudioPage() {
                                         }}
                                         ref={(el) => {
                                             if (!el) return
+                                            previewRef.current = el
                                             const parent = el.parentElement
                                             if (!parent) return
                                             const update = () => {
@@ -228,7 +236,6 @@ export default function TemplateStudioPage() {
                                             className="w-[210mm] min-h-[297mm]"
                                         />
                                     </div>
-                                    <PDFUrlGenerator data={mockData} onUrlUpdate={setPdfUrl} />
                                 </div>
                             </div>
                         </div>
