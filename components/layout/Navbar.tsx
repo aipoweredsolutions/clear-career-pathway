@@ -23,21 +23,26 @@ const TEMPLATE_CATEGORIES = [
         color: 'text-blue-600',
         bg: 'bg-blue-50',
         templates: [
-            { name: 'ATS Professional', id: 'ats-professional' },
+            { name: 'Professional Elite', id: 'ats-professional' },
+            { name: 'Executive Classic', id: 'ats-classic' },
+            { name: 'Executive Leadership', id: 'ats-executive' },
+            { name: 'Modern Professional', id: 'ats-modern' },
+            { name: 'ATS Timeline Pro', id: 'ats-timeline' },
             { name: 'Minimalist Mono', id: 'ats-minimal-mono' },
-            { name: 'ATS Classic', id: 'ats-classic' },
-            { name: 'ATS Executive', id: 'ats-executive' },
         ]
     },
     {
-        label: 'Modern / Clean',
-        icon: Palette,
-        color: 'text-purple-600',
-        bg: 'bg-purple-50',
+        label: 'Executive / Senior',
+        icon: Briefcase,
+        color: 'text-violet-600',
+        bg: 'bg-violet-50',
         templates: [
-            { name: 'Modern Professional', id: 'ats-modern' },
-            { name: 'ATS Timeline Pro', id: 'ats-timeline' },
-            { name: 'Classic Clean', id: 'classic-clean' },
+            { name: 'Elite Alpine', id: 'elite-alpine' },
+            { name: 'Elite London', id: 'elite-london' },
+            { name: 'Elite Kyoto', id: 'elite-kyoto' },
+            { name: 'Elite Summit', id: 'elite-summit' },
+            { name: 'Cornerstone Executive', id: 'ats-cornerstone' },
+            { name: 'Executive CV Pro', id: 'ats-executive-cv' },
         ]
     },
     {
@@ -46,19 +51,26 @@ const TEMPLATE_CATEGORIES = [
         color: 'text-rose-600',
         bg: 'bg-rose-50',
         templates: [
-            { name: 'Nursing Professional', id: 'ats-nursing' },
+            { name: 'ATS Nursing RN', id: 'ats-nursing' },
             { name: 'ATS Scholar CV', id: 'ats-academia' },
-            { name: 'ATS New Graduate', id: 'ats-graduate' },
+            { name: 'Distinguished Scholar CV', id: 'ats-academia-cv' },
+            { name: 'Graduate Rising Star', id: 'ats-graduate' },
+            { name: 'Royal Scholar', id: 'ats-royal-scholar' },
+            { name: 'Chronograph Temporal', id: 'ats-chronograph' },
         ]
     },
     {
-        label: 'Designer (Free)',
+        label: 'Design / Visual',
         icon: Layers,
         color: 'text-amber-600',
         bg: 'bg-amber-50',
         templates: [
             { name: 'Elegant Split', id: 'elegant-split' },
             { name: 'Prestige', id: 'prestige' },
+            { name: 'Sterling Corporate', id: 'sterling-corporate' },
+            { name: 'Meridian Professional', id: 'meridian-professional' },
+            { name: 'Classic Left Header', id: 'classic-left-header' },
+            { name: 'Masthead Typography', id: 'ats-masthead' },
         ]
     }
 ]
@@ -67,12 +79,12 @@ const TEMPLATE_CATEGORIES = [
 
 function TemplatesMegaMenu({ onClose }: { onClose: () => void }) {
     return (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[760px] bg-white rounded-2xl shadow-2xl border border-neutral-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[960px] bg-white rounded-2xl shadow-2xl border border-neutral-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
             {/* Header bar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-100 bg-neutral-50/80">
                 <div>
                     <p className="text-xs font-black text-neutral-400 uppercase tracking-[0.2em]">Template Gallery</p>
-                    <p className="text-sm font-bold text-neutral-700 mt-0.5">High-Performance Resume Library — Full ATS Compliance</p>
+                    <p className="text-sm font-bold text-neutral-700 mt-0.5">25+ High-Performance Resume Templates — Full ATS Compliance</p>
                 </div>
                 <Link
                     href="/templates"
@@ -80,12 +92,12 @@ function TemplatesMegaMenu({ onClose }: { onClose: () => void }) {
                     className="inline-flex items-center gap-1.5 text-xs font-black text-primary-600 hover:text-primary-700 bg-primary-50 hover:bg-primary-100 px-3 py-1.5 rounded-full transition"
                 >
                     <LayoutGrid className="w-3.5 h-3.5" />
-                    View Full Gallery
+                    View All Templates
                 </Link>
             </div>
 
-            {/* Category grid */}
-            <div className="grid grid-cols-3 divide-x divide-neutral-100">
+            {/* Category grid — 4 columns */}
+            <div className="grid grid-cols-4 divide-x divide-neutral-100">
                 {TEMPLATE_CATEGORIES.map((cat) => (
                     <div key={cat.label} className="p-4">
                         {/* Category header */}
@@ -101,7 +113,7 @@ function TemplatesMegaMenu({ onClose }: { onClose: () => void }) {
                             {cat.templates.map((tpl) => (
                                 <li key={tpl.id}>
                                     <Link
-                                        href={`/studio/${tpl.id}`}
+                                        href={`/templates/${tpl.id}`}
                                         onClick={onClose}
                                         className="flex items-center justify-between group px-2 py-1.5 rounded-lg hover:bg-neutral-50 transition-colors"
                                     >
@@ -507,11 +519,11 @@ export function Navbar() {
                     </Link>
 
                     {/* Collapsed category list on mobile */}
-                    <div className="grid grid-cols-1 gap-2 px-2">
+                    <div className="grid grid-cols-2 gap-2 px-2">
                         {TEMPLATE_CATEGORIES.map(cat => (
                             <Link
                                 key={cat.label}
-                                href={`/studio/${cat.templates[0].id}`}
+                                href={`/templates/${cat.templates[0].id}`}
                                 onClick={() => setIsMenuOpen(false)}
                                 className="flex items-center gap-2 p-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 transition-colors"
                             >

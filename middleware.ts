@@ -75,13 +75,11 @@ export async function middleware(request: NextRequest) {
 
     let user = null
     try {
-        console.log('Middleware: Fetching user...')
         const { data: { user: supabaseUser }, error } = await supabase.auth.getUser()
-        if (error) {
+        if (error && error.message !== 'Auth session missing!') {
             console.error('Middleware: Supabase auth error:', error.message)
         }
         user = supabaseUser
-        console.log('Middleware: User fetched successfully:', user?.email || 'Guest')
     } catch (e) {
         console.error('Middleware: Critical error in getUser():', e)
     }
@@ -97,7 +95,6 @@ export async function middleware(request: NextRequest) {
     const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
 
     if (!user && (isProtectedRoute || isAdminRoute)) {
-        console.log('Middleware: Redirecting to login (unauthorized)')
         return NextResponse.redirect(new URL('/auth/login', request.url))
     }
 
@@ -110,7 +107,6 @@ export async function middleware(request: NextRequest) {
             .single()
         
         if (!profile?.is_admin) {
-            console.log('Middleware: User is not an admin, redirecting to dashboard')
             return NextResponse.redirect(new URL('/dashboard', request.url))
         }
     }

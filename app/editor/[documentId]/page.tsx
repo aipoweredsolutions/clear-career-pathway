@@ -39,6 +39,9 @@ const OnboardingWizard = dynamic(() => import('@/components/editor/OnboardingWiz
 const ResumeUploadModal = dynamic(() => import('@/components/dashboard/ResumeUploadModal').then(mod => mod.ResumeUploadModal), {
     ssr: false,
 })
+const PasteParserModal = dynamic(() => import('@/components/editor/PasteParserModal').then(mod => mod.PasteParserModal), {
+    ssr: false,
+})
 const CreditCount = dynamic(() => import('@/components/editor/CreditCount').then(mod => mod.CreditCount), {
     ssr: false,
 })
@@ -79,6 +82,7 @@ function EditorContent() {
     const [leftPanelWidth, setLeftPanelWidth] = useState(50) // Percentage
     const [isResizing, setIsResizing] = useState(false)
     const [showOnboarding, setShowOnboarding] = useState(false)
+    const [showPasteModal, setShowPasteModal] = useState(false)
     const [showUploadModal, setShowUploadModal] = useState(false)
     const [numPages, setNumPages] = useState(1)
     const measureRef = useRef<HTMLDivElement>(null)
@@ -610,6 +614,16 @@ function EditorContent() {
                         )}
                     </Button>
 
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowPasteModal(true)}
+                        className="transition-all duration-300 gap-2 border-neutral-300 hover:bg-neutral-100 font-bold"
+                    >
+                        <PenLine className="w-4 h-4 text-neutral-500" />
+                        Auto-Fill
+                    </Button>
+
                     <div className="h-6 w-px bg-neutral-300 mx-1" />
 
                     <Button
@@ -721,6 +735,23 @@ function EditorContent() {
                     </div>
                 </div>
             </header>
+
+            <PasteParserModal 
+                isOpen={showPasteModal} 
+                onClose={() => setShowPasteModal(false)} 
+                onComplete={(aiData) => {
+                    if (data) {
+                        setData({
+                            ...data,
+                            ...aiData,
+                            personalInfo: { ...data.personalInfo, ...aiData.personalInfo } as any,
+                            professionalSummary: { ...data.professionalSummary, ...aiData.professionalSummary } as any,
+                        })
+                    }
+                    setShowPasteModal(false)
+                    toast.success('Resume auto-filled successfully!')
+                }} 
+            />
 
             {/* Main Content */}
             <div
