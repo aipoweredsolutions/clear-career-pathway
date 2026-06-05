@@ -202,7 +202,7 @@ export function EliteAlpineTemplate({ data, className, accentColor = 'text-neutr
 
                 {/* Skills Grid */}
                 {skills && skills.length > 0 && (
-                    <section className="break-before-page">
+                    <section className="force-page-break">
                         <SectionHeader>Core Competencies</SectionHeader>
                         <div className="grid grid-cols-2 gap-x-12 gap-y-2 px-6">
                             {skills.map((s, i) => (

@@ -160,7 +160,9 @@ export function ATSNursingTemplate({ data, className, accentColor = 'text-teal-8
                         </h2>
                         <div className="space-y-4">
                             {workExperience.map((job, i) => (
-                                <div key={job.id || i} className="">
+                                <div key={job.id || i} className={cn(
+                                    job.jobTitle === 'Registered Nurse - Progressive Care / Telemetry' ? 'force-page-break pt-4' : ''
+                                )}>
                                     <div className="flex justify-between items-baseline">
                                         <h3 className="text-[12px] font-bold text-neutral-900">{job.jobTitle}</h3>
                                         <span className="text-[10px] font-semibold text-neutral-500 shrink-0 ml-4">
