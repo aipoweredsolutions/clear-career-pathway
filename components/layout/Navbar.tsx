@@ -157,22 +157,6 @@ const PRODUCT_TOOLS = [
         bg: 'bg-blue-50'
     },
     {
-        name: 'Career Intelligence',
-        description: 'Interview simulator, salary negotiation & roadmap.',
-        href: '/career-tools',
-        icon: Sparkles,
-        color: 'text-amber-600',
-        bg: 'bg-amber-50'
-    },
-    {
-        name: 'Job Tracker',
-        description: 'Manage your application pipeline and offers.',
-        href: '/tracker',
-        icon: Target,
-        color: 'text-rose-600',
-        bg: 'bg-rose-50'
-    },
-    {
         name: 'Free ATS Scanner',
         description: 'Check if your resume passes tracking systems.',
         href: '/ats-resume-scanner',

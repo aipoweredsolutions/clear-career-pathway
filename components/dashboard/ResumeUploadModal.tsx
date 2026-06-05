@@ -31,8 +31,9 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText, onImport }:
     const [isParsing, setIsParsing] = useState(false)
     const [isSaving, setIsSaving] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(0)
-    const [importMethod, setImportMethod] = useState<'upload' | 'linkedin'>('upload')
+    const [importMethod, setImportMethod] = useState<'upload' | 'linkedin' | 'paste'>('upload')
     const [linkedinUrl, setLinkedinUrl] = useState('')
+    const [pastedText, setPastedText] = useState('')
 
     const router = useRouter()
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -250,12 +251,19 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText, onImport }:
 
     const renderUploadStep = () => (
         <div className="flex flex-col items-center justify-center py-12">
-            <div className="flex bg-neutral-100 p-1 rounded-2xl mb-8 w-full max-w-md">
+            <div className="flex bg-neutral-100 p-1 rounded-2xl mb-8 w-full max-w-2xl">
                 <button
                     onClick={() => setImportMethod('upload')}
                     className={`flex-1 px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${importMethod === 'upload' ? 'bg-white shadow-sm text-neutral-900' : 'text-neutral-500 hover:text-neutral-700'}`}
                 >
                     Upload Document
+                </button>
+                <button
+                    onClick={() => setImportMethod('paste')}
+                    className={`flex-1 px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${importMethod === 'paste' ? 'bg-white shadow-sm text-neutral-900' : 'text-neutral-500 hover:text-neutral-700'}`}
+                >
+                    <FileText className="w-4 h-4" />
+                    Paste Text
                 </button>
                 <button
                     onClick={() => setImportMethod('linkedin')}
@@ -298,6 +306,42 @@ export function ResumeUploadModal({ isOpen, onClose, initialRawText, onImport }:
                             />
                         </div>
                     )}
+                </div>
+            ) : importMethod === 'paste' ? (
+                <div className="w-full max-w-2xl p-8 border border-neutral-200 bg-white rounded-3xl shadow-sm flex flex-col items-center">
+                    <div className="w-16 h-16 bg-primary-50 text-primary-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                        <FileText className="w-8 h-8" />
+                    </div>
+                    <h4 className="text-xl font-bold text-neutral-900 mb-2">
+                        Paste Resume Text
+                    </h4>
+                    <p className="text-neutral-500 text-sm text-center mb-6">
+                        Paste your raw resume text here, and our AI will structure it.
+                    </p>
+                    
+                    <div className="w-full space-y-4">
+                        <textarea
+                            placeholder="Paste your resume text here..."
+                            value={pastedText}
+                            onChange={(e) => setPastedText(e.target.value)}
+                            disabled={isUploading}
+                            className="w-full h-64 p-4 text-sm text-neutral-700 font-mono bg-neutral-50 border border-neutral-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        />
+                        <Button 
+                            className="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold h-12"
+                            onClick={() => {
+                                if (!pastedText.trim()) {
+                                    toast.error('Please paste some text first.')
+                                    return
+                                }
+                                setRawText(pastedText)
+                                setStep('review_text')
+                            }}
+                            disabled={isUploading || !pastedText.trim()}
+                        >
+                            Process Text
+                        </Button>
+                    </div>
                 </div>
             ) : (
                 <div className="w-full max-w-md p-8 border border-neutral-200 bg-white rounded-3xl shadow-sm flex flex-col items-center">

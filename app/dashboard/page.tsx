@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation'
 import { DashboardWorkspace } from '@/components/dashboard/DashboardWorkspace'
 import { DashboardHeaderActions } from '@/components/dashboard/DashboardHeaderActions'
 import { DashboardEmptyStateActions } from '@/components/dashboard/DashboardEmptyStateActions'
-import { JobTracker } from '@/components/dashboard/JobTracker'
 import { FreeTierBanner } from '@/components/dashboard/FreeTierBanner'
 import { DashboardStatsRow } from '@/components/dashboard/DashboardStatsRow'
 import { ProfileCompletenessCard } from '@/components/dashboard/ProfileCompletenessCard'
@@ -173,20 +172,6 @@ export default async function DashboardPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     {/* Main Column */}
                     <div className="lg:col-span-2 space-y-16">
-                        
-                        {/* Application Pipeline */}
-                        <div>
-                            <div className="flex items-center gap-3 mb-8">
-                                <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-xl shadow-neutral-200">
-                                    <Target className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <h2 className="text-3xl font-black text-neutral-900 tracking-tighter italic">Application <span className="text-primary-600">Pipeline.</span></h2>
-                                    <p className="text-xs text-neutral-400 font-black uppercase tracking-[0.2em] mt-1">Track your tailored submissions</p>
-                                </div>
-                            </div>
-                            <JobTracker />
-                        </div>
 
                         {/* Document Library */}
                         <div>
@@ -241,21 +226,6 @@ export default async function DashboardPage() {
                             </div>
                         )}
                         
-                        {/* Career Guide */}
-                        <div className="bg-white rounded-[2.5rem] border border-neutral-100 p-8 shadow-sm">
-                            <h3 className="text-lg font-black text-neutral-900 mb-4 tracking-tight">Career Resources</h3>
-                            <div className="space-y-4">
-                                <Link href="/career-tools/interview" className="block group">
-                                    <div className="text-sm font-bold text-neutral-900 group-hover:text-primary-600 transition-colors">Ace the Interview</div>
-                                    <div className="text-xs text-neutral-500 font-bold mt-1">AI-powered mock interviews and feedback.</div>
-                                </Link>
-                                <div className="w-full h-px bg-neutral-100" />
-                                <Link href="/career-tools/linkedin" className="block group">
-                                    <div className="text-sm font-bold text-neutral-900 group-hover:text-primary-600 transition-colors">LinkedIn Optimization</div>
-                                    <div className="text-xs text-neutral-500 font-bold mt-1">Make your profile stand out to recruiters.</div>
-                                </Link>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -2039,19 +2039,6 @@ export const MOCK_ATS_EXECUTIVE_DATA: ResumeDocument = {
                 { achievementText: 'Managed a $40M OpEx budget with consistent 5% year-over-year efficiency gains through automation and process re-engineering' },
                 { achievementText: 'Spearheaded the integration of three post-acquisition entities, harmonizing cultures and systems within 12 months' }
             ]
-        },
-        {
-            jobTitle: 'Senior Director of Business Operations',
-            companyName: 'Beringer Analytics Corp',
-            location: 'New York, NY',
-            startDate: '2008-01',
-            endDate: '2013-01',
-            isCurrent: false,
-            roleDescription: 'Led internal business operations and strategic planning for a global analytics firm.',
-            achievements: [
-                { achievementText: 'Developed the company’s first comprehensive 5-year strategic roadmap, leading to a 40% increase in market share' },
-                { achievementText: 'Optimized the sales operations process, reducing the average sales cycle by 45 days' }
-            ]
         }
     ],
     education: [
