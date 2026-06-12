@@ -22,6 +22,7 @@ interface TemplatePreviewDialogProps {
     onClose: () => void
     template: TemplateMetadata | null
     initialColor?: string
+    sampleId?: string
 }
 
 export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor }: TemplatePreviewDialogProps) {
@@ -53,7 +54,7 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
             : template.id
 
         // Diversify content based on template personality
-        let baseData = getSampleDataForTemplate(effectiveTemplateId)
+        let baseData = getSampleDataForTemplate(effectiveTemplateId, sampleId)
 
         return {
             ...baseData,
@@ -127,13 +128,13 @@ export function TemplatePreviewDialog({ isOpen, onClose, template, initialColor 
 
 
                         {user ? (
-                            <Link href={`/editor/setup?template=${template.id}&color=${initialColor || 'standard'}`}>
+                            <Link href={`/editor/setup?template=${template.id}&color=${initialColor || 'standard'}${sampleId ? `&sample=${sampleId}` : ''}&clear=true`}>
                                 <Button size="lg" className="shadow-lg shadow-primary-200">
                                     Customize Template
                                 </Button>
                             </Link>
                         ) : (
-                            <Link href={`/editor/setup?template=${template.id}&color=${initialColor || 'standard'}`}>
+                            <Link href={`/editor/setup?template=${template.id}&color=${initialColor || 'standard'}${sampleId ? `&sample=${sampleId}` : ''}&clear=true`}>
                                 <Button size="lg" className="shadow-lg shadow-primary-200">
                                     Customize Template
                                 </Button>

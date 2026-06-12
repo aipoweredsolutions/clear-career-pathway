@@ -4,6 +4,8 @@
 // Each entry must have UNIQUE howToWrite, keySkills, exampleBullets, and faqs.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { templateRegistry } from '../templates/registry'
+
 export interface SeoTemplate {
     slug: string
     templateId: string
@@ -911,7 +913,36 @@ export const FILTER_CATEGORIES = [
 ]
 
 export function getTemplateBySlug(slug: string): SeoTemplate | undefined {
-    return SEO_TEMPLATES.find(t => t.slug === slug)
+    const seoMatch = SEO_TEMPLATES.find(t => t.slug === slug)
+    if (seoMatch) return seoMatch
+
+    const registryMatch = templateRegistry.find(t => t.id === slug)
+    if (registryMatch) {
+        return {
+            slug: registryMatch.id,
+            templateId: registryMatch.id,
+            industry: 'Professional',
+            title: `${registryMatch.name} Resume Template`,
+            name: registryMatch.name,
+            description: registryMatch.description,
+            sampleDataKey: 'software-engineer', // generic fallback
+            atsScore: registryMatch.atsCompliant ? 99 : 60,
+            whyItWorks: 'This template provides a clean, professional structure that effectively communicates your experience and skills to hiring managers.',
+            bestFor: `Ideal for ${registryMatch.suitableFor.careerLevels.join(', ')} professionals in ${registryMatch.suitableFor.industries.join(', ')}.`,
+            howToWrite: {
+                intro: 'Start with a strong professional summary highlighting your core expertise.',
+                experience: 'List your experience in reverse-chronological order. Focus on measurable achievements.',
+                skills: 'Include a mix of hard and soft skills relevant to your target role.',
+                formatting: 'Keep formatting consistent and ensure it is easy to read.'
+            },
+            keySkills: ['Leadership', 'Project Management', 'Communication', 'Problem Solving', 'Strategic Planning'],
+            exampleBullets: [],
+            faqs: [],
+            relatedSlugs: [],
+            previewImage: registryMatch.previewImage
+        }
+    }
+    return undefined
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

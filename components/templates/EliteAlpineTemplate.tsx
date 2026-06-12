@@ -200,22 +200,7 @@ export function EliteAlpineTemplate({ data, className, accentColor = 'text-neutr
                     </section>
                 )}
 
-                {/* Skills Grid */}
-                {skills && skills.length > 0 && (
-                    <section className="force-page-break">
-                        <SectionHeader>Core Competencies</SectionHeader>
-                        <div className="grid grid-cols-2 gap-x-12 gap-y-2 px-6">
-                            {skills.map((s, i) => (
-                                <div key={i} className="flex justify-between items-center text-[12px] py-1 border-b border-neutral-50">
-                                    <span className="font-medium text-neutral-700">{s.skillName}</span>
-                                    {s.proficiencyLevel && (
-                                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-300">{s.proficiencyLevel}</span>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
+
 
                 {/* Education */}
                 {education && education.length > 0 && (
@@ -283,6 +268,23 @@ export function EliteAlpineTemplate({ data, className, accentColor = 'text-neutr
                                         <p className="text-[11.5px] text-neutral-600 italic">
                                             {ref.contactDetails}
                                         </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Skills Grid (Core Competencies) */}
+                {skills && skills.length > 0 && (
+                    <section className="force-page-break">
+                        <SectionHeader>Core Competencies</SectionHeader>
+                        <div className="grid grid-cols-2 gap-x-12 gap-y-2 px-6">
+                            {skills.map((s, i) => (
+                                <div key={i} className="flex justify-between items-center text-[12px] py-1 border-b border-neutral-50">
+                                    <span className="font-medium text-neutral-700">{s.skillName}</span>
+                                    {s.proficiencyLevel && (
+                                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-300">{s.proficiencyLevel}</span>
                                     )}
                                 </div>
                             ))}

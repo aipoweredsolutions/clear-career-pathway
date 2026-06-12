@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/Button'
 import { CheckCircle2, ShieldCheck, ArrowRight, Tag, BookOpen, Briefcase, Wrench, Layout } from 'lucide-react'
 import { ScrollableDevicePreview } from '@/components/home/ScrollableDevicePreview'
 import { getSampleDataForTemplate } from '@/lib/utils/template-sample-data'
+import { TemplateDownloadButton } from '@/components/templates/TemplateDownloadButton'
+
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -60,7 +62,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // ── 2. STATIC PARAMS ───────────────────────────────────────────────────────────
 export async function generateStaticParams() {
-    return SEO_TEMPLATES.map(t => ({ slug: t.slug }))
+    const { templateRegistry } = await import('@/lib/templates/registry')
+    const seoSlugs = SEO_TEMPLATES.map(t => ({ slug: t.slug }))
+    const registrySlugs = templateRegistry.map(t => ({ slug: t.id }))
+    
+    // Deduplicate array of objects by slug
+    const map = new Map()
+    for (const item of [...seoSlugs, ...registrySlugs]) {
+        if (!map.has(item.slug)) {
+            map.set(item.slug, item)
+        }
+    }
+    return Array.from(map.values())
 }
 
 // ── 3. PAGE ────────────────────────────────────────────────────────────────────
@@ -335,11 +348,18 @@ export default async function TemplateLandingPage({ params }: Props) {
                             />
                             
                             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-neutral-900 via-neutral-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-8 pointer-events-none z-10">
-                                <Link href={`/editor/setup?template=${template.templateId}`} className="pointer-events-auto">
-                                    <Button size="lg" variant="secondary" className="shadow-2xl font-black tracking-widest uppercase text-xs">
-                                        Build With This Template
-                                    </Button>
-                                </Link>
+                                <div className="flex flex-col gap-3 pointer-events-auto items-center">
+                                    <Link href={`/editor/setup?template=${template.templateId}`}>
+                                        <Button size="lg" variant="secondary" className="shadow-2xl font-black tracking-widest uppercase text-xs w-full">
+                                            Build With This Template
+                                        </Button>
+                                    </Link>
+                                    <TemplateDownloadButton 
+                                        templateId={template.templateId}
+                                        templateName={template.name}
+                                        sampleData={sampleData}
+                                    />
+                                </div>
                             </div>
                         </div>
 

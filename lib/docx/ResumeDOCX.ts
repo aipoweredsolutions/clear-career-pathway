@@ -35,6 +35,7 @@ export class ResumeDOCX {
             id.startsWith('prestige') ||
             id.startsWith('sterling-corporate') ||
             id.startsWith('classic-left-header') ||
+            id.startsWith('meridian-professional') ||
             id.includes('sidebar')
 
         const isCentered = id.startsWith('classic') ||
@@ -42,9 +43,11 @@ export class ResumeDOCX {
             id.startsWith('ats-classic') ||
             id.startsWith('ats-nursing') ||
             id.startsWith('ats-academia') ||
-            id.startsWith('ats-gold-standard')
+            id.startsWith('ats-gold-standard') ||
+            id.startsWith('elite-london') ||
+            id.startsWith('elite-kyoto')
 
-        const isModern = id.startsWith('ats-modern') || id.startsWith('modern') || id.startsWith('ats-masthead');
+        const isModern = id.startsWith('ats-modern') || id.startsWith('modern') || id.startsWith('ats-masthead') || id.startsWith('elite-alpine') || id.startsWith('elite-summit');
 
         let primaryHex = '111827';
         let secondaryHex = '4B5563';
@@ -62,7 +65,7 @@ export class ResumeDOCX {
         } else if (data.formatting?.fontFamily === 'sans') {
             font = 'Arial';
         } else {
-            const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('sterling-corporate') || id.startsWith('ats-academia');
+            const isEtsyPremiumSerif = id.startsWith('ats-executive') || id === 'classic-clean' || id.startsWith('ats-royal') || id.startsWith('sterling-corporate') || id.startsWith('ats-academia') || id.startsWith('elite-london') || id.startsWith('elite-kyoto');
             const isStandardSerif = id.startsWith('ats-classic') || id.includes('serif') || id.startsWith('prestige') || id.startsWith('ats-gold');
             if (isEtsyPremiumSerif || isStandardSerif) font = 'Georgia';
             else if (id.includes('technical')) font = 'Courier New';
@@ -81,6 +84,9 @@ export class ResumeDOCX {
 
     static async download(data: ResumeDocument, filename: string = 'resume.docx') {
         const theme = this.getTheme(data)
+        const id = (data.templateId || '').toLowerCase()
+        const isAtsProfessional = id.startsWith('ats-professional')
+        const isEliteAlpine = id.startsWith('elite-alpine')
 
         const doc = new Document({
             styles: {
@@ -105,9 +111,13 @@ export class ResumeDOCX {
                 },
                 children: data.documentType === 'cover_letter'
                     ? this.createCoverLetterLayout(data, theme)
-                    : (theme.hasSidebar
-                        ? [this.createSidebarLayout(data, theme)]
-                        : this.createStandardLayout(data, theme))
+                    : isAtsProfessional
+                        ? this.createAtsProfessionalLayout(data, theme)
+                        : isEliteAlpine
+                            ? this.createEliteAlpineLayout(data, theme)
+                            : (theme.hasSidebar
+                                ? [this.createSidebarLayout(data, theme)]
+                                : this.createStandardLayout(data, theme))
             }],
         })
 
@@ -336,48 +346,192 @@ export class ResumeDOCX {
         })
     }
 
+    private static createAtsProfessionalLayout(data: ResumeDocument, theme: DOCXTheme): any[] {
+        const contactText = [
+            data.personalInfo?.email,
+            data.personalInfo?.phone,
+            data.personalInfo?.location || `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}`.trim(),
+            data.personalInfo?.linkedinUrl,
+            data.personalInfo?.websiteUrl
+        ].filter(Boolean).join('  |  ');
+
+        const headerElements = [
+            new Paragraph({
+                children: [new TextRun({ text: (data.personalInfo?.fullName || '').toUpperCase(), bold: true, size: 48 })],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 100 }
+            }),
+            new Paragraph({
+                children: [new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), color: theme.primary, size: 22 })],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 100 },
+            }),
+            new Paragraph({
+                border: {
+                    top: { color: 'E5E7EB', space: 1, style: BorderStyle.SINGLE, size: 4 },
+                    bottom: { color: 'E5E7EB', space: 1, style: BorderStyle.SINGLE, size: 4 }
+                },
+                alignment: AlignmentType.CENTER,
+                spacing: { before: 100, after: 300 },
+                children: [new TextRun({ text: contactText, color: '666666' })],
+            }),
+        ];
+
+        return [
+            ...headerElements,
+            ...this.createBodyElements(data, theme)
+        ];
+    }
+
+    private static createEliteAlpineLayout(data: ResumeDocument, theme: DOCXTheme): any[] {
+        const contactText = [
+            data.personalInfo?.email,
+            data.personalInfo?.phone,
+            data.personalInfo?.location || `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}`.trim(),
+            data.personalInfo?.linkedinUrl,
+            data.personalInfo?.websiteUrl
+        ].filter(Boolean).join('   •   ');
+
+        const headerElements = [
+            new Paragraph({
+                children: [new TextRun({ text: (data.personalInfo?.fullName || '').toUpperCase(), bold: true, size: 64 })],
+                alignment: AlignmentType.LEFT,
+                spacing: { after: 100 }
+            }),
+            new Paragraph({
+                children: [new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), color: theme.secondary, size: 24 })],
+                alignment: AlignmentType.LEFT,
+                spacing: { after: 100 },
+            }),
+            new Paragraph({
+                alignment: AlignmentType.LEFT,
+                spacing: { after: 400 },
+                children: [new TextRun({ text: contactText, color: '334155' })],
+            }),
+        ];
+
+        return [
+            ...headerElements,
+            ...this.createBodyElements(data, theme)
+        ];
+    }
+
     private static createStandardLayout(data: ResumeDocument, theme: DOCXTheme): any[] {
-        const align = theme.isCentered ? AlignmentType.CENTER : AlignmentType.LEFT;
+        const id = (data.templateId || '').toLowerCase()
         const contactText = [
             data.personalInfo?.email,
             data.personalInfo?.phone,
             data.personalInfo?.location || `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}`.trim()
         ].filter(Boolean).join('  •  ');
+        
+        const contactBar = [
+            data.personalInfo?.email,
+            data.personalInfo?.phone,
+            data.personalInfo?.location || `${data.personalInfo?.city || ''}, ${data.personalInfo?.country || ''}`.trim()
+        ].filter(Boolean).join('  |  ');
 
         let headerElements: any[] = [];
-        
-        if (theme.isModern) {
+
+        if (id.includes('technical')) {
+            headerElements = [
+                new Paragraph({
+                    children: [new TextRun({ text: '[ * ]  [ * ]  [ * ]', color: '666666' })],
+                    spacing: { after: 200 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: data.personalInfo?.fullName || 'Untitled', size: 40 })],
+                    spacing: { after: 100 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: theme.primary, size: 24 })],
+                    spacing: { after: 200 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: contactText, color: '666666' })],
+                    spacing: { after: 400 }
+                })
+            ];
+        } else if (id.includes('bauhaus')) {
+            const name = data.personalInfo?.fullName || 'Untitled'
+            const parts = name.split(' ')
+            const last = parts.length >= 2 ? parts.pop() : ''
+            const rest = parts.join(' ')
+            headerElements = [
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: rest + ' ', bold: true, size: 80 }),
+                        new TextRun({ text: last || '', color: theme.primary, size: 80 })
+                    ],
+                    spacing: { after: 200 }
+                }),
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: '▬▬ ', color: '171717', size: 20 }),
+                        new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), size: 20 })
+                    ],
+                    spacing: { after: 300 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: contactText, color: '666666' })],
+                    spacing: { after: 600 }
+                })
+            ];
+        } else if (id.startsWith('ats-academia-cv')) {
+            headerElements = [
+                new Paragraph({
+                    children: [new TextRun({ text: data.personalInfo?.fullName || 'Your Name', bold: true, size: 48 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 100 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: '737373', size: 22 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 200 }
+                }),
+                new Paragraph({
+                    border: { bottom: { color: 'D4D4D4', space: 1, style: BorderStyle.SINGLE, size: 2 } },
+                    alignment: AlignmentType.CENTER,
+                    spacing: { before: 100, after: 200 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: contactText, color: '666666' })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 400 }
+                })
+            ];
+        } else if (id.startsWith('ats-modern')) {
             headerElements = [
                 new Table({
                     width: { size: 100, type: WidthType.PERCENTAGE },
                     borders: {
-                        top: { style: BorderStyle.NONE },
-                        bottom: { style: BorderStyle.NONE },
-                        left: { style: BorderStyle.NONE },
-                        right: { style: BorderStyle.NONE },
-                        insideHorizontal: { style: BorderStyle.NONE },
-                        insideVertical: { style: BorderStyle.NONE },
+                        top: { style: BorderStyle.NONE }, bottom: { color: 'F3F4F6', size: 4, space: 1, style: BorderStyle.SINGLE },
+                        left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
+                        insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE },
                     },
                     rows: [
                         new TableRow({
                             children: [
                                 new TableCell({
-                                    shading: { fill: theme.primary, type: ShadingType.CLEAR },
-                                    margins: { top: 400, bottom: 400, left: 400, right: 400 },
+                                    width: { size: 70, type: WidthType.PERCENTAGE },
+                                    margins: { bottom: 300 },
                                     children: [
                                         new Paragraph({
-                                            children: [new TextRun({ text: data.personalInfo?.fullName || '', bold: true, size: 48, color: 'FFFFFF' })],
-                                            alignment: align,
+                                            children: [new TextRun({ text: data.personalInfo?.fullName || 'Your Name', bold: true, size: 72 })],
+                                            spacing: { after: 100 }
                                         }),
                                         new Paragraph({
-                                            children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: 'FFFFFF', size: 24 })],
-                                            alignment: align,
-                                            spacing: { before: 100, after: 200 },
-                                        }),
-                                        new Paragraph({
-                                            alignment: align,
-                                            children: [new TextRun({ text: contactText, color: 'FFFFFF' })],
-                                        }),
+                                            children: [new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), bold: true, color: theme.primary, size: 22 })]
+                                        })
+                                    ]
+                                }),
+                                new TableCell({
+                                    width: { size: 30, type: WidthType.PERCENTAGE },
+                                    margins: { bottom: 300 },
+                                    children: [
+                                        new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: [data.personalInfo?.city, data.personalInfo?.country].filter(Boolean).join(', '), bold: true, size: 20 })] }),
+                                        new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: data.personalInfo?.email || '', color: '737373', size: 18 })] }),
+                                        new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: data.personalInfo?.phone || '', color: '737373', size: 18 })] }),
+                                        new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: (data.personalInfo?.linkedinUrl || '').replace(/^https?:\/\/(www\.)?/, '').toUpperCase(), bold: true, size: 16 })], spacing: { before: 100 } })
                                     ]
                                 })
                             ]
@@ -386,28 +540,236 @@ export class ResumeDOCX {
                 }),
                 new Paragraph({ text: '', spacing: { after: 400 } })
             ];
-        } else {
+        } else if (id.includes('chronograph')) {
             headerElements = [
                 new Paragraph({
-                    children: [new TextRun({ text: data.personalInfo?.fullName || '', bold: true, size: 52 })],
-                    alignment: align,
+                    children: [new TextRun({ text: (data.personalInfo?.fullName || 'Untitled').toUpperCase(), size: 64 })],
+                    spacing: { after: 150 }
                 }),
-                new Paragraph({
-                    children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: theme.primary, size: 24 })],
-                    alignment: align,
-                    spacing: { before: 100, after: 200 },
+                new Table({
+                    width: { size: 100, type: WidthType.PERCENTAGE },
+                    borders: {
+                        top: { style: BorderStyle.NONE }, bottom: { color: theme.primary, size: 8, space: 1, style: BorderStyle.SINGLE },
+                        left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
+                        insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE },
+                    },
+                    rows: [
+                        new TableRow({
+                            children: [
+                                new TableCell({
+                                    width: { size: 40, type: WidthType.PERCENTAGE },
+                                    margins: { bottom: 300 },
+                                    children: [new Paragraph({ children: [new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), size: 22 })] })]
+                                }),
+                                new TableCell({
+                                    width: { size: 60, type: WidthType.PERCENTAGE },
+                                    margins: { bottom: 300 },
+                                    children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: contactText, color: '666666' })] })]
+                                })
+                            ]
+                        })
+                    ]
                 }),
-                new Paragraph({
-                    alignment: align,
-                    spacing: { after: 400 },
-                    children: [new TextRun({ text: contactText, color: '666666' })],
-                }),
+                new Paragraph({ text: '', spacing: { after: 400 } })
             ];
+        } else if (id.startsWith('ats-gold-standard')) {
+            headerElements = [
+                new Paragraph({
+                    children: [new TextRun({ text: (data.personalInfo?.fullName || 'Untitled').toUpperCase(), size: 48 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 100 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), color: '94A3B8', size: 18 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 300 }
+                }),
+                new Paragraph({
+                    border: { top: { color: 'E2E8F0', size: 2, space: 1, style: BorderStyle.SINGLE }, bottom: { color: 'E2E8F0', size: 2, space: 1, style: BorderStyle.SINGLE } },
+                    alignment: AlignmentType.CENTER,
+                    spacing: { before: 100, after: 100 },
+                    children: [new TextRun({ text: contactBar, color: '666666' })]
+                }),
+                new Paragraph({ text: '', spacing: { after: 400 } })
+            ];
+        } else if (id.startsWith('ats-editorial')) {
+            const name = data.personalInfo?.fullName || 'NAME'
+            const parts = name.split(' ')
+            headerElements = [
+                new Table({
+                    width: { size: 100, type: WidthType.PERCENTAGE },
+                    borders: { bottom: { color: '171717', size: 4, space: 1, style: BorderStyle.SINGLE }, top: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE } },
+                    rows: [
+                        new TableRow({
+                            children: [
+                                new TableCell({
+                                    width: { size: 50, type: WidthType.PERCENTAGE },
+                                    margins: { bottom: 300 },
+                                    children: [
+                                        new Paragraph({ children: [new TextRun({ text: (parts[0] || 'NAME').toUpperCase(), bold: true, size: 64 })] }),
+                                        new Paragraph({ children: [new TextRun({ text: parts.slice(1).join(' ').toUpperCase() + (parts.length > 1 ? '.' : ''), bold: true, size: 64 })] })
+                                    ]
+                                }),
+                                new TableCell({
+                                    width: { size: 50, type: WidthType.PERCENTAGE },
+                                    margins: { bottom: 300 },
+                                    children: [
+                                        new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), italics: true, color: 'A3A3A3', size: 22 })] })
+                                    ]
+                                })
+                            ]
+                        })
+                    ]
+                }),
+                new Paragraph({ text: '', spacing: { after: 400 } })
+            ];
+        } else if (id.startsWith('ats-masthead')) {
+            headerElements = [
+                new Paragraph({ border: { bottom: { color: '171717', size: 4, space: 1, style: BorderStyle.SINGLE } }, spacing: { after: 300 } }),
+                new Paragraph({
+                    children: [new TextRun({ text: (data.personalInfo?.fullName || 'Your Name').toUpperCase(), size: 48 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 150 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', italics: true, color: '737373', size: 22 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 300 }
+                }),
+                new Paragraph({ border: { bottom: { color: '171717', size: 4, space: 1, style: BorderStyle.SINGLE } }, spacing: { after: 300 } }),
+                new Paragraph({
+                    children: [new TextRun({ text: contactText, color: '666666' })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 600 }
+                })
+            ];
+        } else if (id.startsWith('ats-cornerstone')) {
+            headerElements = [
+                new Paragraph({
+                    children: [new TextRun({ text: (data.personalInfo?.fullName || 'Your Name').toUpperCase(), bold: true, size: 48 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 100 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), bold: true, color: '78716C', size: 20 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 200 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: contactBar, color: '666666' })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 200 }
+                }),
+                new Paragraph({ border: { bottom: { color: theme.primary || '78350F', size: 4, space: 1, style: BorderStyle.SINGLE } }, spacing: { after: 500 } })
+            ];
+        } else if (id.startsWith('ats-metro')) {
+            headerElements = [
+                new Table({
+                    width: { size: 100, type: WidthType.PERCENTAGE },
+                    borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE } },
+                    rows: [
+                        new TableRow({
+                            children: [
+                                new TableCell({
+                                    width: { size: 50, type: WidthType.PERCENTAGE },
+                                    shading: { fill: '171717', type: ShadingType.CLEAR },
+                                    margins: { top: 400, bottom: 400, left: 400, right: 200 },
+                                    children: [
+                                        new Paragraph({ children: [new TextRun({ text: (data.personalInfo?.fullName || 'Your Name').toUpperCase(), color: 'FFFFFF', size: 48 })], spacing: { after: 100 } }),
+                                        new Paragraph({ children: [new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), color: 'A3A3A3', size: 20 })] })
+                                    ]
+                                }),
+                                new TableCell({
+                                    width: { size: 50, type: WidthType.PERCENTAGE },
+                                    shading: { fill: '171717', type: ShadingType.CLEAR },
+                                    margins: { top: 400, bottom: 400, left: 200, right: 400 },
+                                    children: [
+                                        new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: contactText, color: 'FFFFFF' })] })
+                                    ]
+                                })
+                            ]
+                        })
+                    ]
+                }),
+                new Paragraph({ text: '', spacing: { after: 600 } })
+            ];
+        } else if (id.startsWith('ats-minimal')) {
+            headerElements = [
+                new Paragraph({
+                    children: [new TextRun({ text: (data.personalInfo?.fullName || 'YOUR NAME').toUpperCase(), bold: true, size: 64 })],
+                    spacing: { after: 100 }
+                }),
+                ...(data.personalInfo?.professionalTitle ? [
+                    new Paragraph({ children: [new TextRun({ text: data.personalInfo.professionalTitle.toUpperCase(), bold: true, color: '737373', size: 22 })], spacing: { after: 200 } })
+                ] : []),
+                new Paragraph({
+                    border: { bottom: { color: '171717', size: 3, space: 1, style: BorderStyle.SINGLE } },
+                    children: [new TextRun({ text: contactBar, color: '666666' })],
+                    spacing: { after: 400 }
+                })
+            ];
+        } else if (id.startsWith('elite-london')) {
+            headerElements = [
+                new Paragraph({
+                    children: [new TextRun({ text: (data.personalInfo?.fullName || 'Untitled').toUpperCase(), bold: true, size: 68 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 100 }
+                }),
+                new Paragraph({
+                    children: [new TextRun({ text: (data.personalInfo?.professionalTitle || '').toUpperCase(), color: '737373', size: 20 })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 200 }
+                }),
+                new Paragraph({ border: { bottom: { color: '171717', size: 2, space: 1, style: BorderStyle.SINGLE } }, spacing: { after: 200 } }),
+                new Paragraph({
+                    children: [new TextRun({ text: contactBar, color: '666666' })],
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 500 }
+                })
+            ];
+        } else {
+            // Default StandardLayout
+            const align = theme.isCentered ? AlignmentType.CENTER : AlignmentType.LEFT;
+            if (theme.isModern) {
+                headerElements = [
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE } },
+                        rows: [
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: theme.primary, type: ShadingType.CLEAR },
+                                        margins: { top: 400, bottom: 400, left: 400, right: 400 },
+                                        children: [
+                                            new Paragraph({ children: [new TextRun({ text: data.personalInfo?.fullName || '', bold: true, size: 48, color: 'FFFFFF' })], alignment: align }),
+                                            new Paragraph({ children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: 'FFFFFF', size: 24 })], alignment: align, spacing: { before: 100, after: 200 } }),
+                                            new Paragraph({ alignment: align, children: [new TextRun({ text: contactText, color: 'FFFFFF' })] }),
+                                        ]
+                                    })
+                                ]
+                            })
+                        ]
+                    }),
+                    new Paragraph({ text: '', spacing: { after: 400 } })
+                ];
+            } else {
+                headerElements = [
+                    new Paragraph({ children: [new TextRun({ text: data.personalInfo?.fullName || '', bold: true, size: 52 })], alignment: align }),
+                    new Paragraph({ children: [new TextRun({ text: data.personalInfo?.professionalTitle || '', color: theme.primary, size: 24 })], alignment: align, spacing: { before: 100, after: 200 } }),
+                    new Paragraph({ alignment: align, spacing: { after: 400 }, children: [new TextRun({ text: contactText, color: '666666' })] }),
+                ];
+            }
         }
 
         return [
             ...headerElements,
+            ...this.createBodyElements(data, theme)
+        ]
+    }
 
+    private static createBodyElements(data: ResumeDocument, theme: DOCXTheme): any[] {
+        return [
             ...(data.professionalSummary?.summaryText ? [
                 this.standardSectionHeading('Professional Summary', theme),
                 new Paragraph({ text: data.professionalSummary.summaryText, spacing: { after: 300 } }),

@@ -49,7 +49,7 @@ import { fetchResume, saveResume } from '@/app/editor/actions'
 import { UserSubscription } from '@/lib/types/resume'
 import { useDebounce } from '@/lib/hooks/use-debounce'
 import { toast } from 'sonner'
-import { getMockDataForTemplate } from '@/lib/utils/template-helpers'
+import { getSampleDataForTemplate } from '@/lib/utils/template-sample-data'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { trackEvent } from '@/lib/utils/analytics'
 
@@ -300,9 +300,18 @@ function EditorContent() {
                     const templateId = searchParams.get('template') || 'ats-professional'
                     const sampleId = searchParams.get('sample')
                     const isGuest = searchParams.get('guest') === 'true'
+                    const shouldClear = searchParams.get('clear') === 'true'
 
-                    // Recover guest progress if available
-                    if (isGuest) {
+                    if (shouldClear) {
+                        try {
+                            localStorage.removeItem('guest_resume_data')
+                        } catch (e) {
+                            console.error('Failed to clear guest local storage', e)
+                        }
+                    }
+
+                    // Recover guest progress if available and not explicitly clearing
+                    if (isGuest && !shouldClear) {
                         try {
                             const savedData = localStorage.getItem('guest_resume_data')
                             if (savedData) {
@@ -318,8 +327,8 @@ function EditorContent() {
                         }
                     }
 
-                    // Use the specialized mock data for this template as the starting point
-                    const mockTemplateData = getMockDataForTemplate(templateId)
+                    // Use the specialized sample data for this template as the starting point
+                    const mockTemplateData = getSampleDataForTemplate(templateId, sampleId || undefined)
 
                     let baseData: ResumeDocument = {
                         ...mockTemplateData,

@@ -1,9 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { toast } from 'sonner'
 import { ResumeDocument } from '@/lib/types/resume'
-// ResumeDOCX is dynamically imported inside the handleDocxDownload function
 import { Button } from '@/components/ui/Button'
 import { Download, FileText, Loader2, Lock, Clipboard, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -11,7 +10,6 @@ import { resumeToPlainText } from '@/lib/utils/resume-to-text'
 
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
-import { incrementExportCount } from '@/app/editor/actions'
 import { trackEvent } from '@/lib/utils/analytics'
 import { templateRegistry } from '@/lib/templates/registry'
 import { TemplateRenderer } from '@/components/templates/TemplateRenderer'
@@ -35,9 +33,9 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
         ? data.title.replace(/\s+/g, '_') 
         : (data.personalInfo?.fullName?.replace(/\s+/g, '_') || 'resume')
     const [customFileName, setCustomFileName] = useState(defaultFileName)
-    const [downloadTemplateId, setDownloadTemplateId] = useState<string>('')
+    const previewRef = useRef<HTMLDivElement>(null)
     
-    const activeTemplateId = downloadTemplateId || data.templateId
+    const activeTemplateId = data.templateId
     const template = templateRegistry.find(t => activeTemplateId === t.id || activeTemplateId.startsWith(t.id + '-'))
     const isPremiumTemplate = template ? template.isPremium : true
 
@@ -55,35 +53,88 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
 
     const handleDocxDownload = async () => {
         trackEvent('export_intent', { format: 'docx', templateId: data.templateId })
-        // Check if template is premium and user is NOT pro
-        if (isPremiumTemplate && !isPro) {
-            trackEvent('paywall_viewed', { format: 'docx', reason: 'premium_template', templateId: data.templateId })
-            toast.error('This premium template requires a Pro plan.')
-            router.push(`/pricing?template=${data.templateId}`)
-            return
-        }
 
         setDownloadingDocx(true)
         try {
-            const result = await incrementExportCount(data.id || '', 'docx')
-            if (!result.success) {
-                if (result.requiresPayment) {
-                    trackEvent('paywall_viewed', { format: 'docx', reason: 'out_of_credits' })
-                    toast.error('No download credits remaining. Please purchase a bundle or subscribe.')
-                } else if (result.limitReached) {
-                    trackEvent('paywall_viewed', { format: 'docx', reason: 'limit_reached' })
-                    toast.error('Monthly export limit reached. Please upgrade to Power User plan.')
-                } else {
-                    toast.error('Failed to process download request. Please try again.')
-                }
+            // Wait for any pending React renders to commit to the DOM
+            await new Promise(resolve => setTimeout(resolve, 150))
+
+            const element = previewRef.current
+            if (!element) {
+                toast.error('Could not find the resume preview element.')
                 return
             }
 
-            const { ResumeDOCX } = await import('@/lib/docx/ResumeDOCX')
-            await ResumeDOCX.download({ ...data, templateId: activeTemplateId }, `${customFileName || defaultFileName}.docx`)
-        } catch (error) {
+            toast.info('Generating DOCX...', { id: 'docx-gen' })
+
+            // Inline computed styles so the HTML is self-contained when sent to the server
+            const clone = element.cloneNode(true) as HTMLElement
+            const sourceEls = Array.from(element.querySelectorAll('*')) as HTMLElement[]
+            const cloneEls = Array.from(clone.querySelectorAll('*')) as HTMLElement[]
+            sourceEls.forEach((src, i) => {
+                const computed = window.getComputedStyle(src)
+                const important: Record<string, string> = {
+                    'font-family': computed.fontFamily,
+                    'font-size': computed.fontSize,
+                    'font-weight': computed.fontWeight,
+                    'color': computed.color,
+                    'background-color': computed.backgroundColor,
+                    'border-top': computed.borderTop,
+                    'border-bottom': computed.borderBottom,
+                    'border-left': computed.borderLeft,
+                    'border-right': computed.borderRight,
+                    'padding-top': computed.paddingTop,
+                    'padding-right': computed.paddingRight,
+                    'padding-bottom': computed.paddingBottom,
+                    'padding-left': computed.paddingLeft,
+                    'margin-top': computed.marginTop,
+                    'margin-bottom': computed.marginBottom,
+                    'text-align': computed.textAlign,
+                    'text-transform': computed.textTransform,
+                    'letter-spacing': computed.letterSpacing,
+                    'line-height': computed.lineHeight,
+                    'display': computed.display,
+                    'width': computed.width,
+                }
+                const styleStr = Object.entries(important)
+                    .map(([k, v]) => `${k}:${v}`)
+                    .join(';')
+                if (cloneEls[i]) {
+                    cloneEls[i].setAttribute('style', styleStr)
+                }
+            })
+
+            // Wrap in a basic HTML document for the server
+            const htmlContent = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>${clone.outerHTML}</body></html>`
+
+            const filename = `${customFileName || defaultFileName}.docx`
+
+            const response = await fetch('/api/export/docx', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ html: htmlContent, filename })
+            })
+
+            if (!response.ok) {
+                const err = await response.json().catch(() => ({ error: 'Unknown error' }))
+                throw new Error(err.error || `Server responded with ${response.status}`)
+            }
+
+            // Trigger browser download
+            const blob = await response.blob()
+            const url = URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = filename
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+            URL.revokeObjectURL(url)
+
+            toast.success('DOCX downloaded successfully!', { id: 'docx-gen' })
+        } catch (error: any) {
             console.error('DOCX download failed:', error)
-            toast.error('Failed to download DOCX. Please try again.')
+            toast.error(`Failed to download DOCX: ${error.message || 'Please try again.'}`, { id: 'docx-gen' })
         } finally {
             setDownloadingDocx(false)
         }
@@ -91,28 +142,14 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
 
     const handlePdfDownload = async () => {
         trackEvent('export_intent', { format: 'pdf', templateId: data.templateId })
-        if (isPremiumTemplate && !isPro) {
-            trackEvent('paywall_viewed', { format: 'pdf', reason: 'premium_template', templateId: data.templateId })
-            toast.error('This premium template requires a Pro plan.')
-            router.push(`/pricing?template=${data.templateId}`)
-            return
-        }
+        // Admin requested: Bypass premium template check
+        // if (isPremiumTemplate && !isPro) { ... }
 
         setDownloadingPdf(true)
         try {
-            const result = await incrementExportCount(data.id || '', 'pdf')
-            if (!result.success) {
-                if (result.requiresPayment) {
-                    trackEvent('paywall_viewed', { format: 'pdf', reason: 'out_of_credits' })
-                    toast.error('No download credits remaining. Please purchase a bundle or subscribe.')
-                } else if (result.limitReached) {
-                    trackEvent('paywall_viewed', { format: 'pdf', reason: 'limit_reached' })
-                    toast.error('Monthly export limit reached. Please upgrade to Power User plan.')
-                } else {
-                    toast.error('Failed to process download request. Please try again.')
-                }
-                return
-            }
+            // Admin requested: Bypass credit limits
+            // const result = await incrementExportCount(data.id || '', 'pdf')
+            // if (!result.success) { ... }
 
             toast.info('Generating paginated PDF...', { id: 'pdf-gen' })
 
@@ -122,7 +159,7 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
             // Ensure React has committed the template changes to the DOM
             await new Promise(resolve => setTimeout(resolve, 100))
 
-            const element = document.getElementById('download-preview')
+            const element = previewRef.current
             if (!element) {
                 toast.error('Could not find the resume preview element.')
                 return
@@ -192,7 +229,7 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
                 {/* Hidden Render Container for PDF */}
                 <div className="absolute -left-[9999px] -top-[9999px] opacity-0" aria-hidden="true">
                     <div 
-                        id="download-preview" 
+                        ref={previewRef}
                         className="bg-white" 
                         style={{ 
                             width: data.formatting?.paperSize === 'a4' ? '210mm' : '8.5in', 
@@ -204,21 +241,6 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
                             data={{...data, templateId: activeTemplateId}}
                         />
                     </div>
-                </div>
-
-                {/* Template Selection */}
-                <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-1">Export Template</label>
-                    <select
-                        value={downloadTemplateId}
-                        onChange={(e) => setDownloadTemplateId(e.target.value)}
-                        className="w-full bg-white border border-neutral-200 rounded-xl px-3 py-2 text-xs font-bold text-neutral-900 outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all cursor-pointer"
-                    >
-                        <option value="">Use Preview Template</option>
-                        {templateRegistry.map(t => (
-                            <option key={t.id} value={t.id}>{t.name}</option>
-                        ))}
-                    </select>
                 </div>
 
                 {/* Filename Input */}
@@ -249,7 +271,6 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
                             </span>
                         ) : (
                             <div className="flex items-center gap-1.5">
-                                {(!isPro && isPremiumTemplate) && <Lock className="w-3 h-3 text-red-400 group-hover:text-red-500" />}
                                 <Download className="w-3.5 h-3.5" />
                                 PDF
                             </div>
@@ -271,7 +292,6 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
                             </span>
                         ) : (
                             <div className="flex items-center gap-1.5">
-                                {(!isPro && isPremiumTemplate) && <Lock className="w-3 h-3 text-blue-400 group-hover:text-blue-500" />}
                                 <FileText className="w-3.5 h-3.5" />
                                 DOCX
                             </div>
@@ -288,7 +308,7 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
             {/* Hidden Render Container for PDF */}
             <div className="absolute -left-[9999px] -top-[9999px] opacity-0" aria-hidden="true">
                 <div 
-                    id="download-preview" 
+                    ref={previewRef}
                     className="bg-white" 
                     style={{ 
                         width: data.formatting?.paperSize === 'a4' ? '210mm' : '8.5in', 
@@ -300,20 +320,6 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
                         data={{...data, templateId: activeTemplateId}}
                     />
                 </div>
-            </div>
-
-            {/* Template Selection */}
-            <div className="hidden md:flex flex-col gap-1">
-                <select
-                    value={downloadTemplateId}
-                    onChange={(e) => setDownloadTemplateId(e.target.value)}
-                    className="w-32 lg:w-48 bg-neutral-50 border border-neutral-200 rounded-lg px-2 py-1.5 text-[11px] font-bold text-neutral-900 outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all cursor-pointer"
-                >
-                    <option value="">Use Preview Template</option>
-                    {templateRegistry.map(t => (
-                        <option key={t.id} value={t.id}>{t.name}</option>
-                    ))}
-                </select>
             </div>
 
             {/* Filename Input */}
@@ -343,7 +349,6 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
                         </>
                     ) : (
                         <div className="flex items-center">
-                            {!isPro && isPremiumTemplate && <Lock className="w-3 h-3 mr-2 text-blue-400 group-hover:text-blue-600" />}
                             <FileText className="w-4 h-4 mr-2" />
                             DOCX
                         </div>
@@ -365,7 +370,6 @@ export function DownloadButtons({ data, className, variant = 'header', previewEl
                         </>
                     ) : (
                         <div className="flex items-center">
-                            {!isPro && isPremiumTemplate && <Lock className="w-3 h-3 mr-2 text-white/70" />}
                             <Download className="w-4 h-4 mr-2" />
                             PDF
                         </div>

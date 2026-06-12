@@ -42,7 +42,7 @@ export function SampleCard({ sample, category, description }: SampleCardProps) {
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/40 transition-colors duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
                     <div className="flex flex-col gap-3 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 w-full max-w-[200px]">
-                        <Link href={`/editor/setup?template=${sample.templateId}&sample=${sample.id}`} className="w-full">
+                        <Link href={`/editor/setup?template=${sample.templateId}&sample=${sample.id}&clear=true`} className="w-full">
                             <Button variant="primary" size="lg" className="w-full shadow-lg">
                                 Use This Sample
                             </Button>
@@ -76,7 +76,7 @@ export function SampleCard({ sample, category, description }: SampleCardProps) {
                 </p>
 
                 <div className="mt-auto pt-6 border-t border-neutral-100 flex items-center justify-between">
-                    <Link href={`/editor/setup?template=${sample.templateId}&sample=${sample.id}`} className="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1.5 transition-colors">
+                    <Link href={`/editor/setup?template=${sample.templateId}&sample=${sample.id}&clear=true`} className="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1.5 transition-colors">
                         Get Started <ExternalLink className="w-3.5 h-3.5" />
                     </Link>
 
@@ -95,6 +95,7 @@ export function SampleCard({ sample, category, description }: SampleCardProps) {
                     isOpen={isPreviewOpen}
                     onClose={() => setIsPreviewOpen(false)}
                     template={templateMetadata}
+                    sampleId={sample.id}
                 />
             )}
         </div>

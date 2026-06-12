@@ -7,6 +7,8 @@ import { Search, Zap, ArrowRight, Star, ChevronLeft, ChevronRight, Shield, Eye }
 import { templateRegistry } from '@/lib/templates/registry'
 import { cn } from '@/lib/utils'
 import { TemplateThumbnail } from '@/components/home/TemplateThumbnail'
+import { TemplateDownloadButton } from '@/components/templates/TemplateDownloadButton'
+import { getSampleDataForTemplate } from '@/lib/utils/template-sample-data'
 
 export default function TemplatesGalleryPage() {
     const [activeIndustry, setActiveIndustry] = useState('All')
@@ -188,13 +190,21 @@ export default function TemplatesGalleryPage() {
                                                     Use Template
                                                     <ArrowRight className="w-3.5 h-3.5" />
                                                 </Link>
-                                                <Link
-                                                    href={`/templates/${template.id}`}
-                                                    className="px-6 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-white/25 transition-all flex items-center gap-1.5"
-                                                >
-                                                    <Eye className="w-3 h-3" />
-                                                    Preview
-                                                </Link>
+                                                <div className="flex gap-2">
+                                                    <Link
+                                                        href={`/templates/${template.id}`}
+                                                        className="px-6 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-white/25 transition-all flex items-center gap-1.5"
+                                                    >
+                                                        <Eye className="w-3 h-3" />
+                                                        Preview
+                                                    </Link>
+                                                    <TemplateDownloadButton 
+                                                        templateId={template.id}
+                                                        templateName={template.name}
+                                                        sampleData={getSampleDataForTemplate(template.id)}
+                                                        compact
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
 
